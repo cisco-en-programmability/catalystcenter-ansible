@@ -1,0 +1,33 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Create
+      cisco.catalystcenter.sda_virtual_network_v2:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        state: present
+        isGuestVirtualNetwork: false
+        scalableGroupNames:
+          - Auditors
+        virtualNetworkName: GUEST_VN
+        virtualNetworkType: GUEST
+
+  # - name: Delete all
+  #   cisco.catalystcenter.sda_virtual_network_v2:
+  #     catalystcenter_host: "{{ catalystcenter_host }}"
+  #     catalystcenter_username: "{{ catalystcenter_username }}"
+  #     catalystcenter_password: "{{ catalystcenter_password }}"
+  #     catalystcenter_verify: "{{ catalystcenter_verify }}"
+  #     catalystcenter_port: "{{ catalystcenter_port }}"
+  #     catalystcenter_version: "{{ catalystcenter_version }}"
+  #     catalystcenter_debug: "{{ catalystcenter_debug }}"
+  #     state: absent
+  #     virtualNetworkName: GUEST_VN

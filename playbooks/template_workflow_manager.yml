@@ -1,0 +1,47 @@
+- hosts: localhost
+  vars_files:
+    - credentials.yml
+    - device_details.template
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Test project template
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: True
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: True
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
+        validate_response_schema: False
+        state: "merged"
+        config_verify: true
+        #ignore_errors: true        #Enable this to continue execution even the task fails
+        config:
+        - configuration_templates:
+            project_name: "{{ item.proj_name }}"
+            template_name: "{{ item.temp_name }}"
+            template_content: "{{ item.device_config }}"
+            version_description: "{{ item.description }}"
+            language: "{{ item.language }}"
+            software_type: "{{ item.type }}"
+            device_types:
+            - product_family: "{{ item.family }}"
+          export:
+            project:
+              - Ansible_project
+              - Sample Velocity Templates
+            template:
+              - project_name: Onboarding Configuration
+                template_name: AP_Onboarding
+          import:
+            project: "{{ item.import_project }}"
+            template: "{{ item.import_template }}"
+      register: template_result
+      with_items: '{{ template_details }}'
+      tags:
+        - template

@@ -1,0 +1,135 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: event_artifact_info
+short_description: Information module for Event Artifact
+description:
+- Get all Event Artifact.
+- Gets the list of artifacts based on provided offset and limit.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module_info
+author: Rafael Campos (@racampos)
+options:
+  headers:
+    description: Additional headers.
+    type: dict
+  eventIds:
+    description:
+    - EventIds query parameter. List of eventIds.
+    type: str
+  tags:
+    description:
+    - Tags query parameter. Tags defined.
+    type: str
+  offset:
+    description:
+    - Offset query parameter. Record start offset.
+    type: float
+  limit:
+    description:
+    - Limit query parameter. # of records to return in result set.
+    type: float
+  sortBy:
+    description:
+    - SortBy query parameter. Sort by field.
+    type: str
+  order:
+    description:
+    - Order query parameter. Sorting order (asc/desc).
+    type: str
+  search:
+    description:
+    - Search query parameter. Findd matches in name, description, eventId, type, category.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for Event Management GetEventArtifactsV1
+  description: Complete reference of the GetEventArtifactsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts-v-1
+notes:
+  - SDK Method used are
+    event_management.EventManagement.get_eventartifacts,
+
+  - Paths used are
+    get /dna/system/api/v1/event/artifact,
+
+"""
+
+EXAMPLES = r"""
+- name: Get all Event Artifact
+  cisco.catalystcenter.event_artifact_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    eventIds: string
+    tags: string
+    offset: 0
+    limit: 0
+    sortBy: string
+    order: string
+    search: string
+  register: result
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "version": "string",
+        "artifactId": "string",
+        "namespace": "string",
+        "name": "string",
+        "description": "string",
+        "domain": "string",
+        "subDomain": "string",
+        "deprecationMessage": "string",
+        "deprecated": true,
+        "tags": [
+          "string"
+        ],
+        "isTemplateEnabled": true,
+        "ciscoDNAEventLink": "string",
+        "note": "string",
+        "isPrivate": true,
+        "eventPayload": {
+          "eventId": "string",
+          "version": "string",
+          "category": "string",
+          "type": "string",
+          "source": "string",
+          "severity": "string",
+          "details": {
+            "device_ip": "string",
+            "message": "string"
+          },
+          "additionalDetails": {}
+        },
+        "eventTemplates": [
+          {}
+        ],
+        "isTenantAware": true,
+        "supportedConnectorTypes": [
+          "string"
+        ],
+        "tenantId": "string"
+      }
+    ]
+"""

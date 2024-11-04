@@ -1,0 +1,120 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: path_trace
+short_description: Resource module for Path Trace
+description:
+- Manage operations create and delete of the resource Path Trace.
+- >
+   Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task
+   id to get results and follow progress.
+- Deletes a flow analysis request by its id.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  controlPath:
+    description: Control path tracing.
+    type: bool
+  destIP:
+    description: Destination IP address.
+    type: str
+  destPort:
+    description: Destination Port, range 1-65535.
+    type: str
+  flowAnalysisId:
+    description: FlowAnalysisId path parameter. Flow analysis request id.
+    type: str
+  inclusions:
+    description: Subset of {INTERFACE-STATS, QOS-STATS, DEVICE-STATS, PERFORMANCE-STATS,
+      ACL-TRACE}.
+    elements: str
+    type: list
+  periodicRefresh:
+    description: Periodic refresh of path for every 30 sec.
+    type: bool
+  protocol:
+    description: Protocol - one of TCP, UDP - checks both when left blank.
+    type: str
+  sourceIP:
+    description: Source IP address.
+    type: str
+  sourcePort:
+    description: Source Port, range 1-65535.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for Path Trace InitiateANewPathtraceV1
+  description: Complete reference of the InitiateANewPathtraceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace-v-1
+- name: Cisco CATALYST Center documentation for Path Trace DeletesPathtraceByIdV1
+  description: Complete reference of the DeletesPathtraceByIdV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id-v-1
+notes:
+  - SDK Method used are
+    path_trace.PathTrace.deletes_pathtrace_by_id_v1,
+    path_trace.PathTrace.initiate_a_new_pathtrace_v1,
+
+  - Paths used are
+    post /dna/intent/api/v1/flow-analysis,
+    delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
+
+"""
+
+EXAMPLES = r"""
+- name: Create
+  cisco.catalystcenter.path_trace:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    controlPath: true
+    destIP: string
+    destPort: string
+    inclusions:
+    - string
+    periodicRefresh: true
+    protocol: string
+    sourceIP: string
+    sourcePort: string
+
+- name: Delete by id
+  cisco.catalystcenter.path_trace:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    flowAnalysisId: string
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "flowAnalysisId": "string",
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""

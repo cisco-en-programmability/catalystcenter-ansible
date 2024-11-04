@@ -1,0 +1,36 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Get Network Devices
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+      register: network_devices_result
+
+    - name: Show all network_devices
+      ansible.builtin.debug:
+        msg: "{{ network_devices_result }}"
+
+    - name: Get Network Device by id
+      cisco.catalystcenter.network_device_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
+      register: network_device_result
+
+    - name: Show network_device
+      ansible.builtin.debug:
+        msg: "{{ network_device_result }}"

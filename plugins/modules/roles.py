@@ -1,0 +1,127 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: roles
+short_description: Resource module for Roles
+description:
+- Manage operations create, update and delete of the resource Roles.
+- Add a new role in Cisco CATALYST Center System.
+- Delete a role in Cisco CATALYST Center System.
+- Update a role in Cisco CATALYST Center System.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  description:
+    description: Description of role.
+    type: str
+  resourceTypes:
+    description: Roles's resourceTypes.
+    elements: dict
+    suboptions:
+      operations:
+        description: List of operations allowed for the application. Possible values
+          are "gRead", "gCreate", "gUpdate", "gRemove", or some combination of these.
+        elements: str
+        type: list
+      type:
+        description: Name of the application in Cisco CATALYST Center System.
+        type: str
+    type: list
+  role:
+    description: Name of the role.
+    type: str
+  roleId:
+    description: Id of the role.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for User and Roles AddRoleAPIV1
+  description: Complete reference of the AddRoleAPIV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-role-api-v-1
+- name: Cisco CATALYST Center documentation for User and Roles DeleteRoleAPIV1
+  description: Complete reference of the DeleteRoleAPIV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-role-api-v-1
+- name: Cisco CATALYST Center documentation for User and Roles UpdateRoleAPIV1
+  description: Complete reference of the UpdateRoleAPIV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-role-api-v-1
+notes:
+  - SDK Method used are
+    user_and_roles.UserandRoles.add_role_api_v1,
+    user_and_roles.UserandRoles.delete_role_api_v1,
+    user_and_roles.UserandRoles.update_role_api_v1,
+
+  - Paths used are
+    post /dna/system/api/v1/role,
+    delete /dna/system/api/v1/role/{roleId},
+    put /dna/system/api/v1/role,
+
+"""
+
+EXAMPLES = r"""
+- name: Create
+  cisco.catalystcenter.roles:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    resourceTypes:
+    - operations:
+      - string
+      type: string
+    role: string
+
+- name: Update all
+  cisco.catalystcenter.roles:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    resourceTypes:
+    - operations:
+      - string
+      type: string
+    roleId: string
+
+- name: Delete by id
+  cisco.catalystcenter.roles:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    roleId: string
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "roleId": "string",
+      "message": "string"
+    }
+"""

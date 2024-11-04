@@ -1,0 +1,20 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Get application sets local-services
+      cisco.catalystcenter.application_sets_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        name: local-services
+        # limit: 3
+        # offset: 2
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        msg: "{{ result }}"

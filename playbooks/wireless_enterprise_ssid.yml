@@ -1,0 +1,35 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Create Wirelesss Enterprise SSID
+      cisco.catalystcenter.wireless_enterprise_ssid:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        state: present
+        validate_response_schema: false
+        basicServiceSetClientIdleTimeout: 00
+        clientExclusionTimeout: 00
+        enableBasicServiceSetMaxIdle: true
+        enableBroadcastSSID: true
+        enableClientExclusion: true
+        enableDirectedMulticastService: true
+        enableFastLane: true
+        enableMACFiltering: true
+        enableNeighborList: true
+        enableSessionTimeOut: true
+        fastTransition: Adaptive
+        mfpClientProtection: Optional
+        name: Test
+        passphrase: ""
+        radioPolicy: Dual band operation (2.4GHz and 5GHz)
+        securityLevel: WPA2_ENTERPRISE
+        sessionTimeOut: 00
+        trafficType: voicedata

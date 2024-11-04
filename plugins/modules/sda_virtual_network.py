@@ -1,0 +1,89 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: sda_virtual_network
+short_description: Resource module for Sda Virtual Network
+description:
+- Manage operations create and delete of the resource Sda Virtual Network.
+- Add virtual network VN in SDA Fabric.
+- Delete virtual network VN from SDA Fabric.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  siteNameHierarchy:
+    description: SiteNameHierarchy query parameter.
+    type: str
+  virtualNetworkName:
+    description: VirtualNetworkName query parameter.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for SDA AddVNInFabricV1
+  description: Complete reference of the AddVNInFabricV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric-v-1
+- name: Cisco CATALYST Center documentation for SDA DeleteVNFromSDAFabricV1
+  description: Complete reference of the DeleteVNFromSDAFabricV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric-v-1
+notes:
+  - SDK Method used are
+    sda.Sda.add_vn,
+    sda.Sda.delete_vn,
+
+  - Paths used are
+    post /dna/intent/api/v1/business/sda/virtual-network,
+    delete /dna/intent/api/v1/business/sda/virtual-network,
+
+"""
+
+EXAMPLES = r"""
+- name: Delete all
+  cisco.catalystcenter.sda_virtual_network:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    siteNameHierarchy: string
+    virtualNetworkName: string
+
+- name: Create
+  cisco.catalystcenter.sda_virtual_network:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    siteNameHierarchy: string
+    virtualNetworkName: string
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
+    }
+"""

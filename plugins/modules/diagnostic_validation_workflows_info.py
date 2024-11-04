@@ -1,0 +1,145 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: diagnosticValidationWorkflows_info
+short_description: Information module for Diagnosticvalidationworkflows
+description:
+- Get all Diagnosticvalidationworkflows.
+- Get Diagnosticvalidationworkflows by id.
+- >
+   Retrieves the workflows that have been successfully submitted and are currently available. This is sorted by
+   `submitTime`.
+- Retrieves workflow details for a workflow id.
+version_added: '6.15.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module_info
+author: Rafael Campos (@racampos)
+options:
+  headers:
+    description: Additional headers.
+    type: dict
+  startTime:
+    description:
+    - StartTime query parameter. Workflows started after the given time (as milliseconds since UNIX epoch).
+    type: float
+  endTime:
+    description:
+    - EndTime query parameter. Workflows started before the given time (as milliseconds since UNIX epoch).
+    type: float
+  runStatus:
+    description:
+    - >
+      RunStatus query parameter. Execution status of the workflow. If the workflow is successfully submitted,
+      runStatus is `PENDING`. If the workflow execution has started, runStatus is `IN_PROGRESS`. If the workflow
+      executed is completed with all validations executed, runStatus is `COMPLETED`. If the workflow execution
+      fails while running validations, runStatus is `FAILED`.
+    type: str
+  offset:
+    description:
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: float
+  limit:
+    description:
+    - Limit query parameter. The number of records to show for this page.
+    type: float
+  id:
+    description:
+    - Id path parameter. Workflow id.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
+  description: Complete reference of the RetrievesTheListOfValidationWorkflowsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows-v-1
+- name: Cisco CATALYST Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
+  description: Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details-v-1
+notes:
+  - SDK Method used are
+    health_and_performance.HealthAndPerformance.retrieves_the_list_of_validation_workflows_v1,
+    health_and_performance.HealthAndPerformance.retrieves_validation_workflow_details_v1,
+
+  - Paths used are
+    get /dna/intent/api/v1/diagnosticValidationWorkflows,
+    get /dna/intent/api/v1/diagnosticValidationWorkflows/{id},
+
+"""
+
+EXAMPLES = r"""
+- name: Get all Diagnosticvalidationworkflows
+  cisco.catalystcenter.diagnosticValidationWorkflows_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    startTime: 0
+    endTime: 0
+    runStatus: string
+    offset: 0
+    limit: 0
+  register: result
+
+- name: Get Diagnosticvalidationworkflows by id
+  cisco.catalystcenter.diagnosticValidationWorkflows_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "runStatus": "string",
+        "submitTime": 0,
+        "validationSetIds": [
+          "string"
+        ],
+        "releaseVersion": "string",
+        "validationSetsRunDetails": [
+          {
+            "validationSetId": "string",
+            "startTime": 0,
+            "endTime": 0,
+            "validationStatus": "string",
+            "version": "string",
+            "validationRunDetails": [
+              {
+                "validationId": "string",
+                "validationName": "string",
+                "validationMessage": "string",
+                "validationStatus": "string"
+              }
+            ]
+          }
+        ],
+        "validationStatus": "string"
+      },
+      "version": "string"
+    }
+"""
