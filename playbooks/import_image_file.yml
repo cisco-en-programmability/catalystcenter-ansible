@@ -1,0 +1,22 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Import image file
+      cisco.catalystcenter.swim_import_local:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        filePath: fullpath/playbooks/files/test.template # string
+        isThirdParty: true # boolean
+        thirdPartyApplicationType: SomeValue # string
+        thirdPartyImageFamily: SomeValue # string
+        thirdPartyVendor: SomeValue # string
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        msg: "{{ result }}"

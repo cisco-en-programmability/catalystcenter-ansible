@@ -1,0 +1,22 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Create an sda_fabric
+      cisco.catalystcenter.sda_fabric:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        state: present
+        fabricName: MyFabricName3
+      register: sda_fabric_result
+
+    - name: Show new sda_fabric
+      ansible.builtin.debug:
+        msg: "{{ sda_fabric_result }}"
+      when:
+        - sda_fabric_result is defined

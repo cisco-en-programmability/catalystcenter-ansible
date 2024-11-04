@@ -1,0 +1,110 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: sites_info
+short_description: Information module for Sites
+description:
+- Get all Sites.
+- Get sites.
+version_added: '6.15.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module_info
+author: Rafael Campos (@racampos)
+options:
+  headers:
+    description: Additional headers.
+    type: dict
+  name:
+    description:
+    - Name query parameter. Site name.
+    type: str
+  nameHierarchy:
+    description:
+    - NameHierarchy query parameter. Site name hierarchy.
+    type: str
+  type:
+    description:
+    - Type query parameter. Site type.
+    type: str
+  _unitsOfMeasure:
+    description:
+    - _unitsOfMeasure query parameter. Floor units of measure.
+    type: str
+  offset:
+    description:
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
+  limit:
+    description:
+    - Limit query parameter. The number of records to show for this page.
+    type: int
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for Site Design GetSitesV1
+  description: Complete reference of the GetSitesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-sites-v-1
+notes:
+  - SDK Method used are
+    site_design.SiteDesign.get_sites_v1,
+
+  - Paths used are
+    get /dna/intent/api/v1/sites,
+
+"""
+
+EXAMPLES = r"""
+- name: Get all Sites
+  cisco.catalystcenter.sites_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    name: string
+    nameHierarchy: string
+    type: string
+    _unitsOfMeasure: string
+    offset: 0
+    limit: 0
+  register: result
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "nameHierarchy": "string",
+          "name": "string",
+          "latitude": 0,
+          "longitude": 0,
+          "address": "string",
+          "country": "string",
+          "floorNumber": 0,
+          "rfModel": "string",
+          "width": 0,
+          "length": 0,
+          "height": 0,
+          "unitsOfMeasure": "string",
+          "type": "string",
+          "id": "string",
+          "parentId": "string"
+        }
+      ],
+      "version": "string"
+    }
+"""

@@ -1,0 +1,78 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  vars:
+    catalystcenter_login: &catalystcenter_login
+      catalystcenter_host: "{{ catalystcenter_host }}"
+      catalystcenter_username: "{{ catalystcenter_username }}"
+      catalystcenter_password: "{{ catalystcenter_password }}"
+      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      catalystcenter_port: "{{ catalystcenter_port }}"
+      catalystcenter_version: "{{ catalystcenter_version }}"
+      catalystcenter_debug: "{{ catalystcenter_debug }}"
+  gather_facts: false
+  tasks:
+    - name: Get Network Devices - Switches and Hubs
+      cisco.catalystcenter.network_device_info:
+        <<: *catalystcenter_login
+        family: Switches and Hubs
+      register: network_devices_result
+
+    - name: Get device list ids
+      ansible.builtin.set_fact:
+        device_id_list: "{{ device_id_list | default([]) }} + ['{{ item.id }}']"
+      with_items: "{{ network_devices_result.catalystcenter_response.response }}"
+      when:
+        - network_devices_result.catalystcenter_response is defined
+        - network_devices_result.catalystcenter_response.response is defined
+
+    - name: Run show run command on device
+      cisco.catalystcenter.command_runner_run_command:
+        <<: *catalystcenter_login
+        commands:
+          - show run
+        deviceUuids: "{{ device_id_list }}"
+      when:
+        - device_id_list | length > 0
+      register: command_result
+
+    - name: Get task info
+      cisco.catalystcenter.task_info:
+        <<: *catalystcenter_login
+        taskId: "{{ command_result.catalystcenter_response.response.taskId }}"
+      when:
+        - command_result is defined
+        - command_result.catalystcenter_response is defined
+        - command_result.catalystcenter_response.response is defined
+        - command_result.catalystcenter_response.response.taskId is defined
+      register: task_result
+      until: task_result.catalystcenter_response.response.progress != "CLI Runner request creation"
+      retries: 10
+      delay: 1
+
+    - name: Get file id
+      ansible.builtin.set_fact:
+        file_response: "{{ task_result.catalystcenter_response.response.progress | from_json }}"
+      when: "'fileId' in task_result.catalystcenter_response.response.progress"
+
+    - name: Download the file
+      cisco.catalystcenter.file_info:
+        <<: *catalystcenter_login
+        saveFile: true
+        fileId: "{{ file_response.fileId }}"
+        dirPath: /tmp/devices
+      when:
+        - file_response is defined
+        - file_response.fileId is defined
+      register: download_file
+
+    - name: Show extract of data
+      ansible.builtin.debug:
+        msg: >-
+          Filename: {{ download_file.catalystcenter_response.filename }}
+          Filepath: {{ download_file.catalystcenter_response.path }}
+          Data extract: {{ download_file.catalystcenter_response.data[:50]}}"
+      when:
+        - download_file is defined
+        - download_file.catalystcenter_response is defined

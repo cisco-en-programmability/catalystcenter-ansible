@@ -1,0 +1,26 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Find discovery
+      cisco.catalystcenter.global_pool:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        state: present
+        # id: 1bf5ecf3-be14-48fb-b724-df801bc61172
+        settings:
+          ippool:
+            - IpAddressSpace: string
+              dhcpServerIps: []
+              dnsServerIps: []
+              gateway: ""
+              ipPoolCidr: 30.0.0.0/8
+              ipPoolName: v4pool-test2
+              type: Generic
+      register: discovery_range_result

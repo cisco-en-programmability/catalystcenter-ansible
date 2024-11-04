@@ -1,0 +1,37 @@
+---
+namespace: cisco
+name: catalystcenter
+version: 1.0.0
+readme: README.md
+authors:
+  - Rafael Campos <rcampos@altus.cr>
+  - William Astorga <wastorga@altus.cr>
+  - Jose Bogarin <jbogarin@altus.cr>
+  - Bryan Vargas <bvargas@altus.cr>
+  - Francisco Muñoz <fmunoz@altus.cr>
+  - Madhan Sankaranarayanan <madsanka@cisco.com>
+  - Rishita Chowdhary (@rishitachowdhary)
+  - Muthu Rakesh Babu <mutbabu@cisco.com>
+  - Akash Bhaskaran <akabhask@cisco.com>
+  - Abinash Mishra <abimishr@cisco.com>
+  - Abhishek Maheshwari <abmahesh@cisco.com>
+  - Phan Nguyen <phannguy@cisco.com>
+  - Rugvedi Kapse <rukapse@cisco.com>
+  - Rangaprabhu Deenadayalu <radeenad@cisco.com>
+  - Ajith Andrew J <jajandre@cisco.com>
+  - Syed Khadeer Ahmed <syedkahm@cisco.com>
+description: Ansible Modules for Cisco CATALYST Center
+license_file: "LICENSE"
+tags:
+  - cisco 
+  - catalystcenter
+  - cloud
+  - collection
+  - networking
+  - sdn
+dependencies:
+  ansible.utils: ">=2.0.0,<5.0"
+repository: https://github.com/cisco-en-programmability/catalystcenter-ansible
+documentation: https://cisco-en-programmability.github.io/catalystcenter-ansible/
+homepage: https://github.com/cisco-en-programmability/catalystcenter-ansible
+issues: https://github.com/cisco-en-programmability/catalystcenter-ansible/issues

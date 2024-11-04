@@ -1,0 +1,80 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: pnp_device_config_preview
+short_description: Resource module for Pnp Device Config Preview
+description:
+- Manage operation create of the resource Pnp Device Config Preview.
+- Triggers a preview for site-based Day 0 Configuration.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  deviceId:
+    description: Pnp Device Config Preview's deviceId.
+    type: str
+  siteId:
+    description: Pnp Device Config Preview's siteId.
+    type: str
+  type:
+    description: Pnp Device Config Preview's type.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for Device Onboarding (PnP) PreviewConfigV1
+  description: Complete reference of the PreviewConfigV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!preview-config-v-1
+notes:
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.preview_config_v1,
+
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview,
+
+"""
+
+EXAMPLES = r"""
+- name: Create
+  cisco.catalystcenter.pnp_device_config_preview:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    deviceId: string
+    siteId: string
+    type: string
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "complete": true,
+        "config": "string",
+        "error": true,
+        "errorMessage": "string",
+        "expiredTime": 0,
+        "rfProfile": "string",
+        "sensorProfile": "string",
+        "siteId": "string",
+        "startTime": 0,
+        "taskId": "string"
+      },
+      "version": "string"
+    }
+"""

@@ -1,0 +1,85 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: assuranceEvents_childEvents_info
+short_description: Information module for Assuranceevents Childevents
+description:
+- Get all Assuranceevents Childevents.
+- >
+   Wireless client event could have child events and this API can be used to fetch the same using parent event `id`
+   as the input. For detailed information about the usage of the API, please refer to the Open API specification
+   document - https //github.com/cisco-en-programmability/catalyst-center-api-
+   specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceEvents-1.0.0-resolved.yaml.
+version_added: '6.15.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module_info
+author: Rafael Campos (@racampos)
+options:
+  headers:
+    description: Additional headers.
+    type: dict
+  id:
+    description:
+    - Id path parameter. Unique identifier for the event.
+    type: str
+requirements:
+- catalystcentersdk >= 1.0.0
+- python >= 3.5
+seealso:
+- name: Cisco CATALYST Center documentation for Devices GetListOfChildEventsForTheGivenWirelessClientEventV1
+  description: Complete reference of the GetListOfChildEventsForTheGivenWirelessClientEventV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-child-events-for-the-given-wireless-client-event-v-1
+notes:
+  - SDK Method used are
+    devices.Devices.get_list_of_child_events_for_the_given_wireless_client_event_v1,
+
+  - Paths used are
+    get /dna/data/api/v1/assuranceEvents/{id}/childEvents,
+
+"""
+
+EXAMPLES = r"""
+- name: Get all Assuranceevents Childevents
+  cisco.catalystcenter.assuranceEvents_childEvents_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
+
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "timestamp": 0,
+          "wirelessEventType": 0,
+          "details": "string",
+          "reasonCode": "string",
+          "subreasonCode": "string",
+          "resultStatus": "string",
+          "reasonDescription": "string",
+          "subReasonDescription": "string",
+          "failureCategory": "string"
+        }
+      ],
+      "version": "string"
+    }
+"""

@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: RMA workflow for faulty device replacement
+      cisco.catalystcenter.rma_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        config_verify: true
+        resync_retry_count: 1000  
+        resync_retry_interval: 30 
+        ccc_poll_interval: 2
+        timeout_interval: 100
+        state: replaced
+        config:
+           - faulty_device_ip_address: 204.1.2.9
+             replacement_device_ip_address: 204.1.2.10
+      register: result

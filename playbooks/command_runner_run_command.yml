@@ -1,0 +1,41 @@
+---
+- hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Run command
+      cisco.catalystcenter.command_runner_run_command:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        commands:
+          - pwd
+        deviceUuids:
+          - a9b86e42-6573-4f5d-a0bf-a743e290f46a
+      register: result
+
+    - name: Show result
+      ansible.builtin.debug:
+        msg: "{{ result }}"
+
+    - name: Get task info
+      cisco.catalystcenter.task_info:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        taskId: "{{ result.catalystcenter_response.response.taskId }}"
+      when:
+        - result.catalystcenter_response is defined
+        - result.catalystcenter_response.response is defined
+        - result.catalystcenter_response.response.taskId is defined
+      register: task_result
+
+    - name: Show retrieved task
+      ansible.builtin.debug:
+        msg: "{{ task_result.catalystcenter_response.response }}"
+      when:
+        - task_result is defined
+        - task_result.catalystcenter_response is defined
