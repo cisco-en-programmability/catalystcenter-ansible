@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: role_permissions_info
-short_description: Information module for Role Permissions
+short_description: Information module for Role Permissions Info
 description:
-- Get all Role Permissions.
-- Get permissions for a role from Cisco CATALYST Center System.
+- This module represents an alias of the module role_permissions_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for User and Roles GetPermissionsAPIV1
+- name: Cisco DNA Center documentation for User and Roles GetPermissionsAPIV1
   description: Complete reference of the GetPermissionsAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.get_permissions_api_v1,
 
   - Paths used are
     get /dna/system/api/v1/role/permissions,
+  - It should be noted that this module is an alias of role_permissions_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Role Permissions
+- name: Get all Role Permissions Info
   cisco.catalystcenter.role_permissions_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -51,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

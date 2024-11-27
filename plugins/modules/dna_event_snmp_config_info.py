@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: dna_event_snmp_config_info
-short_description: Information module for Dna Event Snmp Config
+short_description: Information module for Dna Event Snmp Config Info
 description:
-- Get all Dna Event Snmp Config.
-- Get SNMP Destination.
+- This module represents an alias of the module dna_event_snmp_config_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -40,31 +40,32 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Event Management GetSNMPDestinationV1
+- name: Cisco DNA Center documentation for Event Management GetSNMPDestinationV1
   description: Complete reference of the GetSNMPDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.get_snmp_destination_v1,
 
   - Paths used are
     get /dna/intent/api/v1/dna-event/snmp-config,
+  - It should be noted that this module is an alias of dna_event_snmp_config_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Dna Event Snmp Config
+- name: Get all Dna Event Snmp Config Info
   cisco.catalystcenter.dna_event_snmp_config_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     configId: string
     offset: 0
@@ -75,8 +76,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: user_enrichment_details_info
-short_description: Information module for User Enrichment Details
+short_description: Information module for User Enrichment Details Info
 description:
-- Get all User Enrichment Details.
-- >
-   Enriches a given network End User context a network user-id or end user's device Mac Address with details about
-   the user and devices that the user is connected to.
+- This module represents an alias of the module user_enrichment_details_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Users GetUserEnrichmentDetailsV1
+- name: Cisco DNA Center documentation for Users GetUserEnrichmentDetailsV1
   description: Complete reference of the GetUserEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
   - SDK Method used are
     users.Users.get_user_enrichment_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/user-enrichment-details,
+  - It should be noted that this module is an alias of user_enrichment_details_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all User Enrichment Details
+- name: Get all User Enrichment Details Info
   cisco.catalystcenter.user_enrichment_details_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -53,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

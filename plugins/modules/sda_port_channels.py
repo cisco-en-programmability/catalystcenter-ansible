@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_portChannels
-short_description: Resource module for Sda Portchannels
+module: sda_port_channels
+short_description: Resource module for Sda Port Channels
 description:
-- Manage operations create, update and delete of the resource Sda Portchannels.
-- Adds port channels based on user input.
-- Deletes a port channel based on id.
-- Deletes port channels based on user input.
-- Updates port channels based on user input.
+- This module represents an alias of the module sda_port_channels_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -62,21 +59,21 @@ options:
     description: PortChannelName query parameter. Name of the port channel.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddPortChannelsV1
+- name: Cisco DNA Center documentation for SDA AddPortChannelsV1
   description: Complete reference of the AddPortChannelsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-port-channels-v-1
-- name: Cisco CATALYST Center documentation for SDA DeletePortChannelByIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-channels
+- name: Cisco DNA Center documentation for SDA DeletePortChannelByIdV1
   description: Complete reference of the DeletePortChannelByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id-v-1
-- name: Cisco CATALYST Center documentation for SDA DeletePortChannelsV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id
+- name: Cisco DNA Center documentation for SDA DeletePortChannelsV1
   description: Complete reference of the DeletePortChannelsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channels-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdatePortChannelsV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channels
+- name: Cisco DNA Center documentation for SDA UpdatePortChannelsV1
   description: Complete reference of the UpdatePortChannelsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-port-channels-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-port-channels
 notes:
   - SDK Method used are
     sda.Sda.add_port_channels_v1,
@@ -88,19 +85,20 @@ notes:
     delete /dna/intent/api/v1/sda/portChannels,
     delete /dna/intent/api/v1/sda/portChannels/{id},
     put /dna/intent/api/v1/sda/portChannels,
+  - It should be noted that this module is an alias of sda_port_channels_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.sda_portChannels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_port_channels:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - connectedDeviceType: string
@@ -112,14 +110,14 @@ EXAMPLES = r"""
       protocol: string
 
 - name: Update all
-  cisco.catalystcenter.sda_portChannels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_port_channels:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - connectedDeviceType: string
@@ -133,14 +131,14 @@ EXAMPLES = r"""
       protocol: string
 
 - name: Delete all
-  cisco.catalystcenter.sda_portChannels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_port_channels:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     connectedDeviceType: string
     fabricId: string
@@ -148,21 +146,21 @@ EXAMPLES = r"""
     portChannelName: string
 
 - name: Delete by id
-  cisco.catalystcenter.sda_portChannels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_port_channels:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

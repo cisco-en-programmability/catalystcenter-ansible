@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: device_interface_isis_info
-short_description: Information module for Device Interface Isis
+short_description: Information module for Device Interface Isis Info
 description:
-- Get all Device Interface Isis.
-- Returns the interfaces that has ISIS enabled.
+- This module represents an alias of the module device_interface_isis_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetISISInterfacesV1
+- name: Cisco DNA Center documentation for Devices GetISISInterfacesV1
   description: Complete reference of the GetISISInterfacesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces
 notes:
   - SDK Method used are
     devices.Devices.get_isis_interfaces_v1,
 
   - Paths used are
     get /dna/intent/api/v1/interface/isis,
+  - It should be noted that this module is an alias of device_interface_isis_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Device Interface Isis
+- name: Get all Device Interface Isis Info
   cisco.catalystcenter.device_interface_isis_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -51,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

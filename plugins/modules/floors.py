@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: floors
 short_description: Resource module for Floors
 description:
-- Manage operations create, update and delete of the resource Floors.
-- Create a floor in the network hierarchy under building.
-- Deletes a floor from the network hierarchy. This operations fails if there are any devices assigned to this floor.
-- Updates a floor in the network hierarchy.
+- This module represents an alias of the module floors_v2
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -46,16 +44,16 @@ options:
     description: Floor width. Example 100.5.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design CreatesAFloorV2
+- name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
   description: Complete reference of the CreatesAFloorV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor-v-2
-- name: Cisco CATALYST Center documentation for Site Design DeletesAFloorV2
+- name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
   description: Complete reference of the DeletesAFloorV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor-v-2
-- name: Cisco CATALYST Center documentation for Site Design UpdatesAFloorV2
+- name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
   description: Complete reference of the UpdatesAFloorV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor-v-2
 notes:
@@ -68,6 +66,7 @@ notes:
     post /dna/intent/api/v2/floors,
     delete /dna/intent/api/v2/floors/{id},
     put /dna/intent/api/v2/floors/{id},
+  - It should be noted that this module is an alias of floors_v2
 
 """
 
@@ -126,7 +125,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

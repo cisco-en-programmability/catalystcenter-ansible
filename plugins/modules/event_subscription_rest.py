@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_subscription_rest
 short_description: Resource module for Event Subscription Rest
 description:
-- Manage operations create and update of the resource Event Subscription Rest.
-- Create Rest/Webhook Subscription Endpoint for list of registered events.
-- Update Rest/Webhook Subscription Endpoint for list of registered events.
+- This module represents an alias of the module event_subscription_rest_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -90,15 +89,15 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Event Management CreateRestWebhookEventSubscriptionV1
+- name: Cisco DNA Center documentation for Event Management CreateRestWebhookEventSubscriptionV1
   description: Complete reference of the CreateRestWebhookEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription-v-1
-- name: Cisco CATALYST Center documentation for Event Management UpdateRestWebhookEventSubscriptionV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
+- name: Cisco DNA Center documentation for Event Management UpdateRestWebhookEventSubscriptionV1
   description: Complete reference of the UpdateRestWebhookEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_rest_webhook_event_subscription_v1,
@@ -107,6 +106,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/event/subscription/rest,
     put /dna/intent/api/v1/event/subscription/rest,
+  - It should be noted that this module is an alias of event_subscription_rest_v1
 
 """
 
@@ -188,7 +188,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

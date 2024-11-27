@@ -24,10 +24,10 @@ options:
     - SiteId query parameter. Site Id to get the network settings associated with the site.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings GetNetworkV2
+- name: Cisco DNA Center documentation for Network Settings GetNetworkV2
   description: Complete reference of the GetNetworkV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-network-v-2
 notes:
@@ -56,7 +56,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessSettings_rfProfiles
-short_description: Resource module for Wirelesssettings Rfprofiles
+module: wireless_settings_rf_profiles
+short_description: Resource module for Wireless Settings Rf Profiles
 description:
-- Manage operations create, update and delete of the resource Wirelesssettings Rfprofiles.
-- This API allows the user to create a custom RF Profile.
-- This API allows the user to delete a custom RF Profile.
-- This API allows the user to update a custom RF Profile.
+- This module represents an alias of the module wireless_settings_rf_profiles_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -208,18 +206,18 @@ options:
     description: RF Profile Name.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless CreateRFProfileV1
+- name: Cisco DNA Center documentation for Wireless CreateRFProfileV1
   description: Complete reference of the CreateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile-v-1
-- name: Cisco CATALYST Center documentation for Wireless DeleteRFProfileV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile
+- name: Cisco DNA Center documentation for Wireless DeleteRFProfileV1
   description: Complete reference of the DeleteRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile-v-1
-- name: Cisco CATALYST Center documentation for Wireless UpdateRFProfileV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile
+- name: Cisco DNA Center documentation for Wireless UpdateRFProfileV1
   description: Complete reference of the UpdateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile
 notes:
   - SDK Method used are
     wireless.Wireless.create_rf_profile_v1,
@@ -230,12 +228,13 @@ notes:
     post /dna/intent/api/v1/wirelessSettings/rfProfiles,
     delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
     put /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
+  - It should be noted that this module is an alias of wireless_settings_rf_profiles_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.wirelessSettings_rfProfiles:
+  cisco.catalystcenter.wireless_settings_rf_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -298,7 +297,7 @@ EXAMPLES = r"""
     rfProfileName: string
 
 - name: Delete by id
-  cisco.catalystcenter.wirelessSettings_rfProfiles:
+  cisco.catalystcenter.wireless_settings_rf_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -310,7 +309,7 @@ EXAMPLES = r"""
     id: string
 
 - name: Update by id
-  cisco.catalystcenter.wirelessSettings_rfProfiles:
+  cisco.catalystcenter.wireless_settings_rf_profiles:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -376,7 +375,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: issues_info
-short_description: Information module for Issues
+short_description: Information module for Issues Info
 description:
-- Get all Issues.
-- >
-   Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's
-   MAC address.
+- This module represents an alias of the module issues_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -58,23 +56,24 @@ options:
       and deviceId are not provided).
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Issues IssuesV1
+- name: Cisco DNA Center documentation for Issues IssuesV1
   description: Complete reference of the IssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issues-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!issues
 notes:
   - SDK Method used are
     issues.Issues.issues_v1,
 
   - Paths used are
     get /dna/intent/api/v1/issues,
+  - It should be noted that this module is an alias of issues_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Issues
+- name: Get all Issues Info
   cisco.catalystcenter.issues_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -97,7 +96,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

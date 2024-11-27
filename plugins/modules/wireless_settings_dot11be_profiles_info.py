@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessSettings_dot11beProfiles_info
-short_description: Information module for Wirelesssettings Dot11beprofiles
+module: wireless_settings_dot11be_profiles_info
+short_description: Information module for Wireless Settings Dot11Be Profiles Info
 description:
-- Get all Wirelesssettings Dot11beprofiles.
-- Get Wirelesssettings Dot11beprofiles by id.
-- This API allows the user to get 802.11be Profile by ID.
-- This API allows the user to get all 802.11be Profiles configured under Wireless Settings.
+- This module represents an alias of the module wireless_settings_dot11be_profiles_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -34,15 +32,15 @@ options:
     - Id path parameter. 802.11be Profile ID.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless Get80211beProfileByIDV1
+- name: Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1
   description: Complete reference of the Get80211beProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id-v-1
-- name: Cisco CATALYST Center documentation for Wireless GetAll80211beProfilesV1
+  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
+- name: Cisco DNA Center documentation for Wireless GetAll80211beProfilesV1
   description: Complete reference of the GetAll80211beProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get80211be_profile_by_id_v1,
@@ -51,12 +49,13 @@ notes:
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/dot11beProfiles,
     get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id},
+  - It should be noted that this module is an alias of wireless_settings_dot11be_profiles_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Wirelesssettings Dot11beprofiles
-  cisco.catalystcenter.wirelessSettings_dot11beProfiles_info:
+- name: Get all Wireless Settings Dot11Be Profiles Info
+  cisco.catalystcenter.wireless_settings_dot11be_profiles_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -69,8 +68,8 @@ EXAMPLES = r"""
     offset: 0
   register: result
 
-- name: Get Wirelesssettings Dot11beprofiles by id
-  cisco.catalystcenter.wirelessSettings_dot11beProfiles_info:
+- name: Get Wireless Settings Dot11Be Profiles Info by id
+  cisco.catalystcenter.wireless_settings_dot11be_profiles_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -85,7 +84,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

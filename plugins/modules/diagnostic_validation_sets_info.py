@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: diagnosticValidationSets_info
-short_description: Information module for Diagnosticvalidationsets
+module: diagnostic_validation_sets_info
+short_description: Information module for Diagnostic Validation Sets Info
 description:
-- Get all Diagnosticvalidationsets.
-- Get Diagnosticvalidationsets by id.
-- Retrieves all the validation sets and optionally the contained validations.
-- Retrieves validation details for the given validation set id.
+- This module represents an alias of the module diagnostic_validation_sets_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -33,15 +31,15 @@ options:
     - Id path parameter. Validation set id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Health and Performance RetrievesAllTheValidationSetsV1
+- name: Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSetsV1
   description: Complete reference of the RetrievesAllTheValidationSetsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets-v-1
-- name: Cisco CATALYST Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSetV1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
+- name: Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSetV1
   description: Complete reference of the RetrievesValidationDetailsForAValidationSetV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.retrieves_all_the_validation_sets_v1,
@@ -50,12 +48,13 @@ notes:
   - Paths used are
     get /dna/intent/api/v1/diagnosticValidationSets,
     get /dna/intent/api/v1/diagnosticValidationSets/{id},
+  - It should be noted that this module is an alias of diagnostic_validation_sets_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Diagnosticvalidationsets
-  cisco.catalystcenter.diagnosticValidationSets_info:
+- name: Get all Diagnostic Validation Sets Info
+  cisco.catalystcenter.diagnostic_validation_sets_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -67,8 +66,8 @@ EXAMPLES = r"""
     view: string
   register: result
 
-- name: Get Diagnosticvalidationsets by id
-  cisco.catalystcenter.diagnosticValidationSets_info:
+- name: Get Diagnostic Validation Sets Info by id
+  cisco.catalystcenter.diagnostic_validation_sets_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -83,7 +82,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sites_timeZoneSettings_info
-short_description: Information module for Sites Timezonesettings
+module: sites_time_zone_settings_info
+short_description: Information module for Sites Time Zone Settings Info
 description:
-- Get all Sites Timezonesettings.
-- >
-   Retrieve time zone settings for a site; `null` values indicate that the setting will be inherited from the parent
-   site; empty objects `{}` indicate that the setting is unset at a site.
+- This module represents an alias of the module sites_time_zone_settings_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -33,24 +31,25 @@ options:
       the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings RetrieveTimeZoneSettingsForASiteV1
+- name: Cisco DNA Center documentation for Network Settings RetrieveTimeZoneSettingsForASiteV1
   description: Complete reference of the RetrieveTimeZoneSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-time-zone-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-time-zone-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_time_zone_settings_for_a_site_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/timeZoneSettings,
+  - It should be noted that this module is an alias of sites_time_zone_settings_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sites Timezonesettings
-  cisco.catalystcenter.sites_timeZoneSettings_info:
+- name: Get all Sites Time Zone Settings Info
+  cisco.catalystcenter.sites_time_zone_settings_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -66,7 +65,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -56,6 +56,6 @@ options:
         default: true
 notes:
     - "Does not support C(check_mode)"
-    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK"
+    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK" # noqa: E501
     - "The parameters starting with catalystCenter_ are used by the Cisco CATALYST Python SDK to establish the connection"
 '''

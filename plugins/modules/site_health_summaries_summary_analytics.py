@@ -4,20 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: siteHealthSummaries_summaryAnalytics
-short_description: Resource module for Sitehealthsummaries Summaryanalytics
+module: site_health_summaries_summary_analytics
+short_description: Resource module for Site Health Summaries Summary Analytics
 description:
-- Manage operation create of the resource Sitehealthsummaries Summaryanalytics.
-- >
-   Query an aggregated summary of all site health This API provides the latest health data from a given `endTime` If
-   data is not ready for the provided endTime, the request will fail, and the error message will indicate the
-   recommended endTime to use to retrieve a complete data set. This behavior may occur if the provided
-   endTime=currentTime, since we are not a real time system. When `endTime` is not provided, the API returns the
-   latest data. This API also provides issue data. The `startTime` query param can be used to specify the beginning
-   point of time range to retrieve the active issue counts in. When this param is not provided, the default
-   `startTime` will be 24 hours before endTime.
+- This module represents an alias of the module site_health_summaries_summary_analytics_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -68,24 +61,25 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Sites QueryAnAggregatedSummaryOfSiteHealthDataV1
+- name: Cisco DNA Center documentation for Sites QueryAnAggregatedSummaryOfSiteHealthDataV1
   description: Complete reference of the QueryAnAggregatedSummaryOfSiteHealthDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-an-aggregated-summary-of-site-health-data-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-an-aggregated-summary-of-site-health-data
 notes:
   - SDK Method used are
     sites.Sites.query_an_aggregated_summary_of_site_health_data_v1,
 
   - Paths used are
     post /dna/data/api/v1/siteHealthSummaries/summaryAnalytics,
+  - It should be noted that this module is an alias of site_health_summaries_summary_analytics_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.siteHealthSummaries_summaryAnalytics:
+  cisco.catalystcenter.site_health_summaries_summary_analytics:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -108,7 +102,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

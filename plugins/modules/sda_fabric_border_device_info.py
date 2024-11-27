@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_border_device_info
-short_description: Information module for Sda Fabric Border Device
+short_description: Information module for Sda Fabric Border Device Info
 description:
-- Get all Sda Fabric Border Device.
-- Get border device detail from SDA Fabric.
+- This module represents an alias of the module sda_fabric_border_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,23 +25,24 @@ options:
     - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1
+- name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1
   description: Complete reference of the GetBorderDeviceDetailFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.gets_border_device_detail,
 
   - Paths used are
     get /dna/intent/api/v1/business/sda/border-device,
+  - It should be noted that this module is an alias of sda_fabric_border_device_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Fabric Border Device
+- name: Get all Sda Fabric Border Device Info
   cisco.catalystcenter.sda_fabric_border_device_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -57,7 +58,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

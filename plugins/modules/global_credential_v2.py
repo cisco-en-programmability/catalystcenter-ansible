@@ -137,16 +137,16 @@ options:
         type: str
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Discovery CreateGlobalCredentialsV2
+- name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
   description: Complete reference of the CreateGlobalCredentialsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-- name: Cisco CATALYST Center documentation for Discovery DeleteGlobalCredentialV2
+- name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
   description: Complete reference of the DeleteGlobalCredentialV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-- name: Cisco CATALYST Center documentation for Discovery UpdateGlobalCredentialsV2
+- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
   description: Complete reference of the UpdateGlobalCredentialsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
 notes:
@@ -264,7 +264,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

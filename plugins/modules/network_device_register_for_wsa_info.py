@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_register_for_wsa_info
-short_description: Information module for Network Device Register For Wsa
+short_description: Information module for Network Device Register For Wsa Info
 description:
-- Get all Network Device Register For Wsa.
-- >
-   It fetches devices which are registered to receive WSA notifications. The device serial number and/or MAC address
-   are required to be provided as query parameters.
+- This module represents an alias of the module network_device_register_for_wsa_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,24 +28,25 @@ options:
     - Macaddress query parameter. Mac addres of the device.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetDevicesRegisteredForWSANotificationV1
+- name: Cisco DNA Center documentation for Devices GetDevicesRegisteredForWSANotificationV1
   description: Complete reference of the GetDevicesRegisteredForWSANotificationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification
 notes:
   - SDK Method used are
     devices.Devices.get_devices_registered_for_wsa_notification_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/tenantinfo/macaddress,
+  - It should be noted that this module is an alias of network_device_register_for_wsa_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Register For Wsa
-  cisco.catalystcenter.network_device_register_for_wsa_info:
+- name: Get all Network Device Register For Wsa Info
+  cisco.catalystcenter.network_device_register_for_wsainfo:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -63,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

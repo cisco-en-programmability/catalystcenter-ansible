@@ -4,18 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: customIssueDefinitions_count_info
-short_description: Information module for Customissuedefinitions Count
+module: custom_issue_definitions_count_info
+short_description: Information module for Custom Issue Definitions Count Info
 description:
-- Get all Customissuedefinitions Count.
-- >
-   Get the total number of Custom issue definitions count based on the provided filters. The supported filters are
-   id, name, profileId and definition enable status, severity, facility and mnemonic. For detailed information about
-   the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+- This module represents an alias of the module custom_issue_definitions_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -70,31 +65,32 @@ options:
     - Mnemonic query parameter. The syslog mnemonic name.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Issues GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFiltersV1
+- name: Cisco DNA Center documentation for Issues GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFiltersV1
   description: Complete reference of the GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-custom-issue-definitions-count-based-on-the-provided-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-custom-issue-definitions-count-based-on-the-provided-filters
 notes:
   - SDK Method used are
     issues.Issues.get_the_total_custom_issue_definitions_count_based_on_the_provided_filters_v1,
 
   - Paths used are
     get /dna/intent/api/v1/customIssueDefinitions/count,
+  - It should be noted that this module is an alias of custom_issue_definitions_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Customissuedefinitions Count
-  cisco.catalystcenter.customIssueDefinitions_count_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Custom Issue Definitions Count Info
+  cisco.catalystcenter.custom_issue_definitions_count_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
     profileId: string
@@ -108,8 +104,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

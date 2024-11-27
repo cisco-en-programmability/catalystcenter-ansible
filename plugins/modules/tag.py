@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: tag
 short_description: Resource module for Tag
 description:
-- Manage operations create, update and delete of the resource Tag.
-- Creates tag with specified tag attributes.
-- Deletes a tag specified by id.
-- Updates a tag specified by id.
+- This module represents an alias of the module tag_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -70,18 +68,18 @@ options:
     description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Tag CreateTagV1
+- name: Cisco DNA Center documentation for Tag CreateTagV1
   description: Complete reference of the CreateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-tag-v-1
-- name: Cisco CATALYST Center documentation for Tag DeleteTagV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-tag
+- name: Cisco DNA Center documentation for Tag DeleteTagV1
   description: Complete reference of the DeleteTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-tag-v-1
-- name: Cisco CATALYST Center documentation for Tag UpdateTagV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-tag
+- name: Cisco DNA Center documentation for Tag UpdateTagV1
   description: Complete reference of the UpdateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-tag
 notes:
   - SDK Method used are
     tag.Tag.create_tag_v1,
@@ -92,6 +90,7 @@ notes:
     post /dna/intent/api/v1/tag,
     delete /dna/intent/api/v1/tag/{id},
     put /dna/intent/api/v1/tag,
+  - It should be noted that this module is an alias of tag_v1
 
 """
 
@@ -163,7 +162,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

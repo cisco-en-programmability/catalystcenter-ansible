@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_series_info
-short_description: Information module for Event Series
+short_description: Information module for Event Series Info
 description:
-- Get all Event Series.
-- Get the list of Published Notifications.
+- This module represents an alias of the module event_series_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -84,23 +84,24 @@ options:
     - SiteId query parameter. Site Id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Event Management GetNotificationsV1
+- name: Cisco DNA Center documentation for Event Management GetNotificationsV1
   description: Complete reference of the GetNotificationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-notifications-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-notifications
 notes:
   - SDK Method used are
     event_management.EventManagement.get_notifications_v1,
 
   - Paths used are
     get /dna/intent/api/v1/event/event-series,
+  - It should be noted that this module is an alias of event_series_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Series
+- name: Get all Event Series Info
   cisco.catalystcenter.event_series_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -131,7 +132,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

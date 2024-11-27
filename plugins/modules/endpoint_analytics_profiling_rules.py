@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: endpoint-analytics_profiling-rules
-short_description: Resource module for Endpoint-Analytics Profiling-Rules
+module: endpoint_analytics_profiling_rules
+short_description: Resource module for Endpoint Analytics Profiling Rules
 description:
-- Manage operations create, update and delete of the resource Endpoint-Analytics Profiling-Rules.
-- Creates profiling rule from the request body.
-- Deletes the profiling rule for the given 'ruleId'.
-- Updates the profiling rule for the given 'ruleId'.
+- This module represents an alias of the module endpoint_analytics_profiling_rules_v1
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -114,31 +112,32 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule_v1,
-    a_i_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule_v1,
-    a_i_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
     put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+  - It should be noted that this module is an alias of endpoint_analytics_profiling_rules_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.endpoint-analytics_profiling-rules:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.endpoint_analytics_profiling_rules:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     clusterId: string
     conditionGroups:
@@ -175,14 +174,14 @@ EXAMPLES = r"""
     - string
 
 - name: Update by id
-  cisco.catalystcenter.endpoint-analytics_profiling-rules:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.endpoint_analytics_profiling_rules:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     clusterId: string
     conditionGroups:
@@ -219,21 +218,21 @@ EXAMPLES = r"""
     - string
 
 - name: Delete by id
-  cisco.catalystcenter.endpoint-analytics_profiling-rules:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.endpoint_analytics_profiling_rules:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     ruleId: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

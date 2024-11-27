@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: discovery_device_range_info
-short_description: Information module for Discovery Device Range
+short_description: Information module for Discovery Device Range Info
 description:
-- Get all Discovery Device Range.
-- >
-   Returns the network devices discovered for the given discovery and for the given range. The maximum number of
-   records that can be retrieved is 500. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- This module represents an alias of the module discovery_device_range_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -38,31 +36,32 @@ options:
     - TaskId query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Discovery GetDiscoveredDevicesByRangeV1
+- name: Cisco DNA Center documentation for Discovery GetDiscoveredDevicesByRangeV1
   description: Complete reference of the GetDiscoveredDevicesByRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovered-devices-by-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovered-devices-by-range
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovered_devices_by_range_v1,
 
   - Paths used are
     get /dna/intent/api/v1/discovery/{id}/network-device/{startIndex}/{recordsToReturn},
+  - It should be noted that this module is an alias of discovery_device_range_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Discovery Device Range
+- name: Get all Discovery Device Range Info
   cisco.catalystcenter.discovery_device_range_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     taskId: string
     id: string
@@ -72,8 +71,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_provisionDevices
-short_description: Resource module for Sda Provisiondevices
+module: sda_provision_devices
+short_description: Resource module for Sda Provision Devices
 description:
-- Manage operations create, update and delete of the resource Sda Provisiondevices.
-- Provisions network devices to respective Sites based on user input.
-- Delete provisioned devices based on query parameters.
-- Deletes provisioned device based on Id.
-- Re-provisions network devices to the site based on the user input.
+- This module represents an alias of the module sda_provision_devices_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -40,21 +37,21 @@ options:
     description: SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA ProvisionDevicesV1
+- name: Cisco DNA Center documentation for SDA ProvisionDevicesV1
   description: Complete reference of the ProvisionDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision-devices-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteProvisionedDeviceByIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!provision-devices
+- name: Cisco DNA Center documentation for SDA DeleteProvisionedDeviceByIdV1
   description: Complete reference of the DeleteProvisionedDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteProvisionedDevicesV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id
+- name: Cisco DNA Center documentation for SDA DeleteProvisionedDevicesV1
   description: Complete reference of the DeleteProvisionedDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices-v-1
-- name: Cisco CATALYST Center documentation for SDA ReProvisionDevicesV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices
+- name: Cisco DNA Center documentation for SDA ReProvisionDevicesV1
   description: Complete reference of the ReProvisionDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!re-provision-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!re-provision-devices
 notes:
   - SDK Method used are
     sda.Sda.delete_provisioned_device_by_id_v1,
@@ -66,46 +63,47 @@ notes:
     delete /dna/intent/api/v1/sda/provisionDevices,
     delete /dna/intent/api/v1/sda/provisionDevices/{id},
     put /dna/intent/api/v1/sda/provisionDevices,
+  - It should be noted that this module is an alias of sda_provision_devices_v1
 
 """
 
 EXAMPLES = r"""
 - name: Delete all
-  cisco.catalystcenter.sda_provisionDevices:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_provision_devices:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     networkDeviceId: string
     siteId: string
 
 - name: Create
-  cisco.catalystcenter.sda_provisionDevices:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_provision_devices:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - networkDeviceId: string
       siteId: string
 
 - name: Update all
-  cisco.catalystcenter.sda_provisionDevices:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_provision_devices:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - id: string
@@ -113,21 +111,21 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Delete by id
-  cisco.catalystcenter.sda_provisionDevices:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_provision_devices:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_inventory_insight_link_mismatch_info
-short_description: Information module for Network Device Inventory Insight Link Mismatch
+short_description: Information module for Network Device Inventory Insight Link Mismatch Info
 description:
-- Get all Network Device Inventory Insight Link Mismatch.
-- Find all devices with link mismatch speed / vlan .
+- This module represents an alias of the module network_device_inventory_insight_link_mismatch_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -44,31 +44,32 @@ options:
     - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices InventoryInsightDeviceLinkMismatchAPIV1
+- name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPIV1
   description: Complete reference of the InventoryInsightDeviceLinkMismatchAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
 notes:
   - SDK Method used are
     devices.Devices.inventory_insight_device_link_mismatch,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/insight/{siteId}/device-link,
+  - It should be noted that this module is an alias of network_device_inventory_insight_link_mismatch_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Inventory Insight Link Mismatch
+- name: Get all Network Device Inventory Insight Link Mismatch Info
   cisco.catalystcenter.network_device_inventory_insight_link_mismatch_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
@@ -80,8 +81,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

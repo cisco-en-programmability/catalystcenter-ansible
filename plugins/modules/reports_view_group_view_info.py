@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: reports_view_group_view_info
-short_description: Information module for Reports View Group View
+short_description: Information module for Reports View Group View Info
 description:
-- Get Reports View Group View by id.
-- >
-   Gives complete information of the view that is required to configure a report. Use "Get views for a given view
-   group" API to get the viewIds required as a query param for this API for available views.
+- This module represents an alias of the module reports_view_group_view_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,23 +28,24 @@ options:
     - ViewId path parameter. View id of view.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1
+- name: Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1
   description: Complete reference of the GetViewDetailsForAGivenViewGroup_ViewV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view
 notes:
   - SDK Method used are
     reports.Reports.get_view_details_for_a_given_view_group_and_view,
 
   - Paths used are
     get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId},
+  - It should be noted that this module is an alias of reports_view_group_view_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Reports View Group View by id
+- name: Get Reports View Group View Info by id
   cisco.catalystcenter.reports_view_group_view_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -63,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

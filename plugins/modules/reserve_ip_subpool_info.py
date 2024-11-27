@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool_info
-short_description: Information module for Reserve Ip Subpool
+short_description: Information module for Reserve Ip Subpool Info
 description:
-- Get all Reserve Ip Subpool.
-- API to get the ip subpool info.
+- This module represents an alias of the module reserve_ip_subpool_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -50,23 +50,24 @@ options:
     - GroupName query parameter. Name of the group.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings GetReserveIPSubpoolV1
+- name: Cisco DNA Center documentation for Network Settings GetReserveIPSubpoolV1
   description: Complete reference of the GetReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_reserve_ip_subpool_v1,
 
   - Paths used are
     get /dna/intent/api/v1/reserve-ip-subpool,
+  - It should be noted that this module is an alias of reserve_ip_subpool_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Reserve Ip Subpool
+- name: Get all Reserve Ip Subpool Info
   cisco.catalystcenter.reserve_ip_subpool_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -87,7 +88,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

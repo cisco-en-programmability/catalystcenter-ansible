@@ -4,24 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: networkDevices_info
-short_description: Information module for Networkdevices
+module: network_devices_info
+short_description: Information module for Network Devices Info
 description:
-- Get all Networkdevices.
-- Get Networkdevices by id.
-- >
-   Gets the Network Device details based on the provided query parameters. When there is no start and end time
-   specified returns the latest device details. For detailed information about the usage of the API, please refer to
-   the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-1.0.2-resolved.yaml.
-- >
-   Returns the device data for the given device Uuid in the specified start and end time range. When there is no
-   start and end time specified returns the latest available data for the given Id. For detailed information about
-   the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceNetworkDevices-1.0.2-resolved.yaml.
+- This module represents an alias of the module network_devices_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -173,15 +162,15 @@ options:
       interested fields in the request.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetTheDeviceDataForTheGivenDeviceIdUuidV1
+- name: Cisco DNA Center documentation for Devices GetTheDeviceDataForTheGivenDeviceIdUuidV1
   description: Complete reference of the GetTheDeviceDataForTheGivenDeviceIdUuidV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid-v-1
-- name: Cisco CATALYST Center documentation for Devices GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid
+- name: Cisco DNA Center documentation for Devices GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1
   description: Complete reference of the GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters
 notes:
   - SDK Method used are
     devices.Devices.get_the_device_data_for_the_given_device_id_uuid_v1,
@@ -190,19 +179,20 @@ notes:
   - Paths used are
     get /dna/data/api/v1/networkDevices,
     get /dna/data/api/v1/networkDevices/{id},
+  - It should be noted that this module is an alias of network_devices_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Networkdevices
-  cisco.catalystcenter.networkDevices_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Network Devices Info
+  cisco.catalystcenter.network_devices_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -227,15 +217,15 @@ EXAMPLES = r"""
     attribute: string
   register: result
 
-- name: Get Networkdevices by id
-  cisco.catalystcenter.networkDevices_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get Network Devices Info by id
+  cisco.catalystcenter.network_devices_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -246,8 +236,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

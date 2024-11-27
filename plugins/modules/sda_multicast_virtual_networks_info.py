@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_multicast_virtualNetworks_info
-short_description: Information module for Sda Multicast Virtualnetworks
+module: sda_multicast_virtual_networks_info
+short_description: Information module for Sda Multicast Virtual Networks Info
 description:
-- Get all Sda Multicast Virtualnetworks.
-- Returns a list of multicast configurations for virtual networks that match the provided query parameters.
+- This module represents an alias of the module sda_multicast_virtual_networks_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -36,24 +36,25 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA GetMulticastVirtualNetworksV1
+- name: Cisco DNA Center documentation for SDA GetMulticastVirtualNetworksV1
   description: Complete reference of the GetMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.get_multicast_virtual_networks_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/multicast/virtualNetworks,
+  - It should be noted that this module is an alias of sda_multicast_virtual_networks_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Multicast Virtualnetworks
-  cisco.catalystcenter.sda_multicast_virtualNetworks_info:
+- name: Get all Sda Multicast Virtual Networks Info
+  cisco.catalystcenter.sda_multicast_virtual_networks_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -71,7 +72,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

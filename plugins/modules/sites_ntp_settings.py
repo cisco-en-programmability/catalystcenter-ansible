@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sites_ntpSettings
-short_description: Resource module for Sites Ntpsettings
+module: sites_ntp_settings
+short_description: Resource module for Sites Ntp Settings
 description:
-- Manage operation update of the resource Sites Ntpsettings.
-- >
-   Set NTP settings for a site; `null` values indicate that the setting will be inherited from the parent site; empty
-   objects `{}` indicate that the settings is unset.
+- This module represents an alias of the module sites_ntp_settings_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -31,24 +29,25 @@ options:
         type: list
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings SetNTPSettingsForASiteV1
+- name: Cisco DNA Center documentation for Network Settings SetNTPSettingsForASiteV1
   description: Complete reference of the SetNTPSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-ntp-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-ntp-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_n_t_p_settings_for_a_site_v1,
 
   - Paths used are
     put /dna/intent/api/v1/sites/{id}/ntpSettings,
+  - It should be noted that this module is an alias of sites_ntp_settings_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.catalystcenter.sites_ntpSettings:
+  cisco.catalystcenter.sites_ntp_settings:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -65,7 +64,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

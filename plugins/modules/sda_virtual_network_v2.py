@@ -32,18 +32,18 @@ options:
     description: Virtual Network Name to be assigned at global level.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1
+- name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the AddVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteVirtualNetworkWithScalableGroupsV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
+- name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the DeleteVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdateVirtualNetworkWithScalableGroupsV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
+- name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the UpdateVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.add_virtual_network_with_scalable_groups_v1,
@@ -60,13 +60,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.sda_virtual_network_v2:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     isGuestVirtualNetwork: true
     scalableGroupNames:
@@ -76,25 +76,25 @@ EXAMPLES = r"""
 
 - name: Delete all
   cisco.catalystcenter.sda_virtual_network_v2:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     virtualNetworkName: string
 
 - name: Update all
   cisco.catalystcenter.sda_virtual_network_v2:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     isGuestVirtualNetwork: true
     scalableGroupNames:
@@ -104,8 +104,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sites_info
-short_description: Information module for Sites
+short_description: Information module for Sites Info
 description:
-- Get all Sites.
-- Get sites.
+- This module represents an alias of the module sites_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -44,23 +44,24 @@ options:
     - Limit query parameter. The number of records to show for this page.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design GetSitesV1
+- name: Cisco DNA Center documentation for Site Design GetSitesV1
   description: Complete reference of the GetSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_sites_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sites,
+  - It should be noted that this module is an alias of sites_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sites
+- name: Get all Sites Info
   cisco.catalystcenter.sites_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -81,7 +82,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

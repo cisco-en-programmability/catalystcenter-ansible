@@ -36,10 +36,10 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
   description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices-v-2
 notes:
@@ -70,7 +70,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

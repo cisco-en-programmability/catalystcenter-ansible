@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: interfaces_query_count
 short_description: Resource module for Interfaces Query Count
 description:
-- Manage operation create of the resource Interfaces Query Count.
-- >
-   Gets the total number of interfaces across the Network devices based on the provided complex filters and
-   aggregation functions. For detailed information about the usage of the API, please refer to the Open API
-   specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-1.0.2-resolved.yaml.
+- This module represents an alias of the module interfaces_query_count_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -88,31 +84,32 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
+- name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
   description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
   - SDK Method used are
     devices.Devices.the_total_interfaces_count_across_the_network_devices_v1,
 
   - Paths used are
     post /dna/data/api/v1/interfaces/query/count,
+  - It should be noted that this module is an alias of interfaces_query_count_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.interfaces_query_count:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
     - function: string
       name: string
@@ -138,8 +135,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

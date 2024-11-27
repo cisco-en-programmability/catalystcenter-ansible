@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: device_health_info
-short_description: Information module for Device Health
+short_description: Information module for Device Health Info
 description:
-- Get all Device Health.
-- >
-   Intent API for accessing CATALYST Assurance Device object for generating reports, creating dashboards or creating
-   additional value added services.
+- This module represents an alias of the module device_health_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,11 +25,11 @@ options:
     type: str
   siteId:
     description:
-    - SiteId query parameter. CATALYST site UUID.
+    - SiteId query parameter. DNAC site UUID.
     type: str
   health:
     description:
-    - Health query parameter. CATALYST health catagory POOR, FAIR, or GOOD (case insensitive).
+    - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
@@ -50,23 +48,24 @@ options:
     - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices DevicesV1
+- name: Cisco DNA Center documentation for Devices DevicesV1
   description: Complete reference of the DevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!devices
 notes:
   - SDK Method used are
     devices.Devices.devices_v1,
 
   - Paths used are
     get /dna/intent/api/v1/device-health,
+  - It should be noted that this module is an alias of device_health_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Device Health
+- name: Get all Device Health Info
   cisco.catalystcenter.device_health_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -88,7 +87,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

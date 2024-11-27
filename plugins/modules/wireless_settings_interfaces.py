@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessSettings_interfaces
-short_description: Resource module for Wirelesssettings Interfaces
+module: wireless_settings_interfaces
+short_description: Resource module for Wireless Settings Interfaces
 description:
-- Manage operations create, update and delete of the resource Wirelesssettings Interfaces.
-- This API allows the user to create an interface.
-- This API allows the user to delete an interface by ID.
-- This API allows the user to update an interface by ID.
+- This module represents an alias of the module wireless_settings_interfaces_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -28,18 +26,18 @@ options:
     description: VLAN ID range is 1-4094.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless CreateInterfaceV1
+- name: Cisco DNA Center documentation for Wireless CreateInterfaceV1
   description: Complete reference of the CreateInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-interface-v-1
-- name: Cisco CATALYST Center documentation for Wireless DeleteInterfaceV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-interface
+- name: Cisco DNA Center documentation for Wireless DeleteInterfaceV1
   description: Complete reference of the DeleteInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-interface-v-1
-- name: Cisco CATALYST Center documentation for Wireless UpdateInterfaceV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-interface
+- name: Cisco DNA Center documentation for Wireless UpdateInterfaceV1
   description: Complete reference of the UpdateInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-interface
 notes:
   - SDK Method used are
     wireless.Wireless.create_interface_v1,
@@ -50,12 +48,13 @@ notes:
     post /dna/intent/api/v1/wirelessSettings/interfaces,
     delete /dna/intent/api/v1/wirelessSettings/interfaces/{id},
     put /dna/intent/api/v1/wirelessSettings/interfaces/{id},
+  - It should be noted that this module is an alias of wireless_settings_interfaces_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.wirelessSettings_interfaces:
+  cisco.catalystcenter.wireless_settings_interfaces:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -68,7 +67,7 @@ EXAMPLES = r"""
     vlanId: 0
 
 - name: Delete by id
-  cisco.catalystcenter.wirelessSettings_interfaces:
+  cisco.catalystcenter.wireless_settings_interfaces:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -80,7 +79,7 @@ EXAMPLES = r"""
     id: string
 
 - name: Update by id
-  cisco.catalystcenter.wirelessSettings_interfaces:
+  cisco.catalystcenter.wireless_settings_interfaces:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -96,7 +95,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

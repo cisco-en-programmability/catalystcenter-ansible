@@ -4,22 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: clients_info
-short_description: Information module for Clients
+short_description: Information module for Clients Info
 description:
-- Get all Clients.
-- Get Clients by id.
-- >
-   Retrieves specific client information matching the MAC address. For detailed information about the usage of the
-   API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-   center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
-- >
-   Retrieves the list of clients, while also offering basic filtering and sorting capabilities. For detailed
-   information about the usage of the API, please refer to the Open API specification document - https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   clients1-1.0.0-resolved.yaml.
+- This module represents an alias of the module clients_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -188,15 +179,15 @@ options:
       67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Clients RetrievesSpecificClientInformationMatchingTheMACAddressV1
+- name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationMatchingTheMACAddressV1
   description: Complete reference of the RetrievesSpecificClientInformationMatchingTheMACAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-matching-the-mac-address-v-1
-- name: Cisco CATALYST Center documentation for Clients RetrievesTheListOfClientsWhileAlsoOfferingBasicFilteringAndSortingCapabilitiesV1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-matching-the-mac-address
+- name: Cisco DNA Center documentation for Clients RetrievesTheListOfClientsWhileAlsoOfferingBasicFilteringAndSortingCapabilitiesV1
   description: Complete reference of the RetrievesTheListOfClientsWhileAlsoOfferingBasicFilteringAndSortingCapabilitiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-while-also-offering-basic-filtering-and-sorting-capabilities-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-while-also-offering-basic-filtering-and-sorting-capabilities
 notes:
   - SDK Method used are
     clients.Clients.retrieves_specific_client_information_matching_the_macaddress_v1,
@@ -205,11 +196,12 @@ notes:
   - Paths used are
     get /dna/data/api/v1/clients,
     get /dna/data/api/v1/clients/{id},
+  - It should be noted that this module is an alias of clients_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Clients
+- name: Get all Clients Info
   cisco.catalystcenter.clients_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -242,7 +234,7 @@ EXAMPLES = r"""
     attribute: string
   register: result
 
-- name: Get Clients by id
+- name: Get Clients Info by id
   cisco.catalystcenter.clients_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -262,7 +254,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

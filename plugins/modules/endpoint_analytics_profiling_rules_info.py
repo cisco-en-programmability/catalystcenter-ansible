@@ -4,23 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: endpoint-analytics_profiling-rules_info
-short_description: Information module for Endpoint-Analytics Profiling-Rules
+module: endpoint_analytics_profiling_rules_info
+short_description: Information module for Endpoint Analytics Profiling Rules Info
 description:
-- Get all Endpoint-Analytics Profiling-Rules.
-- Get Endpoint-Analytics Profiling-Rules by id.
-- Fetches details of the profiling rule for the given 'ruleId'.
-- >
-   This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or
-   export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into
-   another environment. If this API is used to export rules to be imported into another Cisco CATALYST Center system, then
-   ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly. Use query
-   parameters to filter the data, as required. If no filter is provided, then it will include only rules of type
-   'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch
-   higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number
-   of rules in the system.
+- This module represents an alias of the module endpoint_analytics_profiling_rules_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -62,22 +52,23 @@ options:
     - RuleId path parameter. Unique rule identifier.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_details_of_a_single_profiling_rule_v1,
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_list_of_profiling_rules_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_details_of_a_single_profiling_rule_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_list_of_profiling_rules_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+  - It should be noted that this module is an alias of endpoint_analytics_profiling_rules_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Endpoint-Analytics Profiling-Rules
-  cisco.catalystcenter.endpoint-analytics_profiling-rules_info:
+- name: Get all Endpoint Analytics Profiling Rules Info
+  cisco.catalystcenter.endpoint_analytics_profiling_rules_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -94,8 +85,8 @@ EXAMPLES = r"""
     order: string
   register: result
 
-- name: Get Endpoint-Analytics Profiling-Rules by id
-  cisco.catalystcenter.endpoint-analytics_profiling-rules_info:
+- name: Get Endpoint Analytics Profiling Rules Info by id
+  cisco.catalystcenter.endpoint_analytics_profiling_rules_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -110,7 +101,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

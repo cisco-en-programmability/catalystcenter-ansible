@@ -4,18 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: clients_summaryAnalytics
-short_description: Resource module for Clients Summaryanalytics
+module: clients_summary_analytics
+short_description: Resource module for Clients Summary Analytics
 description:
-- Manage operation create of the resource Clients Summaryanalytics.
-- >
-   Retrieves summary analytics data related to clients while applying complex filtering, aggregate functions, and
-   grouping. This API facilitates obtaining consolidated insights into the performance and status of the clients. For
-   detailed information about the usage of the API, please refer to the Open API specification document - https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   clients1-1.0.0-resolved.yaml.
+- This module represents an alias of the module clients_summary_analytics_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -85,31 +80,32 @@ options:
     description: Start Time.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Clients RetrievesSummaryAnalyticsDataRelatedToClientsV1
+- name: Cisco DNA Center documentation for Clients RetrievesSummaryAnalyticsDataRelatedToClientsV1
   description: Complete reference of the RetrievesSummaryAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-clients-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-clients
 notes:
   - SDK Method used are
     clients.Clients.retrieves_summary_analytics_data_related_to_clients_v1,
 
   - Paths used are
     post /dna/data/api/v1/clients/summaryAnalytics,
+  - It should be noted that this module is an alias of clients_summary_analytics_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.clients_summaryAnalytics:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.clients_summary_analytics:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
     - function: string
       name: string
@@ -133,8 +129,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

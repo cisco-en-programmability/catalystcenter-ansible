@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: endpoint-analytics_endpoints_count_info
-short_description: Information module for Endpoint-Analytics Endpoints Count
+module: endpoint_analytics_endpoints_count_info
+short_description: Information module for Endpoint Analytics Endpoints Count Info
 description:
-- Get all Endpoint-Analytics Endpoints Count.
-- Fetch the total count of endpoints that match the given filter criteria.
+- This module represents an alias of the module endpoint_analytics_endpoints_count_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -31,7 +31,7 @@ options:
     type: str
   macAddresses:
     description:
-    - MacAddresses query parameter. List of MAC addresses to filter on. Only exact matches will be returned. 
+    - MacAddresses query parameter. List of MAC addresses to filter on. Only exact matches will be returned.
     elements: str
     type: list
   ip:
@@ -118,31 +118,32 @@ options:
     - AncPolicy query parameter. ANC policy. Only exact match will be returned.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for AI Endpoint Analytics FetchTheCountOfEndpointsV1
+- name: Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpointsV1
   description: Complete reference of the FetchTheCountOfEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints/count,
+  - It should be noted that this module is an alias of endpoint_analytics_endpoints_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Endpoint-Analytics Endpoints Count
-  cisco.catalystcenter.endpoint-analytics_endpoints_count_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Endpoint Analytics Endpoints Count Info
+  cisco.catalystcenter.endpoint_analytics_endpoints_count_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     profilingStatus: string
     macAddress: string
@@ -169,8 +170,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

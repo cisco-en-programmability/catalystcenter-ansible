@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile
 short_description: Resource module for Wireless Rf Profile
 description:
-- Manage operations create and delete of the resource Wireless Rf Profile.
-- Create or Update RF profile.
-- Delete RF profile.
+- This module represents an alias of the module wireless_rf_profile_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -130,15 +129,15 @@ options:
       *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless CreateOrUpdateRFProfileV1
+- name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfileV1
   description: Complete reference of the CreateOrUpdateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile-v-1
-- name: Cisco CATALYST Center documentation for Wireless DeleteRFProfilesV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile
+- name: Cisco DNA Center documentation for Wireless DeleteRFProfilesV1
   description: Complete reference of the DeleteRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.create_or_update_rf_profile_v1,
@@ -147,19 +146,20 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/wireless/rf-profile,
     delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName},
+  - It should be noted that this module is an alias of wireless_rf_profile_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_rf_profile:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     channelWidth: string
     defaultRfProfile: true
@@ -199,20 +199,20 @@ EXAMPLES = r"""
 
 - name: Delete by name
   cisco.catalystcenter.wireless_rf_profile:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     rfProfileName: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

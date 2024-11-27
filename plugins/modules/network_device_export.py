@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_export
 short_description: Resource module for Network Device Export
 description:
-- Manage operation create of the resource Network Device Export.
-- Exports the selected network device to a file.
+- This module represents an alias of the module network_device_export_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -31,18 +31,19 @@ options:
     description: Password is required when the operationEnum value is 0.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices ExportDeviceListV1
+- name: Cisco DNA Center documentation for Devices ExportDeviceListV1
   description: Complete reference of the ExportDeviceListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!export-device-list-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!export-device-list
 notes:
   - SDK Method used are
     devices.Devices.export_device_list_v1,
 
   - Paths used are
     post /dna/intent/api/v1/network-device/file,
+  - It should be noted that this module is an alias of network_device_export_v1
 
 """
 
@@ -66,7 +67,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

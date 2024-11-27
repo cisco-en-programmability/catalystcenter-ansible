@@ -106,8 +106,8 @@ options:
       snmpServer:
         description: Network V2's snmpServer.
         suboptions:
-          configurecatalystcenterIP:
-            description: Configuration CATALYST IP for SNMP Server (eg true).
+          configureDnacIP:
+            description: Configuration DNAC IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -117,8 +117,8 @@ options:
       syslogServer:
         description: Network V2's syslogServer.
         suboptions:
-          configurecatalystcenterIP:
-            description: Configuration CATALYST IP for syslog server (eg true).
+          configureDnacIP:
+            description: Configuration DNAC IP for syslog server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for syslog server (eg 4.4.4.4).
@@ -134,13 +134,13 @@ options:
       the network settings.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings CreateNetworkV2
+- name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
   description: Complete reference of the CreateNetworkV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-network-v-2
-- name: Cisco CATALYST Center documentation for Network Settings UpdateNetworkV2
+- name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
   description: Complete reference of the UpdateNetworkV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-network-v-2
 notes:
@@ -193,11 +193,11 @@ EXAMPLES = r"""
       ntpServer:
       - string
       snmpServer:
-        configurecatalystcenterIP: true
+        configureDnacIP: true
         ipAddresses:
         - string
       syslogServer:
-        configurecatalystcenterIP: true
+        configureDnacIP: true
         ipAddresses:
         - string
       timezone: string
@@ -241,11 +241,11 @@ EXAMPLES = r"""
       ntpServer:
       - string
       snmpServer:
-        configurecatalystcenterIP: true
+        configureDnacIP: true
         ipAddresses:
         - string
       syslogServer:
-        configurecatalystcenterIP: true
+        configureDnacIP: true
         ipAddresses:
         - string
       timezone: string
@@ -254,7 +254,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

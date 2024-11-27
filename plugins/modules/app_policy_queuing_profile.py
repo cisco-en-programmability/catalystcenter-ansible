@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: app_policy_queuing_profile
 short_description: Resource module for App Policy Queuing Profile
 description:
-- Manage operations create, update and delete of the resource App Policy Queuing Profile.
-- Create new custom application queuing profile.
-- Delete existing custom application policy queuing profile by id.
-- Update existing custom application queuing profile.
+- This module represents an alias of the module app_policy_queuing_profile_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -89,18 +87,18 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1
   description: Complete reference of the CreateApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile-v-1
-- name: Cisco CATALYST Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1
   description: Complete reference of the DeleteApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile-v-1
-- name: Cisco CATALYST Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1
   description: Complete reference of the UpdateApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile_v1,
@@ -111,6 +109,7 @@ notes:
     post /dna/intent/api/v1/app-policy-queuing-profile,
     delete /dna/intent/api/v1/app-policy-queuing-profile/{id},
     put /dna/intent/api/v1/app-policy-queuing-profile,
+  - It should be noted that this module is an alias of app_policy_queuing_profile_v1
 
 """
 
@@ -185,7 +184,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

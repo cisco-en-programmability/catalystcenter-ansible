@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_update
 short_description: Resource module for Network Update
 description:
-- Manage operation update of the resource Network Update.
-- >
-   API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and EndPoint AAA, and/or DNS
-   server settings.
+- This module represents an alias of the module network_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -103,8 +101,8 @@ options:
       snmpServer:
         description: Network Update's snmpServer.
         suboptions:
-          configurecatalystcenterIP:
-            description: Configuration CATALYST IP for SNMP Server (eg true).
+          configureDnacIP:
+            description: Configuration DNAC IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -114,8 +112,8 @@ options:
       syslogServer:
         description: Network Update's syslogServer.
         suboptions:
-          configurecatalystcenterIP:
-            description: Configuration CATALYST IP for syslog server (eg true).
+          configureDnacIP:
+            description: Configuration DNAC IP for syslog server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for syslog server (eg 4.4.4.4).
@@ -131,18 +129,19 @@ options:
       is associated with the site.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings UpdateNetworkV1
+- name: Cisco DNA Center documentation for Network Settings UpdateNetworkV1
   description: Complete reference of the UpdateNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_network_v1,
 
   - Paths used are
     put /dna/intent/api/v1/network/{siteId},
+  - It should be noted that this module is an alias of network_update_v1
 
 """
 
@@ -184,11 +183,11 @@ EXAMPLES = r"""
       ntpServer:
       - string
       snmpServer:
-        configurecatalystcenterIP: true
+        configureDnacIP: true
         ipAddresses:
         - string
       syslogServer:
-        configurecatalystcenterIP: true
+        configureDnacIP: true
         ipAddresses:
         - string
       timezone: string
@@ -197,7 +196,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

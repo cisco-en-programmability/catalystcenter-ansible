@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_count_info
-short_description: Information module for Event Count
+short_description: Information module for Event Count Info
 description:
-- Get all Event Count.
-- Get the count of registered events with provided eventIds or tags as mandatory.
+- This module represents an alias of the module event_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -28,23 +28,24 @@ options:
     - Tags query parameter. The registered Tags should be provided.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Event Management CountOfEventsV1
+- name: Cisco DNA Center documentation for Event Management CountOfEventsV1
   description: Complete reference of the CountOfEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-events
 notes:
   - SDK Method used are
     event_management.EventManagement.count_of_events_v1,
 
   - Paths used are
     get /dna/intent/api/v1/events/count,
+  - It should be noted that this module is an alias of event_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Count
+- name: Get all Event Count Info
   cisco.catalystcenter.event_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -61,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

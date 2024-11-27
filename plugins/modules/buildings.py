@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: buildings
 short_description: Resource module for Buildings
 description:
-- Manage operations create, update and delete of the resource Buildings.
-- Creates a building in the network hierarchy under area.
-- >
-   Deletes building in the network hierarchy. This operations fails if there are any floors for this building, or if
-   there are any devices assigned to this building.
-- Updates a building in the network hierarchy.
+- This module represents an alias of the module buildings_v2
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -43,16 +39,16 @@ options:
     description: Parent Id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design CreatesABuildingV2
+- name: Cisco DNA Center documentation for Site Design CreatesABuildingV2
   description: Complete reference of the CreatesABuildingV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2
-- name: Cisco CATALYST Center documentation for Site Design DeletesABuildingV2
+- name: Cisco DNA Center documentation for Site Design DeletesABuildingV2
   description: Complete reference of the DeletesABuildingV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2
-- name: Cisco CATALYST Center documentation for Site Design UpdatesABuildingV2
+- name: Cisco DNA Center documentation for Site Design UpdatesABuildingV2
   description: Complete reference of the UpdatesABuildingV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2
 notes:
@@ -65,6 +61,7 @@ notes:
     post /dna/intent/api/v2/buildings,
     delete /dna/intent/api/v2/buildings/{id},
     put /dna/intent/api/v2/buildings/{id},
+  - It should be noted that this module is an alias of buildings_v2
 
 """
 
@@ -119,7 +116,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

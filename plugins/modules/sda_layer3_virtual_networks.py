@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_layer3VirtualNetworks
-short_description: Resource module for Sda Layer3virtualnetworks
+module: sda_layer3_virtual_networks
+short_description: Resource module for Sda Layer3 Virtual Networks
 description:
-- Manage operations create, update and delete of the resource Sda Layer3virtualnetworks.
-- Adds layer 3 virtual networks based on user input.
-- Deletes layer 3 virtual networks based on user input.
-- Updates layer 3 virtual networks based on user input.
+- This module represents an alias of the module sda_layer3_virtual_networks_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -39,18 +37,18 @@ options:
     description: VirtualNetworkName query parameter. Name of the layer 3 virtual network.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddLayer3VirtualNetworksV1
+- name: Cisco DNA Center documentation for SDA AddLayer3VirtualNetworksV1
   description: Complete reference of the AddLayer3VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-layer-3-virtual-networks-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteLayer3VirtualNetworksV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-layer-3-virtual-networks
+- name: Cisco DNA Center documentation for SDA DeleteLayer3VirtualNetworksV1
   description: Complete reference of the DeleteLayer3VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-layer-3-virtual-networks-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdateLayer3VirtualNetworksV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-layer-3-virtual-networks
+- name: Cisco DNA Center documentation for SDA UpdateLayer3VirtualNetworksV1
   description: Complete reference of the UpdateLayer3VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-layer-3-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-layer-3-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.add_layer3_virtual_networks_v1,
@@ -61,19 +59,20 @@ notes:
     post /dna/intent/api/v1/sda/layer3VirtualNetworks,
     delete /dna/intent/api/v1/sda/layer3VirtualNetworks,
     put /dna/intent/api/v1/sda/layer3VirtualNetworks,
+  - It should be noted that this module is an alias of sda_layer3_virtual_networks_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.sda_layer3VirtualNetworks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_layer3_virtual_networks:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - anchoredSiteId: string
@@ -82,26 +81,26 @@ EXAMPLES = r"""
       virtualNetworkName: string
 
 - name: Delete all
-  cisco.catalystcenter.sda_layer3VirtualNetworks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_layer3_virtual_networks:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     virtualNetworkName: string
 
 - name: Update all
-  cisco.catalystcenter.sda_layer3VirtualNetworks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_layer3_virtual_networks:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - anchoredSiteId: string
@@ -112,8 +111,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_status_info
-short_description: Information module for Lan Automation Status
+short_description: Information module for Lan Automation Status Info
 description:
-- Get all Lan Automation Status.
-- Get Lan Automation Status by id.
-- Invoke this API to get the LAN Automation session status based on the given Lan Automation session id.
-- Invoke this API to get the LAN Automation session status.
+- This module represents an alias of the module lan_automation_status_v1_info
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -34,15 +32,15 @@ options:
     - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for LAN Automation LANAutomationStatusByIdV1
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusByIdV1
   description: Complete reference of the LANAutomationStatusByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id-v-1
-- name: Cisco CATALYST Center documentation for LAN Automation LANAutomationStatusV1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusV1
   description: Complete reference of the LANAutomationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_status_by_id_v1,
@@ -51,41 +49,42 @@ notes:
   - Paths used are
     get /dna/intent/api/v1/lan-automation/status,
     get /dna/intent/api/v1/lan-automation/status/{id},
+  - It should be noted that this module is an alias of lan_automation_status_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Lan Automation Status
+- name: Get all Lan Automation Status Info
   cisco.catalystcenter.lan_automation_status_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
   register: result
 
-- name: Get Lan Automation Status by id
+- name: Get Lan Automation Status Info by id
   cisco.catalystcenter.lan_automation_status_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

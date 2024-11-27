@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_user_defined_field_info
-short_description: Information module for Network Device User Defined Field
+short_description: Information module for Network Device User Defined Field Info
 description:
-- Get all Network Device User Defined Field.
-- >
-   Gets existing global User Defined Fields. If no input is given, it fetches ALL the Global UDFs. Filter/search is
-   supported by UDF Ids or UDF names or both.
+- This module represents an alias of the module network_device_user_defined_field_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,23 +28,24 @@ options:
     - Name query parameter. Comma-seperated name(s) used for search/filtering.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetAllUserDefinedFieldsV1
+- name: Cisco DNA Center documentation for Devices GetAllUserDefinedFieldsV1
   description: Complete reference of the GetAllUserDefinedFieldsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields
 notes:
   - SDK Method used are
     devices.Devices.get_all_user_defined_fields_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/user-defined-field,
+  - It should be noted that this module is an alias of network_device_user_defined_field_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device User Defined Field
+- name: Get all Network Device User Defined Field Info
   cisco.catalystcenter.network_device_user_defined_field_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -63,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

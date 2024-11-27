@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_info
-short_description: Information module for Event
+short_description: Information module for Event Info
 description:
-- Get all Event.
-- Gets the list of registered Events with provided eventIds or tags as mandatory.
+- This module represents an alias of the module event_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -44,23 +44,24 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Event Management GetEventsV1
+- name: Cisco DNA Center documentation for Event Management GetEventsV1
   description: Complete reference of the GetEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-events
 notes:
   - SDK Method used are
     event_management.EventManagement.get_events_v1,
 
   - Paths used are
     get /dna/intent/api/v1/events,
+  - It should be noted that this module is an alias of event_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event
+- name: Get all Event Info
   cisco.catalystcenter.event_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -81,7 +82,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

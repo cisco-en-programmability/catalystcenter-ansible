@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sites_aaaSettings_info
-short_description: Information module for Sites Aaasettings
+module: sites_aaa_settings_info
+short_description: Information module for Sites Aaa Settings Info
 description:
-- Get all Sites Aaasettings.
-- >
-   Retrieve AAA settings for a site; `null` values indicate that the setting will be inherited from the parent site;
-   empty objects `{}` indicate that the setting is unset at a site.
+- This module represents an alias of the module sites_aaa_settings_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -33,31 +31,32 @@ options:
       the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings RetrieveAAASettingsForASiteV1
+- name: Cisco DNA Center documentation for Network Settings RetrieveAAASettingsForASiteV1
   description: Complete reference of the RetrieveAAASettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-aaa-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-aaa-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/aaaSettings,
+  - It should be noted that this module is an alias of sites_aaa_settings_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sites Aaasettings
-  cisco.catalystcenter.sites_aaaSettings_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Sites Aaa Settings Info
+  cisco.catalystcenter.sites_aaa_settings_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     _inherited: True
     id: string
@@ -65,8 +64,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

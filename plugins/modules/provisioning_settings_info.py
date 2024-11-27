@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: provisioningSettings_info
-short_description: Information module for Provisioningsettings
+module: provisioning_settings_info
+short_description: Information module for Provisioning Settings Info
 description:
-- Get all Provisioningsettings.
-- Returns provisioning settings.
+- This module represents an alias of the module provisioning_settings_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -20,24 +20,25 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for System Settings GetProvisioningSettingsV1
+- name: Cisco DNA Center documentation for System Settings GetProvisioningSettingsV1
   description: Complete reference of the GetProvisioningSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioning-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-provisioning-settings
 notes:
   - SDK Method used are
     system_settings.SystemSettings.get_provisioning_settings_v1,
 
   - Paths used are
     get /dna/intent/api/v1/provisioningSettings,
+  - It should be noted that this module is an alias of provisioning_settings_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Provisioningsettings
-  cisco.catalystcenter.provisioningSettings_info:
+- name: Get all Provisioning Settings Info
+  cisco.catalystcenter.provisioning_settings_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -51,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

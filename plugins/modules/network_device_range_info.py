@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_range_info
-short_description: Information module for Network Device Range
+short_description: Information module for Network Device Range Info
 description:
-- Get all Network Device Range.
-- >
-   Returns the list of network devices for the given pagination range. The maximum number of records that can be
-   retrieved is 500.
+- This module represents an alias of the module network_device_range_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,23 +28,24 @@ options:
     - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn <= 500.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetNetworkDeviceByPaginationRangeV1
+- name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRangeV1
   description: Complete reference of the GetNetworkDeviceByPaginationRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
 notes:
   - SDK Method used are
     devices.Devices.get_network_device_by_pagination_range_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
+  - It should be noted that this module is an alias of network_device_range_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Range
+- name: Get all Network Device Range Info
   cisco.catalystcenter.network_device_range_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -63,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

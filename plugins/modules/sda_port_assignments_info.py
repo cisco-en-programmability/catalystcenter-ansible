@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_portAssignments_info
-short_description: Information module for Sda Portassignments
+module: sda_port_assignments_info
+short_description: Information module for Sda Port Assignments Info
 description:
-- Get all Sda Portassignments.
-- Returns a list of port assignments that match the provided query parameters.
+- This module represents an alias of the module sda_port_assignments_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -48,24 +48,25 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA GetPortAssignmentsV1
+- name: Cisco DNA Center documentation for SDA GetPortAssignmentsV1
   description: Complete reference of the GetPortAssignmentsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignments_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/portAssignments,
+  - It should be noted that this module is an alias of sda_port_assignments_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Portassignments
-  cisco.catalystcenter.sda_portAssignments_info:
+- name: Get all Sda Port Assignments Info
+  cisco.catalystcenter.sda_port_assignments_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -86,7 +87,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

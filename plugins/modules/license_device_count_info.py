@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: license_device_count_info
-short_description: Information module for License Device Count
+short_description: Information module for License Device Count Info
 description:
-- Get all License Device Count.
-- Get total number of managed devices.
+- This module represents an alias of the module license_device_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -29,7 +29,7 @@ options:
     type: str
   dna_level:
     description:
-    - Dna_level query parameter. Device Cisco CATALYST License Level.
+    - Dna_level query parameter. Device Cisco DNA License Level.
     type: str
   virtual_account_name:
     description:
@@ -40,23 +40,24 @@ options:
     - Smart_account_id query parameter. Smart account id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Licenses DeviceCountDetailsV1
+- name: Cisco DNA Center documentation for Licenses DeviceCountDetailsV1
   description: Complete reference of the DeviceCountDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-count-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_count_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/device/count,
+  - It should be noted that this module is an alias of license_device_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all License Device Count
+- name: Get all License Device Count Info
   cisco.catalystcenter.license_device_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -76,7 +77,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

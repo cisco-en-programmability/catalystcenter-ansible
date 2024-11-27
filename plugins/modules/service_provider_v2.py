@@ -36,13 +36,13 @@ options:
         type: list
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings CreateSPProfileV2
+- name: Cisco DNA Center documentation for Network Settings CreateSPProfileV2
   description: Complete reference of the CreateSPProfileV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile-v-2
-- name: Cisco CATALYST Center documentation for Network Settings UpdateSPProfileV2
+- name: Cisco DNA Center documentation for Network Settings UpdateSPProfileV2
   description: Complete reference of the UpdateSPProfileV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile-v-2
 notes:
@@ -93,7 +93,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_anycastGateways
-short_description: Resource module for Sda Anycastgateways
+module: sda_anycast_gateways
+short_description: Resource module for Sda Anycast Gateways
 description:
-- Manage operations create, update and delete of the resource Sda Anycastgateways.
-- Adds anycast gateways based on user input.
-- Deletes an anycast gateway based on id.
-- Updates anycast gateways based on user input.
+- This module represents an alias of the module sda_anycast_gateways_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -94,18 +92,18 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddAnycastGatewaysV1
+- name: Cisco DNA Center documentation for SDA AddAnycastGatewaysV1
   description: Complete reference of the AddAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteAnycastGatewayByIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways
+- name: Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1
   description: Complete reference of the DeleteAnycastGatewayByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdateAnycastGatewaysV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id
+- name: Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1
   description: Complete reference of the UpdateAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways
 notes:
   - SDK Method used are
     sda.Sda.add_anycast_gateways_v1,
@@ -116,19 +114,20 @@ notes:
     post /dna/intent/api/v1/sda/anycastGateways,
     delete /dna/intent/api/v1/sda/anycastGateways/{id},
     put /dna/intent/api/v1/sda/anycastGateways,
+  - It should be noted that this module is an alias of sda_anycast_gateways_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.catalystcenter.sda_anycastGateways:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_anycast_gateways:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - fabricId: string
@@ -151,14 +150,14 @@ EXAMPLES = r"""
       vlanName: string
 
 - name: Create
-  cisco.catalystcenter.sda_anycastGateways:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_anycast_gateways:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - autoGenerateVlanName: true
@@ -181,21 +180,21 @@ EXAMPLES = r"""
       vlanName: string
 
 - name: Delete by id
-  cisco.catalystcenter.sda_anycastGateways:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_anycast_gateways:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

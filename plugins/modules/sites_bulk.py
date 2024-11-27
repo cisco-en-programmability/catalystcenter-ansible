@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sites_bulk
 short_description: Resource module for Sites Bulk
 description:
-- Manage operation create of the resource Sites Bulk.
-- >
-   Create area/building/floor together in bulk. If site already exist, then that will be ignored. Sites in the
-   request payload need not to be ordered.
+- This module represents an alias of the module sites_bulk_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -64,18 +62,19 @@ options:
         type: float
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design CreateSitesV1
+- name: Cisco DNA Center documentation for Site Design CreateSitesV1
   description: Complete reference of the CreateSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.create_sites_v1,
 
   - Paths used are
     post /dna/intent/api/v1/sites/bulk,
+  - It should be noted that this module is an alias of sites_bulk_v1
 
 """
 
@@ -107,7 +106,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

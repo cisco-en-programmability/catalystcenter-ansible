@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_import_project
 short_description: Resource module for Configuration Template Import Project
 description:
-- Manage operation create of the resource Configuration Template Import Project.
-- Imports the Projects provided in the DTO.
+- This module represents an alias of the module configuration_template_import_project_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,37 +23,38 @@ options:
       fails with 'Template already exists' error.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Configuration Templates ImportsTheProjectsProvidedV1
+- name: Cisco DNA Center documentation for Configuration Templates ImportsTheProjectsProvidedV1
   description: Complete reference of the ImportsTheProjectsProvidedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided_v1,
 
   - Paths used are
     post /dna/intent/api/v1/template-programmer/project/importprojects,
+  - It should be noted that this module is an alias of configuration_template_import_project_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.configuration_template_import_project:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     doVersion: true
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
