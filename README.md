@@ -26,11 +26,11 @@ If your Ansible collection is older please consider updating it first.
 
 ## Installing according to Compatibility Matrix
 
-For example, for Cisco CATALYST Center 2.3.7.6, it is recommended to use Ansible "cisco.catalystcenter" v1.0.0 and Python "catalystcentersdk" v1.0.0.
+For example, for Cisco CATALYST Center 2.3.7.6, it is recommended to use Ansible "cisco.catalystcenter" v2.3.7.6 and Python "catalystcentersdk" v2.3.7.6.
 
-To get the Python CATALYST Center SDK v1.0.0 in a fresh development environment:
+To get the Python CATALYST Center SDK v2.3.7.6 in a fresh development environment:
 ```
-sudo pip install catalystcentersdk==1.0.0
+sudo pip install catalystcentersdk==2.3.7.6
 ```
 
 To get the Ansible collection v1.0.0 in a fresh development environment:
