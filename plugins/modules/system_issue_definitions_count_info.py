@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: systemIssueDefinitions_count_info
-short_description: Information module for Systemissuedefinitions Count
+module: system_issue_definitions_count_info
+short_description: Information module for System Issue Definitions Count Info
 description:
-- Get all Systemissuedefinitions Count.
-- >
-   Get the count of system defined issue definitions based on provided filters. Supported filters are id, name,
-   profileId and definition enable status. For detailed information about the usage of the API, please refer to the
-   Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+- This module represents an alias of the module system_issue_definitions_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -62,24 +58,25 @@ options:
     - IssueEnabled query parameter. The enablement status of the issue definition, either true or false.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Issues GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1
+- name: Cisco DNA Center documentation for Issues GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1
   description: Complete reference of the GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-system-defined-issue-definitions-based-on-provided-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-system-defined-issue-definitions-based-on-provided-filters
 notes:
   - SDK Method used are
     issues.Issues.get_the_count_of_system_defined_issue_definitions_based_on_provided_filters_v1,
 
   - Paths used are
     get /dna/intent/api/v1/systemIssueDefinitions/count,
+  - It should be noted that this module is an alias of system_issue_definitions_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Systemissuedefinitions Count
-  cisco.catalystcenter.systemIssueDefinitions_count_info:
+- name: Get all System Issue Definitions Count Info
+  cisco.catalystcenter.system_issue_definitions_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -99,7 +96,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

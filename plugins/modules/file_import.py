@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: file_import
 short_description: Resource module for File Import
 description:
-- Manage operation create of the resource File Import.
-- Uploads a new file within a specific nameSpace.
+- This module represents an alias of the module file_import_v1
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,18 +20,19 @@ options:
     description: NameSpace path parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for File UploadFileV1
+- name: Cisco DNA Center documentation for File UploadFileV1
   description: Complete reference of the UploadFileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!upload-file-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!upload-file
 notes:
   - SDK Method used are
     file.File.upload_file_v1,
 
   - Paths used are
     post /dna/intent/api/v1/file/{nameSpace},
+  - It should be noted that this module is an alias of file_import_v1
 
 """
 
@@ -50,7 +51,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

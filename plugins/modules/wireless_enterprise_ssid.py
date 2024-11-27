@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid
 short_description: Resource module for Wireless Enterprise Ssid
 description:
-- Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
-- Creates enterprise SSID.
-- Deletes given enterprise SSID.
-- Update enterprise SSID.
+- This module represents an alias of the module wireless_enterprise_ssid_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -134,18 +132,18 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless CreateEnterpriseSSIDV1
+- name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1
   description: Complete reference of the CreateEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid-v-1
-- name: Cisco CATALYST Center documentation for Wireless DeleteEnterpriseSSIDV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
+- name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1
   description: Complete reference of the DeleteEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid-v-1
-- name: Cisco CATALYST Center documentation for Wireless UpdateEnterpriseSSIDV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
+- name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1
   description: Complete reference of the UpdateEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.create_enterprise_ssid_v1,
@@ -156,6 +154,7 @@ notes:
     post /dna/intent/api/v1/enterprise-ssid,
     delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
     put /dna/intent/api/v1/enterprise-ssid,
+  - It should be noted that this module is an alias of wireless_enterprise_ssid_v1
 
 """
 
@@ -271,7 +270,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

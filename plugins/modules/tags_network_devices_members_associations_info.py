@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: tags_networkDevices_membersAssociations_info
-short_description: Information module for Tags Networkdevices Membersassociations
+module: tags_network_devices_members_associations_info
+short_description: Information module for Tags Network Devices Members Associations Info
 description:
-- Get all Tags Networkdevices Membersassociations.
-- >
-   Fetches the tags associated with network devices. Devices that don't have any tags associated will not be included
-   in the response. A tag is a user-defined or system-defined construct to group resources. When a device is tagged,
-   it is called a member of the tag.
+- This module represents an alias of the module tags_network_devices_members_associations_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -31,24 +28,25 @@ options:
     - Limit query parameter. The number of records to show for this page. Minimum 1, maximum 500.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevicesV1
+- name: Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevicesV1
   description: Complete reference of the RetrieveTagsAssociatedWithNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices
 notes:
   - SDK Method used are
     tag.Tag.retrieve_tags_associated_with_network_devices_v1,
 
   - Paths used are
     get /dna/intent/api/v1/tags/networkDevices/membersAssociations,
+  - It should be noted that this module is an alias of tags_network_devices_members_associations_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Tags Networkdevices Membersassociations
-  cisco.catalystcenter.tags_networkDevices_membersAssociations_info:
+- name: Get all Tags Network Devices Members Associations Info
+  cisco.catalystcenter.tags_network_devices_members_associations_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -64,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

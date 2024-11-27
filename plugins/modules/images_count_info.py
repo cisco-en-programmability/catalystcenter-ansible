@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: images_count_info
-short_description: Information module for Images Count
+short_description: Information module for Images Count Info
 description:
-- Get all Images Count.
-- Returns the count of software images for given `siteId`. The default value of siteId is global.
+- This module represents an alias of the module images_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -83,23 +83,24 @@ options:
       set to `false`, it will retrieve the images that are not add-on images.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Software Image Management (SWIM) ReturnsCountOfSoftwareImagesV1
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfSoftwareImagesV1
   description: Complete reference of the ReturnsCountOfSoftwareImagesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-software-images-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-software-images
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_count_of_software_images_v1,
 
   - Paths used are
     get /dna/intent/api/v1/images/count,
+  - It should be noted that this module is an alias of images_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Images Count
+- name: Get all Images Count Info
   cisco.catalystcenter.images_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -124,7 +125,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

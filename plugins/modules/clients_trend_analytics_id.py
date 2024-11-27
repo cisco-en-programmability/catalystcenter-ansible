@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: clients_trendAnalytics_id
-short_description: Resource module for Clients Trendanalytics Id
+module: clients_trend_analytics_id
+short_description: Resource module for Clients Trend Analytics Id
 description:
-- Manage operation create of the resource Clients Trendanalytics Id.
-- >
-   Retrieves the time series information of a specific client by applying complex filters, aggregate functions, and
-   grouping. The data will be grouped based on the specified trend time interval. For detailed information about the
-   usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+- This module represents an alias of the module clients_trend_analytics_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -84,24 +80,25 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Clients RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1
+- name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1
   description: Complete reference of the RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time
 notes:
   - SDK Method used are
     clients.Clients.retrieves_specific_client_information_over_a_specified_period_of_time_v1,
 
   - Paths used are
     post /dna/data/api/v1/clients/{id}/trendAnalytics,
+  - It should be noted that this module is an alias of clients_trend_analytics_id_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.clients_trendAnalytics_id:
+  cisco.catalystcenter.clients_trend_analytics_id:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -133,7 +130,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

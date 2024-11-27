@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: diagnosticValidationWorkflows_info
-short_description: Information module for Diagnosticvalidationworkflows
+module: diagnostic_validation_workflows_info
+short_description: Information module for Diagnostic Validation Workflows Info
 description:
-- Get all Diagnosticvalidationworkflows.
-- Get Diagnosticvalidationworkflows by id.
-- >
-   Retrieves the workflows that have been successfully submitted and are currently available. This is sorted by
-   `submitTime`.
-- Retrieves workflow details for a workflow id.
+- This module represents an alias of the module diagnostic_validation_workflows_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -52,15 +48,15 @@ options:
     - Id path parameter. Workflow id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
+- name: Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
   description: Complete reference of the RetrievesTheListOfValidationWorkflowsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows-v-1
-- name: Cisco CATALYST Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows
+- name: Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
   description: Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.retrieves_the_list_of_validation_workflows_v1,
@@ -69,12 +65,13 @@ notes:
   - Paths used are
     get /dna/intent/api/v1/diagnosticValidationWorkflows,
     get /dna/intent/api/v1/diagnosticValidationWorkflows/{id},
+  - It should be noted that this module is an alias of diagnostic_validation_workflows_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Diagnosticvalidationworkflows
-  cisco.catalystcenter.diagnosticValidationWorkflows_info:
+- name: Get all Diagnostic Validation Workflows Info
+  cisco.catalystcenter.diagnostic_validation_workflows_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -90,8 +87,8 @@ EXAMPLES = r"""
     limit: 0
   register: result
 
-- name: Get Diagnosticvalidationworkflows by id
-  cisco.catalystcenter.diagnosticValidationWorkflows_info:
+- name: Get Diagnostic Validation Workflows Info by id
+  cisco.catalystcenter.diagnostic_validation_workflows_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -106,7 +103,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

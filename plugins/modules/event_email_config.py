@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_email_config
 short_description: Resource module for Event Email Config
 description:
-- Manage operations create and update of the resource Event Email Config.
-- Create Email Destination.
-- Update Email Destination.
+- This module represents an alias of the module event_email_config_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -68,15 +67,15 @@ options:
     description: To Email.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Event Management CreateEmailDestinationV1
+- name: Cisco DNA Center documentation for Event Management CreateEmailDestinationV1
   description: Complete reference of the CreateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination-v-1
-- name: Cisco CATALYST Center documentation for Event Management UpdateEmailDestinationV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
+- name: Cisco DNA Center documentation for Event Management UpdateEmailDestinationV1
   description: Complete reference of the UpdateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.create_email_destination_v1,
@@ -85,6 +84,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/event/email-config,
     put /dna/intent/api/v1/event/email-config,
+  - It should be noted that this module is an alias of event_email_config_v1
 
 """
 
@@ -146,7 +146,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

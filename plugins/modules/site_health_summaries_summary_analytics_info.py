@@ -4,25 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: siteHealthSummaries_summaryAnalytics_info
-short_description: Information module for Sitehealthsummaries Summaryanalytics
+module: site_health_summaries_summary_analytics_info
+short_description: Information module for Site Health Summaries Summary Analytics Info
 description:
-- Get all Sitehealthsummaries Summaryanalytics.
-- >
-   Get an aggregated summary of all site health or use the query params to get an aggregated summary of health for a
-   subset of sites. This API provides the latest health data from a given `endTime` If data is not ready for the
-   provided endTime, the request will fail, and the error message will indicate the recommended endTime to use to
-   retrieve a complete data set. This behavior may occur if the provided endTime=currentTime, since we are not a real
-   time system. When `endTime` is not provided, the API returns the latest data. This API also provides issue data.
-   The `startTime` query param can be used to specify the beginning point of time range to retrieve the active issue
-   counts in. When this param is not provided, the default `startTime` will be 24 hours before endTime. Aggregated
-   response data will NOT have unique identifier data populated. List of unique identifier data `id`,
-   `siteHierarchy`, `siteHierarchyId`, `siteType`, `latitude`, `longitude`. For detailed information about the usage
-   of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   siteHealthSummaries-1.0.3-resolved.yaml.
+- This module represents an alias of the module site_health_summaries_summary_analytics_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -119,24 +107,25 @@ options:
       requested) attribute=siteHierarchy&attribute=clientCount (multiple attributes requested).
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Sites ReadAnAggregatedSummaryOfSiteHealthDataV1
+- name: Cisco DNA Center documentation for Sites ReadAnAggregatedSummaryOfSiteHealthDataV1
   description: Complete reference of the ReadAnAggregatedSummaryOfSiteHealthDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-an-aggregated-summary-of-site-health-data-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!read-an-aggregated-summary-of-site-health-data
 notes:
   - SDK Method used are
     sites.Sites.read_an_aggregated_summary_of_site_health_data_v1,
 
   - Paths used are
     get /dna/data/api/v1/siteHealthSummaries/summaryAnalytics,
+  - It should be noted that this module is an alias of site_health_summaries_summary_analytics_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sitehealthsummaries Summaryanalytics
-  cisco.catalystcenter.siteHealthSummaries_summaryAnalytics_info:
+- name: Get all Site Health Summaries Summary Analytics Info
+  cisco.catalystcenter.site_health_summaries_summary_analytics_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -158,7 +147,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

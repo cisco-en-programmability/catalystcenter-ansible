@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: assuranceIssues_count_info
-short_description: Information module for Assuranceissues Count
+module: assurance_issues_count_info
+short_description: Information module for Assurance Issues Count Info
 description:
-- Get all Assuranceissues Count.
-- >
-   Returns the total number issues for given set of filters. If there is no start and/or end time, then end time will
-   be defaulted to current time and start time will be defaulted to 24-hours ago from end time. Https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   IssuesList-1.0.0-resolved.yaml.
+- This module represents an alias of the module assurance_issues_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -216,24 +212,25 @@ options:
     - FabricTransitDriven query parameter. Flag whether the issue is Fabric Transit driven issue.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
+- name: Cisco DNA Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
   description: Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network
 notes:
   - SDK Method used are
     issues.Issues.get_the_total_number_of_issues_for_given_set_of_filters_know_your_network_v1,
 
   - Paths used are
     get /dna/data/api/v1/assuranceIssues/count,
+  - It should be noted that this module is an alias of assurance_issues_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Assuranceissues Count
-  cisco.catalystcenter.assuranceIssues_count_info:
+- name: Get all Assurance Issues Count Info
+  cisco.catalystcenter.assurance_issues_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -275,7 +272,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

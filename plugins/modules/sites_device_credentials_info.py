@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sites_deviceCredentials_info
-short_description: Information module for Sites Devicecredentials
+module: sites_device_credentials_info
+short_description: Information module for Sites Device Credentials Info
 description:
-- Get all Sites Devicecredentials.
-- >
-   Gets device credential settings for a site; `null` values indicate that the setting will be inherited from the
-   parent site; empty objects `{}` indicate that the credential is unset, and that no credential of that type will be
-   used for the site.
+- This module represents an alias of the module sites_device_credentials_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -34,24 +31,25 @@ options:
       the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Network Settings GetDeviceCredentialSettingsForASiteV1
+- name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialSettingsForASiteV1
   description: Complete reference of the GetDeviceCredentialSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_device_credential_settings_for_a_site_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sites/{id}/deviceCredentials,
+  - It should be noted that this module is an alias of sites_device_credentials_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sites Devicecredentials
-  cisco.catalystcenter.sites_deviceCredentials_info:
+- name: Get all Sites Device Credentials Info
+  cisco.catalystcenter.sites_device_credentials_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -67,7 +65,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

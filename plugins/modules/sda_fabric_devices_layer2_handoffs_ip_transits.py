@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_fabricDevices_layer2Handoffs_ipTransits
-short_description: Resource module for Sda Fabricdevices Layer2handoffs Iptransits
+module: sda_fabric_devices_layer2_handoffs_ip_transits
+short_description: Resource module for Sda Fabric Devices Layer2 Handoffs Ip Transits
 description:
-- Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Iptransits.
-- Adds layer 3 handoffs with ip transit in fabric devices based on user input.
-- Deletes a layer 3 handoff with ip transit of a fabric device by id.
-- Deletes layer 3 handoffs with ip transit of a fabric device based on user input.
-- Updates layer 3 handoffs with ip transit of fabric devices based on user input.
+- This module represents an alias of the module sda_fabric_devices_layer2_handoffs_ip_transits_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -88,21 +85,21 @@ options:
         type: int
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransitV1
+- name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransitV1
   description: Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit
+- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1
   description: Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransitV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id
+- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransitV1
   description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransitV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit
+- name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransitV1
   description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit_v1,
@@ -114,12 +111,13 @@ notes:
     delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
     delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/{id},
     put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
+  - It should be noted that this module is an alias of sda_fabric_devices_layer2_handoffs_ip_transits_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_ip_transits:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -143,7 +141,7 @@ EXAMPLES = r"""
       vlanId: 0
 
 - name: Update all
-  cisco.catalystcenter.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_ip_transits:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -168,7 +166,7 @@ EXAMPLES = r"""
       vlanId: 0
 
 - name: Delete all
-  cisco.catalystcenter.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_ip_transits:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -181,7 +179,7 @@ EXAMPLES = r"""
     networkDeviceId: string
 
 - name: Delete by id
-  cisco.catalystcenter.sda_fabricDevices_layer2Handoffs_ipTransits:
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_ip_transits:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -195,7 +193,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

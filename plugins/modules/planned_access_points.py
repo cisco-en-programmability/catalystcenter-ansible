@@ -4,25 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: planned_access_points
 short_description: Resource module for Planned Access Points
 description:
-- Manage operations create, update and delete of the resource Planned Access Points.
-- >
-   Allows creation of a new planned access point on an existing floor map including its planned radio and antenna
-   details. Use the Get variant of this API to fetch any existing planned access points for the floor. The payload to
-   create a planned access point is in the same format, albeit a single object instead of a list, of that API.
-- >
-   Allow to delete a planned access point from an existing floor map including its planned radio and antenna details.
-   Use the Get variant of this API to fetch the existing planned access points for the floor. The instanceUUID listed
-   in each of the planned access point attributes acts as the path param input to this API to delete that specific
-   instance.
-- >
-   Allows updating a planned access point on an existing floor map including its planned radio and antenna details.
-   Use the Get variant of this API to fetch the existing planned access points for the floor. The payload to update a
-   planned access point is in the same format, albeit a single object instead of a list, of that API.
+- This module represents an alias of the module planned_access_points_v1
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -163,18 +151,18 @@ options:
         type: bool
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices CreatePlannedAccessPointForFloorV1
+- name: Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloorV1
   description: Complete reference of the CreatePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor-v-1
-- name: Cisco CATALYST Center documentation for Devices DeletePlannedAccessPointForFloorV1
+  link: https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor
+- name: Cisco DNA Center documentation for Devices DeletePlannedAccessPointForFloorV1
   description: Complete reference of the DeletePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor-v-1
-- name: Cisco CATALYST Center documentation for Devices UpdatePlannedAccessPointForFloorV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor
+- name: Cisco DNA Center documentation for Devices UpdatePlannedAccessPointForFloorV1
   description: Complete reference of the UpdatePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor
 notes:
   - SDK Method used are
     devices.Devices.create_planned_access_point_for_floor_v1,
@@ -185,6 +173,7 @@ notes:
     post /dna/intent/api/v1/floors/{floorId}/planned-access-points,
     delete /dna/intent/api/v1/floors/{floorId}/planned-access-points/{plannedAccessPointUuid},
     put /dna/intent/api/v1/floors/{floorId}/planned-access-points,
+  - It should be noted that this module is an alias of planned_access_points_v1
 
 """
 
@@ -307,7 +296,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

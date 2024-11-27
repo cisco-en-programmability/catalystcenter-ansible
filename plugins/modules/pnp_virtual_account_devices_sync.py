@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_devices_sync
 short_description: Resource module for Pnp Virtual Account Devices Sync
 description:
-- Manage operation create of the resource Pnp Virtual Account Devices Sync.
-- >
-   Synchronizes the device info from the given smart account & virtual account with the PnP database. The response
-   payload returns a list of synced devices Deprecated .
+- This module represents an alias of the module pnp_virtual_account_devices_sync_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -99,31 +97,32 @@ options:
     description: Pnp Virtual Account Devices Sync's virtualAccountId.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
   description: Complete reference of the SyncVirtualAccountDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
+  - It should be noted that this module is an alias of pnp_virtual_account_devices_sync_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.pnp_virtual_account_devices_sync:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     autoSyncPeriod: 0
     ccoUser: string
     expiry: 0
@@ -153,8 +152,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -24,12 +24,12 @@ options:
     - VirtualNetworkName query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
+- name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.get_virtual_network_with_scalable_groups_v1,
@@ -56,7 +56,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

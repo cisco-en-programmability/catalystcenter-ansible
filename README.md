@@ -14,7 +14,7 @@ The following table shows the supported versions.
 
 | Cisco CATALYST Center version | Ansible "cisco.catalystcenter" version | Python "catalystcentersdk" version |
 |-------------------------------|----------------------------------------|------------------------------------|
-| 2.3.7.6                       | 1.0.0                                  |  1.0.0                             |
+| 2.3.7.6                       | 1.0.0                                  |  ^2.3.7.6.2                        |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -204,4 +204,4 @@ Please read and familiarize yourself with this document.
 
 This collection follows [Semantic Versioning](https://semver.org/). More details on versioning can be found [in the Ansible docs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections.html#collection-versions).
 
-New minor and major releases as well as deprecations will follow new releases and deprecations of the Cisco CATALYST Center product, its REST API and the corresponding Python SDK, which this project relies on. 
+New minor and major releases as well as deprecations will follow new releases and deprecations of the Cisco CATALYST Center product, its REST API and the corresponding Python SDK, which this project relies on.

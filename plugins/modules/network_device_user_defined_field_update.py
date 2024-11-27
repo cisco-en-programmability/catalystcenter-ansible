@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_user_defined_field_update
 short_description: Resource module for Network Device User Defined Field Update
 description:
-- Manage operation update of the resource Network Device User Defined Field Update.
-- >
-   Assigns an existing Global User-Defined-Field to a device. If the UDF is already assigned to the specific device,
-   then it updates the device UDF value accordingly. Please note that the assigning UDF 'name' must be an existing
-   global UDF. Otherwise error shall be shown.
+- This module represents an alias of the module network_device_user_defined_field_update_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -34,31 +31,32 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices AddUserDefinedFieldToDeviceV1
+- name: Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1
   description: Complete reference of the AddUserDefinedFieldToDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device
 notes:
   - SDK Method used are
     devices.Devices.add_user_defined_field_to_device_v1,
 
   - Paths used are
     put /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
+  - It should be noted that this module is an alias of network_device_user_defined_field_update_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.network_device_user_defined_field_update:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     deviceId: string
     payload:
     - name: string
@@ -66,8 +64,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

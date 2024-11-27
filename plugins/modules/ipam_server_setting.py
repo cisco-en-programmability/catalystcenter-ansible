@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: ipam_serverSetting
-short_description: Resource module for Ipam Serversetting
+module: ipam_server_setting
+short_description: Resource module for Ipam Server Setting
 description:
-- Manage operations create, update and delete of the resource Ipam Serversetting.
-- >
-   Creates configuration details of the external IPAM server. You should only create one external IPAM server; delete
-   any existing external server before creating a new one.
-- Deletes configuration details of the external IPAM server.
-- Updates configuration details of the external IPAM server.
+- This module represents an alias of the module ipam_server_setting_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -43,18 +39,18 @@ options:
     description: The view under which pools are created in the external IPAM server.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
+- name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
   description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server-v-1
-- name: Cisco CATALYST Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
+  link: https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
+- name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
   description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server-v-1
-- name: Cisco CATALYST Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
+- name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
   description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
     system_settings.SystemSettings.creates_configuration_details_of_the_external_ip_a_m_server_v1,
@@ -65,19 +61,20 @@ notes:
     post /dna/intent/api/v1/ipam/serverSetting,
     delete /dna/intent/api/v1/ipam/serverSetting,
     put /dna/intent/api/v1/ipam/serverSetting,
+  - It should be noted that this module is an alias of ipam_server_setting_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.ipam_serverSetting:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.ipam_server_setting:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     password: string
     provider: string
@@ -88,25 +85,25 @@ EXAMPLES = r"""
     view: string
 
 - name: Delete all
-  cisco.catalystcenter.ipam_serverSetting:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.ipam_server_setting:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
 
 - name: Update all
-  cisco.catalystcenter.ipam_serverSetting:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.ipam_server_setting:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     password: string
     serverName: string
@@ -117,8 +114,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

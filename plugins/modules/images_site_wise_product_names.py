@@ -4,20 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: images_siteWiseProductNames
-short_description: Resource module for Images Sitewiseproductnames
+module: images_site_wise_product_names
+short_description: Resource module for Images Site Wise Product Names
 description:
-- Manage operations create, update and delete of the resource Images Sitewiseproductnames.
-- >
-   Assign network device product name and sites for the given image identifier. Refer `/dna/intent/api/v1/images` API
-   for obtaining imageId.
-- This API unassigns the network device product name from all the sites for the given software image.
-- >
-   Update the list of sites for the network device product name assigned to the software image. Refer to
-   `/dna/intent/api/v1/images` and `/dna/intent/api/v1/images/{imageId}/siteWiseProductNames` GET APIs for obtaining
-   `imageId` and `productNameOrdinal` respectively.
+- This module represents an alias of the module images_site_wise_product_names_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -35,18 +28,18 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1
   description: Complete reference of the AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image-v-1
-- name: Cisco CATALYST Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1
   description: Complete reference of the UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image-v-1
-- name: Cisco CATALYST Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1
+  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1
   description: Complete reference of the UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.assign_network_device_product_name_to_the_given_software_image_v1,
@@ -57,12 +50,13 @@ notes:
     post /dna/intent/api/v1/images/{imageId}/siteWiseProductNames,
     delete /dna/intent/api/v1/images/{imageId}/siteWiseProductNames/{productNameOrdinal},
     put /dna/intent/api/v1/images/{imageId}/siteWiseProductNames/{productNameOrdinal},
+  - It should be noted that this module is an alias of images_site_wise_product_names_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.images_siteWiseProductNames:
+  cisco.catalystcenter.images_site_wise_product_names:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -77,7 +71,7 @@ EXAMPLES = r"""
     - string
 
 - name: Delete by name
-  cisco.catalystcenter.images_siteWiseProductNames:
+  cisco.catalystcenter.images_site_wise_product_names:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -90,7 +84,7 @@ EXAMPLES = r"""
     productNameOrdinal: 0
 
 - name: Update by name
-  cisco.catalystcenter.images_siteWiseProductNames:
+  cisco.catalystcenter.images_site_wise_product_names:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -107,7 +101,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

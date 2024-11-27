@@ -4,23 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: assuranceEvents_info
-short_description: Information module for Assuranceevents
+module: assurance_events_info
+short_description: Information module for Assurance Events Info
 description:
-- Get all Assuranceevents.
-- Get Assuranceevents by id.
-- >
-   API to fetch the details of an assurance event using event `id`. For detailed information about the usage of the
-   API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-   center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceEvents-1.0.0-resolved.yaml.
-- >
-   Returns the list of events discovered by Catalyst Center, determined by the complex filters. Please refer to the
-   'API Support Documentation' section to understand which fields are supported. For detailed information about the
-   usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceEvents-1.0.0-resolved.yaml.
+- This module represents an alias of the module assurance_events_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -153,15 +143,15 @@ options:
     - Id path parameter. Unique identifier for the event.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetDetailsOfASingleAssuranceEventV1
+- name: Cisco DNA Center documentation for Devices GetDetailsOfASingleAssuranceEventV1
   description: Complete reference of the GetDetailsOfASingleAssuranceEventV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event-v-1
-- name: Cisco CATALYST Center documentation for Devices QueryAssuranceEventsV1
+  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event
+- name: Cisco DNA Center documentation for Devices QueryAssuranceEventsV1
   description: Complete reference of the QueryAssuranceEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events
 notes:
   - SDK Method used are
     devices.Devices.get_details_of_a_single_assurance_event_v1,
@@ -170,19 +160,20 @@ notes:
   - Paths used are
     get /dna/data/api/v1/assuranceEvents,
     get /dna/data/api/v1/assuranceEvents/{id},
+  - It should be noted that this module is an alias of assurance_events_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Assuranceevents
-  cisco.catalystcenter.assuranceEvents_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Assurance Events Info
+  cisco.catalystcenter.assurance_events_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     deviceFamily: string
     startTime: 0
@@ -203,15 +194,15 @@ EXAMPLES = r"""
     order: string
   register: result
 
-- name: Get Assuranceevents by id
-  cisco.catalystcenter.assuranceEvents_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get Assurance Events Info by id
+  cisco.catalystcenter.assurance_events_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     attribute: string
     view: string
@@ -220,8 +211,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

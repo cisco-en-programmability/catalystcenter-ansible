@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessControllers_wirelessMobilityGroups_mobilityReset
-short_description: Resource module for Wirelesscontrollers Wirelessmobilitygroups Mobilityreset
+module: wireless_controllers_wireless_mobility_groups_mobility_reset
+short_description: Resource module for Wireless Controllers Wireless Mobility Groups Mobility Reset
 description:
-- Manage operation create of the resource Wirelesscontrollers Wirelessmobilitygroups Mobilityreset.
-- This API is used to reset wireless mobility which in turn sets mobility group name as 'default'.
+- This module represents an alias of the module wireless_controllers_wireless_mobility_groups_mobility_reset_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -21,24 +21,25 @@ options:
       ID value by using the API call GET - /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless MobilityResetV1
+- name: Cisco DNA Center documentation for Wireless MobilityResetV1
   description: Complete reference of the MobilityResetV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!mobility-reset-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!mobility-reset
 notes:
   - SDK Method used are
     wireless.Wireless.mobility_reset_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups/mobilityReset,
+  - It should be noted that this module is an alias of wireless_controllers_wireless_mobility_groups_mobility_reset_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.wirelessControllers_wirelessMobilityGroups_mobilityReset:
+  cisco.catalystcenter.wireless_controllers_wireless_mobility_groups_mobility_reset:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -51,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

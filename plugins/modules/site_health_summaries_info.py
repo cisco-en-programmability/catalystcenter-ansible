@@ -4,35 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: siteHealthSummaries_info
-short_description: Information module for Sitehealthsummaries
+module: site_health_summaries_info
+short_description: Information module for Site Health Summaries Info
 description:
-- Get all Sitehealthsummaries.
-- Get Sitehealthsummaries by id.
-- >
-   Get a health summary for a specific site by providing the unique site id in the url path. This API provides the
-   latest health data from a given `endTime` If data is not ready for the provided endTime, the request will fail,
-   and the error message will indicate the recommended endTime to use to retrieve a complete data set. This behavior
-   may occur if the provided endTime=currentTime, since we are not a real time system. When `endTime` is not
-   provided, the API returns the latest data. This API also provides issue data. The `startTime` query param can be
-   used to specify the beginning point of time range to retrieve the active issue counts in. When this param is not
-   provided, the default `startTime` will be 24 hours before endTime. For detailed information about the usage of the
-   API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-   center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-siteHealthSummaries-1.0.3-resolved.yaml.
-- >
-   Get a paginated list of site health summaries. Use the available query parameters to identify a subset of sites
-   you want health summaries for. This API provides the latest health data from a given `endTime` If data is not
-   ready for the provided endTime, the request will fail, and the error message will indicate the recommended endTime
-   to use to retrieve a complete data set. This behavior may occur if the provided endTime=currentTime, since we are
-   not a real time system. When `endTime` is not provided, the API returns the latest data. This API also provides
-   issue data. The `startTime` query param can be used to specify the beginning point of time range to retrieve the
-   active issue counts in. When this param is not provided, the default `startTime` will be 24 hours before endTime.
-   Valid values for `sortBy` param in this API are limited to the attributes provided in the `site` view. Default
-   sortBy is 'siteHierarchy' in order 'asc' ascending. For detailed information about the usage of the API, please
-   refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-siteHealthSummaries-1.0.3-resolved.yaml.
+- This module represents an alias of the module site_health_summaries_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -147,15 +125,15 @@ options:
       requested) attribute=siteHierarchy&attribute=clientCount (multiple attributes requested).
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Sites ReadListOfSiteHealthSummariesV1
+- name: Cisco DNA Center documentation for Sites ReadListOfSiteHealthSummariesV1
   description: Complete reference of the ReadListOfSiteHealthSummariesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-list-of-site-health-summaries-v-1
-- name: Cisco CATALYST Center documentation for Sites ReadSiteHealthSummaryDataBySiteIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!read-list-of-site-health-summaries
+- name: Cisco DNA Center documentation for Sites ReadSiteHealthSummaryDataBySiteIdV1
   description: Complete reference of the ReadSiteHealthSummaryDataBySiteIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-site-health-summary-data-by-site-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!read-site-health-summary-data-by-site-id
 notes:
   - SDK Method used are
     sites.Sites.read_list_of_site_health_summaries_v1,
@@ -164,12 +142,13 @@ notes:
   - Paths used are
     get /dna/data/api/v1/siteHealthSummaries,
     get /dna/data/api/v1/siteHealthSummaries/{id},
+  - It should be noted that this module is an alias of site_health_summaries_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sitehealthsummaries
-  cisco.catalystcenter.siteHealthSummaries_info:
+- name: Get all Site Health Summaries Info
+  cisco.catalystcenter.site_health_summaries_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -192,8 +171,8 @@ EXAMPLES = r"""
     attribute: string
   register: result
 
-- name: Get Sitehealthsummaries by id
-  cisco.catalystcenter.siteHealthSummaries_info:
+- name: Get Site Health Summaries Info by id
+  cisco.catalystcenter.site_health_summaries_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -212,7 +191,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

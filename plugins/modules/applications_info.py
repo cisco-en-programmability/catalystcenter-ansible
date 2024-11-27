@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: applications_info
-short_description: Information module for Applications
+short_description: Information module for Applications Info
 description:
-- Get all Applications.
-- Get applications by offset/limit or by name.
+- This module represents an alias of the module applications_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -32,23 +32,24 @@ options:
     - Name query parameter. Application's name.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Application Policy GetApplicationsV1
+- name: Cisco DNA Center documentation for Application Policy GetApplicationsV1
   description: Complete reference of the GetApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_applications_v1,
 
   - Paths used are
     get /dna/intent/api/v1/applications,
+  - It should be noted that this module is an alias of applications_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Applications
+- name: Get all Applications Info
   cisco.catalystcenter.applications_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -66,7 +67,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

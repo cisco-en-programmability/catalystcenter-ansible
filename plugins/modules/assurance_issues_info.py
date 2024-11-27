@@ -4,23 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: assuranceIssues_info
-short_description: Information module for Assuranceissues
+module: assurance_issues_info
+short_description: Information module for Assurance Issues Info
 description:
-- Get all Assuranceissues.
-- Get Assuranceissues by id.
-- >
-   Returns all details of each issue along with suggested actions for given set of filters specified in query
-   parameters. If there is no start and/or end time, then end time will be defaulted to current time and start time
-   will be defaulted to 24-hours ago from end time. All string type query parameters support wildcard search using *.
-   For example siteHierarchy=Global/San Jose/* returns issues under all sites whole siteHierarchy starts with
-   "Global/San Jose/". Https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
-- >
-   Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
+- This module represents an alias of the module assurance_issues_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -263,15 +253,15 @@ options:
     - Id path parameter. The issue Uuid.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Issues GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1
+- name: Cisco DNA Center documentation for Issues GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1
   description: Complete reference of the GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-details-and-suggested-actions-of-an-issue-for-the-given-issue-id-v-1
-- name: Cisco CATALYST Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-details-and-suggested-actions-of-an-issue-for-the-given-issue-id
+- name: Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
   description: Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters-know-your-network
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id_v1,
@@ -280,19 +270,20 @@ notes:
   - Paths used are
     get /dna/data/api/v1/assuranceIssues,
     get /dna/data/api/v1/assuranceIssues/{id},
+  - It should be noted that this module is an alias of assurance_issues_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Assuranceissues
-  cisco.catalystcenter.assuranceIssues_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Assurance Issues Info
+  cisco.catalystcenter.assurance_issues_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -330,15 +321,15 @@ EXAMPLES = r"""
     fabricTransitDriven: True
   register: result
 
-- name: Get Assuranceissues by id
-  cisco.catalystcenter.assuranceIssues_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get Assurance Issues Info by id
+  cisco.catalystcenter.assurance_issues_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     view: string
     attribute: string
@@ -347,8 +338,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

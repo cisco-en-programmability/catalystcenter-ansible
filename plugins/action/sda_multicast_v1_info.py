@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(catalystcenter_response={}))
+        self._result.update(dict(catalyst_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -88,6 +88,6 @@ class ActionModule(ActionBase):
             function='get_multicast_v1',
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalyst_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

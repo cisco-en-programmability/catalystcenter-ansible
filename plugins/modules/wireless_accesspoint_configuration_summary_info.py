@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_accesspoint_configuration_summary_info
-short_description: Information module for Wireless Accesspoint Configuration Summary
+short_description: Information module for Wireless Accesspoint Configuration Summary Info
 description:
-- Get all Wireless Accesspoint Configuration Summary.
-- Users can query the access point configuration information per device using the ethernet MAC address.
+- This module represents an alias of the module wireless_accesspoint_configuration_summary_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,23 +24,24 @@ options:
     - Key query parameter. The ethernet MAC address of Access point.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless GetAccessPointConfigurationV1
+- name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationV1
   description: Complete reference of the GetAccessPointConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration
 notes:
   - SDK Method used are
     wireless.Wireless.get_access_point_configuration_v1,
 
   - Paths used are
     get /dna/intent/api/v1/wireless/accesspoint-configuration/summary,
+  - It should be noted that this module is an alias of wireless_accesspoint_configuration_summary_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Accesspoint Configuration Summary
+- name: Get all Wireless Accesspoint Configuration Summary Info
   cisco.catalystcenter.wireless_accesspoint_configuration_summary_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -56,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

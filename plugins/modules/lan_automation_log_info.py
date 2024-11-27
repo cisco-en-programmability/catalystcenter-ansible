@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: lan_automation_log_info
-short_description: Information module for Lan Automation Log
+short_description: Information module for Lan Automation Log Info
 description:
-- Get all Lan Automation Log.
-- Get Lan Automation Log by id.
-- Invoke this API to get the LAN Automation session logs based on the given LAN Automation session id.
-- Invoke this API to get the LAN Automation session logs.
+- This module represents an alias of the module lan_automation_log_v1_info
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -34,15 +32,15 @@ options:
     - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for LAN Automation LANAutomationLogByIdV1
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationLogByIdV1
   description: Complete reference of the LANAutomationLogByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id-v-1
-- name: Cisco CATALYST Center documentation for LAN Automation LANAutomationLogV1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationLogV1
   description: Complete reference of the LANAutomationLogV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_log_by_id_v1,
@@ -51,11 +49,12 @@ notes:
   - Paths used are
     get /dna/intent/api/v1/lan-automation/log,
     get /dna/intent/api/v1/lan-automation/log/{id},
+  - It should be noted that this module is an alias of lan_automation_log_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Lan Automation Log
+- name: Get all Lan Automation Log Info
   cisco.catalystcenter.lan_automation_log_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -69,7 +68,7 @@ EXAMPLES = r"""
     limit: 0
   register: result
 
-- name: Get Lan Automation Log by id
+- name: Get Lan Automation Log Info by id
   cisco.catalystcenter.lan_automation_log_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -85,7 +84,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

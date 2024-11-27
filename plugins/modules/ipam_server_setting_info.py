@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: ipam_serverSetting_info
-short_description: Information module for Ipam Serversetting
+module: ipam_server_setting_info
+short_description: Information module for Ipam Server Setting Info
 description:
-- Get all Ipam Serversetting.
-- >
-   Retrieves configuration details of the external IPAM server. If an external IPAM server has not been created, this
-   resource will return a `404` response.
+- This module represents an alias of the module ipam_server_setting_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,24 +20,25 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
+- name: Cisco DNA Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
   description: Complete reference of the RetrievesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
     system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server_v1,
 
   - Paths used are
     get /dna/intent/api/v1/ipam/serverSetting,
+  - It should be noted that this module is an alias of ipam_server_setting_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Ipam Serversetting
-  cisco.catalystcenter.ipam_serverSetting_info:
+- name: Get all Ipam Server Setting Info
+  cisco.catalystcenter.ipam_server_setting_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -53,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

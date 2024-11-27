@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: qos_device_interface_info
-short_description: Information module for Qos Device Interface
+short_description: Information module for Qos Device Interface Info
 description:
-- Get all Qos Device Interface.
-- Get all or by network device id, existing qos device interface infos.
+- This module represents an alias of the module qos_device_interface_v1_info
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,39 +24,40 @@ options:
     - NetworkDeviceId query parameter. Network device id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Application Policy GetQosDeviceInterfaceInfoV1
+- name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoV1
   description: Complete reference of the GetQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_qos_device_interface_info_v1,
 
   - Paths used are
     get /dna/intent/api/v1/qos-device-interface-info,
+  - It should be noted that this module is an alias of qos_device_interface_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Qos Device Interface
+- name: Get all Qos Device Interface Info
   cisco.catalystcenter.qos_device_interface_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
   register: result
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

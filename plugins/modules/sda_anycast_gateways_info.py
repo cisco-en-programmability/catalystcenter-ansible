@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_anycastGateways_info
-short_description: Information module for Sda Anycastgateways
+module: sda_anycast_gateways_info
+short_description: Information module for Sda Anycast Gateways Info
 description:
-- Get all Sda Anycastgateways.
-- Returns a list of anycast gateways that match the provided query parameters.
+- This module represents an alias of the module sda_anycast_gateways_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -54,24 +54,25 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA GetAnycastGatewaysV1
+- name: Cisco DNA Center documentation for SDA GetAnycastGatewaysV1
   description: Complete reference of the GetAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways
 notes:
   - SDK Method used are
     sda.Sda.get_anycast_gateways_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/anycastGateways,
+  - It should be noted that this module is an alias of sda_anycast_gateways_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Anycastgateways
-  cisco.catalystcenter.sda_anycastGateways_info:
+- name: Get all Sda Anycast Gateways Info
+  cisco.catalystcenter.sda_anycast_gateways_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -93,7 +94,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -23,7 +23,6 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -130,9 +129,9 @@ class SdaVirtualNetworkV2(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not catalystcenter_compare_equality(current_obj.get(catalystcenter_param),
+        return any(not catalystcenter_compare_equality(current_obj.get(catalyst_param),
                                              requested_obj.get(ansible_param))
-                   for (catalystcenter_param, ansible_param) in obj_params)
+                   for (catalyst_param, ansible_param) in obj_params)
 
     def create(self):
         result = self.catalystcenter.exec(
@@ -239,6 +238,6 @@ class ActionModule(ActionBase):
             except AnsibleSDAException as e:
                 catalystcenter.fail_json("Could not get object to be delete {e}".format(e=e._response))
 
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalyst_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

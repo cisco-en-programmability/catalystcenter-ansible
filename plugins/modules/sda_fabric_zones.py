@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_fabricZones
-short_description: Resource module for Sda Fabriczones
+module: sda_fabric_zones
+short_description: Resource module for Sda Fabric Zones
 description:
-- Manage operations create, update and delete of the resource Sda Fabriczones.
-- Adds a fabric zone based on user input.
-- Deletes a fabric zone based on id.
-- Updates a fabric zone based on user input.
+- This module represents an alias of the module sda_fabric_zones_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -36,18 +34,18 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddFabricZoneV1
+- name: Cisco DNA Center documentation for SDA AddFabricZoneV1
   description: Complete reference of the AddFabricZoneV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteFabricZoneByIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone
+- name: Cisco DNA Center documentation for SDA DeleteFabricZoneByIdV1
   description: Complete reference of the DeleteFabricZoneByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdateFabricZoneV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id
+- name: Cisco DNA Center documentation for SDA UpdateFabricZoneV1
   description: Complete reference of the UpdateFabricZoneV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_zone_v1,
@@ -58,19 +56,20 @@ notes:
     post /dna/intent/api/v1/sda/fabricZones,
     delete /dna/intent/api/v1/sda/fabricZones/{id},
     put /dna/intent/api/v1/sda/fabricZones,
+  - It should be noted that this module is an alias of sda_fabric_zones_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.catalystcenter.sda_fabricZones:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_fabric_zones:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - authenticationProfileName: string
@@ -78,35 +77,35 @@ EXAMPLES = r"""
       siteId: string
 
 - name: Create
-  cisco.catalystcenter.sda_fabricZones:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_fabric_zones:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - authenticationProfileName: string
       siteId: string
 
 - name: Delete by id
-  cisco.catalystcenter.sda_fabricZones:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_fabric_zones:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

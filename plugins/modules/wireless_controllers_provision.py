@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessControllers_provision
-short_description: Resource module for Wirelesscontrollers Provision
+module: wireless_controllers_provision
+short_description: Resource module for Wireless Controllers Provision
 description:
-- Manage operation create of the resource Wirelesscontrollers Provision.
-- This API is used to provision wireless controller.
+- This module represents an alias of the module wireless_controllers_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -57,24 +57,25 @@ options:
     description: True if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless WirelessControllerProvisionV1
+- name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
   description: Complete reference of the WirelessControllerProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
 notes:
   - SDK Method used are
     wireless.Wireless.wireless_controller_provision_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wirelessControllers/{deviceId}/provision,
+  - It should be noted that this module is an alias of wireless_controllers_provision_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.wirelessControllers_provision:
+  cisco.catalystcenter.wireless_controllers_provision:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -98,7 +99,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

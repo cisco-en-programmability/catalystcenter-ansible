@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: user
 short_description: Resource module for User
 description:
-- Manage operations create, update and delete of the resource User.
-- Add a new user for Cisco CATALYST Center System.
-- Delete a user from Cisco CATALYST Center System.
-- Update a user for Cisco CATALYST Center System.
+- This module represents an alias of the module user_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -41,18 +39,18 @@ options:
     description: Username.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for User and Roles AddUserAPIV1
+- name: Cisco DNA Center documentation for User and Roles AddUserAPIV1
   description: Complete reference of the AddUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-api-v-1
-- name: Cisco CATALYST Center documentation for User and Roles DeleteUserAPIV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-user-api
+- name: Cisco DNA Center documentation for User and Roles DeleteUserAPIV1
   description: Complete reference of the DeleteUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api-v-1
-- name: Cisco CATALYST Center documentation for User and Roles UpdateUserAPIV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
+- name: Cisco DNA Center documentation for User and Roles UpdateUserAPIV1
   description: Complete reference of the UpdateUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-user-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.add_user_api_v1,
@@ -63,19 +61,20 @@ notes:
     post /dna/system/api/v1/user,
     delete /dna/system/api/v1/user/{userId},
     put /dna/system/api/v1/user,
+  - It should be noted that this module is an alias of user_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.user:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     email: string
     firstName: string
@@ -87,13 +86,13 @@ EXAMPLES = r"""
 
 - name: Update all
   cisco.catalystcenter.user:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     email: string
     firstName: string
@@ -105,20 +104,20 @@ EXAMPLES = r"""
 
 - name: Delete by id
   cisco.catalystcenter.user:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     userId: string
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

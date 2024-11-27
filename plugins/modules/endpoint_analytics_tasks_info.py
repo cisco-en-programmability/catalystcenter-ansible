@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: endpoint-analytics_tasks_info
-short_description: Information module for Endpoint-Analytics Tasks
+module: endpoint_analytics_tasks_info
+short_description: Information module for Endpoint Analytics Tasks Info
 description:
-- Get Endpoint-Analytics Tasks by id.
-- >
-   Fetches the details of backend task. Task is typically created by making call to some other API that takes longer
-   time to execute.
+- This module represents an alias of the module endpoint_analytics_tasks_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,24 +24,25 @@ options:
     - TaskId path parameter. Unique identifier for the task.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for AI Endpoint Analytics GetTaskDetailsV1
+- name: Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetailsV1
   description: Complete reference of the GetTaskDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-details
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/tasks/{taskId},
+  - It should be noted that this module is an alias of endpoint_analytics_tasks_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Endpoint-Analytics Tasks by id
-  cisco.catalystcenter.endpoint-analytics_tasks_info:
+- name: Get Endpoint Analytics Tasks Info by id
+  cisco.catalystcenter.endpoint_analytics_tasks_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -58,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

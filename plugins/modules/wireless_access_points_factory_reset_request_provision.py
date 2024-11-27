@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessAccessPoints_factoryResetRequest_provision
-short_description: Resource module for Wirelessaccesspoints Factoryresetrequest Provision
+module: wireless_access_points_factory_reset_request_provision
+short_description: Resource module for Wireless Access Points Factory Reset Request Provision
 description:
-- Manage operation create of the resource Wirelessaccesspoints Factoryresetrequest Provision.
-- >
-   This API is used to factory reset Access Points. It is supported for maximum 100 Access Points per request.
-   Factory reset clears all configurations from the Access Points. After factory reset the Access Point may become
-   unreachable from the currently associated Wireless Controller and may or may not join back the same controller.
+- This module represents an alias of the module wireless_access_points_factory_reset_request_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -30,24 +27,25 @@ options:
       configurations from Access Points without clearing static IP configuration.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless FactoryResetAccessPointsV1
+- name: Cisco DNA Center documentation for Wireless FactoryResetAccessPointsV1
   description: Complete reference of the FactoryResetAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!factory-reset-access-points-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!factory-reset-access-points
 notes:
   - SDK Method used are
     wireless.Wireless.factory_reset_access_points_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wirelessAccessPoints/factoryResetRequest/provision,
+  - It should be noted that this module is an alias of wireless_access_points_factory_reset_request_provision_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.wirelessAccessPoints_factoryResetRequest_provision:
+  cisco.catalystcenter.wireless_access_points_factory_reset_request_provision:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -62,7 +60,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

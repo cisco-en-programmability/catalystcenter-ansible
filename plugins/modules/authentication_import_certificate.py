@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: authentication_import_certificate
 short_description: Resource module for Authentication Import Certificate
 description:
-- Manage operation create of the resource Authentication Import Certificate.
-- This API enables a user to import a PEM certificate and its key for the controller and/or disaster recovery.
+- This module represents an alias of the module authentication_import_certificate_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,25 +22,27 @@ options:
       ipsec"). If no value is provided, the default value taken will be "server".
     elements: dict
     suboptions:
-    - description: Authentication Import Certificate's listOfUsers.
-      type: dict
+      description:
+        description: Authentication Import Certificate's listOfUsers.
+        type: str
     type: list
   pkPassword:
     description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Authentication Management ImportCertificateV1
+- name: Cisco DNA Center documentation for Authentication Management ImportCertificateV1
   description: Complete reference of the ImportCertificateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-certificate-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-certificate
 notes:
   - SDK Method used are
     authentication_management.AuthenticationManagement.import_certificate_v1,
 
   - Paths used are
     post /dna/intent/api/v1/certificate,
+  - It should be noted that this module is an alias of authentication_import_certificate_v1
 
 """
 
@@ -60,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

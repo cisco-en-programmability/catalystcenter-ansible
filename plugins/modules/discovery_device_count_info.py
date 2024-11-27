@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: discovery_device_count_info
-short_description: Information module for Discovery Device Count
+short_description: Information module for Discovery Device Count Info
 description:
-- Get all Discovery Device Count.
-- >
-   Returns the count of network devices discovered in the given discovery. Discovery ID can be obtained using the
-   "Get Discoveries by range" API.
+- This module represents an alias of the module discovery_device_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,23 +28,24 @@ options:
     - TaskId query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Discovery GetDevicesDiscoveredByIdV1
+- name: Cisco DNA Center documentation for Discovery GetDevicesDiscoveredByIdV1
   description: Complete reference of the GetDevicesDiscoveredByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-discovered-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-devices-discovered-by-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_devices_discovered_by_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/discovery/{id}/network-device/count,
+  - It should be noted that this module is an alias of discovery_device_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Discovery Device Count
+- name: Get all Discovery Device Count Info
   cisco.catalystcenter.discovery_device_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -63,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

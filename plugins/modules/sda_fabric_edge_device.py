@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_edge_device
 short_description: Resource module for Sda Fabric Edge Device
 description:
-- Manage operations create and delete of the resource Sda Fabric Edge Device.
-- Add edge device in SDA Fabric.
-- Delete edge device from SDA Fabric.
+- This module represents an alias of the module sda_fabric_edge_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,15 +25,15 @@ options:
     type: str
     version_added: 4.0.0
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddEdgeDeviceInSDAFabricV1
+- name: Cisco DNA Center documentation for SDA AddEdgeDeviceInSDAFabricV1
   description: Complete reference of the AddEdgeDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric-v-1
-- name: Cisco CATALYST Center documentation for SDA DeleteEdgeDeviceFromSDAFabricV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
+- name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabricV1
   description: Complete reference of the DeleteEdgeDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_edge_device,
@@ -43,6 +42,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/business/sda/edge-device,
     delete /dna/intent/api/v1/business/sda/edge-device,
+  - It should be noted that this module is an alias of sda_fabric_edge_device_v1
 
 """
 
@@ -75,7 +75,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -4,20 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: networkDevices_deviceControllability_settings
-short_description: Resource module for Networkdevices Devicecontrollability Settings
+module: network_devices_device_controllability_settings
+short_description: Resource module for Network Devices Device Controllability Settings
 description:
-- Manage operation update of the resource Networkdevices Devicecontrollability Settings.
-- >
-   Device Controllability is a system-level process on Catalyst Center that enforces state synchronization for some
-   device-layer features. Its purpose is to aid in the deployment of required network settings that Catalyst Center
-   needs to manage devices. Changes are made on network devices during discovery, when adding a device to Inventory,
-   or when assigning a device to a site. If changes are made to any settings that are under the scope of this
-   process, these changes are applied to the network devices during the Provision and Update Telemetry Settings
-   operations, even if Device Controllability is disabled. The following device settings will be enabled as part of
-   Device Controllability when devices are discovered.
+- This module represents an alias of the module network_devices_device_controllability_settings_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -33,24 +26,25 @@ options:
       controllability is disabled.
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design UpdateDeviceControllabilitySettingsV1
+- name: Cisco DNA Center documentation for Site Design UpdateDeviceControllabilitySettingsV1
   description: Complete reference of the UpdateDeviceControllabilitySettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-controllability-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-controllability-settings
 notes:
   - SDK Method used are
     site_design.SiteDesign.update_device_controllability_settings_v1,
 
   - Paths used are
     put /dna/intent/api/v1/networkDevices/deviceControllability/settings,
+  - It should be noted that this module is an alias of network_devices_device_controllability_settings_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.catalystcenter.networkDevices_deviceControllability_settings:
+  cisco.catalystcenter.network_devices_device_controllability_settings:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -65,7 +59,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

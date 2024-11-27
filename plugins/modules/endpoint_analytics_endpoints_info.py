@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: endpoint-analytics_endpoints_info
-short_description: Information module for Endpoint-Analytics Endpoints
+module: endpoint_analytics_endpoints_info
+short_description: Information module for Endpoint Analytics Endpoints Info
 description:
-- Get all Endpoint-Analytics Endpoints.
-- Get Endpoint-Analytics Endpoints by id.
-- Fetches details of the endpoint for the given unique identifier 'epId'.
-- >
-   Query the endpoints, optionally using various filter and pagination criteria. 'GET /endpoints/count' API can be
-   used to find out the total number of endpoints matching the filter criteria.
+- This module represents an alias of the module endpoint_analytics_endpoints_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -35,7 +31,7 @@ options:
     type: str
   macAddresses:
     description:
-    - MacAddresses query parameter. List of MAC addresses to filter on. Only exact matches will be returned. 
+    - MacAddresses query parameter. List of MAC addresses to filter on. Only exact matches will be returned.
     elements: str
     type: list
   ip:
@@ -156,29 +152,30 @@ options:
     - EpId path parameter. Unique identifier for the endpoint.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for AI Endpoint Analytics GetEndpointDetailsV1
+- name: Cisco DNA Center documentation for AI Endpoint Analytics GetEndpointDetailsV1
   description: Complete reference of the GetEndpointDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-endpoint-details-v-1
-- name: Cisco CATALYST Center documentation for AI Endpoint Analytics QueryTheEndpointsV1
+  link: https://developer.cisco.com/docs/dna-center/#!get-endpoint-details
+- name: Cisco DNA Center documentation for AI Endpoint Analytics QueryTheEndpointsV1
   description: Complete reference of the QueryTheEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
-    a_i_endpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
+    aiendpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints,
     get /dna/intent/api/v1/endpoint-analytics/endpoints/{epId},
+  - It should be noted that this module is an alias of endpoint_analytics_endpoints_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Endpoint-Analytics Endpoints
-  cisco.catalystcenter.endpoint-analytics_endpoints_info:
+- name: Get all Endpoint Analytics Endpoints Info
+  cisco.catalystcenter.endpoint_analytics_endpoints_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -215,8 +212,8 @@ EXAMPLES = r"""
     include: string
   register: result
 
-- name: Get Endpoint-Analytics Endpoints by id
-  cisco.catalystcenter.endpoint-analytics_endpoints_info:
+- name: Get Endpoint Analytics Endpoints Info by id
+  cisco.catalystcenter.endpoint_analytics_endpoints_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -232,7 +229,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

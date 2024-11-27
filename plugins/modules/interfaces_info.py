@@ -4,23 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: interfaces_info
-short_description: Information module for Interfaces
+short_description: Information module for Interfaces Info
 description:
-- Get all Interfaces.
-- Get Interfaces by id.
-- >
-   Retrieves the list of the interfaces from all network devices based on the provided query parameters. The latest
-   interfaces data in the specified start and end time range will be returned. When there is no start and end time
-   specified returns the latest available data.
-- >
-   Returns the interface data for the given interface instance Uuid along with the statistics data. The latest
-   interface data in the specified start and end time range will be returned. When there is no start and end time
-   specified returns the latest available data for the given interface Id. For detailed information about the usage
-   of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-1.0.2-resolved.yaml.
+- This module represents an alias of the module interfaces_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -162,15 +152,15 @@ options:
     - Id path parameter. The interface Uuid.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1
+- name: Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1
   description: Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data-v-1
-- name: Cisco CATALYST Center documentation for Devices GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data
+- name: Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1
   description: Complete reference of the GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices
 notes:
   - SDK Method used are
     devices.Devices.get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_data_v1,
@@ -179,11 +169,12 @@ notes:
   - Paths used are
     get /dna/data/api/v1/interfaces,
     get /dna/data/api/v1/interfaces/{id},
+  - It should be noted that this module is an alias of interfaces_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Interfaces
+- name: Get all Interfaces Info
   cisco.catalystcenter.interfaces_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -211,7 +202,7 @@ EXAMPLES = r"""
     interfaceName: string
   register: result
 
-- name: Get Interfaces by id
+- name: Get Interfaces Info by id
   cisco.catalystcenter.interfaces_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -231,7 +222,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

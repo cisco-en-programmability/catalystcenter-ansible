@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: networkDevices_notAssignedToSite_info
-short_description: Information module for Networkdevices Notassignedtosite
+module: network_devices_not_assigned_to_site_info
+short_description: Information module for Network Devices Not Assigned To Site Info
 description:
-- Get all Networkdevices Notassignedtosite.
-- Get network devices that are not assigned to any site.
+- This module represents an alias of the module network_devices_not_assigned_to_site_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -28,24 +28,25 @@ options:
     - Limit query parameter. The number of records to show for this page.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design GetSiteNotAssignedNetworkDevicesV1
+- name: Cisco DNA Center documentation for Site Design GetSiteNotAssignedNetworkDevicesV1
   description: Complete reference of the GetSiteNotAssignedNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-not-assigned-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-not-assigned-network-devices
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_site_not_assigned_network_devices_v1,
 
   - Paths used are
     get /dna/intent/api/v1/networkDevices/notAssignedToSite,
+  - It should be noted that this module is an alias of network_devices_not_assigned_to_site_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Networkdevices Notassignedtosite
-  cisco.catalystcenter.networkDevices_notAssignedToSite_info:
+- name: Get all Network Devices Not Assigned To Site Info
+  cisco.catalystcenter.network_devices_not_assigned_to_site_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -61,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

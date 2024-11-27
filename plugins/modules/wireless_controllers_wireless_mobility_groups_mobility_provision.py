@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: wirelessControllers_wirelessMobilityGroups_mobilityProvision
-short_description: Resource module for Wirelesscontrollers Wirelessmobilitygroups Mobilityprovision
+module: wireless_controllers_wireless_mobility_groups_mobility_provision
+short_description: Resource module for Wireless Controllers Wireless Mobility Groups Mobility Provision
 description:
-- Manage operation create of the resource Wirelesscontrollers Wirelessmobilitygroups Mobilityprovision.
-- This API is used to provision/deploy wireless mobility into Cisco wireless controllers.
+- This module represents an alias of the module wireless_controllers_wireless_mobility_groups_mobility_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -74,24 +74,25 @@ options:
     description: Obtain the network device ID value by using the API call GET /dna/intent/api/v1/network-device/ip-...
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless MobilityProvisionV1
+- name: Cisco DNA Center documentation for Wireless MobilityProvisionV1
   description: Complete reference of the MobilityProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!mobility-provision-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!mobility-provision
 notes:
   - SDK Method used are
     wireless.Wireless.mobility_provision_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups/mobilityProvision,
+  - It should be noted that this module is an alias of wireless_controllers_wireless_mobility_groups_mobility_provision_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.wirelessControllers_wirelessMobilityGroups_mobilityProvision:
+  cisco.catalystcenter.wireless_controllers_wireless_mobility_groups_mobility_provision:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -118,7 +119,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

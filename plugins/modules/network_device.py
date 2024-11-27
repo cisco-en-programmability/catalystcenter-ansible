@@ -4,20 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device
 short_description: Resource module for Network Device
 description:
-- Manage operations create, update and delete of the resource Network Device.
-- Adds the device with given credential.
-- >
-   This API allows any network device that is not currently provisioned to be removed from the inventory. Important
-   Devices currently provisioned cannot be deleted. To delete a provisioned device, the device must be first
-   deprovisioned.
-- >
-   Update the credentials, management IP address of a given device or a set of devices in Catalyst Center and trigger
-   an inventory sync.
+- This module represents an alias of the module network_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -142,18 +135,18 @@ options:
     description: CLI user name of the device. Required if type is NETWORK_DEVICE.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices AddDeviceKnowYourNetworkV1
+- name: Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1
   description: Complete reference of the AddDeviceKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network-v-1
-- name: Cisco CATALYST Center documentation for Devices DeleteDeviceByIdV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network
+- name: Cisco DNA Center documentation for Devices DeleteDeviceByIdV1
   description: Complete reference of the DeleteDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-v-1
-- name: Cisco CATALYST Center documentation for Devices UpdateDeviceDetailsV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
+- name: Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1
   description: Complete reference of the UpdateDeviceDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-details
 notes:
   - SDK Method used are
     devices.Devices.add_device,
@@ -164,6 +157,7 @@ notes:
     post /dna/intent/api/v1/network-device,
     delete /dna/intent/api/v1/network-device/{id},
     put /dna/intent/api/v1/network-device,
+  - It should be noted that this module is an alias of network_device_v1
 
   - Removed 'managementIpAddress' options in v4.3.0.
 """
@@ -266,7 +260,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

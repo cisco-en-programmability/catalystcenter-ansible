@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: sda_transitNetworks
-short_description: Resource module for Sda Transitnetworks
+module: sda_transit_networks
+short_description: Resource module for Sda Transit Networks
 description:
-- Manage operations create, update and delete of the resource Sda Transitnetworks.
-- Adds transit networks based on user input.
-- Updates transit networks based on user input.
+- This module represents an alias of the module sda_transit_networks_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -60,15 +59,15 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for SDA AddTransitNetworksV1
+- name: Cisco DNA Center documentation for SDA AddTransitNetworksV1
   description: Complete reference of the AddTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks-v-1
-- name: Cisco CATALYST Center documentation for SDA UpdateTransitNetworksV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks
+- name: Cisco DNA Center documentation for SDA UpdateTransitNetworksV1
   description: Complete reference of the UpdateTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks
 notes:
   - SDK Method used are
     sda.Sda.add_transit_networks_v1,
@@ -77,19 +76,20 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/sda/transitNetworks,
     put /dna/intent/api/v1/sda/transitNetworks,
+  - It should be noted that this module is an alias of sda_transit_networks_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.catalystcenter.sda_transitNetworks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_transit_networks:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - id: string
@@ -104,14 +104,14 @@ EXAMPLES = r"""
       type: string
 
 - name: Create
-  cisco.catalystcenter.sda_transitNetworks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+  cisco.catalystcenter.sda_transit_networks:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
     - ipTransitSettings:
@@ -126,8 +126,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

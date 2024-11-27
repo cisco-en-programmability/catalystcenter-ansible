@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: floors_settings_info
-short_description: Information module for Floors Settings
+short_description: Information module for Floors Settings Info
 description:
-- Get all Floors Settings.
-- Gets UI user preference for floor unit system.
+- This module represents an alias of the module floors_settings_v2_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -20,10 +20,10 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Site Design GetFloorSettingsV2
+- name: Cisco DNA Center documentation for Site Design GetFloorSettingsV2
   description: Complete reference of the GetFloorSettingsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-floor-settings-v-2
 notes:
@@ -32,11 +32,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v2/floors/settings,
+  - It should be noted that this module is an alias of floors_settings_v2_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Floors Settings
+- name: Get all Floors Settings Info
   cisco.catalystcenter.floors_settings_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -51,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

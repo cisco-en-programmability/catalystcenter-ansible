@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: endpoint-analytics_anc-policies_info
-short_description: Information module for Endpoint-Analytics Anc-Policies
+module: endpoint_analytics_anc_policies_info
+short_description: Information module for Endpoint Analytics Anc Policies Info
 description:
-- Get all Endpoint-Analytics Anc-Policies.
-- Fetches the list of ANC policies available in ISE.
+- This module represents an alias of the module endpoint_analytics_anc_policies_v1_info
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -20,24 +20,25 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for AI Endpoint Analytics GetANCPoliciesV1
+- name: Cisco DNA Center documentation for AI Endpoint Analytics GetANCPoliciesV1
   description: Complete reference of the GetANCPoliciesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies
 notes:
   - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.get_anc_policies_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_anc_policies_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/anc-policies,
+  - It should be noted that this module is an alias of endpoint_analytics_anc_policies_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Endpoint-Analytics Anc-Policies
-  cisco.catalystcenter.endpoint-analytics_anc-policies_info:
+- name: Get all Endpoint Analytics Anc Policies Info
+  cisco.catalystcenter.endpoint_analytics_anc_policies_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -51,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

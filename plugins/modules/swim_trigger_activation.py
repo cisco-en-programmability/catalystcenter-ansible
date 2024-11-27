@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: swim_trigger_activation
 short_description: Resource module for Swim Trigger Activation
 description:
-- Manage operation create of the resource Swim Trigger Activation.
-- Activates a software image on a given device. Software image must be present in the device flash.
+- This module represents an alias of the module swim_trigger_activation_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -49,18 +49,19 @@ options:
       before schedule (Optional).
     type: bool
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivationV1
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivationV1
   description: Complete reference of the TriggerSoftwareImageActivationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation_v1,
 
   - Paths used are
     post /dna/intent/api/v1/image/activation/device,
+  - It should be noted that this module is an alias of swim_trigger_activation_v1
 
 """
 
@@ -89,7 +90,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

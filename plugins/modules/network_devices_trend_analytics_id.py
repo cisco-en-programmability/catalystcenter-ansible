@@ -4,18 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: networkDevices_trendAnalytics_id
-short_description: Resource module for Networkdevices Trendanalytics Id
+module: network_devices_trend_analytics_id
+short_description: Resource module for Network Devices Trend Analytics Id
 description:
-- Manage operation create of the resource Networkdevices Trendanalytics Id.
-- >
-   The Trend analytics data for the network Device in the specified time range. The data is grouped based on the
-   trend time Interval, other input parameters like attribute and aggregate attributes. For detailed information
-   about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceNetworkDevices-1.0.2-resolved.yaml.
+- This module represents an alias of the module network_devices_trend_analytics_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -87,24 +82,25 @@ options:
     description: Trend Interval In Minutes.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1
+- name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1
   description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range
 notes:
   - SDK Method used are
     devices.Devices.the_trend_analytics_data_for_the_network_device_in_the_specified_time_range_v1,
 
   - Paths used are
     post /dna/data/api/v1/networkDevices/{id}/trendAnalytics,
+  - It should be noted that this module is an alias of network_devices_trend_analytics_id_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.networkDevices_trendAnalytics_id:
+  cisco.catalystcenter.network_devices_trend_analytics_id:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -138,7 +134,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

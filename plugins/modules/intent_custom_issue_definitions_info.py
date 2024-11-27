@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: intent_customIssueDefinitions_info
-short_description: Information module for Intent Customissuedefinitions
+module: intent_custom_issue_definitions_info
+short_description: Information module for Intent Custom Issue Definitions Info
 description:
-- Get Intent Customissuedefinitions by id.
-- >
-   Get the custom issue definition for the given custom issue definition Id. For detailed information about the usage
-   of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+- This module represents an alias of the module intent_custom_issue_definitions_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -28,24 +24,25 @@ options:
     - Id path parameter. Get the custom issue definition for the given custom issue definition Id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1
+- name: Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1
   description: Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id
 notes:
   - SDK Method used are
     issues.Issues.get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1,
 
   - Paths used are
     get /intent/api/v1/customIssueDefinitions/{id},
+  - It should be noted that this module is an alias of intent_custom_issue_definitions_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Intent Customissuedefinitions by id
-  cisco.catalystcenter.intent_customIssueDefinitions_info:
+- name: Get Intent Custom Issue Definitions Info by id
+  cisco.catalystcenter.intent_custom_issue_definitions_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -60,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

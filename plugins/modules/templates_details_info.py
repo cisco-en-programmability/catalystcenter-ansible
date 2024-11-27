@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: templates_details_info
-short_description: Information module for Templates Details
+short_description: Information module for Templates Details Info
 description:
-- Get all Templates Details.
-- Get templates details.
+- This module represents an alias of the module templates_details_v2_info
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -61,7 +61,7 @@ options:
     type: bool
   tags:
     description:
-    - Tags query parameter. Filter template(s) based on tags. 
+    - Tags query parameter. Filter template(s) based on tags.
     elements: str
     type: list
   unCommitted:
@@ -89,10 +89,10 @@ options:
     - Limit query parameter. Limits number of results.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Configuration Templates GetTemplatesDetailsV2
+- name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetailsV2
   description: Complete reference of the GetTemplatesDetailsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-templates-details-v-2
 notes:
@@ -101,11 +101,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v2/template-programmer/template,
+  - It should be noted that this module is an alias of templates_details_v2_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Templates Details
+- name: Get all Templates Details Info
   cisco.catalystcenter.templates_details_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
@@ -137,7 +138,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

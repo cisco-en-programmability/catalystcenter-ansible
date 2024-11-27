@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: clients_topNAnalytics
-short_description: Resource module for Clients Topnanalytics
+module: clients_top_n_analytics
+short_description: Resource module for Clients Top N Analytics
 description:
-- Manage operation create of the resource Clients Topnanalytics.
-- >
-   Retrieves the top N analytics data related to clients based on the provided input data. This API facilitates
-   obtaining insights into the top-performing or most impacted clients. For detailed information about the usage of
-   the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+- This module represents an alias of the module clients_top_n_analytics_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -87,24 +83,25 @@ options:
     description: Top N.
     type: int
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClientsV1
+- name: Cisco DNA Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClientsV1
   description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_top_n_analytics_data_related_to_clients_v1,
 
   - Paths used are
     post /dna/data/api/v1/clients/topNAnalytics,
+  - It should be noted that this module is an alias of clients_top_n_analytics_v1
 
 """
 
 EXAMPLES = r"""
 - name: Create
-  cisco.catalystcenter.clients_topNAnalytics:
+  cisco.catalystcenter.clients_top_n_analytics:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -137,7 +134,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

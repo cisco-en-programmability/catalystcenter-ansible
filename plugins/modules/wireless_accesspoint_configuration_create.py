@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_accesspoint_configuration_create
 short_description: Resource module for Wireless Accesspoint Configuration Create
 description:
-- Manage operation create of the resource Wireless Accesspoint Configuration Create.
-- User can configure multiple access points with required options using this intent API.
+- This module represents an alias of the module wireless_accesspoint_configuration_create_v2
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -231,10 +231,10 @@ options:
         type: str
     type: dict
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Wireless ConfigureAccessPointsV2
+- name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV2
   description: Complete reference of the ConfigureAccessPointsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!configure-access-points-v-2
 notes:
@@ -243,6 +243,7 @@ notes:
 
   - Paths used are
     post /dna/intent/api/v2/wireless/accesspoint-configuration,
+  - It should be noted that this module is an alias of wireless_accesspoint_configuration_create_v2
 
 """
 
@@ -314,7 +315,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

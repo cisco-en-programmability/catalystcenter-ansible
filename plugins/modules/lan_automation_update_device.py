@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: lan_automation_updateDevice
-short_description: Resource module for Lan Automation Updatedevice
+module: lan_automation_update_device
+short_description: Resource module for Lan Automation Update Device
 description:
-- Manage operation update of the resource Lan Automation Updatedevice.
-- >
-   Invoke this API to perform a DAY-N update on LAN Automation-related devices. Supported features include Loopback0
-   IP update, hostname update, link addition, and link deletion.
+- This module represents an alias of the module lan_automation_update_device_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -66,24 +64,25 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for LAN Automation LANAutomationDeviceUpdateV1
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdateV1
   description: Complete reference of the LANAutomationDeviceUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_device_update_v1,
 
   - Paths used are
     put /dna/intent/api/v1/lan-automation/updateDevice,
+  - It should be noted that this module is an alias of lan_automation_update_device_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.catalystcenter.lan_automation_updateDevice:
+  cisco.catalystcenter.lan_automation_update_device:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
@@ -108,7 +107,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

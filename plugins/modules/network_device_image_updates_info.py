@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
-module: networkDeviceImageUpdates_info
-short_description: Information module for Networkdeviceimageupdates
+module: network_device_image_updates_info
+short_description: Information module for Network Device Image Updates Info
 description:
-- Get all Networkdeviceimageupdates.
-- Returns the list of network device image updates based on the given filter criteria.
+- This module represents an alias of the module network_device_image_updates_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -74,31 +74,32 @@ options:
     - Limit query parameter. The number of records to show for this page.
     type: float
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Software Image Management (SWIM) GetNetworkDeviceImageUpdatesV1
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetNetworkDeviceImageUpdatesV1
   description: Complete reference of the GetNetworkDeviceImageUpdatesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-image-updates-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-image-updates
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_network_device_image_updates_v1,
 
   - Paths used are
     get /dna/intent/api/v1/networkDeviceImageUpdates,
+  - It should be noted that this module is an alias of network_device_image_updates_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Networkdeviceimageupdates
-  cisco.catalystcenter.networkDeviceImageUpdates_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+- name: Get all Network Device Image Updates Info
+  cisco.catalystcenter.network_device_image_updates_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
     parentId: string
@@ -117,8 +118,8 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

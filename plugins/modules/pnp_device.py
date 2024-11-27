@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device
 short_description: Resource module for Pnp Device
 description:
-- Manage operations create, update and delete of the resource Pnp Device.
-- Adds a device to the PnP database.
-- Deletes specified device from PnP database.
-- Updates device details specified by device id in PnP database.
+- This module represents an alias of the module pnp_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -130,18 +128,18 @@ options:
     description: Id.
     type: str
 requirements:
-- catalystcentersdk >= 1.0.0
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco CATALYST Center documentation for Device Onboarding (PnP) AddDeviceV1
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1
   description: Complete reference of the AddDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-v-1
-- name: Cisco CATALYST Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1
+  link: https://developer.cisco.com/docs/dna-center/#!add-device
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1
   description: Complete reference of the DeleteDeviceByIdFromPnPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p-v-1
-- name: Cisco CATALYST Center documentation for Device Onboarding (PnP) UpdateDeviceV1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1
   description: Complete reference of the UpdateDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,
@@ -152,6 +150,7 @@ notes:
     post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id},
     put /dna/intent/api/v1/onboarding/pnp-device/{id},
+  - It should be noted that this module is an alias of pnp_device_v1
 
 """
 
@@ -239,7 +238,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
