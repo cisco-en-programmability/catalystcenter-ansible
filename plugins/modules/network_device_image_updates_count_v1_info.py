@@ -58,7 +58,7 @@ options:
     - EndTime query parameter. Image update started before the given time (as milliseconds since UNIX epoch).
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdatesV1

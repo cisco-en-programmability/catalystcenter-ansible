@@ -449,7 +449,7 @@ options:
                 default: "read"
                 type: str
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 2.3.7.6
   - python >= 3.9.19
 notes:
   - SDK Methods used

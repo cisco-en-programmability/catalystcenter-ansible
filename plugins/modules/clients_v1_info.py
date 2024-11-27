@@ -188,7 +188,7 @@ options:
       67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationMatchingTheMACAddressV1

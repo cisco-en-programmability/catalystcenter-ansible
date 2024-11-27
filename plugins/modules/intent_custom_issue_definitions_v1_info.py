@@ -28,7 +28,7 @@ options:
     - Id path parameter. Get the custom issue definition for the given custom issue definition Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1

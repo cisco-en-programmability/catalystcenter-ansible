@@ -79,7 +79,7 @@ options:
 
 
 requirements:
-- dnacentersdk == 2.7.0
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 notes:
   - SDK Methods used are

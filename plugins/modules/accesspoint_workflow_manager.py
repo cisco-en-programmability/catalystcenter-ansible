@@ -1023,7 +1023,7 @@ options:
                     required: False
 
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 2.3.7.6
   - python >= 3.8
 
 seealso:
@@ -1035,7 +1035,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/
 
 notes:
-  - Make sure to install the required Python dependencies by executing pip install dnacentersdk.
+  - Make sure to install the required Python dependencies by executing pip install catalystcentersdk.
   - SDK Method used are
   - devices.get_device_list
   - wireless.get_access_point_configuration

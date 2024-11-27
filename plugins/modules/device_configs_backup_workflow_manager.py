@@ -114,7 +114,7 @@ options:
                     - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
 requirements:
-  - dnacentersdk == 2.9.2
+  - catalystcentersdk >= 2.3.7.6
   - python >= 3.5
 
 notes:

@@ -137,7 +137,7 @@ options:
                     2.3.7.6 Catalyst version onwards
 
 requirements:
-- dnacentersdk == 2.4.5
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 notes:
   - SDK Method used are

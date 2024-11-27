@@ -40,7 +40,7 @@ options:
     - AssociatedLayer3VirtualNetworkName query parameter. Name of the associated layer 3 virtual network.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetLayer2VirtualNetworkCountV1

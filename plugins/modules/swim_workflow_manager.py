@@ -326,7 +326,7 @@ options:
               before schedule (optional).
             type: bool
 requirements:
-- dnacentersdk == 2.7.3
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 notes:
   - SDK Method used are

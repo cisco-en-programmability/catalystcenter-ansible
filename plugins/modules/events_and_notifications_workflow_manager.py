@@ -473,16 +473,16 @@ options:
             elements: str
 
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 
 notes:
   - To ensure the module operates correctly with scaled sets—such as creating or updating multiple destinations and handling event
     subscription notifications—please ensure that valid input is provided in the playbook. If any failure occurs, the module will
     halt execution and will not proceed to subsequent operations.
-  - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
+  - Configuring the webhook destination with headers now supports starting from catalystcentersdk version 2.9.1 onwards. This enhancement is in
     alignment with Catalyst Center Release 2.3.7.5.
-  - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
+  - Configuring the SNMP destination now supports starting from catalystcentersdk version 2.9.1 onwards. This enhancement is in
     alignment with Catalyst Center Release 2.3.7.5.
   - SDK Method used are
     events.Events.get_syslog_destination,

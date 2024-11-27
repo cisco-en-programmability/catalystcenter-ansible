@@ -74,7 +74,7 @@ options:
     - Limit query parameter. The number of records to show for this page.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetNetworkDeviceImageUpdatesV1

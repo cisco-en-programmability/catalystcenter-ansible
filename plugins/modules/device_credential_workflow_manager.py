@@ -353,7 +353,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2

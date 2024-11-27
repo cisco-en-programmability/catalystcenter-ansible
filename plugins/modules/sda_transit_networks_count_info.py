@@ -26,7 +26,7 @@ options:
       SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetTransitNetworksCountV1
