@@ -26,7 +26,7 @@ options:
     - TaskId path parameter. Unique identifier for the task.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetailsV1

@@ -73,7 +73,7 @@ options:
     description: VlanName query parameter. The vlan name of the layer 2 virtual network.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddLayer2VirtualNetworksV1

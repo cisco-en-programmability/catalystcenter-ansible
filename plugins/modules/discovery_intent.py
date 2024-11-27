@@ -328,7 +328,7 @@ options:
         type: bool
         default: False
 requirements:
-- dnacentersdk == 2.6.10
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 notes:
   - SDK Method used are

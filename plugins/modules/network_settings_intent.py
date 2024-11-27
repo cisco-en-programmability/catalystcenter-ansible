@@ -317,7 +317,7 @@ options:
               to specify where the IP sub-pool will be reserved.
             type: str
 requirements:
-- dnacentersdk == 2.4.5
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 notes:
   - SDK Method used are

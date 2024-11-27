@@ -157,7 +157,7 @@ options:
           - LOW
           - TYPICAL
 requirements:
-  - dnacentersdk == 2.6.10
+  - catalystcentersdk >= 2.3.7.6
   - python >= 3.9
 notes:
   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device,

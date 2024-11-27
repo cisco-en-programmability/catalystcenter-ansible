@@ -24,7 +24,7 @@ options:
     - EventIds query parameter. List of subscriptions related to the respective eventIds.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management CountOfEventSubscriptionsV1

@@ -24,7 +24,7 @@ options:
     - Type query parameter. Filter the response to only count profiles of a given type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfNetworkProfilesForSitesV1

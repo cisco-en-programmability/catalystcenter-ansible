@@ -106,7 +106,7 @@ options:
       01 56&clientMac=DC A6 32 F5 5A 89` (multiple clientMac requested).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices CountTheNumberOfEventsV1

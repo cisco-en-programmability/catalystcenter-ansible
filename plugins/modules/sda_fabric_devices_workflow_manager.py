@@ -314,7 +314,7 @@ options:
                         type: int
 
 requirements:
-- dnacentersdk >= 2.9.2
+- catalystcentersdk >= 2.3.7.6
 - python >= 3.9
 notes:
   - SDK Method used are
