@@ -119,7 +119,7 @@ options:
                 type: int
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -321,8 +321,8 @@ response_4:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
@@ -336,7 +336,7 @@ floor_plan = {
 }
 
 
-class DnacSite(DnacBase):
+class DnacSite(CatalystCenterBase):
     """Class containing member attributes for site intent module"""
 
     def __init__(self, module):
@@ -1108,7 +1108,7 @@ def main():
                     'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
                     'catalystcenter_debug': {'type': 'bool', 'default': False},
                     'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
                     "catalystcenter_log_append": {"type": 'bool', "default": True},
                     'catalystcenter_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},

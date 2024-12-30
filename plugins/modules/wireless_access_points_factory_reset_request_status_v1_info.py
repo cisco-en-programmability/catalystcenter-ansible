@@ -24,7 +24,7 @@ options:
     - TaskId query parameter. Provide the task id which is returned in the response of ap factory reset post api.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatusV1

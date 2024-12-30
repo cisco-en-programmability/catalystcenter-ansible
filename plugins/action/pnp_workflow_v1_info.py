@@ -25,8 +25,8 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 argument_spec = Catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
-    limit=dict(type="int"),
-    offset=dict(type="int"),
+    limit=dict(type="float"),
+    offset=dict(type="float"),
     sort=dict(type="list"),
     sortOrder=dict(type="str"),
     type=dict(type="list"),

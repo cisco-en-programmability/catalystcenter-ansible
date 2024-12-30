@@ -24,7 +24,7 @@ options:
     - ExecutionId path parameter. Execution Id of API.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetBusinessAPIExecutionDetailsV1
@@ -70,6 +70,8 @@ catalystcenter_response:
       "endTimeEpoch": 0,
       "timeDuration": 0,
       "status": "string",
+      "bapiSyncResponse": "string",
+      "bapiSyncResponseJson": {},
       "runtimeInstanceId": "string",
       "bapiError": "string"
     }

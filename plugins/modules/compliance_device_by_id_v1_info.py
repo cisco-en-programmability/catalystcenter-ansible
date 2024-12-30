@@ -40,8 +40,27 @@ options:
     description:
     - DiffList query parameter. Diff list pass true to fetch the diff list.
     type: bool
+  status:
+    description:
+    - >
+      Status query parameter. 'COMPLIANT', 'NON_COMPLIANT', 'ERROR', 'IN_PROGRESS', 'NOT_APPLICABLE',
+      'NOT_AVAILABLE', 'WARNING', 'REMEDIATION_IN_PROGRESS' can be the value of the compliance 'status' parameter.
+      COMPLIANT Device currently meets the compliance requirements. NON_COMPLIANT One of the compliance
+      requirements like Software Image, PSIRT, Network Profile, Startup vs Running, etc. Are not met. ERROR
+      Compliance is unable to compute status due to underlying errors. IN_PROGRESS Compliance check is in progress
+      for the device. NOT_APPLICABLE Device is not supported for compliance, or minimum license requirement is not
+      met. NOT_AVAILABLE Compliance is not available for the device. COMPLIANT_WARNING The device is compliant
+      with warning if the last date of support is nearing. REMEDIATION_IN_PROGRESS Compliance remediation is in
+      progress for the device.
+    type: str
+  remediationSupported:
+    description:
+    - >
+      RemediationSupported query parameter. The 'remediationSupported' parameter can be set to 'true' or 'false'.
+      The result will be a combination of both values if it is not provided.
+    type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1
@@ -59,23 +78,25 @@ notes:
 EXAMPLES = r"""
 - name: Get all Compliance Device By Id V1
   cisco.catalystcenter.compliance_device_by_id_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     category: string
     complianceType: string
     diffList: True
+    status: string
+    remediationSupported: True
     deviceUuid: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -135,7 +156,8 @@ dnac_response:
             }
           ],
           "ackStatus": "string",
-          "version": "string"
+          "version": "string",
+          "remediationSupported": true
         }
       ],
       "deviceUuid": "string"

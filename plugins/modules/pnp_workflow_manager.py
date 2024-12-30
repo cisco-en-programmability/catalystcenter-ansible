@@ -157,7 +157,7 @@ options:
           - LOW
           - TYPICAL
 requirements:
-  - catalystcentersdk >= 2.3.7.6
+  - catalystcentersdk >= 2.3.7.9
   - python >= 3.9
 notes:
   - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device,
@@ -183,15 +183,15 @@ notes:
 EXAMPLES = r"""
 - name: Import multiple switches in bulk only
   cisco.catalystcenter.pnp_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     state: merged
     config_verify: True
     config:
@@ -210,15 +210,15 @@ EXAMPLES = r"""
 
 - name: Add a new EWLC and claim it
   cisco.catalystcenter.pnp_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     state: merged
     config_verify: True
     config:
@@ -243,15 +243,15 @@ EXAMPLES = r"""
 
 - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
   cisco.catalystcenter.pnp_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     state: merged
     config_verify: True
     config:
@@ -270,15 +270,15 @@ EXAMPLES = r"""
 
 - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
   cisco.catalystcenter.pnp_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     state: deleted
     config_verify: True
     config:
@@ -327,14 +327,14 @@ response_3:
     }
 """
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result
 )
 
 
-class PnP(DnacBase):
+class PnP(CatalystCenterBase):
     def __init__(self, module):
         super().__init__(module)
 
@@ -465,7 +465,7 @@ class PnP(DnacBase):
                 site = response.get("response")
                 site_type = None
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                     site_additional_info = site[0].get("additionalInfo")
                     for item in site_additional_info:
                         if item["nameSpace"] == "Location":
@@ -711,7 +711,7 @@ class PnP(DnacBase):
 
             if self.params.get("state") == "merged":
                 # check if given image exists, if exists store image_id
-                image_response = self.dnac_apply['exec'](
+                image_response = self.catalystcenter_apply['exec'](
                     family="software_image_management_swim",
                     function='get_software_image_details',
                     params=self.want.get("image_params"),
@@ -721,7 +721,7 @@ class PnP(DnacBase):
                          .format(self.pprint(image_response)), "DEBUG")
 
                 # check if project has templates or not
-                template_list = self.dnac_apply['exec'](
+                template_list = self.catalystcenter_apply['exec'](
                     family="configuration_templates",
                     function='gets_the_templates_available',
                     params={"project_names": self.want.get("project_name")},
@@ -901,7 +901,7 @@ class PnP(DnacBase):
                 for device in self.want.get("pnp_params")
                 if device not in devices_added
             ]
-            bulk_params = self.dnac_apply['exec'](
+            bulk_params = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function="import_devices_in_bulk",
                 params={"payload": bulk_list},
@@ -916,6 +916,11 @@ class PnP(DnacBase):
                 self.result['diff'] = self.validated_config
                 self.result['changed'] = True
                 return self
+            elif len(bulk_params.get("failureList")) > 0:
+                self.msg = "Unable to import below {0} device(s). ".format(
+                    len(bulk_params.get("failureList")))
+                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                          bulk_params).check_return_status()
 
             self.msg = "Bulk import failed"
             self.log(self.msg, "CRITICAL")
@@ -1007,7 +1012,7 @@ class PnP(DnacBase):
         update_payload["deviceInfo"]["stack"] = is_stack
 
         self.log("The request sent for 'update_device' API for device's config update: {0}".format(update_payload), "DEBUG")
-        update_response = self.dnac_apply['exec'](
+        update_response = self.catalystcenter_apply['exec'](
             family="device_onboarding_pnp",
             function="update_device",
             params={"id": self.have["device_id"],
@@ -1018,7 +1023,7 @@ class PnP(DnacBase):
 
         if pnp_state == "Error":
             reset_paramters = self.get_reset_params()
-            reset_response = self.dnac_apply['exec'](
+            reset_response = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function="reset_device",
                 params={"payload": reset_paramters},
@@ -1085,7 +1090,7 @@ class PnP(DnacBase):
             if multi_device_response:
                 device_id = multi_device_response.get("id")
 
-                response = self.dnac_apply['exec'](
+                response = self.catalystcenter_apply['exec'](
                     family="device_onboarding_pnp",
                     function="delete_device_by_id_from_pnp",
                     op_modifies=True,
@@ -1199,7 +1204,7 @@ class PnP(DnacBase):
           passing device details and getting pnp device details response
         """
         try:
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_list',
                 params={"serial_number": serial_number},
@@ -1235,7 +1240,7 @@ class PnP(DnacBase):
         """
         self.log("Attempting to retrieve PNP device details for device id: {0}".format(device_id), "INFO")
         try:
-            device_details_response = self.dnac_apply['exec'](
+            device_details_response = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function="get_device_by_id",
                 params={"id": device_id},
@@ -1272,7 +1277,7 @@ class PnP(DnacBase):
         """
         self.log("Attempting to add PNP device with parameters: {0}".format(pnp_params), "INFO")
         try:
-            device_add_response = self.dnac_apply['exec'](
+            device_add_response = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function="add_device",
                 params=pnp_params,
@@ -1309,7 +1314,7 @@ class PnP(DnacBase):
         """
         self.log("Attempting to get PNP device count with parameters: {0}".format(pnp_params), "INFO")
         try:
-            prov_dev_response = self.dnac_apply['exec'](
+            prov_dev_response = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_count',
                 params=pnp_params,
@@ -1344,7 +1349,7 @@ class PnP(DnacBase):
         """
         self.log("Attempting to claim device to site with parameters: {0}".format(claim_params), "INFO")
         try:
-            claim_response = self.dnac_apply['exec'](
+            claim_response = self.catalystcenter_apply['exec'](
                 family="device_onboarding_pnp",
                 function='claim_a_device_to_a_site',
                 op_modifies=True,
@@ -1370,21 +1375,21 @@ def main():
     main entry point for module execution
     """
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    "dnac_log_append": {"type": 'bool', "default": True},
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {"type": 'bool', "default": False},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }

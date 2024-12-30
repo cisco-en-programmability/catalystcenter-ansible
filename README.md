@@ -14,7 +14,8 @@ The following table shows the supported versions.
 
 | Cisco CATALYST Center version | Ansible "cisco.catalystcenter" version | Python "catalystcentersdk" version |
 |-------------------------------|----------------------------------------|------------------------------------|
-| 2.3.7.6                       | 1.0.0                                  |  ^2.3.7.6.2                        |
+| 2.3.7.6                       | 1.0.0                                  |  2.3.7.6.2                         |
+| 2.3.7.9                       | 2.0.0                                  |  ^2.3.7.9                          |
 
 If your Ansible collection is older please consider updating it first.
 

@@ -20,7 +20,7 @@ options:
     description: Enable/disable External Authentication.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPIV1

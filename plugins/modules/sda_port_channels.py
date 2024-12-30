@@ -55,11 +55,15 @@ options:
           is EXTENDED_NODE).
         type: str
     type: list
+  portChannelIds:
+    description: PortChannelIds query parameter. IDs of the port channels to be selectively
+      deleted(Maximum number of IDs this parameter could consume is 10).
+    type: str
   portChannelName:
     description: PortChannelName query parameter. Name of the port channel.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddPortChannelsV1
@@ -92,13 +96,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.sda_port_channels:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
     - connectedDeviceType: string
@@ -111,13 +115,13 @@ EXAMPLES = r"""
 
 - name: Update all
   cisco.catalystcenter.sda_port_channels:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
     - connectedDeviceType: string
@@ -132,34 +136,35 @@ EXAMPLES = r"""
 
 - name: Delete all
   cisco.catalystcenter.sda_port_channels:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     connectedDeviceType: string
     fabricId: string
     networkDeviceId: string
+    portChannelIds: string
     portChannelName: string
 
 - name: Delete by id
   cisco.catalystcenter.sda_port_channels:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

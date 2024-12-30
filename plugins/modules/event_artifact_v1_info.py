@@ -48,7 +48,7 @@ options:
     - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventArtifactsV1
@@ -129,6 +129,10 @@ catalystcenter_response:
         "supportedConnectorTypes": [
           "string"
         ],
+        "configs": {
+          "isAlert": true,
+          "isACKnowledgeable": true
+        },
         "tenantId": "string"
       }
     ]

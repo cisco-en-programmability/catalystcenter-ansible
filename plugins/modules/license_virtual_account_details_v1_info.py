@@ -24,7 +24,7 @@ options:
     - Smart_account_id path parameter. Id of smart account.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Licenses VirtualAccountDetailsV1

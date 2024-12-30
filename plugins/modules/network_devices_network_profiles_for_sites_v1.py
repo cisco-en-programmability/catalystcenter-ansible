@@ -17,11 +17,11 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. The `id` of the network profile, retrievable from
-      `GET /intent/api/v1/networkProfilesForSites`.
+    description: Id path parameter. The 'id' of the network profile, retrievable from
+      'GET /intent/api/v1/networkProfilesForSites'.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design DeletesANetworkProfileForSitesV1

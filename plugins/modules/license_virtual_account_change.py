@@ -27,7 +27,7 @@ options:
     description: Virtual_account_name path parameter. Name of target virtual account.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Licenses ChangeVirtualAccountV1
@@ -38,7 +38,7 @@ notes:
     licenses.Licenses.change_virtual_account_v1,
 
   - Paths used are
-    post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer,
+    post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer,  # noqa: E501
   - It should be noted that this module is an alias of license_virtual_account_change_v1
 
 """

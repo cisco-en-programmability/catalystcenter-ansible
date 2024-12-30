@@ -25,7 +25,7 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting index for pagination.
+    - Offset query parameter. Offset starting index for pagination.
     type: str
   limit:
     description:
@@ -42,7 +42,7 @@ options:
       is -1, devices for all child sites will be listed.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetDevicesThatAreAssignedToASiteV1

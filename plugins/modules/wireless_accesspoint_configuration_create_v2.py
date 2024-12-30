@@ -231,12 +231,12 @@ options:
         type: str
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV2
   description: Complete reference of the ConfigureAccessPointsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!configure-access-points-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!configure-access-points
 notes:
   - SDK Method used are
     wireless.Wireless.configure_access_points_v2,

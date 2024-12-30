@@ -103,15 +103,15 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1
-  description: Complete reference of the GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions # noqa: E501
+- name: Cisco DNA Center documentation for Devices GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 # noqa: E501
+  description: Complete reference of the GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.   # noqa: E501
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions  # noqa: E501
 notes:
   - SDK Method used are
-    devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,
+    devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,  # noqa: E501
 
   - Paths used are
     post /dna/data/api/v1/interfaces/query,
@@ -121,13 +121,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.interfaces_query_v1:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
     - function: string
       name: string
@@ -158,7 +158,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

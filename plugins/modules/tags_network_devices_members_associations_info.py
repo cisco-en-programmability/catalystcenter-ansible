@@ -28,7 +28,7 @@ options:
     - Limit query parameter. The number of records to show for this page. Minimum 1, maximum 500.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevicesV1

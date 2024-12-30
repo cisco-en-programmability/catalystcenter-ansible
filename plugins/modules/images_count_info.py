@@ -83,7 +83,7 @@ options:
       set to `false`, it will retrieve the images that are not add-on images.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfSoftwareImagesV1

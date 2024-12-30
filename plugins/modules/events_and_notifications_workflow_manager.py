@@ -473,16 +473,16 @@ options:
             elements: str
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 
 notes:
   - To ensure the module operates correctly with scaled sets—such as creating or updating multiple destinations and handling event
     subscription notifications—please ensure that valid input is provided in the playbook. If any failure occurs, the module will
     halt execution and will not proceed to subsequent operations.
-  - Configuring the webhook destination with headers now supports starting from catalystcentersdk version 2.9.1 onwards. This enhancement is in
+  - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
     alignment with Catalyst Center Release 2.3.7.5.
-  - Configuring the SNMP destination now supports starting from catalystcentersdk version 2.9.1 onwards. This enhancement is in
+  - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
     alignment with Catalyst Center Release 2.3.7.5.
   - SDK Method used are
     events.Events.get_syslog_destination,
@@ -930,15 +930,15 @@ catalystcenter_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import re
 import time
 
 
-class Events(DnacBase):
+class Events(CatalystCenterBase):
     """Class containing member attributes for inventory workflow manager module"""
 
     def __init__(self, module):
@@ -5535,7 +5535,7 @@ def main():
                     'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
                     'catalystcenter_debug': {'type': 'bool', 'default': False},
                     'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
                     "catalystcenter_log_append": {"type": 'bool', "default": True},
                     'catalystcenter_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},

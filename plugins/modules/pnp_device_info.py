@@ -21,12 +21,16 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter. Limits number of results.
-    type: int
+    - >
+      Limit query parameter. The number of records to show for this page. The minimum and maximum values are 0 and
+      500, respectively.
+    type: float
   offset:
     description:
-    - Offset query parameter. Index of first result.
-    type: int
+    - >
+      Offset query parameter. The first record to show for this page; the first record is numbered 0. The Minimum
+      value is 0.
+    type: float
   sort:
     description:
     - Sort query parameter. Comma seperated list of fields to sort on.
@@ -107,7 +111,7 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceByIdV1
@@ -131,13 +135,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Pnp Device Info
   cisco.catalystcenter.pnp_device_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -161,20 +165,20 @@ EXAMPLES = r"""
 
 - name: Get Pnp Device Info by id
   cisco.catalystcenter.pnp_device_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

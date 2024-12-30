@@ -35,19 +35,19 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting index for pagination.
+    - Offset query parameter. Offset starting index for pagination.
     type: str
   limit:
     description:
     - Limit query parameter. Number of sites to be listed. Default and max supported value is 500.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteV2
   description: Complete reference of the GetSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-site
 notes:
   - SDK Method used are
     sites.Sites.get_site_v2,

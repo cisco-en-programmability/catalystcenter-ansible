@@ -21,12 +21,22 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  limit:
+    description:
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
+    type: float
+  offset:
+    description:
+    - Offset query parameter. The first record to show for this page, the first record is numbered 1.
+    type: float
   deviceId:
     description:
     - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDeviceV1
@@ -49,32 +59,34 @@ notes:
 EXAMPLES = r"""
 - name: Get all Eox Status Device V1
   cisco.catalystcenter.eox_status_device_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    limit: 0
+    offset: 0
   register: result
 
 - name: Get Eox Status Device V1 by id
   cisco.catalystcenter.eox_status_device_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

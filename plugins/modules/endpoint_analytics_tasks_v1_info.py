@@ -26,7 +26,7 @@ options:
     - TaskId path parameter. Unique identifier for the task.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetailsV1
@@ -34,7 +34,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-task-details
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/tasks/{taskId},

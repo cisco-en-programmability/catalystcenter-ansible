@@ -25,7 +25,7 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter. The page size limit for the response, e.g. Limit=100 will return a maximum of 100 records.
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: float
   offset:
     description:
@@ -38,7 +38,7 @@ options:
     - Radios query parameter. Whether to include the planned radio details of the planned access points.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloorV1

@@ -62,7 +62,7 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFiltersV1

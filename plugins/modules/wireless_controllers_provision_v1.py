@@ -16,6 +16,17 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
+  apAuthorizationListName:
+    description: AP Authorization List name. 'Obtain the AP Authorization List names
+      by using the API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
+      During re-provision, obtain the AP Authorization List configured for the given
+      provisioned network device Id using the API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev...
+    type: str
+  authorizeMeshAndNonMeshAccessPoints:
+    description: True if AP Authorization List should authorize against All Mesh/Non-Mesh
+      APs, else false if AP Authorization List should only authorize against Mesh APs
+      (Applicable only when Mesh is enabled on sites).
+    type: bool
   deviceId:
     description: DeviceId path parameter. Network Device ID. This value can be obtained
       by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
@@ -57,7 +68,7 @@ options:
     description: True if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
@@ -82,6 +93,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
+    apAuthorizationListName: string
+    authorizeMeshAndNonMeshAccessPoints: true
     deviceId: string
     interfaces:
     - interfaceGateway: string

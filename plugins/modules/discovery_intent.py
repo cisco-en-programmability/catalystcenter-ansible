@@ -328,7 +328,7 @@ options:
         type: bool
         default: False
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -617,15 +617,15 @@ response_3:
     }
 """
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts
 )
 import time
 import re
 
 
-class Discovery(DnacBase):
+class Discovery(CatalystCenterBase):
     def __init__(self, module):
         """
         Initialize an instance of the class. It also initializes an empty
@@ -1785,7 +1785,7 @@ def main():
                     'catalystcenter_debug': {'type': 'bool', 'default': False},
                     'catalystcenter_log': {'type': 'bool', 'default': False},
                     'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
                     "catalystcenter_log_append": {"type": 'bool', "default": True},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {"type": 'bool', "default": False},

@@ -10,9 +10,13 @@ module: event_subscription_v1
 short_description: Resource module for Event Subscription V1
 description:
 - Manage operations create, update and delete of the resource Event Subscription V1.
-- Subscribe SubscriptionEndpoint to list of registered events Deprecated .
+- >
+   Subscribe SubscriptionEndpoint to list of registered events. Deprecated since Guardian release. Alternative POST
+   /intent/api/v1/event/subscription/rest.
 - Delete EventSubscriptions.
-- Update SubscriptionEndpoint to list of registered events Deprecated .
+- >
+   Update SubscriptionEndpoint to list of registered events. Deprecated since Guardian release. Alternative PUT
+   /intent/api/v1/event/subscription/rest.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -94,7 +98,7 @@ options:
     description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEventSubscriptionsV1

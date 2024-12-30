@@ -27,14 +27,16 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
     - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetPrimaryManagedAPLocationsForSpecificWirelessControllerV1
@@ -52,13 +54,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Wireless Controllers Primary Managed Ap Locations V1
   cisco.catalystcenter.wireless_controllers_primary_managed_ap_locations_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -67,7 +69,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

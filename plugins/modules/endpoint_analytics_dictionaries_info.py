@@ -26,7 +26,7 @@ options:
       included in response.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
@@ -34,7 +34,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_a_i_endpoint_analytics_attribute_dictionaries_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/dictionaries,
@@ -45,20 +45,20 @@ notes:
 EXAMPLES = r"""
 - name: Get all Endpoint Analytics Dictionaries Info
   cisco.catalystcenter.endpoint_analytics_dictionaries_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     includeAttributes: True
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list

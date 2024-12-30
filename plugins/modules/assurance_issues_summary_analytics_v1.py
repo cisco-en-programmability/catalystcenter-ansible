@@ -12,8 +12,9 @@ description:
 - Manage operation create of the resource Assurance Issues Summary Analytics V1.
 - >
    Gets the summary analytics data related to issues based on given filters and group by field. This data can be used
-   to find issue counts grouped by different keys. Https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
+   to find issue counts grouped by different keys. For detailed information about the usage of the API, please refer
+   to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+   specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -100,7 +101,7 @@ options:
     description: Start Time.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues GetSummaryAnalyticsDataOfIssuesV1
@@ -118,13 +119,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.assurance_issues_summary_analytics_v1:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
     - function: string
       name: string
@@ -153,7 +154,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

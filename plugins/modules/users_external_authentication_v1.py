@@ -10,7 +10,7 @@ module: users_external_authentication_v1
 short_description: Resource module for Users External Authentication V1
 description:
 - Manage operation create of the resource Users External Authentication V1.
-- Enable or disable external authentication on Cisco DNA Center System.
+- Enable or disable external authentication in the System.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,7 +20,7 @@ options:
     description: Enable/disable External Authentication.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPIV1

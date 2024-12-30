@@ -38,7 +38,7 @@ options:
     - ImageId path parameter. Image Id in uuid format.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImageV1

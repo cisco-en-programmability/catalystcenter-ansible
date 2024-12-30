@@ -353,7 +353,7 @@ options:
                 type: str
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2
@@ -756,6 +756,35 @@ EXAMPLES = r"""
         site_name:
             - Global/Vietnam/halong/Hanoi
 
+  - name: Delete credentials
+    cisco.catalystcenter.device_credential_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: True
+    state: deleted
+    config_verify: True
+    config:
+    - global_credential_details:
+        cli_credential:
+        - description: CLI1
+          username: cli1
+        snmp_v2c_read:
+        - description: SNMPv2c Read1 # use this for deletion
+        snmp_v2c_write:
+        - description: SNMPv2c Write1 # use this for deletion
+        snmp_v3:
+        - description: snmpV31
+        https_read:
+        - description: HTTP Read1
+          username: HTTP_Read1
+        https_write:
+        - description: HTTP Write1
+          username: HTTP_Write1
+
 """
 
 RETURN = r"""
@@ -791,14 +820,14 @@ catalystcenter_response2:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
 
 
-class DeviceCredential(DnacBase):
+class DeviceCredential(CatalystCenterBase):
     """Class containing member attributes for device_credential_workflow_manager module"""
 
     def __init__(self, module):
@@ -3218,7 +3247,7 @@ def main():
         "catalystcenter_debug": {"type": 'bool', "default": False},
         "catalystcenter_log": {"type": 'bool', "default": False},
         "catalystcenter_log_level": {"type": 'str', "default": 'WARNING'},
-        "catalystcenter_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
         "catalystcenter_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
         'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},

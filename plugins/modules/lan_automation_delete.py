@@ -20,7 +20,7 @@ options:
     description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopV1

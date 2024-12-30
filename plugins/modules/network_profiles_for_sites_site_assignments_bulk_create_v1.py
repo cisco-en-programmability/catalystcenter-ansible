@@ -16,15 +16,20 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
+  items:
+    description: Items.
+    elements: dict
+    suboptions:
+      id:
+        description: Id.
+        type: str
+    type: list
   profileId:
     description: ProfileId path parameter. The `id` of the network profile, retrievable
       from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
-  type:
-    description: Network Profiles For Sites Site Assignments Bulk Create's type.
-    type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToAListOfSitesV1
@@ -49,8 +54,9 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
+    items:
+    - - id: string
     profileId: string
-    type: {}
 
 """
 RETURN = r"""

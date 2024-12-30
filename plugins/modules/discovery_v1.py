@@ -205,7 +205,7 @@ options:
     description: Username of the devices to be discovered.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery StartDiscoveryV1

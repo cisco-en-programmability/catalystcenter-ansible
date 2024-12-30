@@ -21,14 +21,16 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter. Return only this many IP Pool to SSID Mapping.
+    - >
+      Limit query parameter. Return only this many IP Pool to SSID Mapping. Default is 500 if not specified.
+      Maximum allowed limit is 500.
     type: float
   offset:
     description:
     - Offset query parameter. Number of records to skip for pagination.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless ReturnsAllTheFabricSitesThatHaveVLANToSSIDMappingV1

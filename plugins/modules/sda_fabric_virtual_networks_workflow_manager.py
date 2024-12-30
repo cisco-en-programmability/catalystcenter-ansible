@@ -14,9 +14,9 @@ DOCUMENTATION = r"""
 module: sda_fabric_virtual_networks_workflow_manager
 short_description: Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
 description:
-- Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
-- Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.
-- Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst Center.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
@@ -26,12 +26,17 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
+  sda_fabric_vlan_limit:
+    description: Set the limit for creating/updating fabric VLAN(s) via the SDA API, consistent with the GUI constraints.
+        By default it is set to 50 as in the GUI we can only create 50 fabric VLAN(s) at a time.
+    type: int
+    default: 50
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites/zones
         in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication
@@ -40,7 +45,7 @@ options:
         to authentication profiles.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       fabric_vlan:
         description: A list of VLAN configurations for fabric sites in SDA environment. Each VLAN entry
@@ -52,14 +57,14 @@ options:
             description: Name of the VLAN of the layer2 virtual network. Must contain only alphanumeric characters,
                 underscores, and hyphens. Updating this field is not allowed.
             type: str
-            required: True
+            required: true
           vlan_id:
             description: ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for
                 reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan_id must match the
                 vlan_id of the corresponding layer2 virtual network on the fabric site. And updation of this
                 field is not allowed.
             type: int
-            required: True
+            required: true
           fabric_site_locations:
             description: A list of fabric site locations where this VLAN is deployed, including site hierarchy and fabric type details.
             type: list
@@ -69,17 +74,17 @@ options:
                 description: This name uniquely identifies the site for operations such as creating/updating/deleting any fabric
                     VLAN. This parameter is required, and updates to this field is not allowed.
                 type: str
-                required: True
+                required: true
               fabric_type:
                 description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
                     and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
                     'fabric_zone' typically refers to a more specific segment within the site.
                 type: str
-                required: True
+                required: true
           traffic_type:
             description: The type of traffic handled by the VLAN (e.g., DATA, VOICE). By default, it is set to "DATA".
             type: str
-            required: True
+            required: true
           fabric_enabled_wireless:
             description: Indicates whether the fabric VLAN is enabled for wireless in the fabric environment. By default, it is set to False.
             type: bool
@@ -100,7 +105,7 @@ options:
                 field is not allowed. It consist of only letters, numbers, and underscores, and must be between 1-16 characters
                 in length.
             type: str
-            required: True
+            required: true
           fabric_site_locations:
             description: A list of fabric site locations where this this Layer3 virtual network is to be assigned to, including site
                 hierarchy and fabric type details. If this parameter is given make sure to provide the site_name and fabric_type as
@@ -135,13 +140,13 @@ options:
             description: The name of the Layer3 virtual network. It must consist only of letters, numbers, and underscores, with
                 a length between 1 and 16 characters. This field cannot be updated after creation.
             type: str
-            required: True
+            required: true
           fabric_site_locations:
             description: A list of fabric site locations where this Layer3 virtual network will be assigned, including details about
                 the site hierarchy and fabric type. If this parameter is provided, ensure that both site_name and fabric_type are specified
                 for each entry. This is required to extend the virtual networks across the specified fabric sites.
             type: dict
-            required: True
+            required: true
             suboptions:
               site_name_hierarchy:
                 description: The hierarchical name of the site where the anycast gateway is deployed.
@@ -157,7 +162,7 @@ options:
                 if it does not exist, it can be created or reserved using the 'network_settings_workflow_manager' module.
                 Updating this field is not allowed.
             type: str
-            required: True
+            required: true
           tcp_mss_adjustment:
             description: The value used to adjust the TCP Maximum Segment Size (MSS). The value should be in the range (500, 1441).
             type: int
@@ -232,8 +237,8 @@ options:
 
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
-- python >= 3.9
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.9
 
 notes:
   - To ensure the module operates correctly for scaled sets, which involve creating, updating, or deleting Layer2 fabric VLANs
@@ -272,15 +277,15 @@ notes:
 EXAMPLES = r"""
 - name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - fabric_vlan:
@@ -303,15 +308,15 @@ EXAMPLES = r"""
 
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - fabric_vlan:
@@ -327,15 +332,15 @@ EXAMPLES = r"""
 
 - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: deleted
     config:
       - fabric_vlan:
@@ -347,15 +352,15 @@ EXAMPLES = r"""
 
 - name: Create layer3 Virtual Network and anchored the site to the VN as well.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - virtual_networks:
@@ -367,15 +372,15 @@ EXAMPLES = r"""
 
 - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - virtual_networks:
@@ -388,15 +393,15 @@ EXAMPLES = r"""
 
 - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - virtual_networks:
@@ -411,15 +416,15 @@ EXAMPLES = r"""
 
 - name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: deleted
     config:
       - virtual_networks:
@@ -427,15 +432,15 @@ EXAMPLES = r"""
 
 - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - anycast_gateways:
@@ -451,15 +456,15 @@ EXAMPLES = r"""
 
 - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - anycast_gateways:
@@ -476,15 +481,15 @@ EXAMPLES = r"""
 
 - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
     state: deleted
     config:
       - anycast_gateways:
@@ -498,7 +503,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -513,15 +518,15 @@ dnac_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import copy
 import re
 
 
-class VirtualNetwork(DnacBase):
+class VirtualNetwork(CatalystCenterBase):
     """Class containing member attributes for fabric sites and zones workflow manager module"""
 
     def __init__(self, module):
@@ -987,26 +992,40 @@ class VirtualNetwork(DnacBase):
             class status accordingly.
         """
 
-        try:
-            payload = {"payload": vlan_payloads}
-            task_name = "add_layer2_virtual_networks"
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+        req_limit = self.params.get('sda_fabric_vlan_limit', 50)
+        self.log(
+            "API request batch size set to '{0}' for fabric VLAN creation.".format(req_limit), "DEBUG"
+        )
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        for i in range(0, len(vlan_payloads), req_limit):
+            fabric_vlan_payload = vlan_payloads[i: i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
 
-            success_msg = "Layer2 Fabric VLAN(s) '{0}' created successfully in the Cisco Catalyst Center.".format(self.created_fabric_vlans)
-            self.log(success_msg, "DEBUG")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            try:
+                payload = {"payload": fabric_vlan_payload}
+                task_name = "add_layer2_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-        except Exception as e:
-            self.msg = (
-                "An exception occured while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.created_fabric_vlans, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+                if not task_id:
+                    self.msg = (
+                        "Failed to retrieve task ID for task '{0}'. Payload: '{1}'".format(
+                            task_name, payload
+                        )
+                    )
+                    self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Layer2 Fabric VLAN(s) '{0}' created successfully in the Cisco Catalyst Center.".format(fabric_vlan_details)
+                self.log(success_msg, "DEBUG")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
+            except Exception as e:
+                self.msg = (
+                    "An exception occured while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
+                    "Center: {1}"
+                ).format(self.fabric_vlan_details, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
@@ -1114,34 +1133,42 @@ class VirtualNetwork(DnacBase):
             and sets the status to "failed".
         """
 
-        try:
-            payload = {"payload": update_vlan_payload}
-            task_name = "update_layer2_virtual_networks"
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+        req_limit = self.params.get('sda_fabric_vlan_limit', 50)
+        self.log(
+            "API request batch size set to '{0}' for fabric VLAN updation.".format(req_limit), "DEBUG"
+        )
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        for i in range(0, len(update_vlan_payload), req_limit):
+            vlan_payload = update_vlan_payload[i: i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
 
-            success_msg = "Layer2 Fabric VLAN(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_fabric_vlans)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            try:
+                payload = {"payload": vlan_payload}
+                task_name = "update_layer2_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-        except Exception as e:
-            self.msg = (
-                "An exception occured while updating the layer2 fabric VLAN(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.updated_fabric_vlans, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+                if not task_id:
+                    self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Layer2 Fabric VLAN(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(fabric_vlan_details)
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
+            except Exception as e:
+                self.msg = (
+                    "An exception occured while updating the layer2 fabric VLAN(s) '{0}' in the Cisco Catalyst "
+                    "Center: {1}"
+                ).format(fabric_vlan_details, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
-    def delete_layer2_fabric_vlan(self, vlan_name, vlan_vn_id, vlan_name_with_id_and_site):
+    def delete_layer2_fabric_vlan(self, vlan_vn_id, vlan_name_with_id_and_site):
         """
         Deletes a Layer2 fabric VLAN in Cisco Catalyst Center based on the provided VLAN ID.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            vlan_name (str): The name of the Fabric VLAN to be deleted.
             vlan_vn_id (str): The unique identifier of the Fabric VLAN to be deleted.
             vlan_name_with_id_and_site (str): Uniquely identify the name of vlan with it's VLAN id and
                 to the site(s) it is assoicated with
@@ -1173,7 +1200,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = "Exception occurred while deleting the fabric Vlan '{0}' due to: {1}".format(vlan_name_with_id_and_site, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -2572,11 +2599,11 @@ class VirtualNetwork(DnacBase):
             result_msg_list.append(create_vn_msg)
 
         if self.updated_virtual_networks:
-            update_vn_msg = "Layer3 Virtual Network(s '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_virtual_networks)
+            update_vn_msg = "Layer3 Virtual Network(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_virtual_networks)
             result_msg_list.append(update_vn_msg)
 
         if self.no_update_virtual_networks:
-            no_update_vns_msg = "Given Virtual Network(s '{0}' does not need any update in Cisco Catalyst Center.".format(self.no_update_virtual_networks)
+            no_update_vns_msg = "Given Virtual Network(s) '{0}' does not need any update in Cisco Catalyst Center.".format(self.no_update_virtual_networks)
             result_msg_list.append(no_update_vns_msg)
 
         if self.created_anycast_gateways:
@@ -2920,13 +2947,13 @@ class VirtualNetwork(DnacBase):
                     name_id_site_key = "{0}${1}${2}".format(vlan_name, vlan_id, site_name)
                     fabric_site_dict[name_id_site_key] = fabric_vlan_id
                 else:
-                    self.delete_layer2_fabric_vlan(vlan_name, fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
+                    self.delete_layer2_fabric_vlan(fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
                     self.log("Successfully deleted fabric VLAN '{0}' from Cisco Catalyst Center.".format(vlan_name_with_id_and_site), "INFO")
 
         for name_id_key, fabric_vlan_id in fabric_site_dict.items():
             vlan_name, vlan_id, site_name = name_id_key.split("$")
             vlan_name_with_id_and_site = "{0} having vlan id: {1} and site: {2}".format(vlan_name, vlan_id, site_name)
-            self.delete_layer2_fabric_vlan(vlan_name, fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
+            self.delete_layer2_fabric_vlan(fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
             self.log("Successfully deleted fabric VLAN '{0}' from Cisco Catalyst Center.".format(vlan_name_with_id_and_site), "INFO")
 
         if self.deleted_fabric_vlans:
@@ -3529,21 +3556,22 @@ def main():
     """
 
     element_spec = {
-        'dnac_host': {'required': True, 'type': 'str'},
-        'dnac_port': {'type': 'str', 'default': '443'},
-        'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-        'dnac_password': {'type': 'str', 'no_log': True},
-        'dnac_verify': {'type': 'bool', 'default': 'True'},
-        'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-        'dnac_debug': {'type': 'bool', 'default': False},
-        'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
-        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-        "dnac_log_append": {"type": 'bool', "default": True},
-        'dnac_log': {'type': 'bool', 'default': False},
+        'catalystcenter_host': {'required': True, 'type': 'str'},
+        'catalystcenter_port': {'type': 'str', 'default': '443'},
+        'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+        'catalystcenter_password': {'type': 'str', 'no_log': True},
+        'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+        'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+        'catalystcenter_debug': {'type': 'bool', 'default': False},
+        'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+        "catalystcenter_log_append": {"type": 'bool', "default": True},
+        'catalystcenter_log': {'type': 'bool', 'default': False},
         'validate_response_schema': {'type': 'bool', 'default': True},
         'config_verify': {'type': 'bool', "default": False},
-        'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-        'dnac_task_poll_interval': {'type': 'int', "default": 2},
+        'sda_fabric_vlan_limit': {'type': 'int', 'default': 50},
+        'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+        'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
     }
@@ -3553,7 +3581,7 @@ def main():
 
     # Initialize the Virtual Network object
     ccc_virtual_network = VirtualNetwork(module)
-    if ccc_virtual_network.compare_dnac_versions(ccc_virtual_network.get_ccc_version(), "2.3.7.6") < 0:
+    if ccc_virtual_network.compare_catalystcenter_versions(ccc_virtual_network.get_ccc_version(), "2.3.7.6") < 0:
         ccc_virtual_network.msg = (
             "The specified version '{0}' does not support the SDA fabric devices feature. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "

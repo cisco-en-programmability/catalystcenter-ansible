@@ -52,7 +52,7 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpointsV1
@@ -60,7 +60,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,

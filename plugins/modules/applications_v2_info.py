@@ -38,12 +38,12 @@ options:
       results, max value 500.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationsV2
   description: Complete reference of the GetApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_applications_v2,
@@ -56,13 +56,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Applications V2
   cisco.catalystcenter.applications_v2_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     attributes: string
     name: string
@@ -72,7 +72,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

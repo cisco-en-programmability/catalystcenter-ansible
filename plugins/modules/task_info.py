@@ -61,12 +61,12 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter.
-    type: int
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: float
   limit:
     description:
-    - Limit query parameter.
-    type: int
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: float
   sortBy:
     description:
     - SortBy query parameter. Sort results by this field.
@@ -80,7 +80,7 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskByIdV1
@@ -104,13 +104,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Task Info
   cisco.catalystcenter.task_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: string
     endTime: string
@@ -130,20 +130,20 @@ EXAMPLES = r"""
 
 - name: Get Task Info by id
   cisco.catalystcenter.task_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     taskId: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -160,9 +160,7 @@ dnac_response:
         "instanceTenantId": "string",
         "isError": true,
         "lastUpdate": 0,
-        "operationIdList": [
-          "string"
-        ],
+        "operationIdList": {},
         "parentId": "string",
         "progress": "string",
         "rootId": "string",

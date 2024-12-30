@@ -180,18 +180,18 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplicationsV2
   description: Complete reference of the CreateApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-applications-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!create-applications
 - name: Cisco DNA Center documentation for Application Policy DeleteApplicationV2
   description: Complete reference of the DeleteApplicationV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application
 - name: Cisco DNA Center documentation for Application Policy EditApplicationsV2
   description: Complete reference of the EditApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!edit-applications
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_applications_v2,
@@ -208,13 +208,13 @@ notes:
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.applications_v2:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
     - displayName: string
@@ -269,13 +269,13 @@ EXAMPLES = r"""
 
 - name: Create
   cisco.catalystcenter.applications_v2:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     payload:
     - indicativeNetworkIdentity:
@@ -315,19 +315,19 @@ EXAMPLES = r"""
 
 - name: Delete by id
   cisco.catalystcenter.applications_v2:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

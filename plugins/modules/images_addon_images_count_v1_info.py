@@ -26,7 +26,7 @@ options:
     - Id path parameter. Software image identifier. Check API `/dna/intent/api/v1/images` for id from response.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfAddOnImagesV1

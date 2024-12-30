@@ -19,8 +19,24 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  page_size:
+    description:
+    - Page_size query parameter. Specifies the number of records to display per page.
+    type: float
+  page:
+    description:
+    - Page query parameter. Indicates the current page number to display.
+    type: float
+  sortBy:
+    description:
+    - SortBy query parameter. The field name used to sort the records.
+    type: str
+  order:
+    description:
+    - Order query parameter. Specify the sorting order - asc for ascending or desc for descending.
+    type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettingsV1
@@ -39,41 +55,50 @@ notes:
 EXAMPLES = r"""
 - name: Get all Integration Settings Itsm Instances Info
   cisco.catalystcenter.integration_settings_itsm_instances_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    page_size: 0
+    page: 0
+    sortBy: string
+    order: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "id": "string",
-        "dypId": "string",
-        "dypName": "string",
-        "name": "string",
-        "uniqueKey": "string",
-        "dypMajorVersion": 0,
-        "description": "string",
-        "createdDate": 0,
-        "createdBy": "string",
-        "updatedBy": "string",
-        "softwareVersionLog": [
-          {}
-        ],
-        "schemaVersion": 0,
-        "tenantId": "string"
-      }
-    ]
+    {
+      "page": 0,
+      "pageSize": 0,
+      "totalPages": 0,
+      "data": [
+        {
+          "_id": "string",
+          "id": "string",
+          "createdBy": "string",
+          "description": "string",
+          "dypId": "string",
+          "dypMajorVersion": 0,
+          "dypName": "string",
+          "name": "string",
+          "schemaVersion": 0,
+          "softwareVersionLog": [
+            {}
+          ],
+          "uniqueKey": "string",
+          "updatedBy": "string",
+          "updatedDate": 0
+        }
+      ],
+      "totalRecords": 0
+    }
 """

@@ -30,7 +30,7 @@ options:
     - Date query parameter. Provide date in "YYYY-MM-DD" format.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for ITSM GetCMDBSyncStatusV1

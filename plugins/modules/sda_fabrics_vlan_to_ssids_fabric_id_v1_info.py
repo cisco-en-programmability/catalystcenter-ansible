@@ -27,19 +27,21 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
     - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1
   description: Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site  # noqa: E501
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site_v1,

@@ -34,7 +34,7 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Licenses LicenseUsageDetailsV1
@@ -102,24 +102,6 @@ catalystcenter_response:
         ]
       },
       "used_network_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "purchased_ise_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "used_ise_license": {
         "total_license_count": 0,
         "license_count_by_type": [
           {

@@ -74,7 +74,7 @@ options:
     type: list
   netconfPort:
     description: Netconf Port of the device. CliTransport must be 'ssh' if netconf is
-      provided.
+      provided. Netconf port is required for eWLC.
     type: str
   password:
     description: CLI Password of the device. Required if type is NETWORK_DEVICE.
@@ -142,7 +142,7 @@ options:
     description: CLI user name of the device. Required if type is NETWORK_DEVICE.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1

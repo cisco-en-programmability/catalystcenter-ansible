@@ -28,7 +28,7 @@ options:
     - AnchoredSiteId query parameter. Fabric ID of the fabric site the layer 3 virtual network is anchored at.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetLayer3VirtualNetworksCountV1

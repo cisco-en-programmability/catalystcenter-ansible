@@ -61,7 +61,7 @@ options:
         type: int
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
@@ -123,7 +123,6 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     description: string
-    headers: '{{my_headers | from_json}}'
     id: string
     isEnabled: true
     isNotificationEnabled: true

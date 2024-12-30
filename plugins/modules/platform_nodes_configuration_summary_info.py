@@ -20,12 +20,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummaryV1
-  description: Complete reference of the CiscoDNACenterNodesConfigurationSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary
+- name: Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterNodesConfigurationSummaryV1
+  description: Complete reference of the CiscoCatalystCenterNodesConfigurationSummaryV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-nodes-configuration-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.nodes_configuration_summary,

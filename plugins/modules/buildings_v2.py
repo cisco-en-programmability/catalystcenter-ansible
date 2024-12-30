@@ -22,7 +22,13 @@ author: Rafael Campos (@racampos)
 options:
   address:
     description: Building address. Example 4900 Marie P. Debartolo Way, Santa Clara,
-      California 95054, United States.
+      California 95054, United States. Please note that if only the address is provided
+      when creating a building, the UI will not display the geo-location on the map.
+      To ensure the location is rendered, you must also provide the latitude and longitude.
+      If a building has been created without these coordinates and you wish to display
+      its geo-location on the map later, you can edit the building details via the UI
+      to include the latitude and longitude. This limitation will be resolved in a future
+      release.
     type: str
   country:
     description: Country name.
@@ -43,18 +49,18 @@ options:
     description: Parent Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design CreatesABuildingV2
   description: Complete reference of the CreatesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-building
 - name: Cisco DNA Center documentation for Site Design DeletesABuildingV2
   description: Complete reference of the DeletesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building
 - name: Cisco DNA Center documentation for Site Design UpdatesABuildingV2
   description: Complete reference of the UpdatesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!updates-a-building
 notes:
   - SDK Method used are
     site_design.SiteDesign.creates_a_building_v2,
@@ -71,13 +77,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.buildings_v2:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     address: string
     country: string
@@ -88,13 +94,13 @@ EXAMPLES = r"""
 
 - name: Update by id
   cisco.catalystcenter.buildings_v2:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     address: string
     country: string
@@ -106,19 +112,19 @@ EXAMPLES = r"""
 
 - name: Delete by id
   cisco.catalystcenter.buildings_v2:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

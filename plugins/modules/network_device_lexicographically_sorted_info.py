@@ -105,10 +105,10 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
@@ -127,13 +127,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Network Device Lexicographically Sorted Info
   cisco.catalystcenter.network_device_lexicographically_sorted_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     vrfName: string
     managementIpAddress: string
@@ -161,10 +161,15 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: str
+  type: dict
   sample: >
-    "string"
+    {
+      "response": [
+        "string"
+      ],
+      "version": "string"
+    }
 """

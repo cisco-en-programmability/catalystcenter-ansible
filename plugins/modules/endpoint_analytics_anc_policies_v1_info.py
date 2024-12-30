@@ -20,7 +20,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetANCPoliciesV1
@@ -28,7 +28,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_anc_policies_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_anc_policies_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/anc-policies,

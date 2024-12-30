@@ -329,7 +329,7 @@ options:
             version_added: 6.12.0
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 seealso:
 - name: Cisco Catalyst Center documentation for Devices AddDevice2
@@ -727,15 +727,15 @@ import time
 from datetime import datetime
 from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 # Defer this feature as API issue is there once it's fixed we will addresses it in upcoming release iac2.0
 support_for_provisioning_wireless = False
 
 
-class DnacDevice(DnacBase):
+class DnacDevice(CatalystCenterBase):
     """Class containing member attributes for Inventory intent module"""
 
     def __init__(self, module):
@@ -2117,7 +2117,7 @@ class DnacDevice(DnacBase):
         for ip in want_device:
             devices_in_playbook.append(ip)
             if ip not in device_in_dnac:
-                device_not_in_dnac.append(ip)
+                device_not_in_catalystcenter.append(ip)
 
         if self.config[0].get('provision_wired_device'):
             provision_wired_list = self.config[0].get('provision_wired_device')
@@ -2127,7 +2127,7 @@ class DnacDevice(DnacBase):
                 if device_ip_address not in want_device:
                     devices_in_playbook.append(device_ip_address)
                 if device_ip_address not in device_in_dnac:
-                    device_not_in_dnac.append(device_ip_address)
+                    device_not_in_catalystcenter.append(device_ip_address)
 
         if support_for_provisioning_wireless:
             if self.config[0].get('provision_wireless_device'):
@@ -2138,7 +2138,7 @@ class DnacDevice(DnacBase):
                     if device_ip_address not in want_device and device_ip_address not in devices_in_playbook:
                         devices_in_playbook.append(device_ip_address)
                     if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_dnac:
-                        device_not_in_dnac.append(device_ip_address)
+                        device_not_in_catalystcenter.append(device_ip_address)
 
         self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)), "INFO")
         have["want_device"] = want_device
@@ -3861,7 +3861,7 @@ def main():
                     'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
                     'catalystcenter_debug': {'type': 'bool', 'default': False},
                     'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'dnac.log'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
                     "catalystcenter_log_append": {"type": 'bool', "default": True},
                     'catalystcenter_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},

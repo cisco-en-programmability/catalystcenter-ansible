@@ -56,8 +56,9 @@ options:
     description: |
       The 'replaced' state is used to indicate the replacement of faulty network devices with
       replacement network device in the workflow.
+      The 'deleted' state is used to unmark the faulty network devices in the workflow.
     type: str
-    choices: [ 'replaced' ]
+    choices: [ 'replaced', 'deleted' ]
     default: replaced
   ccc_poll_interval:
     description: |
@@ -118,7 +119,7 @@ options:
         type: str
 
 requirements:
-  - catalystcentersdk >= 2.3.7.6
+  - catalystcentersdk >= 2.3.7.9
   - python >= 3.10
 
 notes:
@@ -229,6 +230,92 @@ EXAMPLES = r"""
       - faulty_device_serial_number: "FJC2327U0S2"
         replacement_device_serial_number: "FCW2225C020"
   register: result
+
+- name: RMA workflow for unmark faulty device using device names
+  cisco.catalystcenter.rma_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    config_verify: true
+    resync_retry_count: 1000
+    resync_retry_interval: 30
+    ccc_poll_interval: 2
+    timeout_interval: 100
+    state: deleted
+    config:
+      - faulty_device_name: "SJ-EN-9300.cisco.local"
+  register: result
+
+- name: RMA workflow for unmark faulty device using IP addresses
+  cisco.catalystcenter.rma_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    config_verify: true
+    resync_retry_count: 1000
+    resync_retry_interval: 30
+    ccc_poll_interval: 2
+    timeout_interval: 100
+    state: deleted
+    config:
+      - faulty_device_ip_address: 204.1.2.9
+  register: result
+
+- name: RMA workflow for unmark faulty device using serial numbers
+  cisco.catalystcenter.rma_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    config_verify: true
+    resync_retry_count: 1000
+    resync_retry_interval: 30
+    ccc_poll_interval: 2
+    timeout_interval: 100
+    state: deleted
+    config:
+      - faulty_device_serial_number: "FJC2327U0S2"
+  register: result
+
+- name: RMA workflow for unmark faulty device using all
+  cisco.catalystcenter.rma_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    config_verify: true
+    resync_retry_count: 1000
+    resync_retry_interval: 30
+    ccc_poll_interval: 2
+    timeout_interval: 100
+    state: deleted
+    config:
+      - faulty_device_name: "SJ-EN-9300.cisco.local"
+      - faulty_device_ip_address: 204.1.2.9
+      - faulty_device_serial_number: "FJC2327U0S2"
+  register: result
 """
 
 RETURN = r"""
@@ -295,8 +382,8 @@ response_4:
 
 import re
 import json
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
     validate_str
 )
@@ -304,13 +391,13 @@ from ansible.module_utils.basic import AnsibleModule
 import time
 
 
-class DeviceReplacement(DnacBase):
+class DeviceReplacement(CatalystCenterBase):
     """Class containing member attributes for rma_workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
         self.result["response"] = []
-        self.supported_states = ["replaced"]
+        self.supported_states = ["replaced", "deleted"]
         self.payload = module.params
         self.keymap = {}
         self.faulty_device, self.replacement_device = [], []
@@ -446,81 +533,106 @@ class DeviceReplacement(DnacBase):
 
         have = {}
         config = self.want["config"]
-        identifier_keys = [
-            ("faulty_device_serial_number", "replacement_device_serial_number"),
-            ("faulty_device_serial_number", "replacement_device_name"),
-            ("faulty_device_serial_number", "replacement_device_ip_address"),
-            ("faulty_device_name", "replacement_device_serial_number"),
-            ("faulty_device_name", "replacement_device_name"),
-            ("faulty_device_name", "replacement_device_ip_address"),
-            ("faulty_device_ip_address", "replacement_device_ip_address"),
-            ("faulty_device_ip_address", "replacement_device_name"),
-            ("faulty_device_ip_address", "replacement_device_serial_number")
-        ]
+        if self.payload.get("state") == "replaced":
+            identifier_keys = [
+                ("faulty_device_serial_number", "replacement_device_serial_number"),
+                ("faulty_device_serial_number", "replacement_device_name"),
+                ("faulty_device_serial_number", "replacement_device_ip_address"),
+                ("faulty_device_name", "replacement_device_serial_number"),
+                ("faulty_device_name", "replacement_device_name"),
+                ("faulty_device_name", "replacement_device_ip_address"),
+                ("faulty_device_ip_address", "replacement_device_ip_address"),
+                ("faulty_device_ip_address", "replacement_device_name"),
+                ("faulty_device_ip_address", "replacement_device_serial_number")
+            ]
 
-        valid_identifier_found = False
+            valid_identifier_found = False
 
-        # Iterate through identifier keys to find valid device combinations
-        for faulty_key, replacement_key in identifier_keys:
-            faulty_identifier = config.get(faulty_key)
-            replacement_identifier = config.get(replacement_key)
+            # Iterate through identifier keys to find valid device combinations
+            for faulty_key, replacement_key in identifier_keys:
+                faulty_identifier = config.get(faulty_key)
+                replacement_identifier = config.get(replacement_key)
 
-            if faulty_identifier and replacement_identifier:
-                valid_identifier_found = True
+                if faulty_identifier and replacement_identifier:
+                    valid_identifier_found = True
 
-                # Check if faulty device exists
-                faulty_device = self.device_exists(faulty_identifier, faulty_key)
+                    # Check if faulty device exists
+                    faulty_device = self.device_exists(faulty_identifier, faulty_key)
 
-                if not faulty_device:
-                    self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    return self
-
-                have["faulty_device_id"] = faulty_device.get("device_id")
-                have["faulty_device_serial_number"] = faulty_device.get("serial_number")
-                have["faulty_device_name"] = faulty_device.get("device_name")
-                have["faulty_device_reachability_status"] = faulty_device.get("reachability_status")
-                have["faulty_device_platform_id"] = faulty_device.get("platform_id")
-                have[faulty_key] = faulty_identifier
-                have["faulty_device_exists"] = True
-                self.log("Faulty device '{0}' found in Cisco Catalyst Center".format(faulty_identifier), "INFO")
-
-                # Check if replacement device exists
-                replacement_device = self.device_exists(replacement_identifier, replacement_key)
-
-                if not replacement_device:
-                    self.log("Replacement device '{0}' not found in inventory, checking in PnP...", "DEBUG")
-                    replacement_device = self.pnp_device_exists(replacement_identifier, replacement_key)
-
-                    if not replacement_device:
-                        self.msg = "Replacement device '{0}' not found in PnP".format(replacement_identifier)
+                    if not faulty_device:
+                        self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
                         self.log(self.msg, "ERROR")
                         self.status = "failed"
                         return self
 
-                have["replacement_device_id"] = replacement_device.get("device_id")
-                have["replacement_device_serial_number"] = replacement_device.get("serial_number")
-                have["replacement_device_name"] = replacement_device.get("device_name")
-                have["replacement_device_reachability_status"] = replacement_device.get("reachability_status")
-                have["replacement_device_platform_id"] = replacement_device.get("platform_id")
-                have["is_pnp_replacement_device"] = replacement_device.get("is_pnp_device")
-                have[replacement_key] = replacement_identifier
-                have["replacement_device_exists"] = True
-                self.log("Replacement device '{0}' found in Cisco Catalyst Center".format(replacement_identifier), "INFO")
-                break
+                    have["faulty_device_id"] = faulty_device.get("device_id")
+                    have["faulty_device_serial_number"] = faulty_device.get("serial_number")
+                    have["faulty_device_name"] = faulty_device.get("device_name")
+                    have["faulty_device_reachability_status"] = faulty_device.get("reachability_status")
+                    have["faulty_device_platform_id"] = faulty_device.get("platform_id")
+                    have[faulty_key] = faulty_identifier
+                    have["faulty_device_exists"] = True
+                    self.log("Faulty device '{0}' found in Cisco Catalyst Center".format(faulty_identifier), "INFO")
 
-        # Check if any valid identifier combination was not found
-        if not valid_identifier_found:
-            provided_identifiers = {
-                key: value
-                for key, value in config.items()
-                if key in [item for sublist in identifier_keys for item in sublist] and value
-            }
-            self.msg = "No valid device combination found in config. Provided values in config: {0}".format(provided_identifiers)
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+                    # Check if replacement device exists
+                    replacement_device = self.device_exists(replacement_identifier, replacement_key)
+
+                    if not replacement_device:
+                        self.log("Replacement device '{0}' not found in inventory, checking in PnP...", "DEBUG")
+                        replacement_device = self.pnp_device_exists(replacement_identifier, replacement_key)
+
+                        if not replacement_device:
+                            self.msg = "Replacement device '{0}' not found in PnP".format(replacement_identifier)
+                            self.log(self.msg, "ERROR")
+                            self.status = "failed"
+                            return self
+
+                    have["replacement_device_id"] = replacement_device.get("device_id")
+                    have["replacement_device_serial_number"] = replacement_device.get("serial_number")
+                    have["replacement_device_name"] = replacement_device.get("device_name")
+                    have["replacement_device_reachability_status"] = replacement_device.get("reachability_status")
+                    have["replacement_device_platform_id"] = replacement_device.get("platform_id")
+                    have["is_pnp_replacement_device"] = replacement_device.get("is_pnp_device")
+                    have[replacement_key] = replacement_identifier
+                    have["replacement_device_exists"] = True
+                    self.log("Replacement device '{0}' found in Cisco Catalyst Center".format(replacement_identifier), "INFO")
+                    break
+
+            # Check if any valid identifier combination was not found
+            if not valid_identifier_found:
+                provided_identifiers = {
+                    key: value
+                    for key, value in config.items()
+                    if key in [item for sublist in identifier_keys for item in sublist] and value
+                }
+                self.msg = "No valid device combination found in config. Provided values in config: {0}".format(provided_identifiers)
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+        else:
+            identifier_keys = ["faulty_device_serial_number", "faulty_device_name", "faulty_device_ip_address"]
+
+            for faulty_key in identifier_keys:
+                faulty_identifier = config.get(faulty_key)
+
+                if faulty_identifier:
+                    # Check if faulty device exists
+                    faulty_device = self.device_exists(faulty_identifier, faulty_key)
+
+                    if not faulty_device:
+                        self.msg = "Faulty device '{0}' not found in Cisco Catalyst Center".format(faulty_identifier)
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        return self
+
+                    have["faulty_device_id"] = faulty_device.get("device_id")
+                    have["faulty_device_serial_number"] = faulty_device.get("serial_number")
+                    have["faulty_device_name"] = faulty_device.get("device_name")
+                    have["faulty_device_reachability_status"] = faulty_device.get("reachability_status")
+                    have["faulty_device_platform_id"] = faulty_device.get("platform_id")
+                    have[faulty_key] = faulty_identifier
+                    have["faulty_device_exists"] = True
+                    self.log("Faulty device '{0}' found in Cisco Catalyst Center".format(faulty_identifier), "INFO")
 
         self.have = have
 
@@ -926,6 +1038,64 @@ class DeviceReplacement(DnacBase):
 
         return self
 
+    def get_diff_deleted(self, config):
+        """
+        Unmark the faulty device in Cisco Catalyst Center.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks if a device is marked for replacement and unmarks it if necessary:
+            - Verifies the device's replacement readiness.
+            - If ready, initiates the unmarking process via API and validates the task status.
+            - Logs success or error messages based on the operation's outcome.
+            - If already unmarked, logs a debug message.
+        """
+        is_marked_for_replacement = self.device_ready_for_replacement_check()
+        faulty_device_name = self.have.get("faulty_device_name")
+
+        if is_marked_for_replacement:
+            self.log("Unmarking the faulty device '{0}'...".format(faulty_device_name))
+            device_id = self.have.get("device_replacement_id")
+
+            import_params = dict(
+                payload=[{
+                    "id": device_id,
+                    "replacementStatus": "NON-FAULTY"
+                }],
+            )
+
+            try:
+                response = self.catalystcenter._exec(
+                    family="device_replacement",
+                    function='unmark_device_for_replacement',
+                    op_modifies=True,
+                    params=import_params
+                )
+                self.log("Received API response for faulty device '{0}' from 'unmark_device_for_replacement': {1}".format(
+                    faulty_device_name, self.pprint(response)), "DEBUG")
+                task_id = response.get("response", {}).get("taskId")
+                task_result = self.check_rma_task_status(
+                    task_id,
+                    "Device unmarked for replacement successfully",
+                    "Error while unmarking device for replacement"
+                )
+                self.faulty_device.append(faulty_device_name)
+                self.msg = task_result["msg"]
+                self.status = task_result["status"]
+                self.log(self.msg, "INFO")
+                return self
+
+            except Exception:
+                self.status = "failed"
+                self.msg = "RMA failed to unmark the faulty device '{0}': No device found for unmarking replacement".format(faulty_device_name)
+                self.log(self.msg, "ERROR")
+            return self
+
+        self.log("The device '{0}' is already in the unmarked state.".format(faulty_device_name), "DEBUG")
+        return self
+
     def monitor_replacement_status(self):
         """
         Monitor the status of the device replacement task in Cisco Catalyst Center.
@@ -1121,18 +1291,26 @@ class DeviceReplacement(DnacBase):
         self.result["changed"] = False
         result_msg_list = []
 
-        if self.faulty_device and self.replacement_device:
-            device_replacement_msg = (
-                "Device replacement was successfully completed for the faulty device(s) '{0}',"
-                " with the replacement device(s) '{1}'.".format("', '".join(self.faulty_device), "', '".join(self.replacement_device))
-            )
-            result_msg_list.append(device_replacement_msg)
+        if self.payload.get("state") == "replaced":
+            if self.faulty_device and self.replacement_device:
+                device_replacement_msg = (
+                    "Device replacement was successfully completed for the faulty device(s) '{0}',"
+                    " with the replacement device(s) '{1}'.".format("', '".join(self.faulty_device), "', '".join(self.replacement_device))
+                )
+                result_msg_list.append(device_replacement_msg)
+        else:
+            if self.faulty_device:
+                device_replacement_msg = (
+                    "Unmark successfully completed for the faulty device(s) '{0}'.".format(
+                        "', '".join(self.faulty_device))
+                )
+                result_msg_list.append(device_replacement_msg)
 
         if result_msg_list:
             self.result["changed"] = True
             self.msg = " ".join(result_msg_list)
         else:
-            self.msg = "No changes were made. No RMA device replacement were performed in Cisco Catalyst Center."
+            self.msg = "No changes were made. No RMA device replacement or unmark were performed in Cisco Catalyst Center."
 
         self.log(self.msg, "INFO")
         self.result["response"] = self.msg
@@ -1181,6 +1359,34 @@ class DeviceReplacement(DnacBase):
 
         return self
 
+    def verify_diff_deleted(self, config):
+        """
+        Verify the faulty device unmark in Cisco Catalyst Center.
+        Parameters:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Returns:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method verifies whether the difference in the configuration indicates a deleted device. It performs the following steps:
+            - Checks if the device is ready for replacement using the `device_ready_for_replacement_check` method.
+            - If the device is ready for replacement, it sets the status to "failed," logs an error message, and triggers a return status check.
+            - If the device is not ready for replacement, it confirms the faulty device is in an unmarked state, sets the status to "success," and
+              logs an informational message.
+            - Always returns self to maintain method chaining.
+        """
+        is_marked_for_replacement = self.device_ready_for_replacement_check()
+
+        if is_marked_for_replacement:
+            self.status = "failed"
+            self.msg = "The faulty device '{0}' is not in unmarked state.".format(self.have.get("faulty_device_name"))
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
+
+        self.msg = "The faulty device '{0}' is in unmarked state.".format(self.have.get("faulty_device_name"))
+        self.status = "success"
+        self.log(self.msg, "INFO")
+        return self
+
 
 def main():
     """ main entry point for module execution
@@ -1196,7 +1402,7 @@ def main():
         'catalystcenter_debug': {'type': 'bool', 'default': False},
         'catalystcenter_log': {'type': 'bool', 'default': False},
         'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-        "catalystcenter_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
         'config_verify': {'type': 'bool', "default": False},
         "catalystcenter_log_append": {"type": 'bool', "default": True},
         'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
@@ -1207,7 +1413,7 @@ def main():
         'timeout_interval': {'type': 'int', 'default': 100},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
         'validate_response_schema': {'type': 'bool', 'default': True},
-        'state': {'default': 'replaced', 'choices': ['replaced']}
+        'state': {'default': 'replaced', 'choices': ['replaced', 'deleted']}
     }
     module = AnsibleModule(
         argument_spec=device_replacement_spec,
@@ -1224,9 +1430,12 @@ def main():
         ccc_device_replacement.reset_values()
         ccc_device_replacement.get_want(config).check_return_status()
         ccc_device_replacement.get_have().check_return_status()
-        ccc_device_replacement.rma_device_replacement_pre_check().check_return_status()
-        ccc_device_replacement.mark_faulty_device_for_replacement().check_return_status()
-        ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
+        if state == "replaced":
+            ccc_device_replacement.rma_device_replacement_pre_check().check_return_status()
+            ccc_device_replacement.mark_faulty_device_for_replacement().check_return_status()
+            ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
+        else:
+            ccc_device_replacement.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_device_replacement.verify_diff_state_apply[state](config).check_return_status()
 

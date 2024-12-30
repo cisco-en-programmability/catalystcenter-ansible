@@ -101,11 +101,22 @@ class ActionModule(ActionBase):
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
-        response = catalystcenter.exec(
-            family="issues",
-            function='get_all_the_custom_issue_definitions_based_on_the_given_filters_v1',
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(catalyst_response=response))
-        self._result.update(catalystcenter.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = catalystcenter.exec(
+                family="issues",
+                function='get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1',
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(catalyst_response=response))
+            self._result.update(catalystcenter.exit_json())
+            return self._result
+        if not id:
+            response = catalystcenter.exec(
+                family="issues",
+                function='get_all_the_custom_issue_definitions_based_on_the_given_filters_v1',
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(catalyst_response=response))
+            self._result.update(catalystcenter.exit_json())
+            return self._result

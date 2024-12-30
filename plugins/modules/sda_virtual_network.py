@@ -30,7 +30,7 @@ options:
     description: Virtual Network Name to be assigned at global level.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1

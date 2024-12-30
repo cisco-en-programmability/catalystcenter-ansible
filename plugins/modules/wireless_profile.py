@@ -40,7 +40,7 @@ options:
                 description: True if flex connect is enabled else false.
                 type: bool
               localToVlan:
-                description: Local To Vlan Id.
+                description: Local to VLAN ID. Required if enableFlexConnect is true.
                 type: int
             type: dict
           interfaceName:
@@ -61,7 +61,7 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateWirelessProfileV1

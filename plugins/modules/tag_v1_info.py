@@ -43,7 +43,9 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of tags to be retrieved. If not specified, the default is 500. The maximum
+      allowed limit is 500.
     type: float
   size:
     description:
@@ -72,7 +74,7 @@ options:
     - Id path parameter. Tag ID.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagByIdV1
@@ -149,7 +151,7 @@ catalystcenter_response:
                 "string"
               ],
               "items": [
-                "string"
+                {}
               ],
               "operation": "string",
               "name": "string",

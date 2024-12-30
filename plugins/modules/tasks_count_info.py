@@ -40,7 +40,7 @@ options:
     - Status query parameter. Fetch tasks that have this status. Available values PENDING, FAILURE, SUCCESS.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Task GetTasksCountV1

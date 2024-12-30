@@ -27,7 +27,7 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
   offset:
     description:
@@ -51,14 +51,14 @@ options:
   operationalStateCodeList:
     description:
     - OperationalStateCodeList query parameter.
-    elements: dict
+    elements: str
     type: list
   id:
     description:
     - Id path parameter. Module id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetModuleInfoByIdV1

@@ -33,7 +33,7 @@ options:
             description: Items details,multiple rules can be defined by items(e.g. "items"
               {"operation" "ILIKE", "name" "managementIpAddress", "value" "%10%"}, {"operation"
               "ILIKE", "name" "hostname", "value" "%NA%"} ).
-            elements: str
+            elements: dict
             type: list
           name:
             description: Name of the parameter (e.g. For interface portName,adminStatus,speed,status,description.
@@ -68,7 +68,7 @@ options:
     description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Tag CreateTagV1
@@ -110,7 +110,7 @@ EXAMPLES = r"""
     - memberType: string
       rules:
         items:
-        - string
+        - {}
         name: string
         operation: string
         value: string
@@ -136,7 +136,7 @@ EXAMPLES = r"""
     - memberType: string
       rules:
         items:
-        - string
+        - {}
         name: string
         operation: string
         value: string

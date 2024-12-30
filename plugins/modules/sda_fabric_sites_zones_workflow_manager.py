@@ -14,13 +14,13 @@ DOCUMENTATION = r"""
 module: sda_fabric_sites_zones_workflow_manager
 short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 description:
-- Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
-- Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
-- Creating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
-- Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
-- Deletes fabric site(s) from Cisco Catalyst Center.
-- Deletes fabric zone(s) from Cisco Catalyst Center.
-- Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
+  - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
+  - Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
+  - Creating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
+  - Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
+  - Deletes fabric site(s) from Cisco Catalyst Center.
+  - Deletes fabric zone(s) from Cisco Catalyst Center.
+  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
@@ -30,11 +30,11 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
     type: bool
-    default: False
+    default: false
   state:
     description: The desired state of Cisco Catalyst Center after the module execution.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites or zones
@@ -44,7 +44,7 @@ options:
         to authentication profiles.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       fabric_sites:
         description: A dictionary containing detailed configurations for managing REST Endpoints that will receive Audit log
@@ -57,13 +57,13 @@ options:
                 sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for
                 any fabric site/zone management operation.
             type: str
-            required: True
+            required: true
           fabric_type:
             description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
                 and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
                 'fabric_zone' typically refers to a more specific segment within the site.
             type: str
-            required: True
+            required: true
           authentication_profile:
             description: The authentication profile applied to the specified fabric. This profile determines the security posture and
                 controls for network access within the site. Possible values include 'Closed Authentication', 'Low Impact',
@@ -107,8 +107,8 @@ options:
 
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
-- python >= 3.9
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.9
 
 notes:
   - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling
@@ -136,15 +136,15 @@ notes:
 EXAMPLES = r"""
 - name: Create a fabric site for SDA with the specified name.
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: merged
     config:
       - fabric_sites:
@@ -154,15 +154,15 @@ EXAMPLES = r"""
 
 - name: Update a fabric site for SDA with the specified name.
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: merged
     config:
       - fabric_sites:
@@ -171,15 +171,15 @@ EXAMPLES = r"""
 
 - name: Update a fabric zone for SDA with the specified name.
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: merged
     config:
       - fabric_sites:
@@ -189,15 +189,15 @@ EXAMPLES = r"""
 
 - name: Update fabric zone for sda with given name.
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: merged
     config:
       - fabric_sites:
@@ -207,15 +207,15 @@ EXAMPLES = r"""
 
 - name: Update/customise authentication profile template for fabric site/zone.
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: merged
     config:
       - fabric_sites:
@@ -231,15 +231,15 @@ EXAMPLES = r"""
 
 - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: deleted
     config:
       - fabric_sites:
@@ -247,15 +247,15 @@ EXAMPLES = r"""
 
 - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: False
     state: deleted
     config:
       - fabric_sites:
@@ -266,7 +266,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -281,13 +281,13 @@ dnac_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class FabricSitesZones(DnacBase):
+class FabricSitesZones(CatalystCenterBase):
     """Class containing member attributes for sda fabric sites and zones workflow manager module"""
 
     def __init__(self, module):
@@ -524,7 +524,7 @@ class FabricSitesZones(DnacBase):
 
                 if not site_name:
                     self.msg = (
-                        "Required parameter 'site_name' is missing. It must be provided in the playbook for fabric site/zone "
+                        "Required parameter 'site_name_hierarchy' is missing. It must be provided in the playbook for fabric site/zone "
                         "operations in Cisco Catalyst Center."
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -1339,10 +1339,18 @@ class FabricSitesZones(DnacBase):
 
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
         raw_fabric_sites = self.want.get('fabric_sites')
-        # Convert each dictionary to a sorted tuple of key-value pairs
-        unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
-        # Convert each unique tuple back into a dictionary
-        fabric_sites = [dict(t) for t in unique_fabric_sites]
+        # Preserve the order of input while deduplicating
+        self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
+        unique_fabric_site_set = set()
+        fabric_sites = []
+        for fabric_site_dict in raw_fabric_sites:
+            # Convert dictionary to a frozenset - immutable set
+            site_zone = frozenset(fabric_site_dict.items())
+            if site_zone not in unique_fabric_site_set:
+                self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
+                unique_fabric_site_set.add(site_zone)
+                fabric_sites.append(fabric_site_dict)
+        self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
 
         for site in fabric_sites:
             site_name = site.get("site_name_hierarchy")
@@ -1497,7 +1505,20 @@ class FabricSitesZones(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        fabric_sites = self.want.get('fabric_sites')
+        raw_fabric_sites = self.want.get('fabric_sites')
+        # Preserve the order of input while deduplicating
+        self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
+        unique_fabric_site_set = set()
+        fabric_sites = []
+        for fabric_site_dict in raw_fabric_sites:
+            # Convert dictionary to a frozenset - immutable set
+            site_zone = frozenset(fabric_site_dict.items())
+            if site_zone not in unique_fabric_site_set:
+                self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
+                unique_fabric_site_set.add(site_zone)
+                fabric_sites.append(fabric_site_dict)
+
+        self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
         fabric_site_dict = {}
 
         for site in fabric_sites:
@@ -1694,21 +1715,21 @@ def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    "dnac_log_append": {"type": 'bool', "default": True},
-                    'dnac_log': {'type': 'bool', 'default': False},
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
@@ -1717,7 +1738,7 @@ def main():
                            supports_check_mode=False)
 
     ccc_fabric_sites = FabricSitesZones(module)
-    if ccc_fabric_sites.compare_dnac_versions(ccc_fabric_sites.get_ccc_version(), "2.3.7.6") < 0:
+    if ccc_fabric_sites.compare_catalystcenter_versions(ccc_fabric_sites.get_ccc_version(), "2.3.7.6") < 0:
         ccc_fabric_sites.msg = (
             "The specified version '{0}' does not support the SDA fabric devices feature. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
