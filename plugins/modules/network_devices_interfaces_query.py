@@ -69,12 +69,12 @@ options:
     description: UTC epoch timestamp in milliseconds.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceStatsInfoV2
   description: Complete reference of the GetDeviceInterfaceStatsInfoV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_stats_info_v2,

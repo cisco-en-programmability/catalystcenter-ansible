@@ -38,14 +38,16 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row.
+    - Offset query parameter. Offset starting row.
     type: float
   limit:
     description:
-    - Limit query parameter. Number of records to be retrieved.
+    - >
+      Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a
+      maximum allowed limit of 500.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceDetailV1
@@ -97,7 +99,8 @@ catalystcenter_response:
           "status": "string",
           "category": "string",
           "lastUpdateTime": 0,
-          "state": "string"
+          "state": "string",
+          "remediationSupported": true
         }
       ]
     }

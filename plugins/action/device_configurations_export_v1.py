@@ -25,8 +25,8 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 argument_spec = Catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
+    deviceId=dict(type="list"),
     password=dict(type="str", no_log=True),
-    deviceId=dict(type="str"),
 ))
 
 required_if = []
@@ -64,8 +64,8 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
-            password=params.get("password"),
             deviceId=params.get("deviceId"),
+            password=params.get("password"),
         )
         return new_object
 

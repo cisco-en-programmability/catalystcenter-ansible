@@ -10,7 +10,9 @@ module: event_subscription_v1_info
 short_description: Information module for Event Subscription V1
 description:
 - Get all Event Subscription V1.
-- Gets the list of Subscriptions's based on provided offset and limit Deprecated .
+- >
+   Gets the list of Subscriptions's based on provided offset and limit. Deprecated since Guardian release.
+   Alternative GET /intent/api/v1/event/subscription/rest.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -40,7 +42,7 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventSubscriptionsV1
@@ -58,13 +60,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Event Subscription V1
   cisco.catalystcenter.event_subscription_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     eventIds: string
     offset: 0
@@ -75,7 +77,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list

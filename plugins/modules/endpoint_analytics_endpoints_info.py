@@ -152,7 +152,7 @@ options:
     - EpId path parameter. Unique identifier for the endpoint.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetEndpointDetailsV1
@@ -163,8 +163,8 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
-    aiendpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints,

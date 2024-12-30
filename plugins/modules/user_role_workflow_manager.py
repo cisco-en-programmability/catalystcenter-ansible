@@ -449,7 +449,7 @@ options:
                 default: "read"
                 type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.6
+  - catalystcentersdk >= 2.3.7.9
   - python >= 3.9.19
 notes:
   - SDK Methods used
@@ -878,15 +878,15 @@ response_11:
 """
 
 import re
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
     validate_list
 )
 from ansible.module_utils.basic import AnsibleModule
 
 
-class UserandRole(DnacBase):
+class UserandRole(CatalystCenterBase):
     """Class containing member attributes for user workflow_manager module"""
     def __init__(self, module):
         super().__init__(module)
@@ -896,6 +896,7 @@ class UserandRole(DnacBase):
         self.created_user, self.updated_user, self.no_update_user = [], [], []
         self.created_role, self.updated_role, self.no_update_role = [], [], []
         self.deleted_user, self.deleted_role = [], []
+        self.no_deleted_user, self.no_deleted_role = [], []
 
     def validate_input_yml(self, user_role_details):
         """
@@ -3009,9 +3010,7 @@ class UserandRole(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.msg = "Please provide a valid role_name for role deletion"
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
+            self.no_deleted_role.append(self.want.get("role_name"))
             return self
 
         if "username" in config or "email" in config:
@@ -3044,12 +3043,7 @@ class UserandRole(DnacBase):
             else:
                 user_identifier = self.want.get("email")
 
-            self.msg = (
-                "The specified user '{0}' does not exist in Cisco Catalyst Center. "
-                "Please provide a valid 'username' or 'email' for user deletion.".format(user_identifier)
-            )
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
+            self.no_deleted_user.append(self.want.get("username"))
             return self
 
     def delete_user(self, user_params):
@@ -3326,6 +3320,20 @@ class UserandRole(DnacBase):
             delete_role_msg = "Role(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format("', '".join(self.deleted_role))
             result_msg_list.append(delete_role_msg)
 
+        if self.no_deleted_user:
+            no_delete_user_msg = (
+                "The specified user '{0}' does not exist in Cisco Catalyst Center. "
+                "Please provide a valid 'username' or 'email' for user deletion.".format("', '".join(self.no_deleted_user))
+            )
+            no_update_list.append(no_delete_user_msg)
+
+        if self.no_deleted_role:
+            no_delete_role_msg = (
+                "The specified role '{0}' does not exist in Cisco Catalyst Center. "
+                "Please provide a valid 'role_name' for user deletion.".format("', '".join(self.no_deleted_role))
+            )
+            no_update_list.append(no_delete_role_msg)
+
         if result_msg_list and no_update_list:
             self.result["changed"] = True
             self.msg = "{0} {1}".format(" ".join(result_msg_list), " ".join(no_update_list))
@@ -3421,7 +3429,7 @@ def main():
                          "catalystcenter_debug": {"type": "bool", "default": False},
                          "catalystcenter_log": {"type": "bool", "default": False},
                          "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-                         "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+                         "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
                          "config_verify": {"type": "bool", "default": False},
                          "catalystcenter_log_append": {"type": "bool", "default": True},
                          "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

@@ -45,14 +45,16 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - >
+      Limit query parameter. Specifies the maximum number of workflows to return per page. Must be an integer
+      between 1 and 500, inclusive.
     type: float
   id:
     description:
     - Id path parameter. Workflow id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1

@@ -28,7 +28,7 @@ options:
     - Macaddress query parameter. Mac addres of the device.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDevicesRegisteredForWSANotificationV1
@@ -46,7 +46,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Network Device Register For Wsa Info
-  cisco.catalystcenter.network_device_register_for_wsainfo:
+  cisco.catalystcenter.network_device_register_for_wsa_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"

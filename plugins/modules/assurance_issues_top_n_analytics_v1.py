@@ -12,8 +12,9 @@ description:
 - Manage operation create of the resource Assurance Issues Top N Analytics V1.
 - >
    Gets the Top N analytics data related to issues based on given filters and group by field. This data can be used
-   to find top sites which has most issues or top device types with most issue etc,. Https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.
+   to find top sites which has most issues or top device types with most issue etc,. For detailed information about
+   the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -103,7 +104,7 @@ options:
     description: Top N.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTopNAnalyticsDataOfIssuesV1

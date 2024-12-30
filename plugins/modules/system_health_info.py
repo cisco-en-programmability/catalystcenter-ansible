@@ -37,14 +37,18 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. Specifies the maximum number of system health events to return per page. Must be an
+      integer between 1 and 50, inclusive.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - >
+      Offset query parameter. Specifies the starting point for the list of system health events to return. Must be
+      an integer greater than or equal to 0.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemHealthAPIV1

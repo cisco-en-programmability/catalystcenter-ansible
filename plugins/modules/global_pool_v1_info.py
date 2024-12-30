@@ -21,14 +21,14 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. Offset/starting row. Indexed from 1. Default value of 1.
+    - Offset query parameter. Offset starting row. Indexed from 1. Default value of 1.
     type: float
   limit:
     description:
     - Limit query parameter. Number of Global Pools to be retrieved. Default is 25 if not specified.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetGlobalPoolV1

@@ -37,14 +37,18 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. Specifies the maximum number of system health events to return per page. Must be an
+      integer between 1 and 50, inclusive.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - >
+      Offset query parameter. Specifies the starting point for the list of system health events to return. Must be
+      an integer greater than or equal to 0.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemHealthAPIV1
@@ -62,13 +66,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all System Health V1
   cisco.catalystcenter.system_health_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     summary: True
     domain: string
@@ -79,7 +83,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

@@ -74,7 +74,7 @@ options:
     description: Obtain the network device ID value by using the API call GET /dna/intent/api/v1/network-device/ip-...
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless MobilityProvisionV1

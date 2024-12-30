@@ -25,7 +25,7 @@ options:
       by a previous call of Start Import API.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites ImportMapArchivePerformImportV1

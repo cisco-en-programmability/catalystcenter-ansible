@@ -10,7 +10,7 @@ module: device_configurations_export_v1
 short_description: Resource module for Device Configurations Export V1
 description:
 - Manage operation create of the resource Device Configurations Export V1.
-- Export Device configurations to an encrypted zip file.
+- Export Device configuration for every device that is provided will be included in an encrypted zip file.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -18,7 +18,8 @@ author: Rafael Campos (@racampos)
 options:
   deviceId:
     description: UUIDs of the devices for which configurations need to be exported.
-    type: str
+    elements: str
+    type: list
   password:
     description: Password for the zip file to protect exported configurations. Must
       contain, at minimum 8 characters, one lowercase letter, one uppercase letter,
@@ -26,7 +27,7 @@ options:
       white space or the characters <>.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Archive ExportDeviceConfigurationsV1
@@ -51,7 +52,8 @@ EXAMPLES = r"""
     catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    deviceId: string
+    deviceId:
+    - string
     password: string
 
 """
@@ -62,10 +64,10 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

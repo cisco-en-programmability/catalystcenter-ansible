@@ -23,18 +23,24 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
+  wirelessProfileName:
+    description:
+    - WirelessProfileName query parameter. Wireless Profile Name.
+    type: str
   id:
     description:
     - Id path parameter. Wireless Profile Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetWirelessProfileByIDV1
@@ -57,34 +63,35 @@ notes:
 EXAMPLES = r"""
 - name: Get all Wireless Profiles V1
   cisco.catalystcenter.wireless_profiles_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    wirelessProfileName: string
   register: result
 
 - name: Get Wireless Profiles V1 by id
   cisco.catalystcenter.wireless_profiles_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -103,10 +110,24 @@ dnac_response:
             "wlanProfileName": "string",
             "interfaceName": "string",
             "policyProfileName": "string",
-            "dot11beProfileId": "string"
+            "dot11beProfileId": "string",
+            "anchorGroupName": "string",
+            "vlanGroupName": "string"
           }
         ],
-        "id": "string"
+        "id": "string",
+        "additionalInterfaces": [
+          "string"
+        ],
+        "apZones": [
+          {
+            "apZoneName": "string",
+            "rfProfileName": "string",
+            "ssids": [
+              "string"
+            ]
+          }
+        ]
       },
       "version": "string"
     }

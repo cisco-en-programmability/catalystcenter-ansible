@@ -24,12 +24,12 @@ options:
     - Id path parameter. Building Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetsABuildingV2
   description: Complete reference of the GetsABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-building
 notes:
   - SDK Method used are
     site_design.SiteDesign.gets_a_building_v2,

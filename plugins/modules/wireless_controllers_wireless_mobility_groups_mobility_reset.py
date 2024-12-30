@@ -17,11 +17,11 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   networkDeviceId:
-    description: Network device Id of Cisco wireless controller.Obtain the network device
-      ID value by using the API call GET - /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: Network device Id of Cisco wireless controller. Obtain the network
+      device ID value by using the API call GET - /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless MobilityResetV1

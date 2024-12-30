@@ -19,6 +19,10 @@ extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
+  cleanUpConfig:
+    description: CleanUpConfig query parameter. Enable/disable configuration cleanup
+      for the device(s). Defaults to true.
+    type: bool
   id:
     description: Id path parameter. ID of the provisioned device.
     type: str
@@ -40,7 +44,7 @@ options:
     description: SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA ProvisionDevicesV1
@@ -80,6 +84,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
+    cleanUpConfig: true
     networkDeviceId: string
     siteId: string
 
@@ -122,6 +127,7 @@ EXAMPLES = r"""
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
+    cleanUpConfig: true
     id: string
 
 """

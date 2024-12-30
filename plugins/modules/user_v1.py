@@ -10,9 +10,9 @@ module: user_v1
 short_description: Resource module for User V1
 description:
 - Manage operations create, update and delete of the resource User V1.
-- Add a new user for Cisco DNA Center System.
-- Delete a user from Cisco DNA Center System.
-- Update a user for Cisco DNA Center System.
+- Add a new user in the system.
+- Delete a user in the system.
+- Update a user in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -41,7 +41,7 @@ options:
     description: Username.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles AddUserAPIV1

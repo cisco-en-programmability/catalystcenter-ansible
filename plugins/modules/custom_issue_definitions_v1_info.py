@@ -10,6 +10,12 @@ module: custom_issue_definitions_v1_info
 short_description: Information module for Custom Issue Definitions V1
 description:
 - Get all Custom Issue Definitions V1.
+- Get Custom Issue Definitions V1 by id.
+- >
+   Get the custom issue definition for the given custom issue definition Id. For detailed information about the usage
+   of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+   AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
 - >
    Retrieve the existing syslog-based custom issue definitions. The supported filters are id, name, profileId,
    definition enable status, priority, severity, facility and mnemonic. The issue definition configurations may vary
@@ -87,18 +93,23 @@ options:
     - Order query parameter. The sort order of the field ascending or descending.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1
   description: Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters
+- name: Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1
+  description: Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_custom_issue_definitions_based_on_the_given_filters_v1,
+    issues.Issues.get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/customIssueDefinitions,
+    get /dna/intent/api/v1/customIssueDefinitions/{id},
 
 """
 
@@ -127,6 +138,19 @@ EXAMPLES = r"""
     order: string
   register: result
 
+- name: Get Custom Issue Definitions V1 by id
+  cisco.catalystcenter.custom_issue_definitions_v1_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
+
 """
 RETURN = r"""
 catalystcenter_response:
@@ -135,43 +159,29 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "profileId": "string",
-          "triggerId": "string",
-          "rules": [
-            {
-              "type": "string",
-              "severity": 0,
-              "facility": "string",
-              "mnemonic": "string",
-              "pattern": "string",
-              "occurrences": 0,
-              "durationInMinutes": 0
-            }
-          ],
-          "isEnabled": true,
-          "priority": "string",
-          "isDeletable": true,
-          "isNotificationEnabled": true,
-          "createdTime": 0,
-          "lastUpdatedTime": 0
-        }
-      ],
-      "page": {
-        "limit": 0,
-        "offset": 0,
-        "count": 0,
-        "sortBy": [
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "profileId": "string",
+        "triggerId": "string",
+        "rules": [
           {
-            "name": "string",
-            "order": "string"
+            "type": "string",
+            "severity": 0,
+            "facility": "string",
+            "mnemonic": "string",
+            "pattern": "string",
+            "occurrences": 0,
+            "durationInMinutes": 0
           }
-        ]
-      },
-      "version": "string"
+        ],
+        "isEnabled": true,
+        "priority": "string",
+        "isDeletable": true,
+        "isNotificationEnabled": true,
+        "createdTime": 0,
+        "lastUpdatedTime": 0
+      }
     }
 """

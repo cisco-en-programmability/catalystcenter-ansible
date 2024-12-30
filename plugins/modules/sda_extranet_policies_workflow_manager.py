@@ -79,7 +79,7 @@ options:
 
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
   - SDK Methods used are
@@ -221,13 +221,13 @@ sample_response_3:
 
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts
 )
 
 
-class SDAExtranetPolicies(DnacBase):
+class SDAExtranetPolicies(CatalystCenterBase):
     """
     A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
     """
@@ -302,7 +302,7 @@ class SDAExtranetPolicies(DnacBase):
             the 'fabric_id' from each value, and appends it to a list. The resulting list of fabric IDs
             is then returned.
         """
-        # Initialize an empty list to store fabric IDs
+        # Initialize an empty list to store the fabric IDs
         fabric_ids_list = []
 
         # Iterate over each site's information in the site details
@@ -1018,7 +1018,7 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

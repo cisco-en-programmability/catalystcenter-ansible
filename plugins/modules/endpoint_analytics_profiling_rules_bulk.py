@@ -118,11 +118,11 @@ options:
         type: list
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.import_profiling_rules_in_bulk_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.import_profiling_rules_in_bulk_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk,
@@ -133,13 +133,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.endpoint_analytics_profiling_rules_bulk:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     profilingRules:
     - clusterId: string
       conditionGroups:
@@ -177,7 +177,7 @@ EXAMPLES = r"""
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

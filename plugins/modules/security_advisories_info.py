@@ -20,7 +20,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesListV1
@@ -57,20 +57,26 @@ catalystcenter_response:
   type: dict
   sample: >
     {
-      "response": {
-        "advisoryId": "string",
-        "deviceCount": 0,
-        "hiddenDeviceCount": 0,
-        "cves": [
-          "string"
-        ],
-        "publicationUrl": "string",
-        "sir": "string",
-        "detectionType": "string",
-        "defaultDetectionType": "string",
-        "defaultConfigMatchPattern": "string",
-        "fixedVersions": {}
-      },
+      "response": [
+        {
+          "advisoryId": "string",
+          "deviceCount": 0,
+          "hiddenDeviceCount": 0,
+          "cves": [
+            "string"
+          ],
+          "publicationUrl": "string",
+          "sir": "string",
+          "detectionType": "string",
+          "defaultDetectionType": "string",
+          "defaultConfigMatchPattern": "string",
+          "fixedVersions": {
+            "15.2(7)E1a": [
+              "string"
+            ]
+          }
+        }
+      ],
       "version": "string"
     }
 """

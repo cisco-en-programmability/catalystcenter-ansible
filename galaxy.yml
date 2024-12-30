@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: catalystcenter
-version: 1.0.0
+version: 2.0.0
 readme: README.md
 authors:
   - Rafael Campos <rcampos@altus.cr>
@@ -23,7 +23,7 @@ authors:
 description: Ansible Modules for Cisco CATALYST Center
 license_file: "LICENSE"
 tags:
-  - cisco 
+  - cisco
   - catalystcenter
   - cloud
   - collection

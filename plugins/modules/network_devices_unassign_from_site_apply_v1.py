@@ -20,11 +20,11 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceIds:
-    description: Network device Ids.
+    description: Network device Ids, ranging from a minimum of 1 to a maximum of 100.
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSitesV1

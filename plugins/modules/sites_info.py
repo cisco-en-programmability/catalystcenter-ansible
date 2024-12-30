@@ -38,13 +38,13 @@ options:
   offset:
     description:
     - Offset query parameter. The first record to show for this page; the first record is numbered 1.
-    type: int
+    type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
-    type: int
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetSitesV1

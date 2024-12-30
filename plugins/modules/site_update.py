@@ -71,6 +71,9 @@ options:
           name:
             description: Floor name.
             type: str
+          parentName:
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
+            type: str
           rfModel:
             description: RF model (Example Cubes And Walled Offices).
             type: str
@@ -86,7 +89,7 @@ options:
     description: Site type.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites UpdateSiteV1
@@ -129,6 +132,7 @@ EXAMPLES = r"""
         height: 0
         length: 0
         name: string
+        parentName: string
         rfModel: string
         width: 0
     siteId: string

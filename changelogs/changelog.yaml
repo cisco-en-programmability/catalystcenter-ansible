@@ -6,4 +6,10 @@ releases:
       minor_changes:
         - Aliases were implemented to handle v1 and v2 of the API.
         - Modifications due to documentation errors
+  2.0.0:
+    release_date: "2024-12-30"
+    changes:
+      release_summary: New Center API version 2.3.7.9.
+      minor_changes:
+        - Added compatibility with version 2.3.7.9 of the Cisco API
 

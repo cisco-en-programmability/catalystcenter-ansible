@@ -258,7 +258,7 @@ options:
                 required: true
 
 requirements:
-  - catalystcentersdk >= 2.3.7.6
+  - catalystcentersdk >= 2.3.7.9
   - python >= 3.9
 
 notes:
@@ -519,14 +519,14 @@ catalystcenter_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts
 )
 import time
 
 
-class LanAutomation(DnacBase):
+class LanAutomation(CatalystCenterBase):
     """ Class containing member attributes for lan automation workflow manager module """
 
     def __init__(self, module):
@@ -1233,6 +1233,12 @@ class LanAutomation(DnacBase):
                     self.module.fail_json(
                         msg="IP address: {} does not exist in Catalyst Center. Please provide a valid IP address for "
                             "'lan_automation -> peer_device_management_ip_address'!".format(peer_device_ip), response=[]
+                    )
+                self.log("Validate peer device management IP address is not the same as primary device IP", "INFO")
+                if primary_device_ip == peer_device_ip:
+                    self.module.fail_json(
+                        msg="The primary device management IP address '{}' cannot be the same as the peer device IP "
+                            "address '{}'.".format(primary_device_ip, peer_device_ip), response=[]
                     )
                 self.log("Peer device management IP address '{}' is valid.".format(peer_device_ip), "DEBUG")
             else:
@@ -2954,7 +2960,7 @@ def main():
                     "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
                     "catalystcenter_debug": {"type": "bool", "default": False},
                     "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-                    "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+                    "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
                     "catalystcenter_log_append": {"type": "bool", "default": True},
                     "catalystcenter_log": {"type": "bool", "default": False},
                     "validate_response_schema": {"type": "bool", "default": True},

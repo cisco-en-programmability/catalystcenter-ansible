@@ -36,7 +36,7 @@ options:
       assigned to multiple virtual networks (e.g.. IpPoolName=vlan1021).
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetworkV1

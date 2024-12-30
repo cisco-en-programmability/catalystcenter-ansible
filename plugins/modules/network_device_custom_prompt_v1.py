@@ -25,7 +25,7 @@ options:
     description: Username for Custom Prompt.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPIV1

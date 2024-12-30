@@ -326,7 +326,7 @@ options:
               before schedule (optional).
             type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
   - SDK Method used are
@@ -341,22 +341,22 @@ notes:
     post /dna/intent/api/v1/image/distribution,
     post /dna/intent/api/v1/image/activation/device,
 
-  - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
+  - Added the parameter 'catalystcenter_api_task_timeout', 'catalystcenter_task_poll_interval' options in v6.13.2.
 
 """
 
 EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden and load it on device
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - import_image_details:
         type: remote
@@ -383,15 +383,15 @@ EXAMPLES = r"""
 
 - name: Import an image from local, tag it as golden.
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - import_image_details:
         type: local
@@ -407,15 +407,15 @@ EXAMPLES = r"""
 
 - name: Import bulk images from URL
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - import_image_details:
         type: remote
@@ -428,15 +428,15 @@ EXAMPLES = r"""
 
 - name: Import images from CCO (cisco.com)
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - import_image_details:
         type: CCO
@@ -445,15 +445,15 @@ EXAMPLES = r"""
 
 - name: Tag the given image as golden and load it on device
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -464,15 +464,15 @@ EXAMPLES = r"""
 
 - name: Tag the specified image as golden for multiple device roles and load it into the device
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -483,15 +483,15 @@ EXAMPLES = r"""
 
 - name: Un-tagged the given image as golden and load it on device
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -502,15 +502,15 @@ EXAMPLES = r"""
 
 - name: Distribute the given image on devices associated to that site with specified role.
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - image_distribution_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -521,15 +521,15 @@ EXAMPLES = r"""
 
 - name: Activate the given image on devices associated to that site with specified role.
   cisco.catalystcenter.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: True
     config:
     - image_activation_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -570,8 +570,8 @@ response:
 
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
@@ -580,12 +580,13 @@ import os
 import time
 
 
-class Swim(DnacBase):
+class Swim(CatalystCenterBase):
     """Class containing member attributes for Swim workflow_manager module"""
 
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged"]
+        self.images_to_import, self.existing_images = [], []
 
     def validate_input(self):
         """
@@ -910,7 +911,7 @@ class Swim(DnacBase):
             else:
                 device_series_name = ".*" + device_series_name + ".*"
 
-        if self.dnac_version <= self.version_2_3_5_3:
+        if self.catalystcenter_version <= self.version_2_3_5_3:
             site_params = {
                 "site_id": site_id,
                 "device_family": device_family
@@ -936,62 +937,60 @@ class Swim(DnacBase):
                     for item_dict in item['response']:
                         site_response_list.append(item_dict)
         else:
-            try:
-                response = self.catalystcenter._exec(
-                    family="site_design",
-                    function='get_site_assigned_network_devices',
-                    op_modifies=True,
-                    params={"site_id": site_id},
-                )
-                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                response = response.get('response')
+            site_names = site_name + ".*"
+            get_site_names = self.get_site(site_names)
+            self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
 
-                if not response:
-                    self.log("No devices found for site '{0}'.". format(site_name), "WARNING")
+            site_info = {}
 
-            except Exception as e:
-                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
-                return device_uuid_list
+            for item in get_site_names['response']:
+                if 'nameHierarchy' in item and 'id' in item:
+                    site_info[item['nameHierarchy']] = item['id']
 
-            for device_id in response:
-                device_id_list.append(device_id.get("deviceId"))
+            for site_name, site_id in site_info.items():
+                try:
+                    response = self.catalystcenter._exec(
+                        family="site_design",
+                        function='get_site_assigned_network_devices',
+                        params={"site_id": site_id},
+                    )
+                    self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+                    devices = response.get('response')
+                    if not devices:
+                        self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
+                        continue
 
-            try:
-                device_params = {}
-                offset = 0
-                limit = self.get_device_details_limit()
-                initial_exec = False
+                    for device_id in devices:
+                        device_id_list.append(device_id.get("deviceId"))
 
-                while True:
-                    if initial_exec:
-                        device_params["limit"] = limit
-                        device_params["offset"] = offset * limit
-                        device_list_response = self.catalystcenter._exec(
-                            family="devices",
-                            function='get_device_list',
-                            params=device_params
-                        )
-                    else:
-                        initial_exec = True
-                        device_list_response = self.catalystcenter._exec(
-                            family="devices",
-                            function='get_device_list',
-                            op_modifies=True
-                        )
-                    offset = offset + 1
-                    self.log("Received API response from 'device_list_response': {0}".format(str(device_list_response)), "DEBUG")
-                    device_response = device_list_response.get('response')
+                except Exception as e:
+                    self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+                    return device_uuid_list
+
+            for device_id in device_id_list:
+                self.log("Processing device_id: {0}".format(device_id))
+                try:
+                    device_list_response = self.catalystcenter._exec(
+                        family="devices",
+                        function="get_device_list",
+                        params={"id": device_id},
+                    )
+
+                    self.log("Received API response from 'get_device_list': {0}".format(str(device_list_response)), "DEBUG")
+
+                    device_response = device_list_response.get("response")
                     if not device_response:
-                        break
+                        self.log("No device data found for device_id: {0}".format(device_id), "INFO")
+                        continue
 
                     for device in device_response:
                         if device.get("instanceUuid") in device_id_list:
                             if device_family is None or device.get("family") == device_family:
                                 site_response_list.append(device)
 
-            except Exception as e:
-                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
-                return device_uuid_list
+                except Exception as e:
+                    self.log("Unable to fetch devices for site '{0}' due to: {1}".format(site_name, str(e)), "WARNING")
+                    return device_uuid_list
 
         self.device_ips = []
         for item in site_response_list:
@@ -1033,7 +1032,7 @@ class Swim(DnacBase):
                 offset = offset + 1
                 device_response = device_list_response.get('response')
 
-                if not response or not device_response:
+                if not device_response:
                     self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
                     break
 
@@ -1085,7 +1084,7 @@ class Swim(DnacBase):
         """
 
         have = {}
-        if self.dnac_version >= self.version_2_2_3_3 :
+        if self.catalystcenter_version >= self.version_2_2_3_3 :
             response = self.catalystcenter._exec(
                 family="software_image_management_swim",
                 function='get_device_family_identifiers',
@@ -1094,7 +1093,7 @@ class Swim(DnacBase):
             device_family_db = response.get("response")
         else:
             self.status = "failed"
-            self.msg = "This version : '{0}' has no 'get_device_family_identifiers' functionality ".format(self.payload.get("dnac_version"))
+            self.msg = "This version : '{0}' has no 'get_device_family_identifiers' functionality ".format(self.payload.get("catalystcenter_version"))
             self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
             self.check_return_status()
@@ -1297,7 +1296,7 @@ class Swim(DnacBase):
             want["import_image"] = True
             want["import_type"] = import_image_details.get("type").lower()
             import_type = want["import_type"]
-            if self.dnac_version < self.version_2_3_7_6:
+            if self.catalystcenter_version < self.version_2_3_7_6:
                 if import_type == "remote":
                     want["url_import_details"] = import_image_details.get("url_details")
                 elif import_type == "local":
@@ -1373,6 +1372,7 @@ class Swim(DnacBase):
                 self.log(name)
                 if self.is_image_exist(name):
                     existing_images.append(name)
+                    self.existing_images.append(name)
                     self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
                 else:
                     images_to_import.append(name)
@@ -1457,7 +1457,7 @@ class Swim(DnacBase):
                     if "completed successfully" in task_details.get("progress", "").lower():
                         if images_to_import:
                             images_to_import_str = ", ".join(images_to_import)
-
+                            self.images_to_import.append(images_to_import_str)
                             self.result['changed'] = True
                             self.status = "success"
                             self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
@@ -1666,38 +1666,56 @@ class Swim(DnacBase):
         else:
             site_name = tagging_details.get("site_name")
 
+        start_time = time.time()
+
         while True:
             task_details = self.get_task_details(task_id)
+            is_error = task_details.get("isError")
+            progress = task_details.get("progress", "")
+            failure_reason = task_details.get("failureReason", "")
 
-            if tag_image_golden:
-                if not task_details.get("isError") and 'successful' in task_details.get("progress"):
-                    self.status = "success"
-                    self.result['changed'] = True
-                    self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
-                                " - {3} successful".format(image_name, site_name, device_family, device_role))
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "INFO")
-                    break
-            else:
-                if not task_details.get("isError") and 'successful' in task_details.get("progress"):
-                    self.status = "success"
-                    self.result['changed'] = True
-                    self.msg = ("Un-Tagging image {0} golden for site {1} for family {2} for device deviceTag"
-                                " - {3} successful".format(image_name, site_name, device_family, device_role))
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "INFO")
-                    break
-                elif task_details.get("isError"):
-                    failure_reason = task_details.get("failureReason", "")
-                    if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
-                        self.status = "failed"
-                        self.result['changed'] = False
-                        self.msg = failure_reason
-                        self.result['msg'] = failure_reason
-                        self.log(self.msg, "ERROR")
-                        break
+            if is_error:
+                if not tag_image_golden and "An inheritted tag cannot be un-tagged" in failure_reason:
+                    self.msg = failure_reason
+                else:
+                    action = "Tagging" if tag_image_golden else "Un-Tagging"
+                    self.msg = (
+                        "{0} image {1} golden for site {2} for family {3} for device role {4} failed."
+                        .format(action, image_name, site_name, device_family, device_role)
+                    )
+                self.status = "failed"
+                self.result['changed'] = False
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                break
+
+            if "successful" in progress:
+                action = "Tagging" if tag_image_golden else "Un-Tagging"
+                self.msg = (
+                    "{0} image {1} golden for site {2} for family {3} for device role {4} successful."
+                    .format(action, image_name, site_name, device_family, device_role)
+                )
+                self.status = "success"
+                self.result['changed'] = True
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
+                break
+
+            elapsed_time = time.time() - start_time
+            if elapsed_time >= self.max_timeout:
+                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
+                           .format(self.max_timeout, task_id) + \
+                           "Exiting the loop due to unexpected API status."
+                self.log(self.msg, "WARNING")
+                self.status = "failed"
+                break
+
+            poll_interval = self.params.get("catalystcenter_task_poll_interval")
+            self.log("Waiting for the next poll interval of {0} seconds before checking task status again.".format(poll_interval), "DEBUG")
+            time.sleep(poll_interval)
+
         return self
 
     def get_device_ip_from_id(self, device_id):
@@ -1761,7 +1779,7 @@ class Swim(DnacBase):
 
             while (True):
                 end_time = time.time()
-                max_timeout = self.params.get('dnac_api_task_timeout')
+                max_timeout = self.params.get('catalystcenter_api_task_timeout')
 
                 if (end_time - start_time) >= max_timeout:
                     self.log("""Max timeout of {0} has reached for the task id '{1}' for the device '{2}' and unexpected
@@ -1785,7 +1803,7 @@ class Swim(DnacBase):
                     self.result['response'] = task_details
                     device_ips_list.append(device_ip)
                     break
-                time.sleep(self.params.get('dnac_task_poll_interval'))
+                time.sleep(self.params.get('catalystcenter_task_poll_interval'))
 
         return device_ips_list, device_count
 
@@ -2315,26 +2333,62 @@ class Swim(DnacBase):
 
         return self
 
+    def update_swim_profile_messages(self):
+        """
+        Verify the merged status (Importing/Tagging/Distributing/Activating) of the SWIM Image in devices in Cisco Catalyst Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco Catalyst Center by retrieving the current state
+            (have) and desired state (want) of the configuration. It logs the current and desired states, and validates whether
+            the specified SWIM operation (Importing, Tagging, Distributing, or Activating) has been successfully performed or not.
+        """
+
+        if self.images_to_import or self.existing_images:
+            imported_images_str = ", ".join(self.images_to_import)
+            skipped_images_str = ", ".join(self.existing_images)
+
+            messages = []
+
+            if skipped_images_str:
+                messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
+
+            if imported_images_str:
+                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+
+            elif not skipped_images_str:
+                messages.append("No images were imported.")
+
+            self.msg = " ".join(messages)
+
+            self.result['msg'] = self.msg
+            self.result['response'] = self.msg
+            self.log(self.msg, "INFO")
+
+            return self
+
 
 def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    "dnac_log_append": {"type": 'bool', "default": True},
-                    'dnac_log': {'type': 'bool', 'default': False},
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged']}
                     }
@@ -2361,7 +2415,7 @@ def main():
         ccc_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_swims.verify_diff_state_apply[state](config).check_return_status()
-
+    ccc_swims.update_swim_profile_messages()
     module.exit_json(**ccc_swims.result)
 
 

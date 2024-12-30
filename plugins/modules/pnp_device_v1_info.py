@@ -25,12 +25,16 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter. Limits number of results.
-    type: int
+    - >
+      Limit query parameter. The number of records to show for this page. The minimum and maximum values are 0 and
+      500, respectively.
+    type: float
   offset:
     description:
-    - Offset query parameter. Index of first result.
-    type: int
+    - >
+      Offset query parameter. The first record to show for this page; the first record is numbered 0. The Minimum
+      value is 0.
+    type: float
   sort:
     description:
     - Sort query parameter. Comma seperated list of fields to sort on.
@@ -111,7 +115,7 @@ options:
     - Id path parameter.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceByIdV1

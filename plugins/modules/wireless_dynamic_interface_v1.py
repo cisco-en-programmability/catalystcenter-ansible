@@ -27,7 +27,7 @@ options:
     description: Vlan Id.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterfaceV1

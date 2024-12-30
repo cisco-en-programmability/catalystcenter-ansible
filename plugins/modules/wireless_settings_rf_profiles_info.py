@@ -21,18 +21,36 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
+  rfProfileName:
+    description:
+    - RfProfileName query parameter. RF Profile Name.
+    type: str
+  enableRadioTypeA:
+    description:
+    - EnableRadioTypeA query parameter. Enable Radio TypeA.
+    type: bool
+  enableRadioTypeB:
+    description:
+    - EnableRadioTypeB query parameter. Enable Radio TypeB.
+    type: bool
+  enableRadioType6GHz:
+    description:
+    - EnableRadioType6GHz query parameter. Enable Radio Type6GHz.
+    type: bool
   id:
     description:
     - Id path parameter. RF Profile ID.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetRFProfileByIDV1
@@ -56,34 +74,38 @@ notes:
 EXAMPLES = r"""
 - name: Get all Wireless Settings Rf Profiles Info
   cisco.catalystcenter.wireless_settings_rf_profiles_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    rfProfileName: string
+    enableRadioTypeA: True
+    enableRadioTypeB: True
+    enableRadioType6GHz: True
   register: result
 
 - name: Get Wireless Settings Rf Profiles Info by id
   cisco.catalystcenter.wireless_settings_rf_profiles_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
@@ -106,7 +128,28 @@ dnac_response:
           "minPowerLevel": 0,
           "maxPowerLevel": 0,
           "channelWidth": "string",
-          "preamblePuncture": true
+          "preamblePuncture": true,
+          "zeroWaitDfsEnable": true,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "fraProperties": {
+            "clientAware": true,
+            "clientSelect": 0,
+            "clientReset": 0
+          },
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
         },
         "radioTypeBProperties": {
           "parentProfile": "string",
@@ -116,7 +159,22 @@ dnac_response:
           "powerThresholdV1": 0,
           "rxSopThreshold": "string",
           "minPowerLevel": 0,
-          "maxPowerLevel": 0
+          "maxPowerLevel": 0,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
         },
         "radioType6GHzProperties": {
           "parentProfile": "string",
@@ -147,7 +205,29 @@ dnac_response:
           },
           "preamblePuncture": true,
           "minDbsWidth": 0,
-          "maxDbsWidth": 0
+          "maxDbsWidth": 0,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "pscEnforcingEnabled": true,
+          "discoveryFrames6GHz": "string",
+          "broadcastProbeResponseInterval": 0,
+          "fraProperties": {
+            "clientResetCount": 0,
+            "clientUtilizationThreshold": 0
+          },
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
         },
         "id": "string"
       },

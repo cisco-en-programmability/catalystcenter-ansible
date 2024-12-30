@@ -73,7 +73,7 @@ options:
                     type: str
 
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
   - SDK Methods used are
@@ -99,14 +99,14 @@ notes:
 EXAMPLES = r"""
 - name: Create/Modify a new provision
   cisco.catalystcenter.provision_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: True
     state: merged
     config:
         - site_name: string
@@ -163,13 +163,13 @@ response_3:
 import time
 import re
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
-    DnacBase,
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
     validate_list_of_dicts
 )
 
 
-class Dnacprovision(DnacBase):
+class Dnacprovision(CatalystCenterBase):
 
     """
     Class containing member attributes for provision intent module
@@ -243,7 +243,7 @@ class Dnacprovision(DnacBase):
           type of the device.
         """
 
-        dev_response = self.dnac_apply['exec'](
+        dev_response = self.catalystcenter_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
             params={"ip_address": self.validated_config[0]["management_ip_address"]},
@@ -279,7 +279,7 @@ class Dnacprovision(DnacBase):
         result = False
         params = {"task_id": task_id}
         while True:
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="task",
                 function='get_task_by_id',
                 params=params,
@@ -319,7 +319,7 @@ class Dnacprovision(DnacBase):
         """
 
         try:
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="sites",
                 function='get_site',
                 params={"name": site_name},
@@ -403,7 +403,7 @@ class Dnacprovision(DnacBase):
                 "interfaceName": interface.get("interface_name")
             }
             wireless_params[0]["dynamicInterfaces"].append(interface_dict)
-        response = self.dnac_apply['exec'](
+        response = self.catalystcenter_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
             params={"management_ip_address": self.validated_config[0]["management_ip_address"]},
@@ -462,7 +462,7 @@ class Dnacprovision(DnacBase):
         device_type = self.want.get("device_type")
         if device_type == "wired":
             try:
-                status_response = self.dnac_apply['exec'](
+                status_response = self.catalystcenter_apply['exec'](
                     family="sda",
                     function="get_provisioned_wired_device",
                     op_modifies=True,
@@ -478,14 +478,14 @@ class Dnacprovision(DnacBase):
             status = status_response.get("status")
 
             if status == "success":
-                response = self.dnac_apply['exec'](
+                response = self.catalystcenter_apply['exec'](
                     family="sda",
                     function="re_provision_wired_device",
                     op_modifies=True,
                     params=self.want["prov_params"],
                 )
             else:
-                response = self.dnac_apply['exec'](
+                response = self.catalystcenter_apply['exec'](
                     family="sda",
                     function="provision_wired_device",
                     op_modifies=True,
@@ -493,7 +493,7 @@ class Dnacprovision(DnacBase):
                 )
 
         elif device_type == "wireless":
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="wireless",
                 function="provision",
                 op_modifies=True,
@@ -534,7 +534,7 @@ class Dnacprovision(DnacBase):
             return self
 
         try:
-            status_response = self.dnac_apply['exec'](
+            status_response = self.catalystcenter_apply['exec'](
                 family="sda",
                 function="get_provisioned_wired_device",
                 op_modifies=True,
@@ -555,7 +555,7 @@ class Dnacprovision(DnacBase):
             self.result['response'] = self.want["prov_params"]
             return self
 
-        response = self.dnac_apply['exec'](
+        response = self.catalystcenter_apply['exec'](
             family="sda",
             function="delete_provisioned_wired_device",
             op_modifies=True,
@@ -582,42 +582,42 @@ def main():
     main entry point for module execution
     """
 
-    element_spec = {'dnac_host': {'required': True, 'type': 'str'},
-                    'dnac_port': {'type': 'str', 'default': '443'},
-                    'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'dnac_password': {'type': 'str', 'no_log': True},
-                    'dnac_verify': {'type': 'bool', 'default': 'True'},
-                    'dnac_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'dnac_debug': {'type': 'bool', 'default': False},
-                    'dnac_log': {'type': 'bool', 'default': False},
-                    "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-                    "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
-                    "dnac_log_append": {"type": 'bool', "default": True},
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    "catalystcenter_log_level": {"type": 'str', "default": 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
                     "config_verify": {"type": 'bool', "default": False},
-                    'dnac_api_task_timeout': {'type': 'int', "default": 1200},
-                    'dnac_task_poll_interval': {'type': 'int', "default": 2},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    dnac_provision = Dnacprovision(module)
+    catalystcenter_provision = Dnacprovision(module)
 
-    state = dnac_provision.params.get("state")
-    if state not in dnac_provision.supported_states:
-        dnac_provision.status = "invalid"
-        dnac_provision.msg = "State {0} is invalid".format(state)
-        dnac_provision.check_return_status()
+    state = catalystcenter_provision.params.get("state")
+    if state not in catalystcenter_provision.supported_states:
+        catalystcenter_provision.status = "invalid"
+        catalystcenter_provision.msg = "State {0} is invalid".format(state)
+        catalystcenter_provision.check_return_status()
 
-    dnac_provision.validate_input().check_return_status()
+    catalystcenter_provision.validate_input().check_return_status()
 
-    for config in dnac_provision.validated_config:
-        dnac_provision.reset_values()
-        dnac_provision.get_want().check_return_status()
-        dnac_provision.get_diff_state_apply[state]().check_return_status()
+    for config in catalystcenter_provision.validated_config:
+        catalystcenter_provision.reset_values()
+        catalystcenter_provision.get_want().check_return_status()
+        catalystcenter_provision.get_diff_state_apply[state]().check_return_status()
 
-    module.exit_json(**dnac_provision.result)
+    module.exit_json(**catalystcenter_provision.result)
 
 
 if __name__ == '__main__':

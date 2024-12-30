@@ -23,8 +23,14 @@ options:
     description:
     - SiteId path parameter. Site UUID.
     type: str
+  _inherited:
+    description:
+    - >
+      _inherited query parameter. This query parameter indicates whether the current SSID count at the given
+      'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
+    type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetSSIDCountBySiteV1
@@ -43,20 +49,21 @@ notes:
 EXAMPLES = r"""
 - name: Get all Sites Wireless Settings Ssids Count Info
   cisco.catalystcenter.sites_wireless_settings_ssids_count_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
+    _inherited: True
     siteId: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

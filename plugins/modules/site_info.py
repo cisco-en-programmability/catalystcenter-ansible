@@ -33,14 +33,14 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting index for pagination. Indexed from 1.
+    - Offset query parameter. Offset starting index for pagination. Indexed from 1.
     type: int
   limit:
     description:
     - Limit query parameter. Number of sites to be listed.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteV1

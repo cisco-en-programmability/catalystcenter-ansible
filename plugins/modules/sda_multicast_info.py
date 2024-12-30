@@ -29,10 +29,12 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+    - >
+      Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+      single request is 500.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for SDA GetMulticastV1

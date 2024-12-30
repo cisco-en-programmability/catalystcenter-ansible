@@ -48,13 +48,13 @@ options:
     - ProductNameOrdinal path parameter. Product name ordinal is unique value for each network device product.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductNameV1
   description: Complete reference of the RetrieveNetworkDeviceProductNameV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1  # noqa: E501
   description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNamesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names
 notes:

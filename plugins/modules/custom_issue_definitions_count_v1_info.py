@@ -70,7 +70,7 @@ options:
     - Mnemonic query parameter. The syslog mnemonic name.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFiltersV1

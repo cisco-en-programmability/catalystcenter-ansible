@@ -131,20 +131,48 @@ options:
       healthScore=good,healthScore=good&healthScore=fair (multiple entity healthscore values with & separator).
       This field is not case sensitive.
     type: str
-  view:
+  fabricSiteId:
     description:
     - >
-      View query parameter. The List of Network Device model views. Please refer to ```NetworkDeviceView``` for
-      the supported list.
+      FabricSiteId query parameter. The fabric site Id or list to fabric site Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?fabricSiteId=fabricSiteUuid) ?fabricSiteId=fabricSiteUuid1&fabricSiteId=fabricSiteUuid2 (multiple
+      fabricSiteIds requested).
     type: str
-  attribute:
+  l2Vn:
     description:
     - >
-      Attribute query parameter. The List of Network Device model attributes. This is helps to specify the
-      interested fields in the request.
+      L2Vn query parameter. The L2 Virtual Network Id or list to Virtual Network Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?l2Vn=virtualNetworkId ?l2Vn=virtualNetworkId1&l2Vn=virtualNetworkId2 (multiple virtualNetworkId's
+      requested).
+    type: str
+  l3Vn:
+    description:
+    - >
+      L3Vn query parameter. The L3 Virtual Network Id or list to Virtual Network Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?l3Vn=virtualNetworkId ?l3Vn=virtualNetworkId1&l3Vn=virtualNetworkId2 (multiple virtualNetworkId's
+      requested).
+    type: str
+  transitNetworkId:
+    description:
+    - >
+      TransitNetworkId query parameter. The Transit Network Id or list to Transit Network Ids to filter the data
+      This field supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?transitNetworkId=transitNetworkId
+      ?transitNetworkId=transitNetworkuuid1&transitNetworkId=transitNetworkuuid1 (multiple transitNetworkIds
+      requested).
+    type: str
+  fabricRole:
+    description:
+    - >
+      FabricRole query parameter. The list of fabric device role. Examples fabricRole=BORDER,
+      fabricRole=BORDER&fabricRole=EDGE (multiple fabric device roles with & separator) Available values BORDER,
+      EDGE, MAP-SERVER, LEAF, SPINE, TRANSIT-CP, EXTENDED-NODE, WLC, UNIFIED-AP.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices GetsTheTotalNetworkDeviceCountsBasedOnTheProvidedQueryParametersV1
@@ -163,13 +191,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Network Devices Count Info
   cisco.catalystcenter.network_devices_count_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -186,13 +214,16 @@ EXAMPLES = r"""
     maintenanceMode: True
     softwareVersion: string
     healthScore: string
-    view: string
-    attribute: string
+    fabricSiteId: string
+    l2Vn: string
+    l3Vn: string
+    transitNetworkId: string
+    fabricRole: string
   register: result
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict

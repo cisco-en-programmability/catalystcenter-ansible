@@ -62,7 +62,7 @@ options:
     - IssueEnabled query parameter. The enablement status of the issue definition, either true or false.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1

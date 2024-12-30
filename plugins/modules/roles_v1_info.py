@@ -10,7 +10,7 @@ module: roles_v1_info
 short_description: Information module for Roles V1
 description:
 - Get all Roles V1.
-- Get all roles for the Cisco DNA Center System.
+- Get all roles in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -20,7 +20,7 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetRolesAPIV1

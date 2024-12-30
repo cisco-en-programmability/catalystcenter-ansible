@@ -26,7 +26,7 @@ options:
       included in response.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
@@ -34,7 +34,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_a_i_endpoint_analytics_attribute_dictionaries_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/dictionaries,

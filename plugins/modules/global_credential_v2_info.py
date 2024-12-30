@@ -22,12 +22,12 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetAllGlobalCredentialsV2
   description: Complete reference of the GetAllGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.get_all_global_credentials_v2,

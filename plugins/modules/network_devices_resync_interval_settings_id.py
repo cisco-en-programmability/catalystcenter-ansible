@@ -24,7 +24,7 @@ options:
       as `0`. To use global settings, set interval as `null`.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateResyncIntervalForTheNetworkDeviceV1

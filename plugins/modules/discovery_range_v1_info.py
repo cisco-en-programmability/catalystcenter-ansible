@@ -28,7 +28,7 @@ options:
     - RecordsToReturn path parameter. Number of records to fetch from the starting index.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1

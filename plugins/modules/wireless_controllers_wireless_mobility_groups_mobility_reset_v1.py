@@ -17,11 +17,11 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   networkDeviceId:
-    description: Network device Id of Cisco wireless controller.Obtain the network device
-      ID value by using the API call GET - /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description: Network device Id of Cisco wireless controller. Obtain the network
+      device ID value by using the API call GET - /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.6
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless MobilityResetV1
@@ -39,18 +39,18 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_controllers_wireless_mobility_groups_mobility_reset_v1:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     networkDeviceId: string
 
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
