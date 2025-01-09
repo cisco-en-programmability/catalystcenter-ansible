@@ -136,15 +136,15 @@ notes:
 EXAMPLES = r"""
 - name: Create a new area site
   cisco.catalystcenter.site_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: "{{catalystcenter_log}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: "{{log}}"
     state: merged
     config:
     - site:
@@ -155,15 +155,15 @@ EXAMPLES = r"""
 
 - name: Create a new building site
   cisco.catalystcenter.site_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: "{{catalystcenter_log}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: "{{log}}"
     state: merged
     config:
     - site:
@@ -177,15 +177,15 @@ EXAMPLES = r"""
 
 - name: Create a Floor site under the building
   cisco.catalystcenter.site_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: "{{catalystcenter_log}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: "{{log}}"
     state: merged
     config:
     - site:
@@ -201,15 +201,15 @@ EXAMPLES = r"""
 
 - name: Updating the Floor details under the building
   cisco.catalystcenter.site_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: "{{catalystcenter_log}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: "{{log}}"
     state: merged
     config:
     - site:
@@ -223,15 +223,15 @@ EXAMPLES = r"""
 
 - name: Deleting any site you need site name and parent name
   cisco.catalystcenter.site_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: "{{catalystcenter_log}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: "{{log}}"
     state: deleted
     config:
     - site:
@@ -1100,17 +1100,17 @@ def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+    element_spec = {'host': {'required': True, 'type': 'str'},
                     'catalystcenter_port': {'type': 'str', 'default': '443'},
-                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'catalystcenter_password': {'type': 'str', 'no_log': True},
-                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'catalystcenter_debug': {'type': 'bool', 'default': False},
-                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-                    "catalystcenter_log_append": {"type": 'bool', "default": True},
-                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'password': {'type': 'str', 'no_log': True},
+                    'verify': {'type': 'bool', 'default': 'True'},
+                    'version': {'type': 'str', 'default': '2.2.3.3'},
+                    'debug': {'type': 'bool', 'default': False},
+                    'log_level': {'type': 'str', 'default': 'WARNING'},
+                    "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "log_append": {"type": 'bool', "default": True},
+                    'log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
                     'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},

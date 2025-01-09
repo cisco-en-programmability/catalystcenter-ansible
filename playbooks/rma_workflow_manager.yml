@@ -7,18 +7,18 @@
   tasks:
     - name: RMA workflow for faulty device replacement
       cisco.catalystcenter.rma_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
-        resync_retry_count: 1000  
-        resync_retry_interval: 30 
+        resync_retry_count: 1000
+        resync_retry_interval: 30
         ccc_poll_interval: 2
         timeout_interval: 100
         state: replaced

@@ -293,14 +293,14 @@ notes:
 EXAMPLES = r"""
 - name: Start a LAN Automation session without waiting for it to finish
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -336,14 +336,14 @@ EXAMPLES = r"""
 
 - name: Start a LAN Automation session with device authorization and waiting for the task to complete
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -382,14 +382,14 @@ EXAMPLES = r"""
 
 - name: Stop a LAN Automation session
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: deleted
     config:
@@ -399,14 +399,14 @@ EXAMPLES = r"""
 
 - name: Update loopback for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -419,14 +419,14 @@ EXAMPLES = r"""
 
 - name: Update hostname for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -439,14 +439,14 @@ EXAMPLES = r"""
 
 - name: Add link for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -460,14 +460,14 @@ EXAMPLES = r"""
 
 - name: Delete link between LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -480,14 +480,14 @@ EXAMPLES = r"""
 
 - name: Apply loopback and hostname updates for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
     config_verify: false
     state: merged
     config:
@@ -2952,17 +2952,17 @@ def main():
     """
 
     # Define the specification for the module's arguments
-    element_spec = {"catalystcenter_host": {"required": True, "type": "str"},
+    element_spec = {"host": {"required": True, "type": "str"},
                     "catalystcenter_port": {"type": "str", "default": "443"},
-                    "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-                    "catalystcenter_password": {"type": "str", "no_log": True},
-                    "catalystcenter_verify": {"type": "bool", "default": "True"},
-                    "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
-                    "catalystcenter_debug": {"type": "bool", "default": False},
-                    "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-                    "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-                    "catalystcenter_log_append": {"type": "bool", "default": True},
-                    "catalystcenter_log": {"type": "bool", "default": False},
+                    "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+                    "password": {"type": "str", "no_log": True},
+                    "verify": {"type": "bool", "default": "True"},
+                    "version": {"type": "str", "default": "2.2.3.3"},
+                    "debug": {"type": "bool", "default": False},
+                    "log_level": {"type": "str", "default": "WARNING"},
+                    "log_file_path": {"type": "str", "default": "catalystcenter.log"},
+                    "log_append": {"type": "bool", "default": True},
+                    "log": {"type": "bool", "default": False},
                     "validate_response_schema": {"type": "bool", "default": True},
                     "config_verify": {"type": "bool", "default": False},
                     "catalystcenter_api_task_timeout": {"type": "int", "default": 604800},

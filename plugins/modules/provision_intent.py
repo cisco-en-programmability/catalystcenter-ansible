@@ -99,14 +99,14 @@ notes:
 EXAMPLES = r"""
 - name: Create/Modify a new provision
   cisco.catalystcenter.provision_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: True
     state: merged
     config:
         - site_name: string
@@ -582,17 +582,17 @@ def main():
     main entry point for module execution
     """
 
-    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+    element_spec = {'host': {'required': True, 'type': 'str'},
                     'catalystcenter_port': {'type': 'str', 'default': '443'},
-                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'catalystcenter_password': {'type': 'str', 'no_log': True},
-                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'catalystcenter_debug': {'type': 'bool', 'default': False},
-                    'catalystcenter_log': {'type': 'bool', 'default': False},
-                    "catalystcenter_log_level": {"type": 'str', "default": 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'password': {'type': 'str', 'no_log': True},
+                    'verify': {'type': 'bool', 'default': 'True'},
+                    'version': {'type': 'str', 'default': '2.2.3.3'},
+                    'debug': {'type': 'bool', 'default': False},
+                    'log': {'type': 'bool', 'default': False},
+                    "log_level": {"type": 'str', "default": 'WARNING'},
+                    "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "log_append": {"type": 'bool', "default": True},
                     "config_verify": {"type": 'bool', "default": False},
                     'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
                     'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},

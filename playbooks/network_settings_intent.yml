@@ -10,16 +10,16 @@
 
     - name: Create global pool, reserve subpool and network functions
       cisco.catalystcenter.network_settings_intent:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
-        catalystcenter_log_append: True
-        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "{{ log_level }}"
+        log_append: True
+        log_file_path: "{{ log_file_path }}"
         state: merged
         config_verify: True
         config:
@@ -62,7 +62,7 @@
               client_and_endpoint_aaa: #works only if we system settigns is set
                 ip_address: 10.197.156.42 #Mandatory for ISE, sec ip for AAA
                 network: 10.0.0.20
-                protocol: RADIUS                                     
+                protocol: RADIUS
                 servers: AAA
                 # shared_secret: string #ISE
               message_of_the_day:
@@ -92,14 +92,14 @@
 
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_intent:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "{{ log_level }}"
         state: deleted
         config_verify: True
         config:

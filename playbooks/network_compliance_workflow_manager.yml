@@ -8,16 +8,16 @@
 
   vars:
     catalystcenter_login: &catalystcenter_login
-      catalystcenter_host: "{{ catalystcenter_host }}"
-      catalystcenter_username: "{{ catalystcenter_username }}"
-      catalystcenter_password: "{{ catalystcenter_password }}"
-      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
       catalystcenter_port: "{{ catalystcenter_port }}"
-      catalystcenter_version: "{{ catalystcenter_version }}"
-      catalystcenter_debug: "{{ catalystcenter_debug }}"
-      catalystcenter_log: true
-      catalystcenter_log_level: INFO
-      catalystcenter_log_append: False
+      version: "{{ version }}"
+      debug: "{{ debug }}"
+      log: true
+      log_level: INFO
+      log_append: False
       config_verify: true
 
   tasks:
@@ -60,7 +60,7 @@
             run_compliance_categories: ['INTENT', 'RUNNING_CONFIG', 'IMAGE', 'PSIRT']
 
 
-    - name: Run Compliance check with specific categories using Site 
+    - name: Run Compliance check with specific categories using Site
       cisco.catalystcenter.network_compliance_workflow_manager:
         <<: *catalystcenter_login
         config:
@@ -86,7 +86,7 @@
             sync_device_config: True
 
 
-    - name: Sync Device Configuration using Site 
+    - name: Sync Device Configuration using Site
       cisco.catalystcenter.network_compliance_workflow_manager:
         <<: *catalystcenter_login
         config:

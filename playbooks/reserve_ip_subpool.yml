@@ -9,13 +9,13 @@
   tasks:
     - name: Create reservation
       cisco.catalystcenter.reserve_ip_subpool:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         state: present
         ipv4DhcpServers:
           - 55.66.55.55
@@ -33,13 +33,13 @@
 
     - name: Get Reservations
       cisco.catalystcenter.reserve_ip_subpool_info:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         siteId: "{{ site }}"
       register: ip_pool
 

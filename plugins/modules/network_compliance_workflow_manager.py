@@ -126,59 +126,59 @@ notes:
 EXAMPLES = r"""
 - name: Run Compliance check on device(s) using IP address list (run_compliance by default is True)
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
 
 - name: Run Compliance check on device(s) using IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
 
 - name: Run Compliance check on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
 
 - name: Run Compliance check on device(s) using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -186,15 +186,15 @@ EXAMPLES = r"""
 
 - name: Run Compliance check with specific categories on device(s) using IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
@@ -202,15 +202,15 @@ EXAMPLES = r"""
 
 - name: Run Compliance check with specific categories on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
@@ -218,15 +218,15 @@ EXAMPLES = r"""
 
 - name: Run Compliance check with specific categories on device(s) using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -235,15 +235,15 @@ EXAMPLES = r"""
 
 - name: Sync Device Configuration on device(s) using IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - site_name: "Global"
         sync_device_config: true
@@ -251,15 +251,15 @@ EXAMPLES = r"""
 
 - name: Sync Device Configuration on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         sync_device_config: true
@@ -267,15 +267,15 @@ EXAMPLES = r"""
 
 - name: Sync Device Configuration on device(s) using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -284,15 +284,15 @@ EXAMPLES = r"""
 
 - name: Run Compliance and Sync Device Configuration using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -1085,7 +1085,7 @@ class NetworkCompliance(CatalystCenterBase):
             )
 
             # Get task status for the current batch
-            if self.catalystcenter_version <= self.version_2_3_5_3:
+            if self.version <= self.version_2_3_5_3:
                 failure_msg = (
                     "{0} Task with Task ID: '{1}' Failed for batch number: '{2}' with {3} devices: {4}."
                     .format(task_name, task_id, idx, len(device_ids), device_ids)
@@ -1460,7 +1460,7 @@ class NetworkCompliance(CatalystCenterBase):
         # Sync Device Configuration Parameters
         if sync_device_config:
             self.log("Sync Device Configuration is requested.", "DEBUG")
-            if self.catalystcenter_version > self.version_2_3_5_3:
+            if self.version > self.version_2_3_5_3:
                 compliance_detail_params_sync = {
                     "deviceUuids": list(mgmt_ip_to_instance_id_map.values()),
                     "categories": ["RUNNING_CONFIG"]
@@ -1624,17 +1624,17 @@ def main():
     """
 
     # Define the specification for the module"s arguments
-    element_spec = {"catalystcenter_host": {"required": True, "type": "str"},
+    element_spec = {"host": {"required": True, "type": "str"},
                     "catalystcenter_port": {"type": "str", "default": "443"},
-                    "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-                    "catalystcenter_password": {"type": "str", "no_log": True},
-                    "catalystcenter_verify": {"type": "bool", "default": "True"},
-                    "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
-                    "catalystcenter_debug": {"type": "bool", "default": False},
-                    "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-                    "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-                    "catalystcenter_log_append": {"type": "bool", "default": True},
-                    "catalystcenter_log": {"type": "bool", "default": False},
+                    "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+                    "password": {"type": "str", "no_log": True},
+                    "verify": {"type": "bool", "default": "True"},
+                    "version": {"type": "str", "default": "2.2.3.3"},
+                    "debug": {"type": "bool", "default": False},
+                    "log_level": {"type": "str", "default": "WARNING"},
+                    "log_file_path": {"type": "str", "default": "catalystcenter.log"},
+                    "log_append": {"type": "bool", "default": True},
+                    "log": {"type": "bool", "default": False},
                     "validate_response_schema": {"type": "bool", "default": True},
                     "config_verify": {"type": "bool", "default": False},
                     "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

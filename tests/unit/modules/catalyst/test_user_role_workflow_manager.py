@@ -217,10 +217,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_user
             )
@@ -240,10 +240,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_user
             )
@@ -263,10 +263,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_user
             )
@@ -286,10 +286,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config_delete_existing_user
             )
@@ -309,10 +309,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config_user
             )
@@ -332,10 +332,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_mandatory_field_not_present
             )
@@ -355,10 +355,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_email_not_present
             )
@@ -378,10 +378,10 @@ class TestCatalystcenterUserRoleWorkflowManager(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_not_correct_formate
             )
@@ -407,10 +407,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_user_rolelist_not_type_list
             )
@@ -430,10 +430,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
             )
@@ -453,10 +453,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
             )
@@ -476,10 +476,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_role
             )
@@ -499,10 +499,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_1_role
             )
@@ -522,10 +522,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_role
             )
@@ -545,10 +545,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_role
             )
@@ -568,10 +568,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config_role
             )
@@ -591,10 +591,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config_role
             )
@@ -614,10 +614,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_present
             )
@@ -637,10 +637,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_not_type_list
             )
@@ -660,10 +660,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_with_all_permision_deny
             )
@@ -683,10 +683,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_correct_formate
             )
@@ -707,10 +707,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_type_list_missing
             )
@@ -730,10 +730,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
             )
@@ -753,10 +753,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
             )
@@ -776,10 +776,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_for_creating_default_role
             )
@@ -799,10 +799,10 @@ and hyphens and should not contain spaces or other special characters."
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="mergeddd",
                 config=self.playbook_config_invalid_invalid_param_state
             )

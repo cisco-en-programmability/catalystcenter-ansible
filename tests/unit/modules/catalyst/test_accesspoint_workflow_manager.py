@@ -142,10 +142,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_series_error
             )
@@ -174,10 +174,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -196,10 +196,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -218,10 +218,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_missing_rf_profile
             )
@@ -240,10 +240,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_provision
             )
@@ -262,10 +262,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_provision
             )
@@ -279,10 +279,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
     def test_invalid_site_exists(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_provision
             )
@@ -297,10 +297,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
     def test_invalid_get_site_device(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.get_membership_empty
             )
@@ -322,10 +322,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config
             )
@@ -344,10 +344,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_invalid_config_provision
             )
@@ -367,10 +367,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config_verify=True,
                 config=self.playbook_config_missing_update
@@ -395,10 +395,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
         """
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_update_some_missing_data
             )
@@ -440,10 +440,10 @@ class TestCatalystcenterAccesspointWorkflow(TestCatalystcenterModule):
     def test_invalid_wlc_device(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_provision
             )

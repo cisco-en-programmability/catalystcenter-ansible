@@ -468,15 +468,15 @@ EXAMPLES = r"""
 ---
 - name: Create a user
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     catalystcenter_api_task_timeout: 1000
     catalystcenter_task_poll_interval: 1
@@ -492,15 +492,15 @@ EXAMPLES = r"""
 
 - name: Update a user for first name, last name, email, and role list
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     catalystcenter_api_task_timeout: 1000
     catalystcenter_task_poll_interval: 1
@@ -515,15 +515,15 @@ EXAMPLES = r"""
 
 - name: Update a user for role list
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     catalystcenter_api_task_timeout: 1000
     catalystcenter_task_poll_interval: 1
@@ -535,15 +535,15 @@ EXAMPLES = r"""
 
 - name: Update the user password
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     catalystcenter_api_task_timeout: 1000
     catalystcenter_task_poll_interval: 1
@@ -556,15 +556,15 @@ EXAMPLES = r"""
 
 - name: Delete a user using username or email address
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     catalystcenter_api_task_timeout: 1000
     catalystcenter_task_poll_interval: 1
@@ -575,15 +575,15 @@ EXAMPLES = r"""
 
 - name: Create a role with all params
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     config:
       role_details:
@@ -643,15 +643,15 @@ EXAMPLES = r"""
 
 - name: Create a role for assurance
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     config:
       role_details:
@@ -663,15 +663,15 @@ EXAMPLES = r"""
 
 - name: Create a role for network provision
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     config:
       role_details:
@@ -690,15 +690,15 @@ EXAMPLES = r"""
 
 - name: Update a role for assurance and platform
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     config:
       role_details:
@@ -713,15 +713,15 @@ EXAMPLES = r"""
 
 - name: Delete a role
   cisco.catalystcenter.user_role_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: True
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: True
+    log_level: DEBUG
     config_verify: True
     catalystcenter_api_task_timeout: 1000
     catalystcenter_task_poll_interval: 1
@@ -1658,7 +1658,7 @@ class UserandRole(CatalystCenterBase):
             if "[403]" in str(e):
                 error_message = (
                     "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user via the API.".format(
-                        self.payload.get("catalystcenter_username"))
+                        self.payload.get("username"))
                 )
             else:
                 error_message = "Invalid email format for '{0}' associated with username '{1}'".format(user_params.get("email"), user_params.get("username"))
@@ -1696,11 +1696,11 @@ class UserandRole(CatalystCenterBase):
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
-                    self.payload.get("catalystcenter_username"))
+                    self.payload.get("username"))
                 return {"error_message": error_message}
 
         error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("catalystcenter_version"))
+            self.payload.get("version"))
         return {"error_message": error_message}
 
     def get_user(self):
@@ -2698,11 +2698,11 @@ class UserandRole(CatalystCenterBase):
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
-                    self.payload.get("catalystcenter_username"))
+                    self.payload.get("username"))
                 return {"error_message": error_message}
 
         error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("catalystcenter_version"))
+            self.payload.get("version"))
         return {"error_message": error_message}
 
     def find_denied_permissions(self, config, parent_key=""):
@@ -3095,7 +3095,7 @@ class UserandRole(CatalystCenterBase):
 
         self.status = "failed"
         self.msg = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("catalystcenter_version"))
+            self.payload.get("version"))
         self.log(self.msg, "ERROR")
         self.check_return_status()
 
@@ -3131,7 +3131,7 @@ class UserandRole(CatalystCenterBase):
                 if "[403]" in str(e):
                     error_message = (
                         "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
-                            self.payload.get("catalystcenter_username"))
+                            self.payload.get("username"))
                     )
                 else:
                     error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
@@ -3141,7 +3141,7 @@ class UserandRole(CatalystCenterBase):
 
         self.status = "failed"
         self.msg = "The specified version '{0}' does not have the 'delete_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("catalystcenter_version"))
+            self.payload.get("version"))
         self.log(self.msg, "ERROR")
         self.check_return_status()
 
@@ -3420,18 +3420,18 @@ def main():
     """ main entry point for module execution
     """
     # Basic Ansible type check or assign default.
-    user_role_details = {"catalystcenter_host": {"required": True, "type": "str"},
+    user_role_details = {"host": {"required": True, "type": "str"},
                          "catalystcenter_port": {"type": "str", "default": "443"},
-                         "catalystcenter_username": {"type": "str", "default": "admin", 'aliases': ['user']},
-                         "catalystcenter_password": {"type": "str", "no_log": True},
-                         "catalystcenter_verify": {"type": "bool", "default": "True"},
-                         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
-                         "catalystcenter_debug": {"type": "bool", "default": False},
-                         "catalystcenter_log": {"type": "bool", "default": False},
-                         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-                         "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+                         "username": {"type": "str", "default": "admin", 'aliases': ['user']},
+                         "password": {"type": "str", "no_log": True},
+                         "verify": {"type": "bool", "default": "True"},
+                         "version": {"type": "str", "default": "2.2.3.3"},
+                         "debug": {"type": "bool", "default": False},
+                         "log": {"type": "bool", "default": False},
+                         "log_level": {"type": "str", "default": "WARNING"},
+                         "log_file_path": {"type": "str", "default": "catalystcenter.log"},
                          "config_verify": {"type": "bool", "default": False},
-                         "catalystcenter_log_append": {"type": "bool", "default": True},
+                         "log_append": {"type": "bool", "default": True},
                          "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
                          "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
                          "config": {"required": True, "type": "dict"},

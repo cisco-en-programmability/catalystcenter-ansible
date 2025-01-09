@@ -9,20 +9,20 @@
 
   vars:
     catalystcenter_login: &catalystcenter_login
-      catalystcenter_host: "{{ catalystcenter_host }}"
-      catalystcenter_username: "{{ catalystcenter_username }}"
-      catalystcenter_password: "{{ catalystcenter_password }}"
-      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
       catalystcenter_port: "{{ catalystcenter_port }}"
-      catalystcenter_version: "{{ catalystcenter_version }}"
-      catalystcenter_debug: "{{ catalystcenter_debug }}"
-      catalystcenter_log_level: "DEBUG"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
+      log_level: "DEBUG"
 
   tasks:
     - name: Take backup of a wired 9500 switch
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         <<: *catalystcenter_login
-        catalystcenter_log: True
+        log: True
         state: merged
         config_verify: True
         config:
@@ -32,7 +32,7 @@
     - name: Take backup of all the switches
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         <<: *catalystcenter_login
-        catalystcenter_log: True
+        log: True
         state: merged
         config_verify: True
         config:

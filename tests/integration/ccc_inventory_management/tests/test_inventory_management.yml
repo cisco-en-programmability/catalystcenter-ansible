@@ -9,15 +9,15 @@
       name: vars_map
     vars:
       catalystcenter_login: &catalystcenter_login
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
 
   # - debug:
@@ -219,7 +219,7 @@
 # #     Create & Assign User Defined Field    #
 # #############################################
 
-#   - name: Create & Assign user defined field 
+#   - name: Create & Assign user defined field
 #     cisco.catalystcenter.inventory_workflow_manager:
 #       <<: *catalystcenter_login
 #       state: merged
@@ -245,7 +245,7 @@
 # #         Update User Defined Field         #
 # #############################################
 
-#   - name: Update user defined field 
+#   - name: Update user defined field
 #     cisco.catalystcenter.inventory_workflow_manager:
 #       <<: *catalystcenter_login
 #       state: merged
@@ -272,7 +272,7 @@
 # #         Delete User Defined Field         #
 # #############################################
 
-#   - name: Delete user defined field 
+#   - name: Delete user defined field
 #     cisco.catalystcenter.inventory_workflow_manager:
 #       <<: *catalystcenter_login
 #       state: deleted
