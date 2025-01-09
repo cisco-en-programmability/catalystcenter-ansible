@@ -8,15 +8,15 @@
   tasks:
     - name: User and Role Workflow Manager
       cisco.catalystcenter.user_role_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
         catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log: True
-        catalystcenter_log_level: DEBUG
+        version: "{{version}}"
+        debug: "{{debug}}"
+        log: True
+        log_level: DEBUG
         config_verify: True
         catalystcenter_api_task_timeout: 1000
         catalystcenter_task_poll_interval: 1
@@ -67,6 +67,6 @@
               system:
                 - overall: "deny"
                   machine_reasoning: "write"
-              utilities: 
+              utilities:
                 - overall: "deny"
                   audit_log: "read"

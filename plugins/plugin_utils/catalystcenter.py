@@ -135,14 +135,14 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def Catalystcenter_argument_spec():
     argument_spec = dict(
-        catalystcenter_host=dict(type="str", fallback=(env_fallback, ['CATALYST_HOST']), required=True),
-        catalystcenter_port=dict(type="int", fallback=(env_fallback, ['CATALYST_PORT']), required=False, default=443),
-        catalystcenter_username=dict(type="str", fallback=(env_fallback, ['CATALYST_USERNAME']), default="admin", aliases=["user"]),
-        catalystcenter_password=dict(type="str", fallback=(env_fallback, ['CATALYST_PASSWORD']), no_log=True),
-        catalystcenter_verify=dict(type="bool", fallback=(env_fallback, ['CATALYST_VERIFY']), default=True),
-        catalystcenter_version=dict(type="str", fallback=(env_fallback, ['CATALYST_VERSION']), default="2.3.7.6"),
-        catalystcenter_debug=dict(type="bool", fallback=(env_fallback, ['CATALYST_DEBUG']), default=False),
-        validate_response_schema=dict(type="bool", fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True),
+        host=dict(type="str", fallback=(env_fallback, ['CATALYST_HOST']), required=True, aliases=['catalystcenter_host']),
+        api_port=dict(type="int", fallback=(env_fallback, ['CATALYST_PORT']), required=False, default=443, aliases=['catalystcenter_port']),
+        username=dict(type="str", fallback=(env_fallback, ['CATALYST_USERNAME']), default="admin", aliases=['user','catalystcenter_username']),
+        password=dict(type="str", fallback=(env_fallback, ['CATALYST_PASSWORD']), no_log=True, aliases=['catalystcenter_password']),
+        verify=dict(type="bool", fallback=(env_fallback, ['CATALYST_VERIFY']), default=True, aliases=['catalystcenter_verify']),
+        version=dict(type="str", fallback=(env_fallback, ['CATALYST_VERSION']), default="2.3.7.6", aliases=['catalystcenter_version']),
+        debug=dict(type="bool", fallback=(env_fallback, ['CATALYST_DEBUG']), default=False, aliases=['catalystcenter_debug']),
+        validate_response_schema=dict(type="bool", fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']), default=True, aliases=['']),
     )
     return argument_spec
 
@@ -153,16 +153,16 @@ class CatalystCenterSDK(object):
         self.validate_response_schema = params.get("validate_response_schema")
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
-                username=params.get("catalystcenter_username"),
-                password=params.get("catalystcenter_password"),
-                base_url="https://{catalystcenter_host}:{catalystcenter_port}".format(
-                    catalystcenter_host=params.get("catalystcenter_host"), catalystcenter_port=params.get("catalystcenter_port")
+                username=params.get("username"),
+                password=params.get("password"),
+                base_url="https://{host}:{api_port}".format(
+                    host=params.get("host"), api_port=params.get("api_port")
                 ),
-                version=params.get("catalystcenter_version"),
-                verify=params.get("catalystcenter_verify"),
-                debug=params.get("catalystcenter_debug"),
+                version=params.get("version"),
+                verify=params.get("verify"),
+                debug=params.get("debug"),
             )
-            if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
+            if params.get("debug") and LOGGING_IN_STANDARD:
                 logging.getLogger('catalystcentersdk').addHandler(logging.StreamHandler())
         else:
             self.fail_json(msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")

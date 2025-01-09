@@ -6,10 +6,10 @@
   tasks:
     - name: Import image file
       cisco.catalystcenter.swim_import_local:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         filePath: fullpath/playbooks/files/test.template # string
         isThirdParty: true # boolean
         thirdPartyApplicationType: SomeValue # string

@@ -523,15 +523,15 @@ notes:
 EXAMPLES = r"""
 - name: Create Rest Webhook destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - webhook_destination:
@@ -543,15 +543,15 @@ EXAMPLES = r"""
 
 - name: Updating Rest Webhook destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - webhook_destination:
@@ -561,15 +561,15 @@ EXAMPLES = r"""
 
 - name: Configuring the email destination in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - email_destination:
@@ -583,15 +583,15 @@ EXAMPLES = r"""
 
 - name: Updating the email destination in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - email_destination:
@@ -601,15 +601,15 @@ EXAMPLES = r"""
 
 - name: Create Syslog destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - syslog_destination:
@@ -621,15 +621,15 @@ EXAMPLES = r"""
 
 - name: Update Syslog destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - syslog_destination:
@@ -638,15 +638,15 @@ EXAMPLES = r"""
 
 - name: Create SNMP destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - snmp_destination:
@@ -664,15 +664,15 @@ EXAMPLES = r"""
 
 - name: Update SNMP destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - snmp_destination:
@@ -685,15 +685,15 @@ EXAMPLES = r"""
 
 - name: Create ITSM Integration Setting with given name in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - itsm_setting:
@@ -706,15 +706,15 @@ EXAMPLES = r"""
 
 - name: Updating ITSM Integration Setting with given name in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - itsm_setting:
@@ -725,15 +725,15 @@ EXAMPLES = r"""
 
 - name: Creating Webhook Notification with the list of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - webhook_event_notification:
@@ -745,15 +745,15 @@ EXAMPLES = r"""
 
 - name: Updating Webhook Notification with the list of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - webhook_event_notification:
@@ -764,15 +764,15 @@ EXAMPLES = r"""
 
 - name: Creating Email Notification with the list of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - email_event_notification:
@@ -787,15 +787,15 @@ EXAMPLES = r"""
 
 - name: Updating Email Notification with the list of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - email_event_notification:
@@ -810,15 +810,15 @@ EXAMPLES = r"""
 
 - name: Creating Syslog Notification with the list of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - syslog_event_notification:
@@ -830,15 +830,15 @@ EXAMPLES = r"""
 
 - name: Updating Syslog Notification with the list of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - syslog_event_notification:
@@ -849,15 +849,15 @@ EXAMPLES = r"""
 
 - name: Deleting ITSM Integration Setting with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: deleted
     config:
       - itsm_setting:
@@ -865,15 +865,15 @@ EXAMPLES = r"""
 
 - name: Deleting Webhook Events Subscription Notification with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: deleted
     config:
       - webhook_event_notification:
@@ -881,15 +881,15 @@ EXAMPLES = r"""
 
 - name: Deleting Email Events Subscription Notification with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: deleted
     config:
       - email_event_notification:
@@ -897,15 +897,15 @@ EXAMPLES = r"""
 
 - name: Deleting Syslog Events Subscription Notification with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: deleted
     config:
       - syslog_event_notification:
@@ -5527,17 +5527,17 @@ def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+    element_spec = {'host': {'required': True, 'type': 'str'},
                     'catalystcenter_port': {'type': 'str', 'default': '443'},
-                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'catalystcenter_password': {'type': 'str', 'no_log': True},
-                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'catalystcenter_debug': {'type': 'bool', 'default': False},
-                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-                    "catalystcenter_log_append": {"type": 'bool', "default": True},
-                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'password': {'type': 'str', 'no_log': True},
+                    'verify': {'type': 'bool', 'default': 'True'},
+                    'version': {'type': 'str', 'default': '2.2.3.3'},
+                    'debug': {'type': 'bool', 'default': False},
+                    'log_level': {'type': 'str', 'default': 'WARNING'},
+                    "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "log_append": {"type": 'bool', "default": True},
+                    'log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
                     'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},

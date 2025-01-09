@@ -365,15 +365,15 @@ notes:
 EXAMPLES = r"""
 - name: Add new device in Inventory with full credentials
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - cli_transport: ssh
@@ -401,15 +401,15 @@ EXAMPLES = r"""
 
 - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -430,15 +430,15 @@ EXAMPLES = r"""
 
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - http_password: "test"
@@ -446,15 +446,15 @@ EXAMPLES = r"""
 
 - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -465,15 +465,15 @@ EXAMPLES = r"""
 
 - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -489,15 +489,15 @@ EXAMPLES = r"""
 
 - name: Update device details or credentails in Inventory
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - cli_transport: telnet
@@ -510,15 +510,15 @@ EXAMPLES = r"""
 
 - name: Update new management IP address of device in inventory
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1"]
@@ -529,15 +529,15 @@ EXAMPLES = r"""
 
 - name: Associate Wired Devices to site and Provisioned it in Inventory
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - provision_wired_device:
@@ -552,15 +552,15 @@ EXAMPLES = r"""
 
 - name: Update Device Role with IP Address
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -568,15 +568,15 @@ EXAMPLES = r"""
 
 - name: Update Interface details with IP Address
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -591,15 +591,15 @@ EXAMPLES = r"""
 
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -610,15 +610,15 @@ EXAMPLES = r"""
 
 - name: Create Global User Defined with IP Address
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -632,15 +632,15 @@ EXAMPLES = r"""
 
 - name: Resync Device with IP Addresses
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -649,15 +649,15 @@ EXAMPLES = r"""
 
 - name: Reboot AP Devices with IP Addresses
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -665,15 +665,15 @@ EXAMPLES = r"""
 
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: False
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: False
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -681,15 +681,15 @@ EXAMPLES = r"""
 
 - name: Delete Global User Defined Field with name
   cisco.catalystcenter.inventory_intent:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: False
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: False
     state: deleted
     config:
     - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3853,17 +3853,17 @@ def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'catalystcenter_host': {'type': 'str', 'required': True, },
+    element_spec = {'host': {'type': 'str', 'required': True, },
                     'catalystcenter_port': {'type': 'str', 'default': '443'},
-                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'catalystcenter_password': {'type': 'str', 'no_log': True},
-                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'catalystcenter_debug': {'type': 'bool', 'default': False},
-                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-                    "catalystcenter_log_append": {"type": 'bool', "default": True},
-                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'password': {'type': 'str', 'no_log': True},
+                    'verify': {'type': 'bool', 'default': 'True'},
+                    'version': {'type': 'str', 'default': '2.2.3.3'},
+                    'debug': {'type': 'bool', 'default': False},
+                    'log_level': {'type': 'str', 'default': 'WARNING'},
+                    "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "log_append": {"type": 'bool', "default": True},
+                    'log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
                     'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},

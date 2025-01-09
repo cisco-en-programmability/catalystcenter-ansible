@@ -1066,15 +1066,15 @@ EXAMPLES = r"""
   tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1089,15 +1089,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1109,15 +1109,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1129,15 +1129,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1149,15 +1149,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1171,15 +1171,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1194,15 +1194,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1222,15 +1222,15 @@ EXAMPLES = r"""
 
     - name: Provisioning and Re-provisiong Access Point Site details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1244,15 +1244,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Update / Controller Name
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1277,15 +1277,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Update / remove tertiary_controller_name
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1308,15 +1308,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1350,15 +1350,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1392,15 +1392,15 @@ EXAMPLES = r"""
 
     - name: Updating Access Point Configuration
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1439,15 +1439,15 @@ EXAMPLES = r"""
 
     - name: Reboot single or multiple access point
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1459,15 +1459,15 @@ EXAMPLES = r"""
 
     - name: Reboot single or multiple access point by hostname
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1479,15 +1479,15 @@ EXAMPLES = r"""
 
     - name: Factory reset single or multiple access point
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1499,15 +1499,15 @@ EXAMPLES = r"""
 
     - name: Bulk update Access Point Configurations
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -2892,7 +2892,7 @@ class Accesspoint(CatalystCenterBase):
                     site = response["response"][0]
                     self.log("Site response: {0}".format(self.pprint(site)), "INFO")
 
-                    if self.catalystcenter_version <= self.catalystcenter_versions["2.3.5.3"]:
+                    if self.version <= self.catalystcenter_versions["2.3.5.3"]:
                         location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
                         type_info = location.get("attributes", {}).get("type")
                         parent_name = site.get("siteNameHierarchy").split("/" + site.get("name"))[0]
@@ -3143,7 +3143,7 @@ class Accesspoint(CatalystCenterBase):
         site_id = self.have.get("site_id")
 
         try:
-            if self.catalystcenter_version <= self.catalystcenter_versions["2.3.5.3"]:
+            if self.version <= self.catalystcenter_versions["2.3.5.3"]:
                 response = self.access_point_provision_old(rf_profile, hostname,
                                                            type_name, site_name_hierarchy)
                 if response and isinstance(response, dict):
@@ -4123,18 +4123,18 @@ def main():
     """ main entry point for module execution
     """
     accepoint_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
+        "host": {"required": True, "type": "str"},
         "catalystcenter_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
+        "log": {"type": "bool", "default": False},
+        "log_level": {"type": "str", "default": "WARNING"},
+        "log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "log_append": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "next_task_after_interval": {"type": "int", "default": 5},

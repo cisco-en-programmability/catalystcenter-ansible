@@ -56,13 +56,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Security Advisories Results Advisories Count V1
   cisco.catalystcenter.security_advisories_results_advisories_count_v1_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
     deviceCount: 0

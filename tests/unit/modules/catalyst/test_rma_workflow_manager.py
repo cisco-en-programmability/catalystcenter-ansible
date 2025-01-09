@@ -135,10 +135,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_invalid_serial(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_invalid_serial
             )
@@ -153,10 +153,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_device_no_config(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_exception
             )
@@ -171,10 +171,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_no_valid_device_info_in_config(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_invalid_config
             )
@@ -189,10 +189,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_faulty_device_not_found(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_faulty_device_not_found
             )
@@ -207,10 +207,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_replacement_device_not_found(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_device_not_found
             )
@@ -225,10 +225,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_invalid_params_in_playbook(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_invalid_params
             )
@@ -243,10 +243,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_mark_device_for_replacement_exception(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_valid
             )
@@ -261,10 +261,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_mark_device_failure(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_valid
             )
@@ -279,10 +279,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_deploy_workflow_success(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_valid
             )
@@ -297,10 +297,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_deploy_workflow_failure_unmark_failure(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_valid
             )
@@ -315,10 +315,10 @@ class TestCatalystcenterRmaIntent(TestCatalystcenterModule):
     def test_rma_workflow_manager_deploy_workflow_failure_unmark_success(self):
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="replaced",
                 config=self.playbook_config_valid
             )

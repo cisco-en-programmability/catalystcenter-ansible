@@ -47,13 +47,13 @@ notes:
 EXAMPLES = r"""
 - name: Get Network Bugs Results Network Devices Network Device Id Bugs Id Info by id
   cisco.catalystcenter.network_bugs_results_network_devices_network_device_id_bugs_id_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
     id: string

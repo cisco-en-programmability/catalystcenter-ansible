@@ -76,13 +76,13 @@ notes:
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.global_pool_v1:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     state: present
     settings:
       ippool:
@@ -96,13 +96,13 @@ EXAMPLES = r"""
 
 - name: Create
   cisco.catalystcenter.global_pool_v1:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     state: present
     settings:
       ippool:
@@ -118,13 +118,13 @@ EXAMPLES = r"""
 
 - name: Delete by id
   cisco.catalystcenter.global_pool_v1:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     state: absent
     id: string
 

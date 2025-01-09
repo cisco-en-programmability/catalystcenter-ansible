@@ -6,16 +6,16 @@
   tasks:
     - name: Create an  Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
-        catalystcenter_log_append: True
-        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "{{ log_level }}"
+        log_append: True
+        log_file_path: "{{ log_file_path }}"
         state: merged
         config_verify: True
         config:
@@ -35,16 +35,16 @@
 
     - name: Delete Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
-        catalystcenter_log_append: True
-        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "{{ log_level }}"
+        log_append: True
+        log_file_path: "{{ log_file_path }}"
         state: deleted
         config_verify: True
         config:
@@ -53,16 +53,16 @@
 
     - name: Create ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
-        catalystcenter_log_append: True
-        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "{{ log_level }}"
+        log_append: True
+        log_file_path: "{{ log_file_path }}"
         state: merged
         config_verify: True
         config:
@@ -92,16 +92,16 @@
 
     - name: Delete an ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
-        catalystcenter_log_append: True
-        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "{{ log_level }}"
+        log_append: True
+        log_file_path: "{{ log_file_path }}"
         state: deleted
         config_verify: True
         config:

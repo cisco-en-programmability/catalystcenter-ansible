@@ -10,11 +10,11 @@
   tasks:
     - name: Find discovery
       cisco.catalystcenter.discovery_range_info:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         startIndex: 1
         recordsToReturn: 500
       register: discovery_range_result
@@ -49,11 +49,11 @@
 
     - name: Create a discovery
       cisco.catalystcenter.discovery:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         validate_response_schema: false
         state: present
         cdpLevel: 16
@@ -86,11 +86,11 @@
 
     - name: Update a discovery
       cisco.catalystcenter.discovery:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         validate_response_schema: false
         state: present
         cdpLevel: 16

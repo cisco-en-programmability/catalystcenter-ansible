@@ -9,15 +9,15 @@
   tasks:
     - name: Add/update channels with destination and create/update events in Cisco Catalyst Center.
       cisco.catalystcenter.events_and_notifications_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
         catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: DEBUG
-        catalystcenter_log: true
+        version: "{{version}}"
+        debug: "{{debug}}"
+        log_level: DEBUG
+        log: true
         config_verify: true
         state: merged
         config:

@@ -9,18 +9,18 @@
       name: vars_map
     vars:
       catalystcenter_login: &catalystcenter_login
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: "DEBUG"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: "DEBUG"
         config_verify: True
         catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
-        catalystcenter_log_append: True
+        log_append: True
 
 #############################################
 #                Add Devices                #
@@ -46,16 +46,16 @@
 #############################################
 #           Run Full Compliance             #
 #############################################
-  
+
   - name: Run full complaince check using IP address list
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
-      config:  
+      log_append: False
+      config:
         - "{{ item }}"
     loop: "{{ vars_map.run_complaince_iplist }}"
     register: result_run_complaince
- 
+
 #   - name: Debug item
 #     debug:
 #       var: item
@@ -84,7 +84,7 @@
   - name: Run full Compliance check on device(s) using Site
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.run_complaince_site }}"
@@ -107,7 +107,7 @@
 #                   Pause                   #
 #############################################
 
-  - name: Pause 
+  - name: Pause
     pause:
       seconds: 10
 
@@ -118,7 +118,7 @@
   - name: Run Compliance check on device(s) using both IP address list and Site
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.run_compliance_iplist_site }}"
@@ -141,7 +141,7 @@
 #                   Pause                   #
 #############################################
 
-  - name: Pause 
+  - name: Pause
     pause:
       seconds: 10
 
@@ -152,7 +152,7 @@
   - name: Run Compliance check with specific categories on device(s) using IP address list
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.run_compliance_category_iplist }}"
@@ -186,7 +186,7 @@
   - name: Run Compliance check with specific categories on device(s) using Site
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.run_compliance_category_site }}"
@@ -220,7 +220,7 @@
   - name: Sync Device Configuration on device(s) using IP address list
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.sync_config_iplist }}"
@@ -254,7 +254,7 @@
   - name: Sync Device Configuration on device(s) using Site
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.sync_config_site }}"
@@ -288,7 +288,7 @@
   - name: Sync Device Configuration on device(s) using IP address list and Site
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.sync_config_iplist_site }}"
@@ -311,16 +311,16 @@
 #############################################
 #            Scale Run  Compliance          #
 #############################################
-  
+
   - name: Scale Run complaince operation
     cisco.catalystcenter.network_compliance_workflow_manager:
       <<: *catalystcenter_login
-      catalystcenter_log_append: False
+      log_append: False
       config:
         - "{{ item }}"
     loop: "{{ vars_map.run_compliance_scale }}"
     register: result_run_complaince
- 
+
 #   - name: Debug item
 #     debug:
 #       var: item

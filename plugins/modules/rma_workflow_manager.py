@@ -167,15 +167,15 @@ notes:
 EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using device names
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -189,15 +189,15 @@ EXAMPLES = r"""
 
 - name: RMA workflow for faulty device replacement using IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -211,15 +211,15 @@ EXAMPLES = r"""
 
 - name: RMA workflow for faulty device replacement using serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -233,15 +233,15 @@ EXAMPLES = r"""
 
 - name: RMA workflow for unmark faulty device using device names
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -254,15 +254,15 @@ EXAMPLES = r"""
 
 - name: RMA workflow for unmark faulty device using IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -275,15 +275,15 @@ EXAMPLES = r"""
 
 - name: RMA workflow for unmark faulty device using serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -296,15 +296,15 @@ EXAMPLES = r"""
 
 - name: RMA workflow for unmark faulty device using all
   cisco.catalystcenter.rma_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
     catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log: true
-    catalystcenter_log_level: DEBUG
+    version: "{{ version }}"
+    debug: "{{ debug }}"
+    log: true
+    log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -1393,18 +1393,18 @@ def main():
     """
     # Basic Ansible type check and assigning defaults.
     device_replacement_spec = {
-        'catalystcenter_host': {'required': True, 'type': 'str'},
+        'host': {'required': True, 'type': 'str'},
         'catalystcenter_port': {'type': 'str', 'default': '443'},
-        'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-        'catalystcenter_password': {'type': 'str', 'no_log': True},
-        'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-        'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-        'catalystcenter_debug': {'type': 'bool', 'default': False},
-        'catalystcenter_log': {'type': 'bool', 'default': False},
-        'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+        'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+        'password': {'type': 'str', 'no_log': True},
+        'verify': {'type': 'bool', 'default': 'True'},
+        'version': {'type': 'str', 'default': '2.2.3.3'},
+        'debug': {'type': 'bool', 'default': False},
+        'log': {'type': 'bool', 'default': False},
+        'log_level': {'type': 'str', 'default': 'WARNING'},
+        "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
         'config_verify': {'type': 'bool', "default": False},
-        "catalystcenter_log_append": {"type": 'bool', "default": True},
+        "log_append": {"type": 'bool', "default": True},
         'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
         'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
         'resync_retry_count': {'type': 'int', 'default': 1000},
