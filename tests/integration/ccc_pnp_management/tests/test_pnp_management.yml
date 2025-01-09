@@ -9,15 +9,15 @@
       name: vars_map
     vars:
       catalystcenter_login: &catalystcenter_login
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
+        log_level: DEBUG
         config_verify: true
 
   # - debug:
@@ -191,7 +191,7 @@
   #       - "'Claimed Successfully' in item.msg"
   #   loop: "{{ result_claim_device.results }}"
   #   when: result_claim_device is defined
-  
+
 #############################################
 #      Pause to Complete Provisioning       #
 #############################################

@@ -6,11 +6,11 @@
   tasks:
     - name: Import certificate file
       cisco.catalystcenter.authentication_import_certificate:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         certFilePath: ./files/test.template
         pkFilePath: ./files/test.template
       register: result

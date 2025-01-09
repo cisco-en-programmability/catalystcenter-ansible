@@ -179,13 +179,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Endpoint Analytics Endpoints V1
   cisco.catalystcenter.endpoint_analytics_endpoints_v1_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     profilingStatus: string
     macAddress: string
@@ -217,13 +217,13 @@ EXAMPLES = r"""
 
 - name: Get Endpoint Analytics Endpoints V1 by id
   cisco.catalystcenter.endpoint_analytics_endpoints_v1_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     include: string
     epId: string

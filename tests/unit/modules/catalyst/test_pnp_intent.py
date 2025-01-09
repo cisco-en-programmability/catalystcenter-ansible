@@ -112,10 +112,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -136,10 +136,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -160,10 +160,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -184,10 +184,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -208,10 +208,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -232,10 +232,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -256,10 +256,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.test_data.get("playbook_config_missing_parameter")
             )
@@ -280,10 +280,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config
             )
@@ -304,10 +304,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config
             )
@@ -328,10 +328,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config
             )
@@ -352,10 +352,10 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merge",
                 config=self.playbook_config
             )

@@ -6,14 +6,14 @@
   tasks:
     - name: Get site info and updating site details
       cisco.catalystcenter.site_intent:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
         catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log: true
+        version: "{{version}}"
+        debug: "{{debug}}"
+        log: true
         state: merged
         config:
           - site:

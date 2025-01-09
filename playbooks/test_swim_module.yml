@@ -7,21 +7,21 @@
     - "input_swim.yml" #Contains image and device details
     - "credentials.yml"
   tasks:
-    - name: Import an image, tag it as golden and load it on device      
+    - name: Import an image, tag it as golden and load it on device
       cisco.catalystcenter.swim_intent:
-        catalystcenter_host: "{{ catalystcenter_host }}"
+        host: "{{ host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        log: true
         config:
         - import_image_details:
-            type: "{{ item.type }}"       
+            type: "{{ item.type }}"
             url_details:
               payload: "{{ item.url_details.payload }}"
-          tagging_details:       
+          tagging_details:
             device_role: "{{ item.device_role }}"
             device_family_name: "{{ item.device_family_name }}"
             device_type: "{{item.device_type}}"
@@ -39,4 +39,4 @@
 
       with_items: '{{ image_details }}'
       tags:
-        - swim 
+        - swim

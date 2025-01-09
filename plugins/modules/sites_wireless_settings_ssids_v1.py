@@ -320,13 +320,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.sites_wireless_settings_ssids_v1:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     state: present
     aaaOverride: true
     acctServers:
@@ -404,13 +404,13 @@ EXAMPLES = r"""
 
 - name: Update by id
   cisco.catalystcenter.sites_wireless_settings_ssids_v1:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     state: present
     aaaOverride: true
     acctServers:
@@ -489,13 +489,13 @@ EXAMPLES = r"""
 
 - name: Delete by id
   cisco.catalystcenter.sites_wireless_settings_ssids_v1:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     state: absent
     id: string
     removeOverrideInHierarchy: true

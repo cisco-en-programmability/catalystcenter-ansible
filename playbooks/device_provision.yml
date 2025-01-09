@@ -9,19 +9,19 @@
 
   vars:
     catalystcenter_login: &catalystcenter_login
-      catalystcenter_host: "{{ catalystcenter_host }}"
-      catalystcenter_username: "{{ catalystcenter_username }}"
-      catalystcenter_password: "{{ catalystcenter_password }}"
-      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
       catalystcenter_port: "{{ catalystcenter_port }}"
-      catalystcenter_version: "{{ catalystcenter_version }}"
-      catalystcenter_debug: "{{ catalystcenter_debug }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
 
   tasks:
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_intent:
         <<: *catalystcenter_login
-        catalystcenter_log: True
+        log: True
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -31,7 +31,7 @@
     - name: Unprovision a wired device to a site
       cisco.catalystcenter.provision_intent:
         <<: *catalystcenter_login
-        catalystcenter_log: True
+        log: True
         state: deleted
         config:
           - management_ip_address: 204.1.2.2

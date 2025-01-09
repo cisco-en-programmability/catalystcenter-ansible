@@ -67,22 +67,22 @@ class CatalystCenterBase():
                                         'rendered': self.verify_diff_rendered,
                                         'parsed': self.verify_diff_parsed
                                         }
-        self.catalystcenter_log = catalystcenter_params.get("catalystcenter_log")
+        self.log = catalystcenter_params.get("log")
         self.max_timeout = self.params.get('catalystcenter_api_task_timeout')
 
-        if self.catalystcenter_log and not CatalystCenterBase.__is_log_init:
-            self.catalystcenter_log_level = catalystcenter_params.get("catalystcenter_log_level") or 'WARNING'
-            self.catalystcenter_log_level = self.catalystcenter_log_level.upper()
+        if self.log and not CatalystCenterBase.__is_log_init:
+            self.log_level = catalystcenter_params.get("log_level") or 'WARNING'
+            self.log_level = self.log_level.upper()
             self.validate_catalystcenter_log_level()
-            self.catalystcenter_log_file_path = catalystcenter_params.get("catalystcenter_log_file_path") or 'catalystcenter.log'
+            self.log_file_path = catalystcenter_params.get("log_file_path") or 'catalystcenter.log'
             self.validate_catalystcenter_log_file_path()
-            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("catalystcenter_log_append") else 'a'
+            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("log_append") else 'a'
             self.setup_logger('logger')
             self.logger = logging.getLogger('logger')
             CatalystCenterBase.__is_log_init = True
             self.log('Logging configured and initiated', "DEBUG")
         else:
-            # If catalystcenter_log is False, return an empty logger
+            # If log is False, return an empty logger
             self.logger = logging.getLogger('empty_logger')
             self.logger.addHandler(logging.NullHandler())
 
@@ -168,7 +168,7 @@ class CatalystCenterBase():
         return self
 
     def setup_logger(self, logger_name):
-        """Set up a logger with specified name and configuration based on catalystcenter_log_level"""
+        """Set up a logger with specified name and configuration based on log_level"""
         level_mapping = {
             'INFO': logging.INFO,
             'DEBUG': logging.DEBUG,
@@ -176,13 +176,13 @@ class CatalystCenterBase():
             'ERROR': logging.ERROR,
             'CRITICAL': logging.CRITICAL
         }
-        level = level_mapping.get(self.catalystcenter_log_level, logging.WARNING)
+        level = level_mapping.get(self.log_level, logging.WARNING)
 
         logger = logging.getLogger(logger_name)
         # formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s: %(funcName)s: %(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 
-        file_handler = logging.FileHandler(self.catalystcenter_log_file_path, mode=self.catalystcenter_log_mode)
+        file_handler = logging.FileHandler(self.log_file_path, mode=self.catalystcenter_log_mode)
         file_handler.setFormatter(formatter)
 
         logger.setLevel(level)
@@ -190,8 +190,8 @@ class CatalystCenterBase():
 
     def validate_catalystcenter_log_level(self):
         """Validates if the logging level is string and of expected value"""
-        if self.catalystcenter_log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
-            raise ValueError("Invalid log level: 'catalystcenter_log_level:{0}'".format(self.catalystcenter_log_level))
+        if self.log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
+            raise ValueError("Invalid log level: 'log_level:{0}'".format(self.log_level))
 
     def validate_catalystcenter_log_file_path(self):
         """
@@ -199,12 +199,12 @@ class CatalystCenterBase():
         the directory exists, and has a .log extension.
         """
         # Convert the path to absolute if it's relative
-        catalystcenter_log_file_path = os.path.abspath(self.catalystcenter_log_file_path)
+        log_file_path = os.path.abspath(self.log_file_path)
 
         # Validate if the directory exists
-        log_directory = os.path.dirname(catalystcenter_log_file_path)
+        log_directory = os.path.dirname(log_file_path)
         if not os.path.exists(log_directory):
-            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(catalystcenter_log_file_path))
+            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(log_file_path))
 
     def log(self, message, level="WARNING", frameIncrement=0):
         """Logs formatted messages with specified log level and incrementing the call stack frame
@@ -215,7 +215,7 @@ class CatalystCenterBase():
                                    The log level can be one of 'DEBUG', 'INFO', 'WARNING', 'ERROR', or 'CRITICAL'.
         """
 
-        if self.catalystcenter_log:
+        if self.log:
             # of.write("---- %s ---- %s@%s ---- %s \n" % (d, info.lineno, info.function, msg))
             # message = "Module: " + self.__class__.__name__ + ", " + message
             class_name = self.__class__.__name__
@@ -286,16 +286,16 @@ class CatalystCenterBase():
     def get_catalystcenter_params(self, params):
         """Store the Cisco Catalyst Center parameters from the playbook"""
 
-        catalystcenter_params = {"catalystcenter_host": params.get("catalystcenter_host"),
-                       "catalystcenter_port": params.get("catalystcenter_port"),
-                       "catalystcenter_username": params.get("catalystcenter_username"),
-                       "catalystcenter_password": params.get("catalystcenter_password"),
-                       "catalystcenter_verify": params.get("catalystcenter_verify"),
-                       "catalystcenter_debug": params.get("catalystcenter_debug"),
-                       "catalystcenter_log": params.get("catalystcenter_log"),
-                       "catalystcenter_log_level": params.get("catalystcenter_log_level"),
-                       "catalystcenter_log_file_path": params.get("catalystcenter_log_file_path"),
-                       "catalystcenter_log_append": params.get("catalystcenter_log_append")
+        catalystcenter_params = {"host": params.get("host"),
+                       "api_port": params.get("api_port"),
+                       "username": params.get("username"),
+                       "password": params.get("password"),
+                       "verify": params.get("verify"),
+                       "debug": params.get("debug"),
+                       "log": params.get("log"),
+                       "log_level": params.get("log_level"),
+                       "log_file_path": params.get("log_file_path"),
+                       "log_append": params.get("log_append")
                        }
         return catalystcenter_params
 
@@ -806,13 +806,13 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def Catalystcenter_argument_spec():
     argument_spec = dict(
-        catalystcenter_host=dict(type="str", required=True),
-        catalystcenter_port=dict(type="int", required=False, default=443),
-        catalystcenter_username=dict(type="str", default="admin", aliases=["user"]),
-        catalystcenter_password=dict(type="str", no_log=True),
-        catalystcenter_verify=dict(type="bool", default=True),
-        catalystcenter_version=dict(type="str", default="2.2.3.3"),
-        catalystcenter_debug=dict(type="bool", default=False),
+        host=dict(type="str", required=True, aliases=['catalystcenter_host']),
+        api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port']),
+        username=dict(type="str", default="admin", aliases=['user','catalystcenter_username']),
+        password=dict(type="str", no_log=True, aliases=['catalystcenter_password']),
+        verify=dict(type="bool", default=True, aliases=['catalystcenter_verify']),
+        version=dict(type="str", default="2.2.3.3", aliases=['catalystcenter_version']),
+        debug=dict(type="bool", default=False, aliases=['catalystcenter_debug']),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
@@ -1060,16 +1060,16 @@ class CatalystCenterSDK(object):
         self.logger = logging.getLogger('catalystcentersdk')
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
-                username=params.get("catalystcenter_username"),
-                password=params.get("catalystcenter_password"),
-                base_url="https://{catalystcenter_host}:{catalystcenter_port}".format(
-                    catalystcenter_host=params.get("catalystcenter_host"), catalystcenter_port=params.get("catalystcenter_port")
+                username=params.get("username"),
+                password=params.get("password"),
+                base_url="https://{host}:{api_port}".format(
+                    host=params.get("host"), api_port=params.get("api_port")
                 ),
-                version=params.get("catalystcenter_version"),
-                verify=params.get("catalystcenter_verify"),
-                debug=params.get("catalystcenter_debug"),
+                version=params.get("version"),
+                verify=params.get("verify"),
+                debug=params.get("debug"),
             )
-            if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
+            if params.get("debug") and LOGGING_IN_STANDARD:
                 self.logger.addHandler(logging.StreamHandler())
         else:
             self.fail_json(msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")

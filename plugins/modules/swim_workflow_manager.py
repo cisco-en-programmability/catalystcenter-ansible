@@ -348,15 +348,15 @@ notes:
 EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden and load it on device
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - import_image_details:
         type: remote
@@ -383,15 +383,15 @@ EXAMPLES = r"""
 
 - name: Import an image from local, tag it as golden.
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - import_image_details:
         type: local
@@ -407,15 +407,15 @@ EXAMPLES = r"""
 
 - name: Import bulk images from URL
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - import_image_details:
         type: remote
@@ -428,15 +428,15 @@ EXAMPLES = r"""
 
 - name: Import images from CCO (cisco.com)
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - import_image_details:
         type: CCO
@@ -445,15 +445,15 @@ EXAMPLES = r"""
 
 - name: Tag the given image as golden and load it on device
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -464,15 +464,15 @@ EXAMPLES = r"""
 
 - name: Tag the specified image as golden for multiple device roles and load it into the device
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -483,15 +483,15 @@ EXAMPLES = r"""
 
 - name: Un-tagged the given image as golden and load it on device
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -502,15 +502,15 @@ EXAMPLES = r"""
 
 - name: Distribute the given image on devices associated to that site with specified role.
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - image_distribution_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -521,15 +521,15 @@ EXAMPLES = r"""
 
 - name: Activate the given image on devices associated to that site with specified role.
   cisco.catalystcenter.swim_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: True
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: True
     config:
     - image_activation_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -911,7 +911,7 @@ class Swim(CatalystCenterBase):
             else:
                 device_series_name = ".*" + device_series_name + ".*"
 
-        if self.catalystcenter_version <= self.version_2_3_5_3:
+        if self.version <= self.version_2_3_5_3:
             site_params = {
                 "site_id": site_id,
                 "device_family": device_family
@@ -1084,7 +1084,7 @@ class Swim(CatalystCenterBase):
         """
 
         have = {}
-        if self.catalystcenter_version >= self.version_2_2_3_3 :
+        if self.version >= self.version_2_2_3_3 :
             response = self.catalystcenter._exec(
                 family="software_image_management_swim",
                 function='get_device_family_identifiers',
@@ -1093,7 +1093,7 @@ class Swim(CatalystCenterBase):
             device_family_db = response.get("response")
         else:
             self.status = "failed"
-            self.msg = "This version : '{0}' has no 'get_device_family_identifiers' functionality ".format(self.payload.get("catalystcenter_version"))
+            self.msg = "This version : '{0}' has no 'get_device_family_identifiers' functionality ".format(self.payload.get("version"))
             self.result['response'] = self.msg
             self.log(self.msg, "ERROR")
             self.check_return_status()
@@ -1296,7 +1296,7 @@ class Swim(CatalystCenterBase):
             want["import_image"] = True
             want["import_type"] = import_image_details.get("type").lower()
             import_type = want["import_type"]
-            if self.catalystcenter_version < self.version_2_3_7_6:
+            if self.version < self.version_2_3_7_6:
                 if import_type == "remote":
                     want["url_import_details"] = import_image_details.get("url_details")
                 elif import_type == "local":
@@ -2374,17 +2374,17 @@ def main():
     """ main entry point for module execution
     """
 
-    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+    element_spec = {'host': {'required': True, 'type': 'str'},
                     'catalystcenter_port': {'type': 'str', 'default': '443'},
-                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-                    'catalystcenter_password': {'type': 'str', 'no_log': True},
-                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'catalystcenter_debug': {'type': 'bool', 'default': False},
-                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-                    "catalystcenter_log_append": {"type": 'bool', "default": True},
-                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'password': {'type': 'str', 'no_log': True},
+                    'verify': {'type': 'bool', 'default': 'True'},
+                    'version': {'type': 'str', 'default': '2.2.3.3'},
+                    'debug': {'type': 'bool', 'default': False},
+                    'log_level': {'type': 'str', 'default': 'WARNING'},
+                    "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "log_append": {"type": 'bool', "default": True},
+                    'log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
                     'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},

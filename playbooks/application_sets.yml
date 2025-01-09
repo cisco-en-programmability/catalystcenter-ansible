@@ -6,11 +6,11 @@
   tasks:
     - name: Create an application set
       cisco.catalystcenter.application_sets:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         payload:
           - name: AppSet1
@@ -18,10 +18,10 @@
 
     - name: Get task info
       cisco.catalystcenter.task_info:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         taskId: "{{ application_set_result.catalystcenter_response.response.taskId }}"
       when:
         - application_set_result.catalystcenter_response is defined

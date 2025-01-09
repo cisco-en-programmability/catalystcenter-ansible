@@ -339,12 +339,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist")
             )
@@ -360,12 +360,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -381,12 +381,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist_site")
             )
@@ -402,12 +402,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_categories_iplist")
             )
@@ -423,12 +423,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_scale_iplist")
             )
@@ -445,12 +445,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_sync_device_config_iplist")
             )
@@ -466,12 +466,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_sync_device_config_site")
             )
@@ -487,12 +487,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_sync_device_config_iplist_site")
             )
@@ -508,12 +508,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_sync_device_config_iplist_site_nr")
             )
@@ -531,12 +531,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist")
             )
@@ -552,12 +552,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist")
             )
@@ -573,12 +573,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist")
             )
@@ -594,12 +594,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist")
             )
@@ -615,12 +615,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_iplist")
             )
@@ -636,12 +636,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -657,12 +657,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -678,12 +678,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -699,12 +699,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -720,12 +720,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -741,12 +741,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=False,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=False,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_run_compliance_site")
             )
@@ -762,12 +762,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_sync_device_config_iplist")
             )
@@ -783,12 +783,12 @@ class TestNetworkCompliance(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
-                catalystcenter_log_level="DEBUG",
-                catalystcenter_log_append=False,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
+                log_level="DEBUG",
+                log_append=False,
                 state="merged",
                 config=self.test_data.get("playbook_config_sync_device_config_iplist")
             )

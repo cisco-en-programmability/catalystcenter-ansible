@@ -74,11 +74,11 @@ class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
     def test_discovery_intent_create_discovery(self):
         set_module_args(
             dict(
-                catalystcenter_host="172.23.241.186",
-                catalystcenter_username="admin",
-                catalystcenter_password="Maglev123",
-                catalystcenter_verify=False,
-                catalystcenter_log=True,
+                host="172.23.241.186",
+                username="admin",
+                password="Maglev123",
+                verify=False,
+                log=True,
                 state="merged",
                 headers=None,
                 name=self.playbook_config.get('name'),
@@ -98,11 +98,11 @@ class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
     def test_discovery_intent_delete_existing_discovery(self):
         set_module_args(
             dict(
-                catalystcenter_host="172.23.241.186",
-                catalystcenter_username="admin",
-                catalystcenter_password="Maglev123",
-                catalystcenter_verify=False,
-                catalystcenter_log=True,
+                host="172.23.241.186",
+                username="admin",
+                password="Maglev123",
+                verify=False,
+                log=True,
                 state="deleted",
                 headers=None,
                 name=self.playbook_config.get('name'),
@@ -122,11 +122,11 @@ class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
     def test_discovery_intent_delete_non_existing_discovery(self):
         set_module_args(
             dict(
-                catalystcenter_host="172.23.241.186",
-                catalystcenter_username="admin",
-                catalystcenter_password="Maglev123",
-                catalystcenter_verify=False,
-                catalystcenter_log=True,
+                host="172.23.241.186",
+                username="admin",
+                password="Maglev123",
+                verify=False,
+                log=True,
                 state="deleted",
                 headers=None,
                 name=self.playbook_config.get('delete_non_exist_discovery_name'),
@@ -148,11 +148,11 @@ class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="172.23.241.186",
-                catalystcenter_username="admin",
-                catalystcenter_password="Maglev123",
-                catalystcenter_verify=False,
-                catalystcenter_log=True,
+                host="172.23.241.186",
+                username="admin",
+                password="Maglev123",
+                verify=False,
+                log=True,
                 state="present",
                 headers=None,
                 name=self.playbook_config.get('name'),

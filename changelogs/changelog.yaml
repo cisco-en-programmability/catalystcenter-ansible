@@ -12,4 +12,21 @@ releases:
       release_summary: New Center API version 2.3.7.9.
       minor_changes:
         - Added compatibility with version 2.3.7.9 of the Cisco API
+  2.1.0:
+    release_date: "2025-01-09"
+    changes:
+      release_summary: Changing the name of credential and connection variables.
+      minor_changes:
+        - Change catalystcenter_host to host
+        - Change catalystcenter_port to api_port
+        - Change catalystcenter_username to username
+        - Change catalystcenter_password to password
+        - Change catalystcenter_verify to verify
+        - Change catalystcenter_version to version
+        - Change catalystcenter_debug to debug
+        The variables catalystcenter_host, catalystcenter_port, catalystcenter_username, catalystcenter_password,
+        catalystcenter_verify, catalystcenter_version and catalystcenter_debug are deprecated.
+        But the replaced variables still work.
+        - Fixed issues in module sda_anycast_gateways_v1
+        - Fixed issues in module sda_layer3_virtual_networks_v1
 

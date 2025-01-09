@@ -9,14 +9,14 @@
   tasks:
     - name: Add/Update/Resync/Delete the devices in Cisco CATALYST Center Inventory.
       cisco.catalystcenter.inventory_intent:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
         catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log: true
+        version: "{{version}}"
+        debug: "{{debug}}"
+        log: true
         state: merged
         config:
         - username: "{{item.username}}"
@@ -41,13 +41,13 @@
             name: "{{item.name}}"
             description: "{{item.description}}"
             value: "{{item.value}}"
-          provision_wired_device: 
-            site_name: "{{item.site_name}}"        
-          export_device_list: 
+          provision_wired_device:
+            site_name: "{{item.site_name}}"
+          export_device_list:
             password: "{{item.export_device_list.password}}"
             operation_enum: "{{item.export_device_list.operation_enum}}"
           reboot_device: "{{item.reboot_device}}"
 
       with_items: "{{ device_details }}"
       tags:
-        - inventory_device  
+        - inventory_device

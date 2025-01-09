@@ -265,15 +265,15 @@ notes:
 EXAMPLES = r"""
 - name: Add port assignments, port channels and wireless ssids for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
       - ip_address: "204.1.2.2"
@@ -392,15 +392,15 @@ EXAMPLES = r"""
 
 - name: Update port assignments, port channels and wireless ssids for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
       - hostname: "DC-T-9300.cisco.local"
@@ -443,15 +443,15 @@ EXAMPLES = r"""
 
 - name: Add or Update just wireless ssid mappings for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
       - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
@@ -468,15 +468,15 @@ EXAMPLES = r"""
 
 - name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - hostname: "DC-T-9300.cisco.local"
@@ -484,15 +484,15 @@ EXAMPLES = r"""
 
 - name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -500,30 +500,30 @@ EXAMPLES = r"""
 
 - name: Delete just ALL wireless SSIDs mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
 
 - name: Delete specific port assignments, port channels and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -549,15 +549,15 @@ EXAMPLES = r"""
 
 - name: Delete specific port assignments, port channels and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -581,15 +581,15 @@ EXAMPLES = r"""
 
 - name: Delete port assignments that have specified data and voice vlan assigned
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - hostname: "DC-T-9300.cisco.local"
@@ -600,15 +600,15 @@ EXAMPLES = r"""
 
 - name: Delete port channels that have Connected Device Type EXTENDED_NODE
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -618,15 +618,15 @@ EXAMPLES = r"""
 
 - name: Delete all wireless SSIDs mapped to specific VLANs
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -637,15 +637,15 @@ EXAMPLES = r"""
 
 - name: Delete specific wireless SSIDs mapped to a VLAN
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -4078,17 +4078,17 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
+        "host": {"required": True, "type": "str"},
         "catalystcenter_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
+        "log_level": {"type": "str", "default": "WARNING"},
+        "log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "log_append": {"type": "bool", "default": True},
+        "log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

@@ -1,4 +1,4 @@
---- 
+---
 - name: Provision/Move/Update Wireless Access Point Configuration
   hosts: catalystcenter_servers
   connection: local
@@ -8,15 +8,15 @@
   tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: True
-        catalystcenter_log_level: DEBUG
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: True
+        log_level: DEBUG
         config_verify: True
         state: merged
         force_sync: False
