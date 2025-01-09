@@ -88,10 +88,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -112,10 +112,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -136,10 +136,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -160,10 +160,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config
             )
@@ -184,10 +184,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config
             )
@@ -208,10 +208,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="deleted",
                 config=self.playbook_config
             )
@@ -221,7 +221,7 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
             result.get('response').get('progress'),
             "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"
         )
- 
+
     def test_template_intent_missing_param(self):
 
         """
@@ -232,10 +232,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.playbook_config_missing_param
             )
@@ -256,10 +256,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merge",
                 config=self.playbook_config
             )
@@ -280,10 +280,10 @@ class TestCatalystcenterTemplateIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 state="merged",
                 config=self.test_data.get("playbook_config_invalid_param")
             )

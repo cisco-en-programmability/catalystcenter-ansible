@@ -6,23 +6,23 @@
   tasks:
     - name: Create Configuration Template Version
       cisco.catalystcenter.configuration_template_version_create:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         # comments: string
         templateId: 2121f1d7-d9ea-4eea-8f83-45af2941f5f9
       register: configuration_template_version_create_result
 
     - name: Get task info
       cisco.catalystcenter.task_info:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         taskId: "{{ configuration_template_version_create_result.catalystcenter_response.response.taskId }}"
       when:
         - configuration_template_version_create_result.catalystcenter_response is defined

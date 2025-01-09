@@ -42,13 +42,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools Count V1
   cisco.catalystcenter.ipam_global_ip_address_pools_global_ip_address_pool_id_subpools_count_v1_info:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     globalIpAddressPoolId: string
   register: result

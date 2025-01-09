@@ -118,10 +118,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.playbook_config
             )
         )
@@ -141,10 +141,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_image_import")
             )
         )
@@ -164,10 +164,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_local_image_import")
             )
         )
@@ -187,10 +187,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.playbook_config_untag_image
             )
         )
@@ -210,10 +210,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_tag_golden_image_missing_param")
             )
         )
@@ -233,10 +233,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.playbook_config_untag_image
             )
         )
@@ -256,10 +256,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.playbook_config_untag_image
             )
         )
@@ -279,10 +279,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_distribution")
             )
         )
@@ -302,10 +302,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_distribution_missing_param")
             )
         )
@@ -325,10 +325,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_activation")
             )
         )
@@ -348,10 +348,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_activation_missing_param")
             )
         )
@@ -371,10 +371,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_tag_golden_image_incorrect_family_name")
             )
         )
@@ -394,10 +394,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_activation")
             )
         )
@@ -417,10 +417,10 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                catalystcenter_host="1.1.1.1",
-                catalystcenter_username="dummy",
-                catalystcenter_password="dummy",
-                catalystcenter_log=True,
+                host="1.1.1.1",
+                username="dummy",
+                password="dummy",
+                log=True,
                 config=self.test_data.get("playbook_config_incorrect_image_import_parameter")
             )
         )

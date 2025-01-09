@@ -150,30 +150,30 @@ notes:
 EXAMPLES = r"""
 - name: Take backup of all devices in the Cisco Catalyst Center
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - file_password: qsaA12!asdasd
 
 - name: Take backup of device(s) using hostname(s)
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
@@ -182,15 +182,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using hostname(s) and provide file password
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - hostname_list: ["DC-T-9300.cisco.local"]
@@ -200,15 +200,15 @@ EXAMPLES = r"""
 
 - name: Take backup of all devices in a site(s)
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - site_list: ["Global/USA/RTP/BLD10", "Global/USA/New York/BLDNYC/FLOOR1"]
@@ -216,15 +216,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using IP Address List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
@@ -232,15 +232,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using MAC Address List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
@@ -249,15 +249,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using Serial Number List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
@@ -265,15 +265,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using Family List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - family_list: ["Switches and Hubs", "Routers"]
@@ -282,15 +282,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using Device Family Type List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - type_list: ["Cisco Catalyst 9300 Switch"]
@@ -299,15 +299,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) using Device Series
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - series_list: ["Cisco Catalyst 9300 Series Switches"]
@@ -315,15 +315,15 @@ EXAMPLES = r"""
 
 - name: Take backup of devices with certain Collection Status
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - collection_status_list: ["Managed"]
@@ -331,15 +331,15 @@ EXAMPLES = r"""
 
 - name: Take backup of device(s) in a site and also that meet other parameters
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log: true
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log: true
+    log_level: "{{log_level}}"
     state: merged
     config:
         - site_list: ["Global"]
@@ -917,7 +917,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         """
         task_name = "Backup Device Configuration"
         success_msg = "{0} Task with task ID {1} completed successfully. Exiting the loop.".format(task_name, task_id)
-        if self.catalystcenter_version <= self.version_2_3_5_3:
+        if self.version <= self.version_2_3_5_3:
             progress_validation = "Device configuration Successfully exported as password protected ZIP"
             failure_msg = (
                 "An error occurred while performing {0} task with task ID {1} for export_device_configurations_params: {2}"
@@ -929,7 +929,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
 
         if self.status == "success":
             self.log("Task '{0}' completed successfully for task ID {1}.".format(task_name, task_id), "INFO")
-            if self.catalystcenter_version <= self.version_2_3_5_3:
+            if self.version <= self.version_2_3_5_3:
                 response = self.get_task_details(task_id)
                 additional_status_url = response.get("additionalStatusURL")
             else:
@@ -1110,17 +1110,17 @@ def main():
     main entry point for module execution
     """
     # Define the specification for the module"s arguments
-    element_spec = {"catalystcenter_host": {"required": True, "type": "str"},
+    element_spec = {"host": {"required": True, "type": "str"},
                     "catalystcenter_port": {"type": "str", "default": "443"},
-                    "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-                    "catalystcenter_password": {"type": "str", "no_log": True},
-                    "catalystcenter_verify": {"type": "bool", "default": "True"},
-                    "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
-                    "catalystcenter_debug": {"type": "bool", "default": False},
-                    "catalystcenter_log": {"type": "bool", "default": False},
-                    "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-                    "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-                    "catalystcenter_log_append": {"type": "bool", "default": True},
+                    "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+                    "password": {"type": "str", "no_log": True},
+                    "verify": {"type": "bool", "default": "True"},
+                    "version": {"type": "str", "default": "2.2.3.3"},
+                    "debug": {"type": "bool", "default": False},
+                    "log": {"type": "bool", "default": False},
+                    "log_level": {"type": "str", "default": "WARNING"},
+                    "log_file_path": {"type": "str", "default": "catalystcenter.log"},
+                    "log_append": {"type": "bool", "default": True},
                     "config_verify": {"type": "bool", "default": False},
                     "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
                     "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

@@ -9,15 +9,15 @@
   tasks:
     - name: Add/Update/Resync/Delete the devices in Cisco CATALYST Center Inventory.
       cisco.catalystcenter.inventory_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
         catalystcenter_port: "{{catalystcenter_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: DEBUG
-        catalystcenter_log: true
+        version: "{{version}}"
+        debug: "{{debug}}"
+        log_level: DEBUG
+        log: true
         config_verify: true
         state: merged
         config:
@@ -47,7 +47,7 @@
           - name: Test321
             description: "Added second udf for testing"
             value: "value321"
-          provision_wired_device: 
+          provision_wired_device:
           - device_ip: "1.1.1.1"
             site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
             resync_retry_count: 200
@@ -59,9 +59,9 @@
           update_interface_details:
             description: "{{item.update_interface_details.description}}"
             interface_name: "{{item.interface_name}}"
-          export_device_list: 
+          export_device_list:
             password: "{{item.export_device_list.password}}"
-          
+
       with_items: "{{ device_details }}"
       tags:
-        - inventory_device  
+        - inventory_device

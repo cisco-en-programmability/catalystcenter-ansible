@@ -277,15 +277,15 @@ notes:
 EXAMPLES = r"""
 - name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - fabric_vlan:
@@ -308,15 +308,15 @@ EXAMPLES = r"""
 
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - fabric_vlan:
@@ -332,15 +332,15 @@ EXAMPLES = r"""
 
 - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: deleted
     config:
       - fabric_vlan:
@@ -352,15 +352,15 @@ EXAMPLES = r"""
 
 - name: Create layer3 Virtual Network and anchored the site to the VN as well.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - virtual_networks:
@@ -372,15 +372,15 @@ EXAMPLES = r"""
 
 - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - virtual_networks:
@@ -393,15 +393,15 @@ EXAMPLES = r"""
 
 - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - virtual_networks:
@@ -416,15 +416,15 @@ EXAMPLES = r"""
 
 - name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: deleted
     config:
       - virtual_networks:
@@ -432,15 +432,15 @@ EXAMPLES = r"""
 
 - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - anycast_gateways:
@@ -456,15 +456,15 @@ EXAMPLES = r"""
 
 - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: merged
     config:
       - anycast_gateways:
@@ -481,15 +481,15 @@ EXAMPLES = r"""
 
 - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
     catalystcenter_port: "{{catalystcenter_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{catalystcenter_log_level}}"
-    catalystcenter_log: false
+    version: "{{version}}"
+    debug: "{{debug}}"
+    log_level: "{{log_level}}"
+    log: false
     state: deleted
     config:
       - anycast_gateways:
@@ -3556,17 +3556,17 @@ def main():
     """
 
     element_spec = {
-        'catalystcenter_host': {'required': True, 'type': 'str'},
+        'host': {'required': True, 'type': 'str'},
         'catalystcenter_port': {'type': 'str', 'default': '443'},
-        'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
-        'catalystcenter_password': {'type': 'str', 'no_log': True},
-        'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
-        'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
-        'catalystcenter_debug': {'type': 'bool', 'default': False},
-        'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
-        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-        "catalystcenter_log_append": {"type": 'bool', "default": True},
-        'catalystcenter_log': {'type': 'bool', 'default': False},
+        'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+        'password': {'type': 'str', 'no_log': True},
+        'verify': {'type': 'bool', 'default': 'True'},
+        'version': {'type': 'str', 'default': '2.2.3.3'},
+        'debug': {'type': 'bool', 'default': False},
+        'log_level': {'type': 'str', 'default': 'WARNING'},
+        "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+        "log_append": {"type": 'bool', "default": True},
+        'log': {'type': 'bool', 'default': False},
         'validate_response_schema': {'type': 'bool', 'default': True},
         'config_verify': {'type': 'bool', "default": False},
         'sda_fabric_vlan_limit': {'type': 'int', 'default': 50},

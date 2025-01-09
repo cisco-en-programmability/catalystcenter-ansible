@@ -9,20 +9,20 @@
 
   vars:
     catalystcenter_login: &catalystcenter_login
-      catalystcenter_host: "{{ catalystcenter_host }}"
-      catalystcenter_username: "{{ catalystcenter_username }}"
-      catalystcenter_password: "{{ catalystcenter_password }}"
-      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
       catalystcenter_port: "{{ catalystcenter_port }}"
-      catalystcenter_version: "{{ catalystcenter_version }}"
-      catalystcenter_debug: "{{ catalystcenter_debug }}"
-      catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
+      log_level: "{{ log_level }}"
 
   tasks:
     - name: Assign a wired device to a site
       cisco.catalystcenter.provision_workflow_manager:
         <<: *catalystcenter_login
-        catalystcenter_log: True
+        log: True
         state: merged
         config_verify: True
         config:
@@ -34,8 +34,8 @@
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_workflow_manager:
         <<: *catalystcenter_login
-        catalystcenter_log: True
-        catalystcenter_log_level: DEBUG
+        log: True
+        log_level: DEBUG
         state: merged
         config_verify: True
         config:
@@ -45,7 +45,7 @@
     - name: Unprovision a wired device from a site
       cisco.catalystcenter.provision_workflow_manager:
         <<: *catalystcenter_login
-        catalystcenter_log: True
+        log: True
         state: deleted
         config:
           - management_ip_address: 204.1.2.2
@@ -53,8 +53,8 @@
     - name: Provision a wireless device to a site
       cisco.catalystcenter.provision_workflow_manager:
         <<: *catalystcenter_login
-        catalystcenter_log: True
-        catalystcenter_log_level: DEBUG
+        log: True
+        log_level: DEBUG
         state: merged
         config_verify: True
         config:
