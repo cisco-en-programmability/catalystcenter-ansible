@@ -14,37 +14,37 @@ class ModuleDocFragment(object):
     # Standard files documentation fragment
     DOCUMENTATION = r'''
 options:
-    catalystCenter_host:
+    host:
         description:
           - The hostname of the Cisco Catalyst Center.
         type: str
         required: true
-    catalystCenter_port:
+    api_port:
         description:
           - Specifies the port number associated with the Cisco Catalyst Center.
         type: str
         default: '443'
-    catalystCenter_username:
+    username:
         description:
           - The username for authentication at the Cisco Catalyst Center.
         type: str
         default: admin
         aliases: [ user ]
-    catalystCenter_password:
+    password:
         description:
           - The password for authentication at the Cisco Catalyst Center.
         type: str
-    catalystCenter_verify:
+    verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
-    catalystCenter_version:
+    version:
         description:
           - Specifies the version of the Cisco Catalyst Center that the SDK should use.
         type: str
         default: 2.2.3.3
-    catalystCenter_debug:
+    debug:
         description:
           - Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
         type: bool

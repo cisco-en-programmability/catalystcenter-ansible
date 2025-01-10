@@ -332,7 +332,7 @@ EXAMPLES = r"""
   - name: Create Credentials and assign it to a site.
     cisco.catalystcenter.device_credential_intent:
     host: "{{ host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
+    api_port: "{{ api_port }}"
     username: "{{ username }}"
     password: "{{ password }}"
     verify: "{{ verify }}"
@@ -391,7 +391,7 @@ EXAMPLES = r"""
   - name: Create Multiple Credentials.
     cisco.catalystcenter.device_credential_intent:
     host: "{{ host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
+    api_port: "{{ api_port }}"
     username: "{{ username }}"
     password: "{{ password }}"
     verify: "{{ verify }}"
@@ -458,7 +458,7 @@ EXAMPLES = r"""
   - name: Update global device credentials using id
     cisco.catalystcenter.device_credential_intent:
     host: "{{ host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
+    api_port: "{{ api_port }}"
     username: "{{ username }}"
     password: "{{ password }}"
     verify: "{{ verify }}"
@@ -508,7 +508,7 @@ EXAMPLES = r"""
   - name: Update multiple global device credentials using id
     cisco.catalystcenter.device_credential_intent:
     host: "{{ host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
+    api_port: "{{ api_port }}"
     username: "{{ username }}"
     password: "{{ password }}"
     verify: "{{ verify }}"
@@ -587,7 +587,7 @@ EXAMPLES = r"""
   - name: Update global device credential name/description using old name and description.
     cisco.catalystcenter.device_credential_intent:
     host: "{{ host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
+    api_port: "{{ api_port }}"
     username: "{{ username }}"
     password: "{{ password }}"
     verify: "{{ verify }}"
@@ -639,7 +639,7 @@ EXAMPLES = r"""
   - name: Assign Credentials to sites using old description and username.
     cisco.catalystcenter.device_credential_intent:
     host: "{{ host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
+    api_port: "{{ api_port }}"
     username: "{{ username }}"
     password: "{{ password }}"
     verify: "{{ verify }}"
@@ -2577,7 +2577,7 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "host": {"type": 'str', "required": True},
-        "catalystcenter_port": {"type": 'str', "default": '443'},
+        "api_port": {"type": 'str', "default": '443'},
         "username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "password": {"type": 'str', "no_log": True},
         "verify": {"type": 'bool', "default": 'True'},

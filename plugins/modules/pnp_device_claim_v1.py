@@ -102,7 +102,7 @@ EXAMPLES = r"""
     username: "{{username}}"
     password: "{{password}}"
     verify: "{{verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
+    api_port: "{{api_port}}"
     version: "{{version}}"
     debug: "{{debug}}"
     authorizationNeeded: true

@@ -1133,7 +1133,7 @@ EXAMPLES = r"""
     username: "{{username}}"
     password: "{{password}}"
     verify: "{{verify}}"
-    catalystcenter_port: "{{catalystcenter_port}}"
+    api_port: "{{api_port}}"
     version: "{{version}}"
     debug: "{{debug}}"
     log: True
@@ -2763,7 +2763,7 @@ def main():
     """ main entry point for module execution"""
 
     element_spec = {'host': {'required': True, 'type': 'str'},
-                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'api_port': {'type': 'str', 'default': '443'},
                     'username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
                     'password': {'type': 'str', 'no_log': True},
                     'verify': {'type': 'bool', 'default': 'True'},

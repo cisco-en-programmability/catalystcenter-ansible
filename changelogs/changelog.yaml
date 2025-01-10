@@ -29,4 +29,9 @@ releases:
         But the replaced variables still work.
         - Fixed issues in module sda_anycast_gateways_v1
         - Fixed issues in module sda_layer3_virtual_networks_v1
-
+  2.1.1:
+    release_date: "2025-01-10"
+    changes:
+      release_summary: Update Doc.
+      minor_changes:
+        - Updating the documentation for variables that are deprecated.
