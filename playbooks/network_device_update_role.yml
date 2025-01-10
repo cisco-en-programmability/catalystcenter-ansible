@@ -10,7 +10,7 @@
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"
-        catalystcenter_port: "{{ catalystcenter_port }}"
+        api_port: "{{ api_port }}"
         version: "{{ version }}"
         debug: "{{ debug }}"
         id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab

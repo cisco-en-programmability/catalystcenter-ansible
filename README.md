@@ -23,7 +23,7 @@ If your Ansible collection is older please consider updating it first.
 
 
 1. The "Python 'catalystcentersdk' version" column has the minimum recommended version used when testing the Ansible collection. This means you could use later versions of the Python "catalystcentersdk" than those listed.
-2. The "Cisco CATALYST Center version" column has the value of the `catalystcenter_version` you should use for the Ansible collection.
+2. The "Cisco CATALYST Center version" column has the value of the `version` you should use for the Ansible collection.
 
 ## Installing according to Compatibility Matrix
 

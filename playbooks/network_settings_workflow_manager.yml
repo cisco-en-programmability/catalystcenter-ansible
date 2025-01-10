@@ -7,7 +7,7 @@
     - name: Create global pool, reserve subpool and network functions
       cisco.catalystcenter.network_settings_workflow_manager:
         host: "{{ host }}"
-        catalystcenter_port: "{{ catalystcenter_port }}"
+        api_port: "{{ api_port }}"
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"
@@ -99,7 +99,7 @@
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_workflow_manager:
         host: "{{ host }}"
-        catalystcenter_port: "{{ catalystcenter_port }}"
+        api_port: "{{ api_port }}"
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"

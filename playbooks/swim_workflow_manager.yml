@@ -9,16 +9,16 @@
   tasks:
     - name: Import an image, tag it as golden and load it on device
       cisco.catalystlyst.swim_workflow_manager:
-        catalystlyst_host:catalystcatalystcenter_host}}"
-        catalystlyst_username:catalystcatalystcenter_username}}"
-        catalystlyst_password:catalystcatalystcenter_password}}"
-        catalystlyst_verify:catalystcatalystcenter_verify}}"
-        catalystlyst_port:catalystcatalystcenter_port}}"
-        catalystlyst_version:catalystcatalystcenter_version}}"
-        catalystlyst_debug:catalystcatalystcenter_debug}}"
-        catalystlyst_log: True
-        catalystlyst_log_level: DEBUG
-        config_verify: True
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
+        api_port: "{{api_port}}"
+        version: "{{version}}"
+        debug: "{{debug}}"
+        log: True
+        log_level: DEBUG
+        verify: True
         catalystlyst_api_task_timeout: 1000
         catalystlyst_task_poll_interval: 1
         config:
@@ -51,4 +51,4 @@
 
       with_items: "{{ image_details }}"
       tags:
-        - swim  
+        - swim

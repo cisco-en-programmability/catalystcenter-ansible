@@ -8,7 +8,7 @@
     - name: Test project template
       cisco.catalystcenter.template_workflow_manager:
         host: "{{ host }}"
-        catalystcenter_port: "{{ catalystcenter_port }}"
+        api_port: "{{ api_port }}"
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"
