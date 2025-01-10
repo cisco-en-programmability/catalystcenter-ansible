@@ -11,7 +11,7 @@
     - name: Test project template
       cisco.catalystcenter.template_intent:
         host: "{{ host }}"
-        catalystcenter_port: "{{ catalystcenter_port }}"
+        api_port: "{{ api_port }}"
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"
@@ -43,7 +43,7 @@
         username: "{{username}}"
         password: "{{password}}"
         verify: "{{verify}}"
-        catalystcenter_port: "{{catalystcenter_port}}"
+        api_port: "{{api_port}}"
         debug: "{{debug}}"
         log: true
         config:

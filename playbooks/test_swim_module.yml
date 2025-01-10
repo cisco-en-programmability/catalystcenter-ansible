@@ -10,7 +10,7 @@
     - name: Import an image, tag it as golden and load it on device
       cisco.catalystcenter.swim_intent:
         host: "{{ host }}"
-        catalystcenter_port: "{{ catalystcenter_port }}"
+        api_port: "{{ api_port }}"
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"
