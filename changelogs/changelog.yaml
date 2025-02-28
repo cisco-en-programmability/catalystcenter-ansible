@@ -35,3 +35,10 @@ releases:
       release_summary: Update Doc.
       minor_changes:
         - Updating the documentation for variables that are deprecated.
+
+  2.1.2:
+    release_date: "2025-02-28"
+    changes:
+      release_summary: Update Readme
+      minor_changes:
+        - Update Readme
