@@ -10,7 +10,7 @@ on:
 
 env:
   NAMESPACE: cisco
-  COLLECTION_NAME: dnac
+  COLLECTION_NAME: catalystcenter
 
 jobs:
   # https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix
