@@ -11,4 +11,3 @@ class AnsibleCatalystCenterException(Exception):
 class InconsistentParameters(AnsibleCatalystCenterException):
     """Provided parameters are not consistent."""
     pass
-
