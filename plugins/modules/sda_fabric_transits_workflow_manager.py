@@ -424,9 +424,13 @@ class FabricTransit(CatalystCenterBase):
         self.log("Current State (have): {current_obj}".format(current_obj=current_obj), "DEBUG")
         self.log("Desired State (want): {requested_obj}".format(requested_obj=requested_obj), "DEBUG")
 
-        return any(not catalystcenter_compare_equality(current_obj.get(catalystcenter_param),
-                                             requested_obj.get(ansible_param))
-                   for (catalystcenter_param, ansible_param) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalystcenter_param),
+                requested_obj.get(ansible_param)
+            )
+            for catalystcenter_param, ansible_param in obj_params
+        )
 
     def get_obj_params(self, get_object):
         """

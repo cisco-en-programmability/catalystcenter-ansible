@@ -2208,9 +2208,13 @@ class DnacTemplate(CatalystCenterBase):
             ("version", "version", ""),
         ]
 
-        return any(not catalystcenter_compare_equality(current_obj.get(catalystcenter_param, default),
-                                             requested_obj.get(ansible_param))
-                   for (catalystcenter_param, ansible_param, default) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalystcenter_param, default),
+                requested_obj.get(ansible_param)
+            )
+            for catalystcenter_param, ansible_param, default in obj_params
+        )
 
     def update_mandatory_parameters(self, template_params):
         """

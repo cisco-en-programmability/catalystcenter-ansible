@@ -932,9 +932,13 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Current State (have): {0}".format(current_obj), "DEBUG")
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
-        return any(not catalystcenter_compare_equality(current_obj.get(catalystcenter_param),
-                                             requested_obj.get(ansible_param))
-                   for (catalystcenter_param, ansible_param) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalystcenter_param),
+                requested_obj.get(ansible_param)
+            )
+            for catalystcenter_param, ansible_param in obj_params
+        )
 
     def get_obj_params(self, get_object):
         """
@@ -2932,7 +2936,12 @@ class NetworkSettings(CatalystCenterBase):
                     else:
                         have_configure_catalystcenter_ip = have_network_details.get("snmpServer", {}).get("useBuiltinTrapServer")
                         if have_configure_catalystcenter_ip is not None:
-                            self.log("Retaining existing 'useBuiltinTrapServer' from current network details: {0}".format(have_configure_catalystcenter_ip), "INFO")
+                            self.log(
+                                "Retaining existing 'useBuiltinTrapServer' from current network details: {0}".format(
+                                    have_configure_catalystcenter_ip
+                                ),
+                                "INFO"
+                            )
                             want_network_settings.get("snmpServer").update({
                                 "useBuiltinTrapServer": have_configure_catalystcenter_ip
                             })
