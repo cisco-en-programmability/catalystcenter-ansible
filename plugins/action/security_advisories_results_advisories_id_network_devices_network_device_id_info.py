@@ -2,8 +2,7 @@
 # -- coding: utf-8 --
 from ansible.plugins.action import ActionBase
 from ansible_collections.cisco.catalystcenter.plugins.action \
-    .security_advisories_results_advisories_id_network_devices \
-    .network_device_id_v1_info import ActionModule
+    .security_advisories_results_advisories_id_network_devices_network_device_id_v1_info import ActionModule
 
 
 class ActionModule2(ActionBase):
