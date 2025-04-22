@@ -60,4 +60,3 @@ releases:
       minor_changes:
         - The format has been updated to correct errors when uploading a new version to Red Hat.
         - The workflow_manager modules have been updated.
-
