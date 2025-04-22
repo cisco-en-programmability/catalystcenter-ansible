@@ -2142,7 +2142,7 @@ class DnacDevice(CatalystCenterBase):
             This function checks the specified devices in the playbook against the devices existing in Cisco Catalyst Center with following keys:
             - "want_device": A list of devices specified in the playbook.
             - "device_in_dnac": A list of devices that already exist in Cisco Catalyst Center.
-            - "device_not_in_dnac": A list of devices that are not present in Cisco Catalyst Center.
+            - "device_not_in_catalystcenter": A list of devices that are not present in Cisco Catalyst Center.
         """
 
         have = {}
@@ -2150,7 +2150,7 @@ class DnacDevice(CatalystCenterBase):
 
         # Get the list of device that are present in Cisco Catalyst Center
         device_in_dnac = self.get_existing_devices_in_ccc()
-        device_not_in_dnac, devices_in_playbook = [], []
+        device_not_in_catalystcenter, devices_in_playbook = [], []
 
         for ip in want_device:
             devices_in_playbook.append(ip)
@@ -2175,13 +2175,13 @@ class DnacDevice(CatalystCenterBase):
                     device_ip_address = prov_dict['device_ip']
                     if device_ip_address not in want_device and device_ip_address not in devices_in_playbook:
                         devices_in_playbook.append(device_ip_address)
-                    if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_dnac:
+                    if device_ip_address not in device_in_dnac and device_ip_address not in device_not_in_catalystcenter:
                         device_not_in_catalystcenter.append(device_ip_address)
 
         self.log("Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)), "INFO")
         have["want_device"] = want_device
         have["device_in_dnac"] = device_in_dnac
-        have["device_not_in_dnac"] = device_not_in_dnac
+        have["device_not_in_catalystcenter"] = device_not_in_catalystcenter
         have["devices_in_playbook"] = devices_in_playbook
 
         self.have = have
@@ -3047,7 +3047,7 @@ class DnacDevice(CatalystCenterBase):
             The updated results and status are stored in the class instance for further use.
         """
 
-        devices_to_add = self.have["device_not_in_dnac"]
+        devices_to_add = self.have["device_not_in_catalystcenter"]
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_resynced = self.config[0].get("device_resync", False)
         device_reboot = self.config[0].get("reboot_device", False)
@@ -3739,7 +3739,7 @@ class DnacDevice(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        devices_to_add = self.have["device_not_in_dnac"]
+        devices_to_add = self.have["device_not_in_catalystcenter"]
         credential_update = self.config[0].get("credential_update", False)
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
         device_ips = self.get_device_ips_from_config_priority()
