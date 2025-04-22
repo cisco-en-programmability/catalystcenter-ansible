@@ -286,17 +286,18 @@ class CatalystCenterBase():
     def get_catalystcenter_params(self, params):
         """Store the Cisco Catalyst Center parameters from the playbook"""
 
-        catalystcenter_params = {"_host": params.get("_host"),
-                       "_api_port": params.get("_api_port"),
-                       "_username": params.get("_username"),
-                       "_password": params.get("_password"),
-                       "_verify": params.get("_verify"),
-                       "_debug": params.get("_debug"),
-                       "log": params.get("log"),
-                       "log_level": params.get("log_level"),
-                       "log_file_path": params.get("log_file_path"),
-                       "log_append": params.get("log_append")
-                       }
+        catalystcenter_params = {
+            "_host": params.get("_host"),
+            "_api_port": params.get("_api_port"),
+            "_username": params.get("_username"),
+            "_password": params.get("_password"),
+            "_verify": params.get("_verify"),
+            "_debug": params.get("_debug"),
+            "log": params.get("log"),
+            "log_level": params.get("log_level"),
+            "log_file_path": params.get("log_file_path"),
+            "log_append": params.get("log_append")
+        }
         return catalystcenter_params
 
     def get_task_details(self, task_id):
