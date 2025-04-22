@@ -22,7 +22,8 @@ from unittest.mock import patch
 import sys
 sys.path.insert(0, "/Users/rukapse/ansible/catalystcenter/work/collections")
 
-from ansible_collections.cisco.catalystcenter.tests.unit.modules.catalystcenter.catalystcenter_module import TestCatalystcenterModule, set_module_args, loadPlaybookData
+from ansible_collections.cisco.catalystcenter.tests.unit.modules.catalystcenter.\
+    catalystcenter_module import TestCatalystcenterModule, set_module_args, loadPlaybookData
 from ansible_collections.cisco.catalystcenter.plugins.modules import network_compliance_workflow_manager
 
 
