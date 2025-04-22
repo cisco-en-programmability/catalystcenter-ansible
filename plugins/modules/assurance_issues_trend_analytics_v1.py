@@ -1,20 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: assurance_issues_trend_analytics_v1
 short_description: Resource module for Assurance Issues Trend Analytics V1
 description:
-- Manage operation create of the resource Assurance Issues Trend Analytics V1.
-- >
-   Gets the trend analytics data related to issues based on given filters and group by field. This data can be used
-   to find issue counts in different intervals over a period of time. For detailed information about the usage of the
-   API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-   center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
+  - Manage operation create of the resource Assurance Issues Trend Analytics V1.
+  - >
+    Gets the trend analytics data related to issues based on given filters and group
+    by field. This data can be used
+    to find issue counts in different intervals over a period of time. For detailed
+    information about the usage of the
+    API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
+    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -79,43 +79,38 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetTrendAnalyticsDataOfIssuesV1
-  description: Complete reference of the GetTrendAnalyticsDataOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues
+  - name: Cisco DNA Center documentation for Issues GetTrendAnalyticsDataOfIssuesV1
+    description: Complete reference of the GetTrendAnalyticsDataOfIssuesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-issues
 notes:
-  - SDK Method used are
-    issues.Issues.get_trend_analytics_data_of_issues_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/assuranceIssues/trendAnalytics,
-
+  - SDK Method used are issues.Issues.get_trend_analytics_data_of_issues_v1,
+  - Paths used are post /dna/data/api/v1/assuranceIssues/trendAnalytics,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.assurance_issues_trend_analytics_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
@@ -123,7 +118,6 @@ EXAMPLES = r"""
       timestampOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 catalystcenter_response:

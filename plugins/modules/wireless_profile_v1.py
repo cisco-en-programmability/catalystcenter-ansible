@@ -1,20 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_profile_v1
 short_description: Resource module for Wireless Profile V1
 description:
-- Manage operations create, update and delete of the resource Wireless Profile V1.
-- Creates Wireless Network Profile on Cisco DNA Center and associates sites and SSIDs to it.
-- Delete the Wireless Profile whose name is provided.
-- >
-   Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile
-   should be provided.
+  - Manage operations create, update and delete of the resource Wireless Profile V1.
+  - Creates Wireless Network Profile on Cisco DNA Center and associates sites and
+    SSIDs to it.
+  - Delete the Wireless Profile whose name is provided.
+  - >
+    Updates the wireless Network Profile with updated details provided. All sites
+    to be present in the network profile
+    should be provided.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -65,92 +65,82 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateWirelessProfileV1
-  description: Complete reference of the CreateWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile
-- name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileV1
-  description: Complete reference of the DeleteWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile
-- name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileV1
-  description: Complete reference of the UpdateWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless CreateWirelessProfileV1
+    description: Complete reference of the CreateWirelessProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileV1
+    description: Complete reference of the DeleteWirelessProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileV1
+    description: Complete reference of the UpdateWirelessProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_wireless_profile_v1,
-    wireless.Wireless.delete_wireless_profile_v1,
+  - SDK Method used are wireless.Wireless.create_wireless_profile_v1, wireless.Wireless.delete_wireless_profile_v1,
     wireless.Wireless.update_wireless_profile_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/profile,
-    delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
+  - Paths used are post /dna/intent/api/v1/wireless/profile, delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName},
     put /dna/intent/api/v1/wireless/profile,
-
 """
-
 EXAMPLES = r"""
 - name: Delete by name
   cisco.catalystcenter.wireless_profile_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     wirelessProfileName: string
-
 - name: Update all
   cisco.catalystcenter.wireless_profile_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     profileDetails:
       name: string
       sites:
-      - string
+        - string
       ssidDetails:
-      - enableFabric: true
-        flexConnect:
-          enableFlexConnect: true
-          localToVlan: 0
-        interfaceName: string
-        name: string
-        policyProfileName: string
-        wlanProfileName: string
-
+        - enableFabric: true
+          flexConnect:
+            enableFlexConnect: true
+            localToVlan: 0
+          interfaceName: string
+          name: string
+          policyProfileName: string
+          wlanProfileName: string
 - name: Create
   cisco.catalystcenter.wireless_profile_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     profileDetails:
       name: string
       sites:
-      - string
+        - string
       ssidDetails:
-      - enableFabric: true
-        flexConnect:
-          enableFlexConnect: true
-          localToVlan: 0
-        interfaceName: string
-        name: string
-        policyProfileName: string
-        wlanProfileName: string
-
+        - enableFabric: true
+          flexConnect:
+            enableFlexConnect: true
+            localToVlan: 0
+          interfaceName: string
+          name: string
+          policyProfileName: string
+          wlanProfileName: string
 """
 RETURN = r"""
 catalystcenter_response:

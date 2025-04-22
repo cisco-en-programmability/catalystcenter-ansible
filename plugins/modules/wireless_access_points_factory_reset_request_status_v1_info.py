@@ -1,16 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_access_points_factory_reset_request_status_v1_info
-short_description: Information module for Wireless Access Points Factory Reset Request Status V1
+short_description: Information module for Wireless Access Points Factory Reset Request
+  Status V1
 description:
-- Get all Wireless Access Points Factory Reset Request Status V1.
-- This API returns each AP Factory Reset initiation status.
+  - Get all Wireless Access Points Factory Reset Request Status V1.
+  - This API returns each AP Factory Reset initiation status.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,38 +20,34 @@ options:
     type: dict
   taskId:
     description:
-    - TaskId query parameter. Provide the task id which is returned in the response of ap factory reset post api.
+      - TaskId query parameter. Provide the task id which is returned in the response
+        of ap factory reset post api.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatusV1
-  description: Complete reference of the GetAccessPointsFactoryResetStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatusV1
+    description: Complete reference of the GetAccessPointsFactoryResetStatusV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_access_points_factory_reset_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessAccessPoints/factoryResetRequestStatus,
-
+  - SDK Method used are wireless.Wireless.get_access_points_factory_reset_status_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessAccessPoints/factoryResetRequestStatus,
 """
-
 EXAMPLES = r"""
 - name: Get all Wireless Access Points Factory Reset Request Status V1
   cisco.catalystcenter.wireless_access_points_factory_reset_request_status_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     taskId: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

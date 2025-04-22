@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: qos_device_interface
 short_description: Resource module for Qos Device Interface
 description:
-- This module represents an alias of the module qos_device_interface_v1
+  - This module represents an alias of the module qos_device_interface_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -66,95 +63,85 @@ options:
         type: list
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfoV1
-  description: Complete reference of the CreateQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info
-- name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfoV1
-  description: Complete reference of the DeleteQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info
-- name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfoV1
-  description: Complete reference of the UpdateQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info
+  - name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfoV1
+    description: Complete reference of the CreateQosDeviceInterfaceInfoV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info
+  - name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfoV1
+    description: Complete reference of the DeleteQosDeviceInterfaceInfoV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info
+  - name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfoV1
+    description: Complete reference of the UpdateQosDeviceInterfaceInfoV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.create_qos_device_interface_info_v1,
-    application_policy.ApplicationPolicy.delete_qos_device_interface_info_v1,
-    application_policy.ApplicationPolicy.update_qos_device_interface_info_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/qos-device-interface-info,
-    delete /dna/intent/api/v1/qos-device-interface-info/{id},
+  - SDK Method used are application_policy.ApplicationPolicy.create_qos_device_interface_info_v1,
+    application_policy.ApplicationPolicy.delete_qos_device_interface_info_v1, application_policy.ApplicationPolicy.update_qos_device_interface_info_v1,
+  - Paths used are post /dna/intent/api/v1/qos-device-interface-info, delete /dna/intent/api/v1/qos-device-interface-info/{id},
     put /dna/intent/api/v1/qos-device-interface-info,
   - It should be noted that this module is an alias of qos_device_interface_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.qos_device_interface:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - excludedInterfaces:
-      - string
-      id: string
-      name: string
-      networkDeviceId: string
-      qosDeviceInterfaceInfo:
-      - dmvpnRemoteSitesBw:
-        - 0
-        instanceId: 0
-        interfaceId: string
-        interfaceName: string
-        label: string
-        role: string
-        uploadBW: 0
-
+      - excludedInterfaces:
+          - string
+        id: string
+        name: string
+        networkDeviceId: string
+        qosDeviceInterfaceInfo:
+          - dmvpnRemoteSitesBw:
+              - 0
+            instanceId: 0
+            interfaceId: string
+            interfaceName: string
+            label: string
+            role: string
+            uploadBW: 0
 - name: Create
   cisco.catalystcenter.qos_device_interface:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - excludedInterfaces:
-      - string
-      name: string
-      networkDeviceId: string
-      qosDeviceInterfaceInfo:
-      - dmvpnRemoteSitesBw:
-        - 0
-        interfaceId: string
-        interfaceName: string
-        label: string
-        role: string
-        uploadBW: 0
-
+      - excludedInterfaces:
+          - string
+        name: string
+        networkDeviceId: string
+        qosDeviceInterfaceInfo:
+          - dmvpnRemoteSitesBw:
+              - 0
+            interfaceId: string
+            interfaceName: string
+            label: string
+            role: string
+            uploadBW: 0
 - name: Delete by id
   cisco.catalystcenter.qos_device_interface:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

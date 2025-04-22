@@ -1,24 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabrics_vlan_to_ssids_fabric_id
 short_description: Resource module for Sda Fabrics Vlan To Ssids Fabric Id
 description:
-- This module represents an alias of the module sda_fabrics_vlan_to_ssids_fabric_id_v1
+  - This module represents an alias of the module sda_fabrics_vlan_to_ssids_fabric_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   fabricId:
-    description: FabricId path parameter. The 'fabricId' represents the Fabric ID of
-      a particular Fabric Site.
+    description: FabricId path parameter. The 'fabricId' represents the Fabric ID
+      of a particular Fabric Site.
     type: str
   payload:
     description: Sda Fabrics Vlan To Ssids Fabric Id's payload.
@@ -41,40 +38,35 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1
-  description: Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan
+  - name: Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1
+    description: Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan
 notes:
-  - SDK Method used are
-    fabric_wireless.FabricWireless.add_update_or_remove_ssid_mapping_to_a_vlan_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
+  - SDK Method used are fabric_wireless.FabricWireless.add_update_or_remove_ssid_mapping_to_a_vlan_v1,
+  - Paths used are put /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
   - It should be noted that this module is an alias of sda_fabrics_vlan_to_ssids_fabric_id_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.sda_fabrics_vlan_to_ssids_fabric_id:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     fabricId: string
     payload:
-    - ssidDetails:
-      - name: string
-        securityGroupTag: string
-      vlanName: string
-
+      - ssidDetails:
+          - name: string
+            securityGroupTag: string
+        vlanName: string
 """
 RETURN = r"""
 catalystcenter_response:

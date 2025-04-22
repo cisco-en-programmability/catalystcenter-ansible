@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_access_points_provision
 short_description: Resource module for Wireless Access Points Provision
 description:
-- This module represents an alias of the module wireless_access_points_provision_v1
+  - This module represents an alias of the module wireless_access_points_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -38,39 +35,33 @@ options:
     description: Site ID.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless APProvisionV1
-  description: Complete reference of the APProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
+  - name: Cisco DNA Center documentation for Wireless APProvisionV1
+    description: Complete reference of the APProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.ap_provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessAccessPoints/provision,
+  - SDK Method used are wireless.Wireless.ap_provision_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessAccessPoints/provision,
   - It should be noted that this module is an alias of wireless_access_points_provision_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_access_points_provision:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     apZoneName: string
     networkDevices:
-    - deviceId: string
-      meshRole: string
+      - deviceId: string
+        meshRole: string
     rfProfileName: string
     siteId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

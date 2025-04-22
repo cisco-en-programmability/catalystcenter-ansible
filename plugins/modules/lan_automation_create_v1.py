@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_create_v1
 short_description: Resource module for Lan Automation Create V1
 description:
-- Manage operation create of the resource Lan Automation Create V1.
-- Invoke this API to start LAN Automation for the given site.
+  - Manage operation create of the resource Lan Automation Create V1.
+  - Invoke this API to start LAN Automation for the given site.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -24,8 +22,8 @@ options:
         description: Discovered device site name.
         type: str
       hostNameFileId:
-        description: Use /dna/intent/api/v1/file/namespace/nw_orch api to get the file
-          id for the already uploaded file in nw_orch namespace.
+        description: Use /dna/intent/api/v1/file/namespace/nw_orch api to get the
+          file id for the already uploaded file in nw_orch namespace.
         type: str
       hostNamePrefix:
         description: Host name prefix which shall be assigned to the discovered device.
@@ -63,46 +61,40 @@ options:
         type: bool
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
-  description: Complete reference of the LANAutomationStartV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
+    description: Complete reference of the LANAutomationStartV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_start_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/lan-automation,
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_start_v1,
+  - Paths used are post /dna/intent/api/v1/lan-automation,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.lan_automation_create_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     payload:
-    - discoveredDeviceSiteNameHierarchy: string
-      hostNameFileId: string
-      hostNamePrefix: string
-      ipPools:
-      - ipPoolName: string
-        ipPoolRole: string
-      isisDomainPwd: string
-      mulitcastEnabled: true
-      peerDeviceManagmentIPAddress: string
-      primaryDeviceInterfaceNames:
-      - string
-      primaryDeviceManagmentIPAddress: string
-      redistributeIsisToBgp: true
-
+      - discoveredDeviceSiteNameHierarchy: string
+        hostNameFileId: string
+        hostNamePrefix: string
+        ipPools:
+          - ipPoolName: string
+            ipPoolRole: string
+        isisDomainPwd: string
+        mulitcastEnabled: true
+        peerDeviceManagmentIPAddress: string
+        primaryDeviceInterfaceNames:
+          - string
+        primaryDeviceManagmentIPAddress: string
+        redistributeIsisToBgp: true
 """
 RETURN = r"""
 catalystcenter_response:

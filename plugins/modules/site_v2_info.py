@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: site_v2_info
 short_description: Information module for Site V2
 description:
-- Get all Site V2.
-- >
-   API to get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an
-   input.
+  - Get all Site V2.
+  - >
+    API to get sites by site-name-hierarchy or siteId or type. List all sites if these
+    parameters are not given as an
+    input.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,50 +22,46 @@ options:
     type: dict
   groupNameHierarchy:
     description:
-    - GroupNameHierarchy query parameter. Site name hierarchy (E.g. Global/USA/CA).
+      - GroupNameHierarchy query parameter. Site name hierarchy (E.g. Global/USA/CA).
     type: str
   id:
     description:
-    - Id query parameter. Site Id.
+      - Id query parameter. Site Id.
     type: str
   type:
     description:
-    - Type query parameter. Site type (Acceptable values area, building, floor).
+      - Type query parameter. Site type (Acceptable values area, building, floor).
     type: str
   offset:
     description:
-    - Offset query parameter. Offset starting index for pagination.
+      - Offset query parameter. Offset starting index for pagination.
     type: str
   limit:
     description:
-    - Limit query parameter. Number of sites to be listed. Default and max supported value is 500.
+      - Limit query parameter. Number of sites to be listed. Default and max supported
+        value is 500.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetSiteV2
-  description: Complete reference of the GetSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site
+  - name: Cisco DNA Center documentation for Sites GetSiteV2
+    description: Complete reference of the GetSiteV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site
 notes:
-  - SDK Method used are
-    sites.Sites.get_site_v2,
-
-  - Paths used are
-    get /dna/intent/api/v2/site,
-
+  - SDK Method used are sites.Sites.get_site_v2,
+  - Paths used are get /dna/intent/api/v2/site,
 """
-
 EXAMPLES = r"""
 - name: Get all Site V2
   cisco.catalystcenter.site_v2_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     groupNameHierarchy: string
     id: string
@@ -74,7 +69,6 @@ EXAMPLES = r"""
     offset: string
     limit: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

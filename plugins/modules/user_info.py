@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: user_info
 short_description: Information module for User Info
 description:
-- This module represents an alias of the module user_v1_info
+  - This module represents an alias of the module user_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,48 +18,45 @@ options:
     type: dict
   invokeSource:
     description:
-    - >
-      InvokeSource query parameter. The source that invokes this API. The value of this query parameter must be
-      set to "external".
+      - >
+        InvokeSource query parameter. The source that invokes this API. The value
+        of this query parameter must be
+        set to "external".
     type: str
   authSource:
     description:
-    - >
-      AuthSource query parameter. The source that authenticates the user. The value of this query parameter can be
-      set to "internal" or "external". If not provided, then all users will be returned in the response.
+      - >
+        AuthSource query parameter. The source that authenticates the user. The value
+        of this query parameter can be
+        set to "internal" or "external". If not provided, then all users will be returned
+        in the response.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles GetUsersAPIV1
-  description: Complete reference of the GetUsersAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-users-api
+  - name: Cisco DNA Center documentation for User and Roles GetUsersAPIV1
+    description: Complete reference of the GetUsersAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-users-api
 notes:
-  - SDK Method used are
-    user_and_roles.UserandRoles.get_users_api_v1,
-
-  - Paths used are
-    get /dna/system/api/v1/user,
+  - SDK Method used are user_and_roles.UserandRoles.get_users_api_v1,
+  - Paths used are get /dna/system/api/v1/user,
   - It should be noted that this module is an alias of user_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all User Info
   cisco.catalystcenter.user_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     invokeSource: string
     authSource: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

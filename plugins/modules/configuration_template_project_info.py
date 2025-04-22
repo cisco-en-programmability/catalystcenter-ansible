@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project_info
 short_description: Information module for Configuration Template Project Info
 description:
-- This module represents an alias of the module configuration_template_project_v1_info
+  - This module represents an alias of the module configuration_template_project_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,66 +18,59 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Name of project to be searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   sortOrder:
     description:
-    - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   projectId:
     description:
-    - ProjectId path parameter. ProjectId(UUID) of project to get project details.
+      - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjectsV1
-  description: Complete reference of the GetsAListOfProjectsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
-- name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProjectV1
-  description: Complete reference of the GetsTheDetailsOfAGivenProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjectsV1
+    description: Complete reference of the GetsAListOfProjectsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
+  - name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProjectV1
+    description: Complete reference of the GetsTheDetailsOfAGivenProjectV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_project_details,
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_project_details,
     configuration_templates.ConfigurationTemplates.get_projects,
-
-  - Paths used are
-    get /dna/intent/api/v1/template-programmer/project,
-    get /dna/intent/api/v1/template-programmer/project/{projectId},
+  - Paths used are get /dna/intent/api/v1/template-programmer/project, get /dna/intent/api/v1/template-programmer/project/{projectId},
   - It should be noted that this module is an alias of configuration_template_project_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Configuration Template Project Info
   cisco.catalystcenter.configuration_template_project_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     name: string
     sortOrder: string
   register: result
-
 - name: Get Configuration Template Project Info by id
   cisco.catalystcenter.configuration_template_project_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     projectId: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

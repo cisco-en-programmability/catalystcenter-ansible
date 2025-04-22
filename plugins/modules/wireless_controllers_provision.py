@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_provision
 short_description: Resource module for Wireless Controllers Provision
 description:
-- This module represents an alias of the module wireless_controllers_provision_v1
+  - This module represents an alias of the module wireless_controllers_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -24,8 +21,8 @@ options:
     type: str
   authorizeMeshAndNonMeshAccessPoints:
     description: True if AP Authorization List should authorize against All Mesh/Non-Mesh
-      APs, else false if AP Authorization List should only authorize against Mesh APs
-      (Applicable only when Mesh is enabled on sites).
+      APs, else false if AP Authorization List should only authorize against Mesh
+      APs (Applicable only when Mesh is enabled on sites).
     type: bool
   deviceId:
     description: DeviceId path parameter. Network Device ID. This value can be obtained
@@ -68,47 +65,41 @@ options:
     description: True if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
-  description: Complete reference of the WirelessControllerProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
+  - name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
+    description: Complete reference of the WirelessControllerProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.wireless_controller_provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessControllers/{deviceId}/provision,
+  - SDK Method used are wireless.Wireless.wireless_controller_provision_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/provision,
   - It should be noted that this module is an alias of wireless_controllers_provision_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_controllers_provision:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     apAuthorizationListName: string
     authorizeMeshAndNonMeshAccessPoints: true
     deviceId: string
     interfaces:
-    - interfaceGateway: string
-      interfaceIPAddress: string
-      interfaceName: string
-      interfaceNetmaskInCIDR: 0
-      lagOrPortNumber: 0
-      vlanId: 0
+      - interfaceGateway: string
+        interfaceIPAddress: string
+        interfaceName: string
+        interfaceNetmaskInCIDR: 0
+        lagOrPortNumber: 0
+        vlanId: 0
     rollingApUpgrade:
       apRebootPercentage: 0
       enableRollingApUpgrade: true
     skipApProvision: true
-
 """
 RETURN = r"""
 catalystcenter_response:

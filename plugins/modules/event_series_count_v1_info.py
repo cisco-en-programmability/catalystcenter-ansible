@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: event_series_count_v1_info
 short_description: Information module for Event Series Count V1
 description:
-- Get all Event Series Count V1.
-- Get the Count of Published Notifications.
+  - Get all Event Series Count V1.
+  - Get the Count of Published Notifications.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,66 +19,61 @@ options:
     type: dict
   eventIds:
     description:
-    - EventIds query parameter. The registered EventId should be provided.
+      - EventIds query parameter. The registered EventId should be provided.
     type: str
   startTime:
     description:
-    - StartTime query parameter. Start Time in milliseconds.
+      - StartTime query parameter. Start Time in milliseconds.
     type: float
   endTime:
     description:
-    - EndTime query parameter. End Time in milliseconds.
+      - EndTime query parameter. End Time in milliseconds.
     type: float
   category:
     description:
-    - Category query parameter.
+      - Category query parameter.
     type: str
   type:
     description:
-    - Type query parameter.
+      - Type query parameter.
     type: str
   severity:
     description:
-    - Severity query parameter.
+      - Severity query parameter.
     type: str
   domain:
     description:
-    - Domain query parameter.
+      - Domain query parameter.
     type: str
   subDomain:
     description:
-    - SubDomain query parameter. Sub Domain.
+      - SubDomain query parameter. Sub Domain.
     type: str
   source:
     description:
-    - Source query parameter.
+      - Source query parameter.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CountOfNotificationsV1
-  description: Complete reference of the CountOfNotificationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications
+  - name: Cisco DNA Center documentation for Event Management CountOfNotificationsV1
+    description: Complete reference of the CountOfNotificationsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications
 notes:
-  - SDK Method used are
-    event_management.EventManagement.count_of_notifications_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/event/event-series/count,
-
+  - SDK Method used are event_management.EventManagement.count_of_notifications_v1,
+  - Paths used are get /dna/intent/api/v1/event/event-series/count,
 """
-
 EXAMPLES = r"""
 - name: Get all Event Series Count V1
   cisco.catalystcenter.event_series_count_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     eventIds: string
     startTime: 0
@@ -92,7 +85,6 @@ EXAMPLES = r"""
     subDomain: string
     source: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:
