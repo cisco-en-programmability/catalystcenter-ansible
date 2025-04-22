@@ -807,9 +807,9 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def Catalystcenter_argument_spec():
     argument_spec = dict(
-        _host=dict(type="str", required=True, aliases=['catalystcenter_host','_host']),
+        _host=dict(type="str", required=True, aliases=['catalystcenter_host', '_host']),
         _api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', '_api_port']),
-        _username=dict(type="str", default="admin", aliases=['user','catalystcenter_username', '_username']),
+        _username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', '_username']),
         _password=dict(type="str", no_log=True, aliases=['catalystcenter_password', '_password']),
         _verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', '_verify']),
         _version=dict(type="str", default="2.2.3.3", aliases=['catalystcenter_version', '_version']),
