@@ -1,31 +1,36 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: custom_issue_definitions_v1
 short_description: Resource module for Custom Issue Definitions V1
 description:
-- Manage operations create, update and delete of the resource Custom Issue Definitions V1.
-- >
-   Create a new custom issue definition using the provided input request data. The unique identifier for this issue
-   definition is id. Please note that the issue names cannot be duplicated. The definition is based on the syslog.
-   For detailed information about the usage of the API, please refer to the Open API specification document - https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-- >
-   Deletes an existing custom issue definition based on the Id. Only the Global profile issue has the access to
-   delete the issue definition, so no profile id is required. For detailed information about the usage of the API,
-   please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
-   api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-- >
-   Updates an existing custom issue definition based on the provided Id. For detailed information about the usage of
-   the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+  - Manage operations create, update and delete of the resource Custom Issue Definitions
+    V1.
+  - >
+    Create a new custom issue definition using the provided input request data. The
+    unique identifier for this issue
+    definition is id. Please note that the issue names cannot be duplicated. The definition
+    is based on the syslog.
+    For detailed information about the usage of the API, please refer to the Open
+    API specification document - https
+    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+  - >
+    Deletes an existing custom issue definition based on the Id. Only the Global profile
+    issue has the access to
+    delete the issue definition, so no profile id is required. For detailed information
+    about the usage of the API,
+    please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
+    api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+  - >
+    Updates an existing custom issue definition based on the provided Id. For detailed
+    information about the usage of
+    the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -76,41 +81,41 @@ options:
         type: int
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
-  description: Complete reference of the CreatesANewUserDefinedIssueDefinitionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
-- name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinitionV1
-  description: Complete reference of the DeletesAnExistingCustomIssueDefinitionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
-- name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
-  description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
+  - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
+    description: Complete reference of the CreatesANewUserDefinedIssueDefinitionsV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
+  - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinitionV1
+    description: Complete reference of the DeletesAnExistingCustomIssueDefinitionV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
+  - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
+    description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
-  - SDK Method used are
-    issues.Issues.creates_a_new_user_defined_issue_definitions_v1,
+  - SDK Method used are issues.Issues.creates_a_new_user_defined_issue_definitions_v1,
     issues.Issues.deletes_an_existing_custom_issue_definition_v1,
     issues.Issues.updates_an_existing_custom_issue_definition_based_on_the_provided_id_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/customIssueDefinitions,
-    delete /dna/intent/api/v1/customIssueDefinitions/{id},
+  - Paths used are post /dna/intent/api/v1/customIssueDefinitions, delete /dna/intent/api/v1/customIssueDefinitions/{id},
     put /dna/intent/api/v1/customIssueDefinitions/{id},
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.custom_issue_definitions_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     description: string
     headers: '{{my_headers | from_json}}'
@@ -119,22 +124,21 @@ EXAMPLES = r"""
     name: string
     priority: string
     rules:
-    - durationInMinutes: 0
-      facility: string
-      mnemonic: string
-      occurrences: 0
-      pattern: string
-      severity: 0
-
+      - durationInMinutes: 0
+        facility: string
+        mnemonic: string
+        occurrences: 0
+        pattern: string
+        severity: 0
 - name: Update by id
   cisco.catalystcenter.custom_issue_definitions_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     description: string
     id: string
@@ -143,25 +147,23 @@ EXAMPLES = r"""
     name: string
     priority: string
     rules:
-    - durationInMinutes: 0
-      facility: string
-      mnemonic: string
-      occurrences: 0
-      pattern: string
-      severity: 0
-
+      - durationInMinutes: 0
+        facility: string
+        mnemonic: string
+        occurrences: 0
+        pattern: string
+        severity: 0
 - name: Delete by id
   cisco.catalystcenter.custom_issue_definitions_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

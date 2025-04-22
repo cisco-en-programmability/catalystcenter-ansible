@@ -1,16 +1,17 @@
 ---
-- hosts: catalystcenter_servers
+- name: Authentication Import
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Import certificate file
       cisco.catalystcenter.authentication_import_certificate:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         certFilePath: ./files/test.template
         pkFilePath: ./files/test.template
       register: result

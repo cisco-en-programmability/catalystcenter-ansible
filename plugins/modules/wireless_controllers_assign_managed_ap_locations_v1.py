@@ -1,19 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_assign_managed_ap_locations_v1
-short_description: Resource module for Wireless Controllers Assign Managed Ap Locations V1
+short_description: Resource module for Wireless Controllers Assign Managed Ap Locations
+  V1
 description:
-- Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations V1.
-- >
-   This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID. The
-   payload should always be a complete list. The Managed AP Locations included in the payload will be fully processed
-   for both addition and deletion.
+  - Manage operation create of the resource Wireless Controllers Assign Managed Ap
+    Locations V1.
+  - >
+    This API allows user to assign Managed AP Locations for IOS-XE Wireless supported
+    devices by device ID. The
+    payload should always be a complete list. The Managed AP Locations included in
+    the payload will be fully processed
+    for both addition and deletion.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -34,37 +36,32 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless AssignManagedAPLocationsForWLCV1
-  description: Complete reference of the AssignManagedAPLocationsForWLCV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc
+  - name: Cisco DNA Center documentation for Wireless AssignManagedAPLocationsForWLCV1
+    description: Complete reference of the AssignManagedAPLocationsForWLCV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc
 notes:
-  - SDK Method used are
-    wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessControllers/{deviceId}/assignManagedApLocations,
-
+  - SDK Method used are wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/assignManagedApLocations,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_controllers_assign_managed_ap_locations_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     deviceId: string
     primaryManagedAPLocationsSiteIds:
-    - string
+      - string
     secondaryManagedAPLocationsSiteIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 catalystcenter_response:

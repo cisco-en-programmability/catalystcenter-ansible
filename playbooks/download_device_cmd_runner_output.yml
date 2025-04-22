@@ -1,16 +1,17 @@
 ---
-- hosts: catalystcenter_servers
+- name: Download Device Cmd Runner Output
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   vars:
     catalystcenter_login: &catalystcenter_login
-      host: "{{ host }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
-      verify: "{{ verify }}"
-      api_port: "{{ api_port }}"
-      version: "{{ version }}"
-      debug: "{{ debug }}"
+      _host: "{{ _host }}"
+      _username: "{{ _username }}"
+      _password: "{{ _password }}"
+      _verify: "{{ _verify }}"
+      _api_port: "{{ _api_port }}"
+      _version: "{{ _version }}"
+      _debug: "{{ _debug }}"
   gather_facts: false
   tasks:
     - name: Get Network Devices - Switches and Hubs
@@ -72,7 +73,7 @@
         msg: >-
           Filename: {{ download_file.catalystcenter_response.filename }}
           Filepath: {{ download_file.catalystcenter_response.path }}
-          Data extract: {{ download_file.catalystcenter_response.data[:50]}}"
+          Data extract: {{ download_file.catalystcenter_response.data[:50] }}"
       when:
         - download_file is defined
         - download_file.catalystcenter_response is defined

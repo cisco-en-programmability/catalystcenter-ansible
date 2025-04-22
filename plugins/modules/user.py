@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: user
 short_description: Resource module for User
 description:
-- This module represents an alias of the module user_v1
+  - This module represents an alias of the module user_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -39,81 +36,71 @@ options:
     description: Username.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles AddUserAPIV1
-  description: Complete reference of the AddUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-api
-- name: Cisco DNA Center documentation for User and Roles DeleteUserAPIV1
-  description: Complete reference of the DeleteUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
-- name: Cisco DNA Center documentation for User and Roles UpdateUserAPIV1
-  description: Complete reference of the UpdateUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-api
+  - name: Cisco DNA Center documentation for User and Roles AddUserAPIV1
+    description: Complete reference of the AddUserAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-user-api
+  - name: Cisco DNA Center documentation for User and Roles DeleteUserAPIV1
+    description: Complete reference of the DeleteUserAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
+  - name: Cisco DNA Center documentation for User and Roles UpdateUserAPIV1
+    description: Complete reference of the UpdateUserAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-user-api
 notes:
-  - SDK Method used are
-    user_and_roles.UserandRoles.add_user_api_v1,
-    user_and_roles.UserandRoles.delete_user_api_v1,
+  - SDK Method used are user_and_roles.UserandRoles.add_user_api_v1, user_and_roles.UserandRoles.delete_user_api_v1,
     user_and_roles.UserandRoles.update_user_api_v1,
-
-  - Paths used are
-    post /dna/system/api/v1/user,
-    delete /dna/system/api/v1/user/{userId},
+  - Paths used are post /dna/system/api/v1/user, delete /dna/system/api/v1/user/{userId},
     put /dna/system/api/v1/user,
   - It should be noted that this module is an alias of user_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.user:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     email: string
     firstName: string
     lastName: string
     password: string
     roleList:
-    - string
+      - string
     username: string
-
 - name: Update all
   cisco.catalystcenter.user:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     email: string
     firstName: string
     lastName: string
     roleList:
-    - string
+      - string
     userId: string
     username: string
-
 - name: Delete by id
   cisco.catalystcenter.user:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     userId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

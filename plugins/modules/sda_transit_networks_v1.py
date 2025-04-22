@@ -1,17 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_transit_networks_v1
 short_description: Resource module for Sda Transit Networks V1
 description:
-- Manage operations create, update and delete of the resource Sda Transit Networks V1.
-- Adds transit networks based on user input.
-- Updates transit networks based on user input.
+  - Manage operations create, update and delete of the resource Sda Transit Networks
+    V1.
+  - Adds transit networks based on user input.
+  - Updates transit networks based on user input.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -32,8 +31,8 @@ options:
               range is 1 to 4294967295 (updating this field is not allowed).
             type: str
           routingProtocolName:
-            description: Routing Protocol Name of the IP transit network (updating this
-              field is not allowed).
+            description: Routing Protocol Name of the IP transit network (updating
+              this field is not allowed).
             type: str
         type: dict
       name:
@@ -51,8 +50,8 @@ options:
             type: list
           isMulticastOverTransitEnabled:
             description: Set this to true to enable multicast over SD-Access transit.
-              This supports Native Multicast over SD-Access Transit. This is only applicable
-              for transit of type SDA_LISP_PUB_SUB_TRANSIT.
+              This supports Native Multicast over SD-Access Transit. This is only
+              applicable for transit of type SDA_LISP_PUB_SUB_TRANSIT.
             type: bool
         type: dict
       type:
@@ -60,70 +59,61 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddTransitNetworksV1
-  description: Complete reference of the AddTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks
-- name: Cisco DNA Center documentation for SDA UpdateTransitNetworksV1
-  description: Complete reference of the UpdateTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks
+  - name: Cisco DNA Center documentation for SDA AddTransitNetworksV1
+    description: Complete reference of the AddTransitNetworksV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks
+  - name: Cisco DNA Center documentation for SDA UpdateTransitNetworksV1
+    description: Complete reference of the UpdateTransitNetworksV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks
 notes:
-  - SDK Method used are
-    sda.Sda.add_transit_networks_v1,
-    sda.Sda.update_transit_networks_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/transitNetworks,
-    put /dna/intent/api/v1/sda/transitNetworks,
-
+  - SDK Method used are sda.Sda.add_transit_networks_v1, sda.Sda.update_transit_networks_v1,
+  - Paths used are post /dna/intent/api/v1/sda/transitNetworks, put /dna/intent/api/v1/sda/transitNetworks,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.sda_transit_networks_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - id: string
-      ipTransitSettings:
-        autonomousSystemNumber: string
-        routingProtocolName: string
-      name: string
-      sdaTransitSettings:
-        controlPlaneNetworkDeviceIds:
-        - string
-        isMulticastOverTransitEnabled: true
-      type: string
-
+      - id: string
+        ipTransitSettings:
+          autonomousSystemNumber: string
+          routingProtocolName: string
+        name: string
+        sdaTransitSettings:
+          controlPlaneNetworkDeviceIds:
+            - string
+          isMulticastOverTransitEnabled: true
+        type: string
 - name: Create
   cisco.catalystcenter.sda_transit_networks_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - ipTransitSettings:
-        autonomousSystemNumber: string
-        routingProtocolName: string
-      name: string
-      sdaTransitSettings:
-        controlPlaneNetworkDeviceIds:
-        - string
-        isMulticastOverTransitEnabled: true
-      type: string
-
+      - ipTransitSettings:
+          autonomousSystemNumber: string
+          routingProtocolName: string
+        name: string
+        sdaTransitSettings:
+          controlPlaneNetworkDeviceIds:
+            - string
+          isMulticastOverTransitEnabled: true
+        type: string
 """
 RETURN = r"""
 catalystcenter_response:

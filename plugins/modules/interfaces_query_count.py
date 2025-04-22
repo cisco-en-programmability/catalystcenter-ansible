@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: interfaces_query_count
 short_description: Resource module for Interfaces Query Count
 description:
-- This module represents an alias of the module interfaces_query_count_v1
+  - This module represents an alias of the module interfaces_query_count_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -84,55 +81,51 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
-  description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
+  - name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
+    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevicesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
-  - SDK Method used are
-    devices.Devices.the_total_interfaces_count_across_the_network_devices_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/interfaces/query/count,
+  - SDK Method used are devices.Devices.the_total_interfaces_count_across_the_network_devices_v1,
+  - Paths used are post /dna/data/api/v1/interfaces/query/count,
   - It should be noted that this module is an alias of interfaces_query_count_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.interfaces_query_count:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
+      - filters:
+          - string
+        key: string
+        logicalOperator: string
+        operator: string
+        value: {}
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 catalystcenter_response:

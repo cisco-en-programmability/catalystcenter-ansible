@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: assurance_tasks_v1_info
 short_description: Information module for Assurance Tasks V1
 description:
-- Get all Assurance Tasks V1.
-- returns all existing tasks in a paginated list.
+  - Get all Assurance Tasks V1.
+  - returns all existing tasks in a paginated list.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,52 +19,48 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+      - Limit query parameter. Maximum number of records to return.
     type: float
   offset:
     description:
-    - >
-      Offset query parameter. Specifies the starting point within all records returned by the API. It's one based
-      offset. The starting value is 1.
+      - >
+        Offset query parameter. Specifies the starting point within all records returned
+        by the API. It's one based
+        offset. The starting value is 1.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. A field within the response to sort by.
+      - SortBy query parameter. A field within the response to sort by.
     type: str
   order:
     description:
-    - Order query parameter. The sort order of the field ascending or descending.
+      - Order query parameter. The sort order of the field ascending or descending.
     type: str
   status:
     description:
-    - Status query parameter. Used to get a subset of tasks by their status.
+      - Status query parameter. Used to get a subset of tasks by their status.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task RetrieveAListOfAssuranceTasksV1
-  description: Complete reference of the RetrieveAListOfAssuranceTasksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-list-of-assurance-tasks
+  - name: Cisco DNA Center documentation for Task RetrieveAListOfAssuranceTasksV1
+    description: Complete reference of the RetrieveAListOfAssuranceTasksV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-list-of-assurance-tasks
 notes:
-  - SDK Method used are
-    task.Task.retrieve_a_list_of_assurance_tasks_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/assuranceTasks,
-
+  - SDK Method used are task.Task.retrieve_a_list_of_assurance_tasks_v1,
+  - Paths used are get /dna/data/api/v1/assuranceTasks,
 """
-
 EXAMPLES = r"""
 - name: Get all Assurance Tasks V1
   cisco.catalystcenter.assurance_tasks_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -74,7 +68,6 @@ EXAMPLES = r"""
     order: string
     status: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

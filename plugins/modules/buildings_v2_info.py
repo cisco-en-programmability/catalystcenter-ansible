@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: buildings_v2_info
 short_description: Information module for Buildings V2
 description:
-- Get Buildings V2 by id.
-- Gets a building in the network hierarchy.
+  - Get Buildings V2 by id.
+  - Gets a building in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,38 +19,32 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Building Id.
+      - Id path parameter. Building Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design GetsABuildingV2
-  description: Complete reference of the GetsABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-building
+  - name: Cisco DNA Center documentation for Site Design GetsABuildingV2
+    description: Complete reference of the GetsABuildingV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-building
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.gets_a_building_v2,
-
-  - Paths used are
-    get /dna/intent/api/v2/buildings/{id},
-
+  - SDK Method used are site_design.SiteDesign.gets_a_building_v2,
+  - Paths used are get /dna/intent/api/v2/buildings/{id},
 """
-
 EXAMPLES = r"""
 - name: Get Buildings V2 by id
   cisco.catalystcenter.buildings_v2_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

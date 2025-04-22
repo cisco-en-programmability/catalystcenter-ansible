@@ -1,21 +1,23 @@
-- hosts: localhost
+---
+- name: Site workflow manager
+  hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:
     - name: Get site info and updating site details
       cisco.catalystcenter.site_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: DEBUG
-        config_verify: True
+        config_verify: true
         state: merged
         config:
           - site:

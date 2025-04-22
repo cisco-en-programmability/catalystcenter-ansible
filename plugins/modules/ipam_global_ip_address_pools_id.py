@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: ipam_global_ip_address_pools_id
 short_description: Resource module for Ipam Global Ip Address Pools Id
 description:
-- This module represents an alias of the module ipam_global_ip_address_pools_id_v1
+  - This module represents an alias of the module ipam_global_ip_address_pools_id_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -51,62 +48,54 @@ options:
       network types.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings DeleteAGlobalIPAddressPoolV1
-  description: Complete reference of the DeleteAGlobalIPAddressPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-global-ip-address-pool
-- name: Cisco DNA Center documentation for Network Settings UpdatesAGlobalIPAddressPoolV1
-  description: Complete reference of the UpdatesAGlobalIPAddressPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-global-ip-address-pool
+  - name: Cisco DNA Center documentation for Network Settings DeleteAGlobalIPAddressPoolV1
+    description: Complete reference of the DeleteAGlobalIPAddressPoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-a-global-ip-address-pool
+  - name: Cisco DNA Center documentation for Network Settings UpdatesAGlobalIPAddressPoolV1
+    description: Complete reference of the UpdatesAGlobalIPAddressPoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-a-global-ip-address-pool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.delete_a_global_ip_address_pool_v1,
+  - SDK Method used are network_settings.NetworkSettings.delete_a_global_ip_address_pool_v1,
     network_settings.NetworkSettings.updates_a_global_ip_address_pool_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
-    put /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
+  - Paths used are delete /dna/intent/api/v1/ipam/globalIpAddressPools/{id}, put /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
   - It should be noted that this module is an alias of ipam_global_ip_address_pools_id_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update by id
   cisco.catalystcenter.ipam_global_ip_address_pools_id:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     addressSpace:
       dhcpServers:
-      - string
+        - string
       dnsServers:
-      - string
+        - string
       gatewayIpAddress: string
       prefixLength: 0
       subnet: string
     id: string
     name: string
     poolType: string
-
 - name: Delete by id
   cisco.catalystcenter.ipam_global_ip_address_pools_id:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

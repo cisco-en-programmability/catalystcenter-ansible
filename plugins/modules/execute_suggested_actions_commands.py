@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: execute_suggested_actions_commands
 short_description: Resource module for Execute Suggested Actions Commands
 description:
-- This module represents an alias of the module execute_suggested_actions_commands_v1
+  - This module represents an alias of the module execute_suggested_actions_commands_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -24,35 +21,29 @@ options:
     description: Contains the actual value for the entity type that has been defined.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommandsV1
-  description: Complete reference of the ExecuteSuggestedActionsCommandsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
+  - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommandsV1
+    description: Complete reference of the ExecuteSuggestedActionsCommandsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
 notes:
-  - SDK Method used are
-    issues.Issues.execute_suggested_actions_commands_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/execute-suggested-actions-commands,
+  - SDK Method used are issues.Issues.execute_suggested_actions_commands_v1,
+  - Paths used are post /dna/intent/api/v1/execute-suggested-actions-commands,
   - It should be noted that this module is an alias of execute_suggested_actions_commands_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.execute_suggested_actions_commands:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     entity_type: string
     entity_value: string
-
 """
 RETURN = r"""
 catalystcenter_response:

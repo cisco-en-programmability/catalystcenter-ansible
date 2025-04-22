@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sites_banner_settings_v1
 short_description: Resource module for Sites Banner Settings V1
 description:
-- Manage operation update of the resource Sites Banner Settings V1.
-- >
-   Set banner settings for a site; `null` values indicate that the setting will be inherited from the parent site;
-   empty objects `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Banner Settings V1.
+  - >
+    Set banner settings for a site; `null` values indicate that the setting will be
+    inherited from the parent site;
+    empty objects `{}` indicate that the settings is unset.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -33,37 +32,31 @@ options:
     description: Id path parameter. Site Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings SetBannerSettingsForASiteV1
-  description: Complete reference of the SetBannerSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-banner-settings-for-a-site
+  - name: Cisco DNA Center documentation for Network Settings SetBannerSettingsForASiteV1
+    description: Complete reference of the SetBannerSettingsForASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!set-banner-settings-for-a-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.set_banner_settings_for_a_site_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sites/{id}/bannerSettings,
-
+  - SDK Method used are network_settings.NetworkSettings.set_banner_settings_for_a_site_v1,
+  - Paths used are put /dna/intent/api/v1/sites/{id}/bannerSettings,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.sites_banner_settings_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     banner:
       message: string
       type: string
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

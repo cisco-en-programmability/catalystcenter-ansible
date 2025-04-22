@@ -1,16 +1,17 @@
 ---
-- hosts: catalystcenter_servers
+- name: Template
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create an configuration_template_project
       cisco.catalystcenter.configuration_template_project:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         state: present
         name: Cloud Test Template 5
       register: configuration_template_project_result

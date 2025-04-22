@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Reserve ip subpool
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -9,13 +10,13 @@
   tasks:
     - name: Create reservation
       cisco.catalystcenter.reserve_ip_subpool:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         state: present
         ipv4DhcpServers:
           - 55.66.55.55
@@ -33,13 +34,13 @@
 
     - name: Get Reservations
       cisco.catalystcenter.reserve_ip_subpool_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         siteId: "{{ site }}"
       register: ip_pool
 

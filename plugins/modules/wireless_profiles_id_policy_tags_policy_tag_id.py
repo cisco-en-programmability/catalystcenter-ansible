@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_policy_tags_policy_tag_id
-short_description: Resource module for Wireless Profiles Id Policy Tags Policy Tag Id
+short_description: Resource module for Wireless Profiles Id Policy Tags Policy Tag
+  Id
 description:
-- This module represents an alias of the module wireless_profiles_id_policy_tags_policy_tag_id_v1
+  - This module represents an alias of the module wireless_profiles_id_policy_tags_policy_tag_id_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -34,59 +32,56 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfileV1
-  description: Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile
-- name: Cisco DNA Center documentation for Wireless UpdateASpecificPolicyTagForAWirelessProfileV1
-  description: Complete reference of the UpdateASpecificPolicyTagForAWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfileV1
+    description: Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfileV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile
+  - name: Cisco DNA Center documentation for Wireless UpdateASpecificPolicyTagForAWirelessProfileV1
+    description: Complete reference of the UpdateASpecificPolicyTagForAWirelessProfileV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile
 notes:
-  - SDK Method used are
-    wireless.Wireless.delete_a_specific_policy_tag_from_a_wireless_profile_v1,
+  - SDK Method used are wireless.Wireless.delete_a_specific_policy_tag_from_a_wireless_profile_v1,
     wireless.Wireless.update_a_specific_policy_tag_for_a_wireless_profile_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
+  - Paths used are delete /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
     put /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/{policyTagId},
   - It should be noted that this module is an alias of wireless_profiles_id_policy_tags_policy_tag_id_v1
-
 """
-
 EXAMPLES = r"""
 - name: Delete by id
   cisco.catalystcenter.wireless_profiles_id_policy_tags_policy_tag_id:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
     policyTagId: string
-
 - name: Update by id
   cisco.catalystcenter.wireless_profiles_id_policy_tags_policy_tag_id:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     apZones:
-    - string
+      - string
     id: string
     policyTagId: string
     policyTagName: string
     siteIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 catalystcenter_response:

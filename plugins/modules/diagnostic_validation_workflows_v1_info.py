@@ -1,20 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_workflows_v1_info
 short_description: Information module for Diagnostic Validation Workflows V1
 description:
-- Get all Diagnostic Validation Workflows V1.
-- Get Diagnostic Validation Workflows V1 by id.
-- >
-   Retrieves the workflows that have been successfully submitted and are currently available. This is sorted by
-   `submitTime`.
-- Retrieves workflow details for a workflow id.
+  - Get all Diagnostic Validation Workflows V1.
+  - Get Diagnostic Validation Workflows V1 by id.
+  - >
+    Retrieves the workflows that have been successfully submitted and are currently
+    available. This is sorted by
+    `submitTime`.
+  - Retrieves workflow details for a workflow id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,65 +24,70 @@ options:
     type: dict
   startTime:
     description:
-    - StartTime query parameter. Workflows started after the given time (as milliseconds since UNIX epoch).
+      - StartTime query parameter. Workflows started after the given time (as milliseconds
+        since UNIX epoch).
     type: float
   endTime:
     description:
-    - EndTime query parameter. Workflows started before the given time (as milliseconds since UNIX epoch).
+      - EndTime query parameter. Workflows started before the given time (as milliseconds
+        since UNIX epoch).
     type: float
   runStatus:
     description:
-    - >
-      RunStatus query parameter. Execution status of the workflow. If the workflow is successfully submitted,
-      runStatus is `PENDING`. If the workflow execution has started, runStatus is `IN_PROGRESS`. If the workflow
-      executed is completed with all validations executed, runStatus is `COMPLETED`. If the workflow execution
-      fails while running validations, runStatus is `FAILED`.
+      - >
+        RunStatus query parameter. Execution status of the workflow. If the workflow
+        is successfully submitted,
+        runStatus is `PENDING`. If the workflow execution has started, runStatus is
+        `IN_PROGRESS`. If the workflow
+        executed is completed with all validations executed, runStatus is `COMPLETED`.
+        If the workflow execution
+        fails while running validations, runStatus is `FAILED`.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. Specifies the maximum number of workflows to return per page. Must be an integer
-      between 1 and 500, inclusive.
+      - >
+        Limit query parameter. Specifies the maximum number of workflows to return
+        per page. Must be an integer
+        between 1 and 500, inclusive.
     type: float
   id:
     description:
-    - Id path parameter. Workflow id.
+      - Id path parameter. Workflow id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
-  description: Complete reference of the RetrievesTheListOfValidationWorkflowsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows
-- name: Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
-  description: Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
+    description: Complete reference of the RetrievesTheListOfValidationWorkflowsV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
+    description: Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.retrieves_the_list_of_validation_workflows_v1,
     health_and_performance.HealthAndPerformance.retrieves_validation_workflow_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/diagnosticValidationWorkflows,
-    get /dna/intent/api/v1/diagnosticValidationWorkflows/{id},
-
+  - Paths used are get /dna/intent/api/v1/diagnosticValidationWorkflows, get /dna/intent/api/v1/diagnosticValidationWorkflows/{id},
 """
-
 EXAMPLES = r"""
 - name: Get all Diagnostic Validation Workflows V1
   cisco.catalystcenter.diagnostic_validation_workflows_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -91,20 +95,18 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 - name: Get Diagnostic Validation Workflows V1 by id
   cisco.catalystcenter.diagnostic_validation_workflows_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

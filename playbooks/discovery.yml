@@ -1,7 +1,8 @@
 ---
-- hosts: catalystcenter_servers
+- name: Discovery
+  hosts: catalystcenter_servers
   vars:
-    globalCredentialIdList:
+    global_credential_id_list:
       - "90acbab8-03d5-4726-9c19-e1e51a40b3cd"
       - "f979d842-f6fd-456a-8137-2cb5113cd2e8"
   vars_files:
@@ -10,18 +11,18 @@
   tasks:
     - name: Find discovery
       cisco.catalystcenter.discovery_range_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         startIndex: 1
         recordsToReturn: 500
       register: discovery_range_result
 
     - name: Set fact of filtered discoveries
       ansible.builtin.set_fact:
-        discoveries_filtered: "{{ discovery_range_result.catalystcenter_response.response | selectattr('name', 'equalto', 'DMZ Lab 2')}}"
+        discoveries_filtered: "{{ discovery_range_result.catalystcenter_response.response | selectattr('name', 'equalto', 'DMZ Lab 2') }}"
       when:
         - discovery_range_result is defined
         - discovery_range_result.catalystcenter_response is defined
@@ -30,7 +31,7 @@
 
     - name: Set fact of filtered discovery
       ansible.builtin.set_fact:
-        discovery_filtered: "{{ discovery_filtered_results.ansible_facts.discoveries_filtered|first }}"
+        discovery_filtered: "{{ discovery_filtered_results.ansible_facts.discoveries_filtered | first }}"
       when:
         - discovery_filtered_results is defined
         - discovery_filtered_results.ansible_facts is defined
@@ -49,16 +50,16 @@
 
     - name: Create a discovery
       cisco.catalystcenter.discovery:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         validate_response_schema: false
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        globalCredentialIdList: "{{globalCredentialIdList}}"
+        globalCredentialIdList: "{{ global_credential_id_list }}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
@@ -86,16 +87,16 @@
 
     - name: Update a discovery
       cisco.catalystcenter.discovery:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         validate_response_schema: false
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        globalCredentialIdList: "{{globalCredentialIdList}}"
+        globalCredentialIdList: "{{ global_credential_id_list }}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
