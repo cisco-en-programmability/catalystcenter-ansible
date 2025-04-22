@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -23,8 +23,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
-)
+    InconsistentParameters, )
 
 # Get common arguments specification
 argument_spec = Catalystcenter_argument_spec()
@@ -113,7 +112,8 @@ class NetworkDevicesNetworkProfilesForSitesV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -129,9 +129,12 @@ class NetworkDevicesNetworkProfilesForSitesV1(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
-        return any(not catalystcenter_compare_equality(current_obj.get(catalyst_param),
-                                             requested_obj.get(ansible_param))
-                   for (catalyst_param, ansible_param) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalyst_param),
+                requested_obj.get(ansible_param)) for (
+                catalyst_param,
+                ansible_param) in obj_params)
 
     def delete(self):
         id = self.new_object.get("id")
@@ -155,7 +158,8 @@ class NetworkDevicesNetworkProfilesForSitesV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -186,7 +190,8 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         catalystcenter = CatalystCenterSDK(self._task.args)
-        obj = NetworkDevicesNetworkProfilesForSitesV1(self._task.args, catalystcenter)
+        obj = NetworkDevicesNetworkProfilesForSitesV1(
+            self._task.args, catalystcenter)
 
         state = self._task.args.get("state")
 

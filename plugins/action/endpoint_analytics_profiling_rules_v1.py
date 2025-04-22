@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -23,8 +23,7 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
-)
+    InconsistentParameters, )
 
 # Get common arguments specification
 argument_spec = Catalystcenter_argument_spec()
@@ -83,8 +82,8 @@ class EndpointAnalyticsProfilingRulesV1(object):
         new_object_params = {}
         new_object_params['rule_type'] = self.new_object.get('ruleType') or \
             self.new_object.get('rule_type')
-        new_object_params['include_deleted'] = self.new_object.get('includeDeleted') or \
-            self.new_object.get('include_deleted')
+        new_object_params['include_deleted'] = self.new_object.get(
+            'includeDeleted') or self.new_object.get('include_deleted')
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['sort_by'] = self.new_object.get('sortBy') or \
@@ -99,16 +98,21 @@ class EndpointAnalyticsProfilingRulesV1(object):
         new_object_params['ruleType'] = self.new_object.get('ruleType')
         new_object_params['ruleVersion'] = self.new_object.get('ruleVersion')
         new_object_params['rulePriority'] = self.new_object.get('rulePriority')
-        new_object_params['sourcePriority'] = self.new_object.get('sourcePriority')
+        new_object_params['sourcePriority'] = self.new_object.get(
+            'sourcePriority')
         new_object_params['isDeleted'] = self.new_object.get('isDeleted')
-        new_object_params['lastModifiedBy'] = self.new_object.get('lastModifiedBy')
-        new_object_params['lastModifiedOn'] = self.new_object.get('lastModifiedOn')
+        new_object_params['lastModifiedBy'] = self.new_object.get(
+            'lastModifiedBy')
+        new_object_params['lastModifiedOn'] = self.new_object.get(
+            'lastModifiedOn')
         new_object_params['pluginId'] = self.new_object.get('pluginId')
         new_object_params['clusterId'] = self.new_object.get('clusterId')
         new_object_params['rejected'] = self.new_object.get('rejected')
         new_object_params['result'] = self.new_object.get('result')
-        new_object_params['conditionGroups'] = self.new_object.get('conditionGroups')
-        new_object_params['usedAttributes'] = self.new_object.get('usedAttributes')
+        new_object_params['conditionGroups'] = self.new_object.get(
+            'conditionGroups')
+        new_object_params['usedAttributes'] = self.new_object.get(
+            'usedAttributes')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -123,16 +127,21 @@ class EndpointAnalyticsProfilingRulesV1(object):
         new_object_params['ruleType'] = self.new_object.get('ruleType')
         new_object_params['ruleVersion'] = self.new_object.get('ruleVersion')
         new_object_params['rulePriority'] = self.new_object.get('rulePriority')
-        new_object_params['sourcePriority'] = self.new_object.get('sourcePriority')
+        new_object_params['sourcePriority'] = self.new_object.get(
+            'sourcePriority')
         new_object_params['isDeleted'] = self.new_object.get('isDeleted')
-        new_object_params['lastModifiedBy'] = self.new_object.get('lastModifiedBy')
-        new_object_params['lastModifiedOn'] = self.new_object.get('lastModifiedOn')
+        new_object_params['lastModifiedBy'] = self.new_object.get(
+            'lastModifiedBy')
+        new_object_params['lastModifiedOn'] = self.new_object.get(
+            'lastModifiedOn')
         new_object_params['pluginId'] = self.new_object.get('pluginId')
         new_object_params['clusterId'] = self.new_object.get('clusterId')
         new_object_params['rejected'] = self.new_object.get('rejected')
         new_object_params['result'] = self.new_object.get('result')
-        new_object_params['conditionGroups'] = self.new_object.get('conditionGroups')
-        new_object_params['usedAttributes'] = self.new_object.get('usedAttributes')
+        new_object_params['conditionGroups'] = self.new_object.get(
+            'conditionGroups')
+        new_object_params['usedAttributes'] = self.new_object.get(
+            'usedAttributes')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -185,7 +194,8 @@ class EndpointAnalyticsProfilingRulesV1(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("ruleId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(rule_id=_id))
@@ -217,9 +227,12 @@ class EndpointAnalyticsProfilingRulesV1(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not catalystcenter_compare_equality(current_obj.get(catalyst_param),
-                                             requested_obj.get(ansible_param))
-                   for (catalyst_param, ansible_param) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalyst_param),
+                requested_obj.get(ansible_param)) for (
+                catalyst_param,
+                ansible_param) in obj_params)
 
     def create(self):
         result = self.catalystcenter.exec(
@@ -275,7 +288,8 @@ class EndpointAnalyticsProfilingRulesV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -306,7 +320,8 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         catalystcenter = CatalystCenterSDK(self._task.args)
-        obj = EndpointAnalyticsProfilingRulesV1(self._task.args, catalystcenter)
+        obj = EndpointAnalyticsProfilingRulesV1(
+            self._task.args, catalystcenter)
 
         state = self._task.args.get("state")
 
