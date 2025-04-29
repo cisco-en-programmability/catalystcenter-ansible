@@ -13,57 +13,57 @@ class ModuleDocFragment(object):
     # Standard files documentation fragment
     DOCUMENTATION = r'''
 options:
-    host:
+    _host:
         description:
           - The Cisco CATALYST Center hostname.
         type: str
         required: true
-    api_port:
+    _api_port:
         description:
           - The Cisco CATALYST Center port.
         type: str
         default: '443'
-    username:
+    _username:
         description:
           - The Cisco CATALYST Center username to authenticate.
         type: str
         default: admin
         aliases: [ user ]
-    password:
+    _password:
         description:
           - The Cisco CATALYST Center password to authenticate.
         type: str
-    verify:
+    _verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
-    version:
+    _version:
         description:
           - Informs the SDK which version of Cisco CATALYST Center to use.
         type: str
         default: 2.2.3.3
-    debug:
+    _debug:
         description:
           - Flag for Cisco CATALYST Center SDK to enable debugging.
         type: bool
         default: false
-    catalystCenter_log:
+    log:
         description:
           - Flag to enable/disable playbook execution logging.
-          - When true and catalystCenter_log_file_path is provided,
+          - When true and log_file_path is provided,
             - Create the log file at the execution location with the specified name.
-          - When true and catalystCenter_log_file_path is not provided,
+          - When true and log_file_path is not provided,
             - Create the log file at the execution location with the name 'catalystcenter.log'.
           - When false,
             - Logging is disabled.
           - If the log file doesn't exist,
-            - It is created in append or write mode based on the "catalystCenter_log_append" flag.
+            - It is created in append or write mode based on the "log_append" flag.
           - If the log file exists,
-            - It is overwritten or appended based on the "catalystCenter_log_append" flag.
+            - It is overwritten or appended based on the "log_append" flag.
         type: bool
         default: false
-    catalystCenter_log_level:
+    log_level:
         description:
           - Sets the threshold for log level. Messages with a level equal to or higher than
             this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
@@ -74,24 +74,24 @@ options:
           - DEBUG provides detailed diagnostic info. Displays all log messages.
         type: str
         default: WARNING
-    catalystCenter_log_file_path:
+    log_file_path:
         description:
-        - Governs logging. Logs are recorded if catalystCenter_log is True.
+        - Governs logging. Logs are recorded if log is True.
         - If path is not specified,
-          - When 'catalystCenter_log_append' is True, 'catalystcenter.log' is generated in the
+          - When 'log_append' is True, 'catalystcenter.log' is generated in the
             current Ansible directory; logs are appended.
-          - When 'catalystCenter_log_append' is False, 'catalystcenter.log' is generated; logs
+          - When 'log_append' is False, 'catalystcenter.log' is generated; logs
             are overwritten.
         - If path is specified,
-          - When 'catalystCenter_log_append' is True, the file opens in append mode.
-          - When 'catalystCenter_log_append' is False, the file opens in write (w) mode.
+          - When 'log_append' is True, the file opens in append mode.
+          - When 'log_append' is False, the file opens in write (w) mode.
           - In shared file scenarios, without append mode, content is
             overwritten after each module execution.
           - For a shared log file, set append to False for the 1st module
             (to overwrite); for subsequent modules, set append to True.
         type: str
         default: catalystcenter.log
-    catalystCenter_log_append:
+    log_append:
         description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
         type: bool
         default: True

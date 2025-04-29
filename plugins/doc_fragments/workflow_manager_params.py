@@ -49,22 +49,22 @@ options:
           - Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
         type: bool
         default: false
-    catalystCenter_log:
+    log:
         description:
           - Flag to enable/disable playbook execution logging.
-          - When true and catalystCenter_log_file_path is provided,
+          - When true and log_file_path is provided,
             - Create the log file at the execution location with the specified name.
-          - When true and catalystCenter_log_file_path is not provided,
+          - When true and log_file_path is not provided,
             - Create the log file at the execution location with the name 'catalystcenter.log'.
           - When false,
             - Logging is disabled.
           - If the log file doesn't exist,
-            - It is created in append or write mode based on the "catalystCenter_log_append" flag.
+            - It is created in append or write mode based on the "log_append" flag.
           - If the log file exists,
-            - It is overwritten or appended based on the "catalystCenter_log_append" flag.
+            - It is overwritten or appended based on the "log_append" flag.
         type: bool
         default: false
-    catalystCenter_log_level:
+    log_level:
         description:
           - Sets the threshold for log level. Messages with a level equal to or higher than
             this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
@@ -75,24 +75,24 @@ options:
           - DEBUG provides detailed diagnostic info. Displays all log messages.
         type: str
         default: WARNING
-    catalystCenter_log_file_path:
+    log_file_path:
         description:
-        - Governs logging. Logs are recorded if catalystCenter_log is True.
+        - Governs logging. Logs are recorded if log is True.
         - If path is not specified,
-          - When 'catalystCenter_log_append' is True, 'catalystcenter.log' is generated in the
+          - When 'log_append' is True, 'catalystcenter.log' is generated in the
             current Ansible directory; logs are appended.
-          - When 'catalystCenter_log_append' is False, 'catalystcenter.log' is generated; logs
+          - When 'log_append' is False, 'catalystcenter.log' is generated; logs
             are overwritten.
         - If path is specified,
-          - When 'catalystCenter_log_append' is True, the file opens in append mode.
-          - When 'catalystCenter_log_append' is False, the file opens in write (w) mode.
+          - When 'log_append' is True, the file opens in append mode.
+          - When 'log_append' is False, the file opens in write (w) mode.
           - In shared file scenarios, without append mode, content is
             overwritten after each module execution.
           - For a shared log file, set append to False for the 1st module
             (to overwrite); for subsequent modules, set append to True.
         type: str
         default: catalystcenter.log
-    catalystCenter_log_append:
+    log_append:
         description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
         type: bool
         default: True

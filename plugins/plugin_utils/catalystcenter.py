@@ -134,58 +134,58 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 
 def Catalystcenter_argument_spec():
-            argument_spec = dict(
-                _host=dict(
-                    type="str",
-                    fallback=(env_fallback, ['CATALYST_HOST']),
-                    required=True,
-                    aliases=['catalystcenter_host', '_host']
-                ),
-                _api_port=dict(
-                    type="int",
-                    fallback=(env_fallback, ['CATALYST_PORT']),
-                    required=False,
-                    default=443,
-                    aliases=['catalystcenter_port', '_api_port']
-                ),
-                _username=dict(
-                    type="str",
-                    fallback=(env_fallback, ['CATALYST_USERNAME']),
-                    default="admin",
-                    aliases=['user', 'catalystcenter_username', '_username']
-                ),
-                _password=dict(
-                    type="str",
-                    fallback=(env_fallback, ['CATALYST_PASSWORD']),
-                    no_log=True,
-                    aliases=['catalystcenter_password', '_password']
-                ),
-                _verify=dict(
-                    type="bool",
-                    fallback=(env_fallback, ['CATALYST_VERIFY']),
-                    default=True,
-                    aliases=['catalystcenter_verify', '_verify']
-                ),
-                _version=dict(
-                    type="str",
-                    fallback=(env_fallback, ['CATALYST_VERSION']),
-                    default="2.3.7.6",
-                    aliases=['catalystcenter_version', '_version']
-                ),
-                _debug=dict(
-                    type="bool",
-                    fallback=(env_fallback, ['CATALYST_DEBUG']),
-                    default=False,
-                    aliases=['catalystcenter_debug', '_debug']
-                ),
-                validate_response_schema=dict(
-                    type="bool",
-                    fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']),
-                    default=True,
-                    aliases=['']
-                ),
-            )
-            return argument_spec
+    argument_spec = dict(
+        _host=dict(
+            type="str",
+            fallback=(env_fallback, ['CATALYST_HOST']),
+            required=True,
+            aliases=['catalystcenter_host', '_host']
+        ),
+        _api_port=dict(
+            type="int",
+            fallback=(env_fallback, ['CATALYST_PORT']),
+            required=False,
+            default=443,
+            aliases=['catalystcenter_port', '_api_port']
+        ),
+        _username=dict(
+            type="str",
+            fallback=(env_fallback, ['CATALYST_USERNAME']),
+            default="admin",
+            aliases=['user', 'catalystcenter_username', '_username']
+        ),
+        _password=dict(
+            type="str",
+            fallback=(env_fallback, ['CATALYST_PASSWORD']),
+            no_log=True,
+            aliases=['catalystcenter_password', '_password']
+        ),
+        _verify=dict(
+            type="bool",
+            fallback=(env_fallback, ['CATALYST_VERIFY']),
+            default=True,
+            aliases=['catalystcenter_verify', '_verify']
+        ),
+        _version=dict(
+            type="str",
+            fallback=(env_fallback, ['CATALYST_VERSION']),
+            default="2.3.7.6",
+            aliases=['catalystcenter_version', '_version']
+        ),
+        _debug=dict(
+            type="bool",
+            fallback=(env_fallback, ['CATALYST_DEBUG']),
+            default=False,
+            aliases=['catalystcenter_debug', '_debug']
+        ),
+        validate_response_schema=dict(
+            type="bool",
+            fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']),
+            default=True,
+            aliases=['']
+        ),
+    )
+    return argument_spec
 
 
 class CatalystCenterSDK(object):
