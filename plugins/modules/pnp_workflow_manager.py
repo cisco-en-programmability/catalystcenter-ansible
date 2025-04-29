@@ -17,7 +17,7 @@ description:
   - API to reset the device from errored state.
 version_added: 6.28.0
 extends_documentation_fragment:
-  - cisco.dnac.workflow_manager_params
+  - cisco.catalystcenter.workflow_manager_params
 author:
   - Abinash Mishra (@abimishr)
   - Madhan Sankaranarayanan (@madhansansel)
