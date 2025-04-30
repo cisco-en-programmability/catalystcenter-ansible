@@ -60,7 +60,7 @@ jobs:
       - name: Run sanity tests
         env:
           ANSIBLE_TEST_DOCKER_IMAGE: custom-ansible-test
-        run: ansible-test sanity --docker -v --color
+        run: ansible-test sanity --docker -v --color --python 3.9,3.10,3.11,3.12
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Check memory after
