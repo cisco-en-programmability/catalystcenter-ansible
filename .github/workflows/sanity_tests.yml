@@ -25,7 +25,6 @@ jobs:
     strategy:
       matrix:
         ansible:
-          - stable-2.15
           - stable-2.16
           - stable-2.17
           - devel
@@ -52,7 +51,7 @@ jobs:
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color
+        run: ansible-test sanity --docker -v --color --python 3.9,3.10,3.11,3.12
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Install yamllint
