@@ -50,6 +50,9 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
+      - name: Check memory before
+        run: free -m
+
       - name: Build custom Docker image for ansible-test
         run: docker build -t custom-ansible-test -f Dockerfile.ansible-test .
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
@@ -59,6 +62,9 @@ jobs:
           ANSIBLE_TEST_DOCKER_IMAGE: custom-ansible-test
         run: ansible-test sanity --docker -v --color
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Check memory after
+        run: free -m
 
       - name: Install yamllint
         run: pip install --user yamllint
