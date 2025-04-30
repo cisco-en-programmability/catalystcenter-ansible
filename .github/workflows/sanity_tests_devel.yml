@@ -55,7 +55,7 @@ jobs:
               # Ensure file paths are relative to the working directory
               if [ -f "$file" ]; then
                 echo "Running ansible sanity test for file: $file"
-                ansible-test sanity --docker -v --color yes $file
+                ansible-test sanity --docker -v --color yes --docker-image quay.io/ansible/default-test-container:3.11 $file
               else
                 echo "File not found: $file"
               fi
