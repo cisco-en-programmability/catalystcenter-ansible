@@ -52,6 +52,7 @@ jobs:
 
       - name: Build custom Docker image for ansible-test
         run: docker build -t custom-ansible-test -f Dockerfile.ansible-test .
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Run sanity tests
         env:
