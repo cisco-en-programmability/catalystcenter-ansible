@@ -50,7 +50,12 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
+      - name: Build custom Docker image for ansible-test
+        run: docker build -t custom-ansible-test -f Dockerfile.ansible-test
+
       - name: Run sanity tests
+        env:
+          ANSIBLE_TEST_DOCKER_IMAGE: custom-ansible-test
         run: ansible-test sanity --docker -v --color
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
