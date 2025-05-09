@@ -2,7 +2,7 @@
 - name: Provision/Move/Update Wireless Access Point Configuration
   hosts: catalystcenter_servers
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:

@@ -1,7 +1,7 @@
 ---
 - name: Testing
   hosts: catalystcenter_servers
-  gather_facts: no
+  gather_facts: false
 
   vars_files:
     - "credentials.yml"

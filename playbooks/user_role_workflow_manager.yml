@@ -4,7 +4,7 @@
   vars_files:
     - "credentials.yml"
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: User and Role Workflow Manager
       cisco.catalystcenter.user_role_workflow_manager:
