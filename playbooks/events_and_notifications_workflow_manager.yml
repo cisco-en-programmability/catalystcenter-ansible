@@ -2,7 +2,7 @@
 - name: Configure channels and create events in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "input_events_and_notification.yml"
     - "credentials.yml"
