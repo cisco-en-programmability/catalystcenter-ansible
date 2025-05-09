@@ -1,19 +1,18 @@
 ---
-- name: Wireless enterprise ssid
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create Wirelesss Enterprise SSID
       cisco.catalystcenter.wireless_enterprise_ssid:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         state: present
         validate_response_schema: false
         basicServiceSetClientIdleTimeout: 00

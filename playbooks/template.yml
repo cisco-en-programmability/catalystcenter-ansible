@@ -1,20 +1,20 @@
 ---
-- name: Template
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create an configuration_template_project
       cisco.catalystcenter.configuration_template_project:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         name: Cloud Test Template 5
       register: configuration_template_project_result
+
     - name: Show new configuration_template_project
       ansible.builtin.debug:
         msg: "{{ configuration_template_project_result }}"

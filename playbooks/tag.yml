@@ -1,119 +1,131 @@
 ---
-- name: Tag
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create tag with name "MyNewTag"
       cisco.catalystcenter.tag:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         state: present
         description: My Tag
         name: MyNewTag
       register: result
+
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"
+
     - name: Get task status
       cisco.catalystcenter.task_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         taskId: "{{ result.catalystcenter_response.response.taskId }}"
       when:
         - result.catalystcenter_response is defined
         - result.catalystcenter_response.response is defined
         - result.catalystcenter_response.response.taskId is defined
       register: task_result
+
     - name: Show status of create tag operation
       ansible.builtin.debug:
         msg: "{{ task_result.catalystcenter_response.response }}"
       when:
         - task_result is defined
         - task_result.catalystcenter_response is defined
+
     - name: Create the same tag
       cisco.catalystcenter.tag:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         state: present
         description: My Tag 1
         name: MyNewTag
       register: result
+
     - name: Get task status
       cisco.catalystcenter.task_tree_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         taskId: "{{ result.catalystcenter_response.response.taskId }}"
       when:
         - result.catalystcenter_response is defined
         - result.catalystcenter_response.response is defined
         - result.catalystcenter_response.response.taskId is defined
       register: task_tree_result
+
     - name: Show status of update tag operation
       ansible.builtin.debug:
         msg: "{{ task_tree_result.catalystcenter_response.response }}"
       when:
         - task_tree_result is defined
         - task_tree_result.catalystcenter_response is defined
+
     - name: Get tag with name "MyNewTag"
       cisco.catalystcenter.tag_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         name: MyNewTag
       register: result
+
     - name: Show tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"
+
     - name: Delete tag
       cisco.catalystcenter.tag:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         state: absent
         name: MyNewTag
       register: result
+
     - name: Show deleted tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"
-     # - name: Show status of delete tag operation
-     #   debug:
-     #     msg: "{{ task_tree_result.catalystcenter_response.response }}"
-     #   when:
-     #     - task_tree_result is defined
-     #     - task_tree_result.catalystcenter_response is defined
-    - name: Get tag with name "MyNewTag"
-       # - name: Get task status
-       #   cisco.catalystcenter.task_info:
-       #     _host: "{{ _host }}"
-       #     _username: "{{ _username }}"
-       #     _password: "{{ _password }}"
-       #     _verify: "{{ _verify }}"
-       #     taskId: "{{ result.catalystcenter_response.response.taskId }}"
-       #   when:
-       #     - result.catalystcenter_response is defined
-       #     - result.catalystcenter_response.response is defined
-       #     - result.catalystcenter_response.response.taskId is defined
-       #   register: task_tree_result
 
+    # - name: Get task status
+    #   cisco.catalystcenter.task_info:
+    #     host: "{{ host }}"
+    #     username: "{{ username }}"
+    #     password: "{{ password }}"
+    #     verify: "{{ verify }}"
+    #     taskId: "{{ result.catalystcenter_response.response.taskId }}"
+    #   when:
+    #     - result.catalystcenter_response is defined
+    #     - result.catalystcenter_response.response is defined
+    #     - result.catalystcenter_response.response.taskId is defined
+    #   register: task_tree_result
+
+    # - name: Show status of delete tag operation
+    #   debug:
+    #     msg: "{{ task_tree_result.catalystcenter_response.response }}"
+    #   when:
+    #     - task_tree_result is defined
+    #     - task_tree_result.catalystcenter_response is defined
+
+    - name: Get tag with name "MyNewTag"
       cisco.catalystcenter.tag_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         name: MyNewTag
       register: result
+
     - name: Show tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"

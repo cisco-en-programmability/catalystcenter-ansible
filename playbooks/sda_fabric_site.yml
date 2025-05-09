@@ -1,38 +1,37 @@
 ---
-- name: Sda fabric site
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create
       cisco.catalystcenter.sda_fabric_site:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         state: present
         fabricName: CATALYST_Guide_Fabric
         siteNameHierarchy: Global/San Francisco
 
-#  - name: Delete all
-#    cisco.catalystcenter.sda_fabric_site:
-#      _host: "{{ _host }}"
-#      _username: "{{ _username }}"
-#      _password: "{{ _password }}"
-#      _verify: "{{ _verify }}"
-#      _api_port: "{{ _api_port }}"
-#      _version: "{{ _version }}"
-#      _debug: "{{ _debug }}"
-#      state: absent
-#      siteNameHierarchy: Global/San Francisco
-#    register: result
+  # - name: Delete all
+  #   cisco.catalystcenter.sda_fabric_site:
+  #     host: "{{ host }}"
+  #     username: "{{ username }}"
+  #     password: "{{ password }}"
+  #     verify: "{{ verify }}"
+  #     api_port: "{{ api_port }}"
+  #     version: "{{ version }}"
+  #     debug: "{{ debug }}"
+  #     state: absent
+  #     siteNameHierarchy: Global/San Francisco
+  #   register: result
 
-#  - name: Show result
-#    debug:
-#      msg: "{{ result }}"
-#    when:
-#      - result is defined
+  # - name: Show result
+  #   debug:
+  #     msg: "{{ result }}"
+  #   when:
+  #     - result is defined

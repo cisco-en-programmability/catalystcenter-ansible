@@ -1,21 +1,20 @@
-# noqa all
 ---
-- name: Sda fabric
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create an sda_fabric
       cisco.catalystcenter.sda_fabric:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         fabricName: MyFabricName3
       register: sda_fabric_result
+
     - name: Show new sda_fabric
       ansible.builtin.debug:
         msg: "{{ sda_fabric_result }}"

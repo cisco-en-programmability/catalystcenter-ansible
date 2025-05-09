@@ -1,34 +1,36 @@
 ---
-- name: Network device info
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Get Network Devices
       cisco.catalystcenter.network_device_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
       register: network_devices_result
+
     - name: Show all network_devices
       ansible.builtin.debug:
         msg: "{{ network_devices_result }}"
+
     - name: Get Network Device by id
       cisco.catalystcenter.network_device_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        id: ccb167e0-1ce2-4a03-853c-3f8d0dc47fee
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
       register: network_device_result
+
     - name: Show network_device
       ansible.builtin.debug:
         msg: "{{ network_device_result }}"

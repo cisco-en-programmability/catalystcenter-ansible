@@ -1,19 +1,18 @@
 ---
-- name: Sda virtual network v2
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   tasks:
     - name: Create
       cisco.catalystcenter.sda_virtual_network_v2:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         state: present
         isGuestVirtualNetwork: false
         scalableGroupNames:
@@ -21,14 +20,14 @@
         virtualNetworkName: GUEST_VN
         virtualNetworkType: GUEST
 
-#  - name: Delete all
-#    cisco.catalystcenter.sda_virtual_network_v2:
-#      _host: "{{ _host }}"
-#      _username: "{{ _username }}"
-#      _password: "{{ _password }}"
-#      _verify: "{{ _verify }}"
-#      _api_port: "{{ _api_port }}"
-#      _version: "{{ _version }}"
-#      _debug: "{{ _debug }}"
-#      state: absent
-#      virtualNetworkName: GUEST_VN
+  # - name: Delete all
+  #   cisco.catalystcenter.sda_virtual_network_v2:
+  #     host: "{{ host }}"
+  #     username: "{{ username }}"
+  #     password: "{{ password }}"
+  #     verify: "{{ verify }}"
+  #     api_port: "{{ api_port }}"
+  #     version: "{{ version }}"
+  #     debug: "{{ debug }}"
+  #     state: absent
+  #     virtualNetworkName: GUEST_VN

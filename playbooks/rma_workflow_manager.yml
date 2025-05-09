@@ -1,20 +1,19 @@
 ---
-- name: Rma workflow manager
-  hosts: localhost
+- hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: no
   vars_files:
     - "credentials.yml"
   tasks:
     - name: RMA workflow for faulty device replacement
       cisco.catalystcenter.rma_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log: true
         log_level: DEBUG
         config_verify: true
@@ -24,6 +23,6 @@
         timeout_interval: 100
         state: replaced
         config:
-          - faulty_device_ip_address: 204.1.2.9
-            replacement_device_ip_address: 204.1.2.10
+           - faulty_device_ip_address: 204.1.2.9
+             replacement_device_ip_address: 204.1.2.10
       register: result
