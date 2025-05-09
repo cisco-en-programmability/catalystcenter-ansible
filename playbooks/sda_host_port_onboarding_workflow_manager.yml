@@ -1,3 +1,4 @@
+---
 - name: Sample playbook for SDA Host Port Onboarding Module
   hosts: catalystcenter_servers
   gather_facts: false

@@ -1,3 +1,4 @@
+---
 - name: Tag
   hosts: catalystcenter_servers
   vars_files:

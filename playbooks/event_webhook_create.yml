@@ -1,3 +1,4 @@
+---
 - name: Event webhook create
   hosts: catalystcenter_servers
   vars_files:

@@ -1,3 +1,4 @@
+---
 - name: Network device update role
   hosts: catalystcenter_servers
   vars_files:

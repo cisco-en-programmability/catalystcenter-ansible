@@ -1,3 +1,4 @@
+---
 - name: Discovery
   hosts: catalystcenter_servers
   vars:

@@ -1,3 +1,4 @@
+---
 - name: Application Set Info
   hosts: catalystcenter_servers
   vars_files:

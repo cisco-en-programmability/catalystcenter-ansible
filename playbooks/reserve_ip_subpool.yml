@@ -1,3 +1,4 @@
+---
 - name: Reserve ip subpool
   hosts: catalystcenter_servers
   vars_files:
