@@ -8,7 +8,7 @@
     - "credentials.yml"
   tasks:
     - name: Import an image, tag it as golden and load it on device
-      cisco.catalystlyst.swim_workflow_manager:
+      cisco.catalyst.swim_workflow_manager:
         host: "{{host}}"
         username: "{{username}}"
         password: "{{password}}"
@@ -19,8 +19,8 @@
         log: True
         log_level: DEBUG
         verify: True
-        catalystlyst_api_task_timeout: 1000
-        catalystlyst_task_poll_interval: 1
+        catalyst_api_task_timeout: 1000
+        catalyst_task_poll_interval: 1
         config:
         - import_image_details:
             type: "{{ item.type }}"
