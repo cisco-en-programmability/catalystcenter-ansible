@@ -16,7 +16,7 @@
       api_port: "{{ api_port }}"
       version: "{{ version }}"
       debug: "{{ debug }}"
-      log: True
+      log: true
       log_level: DEBUG
 
   tasks:
@@ -25,7 +25,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - discovery_name: Multi_global
             discovery_type: MULTI RANGE
@@ -57,7 +57,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - discovery_name: Single IP Discovery
             discovery_type: "SINGLE"
@@ -72,7 +72,7 @@
                 username: string
                 password: Lablab#123
                 port: 443
-                secure: True
+                secure: true
               snmp_v2_read_credential:
                 desc: string
                 community: string
@@ -92,13 +92,13 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - discovery_name: Single without Global Credentials
             discovery_type: "SINGLE"
             ip_address_list:
               - 204.1.2.5
-            use_global_credentials: False
+            use_global_credentials: false
             discovery_specific_credentials:
               cli_credentials_list:
               - username: cisco
@@ -108,7 +108,7 @@
                 username: string
                 password: Lablab#123
                 port: 443
-                secure: True
+                secure: true
               snmp_v2_read_credential:
                 desc: string
                 community: string
@@ -128,7 +128,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - discovery_type: "MULTI RANGE"
             discovery_name: Multi_range
@@ -146,7 +146,7 @@
                 username: admin
                 password: maglev123
                 port: 443
-                secure: True
+                secure: true
               snmp_v2_read_credential:
                 desc: new
                 community: password
@@ -166,7 +166,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - discovery_name: CDP_Test_1
             discovery_type: "CDP" #Can be LLDP and CIDR
@@ -184,7 +184,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
           - discovery_name: CDP_Test_1
 
@@ -192,6 +192,6 @@
       cisco.catalystcenter.discovery_workflow_manager:
         <<: *catalystcenter_login
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-          - delete_all: True
+          - delete_all: true

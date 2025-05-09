@@ -11,7 +11,7 @@ events_notification:
       description: "webhhok description for testing"
       url: "https://10.195.227.14/dna"
       method: "POST"
-      trust_cert: False
+      trust_cert: false
     email_destination:
       from_email: "test@cisco.com"
       to_email: "abmahesh@cisco.com"

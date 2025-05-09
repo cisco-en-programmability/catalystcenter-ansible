@@ -19,7 +19,7 @@
         _debug: "{{ _debug }}"
         log: true
         log_level: DEBUG
-        config_verify: True
+        config_verify: true
 
   - name: Clean up vars
     include_vars:
@@ -277,7 +277,7 @@
   #     <<: *catalystCenter_login
   #     state: deleted
   #     config:
-  #       - delete_all: True
+  #       - delete_all: true
   #   register: result_delete_all
 
   # - name: Debug item

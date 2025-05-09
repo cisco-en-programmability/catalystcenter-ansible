@@ -15,9 +15,9 @@
         api_port: "{{api_port}}"
         version: "{{version}}"
         debug: "{{debug}}"
-        log: True
+        log: true
         log_level: DEBUG
-        config_verify: True
+        config_verify: true
         catalystcenter_api_task_timeout: 1000
         catalystcenter_task_poll_interval: 1
         state: merged

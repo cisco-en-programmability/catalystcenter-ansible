@@ -14,7 +14,7 @@
       version: "{{version}}"
       debug: "{{debug}}"
       #headers: "{{my_headers | from_json}}"
-      isThirdParty: False
+      isThirdParty: false
       thirdPartyVendor: "string"
       thirdPartyImageFamily: "string"
       thirdPartyApplicationType: "string"
