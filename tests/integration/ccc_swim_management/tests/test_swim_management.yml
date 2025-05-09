@@ -162,7 +162,7 @@
       <<: *catalystcenter_login
       config:
       - "{{ item }}"
-    loop: "{{ vars_map.image_golden_tagging_details}}"
+    loop: "{{ vars_map.image_golden_tagging_details }}"
     register: result_tag_image
 
   # - name: Debug item

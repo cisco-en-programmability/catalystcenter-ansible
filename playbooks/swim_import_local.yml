@@ -1,3 +1,4 @@
+---
 - hosts: catalystcenter_servers
   vars_files:
     - credentials.yml

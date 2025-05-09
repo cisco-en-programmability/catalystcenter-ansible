@@ -58,7 +58,7 @@
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        globalCredentialIdList: "{{globalCredentialIdList}}"
+        globalCredentialIdList: "{{ globalCredentialIdList }}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
@@ -95,7 +95,7 @@
         state: present
         cdpLevel: 16
         discoveryType: CDP
-        globalCredentialIdList: "{{globalCredentialIdList}}"
+        globalCredentialIdList: "{{ globalCredentialIdList }}"
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
