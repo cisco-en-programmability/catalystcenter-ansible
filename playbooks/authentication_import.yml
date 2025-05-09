@@ -14,7 +14,6 @@
         certFilePath: ./files/test.template
         pkFilePath: ./files/test.template
       register: result
-
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"

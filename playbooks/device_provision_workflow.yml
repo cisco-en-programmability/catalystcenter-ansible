@@ -3,10 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
-
   vars_files:
     - "{{ CLUSTERFILE }}"
-
   vars:
     catalystcenter_login: &catalystcenter_login
       host: "{{ host }}"
@@ -17,23 +15,20 @@
       version: "{{ version }}"
       debug: "{{ debug }}"
       log_level: "{{ log_level }}"
-
   tasks:
     - name: Assign a wired device to a site
       cisco.catalystcenter.provision_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         log: true
         state: merged
         config_verify: true
         config:
           - site_name_hierarchy: Global/USA/New York/NY_BLD1
-
             management_ip_address: 204.192.3.40
             provisioning: false
-
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         log: true
         log_level: DEBUG
         state: merged
@@ -41,18 +36,16 @@
         config:
           - site_name_hierarchy: Global/USA/SAN JOSE/BLD23/BLD20_FLOOR2
             management_ip_address: 204.192.3.40
-
     - name: Unprovision a wired device from a site
       cisco.catalystcenter.provision_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         log: true
         state: deleted
         config:
           - management_ip_address: 204.1.2.2
-
     - name: Provision a wireless device to a site
       cisco.catalystcenter.provision_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         log: true
         log_level: DEBUG
         state: merged

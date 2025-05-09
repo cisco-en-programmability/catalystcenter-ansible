@@ -1,3 +1,4 @@
+---
 - hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
@@ -95,7 +96,6 @@
                     configure_catalystcenter_ip: false
                     # ip_addresses:
                     # - 10.0.0.7
-
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_workflow_manager:
         host: "{{ host }}"

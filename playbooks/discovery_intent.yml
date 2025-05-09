@@ -3,10 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
-
   vars_files:
     - "{{ CLUSTERFILE }}"
-
   vars:
     catalystcenter_login: &catalystcenter_login
       host: "{{ host }}"
@@ -18,32 +16,30 @@
       debug: "{{ debug }}"
       log: true
       log_level: DEBUG
-
   tasks:
-
     - name: Execute discovery devices using MULTI RANGE with various global credentials
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
           - discovery_name: Multi_global
             discovery_type: MULTI RANGE
             ip_address_list:
-            - 204.1.2.1-204.1.2.5
-            - 204.192.3.40
-            - 204.192.4.200
-            - 204.1.2.6
-            - 204.1.2.7
-            - 204.1.2.8
-            - 204.1.2.9
-            - 204.1.2.10
-            - 204.1.2.11
+              - 204.1.2.1-204.1.2.5
+              - 204.192.3.40
+              - 204.192.4.200
+              - 204.1.2.6
+              - 204.1.2.7
+              - 204.1.2.8
+              - 204.1.2.9
+              - 204.1.2.10
+              - 204.1.2.11
             global_credentials:
               cli_credentials_list:
                 - description: ISE
                   username: cisco
-                - description: CLI1234 #Incorrect name passed
+                - description: CLI1234  #Incorrect name passed
                   username: cli
               http_read_credential_list:
                 - description: HTTP Read
@@ -52,10 +48,9 @@
                 - description: snmpV3
                   username: snmpV3
             protocol_order: ssh
-
     - name: Execute discovery of single device using various discovery specific credentials and all the global credentials
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
@@ -65,9 +60,9 @@
               - 204.1.2.5
             discovery_specific_credentials:
               cli_credentials_list:
-              - username: cisco
-                password: Cisco#123
-                enable_password: Cisco#123
+                - username: cisco
+                  password: Cisco#123
+                  enable_password: Cisco#123
               http_read_credential:
                 username: string
                 password: Lablab#123
@@ -87,10 +82,9 @@
                 privacy_type: AES256
                 privacy_password: Lablab#1234
             protocol_order: ssh
-
     - name: Execute discovery of single device using various discovery specific credentials only
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
@@ -101,9 +95,9 @@
             use_global_credentials: false
             discovery_specific_credentials:
               cli_credentials_list:
-              - username: cisco
-                password: Cisco#123
-                enable_password: Cisco#123
+                - username: cisco
+                  password: Cisco#123
+                  enable_password: Cisco#123
               http_read_credential:
                 username: string
                 password: Lablab#123
@@ -123,20 +117,19 @@
                 privacy_type: AES256
                 privacy_password: Lablab#1234
             protocol_order: ssh
-
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials and all global credentials (max 5 allowed)
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
           - discovery_type: "MULTI RANGE"
             discovery_name: Multi_range
             ip_address_list:
-              - 204.1.2.1-204.1.2.100 #It will be taken as 204.1.2.1 - 204.1.2.1
+              - 204.1.2.1-204.1.2.100  #It will be taken as 204.1.2.1 - 204.1.2.1
               - 205.2.1.1-205.2.1.10
             ip_filter_list:
-              - 204.1.2.5 #Devie with IP 204.1.2.5 won't be discovered
+              - 204.1.2.5  #Devie with IP 204.1.2.5 won't be discovered
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin
@@ -161,36 +154,33 @@
             start_index: 1
             records_to_return: 1000
             snmp_version: v2
-
     - name: Execute discovery devices using CDP/LLDP/CIDR leveraging discovery specific credentials and all the global credentials
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
           - discovery_name: CDP_Test_1
             discovery_type: "CDP" #Can be LLDP and CIDR
-            ip_address_list:   #List length should be one
+            ip_address_list: #List length should be one
               - 204.1.2.1
-            cdp_level: 2 #Instead use lldp_level for LLDP and prefix length for CIDR
+            cdp_level: 2  #Instead use lldp_level for LLDP and prefix length for CIDR
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin
                   password: maglev123
                   enable_password: maglev123
             protocol_order: ssh
-
     - name: Execute deletion of single discovery from the dashboard
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: deleted
         config_verify: true
         config:
           - discovery_name: CDP_Test_1
-
     - name: Execute deletion of all the discoveries from the dashboard
       cisco.catalystcenter.discovery_intent:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: deleted
         config_verify: true
         config:
