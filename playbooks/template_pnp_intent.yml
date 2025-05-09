@@ -53,7 +53,7 @@
           image_name: "{{ item.image_name }}"
           device_info:
             - serial_number: "{{ item.device_number }}"
-              hostname: "{{ item.device_name}}"
+              hostname: "{{ item.device_name }}"
               state: "{{ item.device_state }}"
               pid: "{{ item.device_id }}"
       register: pnp_result
