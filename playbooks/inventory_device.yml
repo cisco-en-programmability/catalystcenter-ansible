@@ -9,13 +9,13 @@
   tasks:
     - name: Add/Update/Resync/Delete the devices in Cisco CATALYST Center Inventory.
       cisco.catalystcenter.inventory_intent:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log: true
         state: merged
         config:

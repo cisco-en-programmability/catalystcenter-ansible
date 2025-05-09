@@ -6,13 +6,13 @@
   tasks:
     - name: Get all Network Device Custom Prompt
       cisco.catalystcenter.network_device_custom_prompt_info_info:
-        _host: "{{host}}"
-        _username: "{{username}}"
-        _password: "{{password}}"
-        _verify: "{{verify}}"
-        _api_port: "{{api_port}}"
-        _version: "{{version}}"
-        _debug: "{{debug}}"
+        _host: "{{ host }}"
+        _username: "{{ username }}"
+        _password: "{{ password }}"
+        _verify: "{{ verify }}"
+        _api_port: "{{ api_port }}"
+        _version: "{{ version }}"
+        _debug: "{{ debug }}"
       register: network_device_custom_prompt_result
 
     - name: Show all network_device_custom_prompt

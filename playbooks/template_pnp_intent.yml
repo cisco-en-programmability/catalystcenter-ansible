@@ -39,12 +39,12 @@
 
     - name: Create pnp
       cisco.catalystcenter.pnp_intent:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        debug: "{{debug}}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        debug: "{{ debug }}"
         log: true
         config:
         - site_name: "{{ item.site_name }}"
