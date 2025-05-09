@@ -39,7 +39,7 @@
               cli_credentials_list:
                 - description: ISE
                   username: cisco
-                - description: CLI1234  #Incorrect name passed
+                - description: CLI1234  # Incorrect name passed
                   username: cli
               http_read_credential_list:
                 - description: HTTP Read
@@ -126,10 +126,10 @@
           - discovery_type: "MULTI RANGE"
             discovery_name: Multi_range
             ip_address_list:
-              - 204.1.2.1-204.1.2.100  #It will be taken as 204.1.2.1 - 204.1.2.1
+              - 204.1.2.1-204.1.2.100  # It will be taken as 204.1.2.1 - 204.1.2.1
               - 205.2.1.1-205.2.1.10
             ip_filter_list:
-              - 204.1.2.5  #Devie with IP 204.1.2.5 won't be discovered
+              - 204.1.2.5  # Devie with IP 204.1.2.5 won't be discovered
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin
@@ -161,10 +161,10 @@
         config_verify: true
         config:
           - discovery_name: CDP_Test_1
-            discovery_type: "CDP" #Can be LLDP and CIDR
-            ip_address_list: #List length should be one
+            discovery_type: "CDP" # Can be LLDP and CIDR
+            ip_address_list:  # List length should be one
               - 204.1.2.1
-            cdp_level: 2  #Instead use lldp_level for LLDP and prefix length for CIDR
+            cdp_level: 2  # Instead use lldp_level for LLDP and prefix length for CIDR
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin

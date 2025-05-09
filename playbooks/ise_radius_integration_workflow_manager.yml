@@ -79,7 +79,7 @@
                 role: primary
                 pxgrid_enabled: false  # Avaliable for Cisco ISE only
                 use_catalystcenter_cert_for_pxgrid: false
-                cisco_ise_dtos: # use this for creating the Cisco ISE Server
+                cisco_ise_dtos:  # use this for creating the Cisco ISE Server
                   - user_name: admin
                     password: abcd
                     fqdn: abc.cisco.com

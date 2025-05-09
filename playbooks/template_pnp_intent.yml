@@ -20,7 +20,7 @@
         log: true
         state: "merged"
         config_verify: true
-        #ignore_errors: true        #Enable this to continue execution even the task fails
+        # ignore_errors: true        # Enable this to continue execution even the task fails
         config:
           - configuration_templates:
               project_name: "{{ item.proj_name }}"
