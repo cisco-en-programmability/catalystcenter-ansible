@@ -1,4 +1,3 @@
----
 - name: Swim import local
   hosts: catalystcenter_servers
   vars_files:

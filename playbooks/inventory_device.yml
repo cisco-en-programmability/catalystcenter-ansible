@@ -1,8 +1,7 @@
----
 - name: Configure device credentials on Cisco DNA Center
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_inventory.yml"
     - "credentials.yml"
@@ -47,7 +46,6 @@
               password: "{{ item.export_device_list.password }}"
               operation_enum: "{{ item.export_device_list.operation_enum }}"
             reboot_device: "{{ item.reboot_device }}"
-
       with_items: "{{ device_details }}"
       tags:
         - inventory_device

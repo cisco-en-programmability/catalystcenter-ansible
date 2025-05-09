@@ -1,5 +1,4 @@
 # noqa all
----
 - name: Sda fabric
   hosts: catalystcenter_servers
   vars_files:
@@ -16,7 +15,6 @@
         state: present
         fabricName: MyFabricName3
       register: sda_fabric_result
-
     - name: Show new sda_fabric
       ansible.builtin.debug:
         msg: "{{ sda_fabric_result }}"

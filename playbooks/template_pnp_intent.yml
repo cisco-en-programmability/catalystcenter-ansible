@@ -1,4 +1,3 @@
----
 - name: Template pnp intent
   hosts: localhost
   vars_files:
@@ -7,9 +6,7 @@
   gather_facts: false
   connection: local
   tasks:
-
     # Project Info  Section
-
     - name: Test project template
       cisco.catalystcenter.template_intent:
         _host: "{{ _host }}"
@@ -37,8 +34,6 @@
       with_items: '{{ template_details }}'
       tags:
         - template
-
-
     - name: Create pnp
       cisco.catalystcenter.pnp_intent:
         _host: "{{ _host }}"

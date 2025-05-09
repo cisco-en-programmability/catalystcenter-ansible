@@ -1,8 +1,7 @@
----
 - name: Lan automation workflow manager
   hosts: catalystcenter_servers
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:
@@ -81,19 +80,16 @@
                 - "FOC2722YGWW"
                 - "FCW2213G01S"
                 - "FJC271915XB"
-
           - lan_automated_device_update:
               loopback_update_device_list:
                 - device_management_ip_address: "204.1.2.3"
                   new_loopback0_ip_address: "204.1.1.20"
                 - device_management_ip_address: "204.1.1.11"
                   new_loopback0_ip_address: "204.1.1.19"
-
           - lan_automated_device_update:
               hostname_update_devices:
                 - device_management_ip_address: "24.61.1.10"
                   new_host_name: "SR-LAN-9400X-EDGE1"
-
           - lan_automated_device_update:
               link_add:
                 source_device_management_ip_address: "204.1.1.10"
@@ -101,7 +97,6 @@
                 destination_device_management_ip_address: "204.1.1.15"
                 destination_device_interface_name: "GigabitEthernet1/0/20"
                 ip_pool_name: "underlay_sub"
-
           - lan_automated_device_update:
               link_delete:
                 source_device_management_ip_address: "204.1.1.20"

@@ -1,4 +1,3 @@
----
 - name: Network device update role
   hosts: catalystcenter_servers
   vars_files:
@@ -18,7 +17,6 @@
         role: UNKNOWN
         roleSource: AUTO
       register: network_device_update_role_result
-
     - name: Get task info
       cisco.catalystcenter.task_info:
         _host: "{{ _host }}"
@@ -31,13 +29,11 @@
         - network_device_update_role_result.catalystcenter_response.response is defined
         - network_device_update_role_result.catalystcenter_response.response.taskId is defined
       register: task_result
-
     - name: Show updated network_device_update_role
       ansible.builtin.debug:
         msg: "{{ network_device_update_role_result }}"
       when:
         - network_device_update_role_result is defined
-
     - name: Show retrieved task
       ansible.builtin.debug:
         msg: "{{ task_result.catalystcenter_response.response }}"

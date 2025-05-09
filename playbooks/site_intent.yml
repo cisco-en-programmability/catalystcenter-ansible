@@ -1,8 +1,7 @@
----
 - name: Site intent
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:

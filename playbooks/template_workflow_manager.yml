@@ -1,4 +1,3 @@
----
 - name: Template workflow manager
   hosts: localhost
   vars_files:
@@ -44,7 +43,6 @@
             import:
               project: "{{ item.import_project }}"
               template: "{{ item.import_template }}"
-
             deploy_template:
               project_name: "{{ item.proj_name }}"
               template_name: "{{ item.temp_name }}"
@@ -67,7 +65,6 @@
                   device_family: "{{ item.site_provisioning_details.device_family }}"
                   device_role: "{{ item.site_provisioning_details.device_role }}"
                   device_tag: "{{ item.site_provisioning_details.device_tag }}"
-
       register: template_result
       with_items: '{{ template_details }}'
       tags:
