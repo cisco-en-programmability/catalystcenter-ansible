@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars_files:
-    - "input_swim.yml" #Contains image and device details
+    - "input_swim.yml" # Contains image and device details
     - "credentials.yml"
   tasks:
     - name: Import an image, tag it as golden and load it on device

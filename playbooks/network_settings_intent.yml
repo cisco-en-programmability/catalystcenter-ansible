@@ -29,12 +29,12 @@
               settings:
                 ip_pool:
                   - name: Global_Pool2
-                    gateway: '' #use this for updating
-                    ip_address_space: IPv6  #required when we are creating
-                    cidr: 2001:db8::/64  #required when we are creating
+                    gateway: '' # use this for updating
+                    ip_address_space: IPv6  # required when we are creating
+                    cidr: 2001:db8::/64  # required when we are creating
                     pool_type: Generic
-                    dhcp_server_ips: [] #use this for updating
-                    dns_server_ips: [] #use this for updating
+                    dhcp_server_ips: [] # use this for updating
+                    dns_server_ips: [] # use this for updating
                     # prev_name: Global_Pool2
             reserve_pool_details:
               ipv6_address_space: true
@@ -61,24 +61,24 @@
                   domain_name: cisco.com
                   primary_ip_address: 10.0.0.2
                   secondary_ip_address: 10.0.0.3
-                client_and_endpoint_aaa: #works only if we system settigns is set
-                  ip_address: 10.197.156.42  #Mandatory for ISE, sec ip for AAA
+                client_and_endpoint_aaa:  # works only if we system settigns is set
+                  ip_address: 10.197.156.42  # Mandatory for ISE, sec ip for AAA
                   network: 10.0.0.20
                   protocol: RADIUS
                   servers: AAA
-                  # shared_secret: string  #ISE
+                  # shared_secret: string  # ISE
                 message_of_the_day:
                   banner_message: hello
                   retain_existing_banner: 'true'
                 netflow_collector:
                   ip_address: 10.0.0.4
                   port: 443
-                network_aaa: #works only if we system settigns is set
-                  ip_address: 10.0.0.21  #Mandatory for ISE, sec ip for AAA
+                network_aaa:  # works only if we system settigns is set
+                  ip_address: 10.0.0.21  # Mandatory for ISE, sec ip for AAA
                   network: 10.0.0.20
                   protocol: TACACS
                   servers: AAA
-                  # shared_secret: string  #ISE
+                  # shared_secret: string  # ISE
                 ntp_server:
                   - 10.0.0.5
                 snmp_server:
