@@ -1,10 +1,9 @@
----
 - name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   vars_files:
     - "credentials.yml"
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   tasks:
     - name: User and Role Workflow Manager
       cisco.catalystcenter.user_role_workflow_manager:

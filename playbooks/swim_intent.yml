@@ -1,8 +1,7 @@
----
 - name: Configure device credentials on Cisco DNA Center
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_swim.yml"
     - "credentials.yml"
@@ -37,7 +36,6 @@
               device_family_name: "{{ item.device_family_name }}"
               scehdule_validate: false
               distribute_if_needed: true
-
       with_items: "{{ image_details }}"
       tags:
         - swim

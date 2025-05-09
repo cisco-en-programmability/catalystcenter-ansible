@@ -1,4 +1,3 @@
----
 - name: Network device info
   hosts: catalystcenter_servers
   vars_files:
@@ -15,11 +14,9 @@
         _version: "{{ _version }}"
         _debug: "{{ _debug }}"
       register: network_devices_result
-
     - name: Show all network_devices
       ansible.builtin.debug:
         msg: "{{ network_devices_result }}"
-
     - name: Get Network Device by id
       cisco.catalystcenter.network_device_info:
         _host: "{{ _host }}"
@@ -31,7 +28,6 @@
         _debug: "{{ _debug }}"
         id: ccb167e0-1ce2-4a03-853c-3f8d0dc47fee
       register: network_device_result
-
     - name: Show network_device
       ansible.builtin.debug:
         msg: "{{ network_device_result }}"

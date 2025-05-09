@@ -1,8 +1,7 @@
----
 - name: Configure the Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:
@@ -61,6 +60,5 @@
                 intra_subnet_routing_enabled: true
                 multiple_ip_to_mac_addresses: false
                 auto_generate_vlan_name: true
-
       tags:
         - fabric_virtual_network_testing

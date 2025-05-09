@@ -1,4 +1,3 @@
----
 - name: User info
   hosts: catalystcenter_servers
   vars_files:

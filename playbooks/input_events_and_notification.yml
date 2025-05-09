@@ -1,5 +1,4 @@
 # noqa all
----
 events_notification:
   - syslog_destination:
       name: Syslog Demo test

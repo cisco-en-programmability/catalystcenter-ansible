@@ -1,4 +1,3 @@
----
 - name: Pnp device
   hosts: catalystcenter_servers
   vars_files:
@@ -23,7 +22,6 @@
     #     msg: "{{ pnp_device_delete_result }}"
     #   when:
     #     - pnp_device_delete_result is defined
-
     - name: Adds or Updates a device to the PnP database
       cisco.catalystcenter.pnp_device:
         _host: "{{ _host }}"
@@ -72,7 +70,6 @@
         tenantId: 5cdc6c45a8405f00c80c6ba3
         id: 610ab95c07a77b0fbec39f22
       register: pnp_device_result
-
     - name: Show new pnp_device
       ansible.builtin.debug:
         msg: "{{ pnp_device_result }}"

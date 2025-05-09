@@ -1,15 +1,11 @@
----
 - name: Network settings intent
   hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:
-
     # Project Info  Section
-
-
     - name: Create global pool, reserve subpool and network functions
       cisco.catalystcenter.network_settings_intent:
         _host: "{{ _host }}"
@@ -29,12 +25,12 @@
               settings:
                 ip_pool:
                   - name: Global_Pool2
-                    gateway: ''  # use this for updating
-                    ip_address_space: IPv6  # required when we are creating
-                    cidr: 2001:db8::/64   # required when we are creating
+                    gateway: '' # use this for updating
+                    ip_address_space: IPv6 # required when we are creating
+                    cidr: 2001:db8::/64 # required when we are creating
                     pool_type: Generic
-                    dhcp_server_ips: []  # use this for updating
-                    dns_server_ips: []  # use this for updating
+                    dhcp_server_ips: [] # use this for updating
+                    dns_server_ips: [] # use this for updating
                     #  prev_name: Global_Pool2
             reserve_pool_details:
               ipv6_address_space: true
@@ -61,8 +57,8 @@
                   domain_name: cisco.com
                   primary_ip_address: 10.0.0.2
                   secondary_ip_address: 10.0.0.3
-                client_and_endpoint_aaa:  # works only if we system settigns is set
-                  ip_address: 10.197.156.42  # Mandatory for ISE, sec ip for AAA
+                client_and_endpoint_aaa: # works only if we system settigns is set
+                  ip_address: 10.197.156.42 # Mandatory for ISE, sec ip for AAA
                   network: 10.0.0.20
                   protocol: RADIUS
                   servers: AAA
@@ -73,8 +69,8 @@
                 netflow_collector:
                   ip_address: 10.0.0.4
                   port: 443
-                network_aaa:  # works only if we system settigns is set
-                  ip_address: 10.0.0.21  # Mandatory for ISE, sec ip for AAA
+                network_aaa: # works only if we system settigns is set
+                  ip_address: 10.0.0.21 # Mandatory for ISE, sec ip for AAA
                   network: 10.0.0.20
                   protocol: TACACS
                   servers: AAA
@@ -91,7 +87,6 @@
                   # - 10.0.0.7
                 timezone: GMT
               site_name: Global/Chennai
-
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_intent:
         _host: "{{ _host }}"

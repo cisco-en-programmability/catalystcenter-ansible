@@ -1,11 +1,8 @@
----
 - name: Testing
   hosts: catalystcenter_servers
   gather_facts: false
-
   vars_files:
     - "credentials.yml"
-
   vars:
     catalystcenter_login: &catalystcenter_login
       _host: "{{ _host }}"
@@ -19,52 +16,44 @@
       log_level: INFO
       log_append: false
       config_verify: true
-
   tasks:
     - name: Create Extranet Policy
       cisco.catalystcenter.network_compliance_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_3"]
-
-
     - name: Create Extranet Policy with Fabric Site(s) specified
       cisco.catalystcenter.network_compliance_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_3"]
             fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
-
-
     - name: Update existing Extranet Policy
       cisco.catalystcenter.network_compliance_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
-
     - name: Update existing Extranet Policy with Fabric Site(s) specified
       cisco.catalystcenter.network_compliance_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: merged
         config:
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
             fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
-
-
     - name: Delete Extranet Policy
       cisco.catalystcenter.network_compliance_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         state: deleted
         config:
           - extranet_policy_name: "test_extranet_policy_1"

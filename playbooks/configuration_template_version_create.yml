@@ -1,4 +1,3 @@
----
 - name: Configuration Template Version Create
   hosts: catalystcenter_servers
   vars_files:
@@ -17,7 +16,6 @@
         # comments: string
         templateId: 2121f1d7-d9ea-4eea-8f83-45af2941f5f9
       register: configuration_template_version_create_result
-
     - name: Get task info
       cisco.catalystcenter.task_info:
         _host: "{{ _host }}"
@@ -30,13 +28,11 @@
         - configuration_template_version_create_result.catalystcenter_response.response is defined
         - configuration_template_version_create_result.catalystcenter_response.response.taskId is defined
       register: task_result
-
     - name: Show new configuration_template_version
       ansible.builtin.debug:
         msg: "{{ configuration_template_version_create_result }}"
       when:
         - configuration_template_version_create_result is defined
-
     - name: Show retrieved task
       ansible.builtin.debug:
         msg: "{{ task_result.catalystcenter_response.response }}"

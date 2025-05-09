@@ -1,4 +1,3 @@
----
 - name: Sda virtual network v2
   hosts: catalystcenter_servers
   vars_files:
