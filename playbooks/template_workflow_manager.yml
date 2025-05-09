@@ -13,11 +13,11 @@
         password: "{{ password }}"
         verify: "{{ verify }}"
         debug: "{{ debug }}"
-        log: True
+        log: true
         log_level: DEBUG
-        log_append: True
+        log_append: true
         log_file_path: "{{ log_file_path }}"
-        validate_response_schema: False
+        validate_response_schema: false
         state: "merged"
         config_verify: true
         #ignore_errors: true        #Enable this to continue execution even the task fails

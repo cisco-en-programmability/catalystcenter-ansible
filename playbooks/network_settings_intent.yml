@@ -16,12 +16,12 @@
         password: "{{ password }}"
         verify: "{{ verify }}"
         debug: "{{ debug }}"
-        log: True
+        log: true
         log_level: "{{ log_level }}"
-        log_append: True
+        log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - global_pool_details:
             settings:
@@ -35,20 +35,20 @@
                 dns_server_ips: [] #use this for updating
                 # prev_name: Global_Pool2
           reserve_pool_details:
-            ipv6_address_space: True
+            ipv6_address_space: true
             ipv4_global_pool: 100.0.0.0/8
-            ipv4_prefix: True
+            ipv4_prefix: true
             ipv4_prefix_length: 9
             ipv4_subnet: 100.128.0.0
             ipv4_gateway: 100.128.0.1
             # ipv4_dns_servers: [100.128.0.1]
             name: IP_Pool_3
-            ipv6_prefix: True
+            ipv6_prefix: true
             ipv6_prefix_length: 64
             ipv6_global_pool: 2001:db8::/64
             ipv6_subnet: '2001:db8::'
             site_name: Global/Chennai/Trill
-            slaac_support: True
+            slaac_support: true
             # prev_name: IP_Pool_4
             type: LAN
           network_management_details:
@@ -98,10 +98,10 @@
         password: "{{ password }}"
         verify: "{{ verify }}"
         debug: "{{ debug }}"
-        log: True
+        log: true
         log_level: "{{ log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
         - global_pool_details:
             settings:
