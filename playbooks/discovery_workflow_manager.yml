@@ -161,7 +161,7 @@
         config_verify: true
         config:
           - discovery_name: CDP_Test_1
-            discovery_type: "CDP" # Can be LLDP and CIDR
+            discovery_type: "CDP"  # Can be LLDP and CIDR
             ip_address_list:  # List length should be one
               - 204.1.2.1
             cdp_level: 2  # Instead use lldp_level for LLDP and prefix length for CIDR

@@ -29,12 +29,12 @@
               settings:
                 ip_pool:
                   - name: Global_Pool2
-                    gateway: '' # use this for updating
+                    gateway: ''  # use this for updating
                     ip_address_space: IPv6  # required when we are creating
                     cidr: 2001:db8::/64  # required when we are creating
                     pool_type: Generic
-                    dhcp_server_ips: [] # use this for updating
-                    dns_server_ips: [] # use this for updating
+                    dhcp_server_ips: []  # use this for updating
+                    dns_server_ips: []  # use this for updating
                     # prev_name: Global_Pool2
             reserve_pool_details:
               ipv6_address_space: true

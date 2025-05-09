@@ -1,4 +1,5 @@
-- hosts: catalystcenter_servers
+---
+- hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
