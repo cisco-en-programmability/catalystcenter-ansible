@@ -7,3 +7,5 @@ exclude_paths:
   - playbooks/sda_fabric.yml
   - tests
   - playbooks/credentials.yml
+  - .github/workflows
+

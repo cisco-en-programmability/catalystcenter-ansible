@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
     - device_details.template
