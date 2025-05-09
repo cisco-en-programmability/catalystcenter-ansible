@@ -133,7 +133,7 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
     return result
 
 
-def Catalystcenter_argument_spec():
+def catalystcenter_argument_spec():
     argument_spec = dict(
         _host=dict(
             type="str",

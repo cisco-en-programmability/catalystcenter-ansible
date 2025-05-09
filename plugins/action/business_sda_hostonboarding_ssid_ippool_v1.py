@@ -18,13 +18,13 @@ else:
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
     CatalystCenterSDK,
-    Catalystcenter_argument_spec,
+    catalystcenter_argument_spec,
     catalystcenter_compare_equality,
     get_dict_result,
 )
 
 # Get common arguments specification
-argument_spec = Catalystcenter_argument_spec()
+argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present"]),

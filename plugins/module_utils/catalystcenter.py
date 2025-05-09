@@ -805,7 +805,7 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
     return result
 
 
-def Catalystcenter_argument_spec():
+def catalystcenter_argument_spec():
     argument_spec = dict(
         _host=dict(type="str", required=True, aliases=['catalystcenter_host', '_host']),
         _api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', '_api_port']),
