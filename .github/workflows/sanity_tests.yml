@@ -7,7 +7,7 @@ on:
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
-  # pull_request:
+   # pull_request:
 
 env:
   NAMESPACE: cisco
@@ -61,7 +61,7 @@ jobs:
   sanity-devel:
     name: Sanity (Ⓐdevel)
     runs-on: ubuntu-22.04
-    continue-on-error: true  # No bloquea el resto del pipeline
+    continue-on-error: true   # No bloquea el resto del pipeline
 
     steps:
       - name: Check out code

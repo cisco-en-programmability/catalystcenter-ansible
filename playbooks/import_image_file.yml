@@ -11,11 +11,11 @@
         _username: "{{ _username }}"
         _password: "{{ _password }}"
         _verify: "{{ _verify }}"
-        filePath: fullpath/playbooks/files/test.template # string
-        isThirdParty: true # boolean
-        thirdPartyApplicationType: SomeValue # string
-        thirdPartyImageFamily: SomeValue # string
-        thirdPartyVendor: SomeValue # string
+        filePath: fullpath/playbooks/files/test.template  # string
+        isThirdParty: true  # boolean
+        thirdPartyApplicationType: SomeValue  # string
+        thirdPartyImageFamily: SomeValue  # string
+        thirdPartyVendor: SomeValue  # string
       register: result
     - name: Show result
       ansible.builtin.debug:

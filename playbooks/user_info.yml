@@ -15,6 +15,6 @@
         _api_port: "{{ _api_port }}"
         _version: "{{ _version }}"
         _debug: "{{ _debug }}"
-        # headers: "{{my_headers | from_json}}"
+         # headers: "{{my_headers | from_json}}"
         invokeSource: string
       register: result

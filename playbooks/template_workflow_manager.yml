@@ -19,11 +19,11 @@
         log: true
         log_level: DEBUG
         log_append: true
-        # log_file_path: "{{ log_file_path }}"
+         # log_file_path: "{{ log_file_path }}"
         validate_response_schema: false
         state: "merged"
         config_verify: true
-        # ignore_errors: true        # Enable this to continue execution even the task fails
+         # ignore_errors: true        # Enable this to continue execution even the task fails
         config:
           - configuration_templates:
               project_name: "{{ item.proj_name }}"
@@ -54,14 +54,14 @@
                 - param_name: "{{ item.template_parameters.param_name }}"
                   param_value: "{{ item.template_parameters.param_value }}"
               device_details:
-                # Provide any of the one device_specific details either device_ips, device_hostnames
-                # serial_numbers, mac_addresses to deploy template to the devices
-                # device_ips: "{{ item.device_details.device_ips }}"
+                 # Provide any of the one device_specific details either device_ips, device_hostnames
+                 # serial_numbers, mac_addresses to deploy template to the devices
+                 # device_ips: "{{ item.device_details.device_ips }}"
                 device_hostnames: "{{ item.device_details.device_hostnames }}"
-                # serial_numbers: "{{ item.device_details.serial_numbers }}"
-                # mac_addresses: "{{ item.device_details.mac_addresses }}"
+                 # serial_numbers: "{{ item.device_details.serial_numbers }}"
+                 # mac_addresses: "{{ item.device_details.mac_addresses }}"
               site_provisioning_details:
-                # Provide the site name and other parameters are optional to narrow down the results
+                 # Provide the site name and other parameters are optional to narrow down the results
                 - site_name: "{{ item.site_provisioning_details.site_name }}"
                   device_family: "{{ item.site_provisioning_details.device_family }}"
                   device_role: "{{ item.site_provisioning_details.device_role }}"

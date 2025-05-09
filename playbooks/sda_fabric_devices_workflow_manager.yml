@@ -3,7 +3,7 @@
   hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
-  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:
     - name: Add the SDA fabric device as BORDER and CONTROL node and do L2 and L3 handoff.
