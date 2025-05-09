@@ -1,3 +1,4 @@
+---
 - name: Configure device credentials on Cisco DNA Center
   hosts: localhost
   connection: local

@@ -1,3 +1,4 @@
+---
 - name: Take running config backup of devices
   hosts: localhost
   connection: local

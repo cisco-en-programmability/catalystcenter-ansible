@@ -1,3 +1,4 @@
+---
 - name: Template pnp intent
   hosts: localhost
   vars_files:

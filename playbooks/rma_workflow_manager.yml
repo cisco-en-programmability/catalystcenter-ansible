@@ -1,3 +1,4 @@
+---
 - name: Rma workflow manager
   hosts: localhost
   connection: local
