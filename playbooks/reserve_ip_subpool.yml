@@ -1,21 +1,21 @@
 ---
-- name: Reserve ip subpool
-  hosts: catalystcenter_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   vars:
     site: bb25cdaf-3f5a-45b9-bdd6-0f63fdf6c83e
+
   tasks:
     - name: Create reservation
       cisco.catalystcenter.reserve_ip_subpool:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         state: present
         ipv4DhcpServers:
           - 55.66.55.55
@@ -30,17 +30,19 @@
         siteId: "{{ site }}"
         slaacSupport: true
         type: LAN
+
     - name: Get Reservations
       cisco.catalystcenter.reserve_ip_subpool_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         siteId: "{{ site }}"
       register: ip_pool
+
     - name: Print Reservations
       ansible.builtin.debug:
         var: ip_pool

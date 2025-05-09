@@ -2,34 +2,38 @@
 - name: Take running config backup of devices
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: no
+
   vars_files:
     - "{{ CLUSTERFILE }}"
+
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
+      api_port: "{{ api_port }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
       log_level: "DEBUG"
+
   tasks:
     - name: Take backup of a wired 9500 switch
       cisco.catalystcenter.device_configs_backup_workflow_manager:
-        !!merge <<: *catalystcenter_login
-        log: true
+        <<: *catalystcenter_login
+        log: True
         state: merged
-        config_verify: true
+        config_verify: True
         config:
           - hostname: NY-BN-9500.cisco.local
             file_path: /home/admin/madhan_ansible/collections/ansible_collections/cisco/catalystcenter/playbooks/new_tmp
+
     - name: Take backup of all the switches
       cisco.catalystcenter.device_configs_backup_workflow_manager:
-        !!merge <<: *catalystcenter_login
-        log: true
+        <<: *catalystcenter_login
+        log: True
         state: merged
-        config_verify: true
+        config_verify: True
         config:
           - family: Switches and Hubs

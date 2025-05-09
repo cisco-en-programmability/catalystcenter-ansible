@@ -2,31 +2,36 @@
 - name: Provision and Re-provision wired and wireless devices
   hosts: localhost
   connection: local
-  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: no
+
   vars_files:
     - "{{ CLUSTERFILE }}"
+
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
+      api_port: "{{ api_port }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
+
   tasks:
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_intent:
-        !!merge <<: *catalystcenter_login
-        log: true
+        <<: *catalystcenter_login
+        log: True
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.1.2.2
+
+
     - name: Unprovision a wired device to a site
       cisco.catalystcenter.provision_intent:
-        !!merge <<: *catalystcenter_login
-        log: true
+        <<: *catalystcenter_login
+        log: True
         state: deleted
         config:
           - management_ip_address: 204.1.2.2
