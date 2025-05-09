@@ -87,25 +87,25 @@
     - name: Show deleted tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"
-    # - name: Show status of delete tag operation
-    #   debug:
-    #     msg: "{{ task_tree_result.catalystcenter_response.response }}"
-    #   when:
-    #     - task_tree_result is defined
-    #     - task_tree_result.catalystcenter_response is defined
+     # - name: Show status of delete tag operation
+     #   debug:
+     #     msg: "{{ task_tree_result.catalystcenter_response.response }}"
+     #   when:
+     #     - task_tree_result is defined
+     #     - task_tree_result.catalystcenter_response is defined
     - name: Get tag with name "MyNewTag"
-      # - name: Get task status
-      #   cisco.catalystcenter.task_info:
-      #     _host: "{{ _host }}"
-      #     _username: "{{ _username }}"
-      #     _password: "{{ _password }}"
-      #     _verify: "{{ _verify }}"
-      #     taskId: "{{ result.catalystcenter_response.response.taskId }}"
-      #   when:
-      #     - result.catalystcenter_response is defined
-      #     - result.catalystcenter_response.response is defined
-      #     - result.catalystcenter_response.response.taskId is defined
-      #   register: task_tree_result
+       # - name: Get task status
+       #   cisco.catalystcenter.task_info:
+       #     _host: "{{ _host }}"
+       #     _username: "{{ _username }}"
+       #     _password: "{{ _password }}"
+       #     _verify: "{{ _verify }}"
+       #     taskId: "{{ result.catalystcenter_response.response.taskId }}"
+       #   when:
+       #     - result.catalystcenter_response is defined
+       #     - result.catalystcenter_response.response is defined
+       #     - result.catalystcenter_response.response.taskId is defined
+       #   register: task_tree_result
 
       cisco.catalystcenter.tag_info:
         _host: "{{ _host }}"

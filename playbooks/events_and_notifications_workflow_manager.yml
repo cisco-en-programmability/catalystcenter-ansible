@@ -2,7 +2,7 @@
 - name: Configure channels and create events in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_events_and_notification.yml"
     - "credentials.yml"

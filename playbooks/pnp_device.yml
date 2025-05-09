@@ -5,24 +5,24 @@
     - credentials.yml
   gather_facts: false
   tasks:
-    # - name: Delete by id
-    #   cisco.catalystcenter.pnp_device:
-    #     _host: "{{ _host }}"
-    #     _username: "{{ _username }}"
-    #     _password: "{{ _password }}"
-    #     _verify: "{{ _verify }}"
-    #     _api_port: "{{ _api_port }}"
-    #     _version: "{{ _version }}"
-    #     _debug: "{{ _debug }}"
-    #     state: absent
-    #     id: 5f96f83854ee220008a9c456
-    #   register: pnp_device_delete_result
+     # - name: Delete by id
+     #   cisco.catalystcenter.pnp_device:
+     #     _host: "{{ _host }}"
+     #     _username: "{{ _username }}"
+     #     _password: "{{ _password }}"
+     #     _verify: "{{ _verify }}"
+     #     _api_port: "{{ _api_port }}"
+     #     _version: "{{ _version }}"
+     #     _debug: "{{ _debug }}"
+     #     state: absent
+     #     id: 5f96f83854ee220008a9c456
+     #   register: pnp_device_delete_result
 
-    # - name: Show deleted pnp_device
-    #   debug:
-    #     msg: "{{ pnp_device_delete_result }}"
-    #   when:
-    #     - pnp_device_delete_result is defined
+     # - name: Show deleted pnp_device
+     #   debug:
+     #     msg: "{{ pnp_device_delete_result }}"
+     #   when:
+     #     - pnp_device_delete_result is defined
     - name: Adds or Updates a device to the PnP database
       cisco.catalystcenter.pnp_device:
         _host: "{{ _host }}"
@@ -38,8 +38,8 @@
           serialNumber: FOCTEST2
           name: FOCTEST2
           state: Unclaimed
-          # onbState: Not Contacted
-          # cmState: Not Contacted
+           # onbState: Not Contacted
+           # cmState: Not Contacted
           location: {}
           source: User
           reloadRequested: false

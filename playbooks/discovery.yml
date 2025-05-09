@@ -59,24 +59,24 @@
         ipAddressList: 10.10.22.22
         name: start_discovery_test2
         protocolOrder: ssh
-        # id: "67"
-        # enablePasswordList: [""]
-        # userNameList: [""]
-        # passwordList: [""]
-        # ipFilterList: [""]
-        # httpReadCredential:
-        #   port: 0
-        #   secure: false
-        # deviceIds: " "
-        # discoveryCondition: "In Progress"
-        # discoveryStatus: "Active"
-        # isAutoCdp: true
-        # preferredMgmtIPMethod: "None"
-        # retry: 3
-        # timeout: 5
-        # httpWriteCredential:
-        #   port: 0
-        #   secure: false
+         # id: "67"
+         # enablePasswordList: [""]
+         # userNameList: [""]
+         # passwordList: [""]
+         # ipFilterList: [""]
+         # httpReadCredential:
+         #   port: 0
+         #   secure: false
+         # deviceIds: " "
+         # discoveryCondition: "In Progress"
+         # discoveryStatus: "Active"
+         # isAutoCdp: true
+         # preferredMgmtIPMethod: "None"
+         # retry: 3
+         # timeout: 5
+         # httpWriteCredential:
+         #   port: 0
+         #   secure: false
       register: discovery_result
       when:
         - discovery_filtered_result_id is not defined
@@ -96,23 +96,23 @@
         name: start_discovery_test2
         protocolOrder: ssh
         id: "{{ discovery_filtered_result_id.ansible_facts.discovery_filtered_id }}"
-        # enablePasswordList: [""]
-        # userNameList: [""]
-        # passwordList: [""]
-        # ipFilterList: [""]
-        # httpReadCredential:
-        #   port: 0
-        #   secure: false
-        # deviceIds: " "
-        # discoveryCondition: "In Progress"
-        # discoveryStatus: "Active"
-        # isAutoCdp: true
-        # preferredMgmtIPMethod: "None"
-        # retry: 3
-        # timeout: 5
-        # httpWriteCredential:
-        #   port: 0
-        #   secure: false
+         # enablePasswordList: [""]
+         # userNameList: [""]
+         # passwordList: [""]
+         # ipFilterList: [""]
+         # httpReadCredential:
+         #   port: 0
+         #   secure: false
+         # deviceIds: " "
+         # discoveryCondition: "In Progress"
+         # discoveryStatus: "Active"
+         # isAutoCdp: true
+         # preferredMgmtIPMethod: "None"
+         # retry: 3
+         # timeout: 5
+         # httpWriteCredential:
+         #   port: 0
+         #   secure: false
       register: discovery_result
       when:
         - discovery_filtered_result_id is defined

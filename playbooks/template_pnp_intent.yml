@@ -7,7 +7,7 @@
   gather_facts: false
   connection: local
   tasks:
-    # Project Info  Section
+     # Project Info  Section
     - name: Test project template
       cisco.catalystcenter.template_intent:
         _host: "{{ _host }}"
@@ -19,7 +19,7 @@
         log: true
         state: "merged"
         config_verify: true
-        # ignore_errors: true        # Enable this to continue execution even the task fails
+         # ignore_errors: true        # Enable this to continue execution even the task fails
         config:
           - configuration_templates:
               project_name: "{{ item.proj_name }}"

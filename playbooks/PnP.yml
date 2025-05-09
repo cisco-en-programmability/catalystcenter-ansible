@@ -2,7 +2,7 @@
 - name: Manage operations - Add, claim, and delete devices of Onboarding Configuration (PnP)
   hosts: localhost
   connection: local
-  gather_facts: false # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "{{ CLUSTERFILE }}"
   vars:
@@ -96,6 +96,6 @@
         config_verify: true
         config:
           - device_info:
-              - serial_number: QD2425L8M7 # Will get deleted
-              - serial_number: FTC2320E0HA # Doesn't exist in the inventory
-              - serial_number: FKC2310E0HB # Doesn't exist in the inventory
+              - serial_number: QD2425L8M7  # Will get deleted
+              - serial_number: FTC2320E0HA  # Doesn't exist in the inventory
+              - serial_number: FKC2310E0HB  # Doesn't exist in the inventory

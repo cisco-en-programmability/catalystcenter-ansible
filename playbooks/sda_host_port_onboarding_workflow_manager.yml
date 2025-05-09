@@ -26,15 +26,15 @@
           - ip_address: "204.1.2.2"
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
-              # Create TRUNKING DEVICE
-              # Default authentication_template_name is - No Authentication
+               # Create TRUNKING DEVICE
+               # Default authentication_template_name is - No Authentication
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
               - interface_name: "FortyGigabitEthernet1/1/2"
                 connected_device_type: "TRUNKING_DEVICE"
                 authentication_template_name: "No Authentication"
                 interface_description: "Trunk Port"
-              # Create Access Points
+               # Create Access Points
               - interface_name: "FortyGigabitEthernet2/1/1"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
@@ -43,7 +43,7 @@
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
                 interface_description: "Access Point Port"
-              # Create User Devices
+               # Create User Devices
               - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
@@ -55,7 +55,7 @@
                 data_vlan_name: "AG_VLAN_23"
                 voice_vlan_name: "VOICE_VLAN_23"
             port_channels:
-              # Default protocol is ON for TRUNK
+               # Default protocol is ON for TRUNK
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
                 connected_device_type: "TRUNK"
               - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
@@ -68,7 +68,7 @@
                 connected_device_type: "TRUNK"
                 protocol: "PAGP"
                 port_channel_description: "Trunk port channel"
-              # Default protocol for EXTENDED_NODE is PAGP
+               # Default protocol for EXTENDED_NODE is PAGP
               - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
                 connected_device_type: "EXTENDED_NODE"
               - interface_names: ["TenGigabitEthernet1/1/7", "TenGigabitEthernet1/1/8"]
@@ -91,56 +91,56 @@
           - hostname: "NY-EN-9300.cisco.local"
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
-              # update - add interface_description
+               # update - add interface_description
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
                 interface_description: "Trunk Port at interface 111"
-              # update - udpate the interface_description
+               # update - udpate the interface_description
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
                 interface_description: "Access Point Port at 212"
-              # update - change data vlan
+               # update - change data vlan
               - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
-              # update - change voice to data vlan
+               # update - change voice to data vlan
               - interface_name: "GigabitEthernet2/1/1"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
-              # update - remove data vlan
+               # update - remove data vlan
               - interface_name: "GigabitEthernet2/1/2"
                 connected_device_type: "USER_DEVICE"
                 voice_vlan_name: "VOICE_VLAN_23"
             port_channels:
-              # update - add interfaces in the port channel
+               # update - add interfaces in the port channel
               - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]
                 connected_device_type: "TRUNK"
                 protocol: "ON"
-              # update - add interface and description
+               # update - add interface and description
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39", "TenGigabitEthernet1/0/41"]
                 connected_device_type: "TRUNK"
                 port_channel_description: "Trunk port channel"
-              # update - remove interface from the port channel
+               # update - remove interface from the port channel
               - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47"]
                 connected_device_type: "TRUNK"
                 protocol: "LACP"
-              # update - change device type from extended_node to trunk
+               # update - change device type from extended_node to trunk
               - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
                 connected_device_type: "TRUNK"
-              # update - change device type from trunk to extended node when protocol is pagp
+               # update - change device type from trunk to extended node when protocol is pagp
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
                 connected_device_type: "EXTENDED_NODE"
                 protocol: "PAGP"
                 port_channel_description: "Trunk port channel"
             wireless_ssids:
-              # update - add security_group_name
+               # update - add security_group_name
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
                   - ssid_name: "open1-iac"
                     security_group_name: "Guests"
-              # update - remove security_group_name
+               # update - remove security_group_name
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
