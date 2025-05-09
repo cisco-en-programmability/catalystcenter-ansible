@@ -1,3 +1,4 @@
+---
 - name: Template workflow manager
   hosts: localhost
   vars_files:

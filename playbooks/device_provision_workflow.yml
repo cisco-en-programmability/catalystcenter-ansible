@@ -1,3 +1,4 @@
+---
 - name: Provision and Re-provision wired and wireless devices
   hosts: localhost
   connection: local

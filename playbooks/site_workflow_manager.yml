@@ -1,3 +1,4 @@
+---
 - name: Site workflow manager
   hosts: localhost
   connection: local

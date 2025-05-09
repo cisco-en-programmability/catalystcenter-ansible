@@ -1,3 +1,4 @@
+---
 - name: Discover devices using multiple discovery specific credentials and delete all the discoveries
   hosts: localhost
   connection: local

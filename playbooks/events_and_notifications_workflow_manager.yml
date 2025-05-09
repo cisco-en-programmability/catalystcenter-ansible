@@ -1,3 +1,4 @@
+---
 - name: Configure channels and create events in Cisco Catalyst Center
   hosts: localhost
   connection: local
