@@ -8,7 +8,7 @@
     - "credentials.yml"
   tasks:
     - name: Import an image, tag it as golden and load it on device
-      cisco.catalyst.swim_workflow_manager:
+      cisco.catalystcenter.swim_workflow_manager:
         host: "{{host}}"
         username: "{{username}}"
         password: "{{password}}"
