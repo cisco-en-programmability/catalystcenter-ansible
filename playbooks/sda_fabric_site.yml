@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
