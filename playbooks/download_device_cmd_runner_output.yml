@@ -65,7 +65,9 @@
     - name: Show extract of data
       ansible.builtin.debug:
         msg: >-
-          Filename: {{ download_file.catalystcenter_response.filename }} Filepath: {{ download_file.catalystcenter_response.path }} Data extract: {{ download_file.catalystcenter_response.data[:50]}}"
+          Filename: {{ download_file.catalystcenter_response.filename }}
+          Filepath: {{ download_file.catalystcenter_response.path }}
+          Data extract: {{ download_file.catalystcenter_response.data[:50] }}"
       when:
         - download_file is defined
         - download_file.catalystcenter_response is defined
