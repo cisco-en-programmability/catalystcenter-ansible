@@ -1,0 +1,29 @@
+
+.. Document meta section
+
+:orphan:
+
+.. Document body
+
+.. Anchors
+
+.. _ansible_collections.cisco.catalystcenter.sensor_v1_module:
+
+.. Title
+
+cisco.catalystcenter.sensor_v1 module
++++++++++++++++++++++++++++++++++++++
+
+
+The documentation for the module plugin, cisco.catalystcenter.sensor_v1,  was malformed.
+
+The errors were:
+
+* ::
+
+        1 validation error for ModuleDocSchema
+        doc -> options -> version -> __root__
+          Invalid value '2.3.7.6' for "default": <class 'str'> cannot be converted to an int (type=value_error)
+
+
+File a bug with the `cisco.catalystcenter collection <https://github.com/cisco-en-programmability/catalystcenter-ansible/issues>`_ in order to have it corrected.
