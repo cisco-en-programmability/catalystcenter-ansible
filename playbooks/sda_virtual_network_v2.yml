@@ -20,14 +20,14 @@
         virtualNetworkName: GUEST_VN
         virtualNetworkType: GUEST
 
-  # - name: Delete all
-  #   cisco.catalystcenter.sda_virtual_network_v2:
-  #     host: "{{ host }}"
-  #     username: "{{ username }}"
-  #     password: "{{ password }}"
-  #     verify: "{{ verify }}"
-  #     api_port: "{{ api_port }}"
-  #     version: "{{ version }}"
-  #     debug: "{{ debug }}"
-  #     state: absent
-  #     virtualNetworkName: GUEST_VN
+# - name: Delete all
+#   cisco.catalystcenter.sda_virtual_network_v2:
+#     host: "{{ host }}"
+#     username: "{{ username }}"
+#     password: "{{ password }}"
+#     verify: "{{ verify }}"
+#     api_port: "{{ api_port }}"
+#     version: "{{ version }}"
+#     debug: "{{ debug }}"
+#     state: absent
+#     virtualNetworkName: GUEST_VN

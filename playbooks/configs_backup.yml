@@ -3,10 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
-
   vars_files:
     - "{{ CLUSTERFILE }}"
-
   vars:
     catalystcenter_login: &catalystcenter_login
       host: "{{ host }}"
@@ -17,21 +15,19 @@
       version: "{{ version }}"
       debug: "{{ debug }}"
       log_level: "DEBUG"
-
   tasks:
     - name: Take backup of a wired 9500 switch
       cisco.catalystcenter.device_configs_backup_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         log: true
         state: merged
         config_verify: true
         config:
           - hostname: NY-BN-9500.cisco.local
             file_path: /home/admin/madhan_ansible/collections/ansible_collections/cisco/catalystcenter/playbooks/new_tmp
-
     - name: Take backup of all the switches
       cisco.catalystcenter.device_configs_backup_workflow_manager:
-        <<: *catalystcenter_login
+        !!merge <<: *catalystcenter_login
         log: true
         state: merged
         config_verify: true

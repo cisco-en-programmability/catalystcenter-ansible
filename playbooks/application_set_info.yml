@@ -14,7 +14,6 @@
         # limit: 3
         # offset: 2
       register: result
-
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"

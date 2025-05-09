@@ -14,7 +14,6 @@
         _version: "{{ version }}"
         _debug: "{{ debug }}"
       register: network_device_custom_prompt_result
-
     - name: Show all network_device_custom_prompt
       ansible.builtin.debug:
         msg: "{{ network_device_custom_prompt_result }}"

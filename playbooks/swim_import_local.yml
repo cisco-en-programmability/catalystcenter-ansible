@@ -5,19 +5,19 @@
   gather_facts: false
   connection: local
   tasks:
-  - name: Import Local
-    cisco.catalystcenter.swim_import_local:
-      host: "{{ host }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
-      verify: "{{ verify }}"
-      api_port: "{{ api_port }}"
-      version: "{{ version }}"
-      debug: "{{ debug }}"
-      #headers: "{{ my_headers | from_json }}"
-      isThirdParty: false
-      thirdPartyVendor: "string"
-      thirdPartyImageFamily: "string"
-      thirdPartyApplicationType: "string"
-      filePath: "./tests/test-1592357065255.csv"
-    register: result
+    - name: Import Local
+      cisco.catalystcenter.swim_import_local:
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        #headers: "{{ my_headers | from_json }}"
+        isThirdParty: false
+        thirdPartyVendor: "string"
+        thirdPartyImageFamily: "string"
+        thirdPartyApplicationType: "string"
+        filePath: "./tests/test-1592357065255.csv"
+      register: result

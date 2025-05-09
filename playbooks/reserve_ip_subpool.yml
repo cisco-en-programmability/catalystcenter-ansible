@@ -5,7 +5,6 @@
   gather_facts: false
   vars:
     site: bb25cdaf-3f5a-45b9-bdd6-0f63fdf6c83e
-
   tasks:
     - name: Create reservation
       cisco.catalystcenter.reserve_ip_subpool:
@@ -30,7 +29,6 @@
         siteId: "{{ site }}"
         slaacSupport: true
         type: LAN
-
     - name: Get Reservations
       cisco.catalystcenter.reserve_ip_subpool_info:
         host: "{{ host }}"
@@ -42,7 +40,6 @@
         debug: "{{ debug }}"
         siteId: "{{ site }}"
       register: ip_pool
-
     - name: Print Reservations
       ansible.builtin.debug:
         var: ip_pool
