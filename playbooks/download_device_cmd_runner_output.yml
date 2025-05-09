@@ -1,3 +1,4 @@
+---
 - name: Download Device Cmd Runner Output
   hosts: catalystcenter_servers
   vars_files:

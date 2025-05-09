@@ -1,3 +1,4 @@
+---
 - name: Sample playbook for Device Configs Backup Module
   hosts: catalystcenter_servers
   gather_facts: false

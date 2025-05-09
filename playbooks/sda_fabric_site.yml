@@ -1,3 +1,4 @@
+---
 - name: Sda fabric site
   hosts: catalystcenter_servers
   vars_files:

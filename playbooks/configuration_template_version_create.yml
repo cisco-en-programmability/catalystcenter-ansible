@@ -1,3 +1,4 @@
+---
 - name: Configuration Template Version Create
   hosts: catalystcenter_servers
   vars_files:

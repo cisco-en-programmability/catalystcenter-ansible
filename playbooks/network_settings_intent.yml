@@ -1,3 +1,4 @@
+---
 - name: Network settings intent
   hosts: catalystcenter_servers
   vars_files:

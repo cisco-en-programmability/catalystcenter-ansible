@@ -1,3 +1,4 @@
+---
 - name: Provision/Move/Update Wireless Access Point Configuration
   hosts: catalystcenter_servers
   connection: local

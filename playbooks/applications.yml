@@ -1,3 +1,4 @@
+---
 - name: Applications
   hosts: catalystcenter_servers
   vars_files:

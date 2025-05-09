@@ -1,3 +1,4 @@
+---
 - name: Pnp device
   hosts: catalystcenter_servers
   vars_files:

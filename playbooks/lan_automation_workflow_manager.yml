@@ -1,3 +1,4 @@
+---
 - name: Lan automation workflow manager
   hosts: catalystcenter_servers
   connection: local

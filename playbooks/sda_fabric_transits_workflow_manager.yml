@@ -1,3 +1,4 @@
+---
 - name: Sda fabric transits workflow manager
   hosts: catalystcenter_servers
   vars_files:

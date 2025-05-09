@@ -1,3 +1,4 @@
+---
 - name: Get tag members by id
   hosts: catalystcenter_servers
   vars_files:
