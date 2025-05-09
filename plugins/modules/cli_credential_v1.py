@@ -1,17 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: cli_credential_v1
 short_description: Resource module for Cli Credential V1
 description:
-- Manage operations create and update of the resource Cli Credential V1.
-- Adds global CLI credential.
-- Updates global CLI credentials.
+  - Manage operations create and update of the resource Cli Credential V1.
+  - Adds global CLI credential.
+  - Updates global CLI credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -45,36 +43,29 @@ options:
     description: CLI Username.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateCLICredentialsV1
-  description: Complete reference of the CreateCLICredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
-- name: Cisco DNA Center documentation for Discovery UpdateCLICredentialsV1
-  description: Complete reference of the UpdateCLICredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
+  - name: Cisco DNA Center documentation for Discovery CreateCLICredentialsV1
+    description: Complete reference of the CreateCLICredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
+  - name: Cisco DNA Center documentation for Discovery UpdateCLICredentialsV1
+    description: Complete reference of the UpdateCLICredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_cli_credentials_v1,
-    discovery.Discovery.update_cli_credentials_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/global-credential/cli,
-    put /dna/intent/api/v1/global-credential/cli,
-
+  - SDK Method used are discovery.Discovery.create_cli_credentials_v1, discovery.Discovery.update_cli_credentials_v1,
+  - Paths used are post /dna/intent/api/v1/global-credential/cli, put /dna/intent/api/v1/global-credential/cli,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.cli_credential_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     comments: string
     credentialType: string
@@ -85,16 +76,15 @@ EXAMPLES = r"""
     instanceUuid: string
     password: string
     username: string
-
 - name: Create
   cisco.catalystcenter.cli_credential_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     comments: string
     credentialType: string
@@ -105,7 +95,6 @@ EXAMPLES = r"""
     instanceUuid: string
     password: string
     username: string
-
 """
 RETURN = r"""
 catalystcenter_response:

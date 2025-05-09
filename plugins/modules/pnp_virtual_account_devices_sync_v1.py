@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_devices_sync_v1
 short_description: Resource module for Pnp Virtual Account Devices Sync V1
 description:
-- Manage operation create of the resource Pnp Virtual Account Devices Sync V1.
-- >
-   Synchronizes the device info from the given smart account & virtual account with the PnP database. The response
-   payload returns a list of synced devices Deprecated .
+  - Manage operation create of the resource Pnp Virtual Account Devices Sync V1.
+  - >
+    Synchronizes the device info from the given smart account & virtual account with
+    the PnP database. The response
+    payload returns a list of synced devices Deprecated .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -99,31 +98,26 @@ options:
     description: Pnp Virtual Account Devices Sync's virtualAccountId.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
-  description: Complete reference of the SyncVirtualAccountDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
+    description: Complete reference of the SyncVirtualAccountDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.pnp_virtual_account_devices_sync_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     autoSyncPeriod: 0
     ccoUser: string
     expiry: 0
@@ -140,9 +134,9 @@ EXAMPLES = r"""
     smartAccountId: string
     syncResult:
       syncList:
-      - deviceSnList:
-        - string
-        syncType: string
+        - deviceSnList:
+            - string
+          syncType: string
       syncMsg: string
     syncResultStr: string
     syncStartTime: 0
@@ -150,7 +144,6 @@ EXAMPLES = r"""
     tenantId: string
     token: string
     virtualAccountId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

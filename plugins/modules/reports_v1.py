@@ -1,19 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: reports_v1
 short_description: Resource module for Reports V1
 description:
-- Manage operations create and delete of the resource Reports V1.
-- >
-   Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the
-   metadata required to configure a report.
-- Delete a scheduled report configuration. Deletes the report executions also.
+  - Manage operations create and delete of the resource Reports V1.
+  - >
+    Create/Schedule a report configuration. Use "Get view details for a given view
+    group & view" API to get the
+    metadata required to configure a report.
+  - Delete a scheduled report configuration. Deletes the report executions also.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -106,56 +105,49 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReportV1
-  description: Complete reference of the CreateOrScheduleAReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
-- name: Cisco DNA Center documentation for Reports DeleteAScheduledReportV1
-  description: Complete reference of the DeleteAScheduledReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
+  - name: Cisco DNA Center documentation for Reports CreateOrScheduleAReportV1
+    description: Complete reference of the CreateOrScheduleAReportV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
+  - name: Cisco DNA Center documentation for Reports DeleteAScheduledReportV1
+    description: Complete reference of the DeleteAScheduledReportV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
 notes:
-  - SDK Method used are
-    reports.Reports.create_or_schedule_a_report_v1,
-    reports.Reports.delete_a_scheduled_report_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/data/reports,
-    delete /dna/intent/api/v1/data/reports/{reportId},
-
+  - SDK Method used are reports.Reports.create_or_schedule_a_report_v1, reports.Reports.delete_a_scheduled_report_v1,
+  - Paths used are post /dna/intent/api/v1/data/reports, delete /dna/intent/api/v1/data/reports/{reportId},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.reports_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     dataCategory: string
     deliveries:
-    - {}
+      - {}
     name: string
     schedule: {}
     tags:
-    - string
+      - string
     view:
       fieldGroups:
-      - fieldGroupDisplayName: string
-        fieldGroupName: string
-        fields:
+        - fieldGroupDisplayName: string
+          fieldGroupName: string
+          fields:
+            - displayName: string
+              name: string
+      filters:
         - displayName: string
           name: string
-      filters:
-      - displayName: string
-        name: string
-        type: string
-        value: {}
+          type: string
+          value: {}
       format:
         formatType: string
         name: string
@@ -163,19 +155,17 @@ EXAMPLES = r"""
       viewId: string
     viewGroupId: string
     viewGroupVersion: string
-
 - name: Delete by id
   cisco.catalystcenter.reports_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     reportId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

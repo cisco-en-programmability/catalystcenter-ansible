@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: applications_health_info
 short_description: Information module for Applications Health Info
 description:
-- This module represents an alias of the module applications_health_v1_info
+  - This module represents an alias of the module applications_health_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,73 +18,75 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId query parameter. Assurance site UUID value (Cannot be submitted together with deviceId and clientMac).
+      - SiteId query parameter. Assurance site UUID value (Cannot be submitted together
+        with deviceId and clientMac).
     type: str
   deviceId:
     description:
-    - DeviceId query parameter. Assurance device UUID value (Cannot be submitted together with siteId and clientMac).
+      - DeviceId query parameter. Assurance device UUID value (Cannot be submitted
+        together with siteId and clientMac).
     type: str
   macAddress:
     description:
-    - MacAddress query parameter. Client device's MAC address (Cannot be submitted together with siteId and deviceId).
+      - MacAddress query parameter. Client device's MAC address (Cannot be submitted
+        together with siteId and deviceId).
     type: str
   startTime:
     description:
-    - StartTime query parameter. Starting epoch time in milliseconds of time window.
+      - StartTime query parameter. Starting epoch time in milliseconds of time window.
     type: float
   endTime:
     description:
-    - EndTime query parameter. Ending epoch time in milliseconds of time window.
+      - EndTime query parameter. Ending epoch time in milliseconds of time window.
     type: float
   applicationHealth:
     description:
-    - >
-      ApplicationHealth query parameter. Application health category (POOR, FAIR, or GOOD. Optionally use with
-      siteId only).
+      - >
+        ApplicationHealth query parameter. Application health category (POOR, FAIR,
+        or GOOD. Optionally use with
+        siteId only).
     type: str
   offset:
     description:
-    - >
-      Offset query parameter. The offset of the first application in the returned data (optionally used with
-      siteId only).
+      - >
+        Offset query parameter. The offset of the first application in the returned
+        data (optionally used with
+        siteId only).
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The max number of application entries in returned data 1, 1000 (optionally used with
-      siteId only).
+      - >
+        Limit query parameter. The max number of application entries in returned data
+        1, 1000 (optionally used with
+        siteId only).
     type: float
   applicationName:
     description:
-    - ApplicationName query parameter. The name of the application to get information on.
+      - ApplicationName query parameter. The name of the application to get information
+        on.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Applications ApplicationsV1
-  description: Complete reference of the ApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!applications
+  - name: Cisco DNA Center documentation for Applications ApplicationsV1
+    description: Complete reference of the ApplicationsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!applications
 notes:
-  - SDK Method used are
-    applications.Applications.applications_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/application-health,
+  - SDK Method used are applications.Applications.applications_v1,
+  - Paths used are get /dna/intent/api/v1/application-health,
   - It should be noted that this module is an alias of applications_health_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Applications Health Info
   cisco.catalystcenter.applications_health_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     siteId: string
     deviceId: string
@@ -99,7 +98,6 @@ EXAMPLES = r"""
     limit: 0
     applicationName: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

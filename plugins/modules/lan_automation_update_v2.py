@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_update_v2
 short_description: Resource module for Lan Automation Update V2
 description:
-- Manage operation update of the resource Lan Automation Update V2.
-- >
-   Invoke this API to stop LAN Automation and update device parameters such as Loopback0 IP address and/or hostname
-   discovered in the current session.
+  - Manage operation update of the resource Lan Automation Update V2.
+  - >
+    Invoke this API to stop LAN Automation and update device parameters such as Loopback0
+    IP address and/or hostname
+    discovered in the current session.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -36,37 +35,32 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
-  description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
+    description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v2,
-
-  - Paths used are
-    put /dna/intent/api/v2/lan-automation/{id},
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v2,
+  - Paths used are put /dna/intent/api/v2/lan-automation/{id},
 """
-
 EXAMPLES = r"""
 - name: Update by id
   cisco.catalystcenter.lan_automation_update_v2:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     id: string
     payload:
-    - deviceManagementIPAddress: string
-      newHostName: string
-      newLoopback0IPAddress: string
-
+      - deviceManagementIPAddress: string
+        newHostName: string
+        newLoopback0IPAddress: string
 """
 RETURN = r"""
 catalystcenter_response:

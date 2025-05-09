@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: network_devices_trend_analytics
 short_description: Resource module for Network Devices Trend Analytics
 description:
-- This module represents an alias of the module network_devices_trend_analytics_v1
+  - This module represents an alias of the module network_devices_trend_analytics_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -65,50 +62,44 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetsTheTrendAnalyticsDataV1
-  description: Complete reference of the GetsTheTrendAnalyticsDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-trend-analytics-data
+  - name: Cisco DNA Center documentation for Devices GetsTheTrendAnalyticsDataV1
+    description: Complete reference of the GetsTheTrendAnalyticsDataV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-the-trend-analytics-data
 notes:
-  - SDK Method used are
-    devices.Devices.gets_the_trend_analytics_data_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/networkDevices/trendAnalytics,
+  - SDK Method used are devices.Devices.gets_the_trend_analytics_data_v1,
+  - Paths used are post /dna/data/api/v1/networkDevices/trendAnalytics,
   - It should be noted that this module is an alias of network_devices_trend_analytics_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.network_devices_trend_analytics:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     aggregateAttributes:
-    - {}
+      - {}
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     groupBy:
-    - {}
+      - {}
     page:
       limit: 0
       offset: 0
       timestampOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 catalystcenter_response:

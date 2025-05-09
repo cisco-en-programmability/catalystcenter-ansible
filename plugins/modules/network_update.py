@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: network_update
 short_description: Resource module for Network Update
 description:
-- This module represents an alias of the module network_update_v1
+  - This module represents an alias of the module network_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -129,32 +126,27 @@ options:
       is associated with the site.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings UpdateNetworkV1
-  description: Complete reference of the UpdateNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-network
+  - name: Cisco DNA Center documentation for Network Settings UpdateNetworkV1
+    description: Complete reference of the UpdateNetworkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.update_network_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/network/{siteId},
+  - SDK Method used are network_settings.NetworkSettings.update_network_v1,
+  - Paths used are put /dna/intent/api/v1/network/{siteId},
   - It should be noted that this module is an alias of network_update_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update by id
   cisco.catalystcenter.network_update:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     settings:
       clientAndEndpoint_aaa:
         ipAddress: string
@@ -163,7 +155,7 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       dhcpServer:
-      - string
+        - string
       dnsServer:
         domainName: string
         primaryIpAddress: string
@@ -181,18 +173,17 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       ntpServer:
-      - string
+        - string
       snmpServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       syslogServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       timezone: string
     siteId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

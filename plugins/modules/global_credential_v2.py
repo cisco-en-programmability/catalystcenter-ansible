@@ -1,22 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: global_credential_v2
 short_description: Resource module for Global Credential V2
 description:
-- Manage operations create, update and delete of the resource Global Credential V2.
-- >
-   API to create new global credentials. Multiple credentials of various types can be passed at once. Please refer
-   sample Request Body for more information.
-- Delete a global credential. Only 'id' of the credential has to be passed.
-- >
-   API to update device credentials. Multiple credentials can be passed at once, but only a single credential of a
-   given type can be passed at once. Please refer sample Request Body for more information.
+  - Manage operations create, update and delete of the resource Global Credential
+    V2.
+  - >
+    API to create new global credentials. Multiple credentials of various types can
+    be passed at once. Please refer
+    sample Request Body for more information.
+  - Delete a global credential. Only 'id' of the credential has to be passed.
+  - >
+    API to update device credentials. Multiple credentials can be passed at once,
+    but only a single credential of a
+    given type can be passed at once. Please refer sample Request Body for more information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -137,41 +138,34 @@ options:
         type: str
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
-  description: Complete reference of the CreateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials
-- name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
-  description: Complete reference of the DeleteGlobalCredentialV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential
-- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
-  description: Complete reference of the UpdateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
+  - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
+    description: Complete reference of the CreateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials
+  - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
+    description: Complete reference of the DeleteGlobalCredentialV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential
+  - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
+    description: Complete reference of the UpdateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
+  - SDK Method used are discovery.Discovery.create_global_credentials_v2, discovery.Discovery.delete_global_credential_v2,
     discovery.Discovery.update_global_credentials_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/global-credential,
-    delete /dna/intent/api/v2/global-credential/{id},
+  - Paths used are post /dna/intent/api/v2/global-credential, delete /dna/intent/api/v2/global-credential/{id},
     put /dna/intent/api/v2/global-credential,
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.global_credential_v2:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     cliCredential:
       description: string
@@ -208,59 +202,56 @@ EXAMPLES = r"""
       privacyType: string
       snmpMode: string
       username: string
-
 - name: Create
   cisco.catalystcenter.global_credential_v2:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     cliCredential:
-    - description: string
-      enablePassword: string
-      password: string
-      username: string
+      - description: string
+        enablePassword: string
+        password: string
+        username: string
     httpsRead:
-    - description: string
-      password: string
-      port: 0
-      username: string
+      - description: string
+        password: string
+        port: 0
+        username: string
     httpsWrite:
-    - description: string
-      password: string
-      port: 0
-      username: string
+      - description: string
+        password: string
+        port: 0
+        username: string
     snmpV2cRead:
-    - description: string
-      readCommunity: string
+      - description: string
+        readCommunity: string
     snmpV2cWrite:
-    - description: string
-      writeCommunity: string
+      - description: string
+        writeCommunity: string
     snmpV3:
-    - authPassword: string
-      authType: string
-      description: string
-      privacyPassword: string
-      privacyType: string
-      snmpMode: string
-      username: string
-
+      - authPassword: string
+        authType: string
+        description: string
+        privacyPassword: string
+        privacyType: string
+        snmpMode: string
+        username: string
 - name: Delete by id
   cisco.catalystcenter.global_credential_v2:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

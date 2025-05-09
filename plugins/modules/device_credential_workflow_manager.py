@@ -2,44 +2,43 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 """Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Megha Kandari']
-
 DOCUMENTATION = r"""
 ---
 module: device_credential_workflow_manager
-short_description: Resource module for Global Device Credentials and Assigning Credentials to sites.
+short_description: Resource module for Global Device Credentials and Assigning Credentials
+  to sites.
 description:
-- Manage operations on Global Device Credentials, Assigning Credentials to sites and Sync Credentials to site device.
-- API to create global device credentials.
-- API to update global device credentials.
-- API to delete global device credentials.
-- API to assign the device credential to the site.
-- API to sync the device credential to the site. Sync functionality is applicable for Catalyst Center version 2.3.7.6 and later.
-
+  - Manage operations on Global Device Credentials, Assigning Credentials to sites
+    and Sync Credentials to site device.
+  - API to create global device credentials.
+  - API to update global device credentials.
+  - API to delete global device credentials.
+  - API to assign the device credential to the site.
+  - API to sync the device credential to the site. Sync functionality is applicable
+    for Catalyst Center version 2.3.7.6 and later.
 version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
-        Megha Kandari (@kandarimegha)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Megha
+  Kandari (@kandarimegha)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of global device credentials and site names.
+      - List of details of global device credentials and site names.
     type: list
     elements: dict
     required: true
@@ -58,22 +57,22 @@ options:
                 type: str
               enable_password:
                 description:
-                - cli_credential credential Enable Password.
-                - Password cannot contain spaces or angle brackets (< >)
+                  - cli_credential credential Enable Password.
+                  - Password cannot contain spaces or angle brackets (< >)
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
               password:
                 description:
-                - cli_credential credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - cli_credential credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               username:
                 description:
-                - cli_credential credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - cli_credential credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -94,17 +93,17 @@ options:
                 type: str
               password:
                 description:
-                - https_read credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - https_read credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               port:
                 description: Port. Default port is 443.
                 type: int
               username:
                 description:
-                - https_read credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - https_read credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -125,17 +124,17 @@ options:
                 type: str
               password:
                 description:
-                - https_write credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - https_write credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               port:
                 description: Port. Default port is 443.
                 type: int
               username:
                 description:
-                - https_write credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - https_write credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -156,8 +155,8 @@ options:
                 type: str
               read_community:
                 description:
-                - snmp_v2c_read Read Community.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v2c_read Read Community.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -175,8 +174,8 @@ options:
                 type: str
               write_community:
                 description:
-                - snmp_v2c_write Write Community.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v2c_write Write Community.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -188,26 +187,26 @@ options:
             suboptions:
               auth_password:
                 description:
-                - snmp_v3 Auth Password.
-                - Password must contain minimum 8 characters.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 Auth Password.
+                  - Password must contain minimum 8 characters.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               auth_type:
                 description: Auth Type. ["SHA", "MD5"].
                 type: str
               description:
                 description:
-                - snmp_v3 Description.
-                - Should be unique from other snmp_v3 credentials.
+                  - snmp_v3 Description.
+                  - Should be unique from other snmp_v3 credentials.
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
               privacy_password:
                 description:
-                - snmp_v3 Privacy Password.
-                - Password must contain minimum 8 characters.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 Privacy Password.
+                  - Password must contain minimum 8 characters.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               privacy_type:
                 description: Privacy Type. ["AES128", "AES192", "AES256"].
@@ -217,18 +216,20 @@ options:
                 type: str
               username:
                 description:
-                - snmp_v3 credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
                 type: str
       assign_credentials_to_site:
         description:
-        - Assign Device Credentials to Site.
-        - Starting from version 2.3.7.6, all credential parameters are mandatory.
-        - If any parameter is missing, it will automatically inherit the value from the parent site—except for the Global site.
-        - The unset option (passing {}) is only applicable for the Global site and not for other sites.
+          - Assign Device Credentials to Site.
+          - Starting from version 2.3.7.6, all credential parameters are mandatory.
+          - If any parameter is missing, it will automatically inherit the value from
+            the parent site—except for the Global site.
+          - The unset option (passing {}) is only applicable for the Global site and
+            not for other sites.
         type: dict
         suboptions:
           cli_credential:
@@ -255,7 +256,8 @@ options:
                 description: HTTP(S) Read Credential Username.
                 type: str
               id:
-                description: HTTP(S) Read Credential Id. Use (Description, Username) or Id.
+                description: HTTP(S) Read Credential Id. Use (Description, Username)
+                  or Id.
                 type: str
           https_write:
             description: HTTP(S) Write Credential
@@ -268,7 +270,8 @@ options:
                 description: HTTP(S) Write Credential Username.
                 type: str
               id:
-                description: HTTP(S) Write Credential Id. Use (Description, Username) or Id.
+                description: HTTP(S) Write Credential Id. Use (Description, Username)
+                  or Id.
                 type: str
           site_name:
             description: Site Name to assign credential.
@@ -305,9 +308,10 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
       apply_credentials_to_site:
-        description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
-         The credentials will only be applied if devices are present at the site
-         and the provided credentials are already assigned but not yet synced to the specified site.
+        description: Sync Device Credentials to Site devices. Applicable for Catalyst
+          Center version 2.3.7.6 and later. The credentials will only be applied if
+          devices are present at the site and the provided credentials are already
+          assigned but not yet synced to the specified site.
         type: dict
         suboptions:
           cli_credential:
@@ -357,442 +361,419 @@ options:
               id:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
-
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.9
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.9
 seealso:
-- name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2
-  description: Complete reference of the CreateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-- name: Cisco Catalyst Center documentation for Discovery DeleteGlobalCredentialV2
-  description: Complete reference of the DeleteGlobalCredentialV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-- name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentialsV2
-  description: Complete reference of the UpdateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
-- name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV2
-  description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
-- name: Cisco Catalyst Center documentation for Network Settings updateDeviceCredentialSettingsForASite_
-  description: Complete reference of the updateDeviceCredentialSettingsForASite API.
-  link: https://developer.cisco.com/docs/dna-center/update-device-credential-settings-for-a-site
-- name: Cisco Catalyst Center documentation for Network Settings syncNetworkDevicesCredential
-  description: Complete reference of the syncNetworkDevicesCredential API.
-  link: https://developer.cisco.com/docs/dna-center/sync-network-devices-credential
-
+  - name: Cisco Catalyst Center documentation for Discovery CreateGlobalCredentialsV2
+    description: Complete reference of the CreateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
+  - name: Cisco Catalyst Center documentation for Discovery DeleteGlobalCredentialV2
+    description: Complete reference of the DeleteGlobalCredentialV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
+  - name: Cisco Catalyst Center documentation for Discovery UpdateGlobalCredentialsV2
+    description: Complete reference of the UpdateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+  - name: Cisco Catalyst Center documentation for Network Settings updateDeviceCredentialSettingsForASite_
+    description: Complete reference of the updateDeviceCredentialSettingsForASite
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/update-device-credential-settings-for-a-site
+  - name: Cisco Catalyst Center documentation for Network Settings syncNetworkDevicesCredential
+    description: Complete reference of the syncNetworkDevicesCredential API.
+    link: https://developer.cisco.com/docs/dna-center/sync-network-devices-credential
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
-    discovery.Discovery.update_global_credentials_v2,
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
-    network_settings.NetworkSettings.get_device_credential_settings_for_a_site,
-    network_settings.NetworkSettings.update_device_credential_settings_for_a_site,
-    network_settings.NetworkSettings.sync_network_devices_credential,
-    network_settings.NetworkSettings.get_network_devices_credentials_sync_status,
-    site.Sites.get_site_assigned_network_devices,
-    site.Sites.get_sites
-
-  - Paths used are
-    post /dna/intent/api/v2/global-credential,
-    delete /dna/intent/api/v2/global-credential/{id},
-    put /dna/intent/api/v2/global-credential,
-    post /dna/intent/api/v2/credential-to-site/{siteId},
-    get /dna/intent/api/v1/sites/${id}/deviceCredentials,
-    post /dna/intent/api/v1/sites/deviceCredentials/apply,
-    post /dna/intent/api/v1/sites/${id}/deviceCredentials,
-    get /dna/intent/api/v1/sites/${id}/deviceCredentials/status,
-    get /dna/intent/api/v1/networkDevices/assignedToSite,
-    get /dna/intent/api/v1/sites,
+  - SDK Method used are discovery.Discovery.create_global_credentials_v2, discovery.Discovery.delete_global_credential_v2,
+    discovery.Discovery.update_global_credentials_v2, network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+    network_settings.NetworkSettings.get_device_credential_settings_for_a_site, network_settings.NetworkSettings.update_device_credential_settings_for_a_site,
+    network_settings.NetworkSettings.sync_network_devices_credential, network_settings.NetworkSettings.get_network_devices_credentials_sync_status,
+    site.Sites.get_site_assigned_network_devices, site.Sites.get_sites
+  - Paths used are post /dna/intent/api/v2/global-credential, delete /dna/intent/api/v2/global-credential/{id},
+    put /dna/intent/api/v2/global-credential, post /dna/intent/api/v2/credential-to-site/{siteId},
+    get /dna/intent/api/v1/sites/${id}/deviceCredentials, post /dna/intent/api/v1/sites/deviceCredentials/apply,
+    post /dna/intent/api/v1/sites/${id}/deviceCredentials, get /dna/intent/api/v1/sites/${id}/deviceCredentials/status,
+    get /dna/intent/api/v1/networkDevices/assignedToSite, get /dna/intent/api/v1/sites,
 """
-
 EXAMPLES = r"""
----
-  - name: Create Credentials and assign it to a site.
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    log_level: "{{ log_level }}"
-    state: merged
-    config_verify: True
-    config:
+- name: Create Credentials and assign it to a site.
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  log_level: "{{ log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: CLI1
-          username: cli1
-          password: '12345'
-          enable_password: '12345'
+          - description: CLI1
+            username: cli1
+            password: '12345'
+            enable_password: '12345'
         snmp_v2c_read:
-        - description: SNMPv2c Read1
-          read_community: '123456'
+          - description: SNMPv2c Read1
+            read_community: '123456'
         snmp_v2c_write:
-        - description: SNMPv2c Write1
-          write_community: '123456'
+          - description: SNMPv2c Write1
+            write_community: '123456'
         snmp_v3:
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345678'
-          privacy_type: AES128
-          username: snmpV31
-          description: snmpV31
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345678'
+            privacy_type: AES128
+            username: snmpV31
+            description: snmpV31
         https_read:
-        - description: HTTP Read1
-          username: HTTP Read1
-          password: '12345'
-          port: 443
+          - description: HTTP Read1
+            username: HTTP Read1
+            password: '12345'
+            port: 443
         https_write:
-        - description: HTTP Write1
-          username: HTTP Write1
-          password: '12345'
-          port: 443
+          - description: HTTP Write1
+            username: HTTP Write1
+            password: '12345'
+            port: 443
       assign_credentials_to_site:
-        Sync: True
+        Sync: true
         cli_credential:
-            description: CLI6
-            username: cli6
+          description: CLI6
+          username: cli6
         snmp_v2c_read:
-            description: SNMPv2c Read1
+          description: SNMPv2c Read1
         snmp_v2c_write:
-            description: SNMPv2c Write1
+          description: SNMPv2c Write1
         snmp_v3:
-            description: snmpV31
-        https_read:
-            description: HTTP Read1
-            username: HTTP_Read1
-        https_write:
-            description: HTTP Write1
-            username: HTTP_Write1
-        site_name:
-            - Global/USA
-
-  - name: Create Multiple Credentials.
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    log_level: "{{ log_level }}"
-    state: merged
-    config_verify: True
-    config:
-    - global_credential_details:
-        cli_credential:
-        - description: CLI1
-          username: cli1
-          password: '12345'
-          enable_password: '12345'
-        - description: CLI2
-          username: cli2
-          password: '12345'
-          enable_password: '12345'
-        snmp_v2c_read:
-        - description: SNMPv2c Read1
-          read_community: '123456'
-        - description: SNMPv2c Read2
-          read_community: '123456'
-        snmp_v2c_write:
-        - description: SNMPv2c Write1
-          write_community: '123456'
-        - description: SNMPv2c Write2
-          write_community: '123456'
-        snmp_v3:
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345678'
-          privacy_type: AES128
-          username: snmpV31
-          description: snmpV31
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345678'
-          privacy_type: AES128
-          username: snmp
-          description: snmp
-        https_read:
-        - description: HTTP Read1
-          username: HTTP Read1
-          password: '12345'
-          port: 443
-        - description: HTTP Read2
-          username: HTTP Read2
-          password: '12345'
-          port: 443
-        https_write:
-        - description: HTTP Write1
-          username: HTTP Write1
-          password: '12345'
-          port: 443
-        - description: HTTP Write2
-          username: HTTP Write2
-          password: '12345'
-          port: 443
-
-  - name: Update global device credentials
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    log_level: "{{ log_level }}"
-    state: merged
-    config_verify: True
-    config:
-    - global_credential_details:
-        cli_credential:
-        - description: CLI1
-          username: cli1
-          password: '12345'
-          enable_password: '12345'
-        snmp_v2c_read:
-        - description: SNMPv2c Read1
-          read_community: '123456'
-        snmp_v2c_write:
-        - description: SNMPv2c Write1
-          write_community: '123456'
-        snmp_v3:
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345678'
-          privacy_type: AES128
-          username: snmpV31
           description: snmpV31
         https_read:
-        - description: HTTP Read1
-          username: HTTP Read1
-          password: '12345'
-          port: 443
-        https_write:
-        - description: HTTP_Write1
-          username: HTTP_Write1
-          password: '12345'
-          port: 443
-
-  - name: Update multiple global device credentials
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    log_level: "{{ log_level }}"
-    state: merged
-    config_verify: True
-    config:
-    - global_credential_details:
-        cli_credential:
-        - description: CLI1
-          username: cli1
-          password: '12345'
-          enable_password: '12345'
-        - description: CLI2
-          username: cli2
-          password: '12345'
-          enable_password: '12345'
-        snmp_v2c_read:
-        - description: SNMPv2c Read1
-          read_community: '123456'
-        - description: SNMPv2c Read2
-          read_community: '123458'
-        snmp_v2c_write:
-        - description: SNMPv2c write1
-          write_community: '123456'
-        - description: SNMPv2c Write1
-          write_community: '123466'
-        snmp_v3:
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345678'
-          privacy_type: AES128
-          username: snmpV31
-          description: snmpV31
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345644'
-          privacy_type: AES128
-          username: snmpV32
-          description: snmpV32
-        https_read:
-        - description: HTTP Read1
-          username: HTTP Read1
-          password: '12345'
-          port: 443
-        - description: HTTP Read2
-          username: HTTP Read2
-          password: '12345'
-          port: 443
-        https_write:
-        - description: HTTP_Write1
-          username: HTTP_Write1
-          password: '12345'
-          port: 443
-        - description: HTTP_Write2
-          username: HTTP_Write2
-          password: '12345'
-          port: 443
-
-  - name: Update global device credential name/description using old name and description.
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    log_level: "{{ log_level }}"
-    state: merged
-    config_verify: True
-    config:
-    - global_credential_details:
-        cli_credential:
-        - description: CLI1
-          username: cli1
-          password: '12345'
-          enable_password: '12345'
-          old_description: CLI
-          old_username: cli
-        snmp_v2c_read:
-        - description: SNMPv2c Read1
-          read_community: '123456'
-          old_description: SNMPv2c Read
-        snmp_v2c_write:
-        - description: SNMPv2c write1
-          write_community: '123456'
-          old_description: SNMPv2c write
-        snmp_v3:
-        - auth_password: '12345678'
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: '12345678'
-          privacy_type: AES128
-          username: snmpV31
-          description: snmpV31
-          old_description: snmp
-        https_read:
-        - description: HTTP Read1
-          username: HTTP Read1
-          password: '12345'
-          port: 443
-          old_description: HTTP Read
-          old_username: HTTP Read
-        https_write:
-        - description: HTTP_Write1
-          username: HTTP_Write1
-          password: '12345'
-          port: 443
-          old_description: HTTP_Write
-          old_username: HTTP_Write
-
-  - name: Assign Credentials to sites using old description and username.
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    log_level: "{{ log_level }}"
-    state: merged
-    config_verify: True
-    config:
-    - assign_credentials_to_site:
-        cli_credential:
-            description: CLI6
-            username: cli6
-        snmp_v2c_read:
-            description: SNMPv2c Read1
-        snmp_v2c_write:
-            description: SNMPv2c Write1
-        snmp_v3:
-            description: snmpV31
-        https_read:
-            description: HTTP Read1
-            username: HTTP_Read1
-        https_write:
-            description: HTTP Write1
-            username: HTTP_Write1
-        site_name:
-            - Global/USA
-
-  - name: Sync global device credentials to a site.
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    version: "{{version}}"
-    debug: "{{ debug }}"
-    log_level: "{{ log_level }}"
-    log: True
-    state: merged
-    config_verify: True
-    config:
-    - apply_credentials_to_site:
-        cli_credential:
-            description: CLI5
-            username: cli5
-        snmp_v2c_read:
-            description: SNMPv2c Read2
-        snmp_v2c_write:
-            description: SNMPv2c Write1
-        snmp_v3:
-            description: snmp
-        site_name:
-            - Global/Vietnam/halong/Hanoi
-
-  - name: Delete credentials
-    cisco.catalystcenter.device_credential_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    log: True
-    state: deleted
-    config_verify: True
-    config:
-    - global_credential_details:
-        cli_credential:
-        - description: CLI1
-          username: cli1
-        snmp_v2c_read:
-        - description: SNMPv2c Read1 # use this for deletion
-        snmp_v2c_write:
-        - description: SNMPv2c Write1 # use this for deletion
-        snmp_v3:
-        - description: snmpV31
-        https_read:
-        - description: HTTP Read1
+          description: HTTP Read1
           username: HTTP_Read1
         https_write:
-        - description: HTTP Write1
+          description: HTTP Write1
           username: HTTP_Write1
-
+        site_name:
+          - Global/USA
+- name: Create Multiple Credentials.
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  log_level: "{{ log_level }}"
+  state: merged
+  config_verify: true
+  config:
+    - global_credential_details:
+        cli_credential:
+          - description: CLI1
+            username: cli1
+            password: '12345'
+            enable_password: '12345'
+          - description: CLI2
+            username: cli2
+            password: '12345'
+            enable_password: '12345'
+        snmp_v2c_read:
+          - description: SNMPv2c Read1
+            read_community: '123456'
+          - description: SNMPv2c Read2
+            read_community: '123456'
+        snmp_v2c_write:
+          - description: SNMPv2c Write1
+            write_community: '123456'
+          - description: SNMPv2c Write2
+            write_community: '123456'
+        snmp_v3:
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345678'
+            privacy_type: AES128
+            username: snmpV31
+            description: snmpV31
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345678'
+            privacy_type: AES128
+            username: snmp
+            description: snmp
+        https_read:
+          - description: HTTP Read1
+            username: HTTP Read1
+            password: '12345'
+            port: 443
+          - description: HTTP Read2
+            username: HTTP Read2
+            password: '12345'
+            port: 443
+        https_write:
+          - description: HTTP Write1
+            username: HTTP Write1
+            password: '12345'
+            port: 443
+          - description: HTTP Write2
+            username: HTTP Write2
+            password: '12345'
+            port: 443
+- name: Update global device credentials
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  log_level: "{{ log_level }}"
+  state: merged
+  config_verify: true
+  config:
+    - global_credential_details:
+        cli_credential:
+          - description: CLI1
+            username: cli1
+            password: '12345'
+            enable_password: '12345'
+        snmp_v2c_read:
+          - description: SNMPv2c Read1
+            read_community: '123456'
+        snmp_v2c_write:
+          - description: SNMPv2c Write1
+            write_community: '123456'
+        snmp_v3:
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345678'
+            privacy_type: AES128
+            username: snmpV31
+            description: snmpV31
+        https_read:
+          - description: HTTP Read1
+            username: HTTP Read1
+            password: '12345'
+            port: 443
+        https_write:
+          - description: HTTP_Write1
+            username: HTTP_Write1
+            password: '12345'
+            port: 443
+- name: Update multiple global device credentials
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  log_level: "{{ log_level }}"
+  state: merged
+  config_verify: true
+  config:
+    - global_credential_details:
+        cli_credential:
+          - description: CLI1
+            username: cli1
+            password: '12345'
+            enable_password: '12345'
+          - description: CLI2
+            username: cli2
+            password: '12345'
+            enable_password: '12345'
+        snmp_v2c_read:
+          - description: SNMPv2c Read1
+            read_community: '123456'
+          - description: SNMPv2c Read2
+            read_community: '123458'
+        snmp_v2c_write:
+          - description: SNMPv2c write1
+            write_community: '123456'
+          - description: SNMPv2c Write1
+            write_community: '123466'
+        snmp_v3:
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345678'
+            privacy_type: AES128
+            username: snmpV31
+            description: snmpV31
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345644'
+            privacy_type: AES128
+            username: snmpV32
+            description: snmpV32
+        https_read:
+          - description: HTTP Read1
+            username: HTTP Read1
+            password: '12345'
+            port: 443
+          - description: HTTP Read2
+            username: HTTP Read2
+            password: '12345'
+            port: 443
+        https_write:
+          - description: HTTP_Write1
+            username: HTTP_Write1
+            password: '12345'
+            port: 443
+          - description: HTTP_Write2
+            username: HTTP_Write2
+            password: '12345'
+            port: 443
+- name: Update global device credential name/description using old name and description.
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  log_level: "{{ log_level }}"
+  state: merged
+  config_verify: true
+  config:
+    - global_credential_details:
+        cli_credential:
+          - description: CLI1
+            username: cli1
+            password: '12345'
+            enable_password: '12345'
+            old_description: CLI
+            old_username: cli
+        snmp_v2c_read:
+          - description: SNMPv2c Read1
+            read_community: '123456'
+            old_description: SNMPv2c Read
+        snmp_v2c_write:
+          - description: SNMPv2c write1
+            write_community: '123456'
+            old_description: SNMPv2c write
+        snmp_v3:
+          - auth_password: '12345678'
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: '12345678'
+            privacy_type: AES128
+            username: snmpV31
+            description: snmpV31
+            old_description: snmp
+        https_read:
+          - description: HTTP Read1
+            username: HTTP Read1
+            password: '12345'
+            port: 443
+            old_description: HTTP Read
+            old_username: HTTP Read
+        https_write:
+          - description: HTTP_Write1
+            username: HTTP_Write1
+            password: '12345'
+            port: 443
+            old_description: HTTP_Write
+            old_username: HTTP_Write
+- name: Assign Credentials to sites using old description and username.
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  log_level: "{{ log_level }}"
+  state: merged
+  config_verify: true
+  config:
+    - assign_credentials_to_site:
+        cli_credential:
+          description: CLI6
+          username: cli6
+        snmp_v2c_read:
+          description: SNMPv2c Read1
+        snmp_v2c_write:
+          description: SNMPv2c Write1
+        snmp_v3:
+          description: snmpV31
+        https_read:
+          description: HTTP Read1
+          username: HTTP_Read1
+        https_write:
+          description: HTTP Write1
+          username: HTTP_Write1
+        site_name:
+          - Global/USA
+- name: Sync global device credentials to a site.
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _version: "{{ _version }}"
+  _debug: "{{ _debug }}"
+  log_level: "{{ log_level }}"
+  log: true
+  state: merged
+  config_verify: true
+  config:
+    - apply_credentials_to_site:
+        cli_credential:
+          description: CLI5
+          username: cli5
+        snmp_v2c_read:
+          description: SNMPv2c Read2
+        snmp_v2c_write:
+          description: SNMPv2c Write1
+        snmp_v3:
+          description: snmp
+        site_name:
+          - Global/Vietnam/halong/Hanoi
+- name: Delete credentials
+  cisco.catalystcenter.device_credential_workflow_manager:
+  _host: "{{ _host }}"
+  _api_port: "{{ _api_port }}"
+  _username: "{{ _username }}"
+  _password: "{{ _password }}"
+  _verify: "{{ _verify }}"
+  _debug: "{{ _debug }}"
+  log: true
+  state: deleted
+  config_verify: true
+  config:
+    - global_credential_details:
+        cli_credential:
+          - description: CLI1
+            username: cli1
+        snmp_v2c_read:
+          - description: SNMPv2c Read1  # use this for deletion
+        snmp_v2c_write:
+          - description: SNMPv2c Write1  # use this for deletion
+        snmp_v3:
+          - description: snmpV31
+        https_read:
+          - description: HTTP Read1
+            username: HTTP_Read1
+        https_write:
+          - description: HTTP Write1
+            username: HTTP_Write1
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global device credentials
 catalystcenter_response1:
@@ -807,7 +788,6 @@ catalystcenter_response1:
       },
       "version": "string"
     }
-
 # Case_2: Successful assignment/sync of global device credentials to a site.
 catalystcenter_response2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -821,8 +801,8 @@ catalystcenter_response2:
       },
       "version": "string"
     }
-
 """
+
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
@@ -2909,7 +2889,7 @@ class DeviceCredential(CatalystCenterBase):
         for site_name, site_id in site_info.items():
             try:
                 self.log("Fetching devices for site ID: {0} (Site: {1})".format(site_id, site_name), "DEBUG")
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="site_design",
                     function='get_site_assigned_network_devices',
                     params={"site_id": site_id},
@@ -3342,13 +3322,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "host": {"type": 'str', "required": True},
-        "api_port": {"type": 'str', "default": '443'},
-        "username": {"type": 'str', "default": 'admin', "aliases": ['user']},
-        "password": {"type": 'str', "no_log": True},
-        "verify": {"type": 'bool', "default": 'True'},
-        "version": {"type": 'str', "default": '2.2.3.3'},
-        "debug": {"type": 'bool', "default": False},
+        "_host": {"type": 'str', "required": True},
+        "_api_port": {"type": 'str', "default": '443'},
+        "_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
+        "_password": {"type": 'str', "no_log": True},
+        "_verify": {"type": 'bool', "default": 'True'},
+        "_version": {"type": 'str', "default": '2.2.3.3'},
+        "_debug": {"type": 'bool', "default": False},
         "log": {"type": 'bool', "default": False},
         "log_level": {"type": 'str', "default": 'WARNING'},
         "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},

@@ -1,18 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_devices_id_v1_info
 short_description: Information module for Network Devices Id V1
 description:
-- Get Network Devices Id V1 by id.
-- >
-   API to fetch the details of network device using the `id`. Use the `/dna/intent/api/v1/networkDevices/query` API
-   for advanced filtering. The API supports views to fetch only the required fields. Refer features for more details.
+  - Get Network Devices Id V1 by id.
+  - >
+    API to fetch the details of network device using the `id`. Use the `/dna/intent/api/v1/networkDevices/query`
+    API
+    for advanced filtering. The API supports views to fetch only the required fields.
+    Refer features for more details.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,47 +23,45 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Unique identifier for the network device.
+      - Id path parameter. Unique identifier for the network device.
     type: str
   views:
     description:
-    - >
-      Views query parameter. The specific views being requested. This is an optional parameter which can be passed
-      to get one or more of the network device data. If this is not provided, then it will default to BASIC views.
-      If multiple views are provided, the response will contain the union of the views. Available values BASIC,
-      RESYNC, USER_DEFINED_FIELDS.
+      - >
+        Views query parameter. The specific views being requested. This is an optional
+        parameter which can be passed
+        to get one or more of the network device data. If this is not provided, then
+        it will default to BASIC views.
+        If multiple views are provided, the response will contain the union of the
+        views. Available values BASIC,
+        RESYNC, USER_DEFINED_FIELDS.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDetailsOfASingleNetworkDeviceV1
-  description: Complete reference of the GetDetailsOfASingleNetworkDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-network-device
+  - name: Cisco DNA Center documentation for Devices GetDetailsOfASingleNetworkDeviceV1
+    description: Complete reference of the GetDetailsOfASingleNetworkDeviceV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-network-device
 notes:
-  - SDK Method used are
-    devices.Devices.get_details_of_a_single_network_device_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkDevices/{id},
-
+  - SDK Method used are devices.Devices.get_details_of_a_single_network_device_v1,
+  - Paths used are get /dna/intent/api/v1/networkDevices/{id},
 """
-
 EXAMPLES = r"""
 - name: Get Network Devices Id V1 by id
   cisco.catalystcenter.network_devices_id_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     views: string
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

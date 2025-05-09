@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: credential_to_site_by_siteid_create_v2
 short_description: Resource module for Credential To Site By Siteid Create V2
 description:
-- Manage operation create of the resource Credential To Site By Siteid Create V2.
-- API to assign Device Credential to a site.
+  - Manage operation create of the resource Credential To Site By Siteid Create V2.
+  - API to assign Device Credential to a site.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -38,31 +36,26 @@ options:
     description: SNMPv3 Credential Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
-  description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
+  - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/credential-to-site/{siteId},
-
+  - SDK Method used are network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+  - Paths used are post /dna/intent/api/v2/credential-to-site/{siteId},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.credential_to_site_by_siteid_create_v2:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     cliId: string
     httpRead: string
     httpWrite: string
@@ -70,7 +63,6 @@ EXAMPLES = r"""
     snmpV2ReadId: string
     snmpV2WriteId: string
     snmpV3Id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

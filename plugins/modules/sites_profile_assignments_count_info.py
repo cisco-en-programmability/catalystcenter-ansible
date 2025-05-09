@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sites_profile_assignments_count_info
 short_description: Information module for Sites Profile Assignments Count Info
 description:
-- This module represents an alias of the module sites_profile_assignments_count_v1_info
+  - This module represents an alias of the module sites_profile_assignments_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,39 +18,36 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId path parameter. The `id` of the site, retrievable from `/dna/intent/api/v1/sites`.
+      - SiteId path parameter. The `id` of the site, retrievable from `/dna/intent/api/v1/sites`.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
-  description: Complete reference of the RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-profiles-that-the-given-site-has-been-assigned
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
+    description: Complete reference of the RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-profiles-that-the-given-site-has-been-assigned
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieves_the_count_of_profiles_that_the_given_site_has_been_assigned_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sites/{siteId}/profileAssignments/count,
+  - Paths used are get /dna/intent/api/v1/sites/{siteId}/profileAssignments/count,
   - It should be noted that this module is an alias of sites_profile_assignments_count_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Sites Profile Assignments Count Info
   cisco.catalystcenter.sites_profile_assignments_count_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

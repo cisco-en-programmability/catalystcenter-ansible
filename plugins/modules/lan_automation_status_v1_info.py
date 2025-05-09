@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_status_v1_info
 short_description: Information module for Lan Automation Status V1
 description:
-- Get all Lan Automation Status V1.
-- Get Lan Automation Status V1 by id.
-- Invoke this API to get the LAN Automation session status based on the given Lan Automation session id.
-- Invoke this API to get the LAN Automation session status.
+  - Get all Lan Automation Status V1.
+  - Get Lan Automation Status V1 by id.
+  - Invoke this API to get the LAN Automation session status based on the given Lan
+    Automation session id.
+  - Invoke this API to get the LAN Automation session status.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,65 +22,59 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. Starting index of the LAN Automation session. Minimum value is 1.
+      - Offset query parameter. Starting index of the LAN Automation session. Minimum
+        value is 1.
     type: float
   limit:
     description:
-    - Limit query parameter. Number of LAN Automation sessions to be retrieved. Limit value can range between 1 to 10.
+      - Limit query parameter. Number of LAN Automation sessions to be retrieved.
+        Limit value can range between 1 to 10.
     type: float
   id:
     description:
-    - Id path parameter. LAN Automation session identifier.
+      - Id path parameter. LAN Automation session identifier.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusByIdV1
-  description: Complete reference of the LANAutomationStatusByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusV1
-  description: Complete reference of the LANAutomationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusByIdV1
+    description: Complete reference of the LANAutomationStatusByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusV1
+    description: Complete reference of the LANAutomationStatusV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_status_by_id_v1,
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_status_by_id_v1,
     lan_automation.LanAutomation.lan_automation_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/lan-automation/status,
-    get /dna/intent/api/v1/lan-automation/status/{id},
-
+  - Paths used are get /dna/intent/api/v1/lan-automation/status, get /dna/intent/api/v1/lan-automation/status/{id},
 """
-
 EXAMPLES = r"""
 - name: Get all Lan Automation Status V1
   cisco.catalystcenter.lan_automation_status_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     offset: 0
     limit: 0
   register: result
-
 - name: Get Lan Automation Status V1 by id
   cisco.catalystcenter.lan_automation_status_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

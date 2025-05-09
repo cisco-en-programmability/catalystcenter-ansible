@@ -1,0 +1,11 @@
+FROM quay.io/centos/centos:stream9
+
+RUN dnf install -y python3.11 python3.11-pip git gcc python3.11-devel && \
+    alternatives --install /usr/bin/python python /usr/bin/python3.11 1 && \
+    pip3.11 install --upgrade pip
+
+RUN pip install git+https://github.com/ansible/ansible@devel
+
+RUN mkdir -p /root/ansible_collections
+
+WORKDIR /root/ansible_collections

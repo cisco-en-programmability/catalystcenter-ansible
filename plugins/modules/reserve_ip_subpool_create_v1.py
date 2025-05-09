@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool_create_v1
 short_description: Resource module for Reserve Ip Subpool Create V1
 description:
-- Manage operation create of the resource Reserve Ip Subpool Create V1.
-- API to reserve an ip subpool from the global pool.
+  - Manage operation create of the resource Reserve Ip Subpool Create V1.
+  - API to reserve an ip subpool from the global pool.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -90,35 +88,30 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
-  description: Complete reference of the ReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
+    description: Complete reference of the ReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.reserve_ip_subpool_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-
+  - SDK Method used are network_settings.NetworkSettings.reserve_ip_subpool_v1,
+  - Paths used are post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.reserve_ip_subpool_create_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     ipv4DhcpServers:
-    - string
+      - string
     ipv4DnsServers:
-    - string
+      - string
     ipv4GateWay: string
     ipv4GlobalPool: string
     ipv4Prefix: true
@@ -127,9 +120,9 @@ EXAMPLES = r"""
     ipv4TotalHost: 0
     ipv6AddressSpace: true
     ipv6DhcpServers:
-    - string
+      - string
     ipv6DnsServers:
-    - string
+      - string
     ipv6GateWay: string
     ipv6GlobalPool: string
     ipv6Prefix: true
@@ -140,7 +133,6 @@ EXAMPLES = r"""
     siteId: string
     slaacSupport: true
     type: string
-
 """
 RETURN = r"""
 catalystcenter_response:

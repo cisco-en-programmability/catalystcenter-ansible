@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_rf_profiles_v1
 short_description: Resource module for Wireless Settings Rf Profiles V1
 description:
-- Manage operations create, update and delete of the resource Wireless Settings Rf Profiles V1.
-- This API allows the user to create a custom RF Profile.
-- This API allows the user to delete a custom RF Profile.
-- This API allows the user to update a custom RF Profile.
+  - Manage operations create, update and delete of the resource Wireless Settings
+    Rf Profiles V1.
+  - This API allows the user to create a custom RF Profile.
+  - This API allows the user to delete a custom RF Profile.
+  - This API allows the user to update a custom RF Profile.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -159,11 +158,11 @@ options:
         type: bool
       radioChannels:
         description: DCA channels of 6 GHz radio band passed in comma separated format
-          without any spaces. Permissible values 1, 5, 9, 13, 17, 21, 25, 29, 33, 37,
-          41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109,
-          113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169,
-          173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229,
-          233.
+          without any spaces. Permissible values 1, 5, 9, 13, 17, 21, 25, 29, 33,
+          37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105,
+          109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165,
+          169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225,
+          229, 233.
         type: str
       rxSopThreshold:
         description: RX-SOP threshold of 6 GHz radio band.
@@ -311,14 +310,14 @@ options:
         type: int
       dataRates:
         description: Data rates of 2.4 GHz radio band passed in comma separated format
-          without any spaces. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36,
-          48, 54.
+          without any spaces. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24,
+          36, 48, 54.
         type: str
       mandatoryDataRates:
         description: Mandatory data rates of 2.4 GHz radio band passed in comma separated
           format without any spaces and must be a subset of selected dataRates with
-          maximum of 2 values. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36,
-          48, 54.
+          maximum of 2 values. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24,
+          36, 48, 54.
         type: str
       maxPowerLevel:
         description: Maximum power level of 2.4 GHz radio band.
@@ -336,9 +335,9 @@ options:
         description: Power threshold of 2.4 GHz radio band.
         type: int
       radioChannels:
-        description: DCA channels of 2.4 GHz radio band passed in comma separated format
-          without any spaces. Permissible values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-          12, 13, 14.
+        description: DCA channels of 2.4 GHz radio band passed in comma separated
+          format without any spaces. Permissible values 1, 2, 3, 4, 5, 6, 7, 8, 9,
+          10, 11, 12, 13, 14.
         type: str
       rxSopThreshold:
         description: RX-SOP threshold of 2.4 GHz radio band.
@@ -367,41 +366,34 @@ options:
     description: RF Profile Name.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateRFProfileV1
-  description: Complete reference of the CreateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile
-- name: Cisco DNA Center documentation for Wireless DeleteRFProfileV1
-  description: Complete reference of the DeleteRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile
-- name: Cisco DNA Center documentation for Wireless UpdateRFProfileV1
-  description: Complete reference of the UpdateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile
+  - name: Cisco DNA Center documentation for Wireless CreateRFProfileV1
+    description: Complete reference of the CreateRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile
+  - name: Cisco DNA Center documentation for Wireless DeleteRFProfileV1
+    description: Complete reference of the DeleteRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile
+  - name: Cisco DNA Center documentation for Wireless UpdateRFProfileV1
+    description: Complete reference of the UpdateRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_rf_profile_v1,
-    wireless.Wireless.delete_rf_profile_v1,
+  - SDK Method used are wireless.Wireless.create_rf_profile_v1, wireless.Wireless.delete_rf_profile_v1,
     wireless.Wireless.update_rf_profile_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessSettings/rfProfiles,
-    delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
+  - Paths used are post /dna/intent/api/v1/wirelessSettings/rfProfiles, delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
     put /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_settings_rf_profiles_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     defaultRfProfile: true
     enableRadioType6GHz: true
@@ -505,28 +497,26 @@ EXAMPLES = r"""
         dot11axSrgObssPacketDetectMaxThreshold: 0
         dot11axSrgObssPacketDetectMinThreshold: 0
     rfProfileName: string
-
 - name: Delete by id
   cisco.catalystcenter.wireless_settings_rf_profiles_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.catalystcenter.wireless_settings_rf_profiles_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     defaultRfProfile: true
     enableRadioType6GHz: true
@@ -631,7 +621,6 @@ EXAMPLES = r"""
         dot11axSrgObssPacketDetectMaxThreshold: 0
         dot11axSrgObssPacketDetectMinThreshold: 0
     rfProfileName: string
-
 """
 RETURN = r"""
 catalystcenter_response:

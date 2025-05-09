@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: compliance_device_details_count_v1_info
 short_description: Information module for Compliance Device Details Count V1
 description:
-- Get all Compliance Device Details Count V1.
-- Return Compliance Count Detail.
+  - Get all Compliance Device Details Count V1.
+  - Return Compliance Count Detail.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,48 +19,46 @@ options:
     type: dict
   complianceType:
     description:
-    - >
-      ComplianceType query parameter. Specify "Compliance type(s)" separated by commas. The Compliance type can be
-      'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS', 'PSIRT',
-      'RUNNING_CONFIG', 'WORKFLOW'.
+      - >
+        ComplianceType query parameter. Specify "Compliance type(s)" separated by
+        commas. The Compliance type can be
+        'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS',
+        'PSIRT',
+        'RUNNING_CONFIG', 'WORKFLOW'.
     type: str
   complianceStatus:
     description:
-    - >
-      ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance status
-      can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
+      - >
+        ComplianceStatus query parameter. Specify "Compliance status(es)" separated
+        by commas. The Compliance status
+        can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
+        'ERROR'.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetComplianceDetailCountV1
-  description: Complete reference of the GetComplianceDetailCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail-count
+  - name: Cisco DNA Center documentation for Compliance GetComplianceDetailCountV1
+    description: Complete reference of the GetComplianceDetailCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail-count
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_compliance_detail_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/compliance/detail/count,
-
+  - SDK Method used are compliance.Compliance.get_compliance_detail_count_v1,
+  - Paths used are get /dna/intent/api/v1/compliance/detail/count,
 """
-
 EXAMPLES = r"""
 - name: Get all Compliance Device Details Count V1
   cisco.catalystcenter.compliance_device_details_count_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     complianceType: string
     complianceStatus: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: file_namespace_files_info
 short_description: Information module for File Namespace Files Info
 description:
-- This module represents an alias of the module file_namespace_files_v1_info
+  - This module represents an alias of the module file_namespace_files_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,39 +18,33 @@ options:
     type: dict
   nameSpace:
     description:
-    - NameSpace path parameter. A listing of fileId's.
+      - NameSpace path parameter. A listing of fileId's.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for File GetListOfFilesV1
-  description: Complete reference of the GetListOfFilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
+  - name: Cisco DNA Center documentation for File GetListOfFilesV1
+    description: Complete reference of the GetListOfFilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
 notes:
-  - SDK Method used are
-    file.File.get_list_of_files_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/file/namespace/{nameSpace},
+  - SDK Method used are file.File.get_list_of_files_v1,
+  - Paths used are get /dna/intent/api/v1/file/namespace/{nameSpace},
   - It should be noted that this module is an alias of file_namespace_files_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get File Namespace Files Info by name
   cisco.catalystcenter.file_namespace_files_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     nameSpace: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

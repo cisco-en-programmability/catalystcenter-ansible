@@ -1,16 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: ipam_global_ip_address_pools_global_ip_address_pool_id_subpools_count_v1_info
-short_description: Information module for Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools Count V1
+short_description: Information module for Ipam Global Ip Address Pools Global Ip Address
+  Pool Id Subpools Count V1
 description:
-- Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools Count V1.
-- Counts subpools of a global IP address pool.
+  - Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools Count
+    V1.
+  - Counts subpools of a global IP address pool.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,38 +21,37 @@ options:
     type: dict
   globalIpAddressPoolId:
     description:
-    - GlobalIpAddressPoolId path parameter. The `id` of the global IP address pool for which to count subpools.
+      - GlobalIpAddressPoolId path parameter. The `id` of the global IP address pool
+        for which to count subpools.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CountsSubpoolsOfAGlobalIPAddressPoolV1
-  description: Complete reference of the CountsSubpoolsOfAGlobalIPAddressPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!counts-subpools-of-a-global-ip-address-pool
+  - name: Cisco DNA Center documentation for Network Settings CountsSubpoolsOfAGlobalIPAddressPoolV1
+    description: Complete reference of the CountsSubpoolsOfAGlobalIPAddressPoolV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!counts-subpools-of-a-global-ip-address-pool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.counts_subpools_of_a_global_ip_address_pool_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/ipam/globalIpAddressPools/{globalIpAddressPoolId}/subpools/count,
-
+  - SDK Method used are network_settings.NetworkSettings.counts_subpools_of_a_global_ip_address_pool_v1,
+  - Paths used are get
+    /dna/intent/api/v1/ipam/globalIpAddressPools/{globalIpAddressPoolId}/subpools/count,
 """
-
 EXAMPLES = r"""
-- name: Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools Count V1
+- name: Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools
+    Count V1
   cisco.catalystcenter.ipam_global_ip_address_pools_global_ip_address_pool_id_subpools_count_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     globalIpAddressPoolId: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

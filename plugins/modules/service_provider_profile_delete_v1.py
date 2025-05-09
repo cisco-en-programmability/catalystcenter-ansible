@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: service_provider_profile_delete_v1
 short_description: Resource module for Service Provider Profile Delete V1
 description:
-- Manage operation delete of the resource Service Provider Profile Delete V1.
-- API to delete Service Provider Profile QoS .
+  - Manage operation delete of the resource Service Provider Profile Delete V1.
+  - API to delete Service Provider Profile QoS .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,33 +18,27 @@ options:
     description: SpProfileName path parameter. Sp profile name.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV1
-  description: Complete reference of the DeleteSPProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
+  - name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV1
+    description: Complete reference of the DeleteSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.delete_sp_profile_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/sp-profile/{spProfileName},
-
+  - SDK Method used are network_settings.NetworkSettings.delete_sp_profile_v1,
+  - Paths used are delete /dna/intent/api/v1/sp-profile/{spProfileName},
 """
-
 EXAMPLES = r"""
 - name: Delete by name
   cisco.catalystcenter.service_provider_profile_delete_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     spProfileName: string
-
 """
 RETURN = r"""
 catalystcenter_response:

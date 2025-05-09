@@ -33,7 +33,7 @@ ip_range:
         username: wlcaccess
         password: Lablab#123
         port: 443
-        secure: True
+        secure: true
       snmp_v2_read_credential:
         desc: SNMPv2c Read
         community: "j5aj#0z%"

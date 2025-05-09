@@ -1,18 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_sites_v1
 short_description: Resource module for Sda Fabric Sites V1
 description:
-- Manage operations create, update and delete of the resource Sda Fabric Sites V1.
-- Adds a fabric site based on user input.
-- Deletes a fabric site based on id.
-- Updates a fabric site based on user input.
+  - Manage operations create, update and delete of the resource Sda Fabric Sites V1.
+  - Adds a fabric site based on user input.
+  - Deletes a fabric site based on id.
+  - Updates a fabric site based on user input.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -37,75 +35,65 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddFabricSiteV1
-  description: Complete reference of the AddFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-site
-- name: Cisco DNA Center documentation for SDA DeleteFabricSiteByIdV1
-  description: Complete reference of the DeleteFabricSiteByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id
-- name: Cisco DNA Center documentation for SDA UpdateFabricSiteV1
-  description: Complete reference of the UpdateFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-site
+  - name: Cisco DNA Center documentation for SDA AddFabricSiteV1
+    description: Complete reference of the AddFabricSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-fabric-site
+  - name: Cisco DNA Center documentation for SDA DeleteFabricSiteByIdV1
+    description: Complete reference of the DeleteFabricSiteByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id
+  - name: Cisco DNA Center documentation for SDA UpdateFabricSiteV1
+    description: Complete reference of the UpdateFabricSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-fabric-site
 notes:
-  - SDK Method used are
-    sda.Sda.add_fabric_site_v1,
-    sda.Sda.delete_fabric_site_by_id_v1,
+  - SDK Method used are sda.Sda.add_fabric_site_v1, sda.Sda.delete_fabric_site_by_id_v1,
     sda.Sda.update_fabric_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/fabricSites,
-    delete /dna/intent/api/v1/sda/fabricSites/{id},
+  - Paths used are post /dna/intent/api/v1/sda/fabricSites, delete /dna/intent/api/v1/sda/fabricSites/{id},
     put /dna/intent/api/v1/sda/fabricSites,
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.sda_fabric_sites_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - authenticationProfileName: string
-      isPubSubEnabled: true
-      siteId: string
-
+      - authenticationProfileName: string
+        isPubSubEnabled: true
+        siteId: string
 - name: Update all
   cisco.catalystcenter.sda_fabric_sites_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - authenticationProfileName: string
-      id: string
-      isPubSubEnabled: true
-      siteId: string
-
+      - authenticationProfileName: string
+        id: string
+        isPubSubEnabled: true
+        siteId: string
 - name: Delete by id
   cisco.catalystcenter.sda_fabric_sites_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

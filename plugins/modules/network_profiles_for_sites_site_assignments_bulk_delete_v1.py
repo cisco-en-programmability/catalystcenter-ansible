@@ -1,18 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_bulk_delete_v1
-short_description: Resource module for Network Profiles For Sites Site Assignments Bulk Delete V1
+short_description: Resource module for Network Profiles For Sites Site Assignments
+  Bulk Delete V1
 description:
-- Manage operation delete of the resource Network Profiles For Sites Site Assignments Bulk Delete V1.
-- >
-   Unassigns a given network profile for sites from multiple sites. The profile must be removed from the containing
-   building first if this site is a floor.
+  - Manage operation delete of the resource Network Profiles For Sites Site Assignments
+    Bulk Delete V1.
+  - >
+    Unassigns a given network profile for sites from multiple sites. The profile must
+    be removed from the containing
+    building first if this site is a floor.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -29,34 +30,31 @@ options:
       or... 2. As separate query parameters with the same name ( siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd&siteId...
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSitesV1
-  description: Complete reference of the UnassignsANetworkProfileForSitesFromMultipleSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites
+  - name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSitesV1
+    description: Complete reference of the UnassignsANetworkProfileForSitesFromMultipleSitesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.unassigns_a_network_profile_for_sites_from_multiple_sites_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk,
-
+  - Paths used are delete /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk,
 """
-
 EXAMPLES = r"""
 - name: Delete all
   cisco.catalystcenter.network_profiles_for_sites_site_assignments_bulk_delete_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     profileId: string
     siteId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

@@ -2,116 +2,110 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 """Ansible module to manage Extranet Policy Operations in SD-Access Fabric in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
-
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_workflow_manager
-short_description: SDA Extranet Policies Module provides functionality for managing SD-Access Extranet Policies in Cisco Catalyst Center.
+short_description: SDA Extranet Policies Module provides functionality for managing
+  SD-Access Extranet Policies in Cisco Catalyst Center.
 description:
-  - Manage SD-Access Extranet Policy operations such as create, update, or delete extranet policies in Cisco Catalyst Center.
+  - Manage SD-Access Extranet Policy operations such as create, update, or delete
+    extranet policies in Cisco Catalyst Center.
   - API to create a new extranet policy.
   - API to update an existing or edit an existing extranet policy.
   - API for deletion of an existing extranet policy using the policy name.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Rugvedi Kapse (@rukapse)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: State of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
-    description: List of Extranet Policy Details for Creating, Updating, or Deleting Operations.
+    description: List of Extranet Policy Details for Creating, Updating, or Deleting
+      Operations.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       extranet_policy_name:
         description:
-            - Name of the SDA Extranet Policy.
-            - Used to create, update, or delete the policy.
-            - Required for all operations (create, update, delete).
-            - Cannot be modified once set.
+          - Name of the SDA Extranet Policy.
+          - Used to create, update, or delete the policy.
+          - Required for all operations (create, update, delete).
+          - Cannot be modified once set.
         type: str
       provider_virtual_network:
         description:
-            - Specifies the Provider Virtual Network containing shared services resources that subscribers need to access.
-            - If a virtual network is already defined as a Provider, it cannot be assigned as a provider again.
-            - Ensure the default route is present in the Global Routing Table if INFRA_VN is defined as the Provider.
-            - For Subscriber Virtual Networks with multiple Providers having overlapping routes, traffic will be
-              load-balanced across those Provider Virtual Networks.
-            - Required for creating or updating the policy.
-            - Updating this field is not allowed.
+          - Specifies the Provider Virtual Network containing shared services resources
+            that subscribers need to access.
+          - If a virtual network is already defined as a Provider, it cannot be assigned
+            as a provider again.
+          - Ensure the default route is present in the Global Routing Table if INFRA_VN
+            is defined as the Provider.
+          - For Subscriber Virtual Networks with multiple Providers having overlapping
+            routes, traffic will be load-balanced across those Provider Virtual Networks.
+          - Required for creating or updating the policy.
+          - Updating this field is not allowed.
         type: str
       subscriber_virtual_networks:
         description:
-            - Specifies a list of Subscriber Virtual Networks that require access to the Provider Virtual Network
-              containing shared services resources.
-            - A Virtual Network previously defined as a Provider cannot be selected as a subscriber.
-            - Required for creating or updating the policy.
-            - Can be modified.
-            - Example - ["VN_2", "VN_4"]
+          - Specifies a list of Subscriber Virtual Networks that require access to
+            the Provider Virtual Network containing shared services resources.
+          - A Virtual Network previously defined as a Provider cannot be selected
+            as a subscriber.
+          - Required for creating or updating the policy.
+          - Can be modified.
+          - Example - ["VN_2", "VN_4"]
         type: list
         elements: str
       fabric_sites:
         description:
-            - Specifies the Fabric Site(s) where this Extranet Policy will be applied.
-            - The Provider Virtual Network must already be added to a Fabric Site before applying the policy.
-            - Updating this field is allowed, but once an extranet policy is applied to a site, it cannot be removed.
-            - Fabric Site(s) connected to the same SD-Access Transit must have consistent Extranet Policies.
-            - Selecting a Fabric Site connected to an SD-Access Transit will automatically select all other Sites connected to that Transit.
-            - Example - ["Global/USA/San Jose/Building23", "Global/India/Bangalore/Building18"]
+          - Specifies the Fabric Site(s) where this Extranet Policy will be applied.
+          - The Provider Virtual Network must already be added to a Fabric Site before
+            applying the policy.
+          - Updating this field is allowed, but once an extranet policy is applied
+            to a site, it cannot be removed.
+          - Fabric Site(s) connected to the same SD-Access Transit must have consistent
+            Extranet Policies.
+          - Selecting a Fabric Site connected to an SD-Access Transit will automatically
+            select all other Sites connected to that Transit.
+          - Example - ["Global/USA/San Jose/Building23", "Global/India/Bangalore/Building18"]
         type: list
         elements: str
-
-
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.9
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.9
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site
-    sda.SDA.get_fabric_sites
-    sda.SDA.get_extranet_policies
-    sda.SDA.add_extranet_policy
-    sda.SDA.update_extranet_policy
-    sda.SDA.delete_extranet_policy_by_id
+  - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites sda.SDA.get_extranet_policies
+    sda.SDA.add_extranet_policy sda.SDA.update_extranet_policy sda.SDA.delete_extranet_policy_by_id
     task.Task.get_task_by_id
-
-  - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/sda/fabricSites
-    get /dna/intent/api/v1/sda/extranetPolicies
-    post /dna/intent/api/v1/sda/extranetPolicies
-    put /dna/intent/api/v1/sda/extranetPolicies
-    delete dna/intent/api/v1/sda/extranetPolicies/${id}
+  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/sda/fabricSites
+    get /dna/intent/api/v1/sda/extranetPolicies post /dna/intent/api/v1/sda/extranetPolicies
+    put /dna/intent/api/v1/sda/extranetPolicies delete dna/intent/api/v1/sda/extranetPolicies/${id}
     get /dna/intent/api/v1/task/{taskId}
-
 """
-
 EXAMPLES = r"""
 - name: Create Extranet Policy
   cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log_level: "{{log_level}}"
     log: true
     state: merged
@@ -119,16 +113,15 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
-
 - name: Create Extranet Policy with Fabric Site(s) specified
   cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log_level: "{{log_level}}"
     log: true
     state: merged
@@ -137,16 +130,15 @@ EXAMPLES = r"""
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
         fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
-
 - name: Update existing Extranet Policy
   cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log_level: "{{log_level}}"
     log: true
     state: merged
@@ -154,16 +146,15 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
-
 - name: Update existing Extranet Policy with Fabric Site(s) specified
   cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log_level: "{{log_level}}"
     log: true
     state: merged
@@ -172,23 +163,21 @@ EXAMPLES = r"""
         fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
-
 - name: Delete Extranet Policy
   cisco.catalystcenter.sda_extranet_policies_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log_level: "{{log_level}}"
     log: true
     state: deleted
     config:
       - extranet_policy_name: "test_extranet_policy_1"
 """
-
 RETURN = r"""
 #Case_1: Response when task is successful
 sample_response_2:
@@ -206,7 +195,6 @@ sample_response_2:
       },
       "version": "string"
     }
-
 #Case_3: Response when Error Occurs
 sample_response_3:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
@@ -1010,13 +998,13 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
+        "_host": {"required": True, "type": "str"},
+        "_api_port": {"type": "str", "default": "443"},
+        "_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "_password": {"type": "str", "no_log": True},
+        "_verify": {"type": "bool", "default": "True"},
+        "_version": {"type": "str", "default": "2.2.3.3"},
+        "_debug": {"type": "bool", "default": False},
         "log_level": {"type": "str", "default": "WARNING"},
         "log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "log_append": {"type": "bool", "default": True},

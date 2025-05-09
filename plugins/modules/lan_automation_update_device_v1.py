@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: lan_automation_update_device_v1
 short_description: Resource module for Lan Automation Update Device V1
 description:
-- Manage operation update of the resource Lan Automation Update Device V1.
-- >
-   Invoke this API to perform a DAY-N update on LAN Automation-related devices. Supported features include Loopback0
-   IP update, hostname update, link addition, and link deletion.
+  - Manage operation update of the resource Lan Automation Update Device V1.
+  - >
+    Invoke this API to perform a DAY-N update on LAN Automation-related devices. Supported
+    features include Loopback0
+    IP update, hostname update, link addition, and link deletion.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -43,8 +42,8 @@ options:
         description: Destination Device Management IP Address.
         type: str
       ipPoolName:
-        description: Name of the IP LAN Pool, required for Link Add should be from discovery
-          site of source and destination device.
+        description: Name of the IP LAN Pool, required for Link Add should be from
+          discovery site of source and destination device.
         type: str
       sourceDeviceInterfaceName:
         description: Source Device Interface Name.
@@ -66,35 +65,30 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdateV1
-  description: Complete reference of the LANAutomationDeviceUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdateV1
+    description: Complete reference of the LANAutomationDeviceUpdateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_device_update_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/lan-automation/updateDevice,
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_device_update_v1,
+  - Paths used are put /dna/intent/api/v1/lan-automation/updateDevice,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.lan_automation_update_device_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     feature: string
     hostnameUpdateDevices:
-    - deviceManagementIPAddress: string
-      newHostName: string
+      - deviceManagementIPAddress: string
+        newHostName: string
     linkUpdate:
       destinationDeviceInterfaceName: string
       destinationDeviceManagementIPAddress: string
@@ -102,9 +96,8 @@ EXAMPLES = r"""
       sourceDeviceInterfaceName: string
       sourceDeviceManagementIPAddress: string
     loopbackUpdateDeviceList:
-    - deviceManagementIPAddress: string
-      newLoopback0IPAddress: string
-
+      - deviceManagementIPAddress: string
+        newLoopback0IPAddress: string
 """
 RETURN = r"""
 catalystcenter_response:

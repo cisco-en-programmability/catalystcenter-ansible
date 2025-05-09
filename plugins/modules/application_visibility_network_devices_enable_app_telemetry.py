@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: application_visibility_network_devices_enable_app_telemetry
-short_description: Resource module for Application Visibility Network Devices Enable App Telemetry
+short_description: Resource module for Application Visibility Network Devices Enable
+  App Telemetry
 description:
-- This module represents an alias of the module application_visibility_network_devices_enable_app_telemetry_v1
+  - This module represents an alias of the module application_visibility_network_devices_enable_app_telemetry_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -36,38 +34,35 @@ options:
         type: list
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevicesV1
-  description: Complete reference of the EnableApplicationTelemetryFeatureOnMultipleNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!enable-application-telemetry-feature-on-multiple-network-devices
+  - name: Cisco DNA Center documentation for Application Policy EnableApplicationTelemetryFeatureOnMultipleNetworkDevicesV1
+    description: Complete reference of the EnableApplicationTelemetryFeatureOnMultipleNetworkDevicesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!enable-application-telemetry-feature-on-multiple-network-devices
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.enable_application_telemetry_feature_on_multiple_network_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry,
+  - Paths used are post /dna/intent/api/v1/applicationVisibility/networkDevices/enableAppTelemetry,
   - It should be noted that this module is an alias of application_visibility_network_devices_enable_app_telemetry_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.application_visibility_network_devices_enable_app_telemetry:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     networkDevices:
-    - id: string
-      includeGuestSsids: true
-      includeWlanModes:
-      - string
-
+      - id: string
+        includeGuestSsids: true
+        includeWlanModes:
+          - string
 """
 RETURN = r"""
 catalystcenter_response:

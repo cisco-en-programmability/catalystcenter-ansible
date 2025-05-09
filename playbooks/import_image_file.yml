@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -10,13 +11,12 @@
         username: "{{ username }}"
         password: "{{ password }}"
         verify: "{{ verify }}"
-        filePath: fullpath/playbooks/files/test.template # string
-        isThirdParty: true # boolean
-        thirdPartyApplicationType: SomeValue # string
-        thirdPartyImageFamily: SomeValue # string
-        thirdPartyVendor: SomeValue # string
+        filePath: fullpath/playbooks/files/test.template  # string
+        isThirdParty: true  # boolean
+        thirdPartyApplicationType: SomeValue  # string
+        thirdPartyImageFamily: SomeValue  # string
+        thirdPartyVendor: SomeValue  # string
       register: result
-
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"

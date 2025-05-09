@@ -1,17 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_dynamic_interface_v1
 short_description: Resource module for Wireless Dynamic Interface V1
 description:
-- Manage operations create and delete of the resource Wireless Dynamic Interface V1.
-- API to create or update an dynamic interface.
-- Delete a dynamic interface.
+  - Manage operations create and delete of the resource Wireless Dynamic Interface
+    V1.
+  - API to create or update an dynamic interface.
+  - Delete a dynamic interface.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -27,53 +26,44 @@ options:
     description: Vlan Id.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterfaceV1
-  description: Complete reference of the CreateUpdateDynamicInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
-- name: Cisco DNA Center documentation for Wireless DeleteDynamicInterfaceV1
-  description: Complete reference of the DeleteDynamicInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
+  - name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterfaceV1
+    description: Complete reference of the CreateUpdateDynamicInterfaceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
+  - name: Cisco DNA Center documentation for Wireless DeleteDynamicInterfaceV1
+    description: Complete reference of the DeleteDynamicInterfaceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_update_dynamic_interface_v1,
-    wireless.Wireless.delete_dynamic_interface_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/dynamic-interface,
-    delete /dna/intent/api/v1/wireless/dynamic-interface,
-
+  - SDK Method used are wireless.Wireless.create_update_dynamic_interface_v1, wireless.Wireless.delete_dynamic_interface_v1,
+  - Paths used are post /dna/intent/api/v1/wireless/dynamic-interface, delete /dna/intent/api/v1/wireless/dynamic-interface,
 """
-
 EXAMPLES = r"""
 - name: Delete all
   cisco.catalystcenter.wireless_dynamic_interface_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     headers: '{{my_headers | from_json}}'
     interfaceName: string
-
 - name: Create
   cisco.catalystcenter.wireless_dynamic_interface_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     interfaceName: string
     vlanId: 0
-
 """
 RETURN = r"""
 catalystcenter_response:

@@ -9,13 +9,13 @@
       name: vars_map
     vars:
       catalystcenter_login: &catalystcenter_login
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: DEBUG
 
@@ -162,7 +162,7 @@
       <<: *catalystcenter_login
       config:
       - "{{ item }}"
-    loop: "{{ vars_map.image_golden_tagging_details}}"
+    loop: "{{ vars_map.image_golden_tagging_details }}"
     register: result_tag_image
 
   # - name: Debug item
