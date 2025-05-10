@@ -4,8 +4,6 @@ from ansible.plugins.action import ActionBase
 from ansible_collections.cisco.catalystcenter.plugins.action.app_policy_queuing_profile_v1 import ActionModule
 
 
-
-
 class ActionModule2(ActionBase):
 
     def __init__(self, *args, **kwargs):
