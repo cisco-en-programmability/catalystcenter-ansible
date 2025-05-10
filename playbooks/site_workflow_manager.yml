@@ -1,21 +1,23 @@
-- hosts: localhost
+---
+- name: Play
+  hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
     - name: Get site info and updating site details
       cisco.catalystcenter.site_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
+        log: true
         log_level: DEBUG
-        config_verify: True
+        config_verify: true
         state: merged
         config:
           - site:

@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles_v1
 short_description: Resource module for Wireless Settings Power Profiles V1
 description:
-- Manage operation create of the resource Wireless Settings Power Profiles V1.
-- This API allows the user to create a custom Power Profile.
+  - Manage operation create of the resource Wireless Settings Power Profiles V1.
+  - This API allows the user to create a custom Power Profile.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -40,40 +38,34 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreatePowerProfileV1
-  description: Complete reference of the CreatePowerProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-power-profile
+  - name: Cisco DNA Center documentation for Wireless CreatePowerProfileV1
+    description: Complete reference of the CreatePowerProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-power-profile
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_power_profile_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessSettings/powerProfiles,
-
+  - SDK Method used are wireless.Wireless.create_power_profile_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessSettings/powerProfiles,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_settings_power_profiles_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     description: string
     profileName: string
     rules:
-    - interfaceId: string
-      interfaceType: string
-      parameterType: string
-      parameterValue: string
-
+      - interfaceId: string
+        interfaceType: string
+        parameterType: string
+        parameterValue: string
 """
 RETURN = r"""
 catalystcenter_response:

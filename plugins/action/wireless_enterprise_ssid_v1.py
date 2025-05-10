@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -18,16 +18,15 @@ else:
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
     CatalystCenterSDK,
-    Catalystcenter_argument_spec,
+    catalystcenter_argument_spec,
     catalystcenter_compare_equality,
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters,
-)
+    InconsistentParameters, )
 
 # Get common arguments specification
-argument_spec = Catalystcenter_argument_spec()
+argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
@@ -123,36 +122,59 @@ class WirelessEnterpriseSsidV1(object):
     def create_params(self):
         new_object_params = {}
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['securityLevel'] = self.new_object.get('securityLevel')
+        new_object_params['securityLevel'] = self.new_object.get(
+            'securityLevel')
         new_object_params['passphrase'] = self.new_object.get('passphrase')
-        new_object_params['enableFastLane'] = self.new_object.get('enableFastLane')
-        new_object_params['enableMACFiltering'] = self.new_object.get('enableMACFiltering')
+        new_object_params['enableFastLane'] = self.new_object.get(
+            'enableFastLane')
+        new_object_params['enableMACFiltering'] = self.new_object.get(
+            'enableMACFiltering')
         new_object_params['trafficType'] = self.new_object.get('trafficType')
         new_object_params['radioPolicy'] = self.new_object.get('radioPolicy')
-        new_object_params['enableBroadcastSSID'] = self.new_object.get('enableBroadcastSSID')
-        new_object_params['fastTransition'] = self.new_object.get('fastTransition')
-        new_object_params['enableSessionTimeOut'] = self.new_object.get('enableSessionTimeOut')
-        new_object_params['sessionTimeOut'] = self.new_object.get('sessionTimeOut')
-        new_object_params['enableClientExclusion'] = self.new_object.get('enableClientExclusion')
-        new_object_params['clientExclusionTimeout'] = self.new_object.get('clientExclusionTimeout')
-        new_object_params['enableBasicServiceSetMaxIdle'] = self.new_object.get('enableBasicServiceSetMaxIdle')
-        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get('basicServiceSetClientIdleTimeout')
-        new_object_params['enableDirectedMulticastService'] = self.new_object.get('enableDirectedMulticastService')
-        new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
-        new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
+        new_object_params['enableBroadcastSSID'] = self.new_object.get(
+            'enableBroadcastSSID')
+        new_object_params['fastTransition'] = self.new_object.get(
+            'fastTransition')
+        new_object_params['enableSessionTimeOut'] = self.new_object.get(
+            'enableSessionTimeOut')
+        new_object_params['sessionTimeOut'] = self.new_object.get(
+            'sessionTimeOut')
+        new_object_params['enableClientExclusion'] = self.new_object.get(
+            'enableClientExclusion')
+        new_object_params['clientExclusionTimeout'] = self.new_object.get(
+            'clientExclusionTimeout')
+        new_object_params['enableBasicServiceSetMaxIdle'] = self.new_object.get(
+            'enableBasicServiceSetMaxIdle')
+        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get(
+            'basicServiceSetClientIdleTimeout')
+        new_object_params['enableDirectedMulticastService'] = self.new_object.get(
+            'enableDirectedMulticastService')
+        new_object_params['enableNeighborList'] = self.new_object.get(
+            'enableNeighborList')
+        new_object_params['mfpClientProtection'] = self.new_object.get(
+            'mfpClientProtection')
         new_object_params['nasOptions'] = self.new_object.get('nasOptions')
         new_object_params['profileName'] = self.new_object.get('profileName')
-        new_object_params['policyProfileName'] = self.new_object.get('policyProfileName')
+        new_object_params['policyProfileName'] = self.new_object.get(
+            'policyProfileName')
         new_object_params['aaaOverride'] = self.new_object.get('aaaOverride')
-        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get('coverageHoleDetectionEnable')
-        new_object_params['protectedManagementFrame'] = self.new_object.get('protectedManagementFrame')
-        new_object_params['multiPSKSettings'] = self.new_object.get('multiPSKSettings')
-        new_object_params['clientRateLimit'] = self.new_object.get('clientRateLimit')
+        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get(
+            'coverageHoleDetectionEnable')
+        new_object_params['protectedManagementFrame'] = self.new_object.get(
+            'protectedManagementFrame')
+        new_object_params['multiPSKSettings'] = self.new_object.get(
+            'multiPSKSettings')
+        new_object_params['clientRateLimit'] = self.new_object.get(
+            'clientRateLimit')
         new_object_params['authKeyMgmt'] = self.new_object.get('authKeyMgmt')
-        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get('rsnCipherSuiteGcmp256')
-        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get('rsnCipherSuiteCcmp256')
-        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get('rsnCipherSuiteGcmp128')
-        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get('ghz6PolicyClientSteering')
+        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get(
+            'rsnCipherSuiteGcmp256')
+        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get(
+            'rsnCipherSuiteCcmp256')
+        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get(
+            'rsnCipherSuiteGcmp128')
+        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get(
+            'ghz6PolicyClientSteering')
         new_object_params['ghz24Policy'] = self.new_object.get('ghz24Policy')
         return new_object_params
 
@@ -164,36 +186,59 @@ class WirelessEnterpriseSsidV1(object):
     def update_all_params(self):
         new_object_params = {}
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['securityLevel'] = self.new_object.get('securityLevel')
+        new_object_params['securityLevel'] = self.new_object.get(
+            'securityLevel')
         new_object_params['passphrase'] = self.new_object.get('passphrase')
-        new_object_params['enableFastLane'] = self.new_object.get('enableFastLane')
-        new_object_params['enableMACFiltering'] = self.new_object.get('enableMACFiltering')
+        new_object_params['enableFastLane'] = self.new_object.get(
+            'enableFastLane')
+        new_object_params['enableMACFiltering'] = self.new_object.get(
+            'enableMACFiltering')
         new_object_params['trafficType'] = self.new_object.get('trafficType')
         new_object_params['radioPolicy'] = self.new_object.get('radioPolicy')
-        new_object_params['enableBroadcastSSID'] = self.new_object.get('enableBroadcastSSID')
-        new_object_params['fastTransition'] = self.new_object.get('fastTransition')
-        new_object_params['enableSessionTimeOut'] = self.new_object.get('enableSessionTimeOut')
-        new_object_params['sessionTimeOut'] = self.new_object.get('sessionTimeOut')
-        new_object_params['enableClientExclusion'] = self.new_object.get('enableClientExclusion')
-        new_object_params['clientExclusionTimeout'] = self.new_object.get('clientExclusionTimeout')
-        new_object_params['enableBasicServiceSetMaxIdle'] = self.new_object.get('enableBasicServiceSetMaxIdle')
-        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get('basicServiceSetClientIdleTimeout')
-        new_object_params['enableDirectedMulticastService'] = self.new_object.get('enableDirectedMulticastService')
-        new_object_params['enableNeighborList'] = self.new_object.get('enableNeighborList')
-        new_object_params['mfpClientProtection'] = self.new_object.get('mfpClientProtection')
+        new_object_params['enableBroadcastSSID'] = self.new_object.get(
+            'enableBroadcastSSID')
+        new_object_params['fastTransition'] = self.new_object.get(
+            'fastTransition')
+        new_object_params['enableSessionTimeOut'] = self.new_object.get(
+            'enableSessionTimeOut')
+        new_object_params['sessionTimeOut'] = self.new_object.get(
+            'sessionTimeOut')
+        new_object_params['enableClientExclusion'] = self.new_object.get(
+            'enableClientExclusion')
+        new_object_params['clientExclusionTimeout'] = self.new_object.get(
+            'clientExclusionTimeout')
+        new_object_params['enableBasicServiceSetMaxIdle'] = self.new_object.get(
+            'enableBasicServiceSetMaxIdle')
+        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get(
+            'basicServiceSetClientIdleTimeout')
+        new_object_params['enableDirectedMulticastService'] = self.new_object.get(
+            'enableDirectedMulticastService')
+        new_object_params['enableNeighborList'] = self.new_object.get(
+            'enableNeighborList')
+        new_object_params['mfpClientProtection'] = self.new_object.get(
+            'mfpClientProtection')
         new_object_params['nasOptions'] = self.new_object.get('nasOptions')
         new_object_params['profileName'] = self.new_object.get('profileName')
-        new_object_params['policyProfileName'] = self.new_object.get('policyProfileName')
+        new_object_params['policyProfileName'] = self.new_object.get(
+            'policyProfileName')
         new_object_params['aaaOverride'] = self.new_object.get('aaaOverride')
-        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get('coverageHoleDetectionEnable')
-        new_object_params['protectedManagementFrame'] = self.new_object.get('protectedManagementFrame')
-        new_object_params['multiPSKSettings'] = self.new_object.get('multiPSKSettings')
-        new_object_params['clientRateLimit'] = self.new_object.get('clientRateLimit')
+        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get(
+            'coverageHoleDetectionEnable')
+        new_object_params['protectedManagementFrame'] = self.new_object.get(
+            'protectedManagementFrame')
+        new_object_params['multiPSKSettings'] = self.new_object.get(
+            'multiPSKSettings')
+        new_object_params['clientRateLimit'] = self.new_object.get(
+            'clientRateLimit')
         new_object_params['authKeyMgmt'] = self.new_object.get('authKeyMgmt')
-        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get('rsnCipherSuiteGcmp256')
-        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get('rsnCipherSuiteCcmp256')
-        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get('rsnCipherSuiteGcmp128')
-        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get('ghz6PolicyClientSteering')
+        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get(
+            'rsnCipherSuiteGcmp256')
+        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get(
+            'rsnCipherSuiteCcmp256')
+        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get(
+            'rsnCipherSuiteGcmp128')
+        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get(
+            'ghz6PolicyClientSteering')
         new_object_params['ghz24Policy'] = self.new_object.get('ghz24Policy')
         return new_object_params
 
@@ -252,7 +297,8 @@ class WirelessEnterpriseSsidV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -298,9 +344,12 @@ class WirelessEnterpriseSsidV1(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
-        return any(not catalystcenter_compare_equality(current_obj.get(catalyst_param),
-                                             requested_obj.get(ansible_param))
-                   for (catalyst_param, ansible_param) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalyst_param),
+                requested_obj.get(ansible_param)) for (
+                catalyst_param,
+                ansible_param) in obj_params)
 
     def create(self):
         result = self.catalystcenter.exec(
@@ -347,7 +396,8 @@ class WirelessEnterpriseSsidV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

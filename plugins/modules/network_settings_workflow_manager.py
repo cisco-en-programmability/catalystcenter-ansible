@@ -2,51 +2,47 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 """Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Megha Kandari']
-
 DOCUMENTATION = r"""
 ---
 module: network_settings_workflow_manager
 short_description: Resource module for IP Address pools and network functions
 description:
- - Manage operations on Global Pool, Reserve Pool, Network resources.
- - API to create/update/delete global pool.
- - API to reserve/update/delete an ip subpool from the global pool.
- - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
-  and/or DNS center server settings.
+  - Manage operations on Global Pool, Reserve Pool, Network resources.
+  - API to create/update/delete global pool.
+  - API to reserve/update/delete an ip subpool from the global pool.
+  - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client
+    and Endpoint AAA, and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
- - cisco.catalystcenter.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
-        Megha Kandari (@kandarimegha)
+  - cisco.catalystcenter.workflow_manager_params
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel) Megha
+  Kandari (@kandarimegha)
 options:
- config_verify:
-   description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-   type: bool
-   default: False
- state:
-   description: The state of Cisco Catalyst Center after module completion.
-   type: str
-   choices: [merged, deleted]
-   default: merged
- config:
-   description:
-    - List of details of global pool, reserved pool, network being managed.
-   type: list
-   elements: dict
-   required: true
-   suboptions:
-     global_pool_details:
-       description: Manages IPv4 and IPv6 IP pools in the global level.
-       type: dict
-       suboptions:
+  config_verify:
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
+    type: bool
+    default: false
+  state:
+    description: The state of Cisco Catalyst Center after module completion.
+    type: str
+    choices: [merged, deleted]
+    default: merged
+  config:
+    description:
+      - List of details of global pool, reserved pool, network being managed.
+    type: list
+    elements: dict
+    required: true
+    suboptions:
+      global_pool_details:
+        description: Manages IPv4 and IPv6 IP pools in the global level.
+        type: dict
+        suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
@@ -58,17 +54,19 @@ options:
                 suboptions:
                   name:
                     description:
-                     - Specifies the name assigned to the Global IP Pool.
-                     - Required for the operations in the Global IP Pool.
-                     - Length should be less than or equal to 100.
-                     - Only letters, numbers and -_./ characters are allowed.
+                      - Specifies the name assigned to the Global IP Pool.
+                      - Required for the operations in the Global IP Pool.
+                      - Length should be less than or equal to 100.
+                      - Only letters, numbers and -_./ characters are allowed.
                     type: str
                   pool_type:
                     description: >
                       Includes both the Generic Ip Pool and Tunnel Ip Pool.
-                      Generic - Used for general purpose within the network such as device
+                      Generic - Used for general purpose within the network such as
+                      device
                                 management or communication between the network devices.
-                      Tunnel - Designated for the tunnel interfaces to encapsulate packets
+                      Tunnel - Designated for the tunnel interfaces to encapsulate
+                      packets
                                within the network protocol. It is used in VPN connections,
                                GRE tunnels, or other types of overlay networks.
                     default: Generic
@@ -83,16 +81,19 @@ options:
                       enabling systematic IP address distribution within a network.
                     type: str
                   gateway:
-                    description: Serves as an entry or exit point for data traffic between networks.
+                    description: Serves as an entry or exit point for data traffic
+                      between networks.
                     type: str
                   dhcp_server_ips:
                     description: >
-                      The DHCP server IPs responsible for automatically assigning IP addresses
+                      The DHCP server IPs responsible for automatically assigning
+                      IP addresses
                       and network configuration parameters to devices on a local network.
                     elements: str
                     type: list
                   dns_server_ips:
-                    description: Responsible for translating domain names into corresponding IP addresses.
+                    description: Responsible for translating domain names into corresponding
+                      IP addresses.
                     elements: str
                     type: list
                   prev_name:
@@ -102,13 +103,13 @@ options:
                     type: str
                   force_delete:
                     description: >
-                      Forcefully delete all IP pools from the global level of the global pool.
+                      Forcefully delete all IP pools from the global level of the
+                      global pool.
                       The default value is false.
                     type: bool
                     required: false
                     default: false
-
-     reserve_pool_details:
+      reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
@@ -119,23 +120,23 @@ options:
             type: str
           name:
             description:
-             - Name of the reserve IP subpool.
-             - Required for the operations in the Reserve IP Pool.
-             - Length should be less than or equal to 100.
-             - Only letters, numbers and -_./ characters are allowed.
+              - Name of the reserve IP subpool.
+              - Required for the operations in the Reserve IP Pool.
+              - Length should be less than or equal to 100.
+              - Only letters, numbers and -_./ characters are allowed.
             type: str
           pool_type:
-            description: Type of the reserve ip sub pool.
-                Generic - Used for general purpose within the network such as device
-                          management or communication between the network devices.
-                LAN - Used for the devices and the resources within the Local Area Network
-                      such as device connectivity, internal communication, or services.
-                Management - Used for the management purposes such as device management interfaces,
-                             management access, or other administrative functions.
-                Service - Used for the network services and application such as DNS (Domain Name System),
-                          DHCP (Dynamic Host Configuration Protocol), NTP (Network Time Protocol).
-                WAN - Used for the devices and resources with the Wide Area Network such as remote
-                      sites interconnection with other network or services hosted within WAN.
+            description: Type of the reserve ip sub pool. Generic - Used for general
+              purpose within the network such as device management or communication
+              between the network devices. LAN - Used for the devices and the resources
+              within the Local Area Network such as device connectivity, internal
+              communication, or services. Management - Used for the management purposes
+              such as device management interfaces, management access, or other administrative
+              functions. Service - Used for the network services and application such
+              as DNS (Domain Name System), DHCP (Dynamic Host Configuration Protocol),
+              NTP (Network Time Protocol). WAN - Used for the devices and resources
+              with the Wide Area Network such as remote sites interconnection with
+              other network or services hosted within WAN.
             default: Generic
             choices: [Generic, LAN, Management, Service, WAN]
             type: str
@@ -147,37 +148,44 @@ options:
             type: bool
           ipv4_global_pool:
             description:
-             - IP v4 Global pool address with cidr, example 175.175.0.0/16.
-             - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+              - IP v4 Global pool address with cidr, example 175.175.0.0/16.
+              - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided,
+                the 'ipv4_global_pool' will be given priority.
             type: str
           ipv4_global_pool_name:
             description:
-             - Specifies the name to be associated with the IPv4 Global IP Pool.
-             - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+              - Specifies the name to be associated with the IPv4 Global IP Pool.
+              - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided,
+                the 'ipv4_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv4_subnet:
             description: Indicates the IPv4 subnet address, for example, "175.175.0.0".
             type: str
           ipv4_prefix:
-            description: ip4 prefix length is enabled or ipv4 total Host input is enabled
+            description: ip4 prefix length is enabled or ipv4 total Host input is
+              enabled
             type: bool
           ipv4_prefix_length:
-            description: The ipv4 prefix length is required when ipv4_prefix value is true.
+            description: The ipv4 prefix length is required when ipv4_prefix value
+              is true.
             type: int
           ipv4_total_host:
-            description: The total number of hosts for IPv4, required when the 'ipv4_prefix' is set to false.
+            description: The total number of hosts for IPv4, required when the 'ipv4_prefix'
+              is set to false.
             type: int
           ipv4_gateway:
             description: Provides the gateway's IPv4 address, for example, "175.175.0.1".
             type: str
             version_added: 4.0.0
           ipv4_dhcp_servers:
-            description: Specifies the IPv4 addresses for DHCP servers, for example, "1.1.1.1".
+            description: Specifies the IPv4 addresses for DHCP servers, for example,
+              "1.1.1.1".
             elements: str
             type: list
           ipv4_dns_servers:
-            description: Specifies the IPv4 addresses for DNS servers, for example, "4.4.4.4".
+            description: Specifies the IPv4 addresses for DNS servers, for example,
+              "4.4.4.4".
             elements: str
             type: list
           ipv6_dhcp_servers:
@@ -199,14 +207,18 @@ options:
             type: str
           ipv6_global_pool:
             description:
-             - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
-             - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
-             - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
+              - The ipv6_global_pool is a required when the ipv6_address_space is
+                set to true.
+              - It specifies the global IPv6 address pool using CIDR notation, such
+                as "2001:db8:85a3::/64".
+              - In cases where both ipv6_global_pool and ipv6_global_pool_name are
+                specified, ipv6_global_pool will take precedence.
             type: str
           ipv6_global_pool_name:
             description:
-             - Specifies the name assigned to the Ip v6 Global IP Pool.
-             - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
+              - Specifies the name assigned to the Ip v6 Global IP Pool.
+              - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided,
+                the 'ipv6_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv6_subnet:
@@ -214,17 +226,21 @@ options:
             type: str
           ipv6_prefix:
             description: >
-              Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host' input field.
-              If IPv6 prefix value is true, the IPv6 prefix length input field is required,
+              Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host'
+              input field.
+              If IPv6 prefix value is true, the IPv6 prefix length input field is
+              required,
               If it is false ipv6 total Host input is required.
             type: bool
           ipv6_prefix_length:
-            description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix' is set to true.
+            description: Specifies the IPv6 prefix length. Required when 'ipv6_prefix'
+              is set to true.
             type: int
           ipv6_total_host:
             description:
-            - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix' is set to false.
-            - Must specify a number of IPv6 IP addresses that is less than 256.
+              - Specifies the total number of IPv6 hosts. Required when 'ipv6_prefix'
+                is set to false.
+              - Must specify a number of IPv6 IP addresses that is less than 256.
             type: int
           prev_name:
             description: The former name associated with the reserved IP sub-pool.
@@ -241,8 +257,7 @@ options:
             type: bool
             required: false
             default: false
-
-     network_management_details:
+      network_management_details:
         description: Set default network settings for the site
         type: list
         elements: dict
@@ -257,7 +272,8 @@ options:
             type: dict
             suboptions:
               network_aaa:
-                description: Manages AAA (Authentication Authorization Accounting) for network devices.
+                description: Manages AAA (Authentication Authorization Accounting)
+                  for network devices.
                 suboptions:
                   server_type:
                     description: Server type for managing AAA for network devices.
@@ -270,34 +286,35 @@ options:
                     type: str
                   pan_address:
                     description:
-                    - PAN IP address for the ISE server.
-                    - For example, 1.1.1.1.
+                      - PAN IP address for the ISE server.
+                      - For example, 1.1.1.1.
                     type: str
                     version_added: 6.14.0
                   primary_server_address:
                     description:
-                    - Primary IP address for the ISE/AAA server.
-                    - For example, 1.1.1.2.
+                      - Primary IP address for the ISE/AAA server.
+                      - For example, 1.1.1.2.
                     type: str
                     version_added: 6.14.0
                   secondary_server_address:
                     description:
-                    - Secondary IP address for the AAA server.
-                    - For example, 1.1.1.3.
+                      - Secondary IP address for the AAA server.
+                      - For example, 1.1.1.3.
                     type: str
                     version_added: 6.14.0
                   shared_secret:
                     description:
-                    - Shared secret for ISE Server.
-                    - Length of the shared secret should be atleast 4 characters.
+                      - Shared secret for ISE Server.
+                      - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
               client_and_endpoint_aaa:
-                description: Manages AAA (Authentication Authorization Accounting) for clients and endpoints.
+                description: Manages AAA (Authentication Authorization Accounting)
+                  for clients and endpoints.
                 suboptions:
                   server_type:
                     description:
-                    - Server type for managing AAA for client and endpoints.
+                      - Server type for managing AAA for client and endpoints.
                     choices: [AAA, ISE]
                     type: str
                   protocol:
@@ -307,26 +324,26 @@ options:
                     type: str
                   pan_address:
                     description:
-                    - PAN IP address for the ISE server.
-                    - For example, 1.1.1.1.
+                      - PAN IP address for the ISE server.
+                      - For example, 1.1.1.1.
                     type: str
                     version_added: 6.14.0
                   primary_server_address:
                     description:
-                    - Primary IP address for the ISE/AAA server.
-                    - For example, 1.1.1.2.
+                      - Primary IP address for the ISE/AAA server.
+                      - For example, 1.1.1.2.
                     type: str
                     version_added: 6.14.0
                   secondary_server_address:
                     description:
-                    - Secondary IP address for the AAA server.
-                    - For example, 1.1.1.3.
+                      - Secondary IP address for the AAA server.
+                      - For example, 1.1.1.3.
                     type: str
                     version_added: 6.14.0
                   shared_secret:
                     description:
-                    - Shared secret for ISE Server.
-                    - Length of the shared secret should be atleast 4 characters.
+                      - Shared secret for ISE Server.
+                      - Length of the shared secret should be atleast 4 characters.
                     type: str
                 type: dict
               dhcp_server:
@@ -365,47 +382,52 @@ options:
                 type: dict
               wired_data_collection:
                 description:
-                - Enables or disables the collection of data from wired network devices for telemetry and monitoring purposes.
-                - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+                  - Enables or disables the collection of data from wired network
+                    devices for telemetry and monitoring purposes.
+                  - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                 suboptions:
-                    enable_wired_data_collection:
-                      description: Enable or disable wired data collection.
-                      type: bool
+                  enable_wired_data_collection:
+                    description: Enable or disable wired data collection.
+                    type: bool
                 type: dict
               wireless_telemetry:
                 description:
-                - Enables or disables the collection of telemetry data from wireless network devices for performance monitoring and analysis.
-                - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+                  - Enables or disables the collection of telemetry data from wireless
+                    network devices for performance monitoring and analysis.
+                  - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                 suboptions:
-                    enable_wireless_telemetry:
-                      description: Enable or disable wireless telemetry.
-                      type: bool
+                  enable_wireless_telemetry:
+                    description: Enable or disable wireless telemetry.
+                    type: bool
                 type: dict
               netflow_collector:
                 description: NetFlow collector configuration for a specific site.
                 suboptions:
                   collector_type:
                     description:
-                    - Type of NetFlow collector.
-                    - Supported values include 'Builtin' and 'Telemetry_broker_or_UDP_director'.
-                    - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
+                      - Type of NetFlow collector.
+                      - Supported values include 'Builtin' and 'Telemetry_broker_or_UDP_director'.
+                      - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                     type: str
                     choices: [Builtin, Telemetry_broker_or_UDP_director]
                   ip_address:
                     description: IP Address for NetFlow collector. For example, 3.3.3.1.
                     type: str
                   port:
-                    description: Port number used by the NetFlow collector. For example, 443.
+                    description: Port number used by the NetFlow collector. For example,
+                      443.
                     type: int
                   enable_on_wired_access_devices:
-                    description: Enable or disable wired access device. Applicable from Cisco Catalyst Center version 2.3.7.6 onwards..
+                    description: Enable or disable wired access device. Applicable
+                      from Cisco Catalyst Center version 2.3.7.6 onwards..
                     type: bool
                 type: dict
               snmp_server:
                 description: Snmp Server details under a specific site.
                 suboptions:
                   configure_catalystcenter_ip:
-                    description: Configuration Cisco Catalyst Center IP for SNMP Server (eg true).
+                    description: Configuration Cisco Catalyst Center IP for SNMP Server
+                      (eg true).
                     type: bool
                   ip_addresses:
                     description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -416,7 +438,8 @@ options:
                 description: syslog Server details under a specific site.
                 suboptions:
                   configure_catalystcenter_ip:
-                    description: Configuration Cisco Catalyst Center IP for syslog server (eg true).
+                    description: Configuration Cisco Catalyst Center IP for syslog
+                      server (eg true).
                     type: bool
                   ip_addresses:
                     description: IP Address for syslog server (eg 4.4.4.4).
@@ -424,243 +447,225 @@ options:
                     type: list
                 type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.9
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.9
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_global_pool,
-    network_settings.NetworkSettings.delete_global_ip_pool,
-    network_settings.NetworkSettings.update_global_pool,
-    network_settings.NetworkSettings.release_reserve_ip_subpool,
-    network_settings.NetworkSettings.reserve_ip_subpool,
-    network_settings.NetworkSettings.update_reserve_ip_subpool,
+  - SDK Method used are network_settings.NetworkSettings.create_global_pool, network_settings.NetworkSettings.delete_global_ip_pool,
+    network_settings.NetworkSettings.update_global_pool, network_settings.NetworkSettings.release_reserve_ip_subpool,
+    network_settings.NetworkSettings.reserve_ip_subpool, network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
-
-  - Paths used are
-    post /dna/intent/api/v1/global-pool,
-    delete /dna/intent/api/v1/global-pool/{id},
-    put /dna/intent/api/v1/global-pool,
-    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id},
+    put /dna/intent/api/v1/global-pool, post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+    delete /dna/intent/api/v1/reserve-ip-subpool/{id}, put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v2/network/{siteId},
-
 """
 EXAMPLES = r"""
 - name: Create global pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: merged
     config_verify: true
     config:
-    - global_pool_details:
-        settings:
-          ip_pool:
-          - name: string
-            pool_type: Generic
-            ip_address_space: string
-            cidr: string
-            gateway: string
-            dhcp_server_ips: list
-            dns_server_ips: list
-
+      - global_pool_details:
+          settings:
+            ip_pool:
+              - name: string
+                pool_type: Generic
+                ip_address_space: string
+                cidr: string
+                gateway: string
+                dhcp_server_ips: list
+                dns_server_ips: list
 - name: Create reserve an ip pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: merged
     config_verify: true
     config:
-    - reserve_pool_details:
-      - site_name: string
-        name: string
-        pool_type: LAN
-        ipv6_address_space: true
-        ipv4_global_pool: string
-        ipv4_prefix: true
-        ipv4_prefix_length: 9
-        ipv4_subnet: string
-        ipv6_prefix: true
-        ipv6_prefix_length: 64
-        ipv6_global_pool: string
-        ipv6_subnet: string
-        slaac_support: true
-
+      - reserve_pool_details:
+          - site_name: string
+            name: string
+            pool_type: LAN
+            ipv6_address_space: true
+            ipv4_global_pool: string
+            ipv4_prefix: true
+            ipv4_prefix_length: 9
+            ipv4_subnet: string
+            ipv6_prefix: true
+            ipv6_prefix_length: 64
+            ipv6_global_pool: string
+            ipv6_subnet: string
+            slaac_support: true
 - name: Create reserve an ip pool using global pool name
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: merged
     config_verify: true
     config:
-    - reserve_pool_details:
-      - name: string
-        site_name: string
-        pool_type: LAN
-        ipv6_address_space: true
-        ipv4_global_pool_name: string
-        ipv4_prefix: true
-        ipv4_prefix_length: 9
-        ipv4_subnet: string
-        ipv6_prefix: true
-        ipv6_prefix_length: 64
-        ipv6_global_pool_name: string
-        ipv6_subnet: string
-        slaac_support: true
-
+      - reserve_pool_details:
+          - name: string
+            site_name: string
+            pool_type: LAN
+            ipv6_address_space: true
+            ipv4_global_pool_name: string
+            ipv4_prefix: true
+            ipv4_prefix_length: 9
+            ipv4_subnet: string
+            ipv6_prefix: true
+            ipv6_prefix_length: 64
+            ipv6_global_pool_name: string
+            ipv6_subnet: string
+            slaac_support: true
 - name: Delete reserved pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: deleted
     config_verify: true
     config:
-    - reserve_pool_details:
-      - site_name: string
-        name: string
-
+      - reserve_pool_details:
+          - site_name: string
+            name: string
 - name: Delete Global Pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{ host }}"
-    api_port: "{{ api_port }}"
-    username: "{{ username }}"
-    password: "{{ password }}"
-    verify: "{{ verify }}"
-    debug: "{{ debug }}"
-    version: "{{ version }}"
+    _host: "{{ _host }}"
+    _api_port: "{{ _api_port }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _debug: "{{ _debug }}"
+    _version: "{{ _version }}"
     log_level: "{{ log_level }}"
     log: true
     state: deleted
     config_verify: true
     config:
-    - global_pool_details:
-        settings:
+      - global_pool_details:
+          settings:
             ip_pool:
-            - name: string
-
+              - name: string
 - name: Manage the network functions
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: merged
     config_verify: true
     config:
-    - network_management_details:
-      - site_name: string
-        settings:
-          dhcp_server: list
-          dns_server:
-            domain_name: string
-            primary_ip_address: string
-            secondary_ip_address: string
-          ntp_server: list
-          timezone: string
-          message_of_the_day:
-            banner_message: string
-            retain_existing_banner: bool
-          netflow_collector:
-            ip_address: string
-            port: 443
-          snmp_server:
-            configure_catalystcenter_ip: true
-            ip_addresses: list
-          syslog_server:
-            configure_catalystcenter_ip: true
-            ip_addresses: list
-
+      - network_management_details:
+          - site_name: string
+            settings:
+              dhcp_server: list
+              dns_server:
+                domain_name: string
+                primary_ip_address: string
+                secondary_ip_address: string
+              ntp_server: list
+              timezone: string
+              message_of_the_day:
+                banner_message: string
+                retain_existing_banner: bool
+              netflow_collector:
+                ip_address: string
+                port: 443
+              snmp_server:
+                configure_catalystcenter_ip: true
+                ip_addresses: list
+              syslog_server:
+                configure_catalystcenter_ip: true
+                ip_addresses: list
 - name: Adding the network_aaa and client_and_endpoint_aaa AAA server
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: merged
     config_verify: true
     config:
-    - network_management_details:
-      - site_name: string
-        settings:
-          network_aaa:
-            server_type: AAA
-            primary_server_address: string
-            secondary_server_address: string
-            protocol: string
-          client_and_endpoint_aaa:
-            server_type: AAA
-            primary_server_address: string
-            secondary_server_address: string
-            protocol: string
-
+      - network_management_details:
+          - site_name: string
+            settings:
+              network_aaa:
+                server_type: AAA
+                primary_server_address: string
+                secondary_server_address: string
+                protocol: string
+              client_and_endpoint_aaa:
+                server_type: AAA
+                primary_server_address: string
+                secondary_server_address: string
+                protocol: string
 - name: Adding the network_aaa and client_and_endpoint_aaa ISE server
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     log: true
     log_level: "{{ log_level }}"
     state: merged
     config_verify: true
     config:
-    - network_management_details:
-      - site_name: string
-        settings:
-          network_aaa:
-            server_type: ISE
-            pan_address: string
-            primary_server_address: string
-            protocol: string
-          client_and_endpoint_aaa:
-            server_type: ISE
-            pan_address: string
-            primary_server_address: string
-            protocol: string
+      - network_management_details:
+          - site_name: string
+            settings:
+              network_aaa:
+                server_type: ISE
+                pan_address: string
+                primary_server_address: string
+                protocol: string
+              client_and_endpoint_aaa:
+                server_type: ISE
+                pan_address: string
+                primary_server_address: string
+                protocol: string
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global pool
 response_1:
@@ -673,7 +678,6 @@ response_1:
       "executionStatusUrl": "string",
       "message": "string"
     }
-
 # Case_2: Successful creation/updation/deletion of reserve pool
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -685,7 +689,6 @@ response_2:
       "executionStatusUrl": "string",
       "message": "string"
     }
-
 # Case_3: Successful creation/updation of network
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -725,6 +728,8 @@ class NetworkSettings(CatalystCenterBase):
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
         self.all_reserved_pool_details = {}
+        self.global_pool_response = {}
+        self.reserve_pool_response = {}
 
     def validate_input(self):
         """
@@ -927,9 +932,13 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Current State (have): {0}".format(current_obj), "DEBUG")
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
-        return any(not catalystcenter_compare_equality(current_obj.get(catalystcenter_param),
-                                             requested_obj.get(ansible_param))
-                   for (catalystcenter_param, ansible_param) in obj_params)
+        return any(
+            not catalystcenter_compare_equality(
+                current_obj.get(catalystcenter_param),
+                requested_obj.get(ansible_param)
+            )
+            for catalystcenter_param, ansible_param in obj_params
+        )
 
     def get_obj_params(self, get_object):
         """
@@ -1870,6 +1879,8 @@ class NetworkSettings(CatalystCenterBase):
         }
         all_global_pool = []
         offset = 1
+        global_pool_details = None
+        response = None
         while True:
             try:
                 response = self.catalystcenter._exec(
@@ -1883,14 +1894,12 @@ class NetworkSettings(CatalystCenterBase):
                     .format(name=name, msg=msg)
                 )
                 self.log(str(msg), "ERROR")
-                self.status = "failed"
-                return self
+                self.fail_and_exit(self.msg)
 
             if not isinstance(response, dict):
                 self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
                 self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self.check_return_status()
+                self.fail_and_exit(self.msg)
 
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
@@ -1900,7 +1909,6 @@ class NetworkSettings(CatalystCenterBase):
                 self.log("Global pool '{0}' does not exist".format(name), "INFO")
                 return global_pool
 
-            global_pool_details = None
             if name == "":
                 global_pool_details = all_global_pool_details
             else:
@@ -1928,6 +1936,10 @@ class NetworkSettings(CatalystCenterBase):
             if len(all_global_pool_details) < 25:
                 self.log("Found {0} record(s), No more record available for the next offset"
                          .format(str(len(all_global_pool_details))), "INFO")
+                if self.payload.get("state") == "deleted" and name == "":
+                    self.log("Formatted global pool details: {0}".format(
+                        self.pprint(all_global_pool)), "DEBUG")
+                    return all_global_pool
                 break
 
             offset += 25
@@ -2924,7 +2936,12 @@ class NetworkSettings(CatalystCenterBase):
                     else:
                         have_configure_catalystcenter_ip = have_network_details.get("snmpServer", {}).get("useBuiltinTrapServer")
                         if have_configure_catalystcenter_ip is not None:
-                            self.log("Retaining existing 'useBuiltinTrapServer' from current network details: {0}".format(have_configure_catalystcenter_ip), "INFO")
+                            self.log(
+                                "Retaining existing 'useBuiltinTrapServer' from current network details: {0}".format(
+                                    have_configure_catalystcenter_ip
+                                ),
+                                "INFO"
+                            )
                             want_network_settings.get("snmpServer").update({
                                 "useBuiltinTrapServer": have_configure_catalystcenter_ip
                             })
@@ -4024,21 +4041,20 @@ class NetworkSettings(CatalystCenterBase):
                 op_modifies=True,
                 params={"id": pool_id},
             )
-            self.check_execution_response_status(response,
-                                                 function_name).check_return_status()
+            self.check_execution_response_status(response, function_name)
             self.log("Response received from delete {0} pool API: {1}".
                      format(pool_type, self.pprint(response)), "DEBUG")
             execution_id = response.get("executionId")
             success_msg, failed_msg = None, None
 
             if pool_type == "Global":
-                success_msg = "Global pool deleted successfully"
-                failed_msg = "Unable to delete global pool reservation"
+                success_msg = "Global pool deleted successfully."
+                failed_msg = "Unable to delete global pool reservation. "
             else:
-                success_msg = "Ip subpool reservation released successfully"
-                failed_msg = "Unable to release subpool reservation"
+                success_msg = "Ip subpool reservation released successfully."
+                failed_msg = "Unable to release subpool reservation. "
 
-            if execution_id:
+            if execution_id and self.status == "success":
                 return {
                     "name": name,
                     "execution_id": execution_id,
@@ -4048,8 +4064,8 @@ class NetworkSettings(CatalystCenterBase):
             self.log("No execution ID received for '{name}'".format(name=name), "ERROR")
             return {
                 "name": name,
-                "execution_id": None,
-                "msg": failed_msg,
+                "execution_id": execution_id,
+                "msg": failed_msg + self.msg,
                 "status": "failed"
             }
 
@@ -4087,7 +4103,7 @@ class NetworkSettings(CatalystCenterBase):
                          .format(site_name), "INFO")
                 have_reserve_pool = reserve_pool = self.have.get("reservePool")[reserve_pool_index]
                 result_reserve_pool.get("response").update({site_name: []})
-                if have_reserve_pool and len(have_reserve_pool) > 0:
+                if have_reserve_pool:
                     if isinstance(have_reserve_pool, dict):
                         self.log("Found reserved pools for site '{0}': {1}"
                                  .format(site_name, self.pprint(have_reserve_pool)), "DEBUG")
@@ -4113,6 +4129,7 @@ class NetworkSettings(CatalystCenterBase):
                         result_reserve_pool["response"][site_name].append(execution_details)
                         self.log("Deletion completed for reserved pool '{0}' with ID '{1}'"
                                  .format(pool_name, pool_id), "DEBUG")
+                    self.reserve_pool_response = result_reserve_pool["response"]
                 else:
                     result_reserve_pool["msg"].update({site_name: "No Reserve Pools available"})
                     self.log("No Reserved IP Subpools found for site '{0}'. Skipping deletion."
@@ -4138,6 +4155,7 @@ class NetworkSettings(CatalystCenterBase):
                 )
                 self.log("Deletion completed for reserved pool '{0}' with ID '{1}'".format(pool_name, pool_id), "DEBUG")
                 result_reserve_pool["response"].update({pool_name: execution_details})
+                self.reserve_pool_response = result_reserve_pool["response"]
 
         self.msg = "Reserved pool(s) released successfully"
         self.status = "success"
@@ -4161,7 +4179,7 @@ class NetworkSettings(CatalystCenterBase):
                 self.log("Processing global pool deletion for a list of items", "INFO")
                 for each_item in item:
                     global_pool_exists = each_item.get("exists")
-                    pool_name = each_item.get("details").get("ipPoolName")
+                    pool_name = each_item.get("details", {}).get("ipPoolName")
                     global_pool_index += 1
 
                     if not global_pool_exists:
@@ -4174,8 +4192,13 @@ class NetworkSettings(CatalystCenterBase):
                     execution_details = self.delete_ip_pool(pool_name, pool_id,
                                                             "delete_global_ip_pool",
                                                             "Global")
-                    self.log("Deletion completed for global pool '{0}'".format(pool_name), "DEBUG")
-                    result_global_pool["response"][pool_name].append(execution_details)
+                    self.log("Deletion completed for global pool '{0}' execution details: '{1}'".
+                             format(pool_name, self.pprint(execution_details)), "DEBUG")
+                    result_global_pool["response"][pool_name] = execution_details
+
+                self.log("Deletion completed for global pool all:'{0}'".format(
+                    self.pprint(result_global_pool["response"])), "DEBUG")
+                self.global_pool_response = result_global_pool["response"]
             else:
                 self.log("Processing global pool deletion for a single item", "INFO")
                 global_pool_exists = item.get("exists")
@@ -4192,6 +4215,7 @@ class NetworkSettings(CatalystCenterBase):
                                                         "delete_global_ip_pool",
                                                         "Global")
                 result_global_pool.get("response").update({pool_name: execution_details})
+                self.global_pool_response = result_global_pool.get("response")
 
         self.msg = "Global pools deleted successfully"
         self.status = "success"
@@ -4344,27 +4368,33 @@ class NetworkSettings(CatalystCenterBase):
                             if global_pool_exists:
                                 each_pool_validation = {
                                     "name": name,
-                                    "msg": "Global Pool Config is not applied to the Catalyst Center",
+                                    "msg": "Global Pool Config is not applied to the Catalyst Center.",
                                     "validation": "failed",
                                 }
                             delete_all.append(each_pool_validation)
 
                 global_pool_index += 1
 
-            if len(delete_all) > 0:
+            if delete_all:
                 self.msg = "Global Pool Config is not applied to the Catalyst Center"
                 self.set_operation_result("failed", False, self.msg,
-                                          "ERROR", delete_all).check_return_status()
+                                          "ERROR", self.global_pool_response).check_return_status()
+                return self
+
+            if not delete_all and not self.global_pool_response:
+                self.msg = "Global Pool Config does not exist or already deleted from the Catalyst Center"
+                self.set_operation_result("success", False, self.msg,
+                                          "ERROR").check_return_status()
+                return self
 
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
-
             self.msg = "Successfully validated the absence of Global Pool."
             self.log(self.msg, "INFO")
             self.log("Last Check {0}".format(self.result.get("response")[0].get("globalPool")), "INFO")
             del_response = self.result.get("response")[0].get("globalPool").get("response")
             delete_all.append(del_response)
             self.set_operation_result("success", True, self.msg,
-                                      "INFO", del_response).check_return_status()
+                                      "INFO", self.global_pool_response).check_return_status()
 
         if config.get("reserve_pool_details") is not None:
             self.log("Starting validation for Reserve Pool absence.", "INFO")
@@ -4380,7 +4410,8 @@ class NetworkSettings(CatalystCenterBase):
                     if reserve_pool_exists:
                         self.msg = "Reserved Pool Config '{0}' is not applied to the Catalyst Center"\
                             .format(name)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        self.fail_and_exit(self.msg)
+                        return self
 
                     self.log("Successfully validated the absence of Reserve Pool '{0}'.".format(name), "INFO")
                     reserve_pool_index += 1
@@ -4406,17 +4437,23 @@ class NetworkSettings(CatalystCenterBase):
 
                     reserve_pool_index += 1
 
-            if len(delete_all) > 0:
+            if delete_all:
                 self.msg = "Reserved Pool Config is not applied to the Catalyst Center"
                 self.set_operation_result("failed", False, self.msg,
                                           "ERROR", delete_all).check_return_status()
+
+            if not delete_all and not self.reserve_pool_response:
+                self.msg = "Reserve Pool Config does not exist or already deleted from the Catalyst Center"
+                self.set_operation_result("success", False, self.msg,
+                                          "ERROR").check_return_status()
+                return self
 
             self.msg = "Successfully validated the absence of Reserve Pool."
             self.log(self.msg, "INFO")
             del_response = self.result.get("response")[1].get("reservePool").get("response")
             delete_all.append(del_response)
             self.set_operation_result("success", True, self.msg,
-                                      "INFO", del_response).check_return_status()
+                                      "INFO", self.reserve_pool_response).check_return_status()
 
         self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
@@ -4443,13 +4480,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "host": {"type": 'str', "required": True},
-        "api_port": {"type": 'str', "default": '443'},
-        "username": {"type": 'str', "default": 'admin', "aliases": ['user']},
-        "password": {"type": 'str', "no_log": True},
-        "verify": {"type": 'bool', "default": 'True'},
-        "version": {"type": 'str', "default": '2.2.3.3'},
-        "debug": {"type": 'bool', "default": False},
+        "_host": {"type": 'str', "required": True},
+        "_api_port": {"type": 'str', "default": '443'},
+        "_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
+        "_password": {"type": 'str', "no_log": True},
+        "_verify": {"type": 'bool', "default": 'True'},
+        "_version": {"type": 'str', "default": '2.2.3.3'},
+        "_debug": {"type": 'bool', "default": False},
         "log": {"type": 'bool', "default": False},
         "log_level": {"type": 'str', "default": 'WARNING'},
         "log_file_path": {"type": 'str', "default": 'catalystcenter.log'},

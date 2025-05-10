@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: snmp_properties_v1
 short_description: Resource module for Snmp Properties V1
 description:
-- Manage operation create of the resource Snmp Properties V1.
-- Adds SNMP properties.
+  - Manage operation create of the resource Snmp Properties V1.
+  - Adds SNMP properties.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -37,39 +35,33 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPPropertiesV1
-  description: Complete reference of the CreateUpdateSNMPPropertiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
+  - name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPPropertiesV1
+    description: Complete reference of the CreateUpdateSNMPPropertiesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_update_snmp_properties_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/snmp-property,
-
+  - SDK Method used are discovery.Discovery.create_update_snmp_properties_v1,
+  - Paths used are post /dna/intent/api/v1/snmp-property,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.snmp_properties_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     payload:
-    - id: string
-      instanceTenantId: string
-      instanceUuid: string
-      intValue: 0
-      systemPropertyName: string
-
+      - id: string
+        instanceTenantId: string
+        instanceUuid: string
+        intValue: 0
+        systemPropertyName: string
 """
 RETURN = r"""
 catalystcenter_response:

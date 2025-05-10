@@ -1,7 +1,8 @@
 ---
-- hosts: localhost
+- name: Play
+  hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -23,6 +24,6 @@
         timeout_interval: 100
         state: replaced
         config:
-           - faulty_device_ip_address: 204.1.2.9
-             replacement_device_ip_address: 204.1.2.10
+          - faulty_device_ip_address: 204.1.2.9
+            replacement_device_ip_address: 204.1.2.10
       register: result

@@ -1,20 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: icap_clients_id_stats_v1
 short_description: Resource module for Icap Clients Id Stats V1
 description:
-- Manage operation create of the resource Icap Clients Id Stats V1.
-- >
-   Retrieves the time series statistics of a specific client by applying complex filters. If startTime and endTime
-   are not provided, the API defaults to the last 24 hours. For detailed information about the usage of the API,
-   please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
-   api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Icap Clients Id Stats V1.
+  - >
+    Retrieves the time series statistics of a specific client by applying complex
+    filters. If startTime and endTime
+    are not provided, the API defaults to the last 24 hours. For detailed information
+    about the usage of the API,
+    please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
+    api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -42,8 +42,8 @@ options:
     type: dict
   id:
     description: Id path parameter. Id is the client mac address. It can be specified
-      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB or
-      0123.4567.89AB and is case insensitive.
+      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB
+      or 0123.4567.89AB and is case insensitive.
     type: str
   page:
     description: Icap Clients Id Stats's page.
@@ -62,36 +62,34 @@ options:
     description: Start Time.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
-  description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
+  - name: Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
+    description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
 notes:
   - SDK Method used are
     sensors.Sensors.retrieves_specific_client_statistics_over_specified_period_of_time_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/icap/clients/{id}/stats,
-
+  - Paths used are post /dna/data/api/v1/icap/clients/{id}/stats,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.icap_clients_id_stats_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     headers: '{{my_headers | from_json}}'
     id: string
     page:
@@ -99,7 +97,6 @@ EXAMPLES = r"""
       offset: 0
       timeSortOrder: string
     startTime: 0
-
 """
 RETURN = r"""
 catalystcenter_response:

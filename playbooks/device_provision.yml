@@ -2,11 +2,9 @@
 - name: Provision and Re-provision wired and wireless devices
   hosts: localhost
   connection: local
-  gather_facts: no
-
+  gather_facts: false
   vars_files:
     - "{{ CLUSTERFILE }}"
-
   vars:
     catalystcenter_login: &catalystcenter_login
       host: "{{ host }}"
@@ -16,22 +14,19 @@
       api_port: "{{ api_port }}"
       version: "{{ version }}"
       debug: "{{ debug }}"
-
   tasks:
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_intent:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
             management_ip_address: 204.1.2.2
-
-
     - name: Unprovision a wired device to a site
       cisco.catalystcenter.provision_intent:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: deleted
         config:
           - management_ip_address: 204.1.2.2

@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: planned_access_points
 short_description: Resource module for Planned Access Points
 description:
-- This module represents an alias of the module planned_access_points_v1
+  - This module represents an alias of the module planned_access_points_v1
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -48,7 +45,8 @@ options:
         type: str
     type: dict
   floorId:
-    description: FloorId path parameter. The instance UUID of the floor hierarchy element.
+    description: FloorId path parameter. The instance UUID of the floor hierarchy
+      element.
     type: str
   isSensor:
     description: Indicates that PAP is a sensor.
@@ -151,42 +149,40 @@ options:
         type: bool
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloorV1
-  description: Complete reference of the CreatePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor
-- name: Cisco DNA Center documentation for Devices DeletePlannedAccessPointForFloorV1
-  description: Complete reference of the DeletePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor
-- name: Cisco DNA Center documentation for Devices UpdatePlannedAccessPointForFloorV1
-  description: Complete reference of the UpdatePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor
+  - name: Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloorV1
+    description: Complete reference of the CreatePlannedAccessPointForFloorV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor
+  - name: Cisco DNA Center documentation for Devices DeletePlannedAccessPointForFloorV1
+    description: Complete reference of the DeletePlannedAccessPointForFloorV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor
+  - name: Cisco DNA Center documentation for Devices UpdatePlannedAccessPointForFloorV1
+    description: Complete reference of the UpdatePlannedAccessPointForFloorV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor
 notes:
-  - SDK Method used are
-    devices.Devices.create_planned_access_point_for_floor_v1,
-    devices.Devices.delete_planned_access_point_for_floor_v1,
-    devices.Devices.update_planned_access_point_for_floor_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/floors/{floorId}/planned-access-points,
-    delete /dna/intent/api/v1/floors/{floorId}/planned-access-points/{plannedAccessPointUuid},
+  - SDK Method used are devices.Devices.create_planned_access_point_for_floor_v1,
+    devices.Devices.delete_planned_access_point_for_floor_v1, devices.Devices.update_planned_access_point_for_floor_v1,
+  - Paths used are post /dna/intent/api/v1/floors/{floorId}/planned-access-points,
+    delete
+    /dna/intent/api/v1/floors/{floorId}/planned-access-points/{plannedAccessPointUuid},
     put /dna/intent/api/v1/floors/{floorId}/planned-access-points,
   - It should be noted that this module is an alias of planned_access_points_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.planned_access_points:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     attributes:
       createDate: 0
@@ -210,34 +206,33 @@ EXAMPLES = r"""
       z: 0
     radioCount: 0
     radios:
-    - antenna:
-        azimuthAngle: 0
-        elevationAngle: 0
-        gain: 0
-        mode: string
-        name: string
-        type: string
-      attributes:
-        channel: 0
-        channelString: string
-        id: 0
-        ifMode: string
-        ifTypeString: string
-        ifTypeSubband: string
-        instanceUuid: string
-        slotId: 0
-        txPowerLevel: 0
-      isSensor: true
-
+      - antenna:
+          azimuthAngle: 0
+          elevationAngle: 0
+          gain: 0
+          mode: string
+          name: string
+          type: string
+        attributes:
+          channel: 0
+          channelString: string
+          id: 0
+          ifMode: string
+          ifTypeString: string
+          ifTypeSubband: string
+          instanceUuid: string
+          slotId: 0
+          txPowerLevel: 0
+        isSensor: true
 - name: Create
   cisco.catalystcenter.planned_access_points:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     attributes:
       createDate: 0
@@ -261,38 +256,36 @@ EXAMPLES = r"""
       z: 0
     radioCount: 0
     radios:
-    - antenna:
-        azimuthAngle: 0
-        elevationAngle: 0
-        gain: 0
-        mode: string
-        name: string
-        type: string
-      attributes:
-        channel: 0
-        channelString: string
-        id: 0
-        ifMode: string
-        ifTypeString: string
-        ifTypeSubband: string
-        instanceUuid: string
-        slotId: 0
-        txPowerLevel: 0
-      isSensor: true
-
+      - antenna:
+          azimuthAngle: 0
+          elevationAngle: 0
+          gain: 0
+          mode: string
+          name: string
+          type: string
+        attributes:
+          channel: 0
+          channelString: string
+          id: 0
+          ifMode: string
+          ifTypeString: string
+          ifTypeSubband: string
+          instanceUuid: string
+          slotId: 0
+          txPowerLevel: 0
+        isSensor: true
 - name: Delete by id
   cisco.catalystcenter.planned_access_points:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     floorId: string
     plannedAccessPointUuid: string
-
 """
 RETURN = r"""
 catalystcenter_response:

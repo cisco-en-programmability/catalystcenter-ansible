@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_info
 short_description: Information module for Wireless Profiles Info
 description:
-- This module represents an alias of the module wireless_profiles_v1_info
+  - This module represents an alias of the module wireless_profiles_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,73 +18,66 @@ options:
     type: dict
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   wirelessProfileName:
     description:
-    - WirelessProfileName query parameter. Wireless Profile Name.
+      - WirelessProfileName query parameter. Wireless Profile Name.
     type: str
   id:
     description:
-    - Id path parameter. Wireless Profile Id.
+      - Id path parameter. Wireless Profile Id.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetWirelessProfileByIDV1
-  description: Complete reference of the GetWirelessProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id
-- name: Cisco DNA Center documentation for Wireless GetWirelessProfilesV1
-  description: Complete reference of the GetWirelessProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles
+  - name: Cisco DNA Center documentation for Wireless GetWirelessProfileByIDV1
+    description: Complete reference of the GetWirelessProfileByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless GetWirelessProfilesV1
+    description: Complete reference of the GetWirelessProfilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_wireless_profile_by_id_v1,
-    wireless.Wireless.get_wireless_profiles_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessProfiles,
-    get /dna/intent/api/v1/wirelessProfiles/{id},
+  - SDK Method used are wireless.Wireless.get_wireless_profile_by_id_v1, wireless.Wireless.get_wireless_profiles_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessProfiles, get /dna/intent/api/v1/wirelessProfiles/{id},
   - It should be noted that this module is an alias of wireless_profiles_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Wireless Profiles Info
   cisco.catalystcenter.wireless_profiles_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
     wirelessProfileName: string
   register: result
-
 - name: Get Wireless Profiles Info by id
   cisco.catalystcenter.wireless_profiles_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

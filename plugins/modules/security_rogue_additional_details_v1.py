@@ -1,19 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: security_rogue_additional_details_v1
 short_description: Resource module for Security Rogue Additional Details V1
 description:
-- Manage operation create of the resource Security Rogue Additional Details V1.
-- >
-   This API provides additional information of the rogue threats with details at BSSID level. The additional
-   information includes Switch Port details in case of Rogue on Wire, first time when the rogue is seen in the
-   network etc.
+  - Manage operation create of the resource Security Rogue Additional Details V1.
+  - >
+    This API provides additional information of the rogue threats with details at
+    BSSID level. The additional
+    information includes Switch Port details in case of Rogue on Wire, first time
+    when the rogue is seen in the
+    network etc.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -27,8 +27,8 @@ options:
     description: The maximum number of entries to return. Default value is 1000.
     type: float
   offset:
-    description: The offset of the first item in the collection to return. Default value
-      is 1.
+    description: The offset of the first item in the collection to return. Default
+      value is 1.
     type: float
   siteId:
     description: Filter Rogues by location. Site IDs information can be fetched from
@@ -36,8 +36,8 @@ options:
     elements: str
     type: list
   startTime:
-    description: This is the epoch start time in milliseconds from which data need to
-      be fetched. Default value is 24 hours earlier to endTime.
+    description: This is the epoch start time in milliseconds from which data need
+      to be fetched. Default value is 24 hours earlier to endTime.
     type: float
   threatLevel:
     description: Filter Rogues by Threat Level. Threat Level information can be fetched
@@ -50,42 +50,36 @@ options:
     elements: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RogueAdditionalDetailsV1
-  description: Complete reference of the RogueAdditionalDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details
+  - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailsV1
+    description: Complete reference of the RogueAdditionalDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details
 notes:
-  - SDK Method used are
-    devices.Devices.rogue_additional_details_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/security/rogue/additional/details,
-
+  - SDK Method used are devices.Devices.rogue_additional_details_v1,
+  - Paths used are post /dna/intent/api/v1/security/rogue/additional/details,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.security_rogue_additional_details_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     endTime: 0
     limit: 0
     offset: 0
     siteId:
-    - string
+      - string
     startTime: 0
     threatLevel:
-    - string
+      - string
     threatType:
-    - string
-
+      - string
 """
 RETURN = r"""
 catalystcenter_response:

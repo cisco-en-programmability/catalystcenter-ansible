@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -17,21 +18,21 @@
         fabricName: CATALYST_Guide_Fabric
         siteNameHierarchy: Global/San Francisco
 
-  # - name: Delete all
-  #   cisco.catalystcenter.sda_fabric_site:
-  #     host: "{{ host }}"
-  #     username: "{{ username }}"
-  #     password: "{{ password }}"
-  #     verify: "{{ verify }}"
-  #     api_port: "{{ api_port }}"
-  #     version: "{{ version }}"
-  #     debug: "{{ debug }}"
-  #     state: absent
-  #     siteNameHierarchy: Global/San Francisco
-  #   register: result
+# - name: Delete all
+#   cisco.catalystcenter.sda_fabric_site:
+#     host: "{{ host }}"
+#     username: "{{ username }}"
+#     password: "{{ password }}"
+#     verify: "{{ verify }}"
+#     api_port: "{{ api_port }}"
+#     version: "{{ version }}"
+#     debug: "{{ debug }}"
+#     state: absent
+#     siteNameHierarchy: Global/San Francisco
+#   register: result
 
-  # - name: Show result
-  #   debug:
-  #     msg: "{{ result }}"
-  #   when:
-  #     - result is defined
+# - name: Show result
+#   debug:
+#     msg: "{{ result }}"
+#   when:
+#     - result is defined

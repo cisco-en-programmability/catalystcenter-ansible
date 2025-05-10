@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_provision_device_create
 short_description: Resource module for Wireless Provision Device Create
 description:
-- This module represents an alias of the module wireless_provision_device_create_v1
+  - This module represents an alias of the module wireless_provision_device_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -55,45 +52,39 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless ProvisionV1
-  description: Complete reference of the ProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision
+  - name: Cisco DNA Center documentation for Wireless ProvisionV1
+    description: Complete reference of the ProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/provision,
+  - SDK Method used are wireless.Wireless.provision_v1,
+  - Paths used are post /dna/intent/api/v1/wireless/provision,
   - It should be noted that this module is an alias of wireless_provision_device_create_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.wireless_provision_device_create:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     payload:
-    - deviceName: string
-      dynamicInterfaces:
-      - interfaceGateway: string
-        interfaceIPAddress: string
-        interfaceName: string
-        interfaceNetmaskInCIDR: 0
-        lagOrPortNumber: 0
-        vlanId: 0
-      managedAPLocations:
-      - string
-      site: string
-
+      - deviceName: string
+        dynamicInterfaces:
+          - interfaceGateway: string
+            interfaceIPAddress: string
+            interfaceName: string
+            interfaceNetmaskInCIDR: 0
+            lagOrPortNumber: 0
+            vlanId: 0
+        managedAPLocations:
+          - string
+        site: string
 """
 RETURN = r"""
 catalystcenter_response:

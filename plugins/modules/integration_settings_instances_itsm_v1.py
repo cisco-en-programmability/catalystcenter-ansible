@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: integration_settings_instances_itsm_v1
 short_description: Resource module for Integration Settings Instances Itsm V1
 description:
-- Manage operations create, update and delete of the resource Integration Settings Instances Itsm V1.
-- Creates ITSM Integration setting.
-- Deletes the ITSM Integration setting.
-- Updates the ITSM Integration setting.
+  - Manage operations create, update and delete of the resource Integration Settings
+    Instances Itsm V1.
+  - Creates ITSM Integration setting.
+  - Deletes the ITSM Integration setting.
+  - Updates the ITSM Integration setting.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -42,47 +41,41 @@ options:
     description: It can be ServiceNowConnection.
     type: str
   instanceId:
-    description: InstanceId path parameter. Instance Id of the Integration setting instance.
+    description: InstanceId path parameter. Instance Id of the Integration setting
+      instance.
     type: str
   name:
     description: Name of the setting instance.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for ITSM Integration CreateITSMIntegrationSettingV1
-  description: Complete reference of the CreateITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting
-- name: Cisco DNA Center documentation for ITSM Integration DeleteITSMIntegrationSettingV1
-  description: Complete reference of the DeleteITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting
-- name: Cisco DNA Center documentation for ITSM Integration UpdateITSMIntegrationSettingV1
-  description: Complete reference of the UpdateITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting
+  - name: Cisco DNA Center documentation for ITSM Integration CreateITSMIntegrationSettingV1
+    description: Complete reference of the CreateITSMIntegrationSettingV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting
+  - name: Cisco DNA Center documentation for ITSM Integration DeleteITSMIntegrationSettingV1
+    description: Complete reference of the DeleteITSMIntegrationSettingV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting
+  - name: Cisco DNA Center documentation for ITSM Integration UpdateITSMIntegrationSettingV1
+    description: Complete reference of the UpdateITSMIntegrationSettingV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting
 notes:
-  - SDK Method used are
-    itsm_integration.ItsmIntegration.create_itsm_integration_setting_v1,
-    itsm_integration.ItsmIntegration.delete_itsm_integration_setting_v1,
-    itsm_integration.ItsmIntegration.update_itsm_integration_setting_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/integration-settings/instances/itsm,
-    delete /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId},
-    put /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId},
-
+  - SDK Method used are itsm_integration.ItsmIntegration.create_itsm_integration_setting_v1,
+    itsm_integration.ItsmIntegration.delete_itsm_integration_setting_v1, itsm_integration.ItsmIntegration.update_itsm_integration_setting_v1,
+  - Paths used are post /dna/intent/api/v1/integration-settings/instances/itsm, delete
+    /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId}, put /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.integration_settings_instances_itsm_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     data:
       ConnectionSettings:
@@ -92,16 +85,15 @@ EXAMPLES = r"""
     description: string
     dypName: string
     name: string
-
 - name: Update by id
   cisco.catalystcenter.integration_settings_instances_itsm_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     data:
       ConnectionSettings:
@@ -112,19 +104,17 @@ EXAMPLES = r"""
     dypName: string
     instanceId: string
     name: string
-
 - name: Delete by id
   cisco.catalystcenter.integration_settings_instances_itsm_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     instanceId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

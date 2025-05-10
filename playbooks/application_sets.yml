@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -15,7 +16,6 @@
         payload:
           - name: AppSet1
       register: application_set_result
-
     - name: Get task info
       cisco.catalystcenter.task_info:
         host: "{{ host }}"
@@ -28,13 +28,11 @@
         - application_set_result.catalystcenter_response.response is defined
         - application_set_result.catalystcenter_response.response.taskId is defined
       register: task_result
-
     - name: Show new application_set
       ansible.builtin.debug:
         msg: "{{ application_set_result }}"
       when:
         - application_set_result is defined
-
     - name: Show retrieved task
       ansible.builtin.debug:
         msg: "{{ task_result.catalystcenter_response.response }}"

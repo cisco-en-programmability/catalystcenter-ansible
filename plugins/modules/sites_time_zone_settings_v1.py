@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: sites_time_zone_settings_v1
 short_description: Resource module for Sites Time Zone Settings V1
 description:
-- Manage operation update of the resource Sites Time Zone Settings V1.
-- >
-   Set time zone settings for a site; `null` values indicate that the setting will be inherited from the parent site;
-   empty objects `{}` indicate that the settings is unset.
+  - Manage operation update of the resource Sites Time Zone Settings V1.
+  - >
+    Set time zone settings for a site; `null` values indicate that the setting will
+    be inherited from the parent site;
+    empty objects `{}` indicate that the settings is unset.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,41 +25,35 @@ options:
     suboptions:
       identifier:
         description: Time zone that corresponds to the site's physical location. The
-          site time zone is used when scheduling device provisioning and updates. Example
-          GMT.
+          site time zone is used when scheduling device provisioning and updates.
+          Example GMT.
         type: str
     type: dict
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings SetTimeZoneForASiteV1
-  description: Complete reference of the SetTimeZoneForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-time-zone-for-a-site
+  - name: Cisco DNA Center documentation for Network Settings SetTimeZoneForASiteV1
+    description: Complete reference of the SetTimeZoneForASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!set-time-zone-for-a-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.set_time_zone_for_a_site_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sites/{id}/timeZoneSettings,
-
+  - SDK Method used are network_settings.NetworkSettings.set_time_zone_for_a_site_v1,
+  - Paths used are put /dna/intent/api/v1/sites/{id}/timeZoneSettings,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.sites_time_zone_settings_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     id: string
     timeZone:
       identifier: string
-
 """
 RETURN = r"""
 catalystcenter_response:

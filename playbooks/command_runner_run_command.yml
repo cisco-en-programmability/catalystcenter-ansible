@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -15,11 +16,9 @@
         deviceUuids:
           - a9b86e42-6573-4f5d-a0bf-a743e290f46a
       register: result
-
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"
-
     - name: Get task info
       cisco.catalystcenter.task_info:
         host: "{{ host }}"
@@ -32,7 +31,6 @@
         - result.catalystcenter_response.response is defined
         - result.catalystcenter_response.response.taskId is defined
       register: task_result
-
     - name: Show retrieved task
       ansible.builtin.debug:
         msg: "{{ task_result.catalystcenter_response.response }}"

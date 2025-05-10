@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -14,11 +15,9 @@
         description: My Tag
         name: MyNewTag
       register: result
-
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"
-
     - name: Get task status
       cisco.catalystcenter.task_info:
         host: "{{ host }}"
@@ -31,14 +30,12 @@
         - result.catalystcenter_response.response is defined
         - result.catalystcenter_response.response.taskId is defined
       register: task_result
-
     - name: Show status of create tag operation
       ansible.builtin.debug:
         msg: "{{ task_result.catalystcenter_response.response }}"
       when:
         - task_result is defined
         - task_result.catalystcenter_response is defined
-
     - name: Create the same tag
       cisco.catalystcenter.tag:
         host: "{{ host }}"
@@ -49,7 +46,6 @@
         description: My Tag 1
         name: MyNewTag
       register: result
-
     - name: Get task status
       cisco.catalystcenter.task_tree_info:
         host: "{{ host }}"
@@ -62,14 +58,12 @@
         - result.catalystcenter_response.response is defined
         - result.catalystcenter_response.response.taskId is defined
       register: task_tree_result
-
     - name: Show status of update tag operation
       ansible.builtin.debug:
         msg: "{{ task_tree_result.catalystcenter_response.response }}"
       when:
         - task_tree_result is defined
         - task_tree_result.catalystcenter_response is defined
-
     - name: Get tag with name "MyNewTag"
       cisco.catalystcenter.tag_info:
         host: "{{ host }}"
@@ -78,11 +72,9 @@
         verify: "{{ verify }}"
         name: MyNewTag
       register: result
-
     - name: Show tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"
-
     - name: Delete tag
       cisco.catalystcenter.tag:
         host: "{{ host }}"
@@ -92,11 +84,9 @@
         state: absent
         name: MyNewTag
       register: result
-
     - name: Show deleted tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"
-
     # - name: Get task status
     #   cisco.catalystcenter.task_info:
     #     host: "{{ host }}"
@@ -116,7 +106,6 @@
     #   when:
     #     - task_tree_result is defined
     #     - task_tree_result.catalystcenter_response is defined
-
     - name: Get tag with name "MyNewTag"
       cisco.catalystcenter.tag_info:
         host: "{{ host }}"
@@ -125,7 +114,6 @@
         verify: "{{ verify }}"
         name: MyNewTag
       register: result
-
     - name: Show tags with name "MyNewTag"
       ansible.builtin.debug:
         msg: "{{ result }}"

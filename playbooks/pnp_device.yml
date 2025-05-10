@@ -1,5 +1,6 @@
 ---
-- hosts: catalystcenter_servers
+- name: Play
+  hosts: localhost
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -22,7 +23,6 @@
     #     msg: "{{ pnp_device_delete_result }}"
     #   when:
     #     - pnp_device_delete_result is defined
-
     - name: Adds or Updates a device to the PnP database
       cisco.catalystcenter.pnp_device:
         host: "{{ host }}"
@@ -33,7 +33,6 @@
         version: "{{ version }}"
         debug: "{{ debug }}"
         state: present
-        version: 2
         deviceInfo:
           serialNumber: FOCTEST2
           name: FOCTEST2
@@ -71,7 +70,6 @@
         tenantId: 5cdc6c45a8405f00c80c6ba3
         id: 610ab95c07a77b0fbec39f22
       register: pnp_device_result
-
     - name: Show new pnp_device
       ansible.builtin.debug:
         msg: "{{ pnp_device_result }}"

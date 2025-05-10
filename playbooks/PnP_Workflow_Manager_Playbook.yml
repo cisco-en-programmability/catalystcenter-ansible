@@ -2,11 +2,9 @@
 - name: Manage operations - Add, claim, and delete devices of Onboarding Configuration (PnP)
   hosts: localhost
   connection: local
-  gather_facts: no
-
+  gather_facts: false
   vars_files:
     - "{{ CLUSTERFILE }}"
-
   vars:
     catalystcenter_login: &catalystcenter_login
       host: "{{ host }}"
@@ -17,35 +15,30 @@
       version: "{{ version }}"
       debug: "{{ debug }}"
       log_level: DEBUG
-
   tasks:
-
     - name: Import devices in bulk
       cisco.catalystcenter.pnp_workflow_manager:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
+          - device_info:
               - serial_number: QD2425L8M7
                 state: Unclaimed
                 pid: c9300-24P
-                is_sudi_required: False
-
+                is_sudi_required: false
               - serial_number: QTC2320E0H9
                 state: Unclaimed
                 pid: c9300-24P
                 hostname: Test-123
-
               - serial_number: ETC2320E0HB
                 state: Unclaimed
                 pid: c9300-24P
-
     - name: Add a new device and claim it
       cisco.catalystcenter.pnp_workflow_manager:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -54,12 +47,11 @@
                 hostname: Test-9300-10
                 state: Unclaimed
                 pid: c9300-24P
-                is_sudi_required: True
-
+                is_sudi_required: true
     - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
       cisco.catalystcenter.pnp_workflow_manager:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -74,11 +66,10 @@
                 hostname: Switch
                 state: Unclaimed
                 pid: C9300-48UXM
-
     - name: Claim an existing Wireless Controller, apply a template, and upgrade its image for a specified site
       cisco.catalystcenter.pnp_workflow_manager:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -97,15 +88,14 @@
             static_ip: 204.192.101.10
             subnet_mask: 255.255.255.0
             vlan_id: 1101
-
     - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
       cisco.catalystcenter.pnp_workflow_manager:
-        <<: *catalystcenter_login
-        log: True
+        !!merge <<: *catalystcenter_login
+        log: true
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
           - device_info:
-              - serial_number: QD2425L8M7  #Will get deleted
-              - serial_number: FTC2320E0HA  #Doesn't exist in the inventory
-              - serial_number: FKC2310E0HB  #Doesn't exist in the inventory
+              - serial_number: QD2425L8M7  # Will get deleted
+              - serial_number: FTC2320E0HA  # Doesn't exist in the inventory
+              - serial_number: FKC2310E0HB  # Doesn't exist in the inventory

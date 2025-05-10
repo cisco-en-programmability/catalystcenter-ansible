@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: sites_dns_settings_info
 short_description: Information module for Sites Dns Settings Info
 description:
-- This module represents an alias of the module sites_dns_settings_v1_info
+  - This module represents an alias of the module sites_dns_settings_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,47 +18,43 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Site Id.
+      - Id path parameter. Site Id.
     type: str
   _inherited:
     description:
-    - >
-      _inherited query parameter. Include settings explicitly set for this site and settings inherited from sites
-      higher in the site hierarchy; when `false`, `null` values indicate that the site inherits that setting from
-      the parent site or a site higher in the site hierarchy.
+      - >
+        _inherited query parameter. Include settings explicitly set for this site
+        and settings inherited from sites
+        higher in the site hierarchy; when `false`, `null` values indicate that the
+        site inherits that setting from
+        the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings RetrieveDNSSettingsForASiteV1
-  description: Complete reference of the RetrieveDNSSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-dns-settings-for-a-site
+  - name: Cisco DNA Center documentation for Network Settings RetrieveDNSSettingsForASiteV1
+    description: Complete reference of the RetrieveDNSSettingsForASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-dns-settings-for-a-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.retrieve_d_n_s_settings_for_a_site_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sites/{id}/dnsSettings,
+  - SDK Method used are network_settings.NetworkSettings.retrieve_d_n_s_settings_for_a_site_v1,
+  - Paths used are get /dna/intent/api/v1/sites/{id}/dnsSettings,
   - It should be noted that this module is an alias of sites_dns_settings_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get all Sites Dns Settings Info
   cisco.catalystcenter.sites_dns_settings_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
-    _inherited: True
+    _inherited: true
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:
