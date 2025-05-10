@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.1.3
+Collection version 2.1.4
 
 .. contents::
    :local:
@@ -1152,11 +1152,12 @@ Modules
 * :ref:`pnp_virtual_account_sync_result_v1_info module <ansible_collections.cisco.catalystcenter.pnp_virtual_account_sync_result_v1_info_module>` -- Information module for Pnp Virtual Account Sync Result V1
 * :ref:`pnp_virtual_accounts_info module <ansible_collections.cisco.catalystcenter.pnp_virtual_accounts_info_module>` -- Information module for Pnp Virtual Accounts Info
 * :ref:`pnp_virtual_accounts_v1_info module <ansible_collections.cisco.catalystcenter.pnp_virtual_accounts_v1_info_module>` -- Information module for Pnp Virtual Accounts V1
-* :ref:`pnp_workflow module <ansible_collections.cisco.catalystcenter.pnp_workflow_module>` -- 
+* :ref:`pnp_workflow module <ansible_collections.cisco.catalystcenter.pnp_workflow_module>` -- Resource module for Pnp Workflow
 * :ref:`pnp_workflow_count_info module <ansible_collections.cisco.catalystcenter.pnp_workflow_count_info_module>` -- Information module for Pnp Workflow Count Info
 * :ref:`pnp_workflow_count_v1_info module <ansible_collections.cisco.catalystcenter.pnp_workflow_count_v1_info_module>` -- Information module for Pnp Workflow Count V1
 * :ref:`pnp_workflow_info module <ansible_collections.cisco.catalystcenter.pnp_workflow_info_module>` -- Information module for Pnp Workflow Info
-* :ref:`pnp_workflow_v1 module <ansible_collections.cisco.catalystcenter.pnp_workflow_v1_module>` -- 
+* :ref:`pnp_workflow_manager module <ansible_collections.cisco.catalystcenter.pnp_workflow_manager_module>` -- Resource module for Site and PnP related functions
+* :ref:`pnp_workflow_v1 module <ansible_collections.cisco.catalystcenter.pnp_workflow_v1_module>` -- Resource module for Pnp Workflow V1
 * :ref:`pnp_workflow_v1_info module <ansible_collections.cisco.catalystcenter.pnp_workflow_v1_info_module>` -- Information module for Pnp Workflow V1
 * :ref:`product_names_count_info module <ansible_collections.cisco.catalystcenter.product_names_count_info_module>` -- Information module for Product Names Count Info
 * :ref:`product_names_count_v1_info module <ansible_collections.cisco.catalystcenter.product_names_count_v1_info_module>` -- Information module for Product Names Count V1
@@ -1453,15 +1454,15 @@ Modules
 * :ref:`security_threats_summary_v1 module <ansible_collections.cisco.catalystcenter.security_threats_summary_v1_module>` -- Resource module for Security Threats Summary V1
 * :ref:`security_threats_type_info module <ansible_collections.cisco.catalystcenter.security_threats_type_info_module>` -- Information module for Security Threats Type Info
 * :ref:`security_threats_type_v1_info module <ansible_collections.cisco.catalystcenter.security_threats_type_v1_info_module>` -- Information module for Security Threats Type V1
-* :ref:`sensor module <ansible_collections.cisco.catalystcenter.sensor_module>` -- 
+* :ref:`sensor module <ansible_collections.cisco.catalystcenter.sensor_module>` -- Resource module for Sensor
 * :ref:`sensor_info module <ansible_collections.cisco.catalystcenter.sensor_info_module>` -- Information module for Sensor Info
 * :ref:`sensor_test_run module <ansible_collections.cisco.catalystcenter.sensor_test_run_module>` -- Resource module for Sensor Test Run
 * :ref:`sensor_test_run_v1 module <ansible_collections.cisco.catalystcenter.sensor_test_run_v1_module>` -- Resource module for Sensor Test Run V1
 * :ref:`sensor_test_template_duplicate module <ansible_collections.cisco.catalystcenter.sensor_test_template_duplicate_module>` -- Resource module for Sensor Test Template Duplicate
 * :ref:`sensor_test_template_duplicate_v1 module <ansible_collections.cisco.catalystcenter.sensor_test_template_duplicate_v1_module>` -- Resource module for Sensor Test Template Duplicate V1
-* :ref:`sensor_test_template_edit module <ansible_collections.cisco.catalystcenter.sensor_test_template_edit_module>` -- 
-* :ref:`sensor_test_template_edit_v1 module <ansible_collections.cisco.catalystcenter.sensor_test_template_edit_v1_module>` -- 
-* :ref:`sensor_v1 module <ansible_collections.cisco.catalystcenter.sensor_v1_module>` -- 
+* :ref:`sensor_test_template_edit module <ansible_collections.cisco.catalystcenter.sensor_test_template_edit_module>` -- Resource module for Sensor Test Template Edit
+* :ref:`sensor_test_template_edit_v1 module <ansible_collections.cisco.catalystcenter.sensor_test_template_edit_v1_module>` -- Resource module for Sensor Test Template Edit V1
+* :ref:`sensor_v1 module <ansible_collections.cisco.catalystcenter.sensor_v1_module>` -- Resource module for Sensor V1
 * :ref:`sensor_v1_info module <ansible_collections.cisco.catalystcenter.sensor_v1_info_module>` -- Information module for Sensor V1
 * :ref:`service_provider_create module <ansible_collections.cisco.catalystcenter.service_provider_create_module>` -- Resource module for Service Provider Create
 * :ref:`service_provider_create_v1 module <ansible_collections.cisco.catalystcenter.service_provider_create_v1_module>` -- Resource module for Service Provider Create V1
@@ -3017,6 +3018,7 @@ Modules
     pnp_workflow_count_info_module
     pnp_workflow_count_v1_info_module
     pnp_workflow_info_module
+    pnp_workflow_manager_module
     pnp_workflow_v1_module
     pnp_workflow_v1_info_module
     product_names_count_info_module
