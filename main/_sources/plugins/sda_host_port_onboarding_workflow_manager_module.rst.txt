@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_host_port_onboarding_workflow_manager module -- Manage 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.3).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -117,17 +117,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-api_port:
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **api_port**
+      **_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -155,17 +155,251 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_api_task_timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_host:
+
+      .. rst-class:: ansible-option-title
+
+      **_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_password:
+
+      .. rst-class:: ansible-option-title
+
+      **_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-_version:
+
+      .. rst-class:: ansible-option-title
+
+      **_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_api_task_timeout**
+      **catalystcenter_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_api_task_timeout" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -193,201 +427,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_log:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable/disable playbook execution logging.
-
-      When true and catalystCenter\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
-
-      When true and catalystCenter\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
-
-      When false, - Logging is disabled.
-
-      If the log file doesn't exist, - It is created in append or write mode based on the "catalystCenter\_log\_append" flag.
-
-      If the log file exists, - It is overwritten or appended based on the "catalystCenter\_log\_append" flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_append"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_log_append:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_append**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_append" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_file_path"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_log_file_path:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_file_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Governs logging. Logs are recorded if catalystCenter\_log is True.
-
-      If path is not specified, - When 'catalystCenter\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catalystCenter\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
-
-      If path is specified, - When 'catalystCenter\_log\_append' is True, the file opens in append mode. - When 'catalystCenter\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_level"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_log_level:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_level**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_level" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
-
-      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
-
-      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
-
-      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
-
-      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
-
-      DEBUG provides detailed diagnostic info. Displays all log messages.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_task_poll_interval"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_task_poll_interval**
+      **catalystcenter_task_poll_interval**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_task_poll_interval" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1358,17 +1408,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-debug:
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-log:
 
       .. rst-class:: ansible-option-title
 
-      **debug**
+      **log**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1382,7 +1432,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+      Flag to enable/disable playbook execution logging.
+
+      When true and log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1400,21 +1460,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_append"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-host:
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-log_append:
 
       .. rst-class:: ansible-option-title
 
-      **host**
+      **log_append**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1424,7 +1484,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The hostname of the Cisco Catalyst Center.
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -1434,17 +1502,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-password:
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **password**
+      **log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1458,8 +1526,64 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The password for authentication at the Cisco Catalyst Center.
+      Governs logging. Logs are recorded if log is True.
 
+      If path is not specified, - When 'log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'log\_append' is True, the file opens in append mode. - When 'log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-log_level"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
 
       .. raw:: html
 
@@ -1510,50 +1634,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-user:
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The username for authentication at the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-validate_response_schema:
@@ -1593,86 +1673,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-verify:
-
-      .. rst-class:: ansible-option-title
-
-      **verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the version of the Cisco Catalyst Center that the SDK should use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -1700,15 +1700,16 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Add port assignments, port channels and wireless ssids for a specific fabric site
+    - name: Add port assignments, port channels and wireless ssids for a specific fabric
+        site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: merged
@@ -1719,83 +1720,69 @@ Examples
               # Create TRUNKING DEVICE
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
-
               - interface_name: "FortyGigabitEthernet1/1/2"
                 connected_device_type: "TRUNKING_DEVICE"
                 authentication_template_name: "No Authentication"
                 interface_description: "Trunk Port"
-
               # Create Access Points
               - interface_name: "FortyGigabitEthernet2/1/1"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
-
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
                 interface_description: "Access Point Port"
-
               # Create User Devices
               - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
-
               - interface_name: "GigabitEthernet2/1/1"
                 connected_device_type: "USER_DEVICE"
                 voice_vlan_name: "VOICE_VLAN_23"
-
               - interface_name: "GigabitEthernet2/1/2"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
                 voice_vlan_name: "VOICE_VLAN_23"
-
             port_channels:
               # Default protocol is ON for TRUNK
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
                 connected_device_type: "TRUNK"
-
               - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
                 connected_device_type: "TRUNK"
                 protocol: "ON"
-
               - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
                 connected_device_type: "TRUNK"
                 protocol: "LACP"
-
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
                 connected_device_type: "TRUNK"
                 protocol: "PAGP"
                 port_channel_description: "Trunk port channel"
-
               # Default protocol for EXTENDED_NODE is PAGP
               - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
                 connected_device_type: "EXTENDED_NODE"
-
               - interface_names: ["TenGigabitEthernet1/1/7", "TenGigabitEthernet1/1/8"]
                 connected_device_type: "EXTENDED_NODE"
                 protocol: "PAGP"
                 port_channel_description: "extended node port channel"
-
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
                   - ssid_name: "open1-iac"
-
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
                     security_group_name: "Developers"
-
-    - name: Update port assignments, port channels and wireless ssids for a specific fabric site
+    - name: Update port assignments, port channels and wireless ssids for a specific
+        fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: merged
@@ -1807,77 +1794,65 @@ Examples
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
                 interface_description: "Trunk Port at interface 111"
-
               # update - update the interface_description
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
                 interface_description: "Access Point Port at 212"
-
               # update - change data vlan
               - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
-
               # update - change voice to data vlan
               - interface_name: "GigabitEthernet2/1/1"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
-
               # update - remove data vlan
               - interface_name: "GigabitEthernet2/1/2"
                 connected_device_type: "USER_DEVICE"
                 voice_vlan_name: "VOICE_VLAN_23"
-
             port_channels:
               # update - add interfaces in the port channel
               - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]
                 connected_device_type: "TRUNK"
                 protocol: "ON"
-
               # update - add interface and description
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39", "TenGigabitEthernet1/0/41"]
                 connected_device_type: "TRUNK"
                 port_channel_description: "Trunk port channel"
-
               # update - remove interface from the port channel
               - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47"]
                 connected_device_type: "TRUNK"
                 protocol: "LACP"
-
               # update - change device type from extended_node to trunk
               - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
                 connected_device_type: "TRUNK"
-
               # update - change device type from trunk to extended node when protocol is pagp
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
                 connected_device_type: "EXTENDED_NODE"
                 protocol: "PAGP"
                 port_channel_description: "Trunk port channel"
-
             wireless_ssids:
               # update - add security_group_name
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
                   - ssid_name: "open1-iac"
                     security_group_name: "Guests"
-
               # update - remove security_group_name
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
-
-
-    - name: Add or Update just wireless ssid mappings for a specific fabric site (IP/Hostname not required)
+    - name: Add or Update just wireless ssid mappings for a specific fabric site (IP/Hostname
+        not required)
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: merged
@@ -1888,68 +1863,65 @@ Examples
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
                     security_group_name: "Developers"
-
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "guest_ssid_1"
                     security_group_name: "Guests"
-
-    - name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
+    - name: Delete ALL port assignments, port channels and wireless SSID mappings from
+        a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted
         config:
           - hostname: "DC-T-9300.cisco.local"
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-
-    - name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
+    - name: Delete ALL port assignments, port channels and wireless SSID mappings from
+        a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-
     - name: Delete just ALL wireless SSIDs mappings from a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted
         config:
           - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-
     - name: Delete specific port assignments, port channels and wireless SSID mappings
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted
@@ -1962,30 +1934,26 @@ Examples
                 data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
                 interface_description: "Access Point Port at 212"
-
             port_channels:
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
                 connected_device_type: "TRUNK"
-
               - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
                 connected_device_type: "TRUNK"
                 protocol: "ON"
-
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
                   - ssid_name: "open1-iac"
                     security_group_name: "Guests"
-
     - name: Delete specific port assignments, port channels and wireless SSID mappings
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted
@@ -1999,26 +1967,23 @@ Examples
               - interface_name: "TenGigabitEthernet1/0/37"
               - interface_name: "TenGigabitEthernet1/0/38"
               - interface_name: "TenGigabitEthernet1/0/39"
-
             port_channels:
               - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
-
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
-
     - name: Delete all wireless SSIDs mapped to specific VLANs
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted
@@ -2028,16 +1993,15 @@ Examples
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
               - vlan_name: "IAC-VLAN-3"
-
     - name: Delete specific wireless SSIDs mapped to a VLAN
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{log_level}}"
         state: deleted

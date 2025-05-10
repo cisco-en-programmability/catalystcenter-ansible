@@ -42,7 +42,7 @@ cisco.catalystcenter.network_settings_workflow_manager module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.3).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -111,17 +111,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-api_port:
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **api_port**
+      **_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -149,17 +149,251 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_api_task_timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_host:
+
+      .. rst-class:: ansible-option-title
+
+      **_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_password:
+
+      .. rst-class:: ansible-option-title
+
+      **_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-_version:
+
+      .. rst-class:: ansible-option-title
+
+      **_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-catalystcenter_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_api_task_timeout**
+      **catalystcenter_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_api_task_timeout" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -187,201 +421,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-catalystcenter_log:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable/disable playbook execution logging.
-
-      When true and catalystCenter\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
-
-      When true and catalystCenter\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
-
-      When false, - Logging is disabled.
-
-      If the log file doesn't exist, - It is created in append or write mode based on the "catalystCenter\_log\_append" flag.
-
-      If the log file exists, - It is overwritten or appended based on the "catalystCenter\_log\_append" flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_append"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-catalystcenter_log_append:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_append**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_append" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_file_path"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-catalystcenter_log_file_path:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_file_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Governs logging. Logs are recorded if catalystCenter\_log is True.
-
-      If path is not specified, - When 'catalystCenter\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catalystCenter\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
-
-      If path is specified, - When 'catalystCenter\_log\_append' is True, the file opens in append mode. - When 'catalystCenter\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_level"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-catalystcenter_log_level:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_level**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_level" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
-
-      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
-
-      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
-
-      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
-
-      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
-
-      DEBUG provides detailed diagnostic info. Displays all log messages.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_task_poll_interval"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_task_poll_interval**
+      **catalystcenter_task_poll_interval**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_task_poll_interval" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -3469,17 +3519,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-debug:
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-log:
 
       .. rst-class:: ansible-option-title
 
-      **debug**
+      **log**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -3493,7 +3543,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+      Flag to enable/disable playbook execution logging.
+
+      When true and log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -3511,21 +3571,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_append"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-host:
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-log_append:
 
       .. rst-class:: ansible-option-title
 
-      **host**
+      **log_append**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -3535,7 +3595,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The hostname of the Cisco Catalyst Center.
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -3545,17 +3613,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-password:
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **password**
+      **log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -3569,8 +3637,64 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The password for authentication at the Cisco Catalyst Center.
+      Governs logging. Logs are recorded if log is True.
 
+      If path is not specified, - When 'log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'log\_append' is True, the file opens in append mode. - When 'log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-log_level"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
 
       .. raw:: html
 
@@ -3621,50 +3745,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-user:
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The username for authentication at the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-validate_response_schema:
@@ -3704,86 +3784,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-verify:
-
-      .. rst-class:: ansible-option-title
-
-      **verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module__parameter-version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the version of the Cisco Catalyst Center that the SDK should use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -3813,216 +3813,209 @@ Examples
     
     - name: Create global pool
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: merged
         config_verify: true
         config:
-        - global_pool_details:
-            settings:
-              ip_pool:
-              - name: string
-                pool_type: Generic
-                ip_address_space: string
-                cidr: string
-                gateway: string
-                dhcp_server_ips: list
-                dns_server_ips: list
-
+          - global_pool_details:
+              settings:
+                ip_pool:
+                  - name: string
+                    pool_type: Generic
+                    ip_address_space: string
+                    cidr: string
+                    gateway: string
+                    dhcp_server_ips: list
+                    dns_server_ips: list
     - name: Create reserve an ip pool
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: merged
         config_verify: true
         config:
-        - reserve_pool_details:
-          - site_name: string
-            name: string
-            pool_type: LAN
-            ipv6_address_space: true
-            ipv4_global_pool: string
-            ipv4_prefix: true
-            ipv4_prefix_length: 9
-            ipv4_subnet: string
-            ipv6_prefix: true
-            ipv6_prefix_length: 64
-            ipv6_global_pool: string
-            ipv6_subnet: string
-            slaac_support: true
-
+          - reserve_pool_details:
+              - site_name: string
+                name: string
+                pool_type: LAN
+                ipv6_address_space: true
+                ipv4_global_pool: string
+                ipv4_prefix: true
+                ipv4_prefix_length: 9
+                ipv4_subnet: string
+                ipv6_prefix: true
+                ipv6_prefix_length: 64
+                ipv6_global_pool: string
+                ipv6_subnet: string
+                slaac_support: true
     - name: Create reserve an ip pool using global pool name
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: merged
         config_verify: true
         config:
-        - reserve_pool_details:
-          - name: string
-            site_name: string
-            pool_type: LAN
-            ipv6_address_space: true
-            ipv4_global_pool_name: string
-            ipv4_prefix: true
-            ipv4_prefix_length: 9
-            ipv4_subnet: string
-            ipv6_prefix: true
-            ipv6_prefix_length: 64
-            ipv6_global_pool_name: string
-            ipv6_subnet: string
-            slaac_support: true
-
+          - reserve_pool_details:
+              - name: string
+                site_name: string
+                pool_type: LAN
+                ipv6_address_space: true
+                ipv4_global_pool_name: string
+                ipv4_prefix: true
+                ipv4_prefix_length: 9
+                ipv4_subnet: string
+                ipv6_prefix: true
+                ipv6_prefix_length: 64
+                ipv6_global_pool_name: string
+                ipv6_subnet: string
+                slaac_support: true
     - name: Delete reserved pool
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: deleted
         config_verify: true
         config:
-        - reserve_pool_details:
-          - site_name: string
-            name: string
-
+          - reserve_pool_details:
+              - site_name: string
+                name: string
     - name: Delete Global Pool
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        _host: "{{ _host }}"
+        _api_port: "{{ _api_port }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
+        _version: "{{ _version }}"
         log_level: "{{ log_level }}"
         log: true
         state: deleted
         config_verify: true
         config:
-        - global_pool_details:
-            settings:
+          - global_pool_details:
+              settings:
                 ip_pool:
-                - name: string
-
+                  - name: string
     - name: Manage the network functions
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: merged
         config_verify: true
         config:
-        - network_management_details:
-          - site_name: string
-            settings:
-              dhcp_server: list
-              dns_server:
-                domain_name: string
-                primary_ip_address: string
-                secondary_ip_address: string
-              ntp_server: list
-              timezone: string
-              message_of_the_day:
-                banner_message: string
-                retain_existing_banner: bool
-              netflow_collector:
-                ip_address: string
-                port: 443
-              snmp_server:
-                configure_catalystcenter_ip: true
-                ip_addresses: list
-              syslog_server:
-                configure_catalystcenter_ip: true
-                ip_addresses: list
-
+          - network_management_details:
+              - site_name: string
+                settings:
+                  dhcp_server: list
+                  dns_server:
+                    domain_name: string
+                    primary_ip_address: string
+                    secondary_ip_address: string
+                  ntp_server: list
+                  timezone: string
+                  message_of_the_day:
+                    banner_message: string
+                    retain_existing_banner: bool
+                  netflow_collector:
+                    ip_address: string
+                    port: 443
+                  snmp_server:
+                    configure_catalystcenter_ip: true
+                    ip_addresses: list
+                  syslog_server:
+                    configure_catalystcenter_ip: true
+                    ip_addresses: list
     - name: Adding the network_aaa and client_and_endpoint_aaa AAA server
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: merged
         config_verify: true
         config:
-        - network_management_details:
-          - site_name: string
-            settings:
-              network_aaa:
-                server_type: AAA
-                primary_server_address: string
-                secondary_server_address: string
-                protocol: string
-              client_and_endpoint_aaa:
-                server_type: AAA
-                primary_server_address: string
-                secondary_server_address: string
-                protocol: string
-
+          - network_management_details:
+              - site_name: string
+                settings:
+                  network_aaa:
+                    server_type: AAA
+                    primary_server_address: string
+                    secondary_server_address: string
+                    protocol: string
+                  client_and_endpoint_aaa:
+                    server_type: AAA
+                    primary_server_address: string
+                    secondary_server_address: string
+                    protocol: string
     - name: Adding the network_aaa and client_and_endpoint_aaa ISE server
       cisco.catalystcenter.network_settings_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: merged
         config_verify: true
         config:
-        - network_management_details:
-          - site_name: string
-            settings:
-              network_aaa:
-                server_type: ISE
-                pan_address: string
-                primary_server_address: string
-                protocol: string
-              client_and_endpoint_aaa:
-                server_type: ISE
-                pan_address: string
-                primary_server_address: string
-                protocol: string
+          - network_management_details:
+              - site_name: string
+                settings:
+                  network_aaa:
+                    server_type: ISE
+                    pan_address: string
+                    primary_server_address: string
+                    protocol: string
+                  client_and_endpoint_aaa:
+                    server_type: ISE
+                    pan_address: string
+                    primary_server_address: string
+                    protocol: string
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager module -- Conf
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.3).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -110,17 +110,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-api_port:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **api_port**
+      **_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -148,17 +148,251 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_api_task_timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_host:
+
+      .. rst-class:: ansible-option-title
+
+      **_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_password:
+
+      .. rst-class:: ansible-option-title
+
+      **_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-_version:
+
+      .. rst-class:: ansible-option-title
+
+      **_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_api_task_timeout**
+      **catalystcenter_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_api_task_timeout" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -186,201 +420,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_log:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable/disable playbook execution logging.
-
-      When true and catalystCenter\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
-
-      When true and catalystCenter\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
-
-      When false, - Logging is disabled.
-
-      If the log file doesn't exist, - It is created in append or write mode based on the "catalystCenter\_log\_append" flag.
-
-      If the log file exists, - It is overwritten or appended based on the "catalystCenter\_log\_append" flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_append"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_log_append:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_append**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_append" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_file_path"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_log_file_path:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_file_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Governs logging. Logs are recorded if catalystCenter\_log is True.
-
-      If path is not specified, - When 'catalystCenter\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catalystCenter\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
-
-      If path is specified, - When 'catalystCenter\_log\_append' is True, the file opens in append mode. - When 'catalystCenter\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_level"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_log_level:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_level**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_level" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
-
-      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
-
-      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
-
-      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
-
-      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
-
-      DEBUG provides detailed diagnostic info. Displays all log messages.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_task_poll_interval"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_task_poll_interval**
+      **catalystcenter_task_poll_interval**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_task_poll_interval" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1803,17 +1853,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-debug:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-log:
 
       .. rst-class:: ansible-option-title
 
-      **debug**
+      **log**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1827,7 +1877,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+      Flag to enable/disable playbook execution logging.
+
+      When true and log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1845,21 +1905,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_append"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-host:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-log_append:
 
       .. rst-class:: ansible-option-title
 
-      **host**
+      **log_append**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1869,7 +1929,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The hostname of the Cisco Catalyst Center.
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -1879,17 +1947,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-password:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **password**
+      **log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1903,8 +1971,64 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The password for authentication at the Cisco Catalyst Center.
+      Governs logging. Logs are recorded if log is True.
 
+      If path is not specified, - When 'log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'log\_append' is True, the file opens in append mode. - When 'log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-log_level"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
 
       .. raw:: html
 
@@ -1993,50 +2117,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-user:
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The username for authentication at the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-validate_response_schema:
@@ -2076,86 +2156,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-verify:
-
-      .. rst-class:: ansible-option-title
-
-      **verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the version of the Cisco Catalyst Center that the SDK should use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -2171,6 +2171,7 @@ Notes
    - For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual network must be deleted first before the deletion operation for the virtual network is enabled.
    - All newly created Layer3 Virtual Networks must either be assigned to one or more Fabric Sites, or they all must not be assigned to any Fabric Sites.
    - To create or update a fabric VLAN according to the module design, the vlan\_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.
+   - If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the virtual network.
    - SDK Method used are ccc\_virtual\_network.sda.get\_site ccc\_virtual\_network.sda.get\_fabric\_sites ccc\_virtual\_network.sda.get\_fabric\_zones ccc\_virtual\_network.sda.get\_layer2\_virtual\_networks ccc\_virtual\_network.sda.add\_layer2\_virtual\_networks ccc\_virtual\_network.sda.update\_layer2\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer2\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_layer3\_virtual\_networks ccc\_virtual\_network.sda.add\_layer3\_virtual\_networks ccc\_virtual\_network.sda.update\_layer3\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer3\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_reserve\_ip\_subpool ccc\_virtual\_network.sda.get\_anycast\_gateways ccc\_virtual\_network.sda.add\_anycast\_gateways ccc\_virtual\_network.sda.update\_anycast\_gateways ccc\_virtual\_network.sda.delete\_anycast\_gateway\_by\_id
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
@@ -2187,230 +2188,242 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
+    - name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - fabric_vlan:
-            - vlan_name: "vlan_test1"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              - site_name_hierarchy: "Global/India/Chennai"
-                fabric_type: "fabric_zone"
-              vlan_id: 1333
-              traffic_type: "DATA"
-              fabric_enabled_wireless: false
-            - vlan_name: "vlan_test2"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/USA"
-                fabric_type: "fabric_site"
-              vlan_id: 1334
-              traffic_type: "VOICE"
-              fabric_enabled_wireless: false
-
+              - vlan_name: "vlan_test1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/India/Chennai"
+                    fabric_type: "fabric_zone"
+                vlan_id: 1333
+                traffic_type: "DATA"
+                fabric_enabled_wireless: false
+              - vlan_name: "vlan_test2"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
+                vlan_id: 1334
+                traffic_type: "VOICE"
+                fabric_enabled_wireless: false
     - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - fabric_vlan:
-            - vlan_name: "vlan_test1"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              - site_name_hierarchy: "Global/India/Chennai"
-                fabric_type: "fabric_zone"
-              vlan_id: 1333
-              traffic_type: "VOICE"
-              fabric_enabled_wireless: true
-
+              - vlan_name: "vlan_test1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/India/Chennai"
+                    fabric_type: "fabric_zone"
+                vlan_id: 1333
+                traffic_type: "VOICE"
+                fabric_enabled_wireless: true
     - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: deleted
         config:
           - fabric_vlan:
-            - vlan_name: "vlan_test1"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/India/Chennai"
-                fabric_type: "fabric_zone"
-              vlan_id: 1333
-
+              - vlan_name: "vlan_test1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Chennai"
+                    fabric_type: "fabric_zone"
+                vlan_id: 1333
     - name: Create layer3 Virtual Network and anchored the site to the VN as well.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - virtual_networks:
-            - vn_name: "vn_with_anchor"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-              anchored_site_name: "Global/India"
-
+              - vn_name: "vn_with_anchor"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                anchored_site_name: "Global/India"
     - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - virtual_networks:
-            - vn_name: "vn_test"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/USA"
-                  fabric_type: "fabric_site"
-
+              - vn_name: "vn_test"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
     - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - virtual_networks:
-            - vn_name: "vn_test"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/USA"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/China"
-                  fabric_type: "fabric_site"
-
-    - name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
+              - vn_name: "vn_test"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/China"
+                    fabric_type: "fabric_site"
+    - name: Removing the fabric sites only from the given Virtual Network in the Cisco
+        Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log_level: "{{log_level}}"
+        log: false
+        state: deleted
+        config:
+          - virtual_networks:
+              - vn_name: "vn_test"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
+    - name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric
+        sites if any.
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: deleted
         config:
           - virtual_networks:
               - vn_name: "vlan_test1"
-
     - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - anycast_gateways:
-            - vn_name: "VN_Anycast"
-              fabric_site_location:
-                site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              ip_pool_name: "IP_Pool_1"
-              tcp_mss_adjustment: 580
-              traffic_type: "DATA"
-              is_critical_pool: false
-              auto_generate_vlan_name: true
-
+              - vn_name: "VN_Anycast"
+                fabric_site_location:
+                  site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                ip_pool_name: "IP_Pool_1"
+                tcp_mss_adjustment: 580
+                traffic_type: "DATA"
+                is_critical_pool: false
+                auto_generate_vlan_name: true
     - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: merged
         config:
           - anycast_gateways:
-            - vn_name: "VN_India"
-              fabric_site_location:
-                site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              ip_pool_name: "Reserve_Ip_Abhi_pool"
-              tcp_mss_adjustment: 590
-              traffic_type: "DATA"
-              is_critical_pool: false
-              layer2_flooding_enabled: false
-              multiple_ip_to_mac_addresses: false
-
+              - vn_name: "VN_India"
+                fabric_site_location:
+                  site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                ip_pool_name: "Reserve_Ip_Abhi_pool"
+                tcp_mss_adjustment: 590
+                traffic_type: "DATA"
+                is_critical_pool: false
+                layer2_flooding_enabled: false
+                multiple_ip_to_mac_addresses: false
     - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
         log: false
         state: deleted
         config:
           - anycast_gateways:
-            - vn_name: "vlan_test1"
-              fabric_site_location:
-                site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              ip_pool_name: "IP_Pool_1"
-
+              - vn_name: "vlan_test1"
+                fabric_site_location:
+                  site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                ip_pool_name: "IP_Pool_1"
 
 
 

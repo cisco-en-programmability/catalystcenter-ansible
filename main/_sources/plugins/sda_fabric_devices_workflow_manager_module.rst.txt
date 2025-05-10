@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_devices_workflow_manager module -- Manage SDA fa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.3).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -111,17 +111,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-api_port:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **api_port**
+      **_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -149,17 +149,251 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_api_task_timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_host:
+
+      .. rst-class:: ansible-option-title
+
+      **_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_password:
+
+      .. rst-class:: ansible-option-title
+
+      **_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-_version:
+
+      .. rst-class:: ansible-option-title
+
+      **_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-catalystcenter_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_api_task_timeout**
+      **catalystcenter_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_api_task_timeout" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -187,201 +421,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-catalystcenter_log:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable/disable playbook execution logging.
-
-      When true and catalystCenter\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
-
-      When true and catalystCenter\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
-
-      When false, - Logging is disabled.
-
-      If the log file doesn't exist, - It is created in append or write mode based on the "catalystCenter\_log\_append" flag.
-
-      If the log file exists, - It is overwritten or appended based on the "catalystCenter\_log\_append" flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_append"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-catalystcenter_log_append:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_append**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_append" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_file_path"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-catalystcenter_log_file_path:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_file_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Governs logging. Logs are recorded if catalystCenter\_log is True.
-
-      If path is not specified, - When 'catalystCenter\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catalystCenter\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
-
-      If path is specified, - When 'catalystCenter\_log\_append' is True, the file opens in append mode. - When 'catalystCenter\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_level"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-catalystcenter_log_level:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_level**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_level" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
-
-      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
-
-      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
-
-      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
-
-      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
-
-      DEBUG provides detailed diagnostic info. Displays all log messages.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_task_poll_interval"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_task_poll_interval**
+      **catalystcenter_task_poll_interval**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_task_poll_interval" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1853,17 +1903,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-debug:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-log:
 
       .. rst-class:: ansible-option-title
 
-      **debug**
+      **log**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1877,7 +1927,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+      Flag to enable/disable playbook execution logging.
+
+      When true and log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1895,21 +1955,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_append"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-host:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-log_append:
 
       .. rst-class:: ansible-option-title
 
-      **host**
+      **log_append**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1919,7 +1979,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The hostname of the Cisco Catalyst Center.
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -1929,17 +1997,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-password:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **password**
+      **log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1953,8 +2021,64 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The password for authentication at the Cisco Catalyst Center.
+      Governs logging. Logs are recorded if log is True.
 
+      If path is not specified, - When 'log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'log\_append' is True, the file opens in append mode. - When 'log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-log_level"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
 
       .. raw:: html
 
@@ -2005,50 +2129,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-user:
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The username for authentication at the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-validate_response_schema:
@@ -2088,86 +2168,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-verify:
-
-      .. rst-class:: ansible-option-title
-
-      **verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_devices_workflow_manager_module__parameter-version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the version of the Cisco Catalyst Center that the SDK should use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -2197,341 +2197,330 @@ Examples
     
     - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE]
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE]
     - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
-
-    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,
+        BORDER_NODE
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_settings:
-                  local_autonomous_system_number: 1234
-                  is_default_exit: true
-                  import_external_routes: true
-                  border_priority: 1
-                  prepend_autonomous_system_count: 1
-
-    - name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: true
+                      import_external_routes: true
+                      border_priority: 1
+                      prepend_autonomous_system_count: 1
+    - name: Update the SDA fabric device with the device roles with BORDER_NODE and
+        add L2 Handoff
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_settings:
-                  local_autonomous_system_number: 1234
-                  is_default_exit: true
-                  import_external_routes: true
-                  border_priority: 2
-                  prepend_autonomous_system_count: 2
-                layer2_handoff:
-                - interface_name: FortyGigabitEthernet1/1/1
-                  internal_vlan_id: 550
-                  external_vlan_id: 551
-
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: true
+                      import_external_routes: true
+                      border_priority: 2
+                      prepend_autonomous_system_count: 2
+                    layer2_handoff:
+                      - interface_name: FortyGigabitEthernet1/1/1
+                        internal_vlan_id: 550
+                        external_vlan_id: 551
     - name: Add the L3 Handoff with SDA Transit to the SDA fabric device
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-                  affinity_id_prime: 1
-                  affinity_id_decider: 1
-                  connected_to_internet: true
-                  is_multicast_over_transit_enabled: false
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_sda_transit:
+                      transit_network_name: SDA_PUB_SUB_TRANSIT
+                      affinity_id_prime: 1
+                      affinity_id_decider: 1
+                      connected_to_internet: true
+                      is_multicast_over_transit_enabled: false
     - name: Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  external_connectivity_ip_pool_name: Reserved_sda_test_1
-                  virtual_network_name: L3VN1
-                  vlan_id: 440
-                  tcp_mss_adjustment: 501
-
-    - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        external_connectivity_ip_pool_name: Reserved_sda_test_1
+                        virtual_network_name: L3VN1
+                        vlan_id: 440
+                        tcp_mss_adjustment: 501
+    - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote
+        network
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-                  vlan_id: 440
-                  tcp_mss_adjustment: 510
-                  local_ip_address: 10.0.0.1/24
-                  remote_ip_address: 10.0.0.2/24
-                  local_ipv6_address: 2009:db8::1/64
-                  remote_ipv6_address: 2009:db8::2/64
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        virtual_network_name: L3VN1
+                        vlan_id: 440
+                        tcp_mss_adjustment: 510
+                        local_ip_address: 10.0.0.1/24
+                        remote_ip_address: 10.0.0.2/24
+                        local_ipv6_address: 2009:db8::1/64
+                        remote_ipv6_address: 2009:db8::2/64
     - name: Update the border settings of the SDA Devices
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_settings:
-                  local_autonomous_system_number: 1234
-                  is_default_exit: false
-                  import_external_routes: false
-                  border_priority: 1
-                  prepend_autonomous_system_count: 3
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: false
+                      import_external_routes: false
+                      border_priority: 1
+                      prepend_autonomous_system_count: 3
     - name: Update the L3 Handoffs with SDA Transit and IP Transit.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-                  affinity_id_prime: 2
-                  affinity_id_decider: 2
-                  connected_to_internet: false
-                  is_multicast_over_transit_enabled: true
-
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-                  vlan_id: 440
-                  tcp_mss_adjustment: 511
-                  local_ip_address: 10.0.0.1/24
-                  remote_ip_address: 10.0.0.2/24
-                  local_ipv6_address: 2009:db8::1/64
-                  remote_ipv6_address: 2009:db8::2/64
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_sda_transit:
+                      transit_network_name: SDA_PUB_SUB_TRANSIT
+                      affinity_id_prime: 2
+                      affinity_id_decider: 2
+                      connected_to_internet: false
+                      is_multicast_over_transit_enabled: true
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        virtual_network_name: L3VN1
+                        vlan_id: 440
+                        tcp_mss_adjustment: 511
+                        local_ip_address: 10.0.0.1/24
+                        remote_ip_address: 10.0.0.2/24
+                        local_ipv6_address: 2009:db8::1/64
+                        remote_ipv6_address: 2009:db8::2/64
     - name: Delete the L2 Handoff
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              borders_settings:
-                layer2_handoff:
-                - interface_name: FortyGigabitEthernet1/1/1
-                  internal_vlan_id: 550
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  borders_settings:
+                    layer2_handoff:
+                      - interface_name: FortyGigabitEthernet1/1/1
+                        internal_vlan_id: 550
     - name: Delete the L3 Handoff with SDA Transit
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              borders_settings:
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  borders_settings:
+                    layer3_handoff_sda_transit:
+                      transit_network_name: SDA_PUB_SUB_TRANSIT
     - name: Delete the L3 Handoff with IP Transit
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  borders_settings:
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        virtual_network_name: L3VN1
     - name: Delete the device
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
-        log: True
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
         log_level: "{{ log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
 
 
 

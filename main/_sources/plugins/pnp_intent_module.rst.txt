@@ -42,7 +42,7 @@ cisco.catalystcenter.pnp_intent module -- Resource module for Site and PnP relat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.3).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -111,17 +111,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-api_port:
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **api_port**
+      **_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -149,17 +149,251 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_api_task_timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco CATALYST Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_host:
+
+      .. rst-class:: ansible-option-title
+
+      **_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco CATALYST Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_password:
+
+      .. rst-class:: ansible-option-title
+
+      **_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco CATALYST Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco CATALYST Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-_version:
+
+      .. rst-class:: ansible-option-title
+
+      **_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco CATALYST Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-catalystcenter_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_api_task_timeout**
+      **catalystcenter_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_api_task_timeout" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -187,201 +421,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-catalystcenter_log:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable/disable playbook execution logging.
-
-      When true and catalystCenter\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
-
-      When true and catalystCenter\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
-
-      When false, - Logging is disabled.
-
-      If the log file doesn't exist, - It is created in append or write mode based on the "catalystCenter\_log\_append" flag.
-
-      If the log file exists, - It is overwritten or appended based on the "catalystCenter\_log\_append" flag.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_append"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-catalystcenter_log_append:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_append**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_append" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_file_path"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-catalystcenter_log_file_path:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_file_path**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_file_path" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Governs logging. Logs are recorded if catalystCenter\_log is True.
-
-      If path is not specified, - When 'catalystCenter\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catalystCenter\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
-
-      If path is specified, - When 'catalystCenter\_log\_append' is True, the file opens in append mode. - When 'catalystCenter\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_log_level"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-catalystcenter_log_level:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystCenter_log_level**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_log_level" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
-
-      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
-
-      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
-
-      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
-
-      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
-
-      DEBUG provides detailed diagnostic info. Displays all log messages.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystCenter_task_poll_interval"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-catalystcenter_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
-      **catalystCenter_task_poll_interval**
+      **catalystcenter_task_poll_interval**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catalystCenter_task_poll_interval" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1196,17 +1246,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-debug:
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-log:
 
       .. rst-class:: ansible-option-title
 
-      **debug**
+      **log**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1220,7 +1270,17 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable debugging.
+      Flag to enable/disable playbook execution logging.
+
+      When true and log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -1238,21 +1298,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_append"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-host:
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-log_append:
 
       .. rst-class:: ansible-option-title
 
-      **host**
+      **log_append**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1262,7 +1322,15 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center hostname.
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -1272,17 +1340,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-password:
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **password**
+      **log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1296,8 +1364,64 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center password to authenticate.
+      Governs logging. Logs are recorded if log is True.
 
+      If path is not specified, - When 'log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'log\_append' is True, the file opens in append mode. - When 'log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"catalystcenter.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-log_level"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
 
       .. raw:: html
 
@@ -1348,50 +1472,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-user:
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-username:
-
-      .. rst-class:: ansible-option-title
-
-      **username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center username to authenticate.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-validate_response_schema:
@@ -1431,86 +1511,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-verify:
-
-      .. rst-class:: ansible-option-title
-
-      **verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.pnp_intent_module__parameter-version:
-
-      .. rst-class:: ansible-option-title
-
-      **version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Informs the SDK which version of Cisco CATALYST Center to use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -1540,109 +1540,108 @@ Examples
     
     - name: Import multiple switches in bulk only
       cisco.catalystcenter.pnp_intent:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
-        log: True
+        log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: QD2425L8M7
-                  state: Unclaimed
-                  pid: c9300-24P
-                  is_sudi_required: False
-                - serial_number: QTC2320E0H9
-                  state: Unclaimed
-                  pid: c9300-24P
-                  hostname: Test-123
-                - serial_number: ETC2320E0HB
-                  state: Unclaimed
-                  pid: c9300-24P
-
+          - device_info:
+              - serial_number: QD2425L8M7
+                state: Unclaimed
+                pid: c9300-24P
+                is_sudi_required: false
+              - serial_number: QTC2320E0H9
+                state: Unclaimed
+                pid: c9300-24P
+                hostname: Test-123
+              - serial_number: ETC2320E0HB
+                state: Unclaimed
+                pid: c9300-24P
     - name: Add a new EWLC and claim it
       cisco.catalystcenter.pnp_intent:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
-        log: True
+        log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: FOX2639PAY7
-                  hostname: New_WLC
-                  state: Unclaimed
-                  pid: C9800-CL-K9
-              site_name: Global/USA/San Francisco/BGL_18
-              template_name: Ansible_PNP_WLC
-              template_params:
-                hostname: IAC-EWLC-Claimed
-              project_name: Onboarding Configuration
-              image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
-              golden_image: true
-              pnp_type: CatalystWLC
-              static_ip: 204.192.101.10
-              subnet_mask: 255.255.255.0
-              gateway: 204.192.101.1
-              vlan_id: 1101
-              ip_interface_name: TenGigabitEthernet0/0/0
-
-    - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
+          - device_info:
+              - serial_number: FOX2639PAY7
+                hostname: New_WLC
+                state: Unclaimed
+                pid: C9800-CL-K9
+            site_name: Global/USA/San Francisco/BGL_18
+            template_name: Ansible_PNP_WLC
+            template_params:
+              hostname: IAC-EWLC-Claimed
+            project_name: Onboarding Configuration
+            image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+            golden_image: true
+            pnp_type: CatalystWLC
+            static_ip: 204.192.101.10
+            subnet_mask: 255.255.255.0
+            gateway: 204.192.101.1
+            vlan_id: 1101
+            ip_interface_name: TenGigabitEthernet0/0/0
+    - name: Claim a pre-added switch, apply a template, and perform an image upgrade
+        for a specific site
       cisco.catalystcenter.pnp_intent:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
-        log: True
+        log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: FJC271924EQ
-                  hostname: Switch
-                  state: Unclaimed
-                  pid: C9300-48UXM
-              site_name: Global/USA/San Francisco/BGL_18
-              template_name: "Ansible_PNP_Switch"
-              image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
-              project_name: Onboarding Configuration
-              template_params:
-                hostname: SJC-Switch-1
-                interface: TwoGigabitEthernet1/0/2
-
-    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
+          - device_info:
+              - serial_number: FJC271924EQ
+                hostname: Switch
+                state: Unclaimed
+                pid: C9300-48UXM
+            site_name: Global/USA/San Francisco/BGL_18
+            template_name: "Ansible_PNP_Switch"
+            image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+            project_name: Onboarding Configuration
+            template_params:
+              hostname: SJC-Switch-1
+              interface: TwoGigabitEthernet1/0/2
+    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent
+        devices)
       cisco.catalystcenter.pnp_intent:
-        host: "{{host}}"
-        username: "{{username}}"
-        password: "{{password}}"
-        verify: "{{verify}}"
-        api_port: "{{api_port}}"
-        version: "{{version}}"
-        debug: "{{debug}}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log_level: "{{log_level}}"
-        log: True
+        log: true
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: QD2425L8M7
-                - serial_number: FTC2320E0HA
-                - serial_number: FKC2310E0HB
+          - device_info:
+              - serial_number: QD2425L8M7
+              - serial_number: FTC2320E0HA
+              - serial_number: FKC2310E0HB
 
 
 
