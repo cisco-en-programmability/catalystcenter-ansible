@@ -286,17 +286,18 @@ class CatalystCenterBase():
     def get_catalystcenter_params(self, params):
         """Store the Cisco Catalyst Center parameters from the playbook"""
 
-        catalystcenter_params = {"host": params.get("host"),
-                       "api_port": params.get("api_port"),
-                       "username": params.get("username"),
-                       "password": params.get("password"),
-                       "verify": params.get("verify"),
-                       "debug": params.get("debug"),
-                       "log": params.get("log"),
-                       "log_level": params.get("log_level"),
-                       "log_file_path": params.get("log_file_path"),
-                       "log_append": params.get("log_append")
-                       }
+        catalystcenter_params = {
+            "_host": params.get("_host"),
+            "_api_port": params.get("_api_port"),
+            "_username": params.get("_username"),
+            "_password": params.get("_password"),
+            "_verify": params.get("_verify"),
+            "_debug": params.get("_debug"),
+            "log": params.get("log"),
+            "log_level": params.get("log_level"),
+            "log_file_path": params.get("log_file_path"),
+            "log_append": params.get("log_append")
+        }
         return catalystcenter_params
 
     def get_task_details(self, task_id):
@@ -804,15 +805,15 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
     return result
 
 
-def Catalystcenter_argument_spec():
+def catalystcenter_argument_spec():
     argument_spec = dict(
-        host=dict(type="str", required=True, aliases=['catalystcenter_host']),
-        api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port']),
-        username=dict(type="str", default="admin", aliases=['user','catalystcenter_username']),
-        password=dict(type="str", no_log=True, aliases=['catalystcenter_password']),
-        verify=dict(type="bool", default=True, aliases=['catalystcenter_verify']),
-        version=dict(type="str", default="2.2.3.3", aliases=['catalystcenter_version']),
-        debug=dict(type="bool", default=False, aliases=['catalystcenter_debug']),
+        _host=dict(type="str", required=True, aliases=['catalystcenter_host', '_host']),
+        _api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', '_api_port']),
+        _username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', '_username']),
+        _password=dict(type="str", no_log=True, aliases=['catalystcenter_password', '_password']),
+        _verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', '_verify']),
+        _version=dict(type="str", default="2.2.3.3", aliases=['catalystcenter_version', '_version']),
+        _debug=dict(type="bool", default=False, aliases=['catalystcenter_debug', '_debug']),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
@@ -1060,16 +1061,16 @@ class CatalystCenterSDK(object):
         self.logger = logging.getLogger('catalystcentersdk')
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
-                username=params.get("username"),
-                password=params.get("password"),
-                base_url="https://{host}:{api_port}".format(
-                    host=params.get("host"), api_port=params.get("api_port")
+                username=params.get("_username"),
+                password=params.get("_password"),
+                base_url="https://{_host}:{_api_port}".format(
+                    _host=params.get("_host"), _api_port=params.get("_api_port")
                 ),
-                version=params.get("version"),
-                verify=params.get("verify"),
-                debug=params.get("debug"),
+                version=params.get("_version"),
+                verify=params.get("_verify"),
+                debug=params.get("_debug"),
             )
-            if params.get("debug") and LOGGING_IN_STANDARD:
+            if params.get("_debug") and LOGGING_IN_STANDARD:
                 self.logger.addHandler(logging.StreamHandler())
         else:
             self.fail_json(msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")

@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: floors
 short_description: Resource module for Floors
 description:
-- This module represents an alias of the module floors_v2
+  - This module represents an alias of the module floors_v2
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -44,42 +41,35 @@ options:
     description: Floor width. Example 100.5.
     type: float
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
-  description: Complete reference of the CreatesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor
-- name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
-  description: Complete reference of the DeletesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor
-- name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
-  description: Complete reference of the UpdatesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor
+  - name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
+    description: Complete reference of the CreatesAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor
+  - name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
+    description: Complete reference of the DeletesAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor
+  - name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
+    description: Complete reference of the UpdatesAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.creates_a_floor_v2,
-    site_design.SiteDesign.deletes_a_floor_v2,
+  - SDK Method used are site_design.SiteDesign.creates_a_floor_v2, site_design.SiteDesign.deletes_a_floor_v2,
     site_design.SiteDesign.updates_a_floor_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors,
-    delete /dna/intent/api/v2/floors/{id},
+  - Paths used are post /dna/intent/api/v2/floors, delete /dna/intent/api/v2/floors/{id},
     put /dna/intent/api/v2/floors/{id},
   - It should be noted that this module is an alias of floors_v2
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.floors:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     floorNumber: 0
     height: 0
@@ -89,16 +79,15 @@ EXAMPLES = r"""
     rfModel: string
     unitsOfMeasure: string
     width: 0
-
 - name: Update by id
   cisco.catalystcenter.floors:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     floorNumber: 0
     height: 0
@@ -109,19 +98,17 @@ EXAMPLES = r"""
     rfModel: string
     unitsOfMeasure: string
     width: 0
-
 - name: Delete by id
   cisco.catalystcenter.floors:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:

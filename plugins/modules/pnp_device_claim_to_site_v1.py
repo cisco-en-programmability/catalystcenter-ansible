@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim_to_site_v1
 short_description: Resource module for Pnp Device Claim To Site V1
 description:
-- Manage operation create of the resource Pnp Device Claim To Site V1.
-- >
-   Claim a device based on Catalyst Center Site-based design process. Some required parameters differ based on device
-   platform.
+  - Manage operation create of the resource Pnp Device Claim To Site V1.
+  - >
+    Claim a device based on Catalyst Center Site-based design process. Some required
+    parameters differ based on device
+    platform.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -88,36 +87,31 @@ options:
     type: str
     version_added: 6.4.0
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1
-  description: Complete reference of the ClaimADeviceToASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1
+    description: Complete reference of the ClaimADeviceToASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.pnp_device_claim_to_site_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     configInfo:
       configId: string
       configParameters:
-      - key: string
-        value: string
+        - key: string
+          value: string
     deviceId: string
     gateway: string
     hostname: string
@@ -132,7 +126,6 @@ EXAMPLES = r"""
     subnetMask: string
     type: string
     vlanId: string
-
 """
 RETURN = r"""
 catalystcenter_response:

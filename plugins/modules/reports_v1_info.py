@@ -1,18 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: reports_v1_info
 short_description: Information module for Reports V1
 description:
-- Get all Reports V1.
-- Get Reports V1 by id.
-- Get list of scheduled report configurations.
-- Get scheduled report configuration by reportId.
+  - Get all Reports V1.
+  - Get Reports V1 by id.
+  - Get list of scheduled report configurations.
+  - Get scheduled report configuration by reportId.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,65 +21,56 @@ options:
     type: dict
   viewGroupId:
     description:
-    - ViewGroupId query parameter. ViewGroupId of viewgroup for report.
+      - ViewGroupId query parameter. ViewGroupId of viewgroup for report.
     type: str
   viewId:
     description:
-    - ViewId query parameter. ViewId of view for report.
+      - ViewId query parameter. ViewId of view for report.
     type: str
   reportId:
     description:
-    - ReportId path parameter. ReportId of report.
+      - ReportId path parameter. ReportId of report.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports GetAScheduledReportV1
-  description: Complete reference of the GetAScheduledReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report
-- name: Cisco DNA Center documentation for Reports GetListOfScheduledReportsV1
-  description: Complete reference of the GetListOfScheduledReportsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports
+  - name: Cisco DNA Center documentation for Reports GetAScheduledReportV1
+    description: Complete reference of the GetAScheduledReportV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report
+  - name: Cisco DNA Center documentation for Reports GetListOfScheduledReportsV1
+    description: Complete reference of the GetListOfScheduledReportsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports
 notes:
-  - SDK Method used are
-    reports.Reports.get_a_scheduled_report_v1,
-    reports.Reports.get_list_of_scheduled_reports_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/data/reports,
-    get /dna/intent/api/v1/data/reports/{reportId},
-
+  - SDK Method used are reports.Reports.get_a_scheduled_report_v1, reports.Reports.get_list_of_scheduled_reports_v1,
+  - Paths used are get /dna/intent/api/v1/data/reports, get /dna/intent/api/v1/data/reports/{reportId},
 """
-
 EXAMPLES = r"""
 - name: Get all Reports V1
   cisco.catalystcenter.reports_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     viewGroupId: string
     viewId: string
   register: result
-
 - name: Get Reports V1 by id
   cisco.catalystcenter.reports_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     reportId: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

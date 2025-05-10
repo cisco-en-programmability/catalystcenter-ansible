@@ -1,18 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: tag_v1_info
 short_description: Information module for Tag V1
 description:
-- Get all Tag V1.
-- Get Tag V1 by id.
-- Returns tag specified by Id.
-- Returns the tags for given filter criteria.
+  - Get all Tag V1.
+  - Get Tag V1 by id.
+  - Returns tag specified by Id.
+  - Returns the tags for given filter criteria.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,87 +21,82 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Tag name is mandatory when filter operation is used.
+      - Name query parameter. Tag name is mandatory when filter operation is used.
     type: str
   additionalInfo_nameSpace:
     description:
-    - AdditionalInfo.nameSpace query parameter.
+      - AdditionalInfo.nameSpace query parameter.
     type: str
   additionalInfo_attributes:
     description:
-    - AdditionalInfo.attributes query parameter.
+      - AdditionalInfo.attributes query parameter.
     type: str
   level:
     description:
-    - Level query parameter.
+      - Level query parameter.
     type: str
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The number of tags to be retrieved. If not specified, the default is 500. The maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of tags to be retrieved. If not specified,
+        the default is 500. The maximum
+        allowed limit is 500.
     type: float
   size:
     description:
-    - Size query parameter. Size in kilobytes(KB).
+      - Size query parameter. Size in kilobytes(KB).
     type: str
   field:
     description:
-    - >
-      Field query parameter. Available field names are
-      'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
+      - >
+        Field query parameter. Available field names are
+        'name,id,parentId,type,additionalInfo.nameSpace,additionalInfo.attributes'.
     type: str
   sortBy:
     description:
-    - SortBy query parameter. Only supported attribute is name. SortyBy is mandatory when order is used.
+      - SortBy query parameter. Only supported attribute is name. SortyBy is mandatory
+        when order is used.
     type: str
   order:
     description:
-    - Order query parameter. Available values are asc and des.
+      - Order query parameter. Available values are asc and des.
     type: str
   systemTag:
     description:
-    - SystemTag query parameter.
+      - SystemTag query parameter.
     type: str
   id:
     description:
-    - Id path parameter. Tag ID.
+      - Id path parameter. Tag ID.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag GetTagByIdV1
-  description: Complete reference of the GetTagByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
-- name: Cisco DNA Center documentation for Tag GetTagV1
-  description: Complete reference of the GetTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag
+  - name: Cisco DNA Center documentation for Tag GetTagByIdV1
+    description: Complete reference of the GetTagByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
+  - name: Cisco DNA Center documentation for Tag GetTagV1
+    description: Complete reference of the GetTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tag
 notes:
-  - SDK Method used are
-    tag.Tag.get_tag_by_id_v1,
-    tag.Tag.get_tag_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/tag,
-    get /dna/intent/api/v1/tag/{id},
-
+  - SDK Method used are tag.Tag.get_tag_by_id_v1, tag.Tag.get_tag_v1,
+  - Paths used are get /dna/intent/api/v1/tag, get /dna/intent/api/v1/tag/{id},
 """
-
 EXAMPLES = r"""
 - name: Get all Tag V1
   cisco.catalystcenter.tag_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     name: string
     additionalInfo_nameSpace: string
@@ -117,20 +110,18 @@ EXAMPLES = r"""
     order: string
     systemTag: string
   register: result
-
 - name: Get Tag V1 by id
   cisco.catalystcenter.tag_v1_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 catalystcenter_response:

@@ -1,21 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: network_devices_top_n_analytics_v1
 short_description: Resource module for Network Devices Top N Analytics V1
 description:
-- Manage operation create of the resource Network Devices Top N Analytics V1.
-- >
-   Gets the Top N analytics data related to network devices based on the provided input data. This endpoint is
-   valuable to obtain the top-performing or most impacted network devices. For detailed information about the usage
-   of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Top N Analytics V1.
+  - >
+    Gets the Top N analytics data related to network devices based on the provided
+    input data. This endpoint is
+    valuable to obtain the top-performing or most impacted network devices. For detailed
+    information about the usage
+    of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -88,53 +88,49 @@ options:
     description: Top N.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetsTheTopNAnalyticsDataRelatedToNetworkDevicesV1
-  description: Complete reference of the GetsTheTopNAnalyticsDataRelatedToNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-top-n-analytics-data-related-to-network-devices
+  - name: Cisco DNA Center documentation for Devices GetsTheTopNAnalyticsDataRelatedToNetworkDevicesV1
+    description: Complete reference of the GetsTheTopNAnalyticsDataRelatedToNetworkDevicesV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!gets-the-top-n-analytics-data-related-to-network-devices
 notes:
-  - SDK Method used are
-    devices.Devices.gets_the_top_n_analytics_data_related_to_network_devices_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/networkDevices/topNAnalytics,
-
+  - SDK Method used are devices.Devices.gets_the_top_n_analytics_data_related_to_network_devices_v1,
+  - Paths used are post /dna/data/api/v1/networkDevices/topNAnalytics,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.network_devices_top_n_analytics_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - {}
+      - {}
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     groupBy:
-    - string
+      - string
     page:
       limit: 0
       offset: 0
       sortBy:
-      - function: string
-        name: string
-        order: string
+        - function: string
+          name: string
+          order: string
     startTime: 0
     topN: 0
-
 """
 RETURN = r"""
 catalystcenter_response:

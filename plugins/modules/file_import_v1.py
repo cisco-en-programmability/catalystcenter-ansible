@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: file_import_v1
 short_description: Resource module for File Import V1
 description:
-- Manage operation create of the resource File Import V1.
-- Uploads a new file within a specific nameSpace.
+  - Manage operation create of the resource File Import V1.
+  - Uploads a new file within a specific nameSpace.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,33 +18,27 @@ options:
     description: NameSpace path parameter.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for File UploadFileV1
-  description: Complete reference of the UploadFileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!upload-file
+  - name: Cisco DNA Center documentation for File UploadFileV1
+    description: Complete reference of the UploadFileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!upload-file
 notes:
-  - SDK Method used are
-    file.File.upload_file_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/file/{nameSpace},
-
+  - SDK Method used are file.File.upload_file_v1,
+  - Paths used are post /dna/intent/api/v1/file/{nameSpace},
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.file_import_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     nameSpace: string
-
 """
 RETURN = r"""
 catalystcenter_response:

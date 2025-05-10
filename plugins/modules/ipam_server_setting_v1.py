@@ -1,20 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: ipam_server_setting_v1
 short_description: Resource module for Ipam Server Setting V1
 description:
-- Manage operations create, update and delete of the resource Ipam Server Setting V1.
-- >
-   Creates configuration details of the external IPAM server. You should only create one external IPAM server; delete
-   any existing external server before creating a new one.
-- Deletes configuration details of the external IPAM server.
-- Updates configuration details of the external IPAM server.
+  - Manage operations create, update and delete of the resource Ipam Server Setting
+    V1.
+  - >
+    Creates configuration details of the external IPAM server. You should only create
+    one external IPAM server; delete
+    any existing external server before creating a new one.
+  - Deletes configuration details of the external IPAM server.
+  - Updates configuration details of the external IPAM server.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -43,41 +43,42 @@ options:
     description: The view under which pools are created in the external IPAM server.
     type: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
-- name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
-- name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
     system_settings.SystemSettings.creates_configuration_details_of_the_external_ip_a_m_server_v1,
     system_settings.SystemSettings.deletes_configuration_details_of_the_external_ip_a_m_server_v1,
     system_settings.SystemSettings.updates_configuration_details_of_the_external_ip_a_m_server_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/ipam/serverSetting,
-    delete /dna/intent/api/v1/ipam/serverSetting,
+  - Paths used are post /dna/intent/api/v1/ipam/serverSetting, delete /dna/intent/api/v1/ipam/serverSetting,
     put /dna/intent/api/v1/ipam/serverSetting,
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.ipam_server_setting_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     password: string
     provider: string
@@ -86,27 +87,25 @@ EXAMPLES = r"""
     syncView: true
     userName: string
     view: string
-
 - name: Delete all
   cisco.catalystcenter.ipam_server_setting_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
-
 - name: Update all
   cisco.catalystcenter.ipam_server_setting_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     password: string
     serverName: string
@@ -114,7 +113,6 @@ EXAMPLES = r"""
     syncView: true
     userName: string
     view: string
-
 """
 RETURN = r"""
 catalystcenter_response:

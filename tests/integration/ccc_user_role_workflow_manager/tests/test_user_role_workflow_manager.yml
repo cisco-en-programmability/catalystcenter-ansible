@@ -9,15 +9,15 @@
       name: vars_map
     vars:
       catalystCenter_login: &catalystCenter_login
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
-        catalystCenter_log: true
-        catalystCenter_log_level: DEBUG
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
+        log: true
+        log_level: DEBUG
 
   # - debug:
   #     msg: "{{ vars_map. }}"

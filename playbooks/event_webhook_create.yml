@@ -1,0 +1,28 @@
+---
+- name: Event webhook create
+  hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Test
+      cisco.catalystcenter.event_webhook_v1:
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        dnac_debug: true
+        description: "webhok description for iac2.0"
+        headers:
+          - defaultValue: string
+            encrypt: false
+            name: "X-Auth-Token"
+            value: "qejfkq;..."
+        method: "Put"
+        name: "TestwebHoodIac23"
+        trustCert: false
+        url: "url"
+      register: result
+    - name: Show result
+      ansible.builtin.debug:
+        msg: "{{ result }}"

@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_cmdb_endpoints_v1
 short_description: Resource module for Endpoint Analytics Cmdb Endpoints V1
 description:
-- Manage operation create of the resource Endpoint Analytics Cmdb Endpoints V1.
-- Processes incoming CMDB endpoints data and imports the same in AI Endpoint Analytics.
+  - Manage operation create of the resource Endpoint Analytics Cmdb Endpoints V1.
+  - Processes incoming CMDB endpoints data and imports the same in AI Endpoint Analytics.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -52,43 +50,37 @@ options:
         type: str
     type: list
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpointsV1
-  description: Complete reference of the ProcessCMDBEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpointsV1
+    description: Complete reference of the ProcessCMDBEndpointsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
-  - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,
-
+  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
+  - Paths used are post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.endpoint_analytics_cmdb_endpoints_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     payload:
-    - assetTag: string
-      department: string
-      displayName: string
-      lastUpdateTimestamp: 0
-      location: string
-      macAddress: string
-      managedBy: string
-      model: string
-      modelCategory: string
-      serialNumber: string
-
+      - assetTag: string
+        department: string
+        displayName: string
+        lastUpdateTimestamp: 0
+        location: string
+        macAddress: string
+        managedBy: string
+        model: string
+        modelCategory: string
+        serialNumber: string
 """
 RETURN = r"""
 catalystcenter_response:

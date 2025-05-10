@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow
 short_description: Resource module for Pnp Workflow
 description:
-- This module represents an alias of the module pnp_workflow_v1
+  - This module represents an alias of the module pnp_workflow_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -126,42 +123,35 @@ options:
     description: Pnp Workflow's version.
     type: int
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflowV1
-  description: Complete reference of the AddAWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowByIdV1
-  description: Complete reference of the DeleteWorkflowByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflowV1
-  description: Complete reference of the UpdateWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-workflow
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflowV1
+    description: Complete reference of the AddAWorkflowV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowByIdV1
+    description: Complete reference of the DeleteWorkflowByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflowV1
+    description: Complete reference of the UpdateWorkflowV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow_v1,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id_v1,
-    device_onboarding_pnp.DeviceOnboardingPnp.update_workflow_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-workflow,
-    delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow_v1,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_workflow_by_id_v1, device_onboarding_pnp.DeviceOnboardingPnp.update_workflow_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow, delete /dna/intent/api/v1/onboarding/pnp-workflow/{id},
     put /dna/intent/api/v1/onboarding/pnp-workflow/{id},
   - It should be noted that this module is an alias of pnp_workflow_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.pnp_workflow:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     _id: string
     addToInventory: true
@@ -178,47 +168,45 @@ EXAMPLES = r"""
     startTime: 0
     state_: string
     tasks:
-    - currWorkItemIdx: 0
-      endTime: 0
-      name: string
-      startTime: 0
-      state: string
-      taskSeqNo: 0
-      timeTaken: 0
-      type: string
-      workItemList:
-      - command: string
+      - currWorkItemIdx: 0
         endTime: 0
-        outputStr: string
+        name: string
         startTime: 0
         state: string
+        taskSeqNo: 0
         timeTaken: 0
+        type: string
+        workItemList:
+          - command: string
+            endTime: 0
+            outputStr: string
+            startTime: 0
+            state: string
+            timeTaken: 0
     tenantId: string
     type: string
     useState: string
     version: 0
-
 - name: Delete by id
   cisco.catalystcenter.pnp_workflow:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.catalystcenter.pnp_workflow:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     _id: string
     addToInventory: true
@@ -236,26 +224,25 @@ EXAMPLES = r"""
     startTime: 0
     state_: string
     tasks:
-    - currWorkItemIdx: 0
-      endTime: 0
-      name: string
-      startTime: 0
-      state: string
-      taskSeqNo: 0
-      timeTaken: 0
-      type: string
-      workItemList:
-      - command: string
+      - currWorkItemIdx: 0
         endTime: 0
-        outputStr: string
+        name: string
         startTime: 0
         state: string
+        taskSeqNo: 0
         timeTaken: 0
+        type: string
+        workItemList:
+          - command: string
+            endTime: 0
+            outputStr: string
+            startTime: 0
+            state: string
+            timeTaken: 0
     tenantId: string
     type: string
     useState: string
     version: 0
-
 """
 RETURN = r"""
 catalystcenter_response:

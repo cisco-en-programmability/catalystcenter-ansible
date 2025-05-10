@@ -1,18 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: tag_v1
 short_description: Resource module for Tag V1
 description:
-- Manage operations create, update and delete of the resource Tag V1.
-- Creates tag with specified tag attributes.
-- Deletes a tag specified by id.
-- Updates a tag specified by id.
+  - Manage operations create, update and delete of the resource Tag V1.
+  - Creates tag with specified tag attributes.
+  - Deletes a tag specified by id.
+  - Updates a tag specified by id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -32,9 +30,9 @@ options:
         description: Tag's rules.
         suboptions:
           items:
-            description: Items details,multiple rules can be defined by items(e.g. "items"
-              {"operation" "ILIKE", "name" "managementIpAddress", "value" "%10%"}, {"operation"
-              "ILIKE", "name" "hostname", "value" "%NA%"} ).
+            description: Items details,multiple rules can be defined by items(e.g.
+              "items" {"operation" "ILIKE", "name" "managementIpAddress", "value"
+              "%10%"}, {"operation" "ILIKE", "name" "hostname", "value" "%NA%"} ).
             elements: dict
             type: list
           name:
@@ -70,96 +68,85 @@ options:
     description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
-- catalystcentersdk >= 2.3.7.9
-- python >= 3.5
+  - catalystcentersdk >= 2.3.7.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag CreateTagV1
-  description: Complete reference of the CreateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-tag
-- name: Cisco DNA Center documentation for Tag DeleteTagV1
-  description: Complete reference of the DeleteTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-tag
-- name: Cisco DNA Center documentation for Tag UpdateTagV1
-  description: Complete reference of the UpdateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag
+  - name: Cisco DNA Center documentation for Tag CreateTagV1
+    description: Complete reference of the CreateTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-tag
+  - name: Cisco DNA Center documentation for Tag DeleteTagV1
+    description: Complete reference of the DeleteTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-tag
+  - name: Cisco DNA Center documentation for Tag UpdateTagV1
+    description: Complete reference of the UpdateTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-tag
 notes:
-  - SDK Method used are
-    tag.Tag.create_tag_v1,
-    tag.Tag.delete_tag_v1,
-    tag.Tag.update_tag_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/tag,
-    delete /dna/intent/api/v1/tag/{id},
+  - SDK Method used are tag.Tag.create_tag_v1, tag.Tag.delete_tag_v1, tag.Tag.update_tag_v1,
+  - Paths used are post /dna/intent/api/v1/tag, delete /dna/intent/api/v1/tag/{id},
     put /dna/intent/api/v1/tag,
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.catalystcenter.tag_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     description: string
     dynamicRules:
-    - memberType: string
-      rules:
-        items:
-        - {}
-        name: string
-        operation: string
-        value: string
-        values:
-        - string
+      - memberType: string
+        rules:
+          items:
+            - {}
+          name: string
+          operation: string
+          value: string
+          values:
+            - string
     id: string
     instanceTenantId: string
     name: string
     systemTag: true
-
 - name: Create
   cisco.catalystcenter.tag_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: present
     description: string
     dynamicRules:
-    - memberType: string
-      rules:
-        items:
-        - {}
-        name: string
-        operation: string
-        value: string
-        values:
-        - string
+      - memberType: string
+        rules:
+          items:
+            - {}
+          name: string
+          operation: string
+          value: string
+          values:
+            - string
     id: string
     instanceTenantId: string
     name: string
     systemTag: true
-
 - name: Delete by id
   cisco.catalystcenter.tag_v1:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    _host: "{{ _host }}"
+    _username: "{{ _username }}"
+    _password: "{{ _password }}"
+    _verify: "{{ _verify }}"
+    _api_port: "{{ _api_port }}"
+    _version: "{{ _version }}"
+    _debug: "{{ _debug }}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 catalystcenter_response:
