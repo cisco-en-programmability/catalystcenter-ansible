@@ -8,13 +8,13 @@
   tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _version: "{{ _version }}"
+        _debug: "{{ _debug }}"
         log: true
         log_level: DEBUG
         config_verify: true

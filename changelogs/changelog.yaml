@@ -53,3 +53,11 @@ releases:
       minor_changes:
         - The format has been updated to correct errors when uploading a new version to Red Hat.
         - The workflow_manager modules have been updated.
+        - Change host to _host
+        - Change cport to _api_port
+        - Change username to _username
+        - Change password to _password
+        - Change verify to _verify
+        - Change version to _version
+        - Change debug to _debug
+        - This was due to problems with the parameters since there were conflicts
