@@ -7,10 +7,10 @@
   tasks:
     - name: Get application sets local-services
       cisco.catalystcenter.application_sets_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         name: local-services
         # limit: 3
         # offset: 2

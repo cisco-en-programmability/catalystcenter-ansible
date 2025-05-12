@@ -7,10 +7,10 @@
   tasks:
     - name: Create tag with name "MyNewTag"
       cisco.catalystcenter.tag:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         state: present
         description: My Tag
         name: MyNewTag
@@ -20,10 +20,10 @@
         msg: "{{ result }}"
     - name: Get task status
       cisco.catalystcenter.task_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         taskId: "{{ result.catalystcenter_response.response.taskId }}"
       when:
         - result.catalystcenter_response is defined
@@ -38,20 +38,20 @@
         - task_result.catalystcenter_response is defined
     - name: Create the same tag
       cisco.catalystcenter.tag:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         state: present
         description: My Tag 1
         name: MyNewTag
       register: result
     - name: Get task status
       cisco.catalystcenter.task_tree_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         taskId: "{{ result.catalystcenter_response.response.taskId }}"
       when:
         - result.catalystcenter_response is defined
@@ -66,10 +66,10 @@
         - task_tree_result.catalystcenter_response is defined
     - name: Get tag with name "MyNewTag"
       cisco.catalystcenter.tag_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         name: MyNewTag
       register: result
     - name: Show tags with name "MyNewTag"
@@ -77,10 +77,10 @@
         msg: "{{ result }}"
     - name: Delete tag
       cisco.catalystcenter.tag:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         state: absent
         name: MyNewTag
       register: result
@@ -89,10 +89,10 @@
         msg: "{{ result }}"
     # - name: Get task status
     #   cisco.catalystcenter.task_info:
-    #     host: "{{ host }}"
-    #     username: "{{ username }}"
-    #     password: "{{ password }}"
-    #     verify: "{{ verify }}"
+    #     _host: "{{ _host }}"
+    #     _username: "{{ _username }}"
+    #     _password: "{{ _password }}"
+    #     _verify: "{{ _verify }}"
     #     taskId: "{{ result.catalystcenter_response.response.taskId }}"
     #   when:
     #     - result.catalystcenter_response is defined
@@ -108,10 +108,10 @@
     #     - task_tree_result.catalystcenter_response is defined
     - name: Get tag with name "MyNewTag"
       cisco.catalystcenter.tag_info:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
         name: MyNewTag
       register: result
     - name: Show tags with name "MyNewTag"

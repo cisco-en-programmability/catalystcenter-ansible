@@ -25,7 +25,7 @@ events_notification:
       server_address: "10.30.0.91"
       port: '265'
       snmp_version: "V3"
-      username: cisco123
+      _username: cisco123
       mode: AUTH_PRIVACY
       auth_type: SHA
       auth_password: authpass123

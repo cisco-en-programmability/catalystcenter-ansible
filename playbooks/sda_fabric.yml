@@ -7,11 +7,11 @@
   tasks:
     - name: Create an sda_fabric
       cisco.catalystcenter.sda_fabric:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         state: present
         fabricName: MyFabricName3
       register: sda_fabric_result

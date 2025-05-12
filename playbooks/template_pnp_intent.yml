@@ -12,12 +12,12 @@
     #
     - name: Test project template
       cisco.catalystcenter.template_intent:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _api_port: "{{ _api_port }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _debug: "{{ _debug }}"
         log: true
         state: "merged"
         config_verify: true
@@ -39,12 +39,12 @@
         - template
     - name: Create pnp
       cisco.catalystcenter.pnp_intent:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        debug: "{{ debug }}"
+        _host: "{{ _host }}"
+        _username: "{{ _username }}"
+        _password: "{{ _password }}"
+        _verify: "{{ _verify }}"
+        _api_port: "{{ _api_port }}"
+        _debug: "{{ _debug }}"
         log: true
         config:
           - site_name: "{{ item.site_name }}"
