@@ -20,7 +20,7 @@ else:
     ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CATALYSTSDK,
+    CatalystCenterSDK,
     dnac_argument_spec,
     catalystcenter_compare_equality,
     get_dict_result,
@@ -176,7 +176,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        catalystcenter = CATALYSTSDK(self._task.args)
+        catalystcenter = CatalystCenterSDK(self._task.args)
         obj = BackupNfsConfigurations(self._task.args, catalystcenter)
 
         state = self._task.args.get("state")
