@@ -21,12 +21,12 @@ else:
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
     CatalystCenterSDK,
-    dnac_argument_spec,
+    catalystcenter_argument_spec,
     catalystcenter_compare_equality,
 )
 
 # Get common arguments specification
-argument_spec = dnac_argument_spec()
+argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(
     dict(
