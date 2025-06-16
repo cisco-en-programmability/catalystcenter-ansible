@@ -17,10 +17,12 @@ else:
     ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CatalystCenterSDK, catalystcenter_argument_spec, )
+    CATALYSTSDK,
+    dnac_argument_spec,
+)
 
 # Get common arguements specification
-argument_spec = catalystcenter_argument_spec()
+argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     payload=dict(type="list"),
@@ -72,7 +74,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        catalystcenter = CatalystCenterSDK(params=self._task.args)
+        catalystcenter = CATALYSTSDK(params=self._task.args)
 
         response = catalystcenter.exec(
             family="lan_automation",
@@ -80,6 +82,6 @@ class ActionModule(ActionBase):
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalyst_response=response))
+        self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

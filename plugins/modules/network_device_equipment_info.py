@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_equipment_info
-short_description: Information module for Network Device Equipment Info
+short_description: Information module for Network Device
+  Equipment
 description:
-  - This module represents an alias of the module network_device_equipment_v1_info
+  - Get all Network Device Equipment. - > Return all
+    types of equipment details like PowerSupply, Fan,
+    Chassis, Backplane, Module, PROCESSOR, Other and
+    SFP for the Given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,42 +29,46 @@ options:
   type:
     description:
       - >
-        Type query parameter. Type value can be PowerSupply, Fan, Chassis, Backplane,
-        Module, PROCESSOR, Other, SFP.
-        If no type is mentioned, All equipments are fetched for the device.
+        Type query parameter. Type value can be PowerSupply,
+        Fan, Chassis, Backplane, Module, PROCESSOR,
+        Other, SFP. If no type is mentioned, All equipments
+        are fetched for the device.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDeviceV1
-    description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDeviceV1
+  - name: Cisco DNA Center documentation for Devices
+      GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
+    description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device
+    link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device
 notes:
-  - SDK Method used are devices.Devices.get_the_details_of_physical_components_of_the_given_device_v1,
-  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/equipment,
-  - It should be noted that this module is an alias of network_device_equipment_v1_info
+  - SDK Method used are
+    devices.Devices.get_the_details_of_physical_components_of_the_given_device,
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{deviceUuid}/equipment,
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Equipment Info
+---
+- name: Get all Network Device Equipment
   cisco.catalystcenter.network_device_equipment_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     type: string
     deviceUuid: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

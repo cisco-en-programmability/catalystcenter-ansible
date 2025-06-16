@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: task_tree_info
-short_description: Information module for Task Tree Info
+short_description: Information module for Task Tree
 description:
-  - This module represents an alias of the module task_tree_v1_info
+  - Get all Task Tree.
+  - Returns a task with its children tasks by based
+    on their id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,34 +25,38 @@ options:
       - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Task GetTaskTreeV1
-    description: Complete reference of the GetTaskTreeV1 API.
+  - name: Cisco DNA Center documentation for Task GetTaskTree
+    description: Complete reference of the GetTaskTree
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-task-tree
 notes:
-  - SDK Method used are task.Task.get_task_tree_v1,
-  - Paths used are get /dna/intent/api/v1/task/{taskId}/tree,
-  - It should be noted that this module is an alias of task_tree_v1_info
+  - SDK Method used are
+    task.Task.get_task_tree,
+  - Paths used are
+    get /dna/intent/api/v1/task/{taskId}/tree,
 """
+
 EXAMPLES = r"""
-- name: Get all Task Tree Info
+---
+- name: Get all Task Tree
   cisco.catalystcenter.task_tree_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     taskId: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
@@ -65,9 +73,7 @@ catalystcenter_response:
           "instanceTenantId": "string",
           "isError": true,
           "lastUpdate": 0,
-          "operationIdList": [
-            "string"
-          ],
+          "operationIdList": {},
           "parentId": "string",
           "progress": "string",
           "rootId": "string",

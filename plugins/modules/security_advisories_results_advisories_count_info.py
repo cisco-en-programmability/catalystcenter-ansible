@@ -1,14 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_advisories_count_info
-short_description: Information module for Security Advisories Results Advisories Count
-  Info
+short_description: Information module for Security Advisories
+  Results Advisories Count
 description:
-  - This module represents an alias of the module security_advisories_results_advisories_count_v1_info
+  - Get all Security Advisories Results Advisories Count.
+  - Get count of security advisories affecting the network
+    devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,46 +27,50 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return advisories with deviceCount greater than
-        this deviceCount.
+      - DeviceCount query parameter. Return advisories
+        with deviceCount greater than this deviceCount.
     type: float
   cvssBaseScore:
     description:
-      - CvssBaseScore query parameter. Return advisories with cvssBaseScore greater
-        than this cvssBaseScore. E.g. 8.5.
+      - CvssBaseScore query parameter. Return advisories
+        with cvssBaseScore greater than this cvssBaseScore.
+        E.g. 8.5.
     type: str
   securityImpactRating:
     description:
       - >
-        SecurityImpactRating query parameter. Return advisories with this securityImpactRating.
-        Available values
-        CRITICAL, HIGH.
+        SecurityImpactRating query parameter. Return
+        advisories with this securityImpactRating. Available
+        values CRITICAL, HIGH.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesAffectingTheNetworkDevicesV1
-    description: Complete reference of the GetCountOfSecurityAdvisoriesAffectingTheNetworkDevicesV1
+  - name: Cisco DNA Center documentation for Compliance
+      GetCountOfSecurityAdvisoriesAffectingTheNetworkDevices
+    description: Complete reference of the GetCountOfSecurityAdvisoriesAffectingTheNetworkDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-affecting-the-network-devices
+    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-affecting-the-network-devices
 notes:
   - SDK Method used are
-    compliance.Compliance.get_count_of_security_advisories_affecting_the_network_devices_v1,
-  - Paths used are get /dna/intent/api/v1/securityAdvisories/results/advisories/count,
-  - It should be noted that this module is an alias of security_advisories_results_advisories_count_v1_info
+    compliance.Compliance.get_count_of_security_advisories_affecting_the_network_devices,
+  - Paths used are
+    get /dna/intent/api/v1/securityAdvisories/results/advisories/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Advisories Results Advisories Count Info
+---
+- name: Get all Security Advisories Results Advisories
+    Count
   cisco.catalystcenter.security_advisories_results_advisories_count_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
     deviceCount: 0
@@ -71,8 +79,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

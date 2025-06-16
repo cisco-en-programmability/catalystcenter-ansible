@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: user_enrichment_details_info
-short_description: Information module for User Enrichment Details Info
+short_description: Information module for User Enrichment
+  Details
 description:
-  - This module represents an alias of the module user_enrichment_details_v1_info
+  - Get all User Enrichment Details. - > Enriches a
+    given network End User context a network user-id
+    or end user's device Mac Address with details about
+    the user and devices that the user is connected
+    to.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -17,33 +24,37 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Users GetUserEnrichmentDetailsV1
-    description: Complete reference of the GetUserEnrichmentDetailsV1 API.
+  - name: Cisco DNA Center documentation for Users GetUserEnrichmentDetails
+    description: Complete reference of the GetUserEnrichmentDetails
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
-  - SDK Method used are users.Users.get_user_enrichment_details_v1,
-  - Paths used are get /dna/intent/api/v1/user-enrichment-details,
-  - It should be noted that this module is an alias of user_enrichment_details_v1_info
+  - SDK Method used are
+    users.Users.get_user_enrichment_details,
+  - Paths used are
+    get /dna/intent/api/v1/user-enrichment-details,
 """
+
 EXAMPLES = r"""
-- name: Get all User Enrichment Details Info
+---
+- name: Get all User Enrichment Details
   cisco.catalystcenter.user_enrichment_details_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: list
   elements: dict

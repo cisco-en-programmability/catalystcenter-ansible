@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: system_performance_info
-short_description: Information module for System Performance Info
+short_description: Information module for System Performance
 description:
-  - This module represents an alias of the module system_performance_v1_info
+  - Get all System Performance. - > Retrieves the aggregated
+    metrics total, average or maximum of cluster key
+    performance indicators KPIs , such as CPU utilization,
+    memory utilization or network rates recorded within
+    a specified time period. The data will be available
+    from the past 24 hours.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,39 +34,44 @@ options:
   startTime:
     description:
       - >
-        StartTime query parameter. This is the epoch start time in milliseconds from
-        which performance indicator
-        need to be fetched.
+        StartTime query parameter. This is the epoch
+        start time in milliseconds from which performance
+        indicator need to be fetched.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. This is the epoch end time in milliseconds upto which
-        performance indicator need to
-        be fetched.
+        EndTime query parameter. This is the epoch end
+        time in milliseconds upto which performance
+        indicator need to be fetched.
     type: float
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPIV1
-    description: Complete reference of the SystemPerformanceAPIV1 API.
+  - name: Cisco DNA Center documentation for Health
+      and Performance SystemPerformanceAPI
+    description: Complete reference of the SystemPerformanceAPI
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!system-performance-api
 notes:
-  - SDK Method used are health_and_performance.HealthAndPerformance.system_performance,
-  - Paths used are get /dna/intent/api/v1/diagnostics/system/performance,
-  - It should be noted that this module is an alias of system_performance_v1_info
+  - SDK Method used are
+    health_and_performance.HealthAndPerformance.system_performance,
+  - Paths used are
+    get /dna/intent/api/v1/diagnostics/system/performance,
 """
+
 EXAMPLES = r"""
-- name: Get all System Performance Info
+---
+- name: Get all System Performance
   cisco.catalystcenter.system_performance_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     kpi: string
     function: string
@@ -68,8 +80,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

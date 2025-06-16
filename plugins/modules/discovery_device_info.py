@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: discovery_device_info
-short_description: Information module for Discovery Device Info
+short_description: Information module for Discovery
+  Device
 description:
-  - This module represents an alias of the module discovery_device_v1_info
+  - Get all Discovery Device. - > Returns the network
+    devices discovered for the given Discovery ID. Discovery
+    ID can be obtained using the "Get Discoveries by
+    range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,37 +31,40 @@ options:
       - TaskId query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Discovery GetDiscoveredNetworkDevicesByDiscoveryIdV1
-    description: Complete reference of the GetDiscoveredNetworkDevicesByDiscoveryIdV1
+  - name: Cisco DNA Center documentation for Discovery
+      GetDiscoveredNetworkDevicesByDiscoveryId
+    description: Complete reference of the GetDiscoveredNetworkDevicesByDiscoveryId
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-discovered-network-devices-by-discovery-id
+    link: https://developer.cisco.com/docs/dna-center/#!get-discovered-network-devices-by-discovery-id
 notes:
-  - SDK Method used are discovery.Discovery.get_discovered_network_devices_by_discovery_id_v1,
-  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device,
-  - It should be noted that this module is an alias of discovery_device_v1_info
+  - SDK Method used are
+    discovery.Discovery.get_discovered_network_devices_by_discovery_id,
+  - Paths used are
+    get /dna/intent/api/v1/discovery/{id}/network-device,
 """
+
 EXAMPLES = r"""
-- name: Get all Discovery Device Info
+---
+- name: Get all Discovery Device
   cisco.catalystcenter.discovery_device_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     taskId: string
     id: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

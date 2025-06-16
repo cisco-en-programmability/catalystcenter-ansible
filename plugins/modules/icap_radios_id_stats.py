@@ -1,13 +1,23 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: icap_radios_id_stats
-short_description: Resource module for Icap Radios Id Stats
+short_description: Resource module for Icap Radios Id
+  Stats
 description:
-  - This module represents an alias of the module icap_radios_id_stats_v1
+  - Manage operation create of the resource Icap Radios
+    Id Stats. - > Retrieves the time series statistics
+    of a specific radio by applying complex filters.
+    If startTime and endTime are not provided, the API
+    defaults to the last 24 hours. For detailed information
+    about the usage of the API, please refer to the
+    Open API specification document - https //github.com/cisco-en-programmability/catalyst-
+    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-icap-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -34,8 +44,9 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Id is the composite key made of AP Base Ethernet
-      macAddress and Radio Slot Id. Format apMac_RadioId.
+    description: Id path parameter. Id is the composite
+      key made of AP Base Ethernet macAddress and Radio
+      Slot Id. Format apMac_RadioId.
     type: str
   page:
     description: Icap Radios Id Stats's page.
@@ -54,30 +65,32 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Sensors RetrievesSpecificRadioStatisticsOverSpecifiedPeriodOfTimeV1
-    description: Complete reference of the RetrievesSpecificRadioStatisticsOverSpecifiedPeriodOfTimeV1
+  - name: Cisco DNA Center documentation for Sensors
+      RetrievesSpecificRadioStatisticsOverSpecifiedPeriodOfTime
+    description: Complete reference of the RetrievesSpecificRadioStatisticsOverSpecifiedPeriodOfTime
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-specific-radio-statistics-over-specified-period-of-time
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-radio-statistics-over-specified-period-of-time
 notes:
   - SDK Method used are
-    sensors.Sensors.retrieves_specific_radio_statistics_over_specified_period_of_time_v1,
-  - Paths used are post /dna/data/api/v1/icap/radios/{id}/stats,
-  - It should be noted that this module is an alias of icap_radios_id_stats_v1
+    sensors.Sensors.retrieves_specific_radio_statistics_over_specified_period_of_time,
+  - Paths used are
+    post /dna/data/api/v1/icap/radios/{id}/stats,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.icap_radios_id_stats:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
       - key: string
@@ -92,8 +105,8 @@ EXAMPLES = r"""
     startTime: 0
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

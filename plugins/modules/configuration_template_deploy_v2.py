@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_deploy_v2
-short_description: Resource module for Configuration Template Deploy V2
+short_description: Resource module for Configuration
+  Template Deploy V2
 description:
-  - Manage operation create of the resource Configuration Template Deploy V2.
+  - Manage operation create of the resource Configuration
+    Template Deploy V2.
   - V2 API to deploy a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -25,25 +29,28 @@ options:
     type: str
   memberTemplateDeploymentInfo:
     description: MemberTemplateDeploymentInfo.
-    elements: str
+    elements: dict
     type: list
   targetInfo:
-    description: Configuration Template Deploy V2's targetInfo.
+    description: Configuration Template Deploy V2's
+      targetInfo.
     elements: dict
     suboptions:
       hostName:
-        description: Hostname of device is required if targetType is MANAGED_DEVICE_HOSTNAME.
+        description: Hostname of device is required
+          if targetType is MANAGED_DEVICE_HOSTNAME.
         type: str
       id:
-        description: UUID of target is required if targetType is MANAGED_DEVICE_UUID.
+        description: UUID of target is required if targetType
+          is MANAGED_DEVICE_UUID.
         type: str
       params:
         description: Template params/values to be provisioned.
         type: dict
       resourceParams:
-        description: Resource params to be provisioned. Refer to features page for
-          usage details.
-        elements: str
+        description: Resource params to be provisioned.
+          Refer to features page for usage details.
+        elements: dict
         type: list
       type:
         description: Target type of device.
@@ -56,44 +63,50 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV2
-    description: Complete reference of the DeployTemplateV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!deploy-template
+  - name: Cisco DNA Center documentation for Configuration
+      Templates DeployTemplateV2
+    description: Complete reference of the DeployTemplateV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!deploy-template-v-2
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.deploy_template_v2,
-  - Paths used are post /dna/intent/api/v2/template-programmer/template/deploy,
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.deploy_template_v2,
+  - Paths used are
+    post /dna/intent/api/v2/template-programmer/template/deploy,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
-  cisco.catalystcenter.configuration_template_deploy_v2:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+  cisco.catalystcenter.configuration_template_deploy:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     forcePushTemplate: true
     isComposite: true
     mainTemplateId: string
     memberTemplateDeploymentInfo:
-      - string
+      - {}
     targetInfo:
       - hostName: string
         id: string
         params: {}
         resourceParams:
-          - string
+          - {}
         type: string
         versionedTemplateId: string
     templateId: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

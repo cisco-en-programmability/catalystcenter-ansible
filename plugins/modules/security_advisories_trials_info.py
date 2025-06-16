@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: security_advisories_trials_info
-short_description: Information module for Security Advisories Trials Info
+short_description: Information module for Security Advisories
+  Trials
 description:
-  - This module represents an alias of the module security_advisories_trials_v1_info
+  - Get all Security Advisories Trials.
+  - Get trial details for security advisories detection
+    on network devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -17,36 +22,38 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Compliance GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevicesV1
-    description: Complete reference of the GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevicesV1
+  - name: Cisco DNA Center documentation for Compliance
+      GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevices
+    description: Complete reference of the GetTrialDetailsForSecurityAdvisoriesDetectionOnNetworkDevices
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-security-advisories-detection-on-network-devices
+    link: https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-security-advisories-detection-on-network-devices
 notes:
   - SDK Method used are
-    compliance.Compliance.get_trial_details_for_security_advisories_detection_on_network_devices_v1,
-  - Paths used are get /dna/intent/api/v1/securityAdvisories/trials,
-  - It should be noted that this module is an alias of security_advisories_trials_v1_info
+    compliance.Compliance.get_trial_details_for_security_advisories_detection_on_network_devices,
+  - Paths used are
+    get /dna/intent/api/v1/securityAdvisories/trials,
 """
+
 EXAMPLES = r"""
-- name: Get all Security Advisories Trials Info
+---
+- name: Get all Security Advisories Trials
   cisco.catalystcenter.security_advisories_trials_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

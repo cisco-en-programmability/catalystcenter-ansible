@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_details_info
-short_description: Information module for Device Details Info
+short_description: Information module for Device Details
 description:
-  - This module represents an alias of the module device_details_v1_info
+  - Get all Device Details. - > Returns detailed Network
+    Device information retrieved by Mac Address, Device
+    Name or UUID for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,40 +22,46 @@ options:
     type: dict
   timestamp:
     description:
-      - Timestamp query parameter. UTC timestamp of device data in milliseconds.
+      - Timestamp query parameter. UTC timestamp of
+        device data in milliseconds.
     type: float
   identifier:
     description:
-      - Identifier query parameter. One of "macAddress", "nwDeviceName", "uuid" (case
-        insensitive).
+      - Identifier query parameter. One of "macAddress",
+        "nwDeviceName", "uuid" (case insensitive).
     type: str
   searchBy:
     description:
-      - SearchBy query parameter. MAC Address, device name, or UUID of the network
-        device.
+      - SearchBy query parameter. MAC Address, device
+        name, or UUID of the network device.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetDeviceDetailV1
-    description: Complete reference of the GetDeviceDetailV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetDeviceDetail
+    description: Complete reference of the GetDeviceDetail
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-detail
 notes:
-  - SDK Method used are devices.Devices.get_device_detail_v1,
-  - Paths used are get /dna/intent/api/v1/device-detail,
-  - It should be noted that this module is an alias of device_details_v1_info
+  - SDK Method used are
+    devices.Devices.get_device_detail,
+  - Paths used are
+    get /dna/intent/api/v1/device-detail,
 """
+
 EXAMPLES = r"""
-- name: Get all Device Details Info
+---
+- name: Get all Device Details
   cisco.catalystcenter.device_details_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     timestamp: 0
     identifier: string
@@ -59,8 +69,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

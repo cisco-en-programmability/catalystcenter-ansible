@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: assurance_get_sensor_test_results_info
-short_description: Information module for Assurance Get Sensor Test Results Info
+short_description: Information module for Assurance
+  Get Sensor Test Results
 description:
-  - This module represents an alias of the module assurance_get_sensor_test_results_v1_info
+  - Get all Assurance Get Sensor Test Results.
+  - Intent API to get SENSOR test result summary.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,7 +26,8 @@ options:
     type: str
   startTime:
     description:
-      - StartTime query parameter. The epoch time in milliseconds.
+      - StartTime query parameter. The epoch time in
+        milliseconds.
     type: float
   endTime:
     description:
@@ -31,32 +36,37 @@ options:
   testFailureBy:
     description:
       - >
-        TestFailureBy query parameter. Obtain failure statistics group by "area",
-        "building", or "floor" (case
-        insensitive).
+        TestFailureBy query parameter. Obtain failure
+        statistics group by "area", "building", or "floor"
+        (case insensitive).
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless SensorTestResultsV1
-    description: Complete reference of the SensorTestResultsV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      SensorTestResults
+    description: Complete reference of the SensorTestResults
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!sensor-test-results
 notes:
-  - SDK Method used are wireless.Wireless.sensor_test_results_v1,
-  - Paths used are get /dna/intent/api/v1/AssuranceGetSensorTestResults,
-  - It should be noted that this module is an alias of assurance_get_sensor_test_results_v1_info
+  - SDK Method used are
+    wireless.Wireless.sensor_test_results,
+  - Paths used are
+    get /dna/intent/api/v1/AssuranceGetSensorTestResults,
 """
+
 EXAMPLES = r"""
-- name: Get all Assurance Get Sensor Test Results Info
+---
+- name: Get all Assurance Get Sensor Test Results
   cisco.catalystcenter.assurance_get_sensor_test_results_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
     startTime: 0
@@ -65,8 +75,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

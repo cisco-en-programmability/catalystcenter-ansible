@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_interface_by_ip_info
-short_description: Information module for Device Interface By Ip Info
+short_description: Information module for Device Interface
+  By Ip
 description:
-  - This module represents an alias of the module device_interface_by_ip_v1_info
+  - Get Device Interface By Ip by id.
+  - Returns list of interfaces for specified device
+    management IP address.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,37 +23,43 @@ options:
     type: dict
   ipAddress:
     description:
-      - IpAddress path parameter. IP address of the interface.
+      - IpAddress path parameter. IP address of the
+        interface.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetInterfaceByIPV1
-    description: Complete reference of the GetInterfaceByIPV1 API.
+  - name: Cisco DNA Center documentation for Devices
+      GetInterfaceByIP
+    description: Complete reference of the GetInterfaceByIP
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-ip
 notes:
-  - SDK Method used are devices.Devices.get_interface_by_ip_v1,
-  - Paths used are get /dna/intent/api/v1/interface/ip-address/{ipAddress},
-  - It should be noted that this module is an alias of device_interface_by_ip_v1_info
+  - SDK Method used are
+    devices.Devices.get_interface_by_ip,
+  - Paths used are
+    get /dna/intent/api/v1/interface/ip-address/{ipAddress},
 """
+
 EXAMPLES = r"""
-- name: Get Device Interface By Ip Info by id
+---
+- name: Get Device Interface By Ip by id
   cisco.catalystcenter.device_interface_by_ip_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     ipAddress: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

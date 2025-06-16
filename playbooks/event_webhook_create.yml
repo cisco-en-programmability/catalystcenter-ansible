@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Test
-      cisco.catalystcenter.event_webhook_v1:
+      cisco.catalystcenter.event_webhook:
         _host: "{{ _host }}"
         _username: "{{ _username }}"
         _password: "{{ _password }}"

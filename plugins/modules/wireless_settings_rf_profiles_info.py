@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_rf_profiles_info
-short_description: Information module for Wireless Settings Rf Profiles Info
+short_description: Information module for Wireless Settings
+  Rf Profiles
 description:
-  - This module represents an alias of the module wireless_settings_rf_profiles_v1_info
+  - Get all Wireless Settings Rf Profiles.
+  - Get Wireless Settings Rf Profiles by id.
+  - This API allows the user to get a RF Profile by
+    RF Profile ID.
+  - This API allows the user to get all RF Profiles.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -19,14 +26,15 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. Default
-        is 500 if not specified. Maximum
-        allowed limit is 500.
+        Limit query parameter. The number of records
+        to show for this page. Default is 500 if not
+        specified. Maximum allowed limit is 500.
     type: float
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
   rfProfileName:
     description:
@@ -34,45 +42,57 @@ options:
     type: str
   enableRadioTypeA:
     description:
-      - EnableRadioTypeA query parameter. Enable Radio TypeA.
+      - EnableRadioTypeA query parameter. Enable Radio
+        TypeA.
     type: bool
   enableRadioTypeB:
     description:
-      - EnableRadioTypeB query parameter. Enable Radio TypeB.
+      - EnableRadioTypeB query parameter. Enable Radio
+        TypeB.
     type: bool
   enableRadioType6GHz:
     description:
-      - EnableRadioType6GHz query parameter. Enable Radio Type6GHz.
+      - EnableRadioType6GHz query parameter. Enable
+        Radio Type6GHz.
     type: bool
   id:
     description:
       - Id path parameter. RF Profile ID.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetRFProfileByIDV1
-    description: Complete reference of the GetRFProfileByIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetRFProfileByID
+    description: Complete reference of the GetRFProfileByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless GetRFProfilesV1
-    description: Complete reference of the GetRFProfilesV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetRFProfiles
+    description: Complete reference of the GetRFProfiles
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles
 notes:
-  - SDK Method used are wireless.Wireless.get_rf_profile_by_id_v1, wireless.Wireless.get_rf_profiles_v1,
-  - Paths used are get /dna/intent/api/v1/wirelessSettings/rfProfiles, get /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
-  - It should be noted that this module is an alias of wireless_settings_rf_profiles_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_rf_profile_by_id,
+    wireless.Wireless.get_rf_profiles,
+  - Paths used are
+    get /dna/intent/api/v1/wirelessSettings/rfProfiles,
+    get /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Wireless Settings Rf Profiles Info
+---
+- name: Get all Wireless Settings Rf Profiles
   cisco.catalystcenter.wireless_settings_rf_profiles_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -81,22 +101,22 @@ EXAMPLES = r"""
     enableRadioTypeB: true
     enableRadioType6GHz: true
   register: result
-- name: Get Wireless Settings Rf Profiles Info by id
+- name: Get Wireless Settings Rf Profiles by id
   cisco.catalystcenter.wireless_settings_rf_profiles_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
@@ -122,7 +142,7 @@ catalystcenter_response:
           "zeroWaitDfsEnable": true,
           "customRxSopThreshold": 0,
           "maxRadioClients": 0,
-          "fraProperties": {
+          "fraPropertiesA": {
             "clientAware": true,
             "clientSelect": 0,
             "clientReset": 0
@@ -201,7 +221,7 @@ catalystcenter_response:
           "pscEnforcingEnabled": true,
           "discoveryFrames6GHz": "string",
           "broadcastProbeResponseInterval": 0,
-          "fraProperties": {
+          "fraPropertiesC": {
             "clientResetCount": 0,
             "clientUtilizationThreshold": 0
           },

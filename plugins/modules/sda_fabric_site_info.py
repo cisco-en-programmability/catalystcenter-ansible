@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_site_info
-short_description: Information module for Sda Fabric Site Info
+short_description: Information module for Sda Fabric
+  Site
 description:
-  - This module represents an alias of the module sda_fabric_site_v1_info
+  - Get all Sda Fabric Site.
+  - Get Site info from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,37 +22,42 @@ options:
     type: dict
   siteNameHierarchy:
     description:
-      - SiteNameHierarchy query parameter. Site Name Hierarchy.
+      - SiteNameHierarchy query parameter. Site Name
+        Hierarchy.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabricV1
-    description: Complete reference of the GetSiteFromSDAFabricV1 API.
+  - name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabric
+    description: Complete reference of the GetSiteFromSDAFabric
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric
 notes:
-  - SDK Method used are sda.Sda.get_site,
-  - Paths used are get /dna/intent/api/v1/business/sda/fabric-site,
-  - It should be noted that this module is an alias of sda_fabric_site_v1_info
+  - SDK Method used are
+    sda.Sda.get_site,
+  - Paths used are
+    get /dna/intent/api/v1/business/sda/fabric-site,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Fabric Site Info
+---
+- name: Get all Sda Fabric Site
   cisco.catalystcenter.sda_fabric_site_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     siteNameHierarchy: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
