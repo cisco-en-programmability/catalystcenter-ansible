@@ -589,9 +589,11 @@ class Provision(CatalystCenterBase):
                 self.log("Detected 'application_telemetry' in the configuration")
 
                 for config_item in self.config:
-                    telemetry_list = config_item.get("application_telemetry", [])
+                    telemetry_list = config_item.get(
+                        "application_telemetry", [])
                     for index, config_item in enumerate(self.config):
-                        telemetry_list = config_item.get("application_telemetry", [])
+                        telemetry_list = config_item.get(
+                            "application_telemetry", [])
 
                         # Validate each telemetry entry
                         for entry_index, telemetry_entry in enumerate(telemetry_list):
@@ -707,7 +709,8 @@ class Provision(CatalystCenterBase):
             dev_response = self.dnac_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
-                params={"ip_address": self.validated_config["management_ip_address"]},
+                params={
+                    "ip_address": self.validated_config["management_ip_address"]},
             )
 
             self.log(
@@ -766,7 +769,8 @@ class Provision(CatalystCenterBase):
             dev_response = self.dnac_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
-                params={"ip_address": self.validated_config["management_ip_address"]},
+                params={
+                    "ip_address": self.validated_config["management_ip_address"]},
             )
 
             self.log(
@@ -844,7 +848,8 @@ class Provision(CatalystCenterBase):
                 return False
 
             if (
-                response.get("progress") in ["TASK_PROVISION", "TASK_MODIFY_PUT"]
+                response.get("progress") in [
+                    "TASK_PROVISION", "TASK_MODIFY_PUT"]
                 and response.get("isError") is False
             ) or "deleted successfully" in response.get("progress"):
 
@@ -981,7 +986,8 @@ class Provision(CatalystCenterBase):
         """
 
         self.log(
-            "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
+            "Checking site assignment for device with UUID: {0}".format(
+                uuid), "INFO"
         )
         try:
             site_response = self.dnac_apply["exec"](
@@ -1000,7 +1006,8 @@ class Provision(CatalystCenterBase):
             else:
                 return False
         except Exception as e:
-            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
+            msg = "Failed to find device with UUID {0} due to: {1}".format(
+                uuid, e)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
@@ -1020,7 +1027,8 @@ class Provision(CatalystCenterBase):
         """
 
         self.log(
-            "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
+            "Checking site assignment for device with UUID: {0}".format(
+                uuid), "INFO"
         )
         try:
             site_api_response = self.dnac_apply["exec"](
@@ -1048,12 +1056,14 @@ class Provision(CatalystCenterBase):
                     return True, site_name
 
             self.log(
-                "Device with UUID {0} is not assigned to any site.".format(uuid), "INFO"
+                "Device with UUID {0} is not assigned to any site.".format(
+                    uuid), "INFO"
             )
             return False, None
 
         except Exception as e:
-            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
+            msg = "Failed to find device with UUID {0} due to: {1}".format(
+                uuid, e)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
 
@@ -1071,7 +1081,8 @@ class Provision(CatalystCenterBase):
         """
 
         self.log(
-            "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
+            "Checking site assignment for device with UUID: {0}".format(
+                uuid), "INFO"
         )
 
         try:
@@ -1092,7 +1103,8 @@ class Provision(CatalystCenterBase):
                 return location
             else:
                 self.log(
-                    "No site assignment found for device with UUID: {0}".format(uuid),
+                    "No site assignment found for device with UUID: {0}".format(
+                        uuid),
                     "INFO",
                 )
                 return None
@@ -1182,7 +1194,8 @@ class Provision(CatalystCenterBase):
         ]
 
         if not ap_locations:
-            self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
+            self.log("Validating AP locations: {0}".format(
+                ap_locations), "DEBUG")
             self.msg = (
                 "Missing Managed AP Locations or Primary Managed AP Locations: "
                 "Please specify the intended location(s) for the wireless device {0} "
@@ -1277,7 +1290,8 @@ class Provision(CatalystCenterBase):
                         response=[],
                     )
 
-        self.log("Final list of floor names: {0}".format(self.floor_names), "DEBUG")
+        self.log("Final list of floor names: {0}".format(
+            self.floor_names), "DEBUG")
 
         wireless_params[0]["dynamicInterfaces"] = []
         if self.validated_config.get("dynamic_interfaces"):
@@ -1309,7 +1323,8 @@ class Provision(CatalystCenterBase):
         response = self.dnac_apply["exec"](
             family="devices",
             function="get_network_device_by_ip",
-            params={"ip_address": self.validated_config["management_ip_address"]},
+            params={
+                "ip_address": self.validated_config["management_ip_address"]},
         )
 
         self.log(
@@ -1318,7 +1333,8 @@ class Provision(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        wireless_params[0]["deviceName"] = response.get("response").get("hostname")
+        wireless_params[0]["deviceName"] = response.get(
+            "response").get("hostname")
         wireless_params[0]["device_id"] = response.get("response").get("id")
         self.log(
             "Parameters collected for the provisioning of wireless device:{0}".format(
@@ -1350,7 +1366,8 @@ class Provision(CatalystCenterBase):
         self.device_ip = self.validated_config["management_ip_address"]
         state = self.params.get("state")
 
-        application_telemetry = self.validated_config.get("application_telemetry", [])
+        application_telemetry = self.validated_config.get(
+            "application_telemetry", [])
 
         MIN_SUPPORTED_VERSION = "2.3.7.9"
         current_version = self.get_ccc_version()
@@ -1394,7 +1411,8 @@ class Provision(CatalystCenterBase):
             if state.lower() == "merged":
                 self.want["prov_params"] = self.get_wireless_params()
         else:
-            self.log("Passed devices are neither wired or wireless devices", "WARNING")
+            self.log(
+                "Passed devices are neither wired or wireless devices", "WARNING")
 
         self.msg = (
             "Successfully collected all parameters from playbook " + "for comparison"
@@ -1493,7 +1511,8 @@ class Provision(CatalystCenterBase):
         """
 
         status = "failed"
-        device_management_ip = self.validated_config.get("management_ip_address")
+        device_management_ip = self.validated_config.get(
+            "management_ip_address")
         self.log(
             "Checking provisioning status for device with management IP '{0}' '".format(
                 device_management_ip
@@ -1586,7 +1605,8 @@ class Provision(CatalystCenterBase):
                 "DEBUG",
             )
             device_type = self.want.get("device_type")
-            to_force_provisioning = self.validated_config.get("force_provisioning")
+            to_force_provisioning = self.validated_config.get(
+                "force_provisioning")
             to_provisioning = self.validated_config.get("provisioning")
             self.device_ip = self.validated_config["management_ip_address"]
             self.site_name = self.validated_config["site_name_hierarchy"]
@@ -1604,7 +1624,8 @@ class Provision(CatalystCenterBase):
                     ),
                     "INFO",
                 )
-                self.provision_wired_device(to_provisioning, to_force_provisioning)
+                self.provision_wired_device(
+                    to_provisioning, to_force_provisioning)
 
             elif device_type == "wireless":
                 self.log(
@@ -1622,7 +1643,8 @@ class Provision(CatalystCenterBase):
                                 self.device_ip
                             )
                         )
-                        self.set_operation_result("success", False, self.msg, "INFO")
+                        self.set_operation_result(
+                            "success", False, self.msg, "INFO")
                         return self
 
                 self.log("Starting wireless device provisioning...", "INFO")
@@ -1737,7 +1759,8 @@ class Provision(CatalystCenterBase):
 
                 if not device_id:
                     self.log(
-                        "Skipping IP {0} due to missing device_id".format(ip), "WARNING"
+                        "Skipping IP {0} due to missing device_id".format(
+                            ip), "WARNING"
                     )
                     continue
 
@@ -1801,7 +1824,8 @@ class Provision(CatalystCenterBase):
             - Handles any exceptions gracefully and logs errors with detailed context.
         """
         try:
-            self.log("Sending {0} payload: {1}".format(action, payload), "DEBUG")
+            self.log("Sending {0} payload: {1}".format(
+                action, payload), "DEBUG")
             response = self.catalystcenter._exec(
                 family="application_policy",
                 function=api_function,
@@ -1809,7 +1833,8 @@ class Provision(CatalystCenterBase):
                 params={"payload": payload},
             )
             self.log(
-                "Received API response for {0}: {1}".format(action, response), "DEBUG"
+                "Received API response for {0}: {1}".format(
+                    action, response), "DEBUG"
             )
             self.check_tasks_response_status(response, api_function)
 
@@ -1870,7 +1895,8 @@ class Provision(CatalystCenterBase):
 
             if device_ip not in self.device_dict["wired"]:
                 self.log(
-                    "Skipping device '{0}': Not a wired device.".format(device_ip),
+                    "Skipping device '{0}': Not a wired device.".format(
+                        device_ip),
                     "DEBUG",
                 )
                 continue
@@ -1885,7 +1911,8 @@ class Provision(CatalystCenterBase):
             )
             if not network_device_id:
                 self.log(
-                    "Skipping device '{0}': Device ID not found.".format(device_ip),
+                    "Skipping device '{0}': Device ID not found.".format(
+                        device_ip),
                     "ERROR",
                 )
                 continue
@@ -1923,7 +1950,8 @@ class Provision(CatalystCenterBase):
                 if not to_force_provisioning:
                     self.already_provisioned_devices.append(device_ip)
                     success_msg.append(
-                        "Wired Device '{0}' is already provisioned.".format(device_ip)
+                        "Wired Device '{0}' is already provisioned.".format(
+                            device_ip)
                     )
                     self.log(success_msg[-1], "INFO")
 
@@ -1934,11 +1962,13 @@ class Provision(CatalystCenterBase):
                             "To re-provision the device, set both 'provisioning' and 'force_provisioning' to 'true', "
                             "or unprovision the device and try again."
                         )
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR")
                     continue
 
                 self.log(
-                    "Device '{0}' requires reprovisioning.".format(device_ip), "INFO"
+                    "Device '{0}' requires reprovisioning.".format(
+                        device_ip), "INFO"
                 )
                 reprovision_needed.append(device_ip)
                 reprovision_params.append(
@@ -1952,7 +1982,8 @@ class Provision(CatalystCenterBase):
             else:
                 if to_provisioning:
                     self.log(
-                        "Device '{0}' requires provisioning.".format(device_ip), "INFO"
+                        "Device '{0}' requires provisioning.".format(
+                            device_ip), "INFO"
                     )
                     provision_needed.append(device_ip)
                     provision_params.append(
@@ -1983,8 +2014,8 @@ class Provision(CatalystCenterBase):
 
         if provision_params:
             for i in range(0, len(provision_params), 100):
-                batch_params = provision_params[i : i + 100]
-                batch_devices = provision_needed[i : i + 100]
+                batch_params = provision_params[i: i + 100]
+                batch_devices = provision_needed[i: i + 100]
                 self.log(
                     "Provisioning of the device(s) - {0} with the param - {1}".format(
                         batch_devices, batch_params
@@ -2028,7 +2059,8 @@ class Provision(CatalystCenterBase):
                 )
                 continue
 
-            self.log("Fetching device details for IP: {0}".format(ip_address), "INFO")
+            self.log("Fetching device details for IP: {0}".format(
+                ip_address), "INFO")
 
             try:
                 dev_response = self.dnac_apply["exec"](
@@ -2054,7 +2086,8 @@ class Provision(CatalystCenterBase):
                 continue
 
             self.log(
-                "Device response for '{0}': {1}".format(ip_address, str(dev_response)),
+                "Device response for '{0}': {1}".format(
+                    ip_address, str(dev_response)),
                 "DEBUG",
             )
 
@@ -2082,10 +2115,12 @@ class Provision(CatalystCenterBase):
             )
 
             if device_type:
-                device_dict[device_type].append(device["management_ip_address"])
+                device_dict[device_type].append(
+                    device["management_ip_address"])
 
         self.device_dict = device_dict
-        self.log("Final device classification: {0}".format(device_dict), "INFO")
+        self.log("Final device classification: {0}".format(
+            device_dict), "INFO")
 
         return device_dict
 
@@ -2112,7 +2147,8 @@ class Provision(CatalystCenterBase):
         if isinstance(self.validated_config, list):
             device_management_ip = device_ip
         else:
-            device_management_ip = self.validated_config.get("management_ip_address")
+            device_management_ip = self.validated_config.get(
+                "management_ip_address")
 
         self.log(
             "Checking provisioning status for device with management IP '{0}' and ID '{1}'".format(
@@ -2209,7 +2245,8 @@ class Provision(CatalystCenterBase):
 
         self.log(
             "Provision status for device with management IP '{0}': status='{1}', "
-            "provision_id='{2}'".format(device_management_ip, status, provision_id),
+            "provision_id='{2}'".format(
+                device_management_ip, status, provision_id),
             "DEBUG",
         )
         return provision_id, status
@@ -2260,9 +2297,11 @@ class Provision(CatalystCenterBase):
         provision_params = [{"siteId": site_id, "networkDeviceId": device_id}]
 
         self.log(
-            "Reprovision parameters prepared: {0}".format(reprovision_param), "DEBUG"
+            "Reprovision parameters prepared: {0}".format(
+                reprovision_param), "DEBUG"
         )
-        self.log("Provision parameters prepared: {0}".format(provision_params), "DEBUG")
+        self.log("Provision parameters prepared: {0}".format(
+            provision_params), "DEBUG")
 
         if status == "success":
             if not to_force_provisioning:
@@ -2335,10 +2374,12 @@ class Provision(CatalystCenterBase):
                 else:
                     self.log(
                         "Device '{0}' is not assigned to site '{1}'. Assigning device and "
-                        "initializing provisioning.".format(device_id, self.site_name),
+                        "initializing provisioning.".format(
+                            device_id, self.site_name),
                         "DEBUG",
                     )
-                    self.assign_device_to_site([device_id], self.site_name, site_id)
+                    self.assign_device_to_site(
+                        [device_id], self.site_name, site_id)
                     self.initialize_wired_provisioning(provision_params)
 
         return self
@@ -2383,7 +2424,8 @@ class Provision(CatalystCenterBase):
                 while True:
                     result = self.get_task_details(taskid)
                     self.log(
-                        "Checking task status for ID '{0}': {1}".format(taskid, result),
+                        "Checking task status for ID '{0}': {1}".format(
+                            taskid, result),
                         "DEBUG",
                     )
                     if "processcfs_complete=true" in result.get("data"):
@@ -2450,7 +2492,8 @@ class Provision(CatalystCenterBase):
                     self.msg = "Wired Device '{0}' re-provisioning completed successfully.".format(
                         device_ips
                     )
-                    self.set_operation_result("success", True, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", True, self.msg, "INFO")
 
                 if self.status in ["failed", "exited"]:
                     self.msg = (
@@ -2553,7 +2596,8 @@ class Provision(CatalystCenterBase):
                         success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(
                             device_ips
                         )
-                        self.set_operation_result("success", True, self.msg, "INFO")
+                        self.set_operation_result(
+                            "success", True, self.msg, "INFO")
 
                     if self.status in ["failed", "exited"]:
                         fail_reason = self.msg
@@ -2616,19 +2660,23 @@ class Provision(CatalystCenterBase):
         prov_params_data = prov_params[0]
         device_uid = prov_params_data.get("device_id")
         site_name = self.validated_config.get("site_name_hierarchy")
-        primary_ap_location = prov_params_data.get("primaryManagedAPLocationsSiteIds")
+        primary_ap_location = prov_params_data.get(
+            "primaryManagedAPLocationsSiteIds")
         secondary_ap_location = prov_params_data.get(
             "secondaryManagedAPLocationsSiteIds"
         )
         site_exist, site_id = self.get_site_id(site_name)
 
         self.log(
-            "Provisioning wireless device with device_id: {0}".format(device_uid),
+            "Provisioning wireless device with device_id: {0}".format(
+                device_uid),
             "DEBUG",
         )
         self.log("Site name: {0}".format(site_name), "DEBUG")
-        self.log("Primary AP location: {0}".format(primary_ap_location), "DEBUG")
-        self.log("Secondary AP location: {0}".format(secondary_ap_location), "DEBUG")
+        self.log("Primary AP location: {0}".format(
+            primary_ap_location), "DEBUG")
+        self.log("Secondary AP location: {0}".format(
+            secondary_ap_location), "DEBUG")
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             primary_ap_location_site_id_list = []
@@ -2646,7 +2694,8 @@ class Provision(CatalystCenterBase):
                     site_exist, primary_ap_location_site_id = self.get_site_id(
                         primary_sites
                     )
-                    primary_ap_location_site_id_list.append(primary_ap_location_site_id)
+                    primary_ap_location_site_id_list.append(
+                        primary_ap_location_site_id)
 
             if secondary_ap_location:
                 self.log("Processing secondary access point locations", "INFO")
@@ -2688,7 +2737,8 @@ class Provision(CatalystCenterBase):
                 )
                 execution_id = response.get("executionId")
                 self.log(
-                    "Received execution ID for provisioning: {0}".format(execution_id),
+                    "Received execution ID for provisioning: {0}".format(
+                        execution_id),
                     "DEBUG",
                 )
                 self.get_execution_status_wireless(execution_id=execution_id)
@@ -2826,7 +2876,8 @@ class Provision(CatalystCenterBase):
                 "INFO",
             )
             prov_params = self.want.get("prov_params")[0]
-            payload = {"device_id": prov_params.get("device_id"), "interfaces": []}
+            payload = {"device_id": prov_params.get(
+                "device_id"), "interfaces": []}
 
             self.log("Processing interfaces if they exist", "INFO")
             self.log("Building payload for wireless provisioning", "INFO")
@@ -2844,7 +2895,8 @@ class Provision(CatalystCenterBase):
                             )
                     payload["interfaces"].append(cleaned_interface)
                     self.log(
-                        "Processed dynamic interface: {0}".format(cleaned_interface),
+                        "Processed dynamic interface: {0}".format(
+                            cleaned_interface),
                         "DEBUG",
                     )
 
@@ -2854,7 +2906,8 @@ class Provision(CatalystCenterBase):
             if skip_ap_provision is not None:
                 payload["skipApProvision"] = skip_ap_provision
                 self.log(
-                    "Set 'skip_ap_provision'  to: {0}".format(skip_ap_provision),
+                    "Set 'skip_ap_provision'  to: {0}".format(
+                        skip_ap_provision),
                     "DEBUG",
                 )
             else:
@@ -2922,7 +2975,8 @@ class Provision(CatalystCenterBase):
                         return self
             except Exception as e:
                 self.log(
-                    "Exception occurred during provisioning: {0}".format(str(e)),
+                    "Exception occurred during provisioning: {0}".format(
+                        str(e)),
                     "ERROR",
                 )
                 self.msg = (
@@ -3033,7 +3087,8 @@ class Provision(CatalystCenterBase):
                             self.validated_config["management_ip_address"]
                         )
                     )
-                    self.set_operation_result("success", True, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", True, self.msg, "INFO")
                     return self
 
                 if self.status in ["failed", "exited"]:
@@ -3101,7 +3156,8 @@ class Provision(CatalystCenterBase):
                             self.validated_config["management_ip_address"]
                         )
                     )
-                    self.set_operation_result("success", True, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", True, self.msg, "INFO")
                     return self
 
                 if self.status in ["failed", "exited"]:
@@ -3147,12 +3203,15 @@ class Provision(CatalystCenterBase):
             self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0
             and self.device_type == "wireless"
         ):
-            self.log("validate Cisco Catalyst Center config for merged state", "INFO")
-            self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
+            self.log(
+                "validate Cisco Catalyst Center config for merged state", "INFO")
+            self.log("Desired State (want): {0}".format(
+                str(self.want)), "INFO")
 
             device_type = self.want.get("device_type")
             provisioning = self.validated_config.get("provisioning")
-            site_name_hierarchy = self.validated_config.get("site_name_hierarchy")
+            site_name_hierarchy = self.validated_config.get(
+                "site_name_hierarchy")
             uuid = self.get_device_id()
             if provisioning is False:
                 if self.is_device_assigned_to_site(uuid) is True:
@@ -3192,12 +3251,14 @@ class Provision(CatalystCenterBase):
                 )
                 status = status_response.get("status")
                 self.log(
-                    "The provisioned status of the wired device is {0}".format(status),
+                    "The provisioned status of the wired device is {0}".format(
+                        status),
                     "INFO",
                 )
 
                 if status == "success":
-                    self.log("Requested wired device is alread provisioned", "INFO")
+                    self.log(
+                        "Requested wired device is alread provisioned", "INFO")
 
                 else:
                     self.log("Requested wired device is not provisioned", "INFO")
@@ -3222,7 +3283,8 @@ class Provision(CatalystCenterBase):
                 # Ensure device_id exists before proceeding
                 network_device_id = device_id.get(device_ip)
                 if not network_device_id:
-                    self.log("Device ID not found for IP {}".format(device_ip), "ERROR")
+                    self.log("Device ID not found for IP {}".format(
+                        device_ip), "ERROR")
                     continue
 
                 provision_id, status = self.get_device_provision_status(
@@ -3236,7 +3298,8 @@ class Provision(CatalystCenterBase):
                 )
 
                 if status == "success":
-                    self.log("Requested wired device is alread provisioned", "INFO")
+                    self.log(
+                        "Requested wired device is alread provisioned", "INFO")
 
                 else:
                     self.log("Requested wired device is not provisioned", "INFO")
@@ -3281,7 +3344,8 @@ class Provision(CatalystCenterBase):
             )
             status = status_response.get("status")
             self.log(
-                "The provisioned status of the wired device is {0}".format(status),
+                "The provisioned status of the wired device is {0}".format(
+                    status),
                 "INFO",
             )
 
@@ -3327,12 +3391,14 @@ def main():
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec,
+                           supports_check_mode=False)
     ccc_provision = Provision(module)
     config_verify = ccc_provision.params.get("config_verify")
 
     if (
-        ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
+        ccc_provision.compare_dnac_versions(
+            ccc_provision.get_ccc_version(), "2.3.5.3")
         < 0
     ):
         ccc_provision.msg = """The specified version '{0}' does not support the 'provision_workflow_manager' feature.
@@ -3351,12 +3417,14 @@ def main():
     ccc_provision.validate_input(state=state).check_return_status()
 
     is_version_valid = (
-        ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.7.6")
+        ccc_provision.compare_dnac_versions(
+            ccc_provision.get_ccc_version(), "2.3.7.6")
         >= 0
     )
 
     if is_version_valid:
-        ccc_provision.log("Fetching device types from Cisco Catalyst Center.", "INFO")
+        ccc_provision.log(
+            "Fetching device types from Cisco Catalyst Center.", "INFO")
         device_dict = ccc_provision.get_device_type()
         ccc_provision.log(
             "Device classification result: {0}".format(device_dict), "DEBUG"
@@ -3366,25 +3434,30 @@ def main():
         for device_type, devices in device_dict.items():
             if not devices:
                 ccc_provision.log(
-                    "No devices found for type '{0}', skipping.".format(device_type),
+                    "No devices found for type '{0}', skipping.".format(
+                        device_type),
                     "INFO",
                 )
                 continue
 
             ccc_provision.log(
-                "Processing {0} devices: {1}".format(device_type, devices), "INFO"
+                "Processing {0} devices: {1}".format(
+                    device_type, devices), "INFO"
             )
             ccc_provision.reset_values()
 
             if device_type == "wired":
                 ccc_provision.device_type = "wired"
-                ccc_provision.log("Applying configuration for wired devices.", "INFO")
-                ccc_provision.get_diff_state_apply[state]().check_return_status()
+                ccc_provision.log(
+                    "Applying configuration for wired devices.", "INFO")
+                ccc_provision.get_diff_state_apply[state](
+                ).check_return_status()
                 if config_verify:
                     ccc_provision.log(
                         "Verifying configuration for wired devices.", "INFO"
                     )
-                    ccc_provision.verify_diff_state_apply[state]().check_return_status()
+                    ccc_provision.verify_diff_state_apply[state](
+                    ).check_return_status()
 
             elif device_type == "wireless":
                 ccc_provision.device_type = "wireless"
@@ -3421,7 +3494,8 @@ def main():
         )
 
         for config in ccc_provision.validated_config:
-            ccc_provision.log("Inspecting configuration: {0}".format(config), "DEBUG")
+            ccc_provision.log(
+                "Inspecting configuration: {0}".format(config), "DEBUG")
 
             application_telemetry = config.get("application_telemetry", None)
 
@@ -3432,11 +3506,14 @@ def main():
                 )
                 ccc_provision.reset_values()
                 ccc_provision.get_want(config).check_return_status()
-                ccc_provision.get_diff_state_apply[state]().check_return_status()
+                ccc_provision.get_diff_state_apply[state](
+                ).check_return_status()
 
                 if config_verify:
-                    ccc_provision.log("Verifying telemetry configuration", "INFO")
-                    ccc_provision.verify_diff_state_apply[state]().check_return_status()
+                    ccc_provision.log(
+                        "Verifying telemetry configuration", "INFO")
+                    ccc_provision.verify_diff_state_apply[state](
+                    ).check_return_status()
 
     else:
         for config in ccc_provision.validated_config:
@@ -3456,7 +3533,8 @@ def main():
                     ),
                     "INFO",
                 )
-                ccc_provision.verify_diff_state_apply[state]().check_return_status()
+                ccc_provision.verify_diff_state_apply[state](
+                ).check_return_status()
 
     module.exit_json(**ccc_provision.result)
 
