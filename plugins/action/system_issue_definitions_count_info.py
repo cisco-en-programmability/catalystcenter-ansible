@@ -20,7 +20,7 @@ else:
     ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CATALYSTSDK,
+    CatalystCenterSDK,
     dnac_argument_spec,
 )
 
@@ -92,7 +92,7 @@ class ActionModule(ActionBase):
 
         self._result.update(dict(dnac_response={}))
 
-        catalystcenter = CATALYSTSDK(params=self._task.args)
+        catalystcenter = CatalystCenterSDK(params=self._task.args)
 
         response = catalystcenter.exec(
             family="issues",
