@@ -1047,14 +1047,14 @@ response_11:
 
 import re
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     validate_list,
 )
 from ansible.module_utils.basic import AnsibleModule
 
 
-class UserandRole(DnacBase):
+class UserandRole(CatalystCenterBase):
     """Class containing member attributes for user workflow_manager module"""
 
     def __init__(self, module):

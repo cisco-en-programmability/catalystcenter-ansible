@@ -234,12 +234,12 @@ sample_response_3:
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class SDAExtranetPolicies(DnacBase):
+class SDAExtranetPolicies(CatalystCenterBase):
     """
     A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
     """

@@ -724,7 +724,7 @@ response:
 """
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
@@ -733,7 +733,7 @@ import os
 import time
 
 
-class DnacSwims(DnacBase):
+class DnacSwims(CatalystCenterBase):
     """Class containing member attributes for Swim intent module"""
 
     def __init__(self, module):

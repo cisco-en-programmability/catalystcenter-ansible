@@ -375,12 +375,12 @@ sample_response_3:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class NetworkCompliance(DnacBase):
+class NetworkCompliance(CatalystCenterBase):
     """Class containing member attributes for network_compliance_workflow_manager module"""
 
     def __init__(self, module):

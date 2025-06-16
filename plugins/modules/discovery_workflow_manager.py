@@ -759,14 +759,14 @@ response_3:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import time
 import re
 
 
-class Discovery(DnacBase):
+class Discovery(CatalystCenterBase):
     def __init__(self, module):
         """
         Initialize an instance of the class. It also initializes an empty

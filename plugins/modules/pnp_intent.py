@@ -350,13 +350,13 @@ response_3:
 """
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
 
 
-class PnP(DnacBase):
+class PnP(CatalystCenterBase):
     def __init__(self, module):
         super().__init__(module)
 

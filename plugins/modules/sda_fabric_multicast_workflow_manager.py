@@ -592,13 +592,13 @@ import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
 
 
-class FabricMulticast(DnacBase):
+class FabricMulticast(CatalystCenterBase):
     """Class containing member attributes for sda_fabric_multicast_workflow_manager module"""
 
     def __init__(self, module):

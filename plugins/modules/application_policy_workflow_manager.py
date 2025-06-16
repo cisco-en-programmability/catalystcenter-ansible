@@ -1525,7 +1525,7 @@ application_policy_not_found_response_task_execution:
 """
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
 import json
@@ -1538,7 +1538,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation im
 support_for_application_set = False
 
 
-class ApplicationPolicy(DnacBase):
+class ApplicationPolicy(CatalystCenterBase):
     """Class containing member attributes for application_policy_workflow_manager module"""
 
     def __init__(self, module):

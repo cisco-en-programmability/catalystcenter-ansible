@@ -429,7 +429,7 @@ floor_plan = {
 }
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     validate_str
@@ -439,7 +439,7 @@ import os
 import copy
 
 
-class Site(DnacBase):
+class Site(CatalystCenterBase):
     """Class containing member attributes for Site workflow_manager module"""
 
     def __init__(self, module):

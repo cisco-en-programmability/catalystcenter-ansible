@@ -1722,7 +1722,7 @@ response_5:
 import time
 import re
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     validate_str,
     get_dict_result,
@@ -1730,7 +1730,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 from ansible.module_utils.basic import AnsibleModule
 
 
-class Accesspoint(DnacBase):
+class Accesspoint(CatalystCenterBase):
     """Class containing member attributes for CATALYST Access Point Automation module"""
 
     def __init__(self, module):
