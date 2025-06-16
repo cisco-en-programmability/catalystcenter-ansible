@@ -17,16 +17,17 @@ else:
     ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CatalystCenterSDK,
-    catalystcenter_argument_spec,
-    catalystcenter_compare_equality,
+    CATALYSTSDK,
+    dnac_argument_spec,
+    dnac_compare_equality,
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
-    InconsistentParameters, )
+    InconsistentParameters,
+)
 
 # Get common arguments specification
-argument_spec = catalystcenter_argument_spec()
+argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
@@ -160,14 +161,11 @@ class GlobalCredentialV2(object):
             ("httpsWrite", "httpsWrite"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
-        return any(
-            not catalystcenter_compare_equality(
-                current_obj.get(catalyst_param),
-                requested_obj.get(ansible_param)) for (
-                catalyst_param,
-                ansible_param) in obj_params)
+        return any(not dnac_compare_equality(current_obj.get(dnac_param),
+                                             requested_obj.get(ansible_param))
+                   for (dnac_param, ansible_param) in obj_params)
 
     def create(self):
         result = self.catalystcenter.exec(
@@ -243,7 +241,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        catalystcenter = CatalystCenterSDK(self._task.args)
+        catalystcenter = CATALYSTSDK(self._task.args)
         obj = GlobalCredentialV2(self._task.args, catalystcenter)
 
         state = self._task.args.get("state")
@@ -271,6 +269,6 @@ class ActionModule(ActionBase):
             else:
                 catalystcenter.object_already_absent()
 
-        self._result.update(dict(catalyst_response=response))
+        self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

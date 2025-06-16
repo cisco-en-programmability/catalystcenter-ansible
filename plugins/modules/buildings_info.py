@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: buildings_info
-short_description: Information module for Buildings Info
+short_description: Information module for Buildings
 description:
-  - This module represents an alias of the module buildings_v2_info
+  - Get Buildings by id.
+  - Gets a building in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -21,34 +24,39 @@ options:
       - Id path parameter. Building Id.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Site Design GetsABuildingV2
-    description: Complete reference of the GetsABuildingV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!gets-a-building
+  - name: Cisco DNA Center documentation for Site Design
+      GetsABuildingV2
+    description: Complete reference of the GetsABuildingV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-building-v-2
 notes:
-  - SDK Method used are site_design.SiteDesign.gets_a_building_v2,
-  - Paths used are get /dna/intent/api/v2/buildings/{id},
-  - It should be noted that this module is an alias of buildings_v2_info
+  - SDK Method used are
+    site_design.SiteDesign.gets_a_building_v2,
+  - Paths used are
+    get /dna/intent/api/v2/buildings/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Buildings Info by id
+---
+- name: Get Buildings by id
   cisco.catalystcenter.buildings_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
@@ -60,7 +68,10 @@ catalystcenter_response:
         "longitude": 0,
         "address": "string",
         "country": "string",
-        "type": "string"
+        "type": "string",
+        "id": "string",
+        "nameHierarchy": "string",
+        "siteHierarchyId": "string"
       }
     }
 """

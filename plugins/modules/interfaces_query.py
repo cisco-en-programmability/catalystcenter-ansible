@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: interfaces_query
 short_description: Resource module for Interfaces Query
 description:
-  - This module represents an alias of the module interfaces_query_v1
+  - Manage operation create of the resource Interfaces
+    Query. - > Gets the list of interfaces across the
+    Network Devices based on the provided complex filters
+    and aggregation functions.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -98,32 +103,37 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Devices
-      GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1                                               # noqa: E501
-    description: Complete reference of the
-      GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1
-      API.                                                                                                                                              # noqa: E501
+          GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+    description:
+      >
+      Complete reference of the GetsTheListOfInterfacesAcrossThe
+      NetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+      API.
     link:
-      https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions    # noqa: E501
+      https://developer.cisco.com/docs/dna-center/#!gets-the-list-
+      of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
 notes:
   - SDK Method used are
-    devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,  # noqa: E501
-  - Paths used are post /dna/data/api/v1/interfaces/query,
-  - It should be noted that this module is an alias of interfaces_query_v1
+    devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions,
+  - Paths used are
+    post /dna/data/api/v1/interfaces/query,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.interfaces_query:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
       - function: string
         name: string
@@ -153,8 +163,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

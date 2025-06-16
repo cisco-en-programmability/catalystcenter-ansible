@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: path_trace_info
-short_description: Information module for Path Trace Info
+short_description: Information module for Path Trace
 description:
-  - This module represents an alias of the module path_trace_v1_info
+  - Get all Path Trace.
+  - Get Path Trace by id.
+  - Returns a summary of all flow analyses stored. Results
+    can be filtered by specified parameters.
+  - Returns result of a previously requested flow analysis
+    by its Flow Analysis id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,7 +25,8 @@ options:
     type: dict
   periodicRefresh:
     description:
-      - PeriodicRefresh query parameter. Is analysis periodically refreshed?.
+      - PeriodicRefresh query parameter. Is analysis
+        periodically refreshed?.
     type: bool
   sourceIP:
     description:
@@ -38,11 +46,13 @@ options:
     type: float
   gtCreateTime:
     description:
-      - GtCreateTime query parameter. Analyses requested after this time.
+      - GtCreateTime query parameter. Analyses requested
+        after this time.
     type: float
   ltCreateTime:
     description:
-      - LtCreateTime query parameter. Analyses requested before this time.
+      - LtCreateTime query parameter. Analyses requested
+        before this time.
     type: float
   protocol:
     description:
@@ -58,7 +68,8 @@ options:
     type: str
   lastUpdateTime:
     description:
-      - LastUpdateTime query parameter. Last update time.
+      - LastUpdateTime query parameter. Last update
+        time.
     type: float
   limit:
     description:
@@ -66,7 +77,8 @@ options:
     type: float
   offset:
     description:
-      - Offset query parameter. Start index of resources returned (1-based).
+      - Offset query parameter. Start index of resources
+        returned (1-based).
     type: float
   order:
     description:
@@ -78,36 +90,43 @@ options:
     type: str
   flowAnalysisId:
     description:
-      - FlowAnalysisId path parameter. Flow analysis request id.
+      - FlowAnalysisId path parameter. Flow analysis
+        request id.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Path Trace RetrievesAllPreviousPathtracesSummaryV1
-    description: Complete reference of the RetrievesAllPreviousPathtracesSummaryV1
+  - name: Cisco DNA Center documentation for Path Trace
+      RetrievesAllPreviousPathtracesSummary
+    description: Complete reference of the RetrievesAllPreviousPathtracesSummary
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
-  - name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtraceV1
-    description: Complete reference of the RetrievesPreviousPathtraceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
+  - name: Cisco DNA Center documentation for Path Trace
+      RetrievesPreviousPathtrace
+    description: Complete reference of the RetrievesPreviousPathtrace
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
 notes:
-  - SDK Method used are path_trace.PathTrace.retrieves_all_previous_pathtraces_summary_v1,
-    path_trace.PathTrace.retrieves_previous_pathtrace_v1,
-  - Paths used are get /dna/intent/api/v1/flow-analysis, get /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
-  - It should be noted that this module is an alias of path_trace_v1_info
+  - SDK Method used are
+    path_trace.PathTrace.retrieves_all_previous_pathtraces_summary,
+    path_trace.PathTrace.retrieves_previous_pathtrace,
+  - Paths used are
+    get /dna/intent/api/v1/flow-analysis,
+    get /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
 """
+
 EXAMPLES = r"""
-- name: Get all Path Trace Info
+---
+- name: Get all Path Trace
   cisco.catalystcenter.path_trace_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     periodicRefresh: true
     sourceIP: string
@@ -125,22 +144,22 @@ EXAMPLES = r"""
     order: string
     sortBy: string
   register: result
-- name: Get Path Trace Info by id
+- name: Get Path Trace by id
   cisco.catalystcenter.path_trace_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     flowAnalysisId: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

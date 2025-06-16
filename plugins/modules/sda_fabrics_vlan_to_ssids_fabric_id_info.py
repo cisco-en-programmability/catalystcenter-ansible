@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabrics_vlan_to_ssids_fabric_id_info
-short_description: Information module for Sda Fabrics Vlan To Ssids Fabric Id Info
+short_description: Information module for Sda Fabrics
+  Vlan To Ssids Fabric Id
 description:
-  - This module represents an alias of the module sda_fabrics_vlan_to_ssids_fabric_id_v1_info
+  - Get all Sda Fabrics Vlan To Ssids Fabric Id. - >
+    Retrieve the VLANs and SSIDs mapped to the VLAN,
+    within a Fabric Site. The 'fabricId' represents
+    the Fabric ID of a particular Fabric Site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,46 +24,49 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular
-        Fabric Site.
+      - FabricId path parameter. The 'fabricId' represents
+        the Fabric ID of a particular Fabric Site.
     type: str
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. Default
-        is 500 if not specified. Maximum
-        allowed limit is 500.
+        Limit query parameter. The number of records
+        to show for this page. Default is 500 if not
+        specified. Maximum allowed limit is 500.
     type: float
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Fabric Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1
-    description: Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1
+  - name: Cisco DNA Center documentation for Fabric
+      Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite
+    description: Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSite
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site   # noqa: E501
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site_v1,
-  - Paths used are get /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
-  - It should be noted that this module is an alias of sda_fabrics_vlan_to_ssids_fabric_id_v1_info
+    fabric_wireless.FabricWireless.retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site,
+  - Paths used are
+    get /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
 """
+
 EXAMPLES = r"""
-- name: Get all Sda Fabrics Vlan To Ssids Fabric Id Info
+---
+- name: Get all Sda Fabrics Vlan To Ssids Fabric Id
   cisco.catalystcenter.sda_fabrics_vlan_to_ssids_fabric_id_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -65,8 +74,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

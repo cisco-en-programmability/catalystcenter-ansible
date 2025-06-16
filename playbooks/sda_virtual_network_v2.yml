@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Create
-      cisco.catalystcenter.sda_virtual_network_v2:
+      cisco.catalystcenter.sda_virtual_network:
         _host: "{{ _host }}"
         _username: "{{ _username }}"
         _password: "{{ _password }}"
@@ -22,7 +22,7 @@
         virtualNetworkType: GUEST
 
 # - name: Delete all
-#   cisco.catalystcenter.sda_virtual_network_v2:
+#   cisco.catalystcenter.sda_virtual_network:
 #     _host: "{{ _host }}"
 #     _username: "{{ _username }}"
 #     _password: "{{ _password }}"

@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Get application sets local-services
-      cisco.catalystcenter.tag_member_v1_info:
+      cisco.catalystcenter.tag_member_info:
         _host: "{{ _host }}"
         _username: "{{ _username }}"
         _password: "{{ _password }}"

@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: aaa_services_summary_analytics
-short_description: Resource module for Aaa Services Summary Analytics
+short_description: Resource module for Aaa Services
+  Summary Analytics
 description:
-  - This module represents an alias of the module aaa_services_summary_analytics_v1
+  - Manage operation create of the resource Aaa Services
+    Summary Analytics. - > Gets the summary analytics
+    data related to AAA Services based on given filters
+    and group by field. For detailed information about
+    the usage of the API, please refer to the Open API
+    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AAAServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -69,7 +78,8 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Aaa Services Summary Analytics's sortBy.
+        description: Aaa Services Summary Analytics's
+          sortBy.
         elements: dict
         suboptions:
           function:
@@ -87,30 +97,32 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFiltersV1
-    description: Complete reference of the GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFiltersV1
+  - name: Cisco DNA Center documentation for Devices
+      GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters
+    description: Complete reference of the GetSummaryAnalyticsDataOfAAAServicesForGivenSetOfComplexFilters
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-aaa-services-for-given-set-of-complex-filters
+    link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-aaa-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
-    devices.Devices.get_summary_analytics_data_of_a_a_a_services_for_given_set_of_complex_filters_v1,
-  - Paths used are post /dna/data/api/v1/aaaServices/summaryAnalytics,
-  - It should be noted that this module is an alias of aaa_services_summary_analytics_v1
+    devices.Devices.get_summary_analytics_data_of_aaa_services_for_given_set_of_complex_filters,
+  - Paths used are
+    post /dna/data/api/v1/aaaServices/summaryAnalytics,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.aaa_services_summary_analytics:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
       - function: string
         name: string
@@ -137,8 +149,8 @@ EXAMPLES = r"""
     startTime: 0
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

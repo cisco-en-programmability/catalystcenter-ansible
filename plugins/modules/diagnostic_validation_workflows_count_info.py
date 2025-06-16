@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_workflows_count_info
-short_description: Information module for Diagnostic Validation Workflows Count Info
+short_description: Information module for Diagnostic
+  Validation Workflows Count
 description:
-  - This module represents an alias of the module diagnostic_validation_workflows_count_v1_info
+  - Get all Diagnostic Validation Workflows Count.
+  - Retrieves the count of workflows that have been
+    successfully submitted and are currently available.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,50 +23,54 @@ options:
     type: dict
   startTime:
     description:
-      - StartTime query parameter. Workflows started after the given time (as milliseconds
-        since UNIX epoch).
+      - StartTime query parameter. Workflows started
+        after the given time (as milliseconds since
+        UNIX epoch).
     type: float
   endTime:
     description:
-      - EndTime query parameter. Workflows started before the given time (as milliseconds
-        since UNIX epoch).
+      - EndTime query parameter. Workflows started before
+        the given time (as milliseconds since UNIX epoch).
     type: float
   runStatus:
     description:
       - >
-        RunStatus query parameter. Execution status of the workflow. If the workflow
-        is successfully submitted,
-        runStatus is `PENDING`. If the workflow execution has started, runStatus is
-        `IN_PROGRESS`. If the workflow
-        executed is completed with all validations executed, runStatus is `COMPLETED`.
-        If the workflow execution
-        fails while running validations, runStatus is `FAILED`.
+        RunStatus query parameter. Execution status
+        of the workflow. If the workflow is successfully
+        submitted, runStatus is `PENDING`. If the workflow
+        execution has started, runStatus is `IN_PROGRESS`.
+        If the workflow executed is completed with all
+        validations executed, runStatus is `COMPLETED`.
+        If the workflow execution fails while running
+        validations, runStatus is `FAILED`.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Health and Performance RetrievesTheCountOfValidationWorkflowsV1
-    description: Complete reference of the RetrievesTheCountOfValidationWorkflowsV1
+  - name: Cisco DNA Center documentation for Health
+      and Performance RetrievesTheCountOfValidationWorkflows
+    description: Complete reference of the RetrievesTheCountOfValidationWorkflows
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-validation-workflows
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-validation-workflows
 notes:
   - SDK Method used are
-    health_and_performance.HealthAndPerformance.retrieves_the_count_of_validation_workflows_v1,
-  - Paths used are get /dna/intent/api/v1/diagnosticValidationWorkflows/count,
-  - It should be noted that this module is an alias of diagnostic_validation_workflows_count_v1_info
+    health_and_performance.HealthAndPerformance.retrieves_the_count_of_validation_workflows,
+  - Paths used are
+    get /dna/intent/api/v1/diagnosticValidationWorkflows/count,
 """
+
 EXAMPLES = r"""
-- name: Get all Diagnostic Validation Workflows Count Info
+---
+- name: Get all Diagnostic Validation Workflows Count
   cisco.catalystcenter.diagnostic_validation_workflows_count_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -69,8 +78,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

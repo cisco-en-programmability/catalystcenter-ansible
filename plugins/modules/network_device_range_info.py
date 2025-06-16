@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_device_range_info
-short_description: Information module for Network Device Range Info
+short_description: Information module for Network Device
+  Range
 description:
-  - This module represents an alias of the module network_device_range_v1_info
+  - Get all Network Device Range. - > Returns the list
+    of network devices for the given pagination range.
+    The maximum number of records that can be retrieved
+    is 500.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,40 +28,44 @@ options:
     type: int
   recordsToReturn:
     description:
-      - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn
-        <= 500.
+      - RecordsToReturn path parameter. Number of records
+        to return 1<= recordsToReturn <= 500.
     type: int
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRangeV1
-    description: Complete reference of the GetNetworkDeviceByPaginationRangeV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
+  - name: Cisco DNA Center documentation for Devices
+      GetNetworkDeviceByPaginationRange
+    description: Complete reference of the GetNetworkDeviceByPaginationRange
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
 notes:
-  - SDK Method used are devices.Devices.get_network_device_by_pagination_range_v1,
-  - Paths used are get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
-  - It should be noted that this module is an alias of network_device_range_v1_info
+  - SDK Method used are
+    devices.Devices.get_network_device_by_pagination_range,
+  - Paths used are
+    get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
 """
+
 EXAMPLES = r"""
-- name: Get all Network Device Range Info
+---
+- name: Get all Network Device Range
   cisco.catalystcenter.network_device_range_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     startIndex: 0
     recordsToReturn: 0
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

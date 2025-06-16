@@ -7,7 +7,7 @@ DOCUMENTATION = r"""
 module: network_device_custom_prompt_info_info
 short_description: Information module for Network Device Custom Prompt Info Info
 description:
-  - This module represents an alias of the module network_device_custom_prompt_info_v1_info
+  - This module represents an alias of the module network_device_custom_prompt_info_info
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,9 +24,9 @@ seealso:
     description: Complete reference of the CustomPromptSupportGETAPIV1 API.
     link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-support-getapi
 notes:
-  - SDK Method used are system_settings.SystemSettings.custom_prompt_support_get_api_v1,
+  - SDK Method used are system_settings.SystemSettings.custom_prompt_support_get_api,
   - Paths used are get /dna/intent/api/v1/network-device/custom-prompt,
-  - It should be noted that this module is an alias of network_device_custom_prompt_info_v1_info
+  - It should be noted that this module is an alias of network_device_custom_prompt_info_info
 """
 EXAMPLES = r"""
 - name: Get all Network Device Custom Prompt Info Info

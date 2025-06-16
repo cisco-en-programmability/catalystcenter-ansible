@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: network_devices_query
-short_description: Resource module for Network Devices Query
+short_description: Resource module for Network Devices
+  Query
 description:
-  - This module represents an alias of the module network_devices_query_v1
+  - Manage operation create of the resource Network
+    Devices Query. - > Gets the list of Network Devices
+    based on the provided complex filters and aggregation
+    functions. For detailed information about the usage
+    of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -69,32 +78,32 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - dnacentersdk >= 2.4.9
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Devices
-      GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1                                               # noqa: E501
-    description: Complete reference of the
-      GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1
-      API.                                                                                                                           # noqa: E501
-    link:
-      https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions     # noqa: E501
+      GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+    description: Complete reference of the GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-the-list-of-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
 notes:
   - SDK Method used are
-    devices.Devices.gets_the_list_of_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,  # noqa: E501
-  - Paths used are post /dna/data/api/v1/networkDevices/query,
-  - It should be noted that this module is an alias of network_devices_query_v1
+    devices.Devices.gets_the_list_of_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions,
+  - Paths used are
+    post /dna/data/api/v1/networkDevices/query,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.network_devices_query:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
       - function: string
         name: string
@@ -115,8 +124,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
