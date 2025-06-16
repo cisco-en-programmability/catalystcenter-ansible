@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,26 +27,28 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    startTime=dict(type="float"),
-    endTime=dict(type="float"),
-    limit=dict(type="float"),
-    offset=dict(type="float"),
-    sortBy=dict(type="str"),
-    order=dict(type="str"),
-    siteHierarchy=dict(type="str"),
-    siteHierarchyId=dict(type="str"),
-    siteId=dict(type="str"),
-    view=dict(type="str"),
-    attribute=dict(type="str"),
-    networkDeviceId=dict(type="str"),
-    networkDeviceIpAddress=dict(type="str"),
-    networkDeviceMacAddress=dict(type="str"),
-    interfaceId=dict(type="str"),
-    interfaceName=dict(type="str"),
-    id=dict(type="str"),
-    headers=dict(type="dict"),
-))
+argument_spec.update(
+    dict(
+        startTime=dict(type="float"),
+        endTime=dict(type="float"),
+        limit=dict(type="float"),
+        offset=dict(type="float"),
+        sortBy=dict(type="str"),
+        order=dict(type="str"),
+        siteHierarchy=dict(type="str"),
+        siteHierarchyId=dict(type="str"),
+        siteId=dict(type="str"),
+        view=dict(type="str"),
+        attribute=dict(type="str"),
+        networkDeviceId=dict(type="str"),
+        networkDeviceIpAddress=dict(type="str"),
+        networkDeviceMacAddress=dict(type="str"),
+        interfaceId=dict(type="str"),
+        interfaceName=dict(type="str"),
+        id=dict(type="str"),
+        headers=dict(type="dict"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -54,8 +59,7 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -116,9 +120,8 @@ class ActionModule(ActionBase):
         if id:
             response = catalystcenter.exec(
                 family="devices",
-                function='get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_and_poe_data',
-                params=self.get_object(
-                    self._task.args),
+                function="get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_and_poe_data",
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(catalystcenter.exit_json())
@@ -126,9 +129,8 @@ class ActionModule(ActionBase):
         if not id:
             response = catalystcenter.exec(
                 family="devices",
-                function='gets_interfaces_along_with_statistics_and_poe_data_from_all_network_devices',
-                params=self.get_object(
-                    self._task.args),
+                function="gets_interfaces_along_with_statistics_and_poe_data_from_all_network_devices",
+                params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(catalystcenter.exit_json())

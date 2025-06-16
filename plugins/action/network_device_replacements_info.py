@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,20 +27,22 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    family=dict(type="str"),
-    faultyDeviceName=dict(type="str"),
-    faultyDevicePlatform=dict(type="str"),
-    faultyDeviceSerialNumber=dict(type="str"),
-    replacementDevicePlatform=dict(type="str"),
-    replacementDeviceSerialNumber=dict(type="str"),
-    replacementStatus=dict(type="str"),
-    offset=dict(type="float"),
-    limit=dict(type="float"),
-    sortBy=dict(type="str"),
-    sortOrder=dict(type="str"),
-    headers=dict(type="dict"),
-))
+argument_spec.update(
+    dict(
+        family=dict(type="str"),
+        faultyDeviceName=dict(type="str"),
+        faultyDevicePlatform=dict(type="str"),
+        faultyDeviceSerialNumber=dict(type="str"),
+        replacementDevicePlatform=dict(type="str"),
+        replacementDeviceSerialNumber=dict(type="str"),
+        replacementStatus=dict(type="str"),
+        offset=dict(type="float"),
+        limit=dict(type="float"),
+        sortBy=dict(type="str"),
+        sortOrder=dict(type="str"),
+        headers=dict(type="dict"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -48,8 +53,7 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -102,9 +106,8 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="device_replacement",
-            function='retrieve_the_status_of_all_the_device_replacement_workflows',
-            params=self.get_object(
-                self._task.args),
+            function="retrieve_the_status_of_all_the_device_replacement_workflows",
+            params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())

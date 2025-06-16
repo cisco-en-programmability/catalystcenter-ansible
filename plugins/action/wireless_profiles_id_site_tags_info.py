@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,13 +27,15 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 # Get common arguments specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    id=dict(type="str"),
-    limit=dict(type="float"),
-    offset=dict(type="float"),
-    siteTagName=dict(type="str"),
-    headers=dict(type="dict"),
-))
+argument_spec.update(
+    dict(
+        id=dict(type="str"),
+        limit=dict(type="float"),
+        offset=dict(type="float"),
+        siteTagName=dict(type="str"),
+        headers=dict(type="dict"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -41,8 +46,7 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -88,7 +92,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="wireless",
-            function='retrieve_all_site_tags_for_a_wireless_profile',
+            function="retrieve_all_site_tags_for_a_wireless_profile",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

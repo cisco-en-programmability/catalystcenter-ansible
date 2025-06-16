@@ -5,12 +5,15 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -24,21 +27,23 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 # Get common arguements specification
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    deviceId=dict(type="str"),
-    siteId=dict(type="str"),
-    type=dict(type="str"),
-    imageInfo=dict(type="dict"),
-    configInfo=dict(type="dict"),
-    rfProfile=dict(type="str"),
-    staticIP=dict(type="str"),
-    subnetMask=dict(type="str"),
-    gateway=dict(type="str"),
-    vlanId=dict(type="str"),
-    ipInterfaceName=dict(type="str"),
-    sensorProfile=dict(type="str"),
-    hostname=dict(type="str"),
-))
+argument_spec.update(
+    dict(
+        deviceId=dict(type="str"),
+        siteId=dict(type="str"),
+        type=dict(type="str"),
+        imageInfo=dict(type="dict"),
+        configInfo=dict(type="dict"),
+        rfProfile=dict(type="str"),
+        staticIP=dict(type="str"),
+        subnetMask=dict(type="str"),
+        gateway=dict(type="str"),
+        vlanId=dict(type="str"),
+        ipInterfaceName=dict(type="str"),
+        sensorProfile=dict(type="str"),
+        hostname=dict(type="str"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -49,8 +54,7 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -102,7 +106,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="device_onboarding_pnp",
-            function='claim_a_device_to_a_site',
+            function="claim_a_device_to_a_site",
             op_modifies=True,
             params=self.get_object(self._task.args),
         )
