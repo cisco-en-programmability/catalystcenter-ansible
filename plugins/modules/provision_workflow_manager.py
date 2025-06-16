@@ -1066,6 +1066,7 @@ class Provision(CatalystCenterBase):
                 uuid, e)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
+            return False, None
 
     def get_device_site_by_uuid(self, uuid):
         """
