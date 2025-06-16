@@ -1766,14 +1766,14 @@ import time
 import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
 )
 
 
-class Template(DnacBase):
+class Template(CatalystCenterBase):
     """Class containing member attributes for template_workflow_manager module"""
 
     def __init__(self, module):

@@ -708,14 +708,14 @@ dnac_response:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import copy
 import re
 
 
-class VirtualNetwork(DnacBase):
+class VirtualNetwork(CatalystCenterBase):
     """Class containing member attributes for fabric sites and zones workflow manager module"""
 
     def __init__(self, module):

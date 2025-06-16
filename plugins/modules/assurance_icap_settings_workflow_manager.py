@@ -292,7 +292,7 @@ except ImportError:
     pathlib = None
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 from datetime import datetime
@@ -300,7 +300,7 @@ import time
 import os
 
 
-class Icap(DnacBase):
+class Icap(CatalystCenterBase):
     """Class containing member attributes for ICAP setting workflow manager module"""
 
     def __init__(self, module):

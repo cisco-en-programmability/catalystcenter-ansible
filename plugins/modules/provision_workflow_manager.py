@@ -496,12 +496,12 @@ import time
 import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class Provision(DnacBase):
+class Provision(CatalystCenterBase):
     """
     Class containing member attributes for provision workflow module
     """

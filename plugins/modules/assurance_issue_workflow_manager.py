@@ -983,14 +983,14 @@ import time
 from datetime import datetime
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     validate_str,
 )
 
 
-class AssuranceSettings(DnacBase):
+class AssuranceSettings(CatalystCenterBase):
     """Class containing member attributes for Assurance setting workflow manager module"""
 
     def __init__(self, module):

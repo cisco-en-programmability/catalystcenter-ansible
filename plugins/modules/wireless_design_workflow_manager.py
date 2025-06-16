@@ -4860,13 +4860,13 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import re
 
 
-class WirelessDesign(DnacBase):
+class WirelessDesign(CatalystCenterBase):
     """
     A class for managing Wireless Design operations within the Cisco DNA Center using the SDA API.
     """

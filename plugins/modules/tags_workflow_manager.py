@@ -955,13 +955,13 @@ dnac_response:
 
 from collections import defaultdict
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import DnacBase
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import CatalystCenterBase
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
 
 
-class Tags(DnacBase):
+class Tags(CatalystCenterBase):
     """Class containing member attributes for tags workflow manager module"""
 
     def __init__(self, module):

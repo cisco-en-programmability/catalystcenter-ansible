@@ -461,14 +461,14 @@ import copy
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
 )
 
 
-class IseRadiusIntegration(DnacBase):
+class IseRadiusIntegration(CatalystCenterBase):
     """Class containing member attributes for ise_radius_integration_workflow_manager module"""
 
     def __init__(self, module):

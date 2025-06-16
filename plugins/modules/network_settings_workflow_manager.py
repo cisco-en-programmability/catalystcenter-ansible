@@ -823,14 +823,14 @@ import re
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     dnac_compare_equality,
 )
 
 
-class NetworkSettings(DnacBase):
+class NetworkSettings(CatalystCenterBase):
     """Class containing member attributes for network_settings_workflow_manager module"""
 
     def __init__(self, module):

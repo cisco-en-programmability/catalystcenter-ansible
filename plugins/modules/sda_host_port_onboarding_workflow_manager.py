@@ -868,12 +868,12 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class SDAHostPortOnboarding(DnacBase):
+class SDAHostPortOnboarding(CatalystCenterBase):
     """
     A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
     """

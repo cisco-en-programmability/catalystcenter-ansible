@@ -851,7 +851,7 @@ response:
 """
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
@@ -860,7 +860,7 @@ import os
 import time
 
 
-class Swim(DnacBase):
+class Swim(CatalystCenterBase):
     """Class containing member attributes for Swim workflow_manager module"""
 
     def __init__(self, module):

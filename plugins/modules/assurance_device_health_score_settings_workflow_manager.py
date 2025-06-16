@@ -407,12 +407,12 @@ response_1:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class Healthscore(DnacBase):
+class Healthscore(CatalystCenterBase):
     """Class containing member attributes for Assurance health score setting workflow manager module"""
 
     def __init__(self, module):

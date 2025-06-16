@@ -768,7 +768,7 @@ from datetime import datetime
 from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
@@ -776,7 +776,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 support_for_provisioning_wireless = False
 
 
-class DnacDevice(DnacBase):
+class DnacDevice(CatalystCenterBase):
     """Class containing member attributes for Inventory intent module"""
 
     def __init__(self, module):

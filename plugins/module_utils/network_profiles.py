@@ -10,11 +10,11 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 
 import time
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase
+    CatalystCenterBase
 )
 
 
-class NetworkProfileFunctions(DnacBase):
+class NetworkProfileFunctions(CatalystCenterBase):
     """Class containing member attributes for network profile workflow manager module"""
 
     def __init__(self, module):
