@@ -78,7 +78,8 @@ def validate_integer_within_range(
     try:
         item = validation.check_type_int(item)
     except TypeError as e:
-        invalid_params.append("{0}: value: {1} {2}".format(param_name, item, str(e)))
+        invalid_params.append(
+            "{0}: value: {1} {2}".format(param_name, item, str(e)))
         return item
 
     min_value = param_spec.get("range_min", 1)
@@ -181,7 +182,8 @@ def validate_list(item, param_spec, param_name, invalid_params, module=None):
                             )
                         )
             except Exception as e:
-                item, list_invalid_params = validate_list_of_dicts(item, temp_dict)
+                item, list_invalid_params = validate_list_of_dicts(
+                    item, temp_dict)
                 invalid_params.extend(list_invalid_params)
         else:
             invalid_params.append("{0} : is not a valid list".format(item))
@@ -303,7 +305,8 @@ def validate_list_of_dicts(param_list, spec, module=None):
         valid_params_dict = {}
         if not spec:
             # Handle the case when spec becomes empty but param list is still there
-            invalid_params.append("No more spec to validate, but parameters remain")
+            invalid_params.append(
+                "No more spec to validate, but parameters remain")
             break
         for param in spec:
             item = list_entry.get(param)
@@ -327,7 +330,8 @@ def validate_list_of_dicts(param_list, spec, module=None):
 
             validator = switch.get(data_type)
             if validator:
-                item = validator(item, spec[param], param, invalid_params, module)
+                item = validator(item, spec[param],
+                                 param, invalid_params, module)
             else:
                 invalid_params.append(
                     "{0}:{1} : Unsupported data type {2}.".format(
@@ -338,7 +342,8 @@ def validate_list_of_dicts(param_list, spec, module=None):
             choice = spec[param].get("choices")
             if choice:
                 if item not in choice:
-                    invalid_params.append("{0} : Invalid choice provided".format(item))
+                    invalid_params.append(
+                        "{0} : Invalid choice provided".format(item))
 
             no_log = spec[param].get("no_log")
             if no_log:
