@@ -356,7 +356,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
 )
 
 
@@ -482,7 +482,7 @@ class FabricTransit(CatalystCenterBase):
         )
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params

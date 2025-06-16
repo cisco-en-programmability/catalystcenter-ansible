@@ -1769,7 +1769,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
 )
 
 
@@ -3174,7 +3174,7 @@ class Template(CatalystCenterBase):
         ]
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param, default) in obj_params

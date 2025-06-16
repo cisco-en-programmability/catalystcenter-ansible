@@ -19,7 +19,7 @@ from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
     CATALYSTSDK,
     dnac_argument_spec,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
@@ -143,7 +143,7 @@ class SdaExtranetPolicies(object):
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
-        return any(not dnac_compare_equality(current_obj.get(dnac_param),
+        return any(not catalystcenter_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
 
