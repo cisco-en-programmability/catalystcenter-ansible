@@ -62,7 +62,7 @@ releases:
         - Change debug to _debug
         - This was due to problems with the parameters since there were conflicts
   2.2.0:
-    release_date: "2025-06-16"
+    release_date: "2025-06-19"
     changes:
       release_summary: Update Modules
       minor_changes:
