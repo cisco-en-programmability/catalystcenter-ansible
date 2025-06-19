@@ -698,7 +698,7 @@ options:
               the range 1 to 365 (inclusive).
             type: int
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center documentation for Devices

@@ -172,7 +172,7 @@ options:
         type: bool
         default: true
 requirements:
-  - dnacentersdk == 2.9.2
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 notes:
   - SDK Methods used are sites.Sites.get_site Site_design.Site_design.get_sites

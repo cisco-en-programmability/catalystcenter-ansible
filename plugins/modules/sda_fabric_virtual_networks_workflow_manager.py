@@ -377,7 +377,7 @@ options:
               in the playbook.
             type: bool
 requirements:
-  - dnacentersdk >= 2.9.2
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - To ensure the module operates correctly for scaled

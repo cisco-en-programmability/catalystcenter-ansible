@@ -80,7 +80,7 @@ options:
         elements: str
         required: false
 requirements:
-  - dnacentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - This module uses the following SDK methods site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to

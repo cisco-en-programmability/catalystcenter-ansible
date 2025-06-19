@@ -146,7 +146,7 @@ options:
         A6 32 F5 5A 89` (multiple clientMac requested).
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Devices

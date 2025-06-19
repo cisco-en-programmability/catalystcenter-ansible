@@ -3046,7 +3046,7 @@ options:
                     Network Controller.
                 type: bool
 requirements:
-  - dnacentersdk >= 2.10.3
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - SDK Methods used are - sites.Sites.get_site - site_design.SiteDesigns.get_sites

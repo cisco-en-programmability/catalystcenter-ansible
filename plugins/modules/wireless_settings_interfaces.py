@@ -32,7 +32,7 @@ options:
     description: VLAN ID range is 1-4094.
     type: int
 requirements:
-  - dnacentersdk >= 2.4.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Wireless

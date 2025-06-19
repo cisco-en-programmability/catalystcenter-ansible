@@ -340,7 +340,7 @@ options:
                 type: list
                 elements: str
 requirements:
-  - dnacentersdk >= 2.10.3
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - Ensure that all required parameters are provided

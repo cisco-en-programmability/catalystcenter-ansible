@@ -170,7 +170,7 @@ options:
             type: int
             required: true
 requirements:
-  - dnacentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - SDK Method used are

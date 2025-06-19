@@ -1116,7 +1116,7 @@ options:
                     type: str
                     required: false
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.8
 seealso:
   - name: Cisco CATALYST Ansible Collection Documentation
@@ -1127,7 +1127,7 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/
 notes:
   - Make sure to install the required Python dependencies by executing pip install
-    dnacentersdk.
+    catalystcentersdk.
   - SDK Method used are
   - devices.get_device_list
   - wireless.get_access_point_configuration

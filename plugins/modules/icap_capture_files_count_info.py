@@ -55,7 +55,7 @@ options:
         Value is inclusive.
     type: float
 requirements:
-  - dnacentersdk >= 2.4.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
   - name: Cisco DNA Center documentation for Sensors

@@ -485,7 +485,7 @@ options:
             type: str
             required: false
 requirements:
-  - dnacentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - SDK Methods used are issues.AssuranceSettings.get_all_the_custom_issue_definitions_based_on_the_given_filters
