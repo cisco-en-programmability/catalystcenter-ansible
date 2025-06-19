@@ -41,7 +41,7 @@ options:
         It must be specified in UNIX epochtime in milliseconds.
         Value is inclusive. If `startTime` is not provided,
         API will default to current time.
-    type: float
+    type: int
   endTime:
     description:
       - >
@@ -49,12 +49,12 @@ options:
         queries the data set related to the resource.
         It must be specified in UNIX epochtime in milliseconds.
         Value is inclusive.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. Maximum number of records
         to return.
-    type: float
+    type: int
   offset:
     description:
       - >
@@ -62,7 +62,7 @@ options:
         point within all records returned by the API.
         It's one based offset. The starting value is
         1.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. A field within the response
