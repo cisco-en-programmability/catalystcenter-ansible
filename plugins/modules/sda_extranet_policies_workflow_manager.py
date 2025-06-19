@@ -104,7 +104,7 @@ options:
         type: list
         elements: str
 requirements:
-  - dnacentersdk == 2.7.0
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites

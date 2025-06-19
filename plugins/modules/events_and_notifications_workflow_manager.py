@@ -727,7 +727,7 @@ options:
             type: list
             elements: str
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 notes:
   - To ensure the module operates correctly with scaled
@@ -738,12 +738,12 @@ notes:
     the module will halt execution
     and will not proceed to subsequent operations.
   - Configuring the webhook destination with headers
-    now supports starting from dnacentersdk version
-    2.9.1 onwards. This enhancement is in alignment
-    with Catalyst Center Release 2.3.7.5.
+    now supports starting from catalystcentersdk version
+    2.3.7.6.2 onwards. This enhancement is in alignment
+    with Catalyst Center Release 2.3.7.6.
   - Configuring the SNMP destination now supports starting
-    from dnacentersdk version 2.9.1 onwards. This enhancement
-    is in alignment with Catalyst Center Release 2.3.7.5.
+    from catalystcentersdk version 2.3.7.6.2 onwards. This enhancement
+    is in alignment with Catalyst Center Release 2.3.7.6.
   - SDK Method used are
     events.Events.get_syslog_destination,
     events.Events.create_syslog_destination,

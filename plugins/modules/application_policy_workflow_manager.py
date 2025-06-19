@@ -447,7 +447,7 @@ options:
                     type: list
                     elements: str
 requirements:
-  - dnacentersdk >= 2.9.3
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9.19
 notes:
   - SDK Methods used are - application_policy.ApplicationPolicy.get_application_policy

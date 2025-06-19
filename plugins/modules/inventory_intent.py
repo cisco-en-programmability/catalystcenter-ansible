@@ -389,7 +389,7 @@ options:
             default: 2
             version_added: 6.12.0
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center documentation for Devices AddDevice2
