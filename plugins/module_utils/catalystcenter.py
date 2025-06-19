@@ -812,7 +812,7 @@ def catalystcenter_argument_spec():
         _username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', '_username']),
         _password=dict(type="str", no_log=True, aliases=['catalystcenter_password', '_password']),
         _verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', '_verify']),
-        _version=dict(type="str", default="2.2.3.3", aliases=['catalystcenter_version', '_version']),
+        _version=dict(type="str", default="3.1.3.0", aliases=['catalystcenter_version', '_version']),
         _debug=dict(type="bool", default=False, aliases=['catalystcenter_debug', '_debug']),
         validate_response_schema=dict(type="bool", default=True),
     )
