@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_rf_profiles module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,10 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module wireless\_settings\_rf\_profiles\_v1
+- Manage operations create, update and delete of the resource Wireless Settings Rf Profiles.
+- This API allows the user to create a custom RF Profile.
+- This API allows the user to delete a custom RF Profile.
+- This API allows the user to update a custom RF Profile.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 2.3.7.9
+- catalystcentersdk \>= 3.1.3.0.0
 - python \>= 3.5
 
 
@@ -106,278 +109,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_debug:
-
-      .. rst-class:: ansible-option-title
-
-      **_debug**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag for Cisco CATALYST Center SDK to enable debugging.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_host:
-
-      .. rst-class:: ansible-option-title
-
-      **_host**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center hostname.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_password:
-
-      .. rst-class:: ansible-option-title
-
-      **_password**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center password to authenticate.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_username:
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-user:
-
-      .. rst-class:: ansible-option-title
-
-      **_username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center username to authenticate.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_verify:
-
-      .. rst-class:: ansible-option-title
-
-      **_verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-_version:
-
-      .. rst-class:: ansible-option-title
-
-      **_version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Informs the SDK which version of Cisco CATALYST Center to use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -416,6 +147,278 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -967,17 +970,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraPropertiesC"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/fraproperties:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/frapropertiesc:
 
       .. rst-class:: ansible-option-title
 
-      **fraProperties**
+      **fraPropertiesC**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraPropertiesC" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -991,7 +994,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Settings Rf Profiles's fraProperties.
+      Wireless Settings Rf Profiles's fraPropertiesC.
 
 
       .. raw:: html
@@ -1001,9 +1004,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties/clientResetCount"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraPropertiesC/clientResetCount"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/fraproperties/clientresetcount:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/frapropertiesc/clientresetcount:
 
       .. rst-class:: ansible-option-title
 
@@ -1011,7 +1014,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties/clientResetCount" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraPropertiesC/clientResetCount" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1035,9 +1038,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties/clientUtilizationThreshold"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraPropertiesC/clientUtilizationThreshold"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/fraproperties/clientutilizationthreshold:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotype6ghzproperties/frapropertiesc/clientutilizationthreshold:
 
       .. rst-class:: ansible-option-title
 
@@ -1045,7 +1048,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties/clientUtilizationThreshold" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraPropertiesC/clientUtilizationThreshold" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2590,17 +2593,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa:
 
       .. rst-class:: ansible-option-title
 
-      **fraProperties**
+      **fraPropertiesA**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2614,7 +2617,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Wireless Settings Rf Profiles's fraProperties.
+      Wireless Settings Rf Profiles's fraPropertiesA.
 
 
       .. raw:: html
@@ -2624,9 +2627,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientAware"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA/clientAware"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties/clientaware:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa/clientaware:
 
       .. rst-class:: ansible-option-title
 
@@ -2634,7 +2637,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientAware" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA/clientAware" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2666,9 +2669,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientReset"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA/clientReset"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties/clientreset:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa/clientreset:
 
       .. rst-class:: ansible-option-title
 
@@ -2676,7 +2679,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientReset" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA/clientReset" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2700,9 +2703,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientSelect"></div>
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraPropertiesA/clientSelect"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/fraproperties/clientselect:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__parameter-radiotypeaproperties/frapropertiesa/clientselect:
 
       .. rst-class:: ansible-option-title
 
@@ -2710,7 +2713,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientSelect" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraPropertiesA/clientSelect" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -4138,7 +4141,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable the validation of request bodies against a JSON schema.
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
 
 
       .. rst-class:: ansible-option-line
@@ -4163,12 +4166,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_rf\_profile\_v1, wireless.Wireless.delete\_rf\_profile\_v1, wireless.Wireless.update\_rf\_profile\_v1,
+   - SDK Method used are wireless.Wireless.create\_rf\_profile, wireless.Wireless.delete\_rf\_profile, wireless.Wireless.update\_rf\_profile,
    - Paths used are post /dna/intent/api/v1/wirelessSettings/rfProfiles, delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
-   - It should be noted that this module is an alias of wireless\_settings\_rf\_profiles\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK
-   - The parameters starting with catalystCenter\_ are used by the Cisco CATALYST Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco CATALYST Python SDK to establish the connection
 
 .. Seealso
 
@@ -4177,12 +4179,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-rf-profile>`_
-       Complete reference of the CreateRFProfileV1 API.
-   `Cisco DNA Center documentation for Wireless DeleteRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!delete-rf-profile>`_
-       Complete reference of the DeleteRFProfileV1 API.
-   `Cisco DNA Center documentation for Wireless UpdateRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-rf-profile>`_
-       Complete reference of the UpdateRFProfileV1 API.
+   `Cisco DNA Center documentation for Wireless CreateRFProfile <https://developer.cisco.com/docs/dna-center/#!create-rf-profile>`_
+       Complete reference of the CreateRFProfile API.
+   `Cisco DNA Center documentation for Wireless DeleteRFProfile <https://developer.cisco.com/docs/dna-center/#!delete-rf-profile>`_
+       Complete reference of the DeleteRFProfile API.
+   `Cisco DNA Center documentation for Wireless UpdateRFProfile <https://developer.cisco.com/docs/dna-center/#!update-rf-profile>`_
+       Complete reference of the UpdateRFProfile API.
 
 .. Examples
 
@@ -4192,15 +4194,16 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.catalystcenter.wireless_settings_rf_profiles:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         state: present
         defaultRfProfile: true
         enableRadioType6GHz: true
@@ -4217,7 +4220,7 @@ Examples
           dataRates: string
           discoveryFrames6GHz: string
           enableStandardPowerService: true
-          fraProperties:
+          fraPropertiesC:
             clientResetCount: 0
             clientUtilizationThreshold: 0
           mandatoryDataRates: string
@@ -4261,7 +4264,7 @@ Examples
             chdVoiceRssiThreshold: 0
           customRxSopThreshold: 0
           dataRates: string
-          fraProperties:
+          fraPropertiesA:
             clientAware: true
             clientReset: 0
             clientSelect: 0
@@ -4306,24 +4309,24 @@ Examples
         rfProfileName: string
     - name: Delete by id
       cisco.catalystcenter.wireless_settings_rf_profiles:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
     - name: Update by id
       cisco.catalystcenter.wireless_settings_rf_profiles:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         state: present
         defaultRfProfile: true
         enableRadioType6GHz: true
@@ -4341,7 +4344,7 @@ Examples
           dataRates: string
           discoveryFrames6GHz: string
           enableStandardPowerService: true
-          fraProperties:
+          fraPropertiesC:
             clientResetCount: 0
             clientUtilizationThreshold: 0
           mandatoryDataRates: string
@@ -4385,7 +4388,7 @@ Examples
             chdVoiceRssiThreshold: 0
           customRxSopThreshold: 0
           dataRates: string
-          fraProperties:
+          fraPropertiesA:
             clientAware: true
             clientReset: 0
             clientSelect: 0
@@ -4454,17 +4457,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__return-catalystcenter_response:
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_rf_profiles_module__return-dnac_response:
 
       .. rst-class:: ansible-option-title
 
-      **catalystcenter_response**
+      **dnac_response**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -4478,7 +4481,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
 
 
       .. rst-class:: ansible-option-line
