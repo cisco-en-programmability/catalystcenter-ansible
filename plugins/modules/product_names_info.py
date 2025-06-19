@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: product_names_info
-short_description: Information module for Product Names Info
+short_description: Information module for Product Names
 description:
-  - This module represents an alias of the module product_names_v1_info
+  - Get all Product Names.
+  - Get Product Names by name.
+  - Get the list of network device product names, their
+    ordinal, and the support PIDs based on filter criteria.
+  - Get the network device product name, its ordinal,
+    and supported PIDs.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -19,85 +26,92 @@ options:
   productName:
     description:
       - >
-        ProductName query parameter. Filter with network device product name. Supports
-        partial case-insensitive
-        search. A minimum of 3 characters are required for search.
+        ProductName query parameter. Filter with network
+        device product name. Supports partial case-insensitive
+        search. A minimum of 3 characters are required
+        for search.
     type: str
   productId:
     description:
-      - ProductId query parameter. Filter with product ID (PID).
+      - ProductId query parameter. Filter with product
+        ID (PID).
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to show for this page; the first
-        record is numbered 1. The minimum
-        value is 1.
+        Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1. The minimum value is 1.
     type: float
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. The minimum
-        and maximum values are 1 and
-        500, respectively.
+        Limit query parameter. The number of records
+        to show for this page. The minimum and maximum
+        values are 1 and 500, respectively.
     type: float
   productNameOrdinal:
     description:
-      - ProductNameOrdinal path parameter. Product name ordinal is unique value for
-        each network device product.
+      - ProductNameOrdinal path parameter. Product name
+        ordinal is unique value for each network device
+        product.
     type: float
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductNameV1
-    description: Complete reference of the RetrieveNetworkDeviceProductNameV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1 # noqa: E501
-    description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNamesV1
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) RetrieveNetworkDeviceProductName
+    description: Complete reference of the RetrieveNetworkDeviceProductName
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNames
+    description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNames
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.retrieve_network_device_product_name_v1,
-    software_image_management_swim.SoftwareImageManagementSwim.retrieves_the_list_of_network_device_product_names_v1,
-  - Paths used are get /dna/intent/api/v1/productNames, get /dna/intent/api/v1/productNames/{productNameOrdinal},
-  - It should be noted that this module is an alias of product_names_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.retrieve_network_device_product_name,
+    software_image_management_swim.SoftwareImageManagementSwim.retrieves_the_list_of_network_device_product_names,
+  - Paths used are
+    get /dna/intent/api/v1/productNames,
+    get /dna/intent/api/v1/productNames/{productNameOrdinal},
 """
+
 EXAMPLES = r"""
-- name: Get all Product Names Info
+---
+- name: Get all Product Names
   cisco.catalystcenter.product_names_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     productName: string
     productId: string
     offset: 0
     limit: 0
   register: result
-- name: Get Product Names Info by name
+- name: Get Product Names by name
   cisco.catalystcenter.product_names_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     productNameOrdinal: 0
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

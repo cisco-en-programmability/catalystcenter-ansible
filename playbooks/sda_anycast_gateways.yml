@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Create sda anycast gateways v1
-      cisco.catalystcenter.sda_anycast_gateways_v1:
+      cisco.catalystcenter.sda_anycast_gateways:
         _host: "{{ _host }}"
         _api_port: "{{ _api_port }}"
         _username: "{{ _username }}"

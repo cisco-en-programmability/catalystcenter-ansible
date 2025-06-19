@@ -1,13 +1,21 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: sites_wireless_settings_ssids_info
-short_description: Information module for Sites Wireless Settings Ssids Info
+short_description: Information module for Sites Wireless
+  Settings Ssids
 description:
-  - This module represents an alias of the module sites_wireless_settings_ssids_v1_info
+  - Get all Sites Wireless Settings Ssids.
+  - Get Sites Wireless Settings Ssids by id.
+  - This API allows the user to get all SSIDs Service
+    Set Identifier at the given site.
+  - This API allows the user to get an SSID Service
+    Set Identifier by ID at the given site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,14 +31,15 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records to show for this page. Default
-        is 500 if not specified. Maximum
-        allowed limit is 500.
+        Limit query parameter. The number of records
+        to show for this page. Default is 500 if not
+        specified. Maximum allowed limit is 500.
     type: float
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1.
     type: float
   ssid:
     description:
@@ -53,31 +62,39 @@ options:
       - Id path parameter. SSID ID.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetSSIDByIDV1
-    description: Complete reference of the GetSSIDByIDV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetSSIDByID
+    description: Complete reference of the GetSSIDByID
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id
-  - name: Cisco DNA Center documentation for Wireless GetSSIDBySiteV1
-    description: Complete reference of the GetSSIDBySiteV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      GetSSIDBySite
+    description: Complete reference of the GetSSIDBySite
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site
 notes:
-  - SDK Method used are wireless.Wireless.get_ssid_by_id_v1, wireless.Wireless.get_ssid_by_site_v1,
-  - Paths used are get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids, get
-    /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
-  - It should be noted that this module is an alias of sites_wireless_settings_ssids_v1_info
+  - SDK Method used are
+    wireless.Wireless.get_ssid_by_id,
+    wireless.Wireless.get_ssid_by_site,
+  - Paths used are
+    get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids,
+    get /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
 """
+
 EXAMPLES = r"""
-- name: Get all Sites Wireless Settings Ssids Info
+---
+- name: Get all Sites Wireless Settings Ssids
   cisco.catalystcenter.sites_wireless_settings_ssids_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -87,23 +104,23 @@ EXAMPLES = r"""
     l3authType: string
     siteId: string
   register: result
-- name: Get Sites Wireless Settings Ssids Info by id
+- name: Get Sites Wireless Settings Ssids by id
   cisco.catalystcenter.sites_wireless_settings_ssids_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
     id: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
@@ -194,7 +211,8 @@ catalystcenter_response:
         "isRandomMacFilterEnabled": true,
         "fastTransitionOverTheDistributedSystemEnable": true,
         "inheritedSiteNameHierarchy": "string",
-        "inheritedSiteUUID": "string"
+        "inheritedSiteUUID": "string",
+        "isRadiusProfilingEnabled": true
       },
       "version": "string"
     }

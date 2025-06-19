@@ -1,13 +1,24 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: assurance_events_query_count
-short_description: Resource module for Assurance Events Query Count
+short_description: Resource module for Assurance Events
+  Query Count
 description:
-  - This module represents an alias of the module assurance_events_query_count_v1
+  - Manage operation create of the resource Assurance
+    Events Query Count. - > API to fetch the count of
+    assurance events for the given complex query. Please
+    refer to the 'API Support Documentation' section
+    to understand which fields are supported. For detailed
+    information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceEvents-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -41,28 +52,32 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Devices CountTheNumberOfEventsWithFiltersV1
-    description: Complete reference of the CountTheNumberOfEventsWithFiltersV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events-with-filters
+  - name: Cisco DNA Center documentation for Devices
+      CountTheNumberOfEventsWithFilters
+    description: Complete reference of the CountTheNumberOfEventsWithFilters
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events-with-filters
 notes:
-  - SDK Method used are devices.Devices.count_the_number_of_events_with_filters_v1,
-  - Paths used are post /dna/data/api/v1/assuranceEvents/query/count,
-  - It should be noted that this module is an alias of assurance_events_query_count_v1
+  - SDK Method used are
+    devices.Devices.count_the_number_of_events_with_filters,
+  - Paths used are
+    post /dna/data/api/v1/assuranceEvents/query/count,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.assurance_events_query_count:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     deviceFamily:
       - string
     endTime: 0
@@ -74,8 +89,8 @@ EXAMPLES = r"""
     startTime: 0
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

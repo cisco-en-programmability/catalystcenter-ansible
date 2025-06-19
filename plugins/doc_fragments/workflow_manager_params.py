@@ -14,57 +14,57 @@ class ModuleDocFragment(object):
     # Standard files documentation fragment
     DOCUMENTATION = r'''
 options:
-    _host:
+    dnac_host:
         description:
           - The hostname of the Cisco Catalyst Center.
         type: str
         required: true
-    _api_port:
+    dnac_port:
         description:
           - Specifies the port number associated with the Cisco Catalyst Center.
         type: str
         default: '443'
-    _username:
+    dnac_username:
         description:
           - The username for authentication at the Cisco Catalyst Center.
         type: str
         default: admin
         aliases: [ user ]
-    _password:
+    dnac_password:
         description:
           - The password for authentication at the Cisco Catalyst Center.
         type: str
-    _verify:
+    dnac_verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
-    _version:
+    dnac_version:
         description:
           - Specifies the version of the Cisco Catalyst Center that the SDK should use.
         type: str
         default: 2.2.3.3
-    _debug:
+    dnac_debug:
         description:
           - Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
         type: bool
         default: false
-    log:
+    dnac_log:
         description:
           - Flag to enable/disable playbook execution logging.
-          - When true and log_file_path is provided,
+          - When true and dnac_log_file_path is provided,
             - Create the log file at the execution location with the specified name.
-          - When true and log_file_path is not provided,
+          - When true and dnac_log_file_path is not provided,
             - Create the log file at the execution location with the name 'catalystcenter.log'.
           - When false,
             - Logging is disabled.
           - If the log file doesn't exist,
-            - It is created in append or write mode based on the "log_append" flag.
+            - It is created in append or write mode based on the "dnac_log_append" flag.
           - If the log file exists,
-            - It is overwritten or appended based on the "log_append" flag.
+            - It is overwritten or appended based on the "dnac_log_append" flag.
         type: bool
         default: false
-    log_level:
+    dnac_log_level:
         description:
           - Sets the threshold for log level. Messages with a level equal to or higher than
             this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
@@ -75,24 +75,24 @@ options:
           - DEBUG provides detailed diagnostic info. Displays all log messages.
         type: str
         default: WARNING
-    log_file_path:
+    dnac_log_file_path:
         description:
-        - Governs logging. Logs are recorded if log is True.
+        - Governs logging. Logs are recorded if dnac_log is True.
         - If path is not specified,
-          - When 'log_append' is True, 'catalystcenter.log' is generated in the
+          - When 'dnac_log_append' is True, 'catalystcenter.log' is generated in the
             current Ansible directory; logs are appended.
-          - When 'log_append' is False, 'catalystcenter.log' is generated; logs
+          - When 'dnac_log_append' is False, 'catalystcenter.log' is generated; logs
             are overwritten.
         - If path is specified,
-          - When 'log_append' is True, the file opens in append mode.
-          - When 'log_append' is False, the file opens in write (w) mode.
+          - When 'dnac_log_append' is True, the file opens in append mode.
+          - When 'dnac_log_append' is False, the file opens in write (w) mode.
           - In shared file scenarios, without append mode, content is
             overwritten after each module execution.
           - For a shared log file, set append to False for the 1st module
             (to overwrite); for subsequent modules, set append to True.
         type: str
         default: catalystcenter.log
-    log_append:
+    dnac_log_append:
         description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
         type: bool
         default: True
@@ -101,17 +101,17 @@ options:
           - Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
         type: bool
         default: true
-    catalystcenter_api_task_timeout:
+    dnac_api_task_timeout:
       description:  Defines the timeout in seconds for API calls to retrieve task details. If the task details
           are not received within this period, the process will end, and a timeout notification will be logged.
       type: int
       default: 1200
-    catalystcenter_task_poll_interval:
+    dnac_task_poll_interval:
       description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
       type: int
       default: 2
 notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK"
-    - "The parameters starting with catalystCenter_ are used by the Cisco Catalyst Center Python SDK to establish the connection"
+    - "The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection"
 '''

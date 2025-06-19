@@ -1,20 +1,27 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_cmdb_endpoints
-short_description: Resource module for Endpoint Analytics Cmdb Endpoints
+short_description: Resource module for Endpoint Analytics
+  Cmdb Endpoints
 description:
-  - This module represents an alias of the module endpoint_analytics_cmdb_endpoints_v1
+  - Manage operation create of the resource Endpoint
+    Analytics Cmdb Endpoints.
+  - Processes incoming CMDB endpoints data and imports
+    the same in AI Endpoint Analytics.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Endpoint Analytics Cmdb Endpoints's payload.
+    description: Endpoint Analytics Cmdb Endpoints's
+      payload.
     elements: dict
     suboptions:
       assetTag:
@@ -27,7 +34,8 @@ options:
         description: Display name of the asset.
         type: str
       lastUpdateTimestamp:
-        description: Last update timestamp in epoch milliseconds.
+        description: Last update timestamp in epoch
+          milliseconds.
         type: int
       location:
         description: Location of the asset.
@@ -49,27 +57,32 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpointsV1
-    description: Complete reference of the ProcessCMDBEndpointsV1 API.
+  - name: Cisco DNA Center documentation for AI Endpoint
+      Analytics ProcessCMDBEndpoints
+    description: Complete reference of the ProcessCMDBEndpoints
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
-  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
-  - Paths used are post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,
-  - It should be noted that this module is an alias of endpoint_analytics_cmdb_endpoints_v1
+  - SDK Method used are
+    ai_endpoint_analytics.AiEndpointAnalytics.process_cmdb_endpoints,
+  - Paths used are
+    post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.endpoint_analytics_cmdb_endpoints:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     payload:
       - assetTag: string
         department: string
@@ -83,8 +96,8 @@ EXAMPLES = r"""
         serialNumber: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

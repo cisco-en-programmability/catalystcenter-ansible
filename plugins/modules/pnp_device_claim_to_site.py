@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim_to_site
-short_description: Resource module for Pnp Device Claim To Site
+short_description: Resource module for Pnp Device Claim
+  To Site
 description:
-  - This module represents an alias of the module pnp_device_claim_to_site_v1
+  - Manage operation create of the resource Pnp Device
+    Claim To Site. - > Claim a device based on Catalyst
+    Center Site-based design process. Some required
+    parameters differ based on device platform.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -83,27 +89,32 @@ options:
     type: str
     version_added: 6.4.0
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1
-    description: Complete reference of the ClaimADeviceToASiteV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) ClaimADeviceToASite
+    description: Complete reference of the ClaimADeviceToASite
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site_v1,
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
-  - It should be noted that this module is an alias of pnp_device_claim_to_site_v1
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site,
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.pnp_device_claim_to_site:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     configInfo:
       configId: string
       configParameters:
@@ -125,8 +136,8 @@ EXAMPLES = r"""
     vlanId: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

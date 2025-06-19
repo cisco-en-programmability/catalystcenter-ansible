@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_access_point_positions_info
-short_description: Information module for Floors Floor Id Access Point Positions Info
+short_description: Information module for Floors Floor
+  Id Access Point Positions
 description:
-  - This module represents an alias of the module floors_floor_id_access_point_positions_v2_info
+  - Get all Floors Floor Id Access Point Positions.
+  - Retrieve all Access Points positions assigned for
+    a specific floor.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,7 +31,8 @@ options:
     type: str
   macAddress:
     description:
-      - MacAddress query parameter. Access Point mac address.
+      - MacAddress query parameter. Access Point mac
+        address.
     type: str
   type:
     description:
@@ -38,36 +44,43 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to show for this page; the first
-        record is numbered 1. Minimum 1.
+      - Offset query parameter. The first record to
+        show for this page; the first record is numbered
+        1. Minimum 1.
     type: float
   limit:
     description:
-      - Limit query parameter. The number of records to show for this page;The minimum
-        is 1, and the maximum is 500.
+      - Limit query parameter. The number of records
+        to show for this page;The minimum is 1, and
+        the maximum is 500.
     type: float
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Site Design GetAccessPointsPositionsV2
-    description: Complete reference of the GetAccessPointsPositionsV2 API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions
+  - name: Cisco DNA Center documentation for Site Design
+      GetAccessPointsPositionsV2
+    description: Complete reference of the GetAccessPointsPositionsV2
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-points-positions-v-2
 notes:
-  - SDK Method used are site_design.SiteDesign.get_access_points_positions_v2,
-  - Paths used are get /dna/intent/api/v2/floors/{floorId}/accessPointPositions,
-  - It should be noted that this module is an alias of floors_floor_id_access_point_positions_v2_info
+  - SDK Method used are
+    site_design.SiteDesign.get_access_points_positions_v2,
+  - Paths used are
+    get /dna/intent/api/v2/floors/{floorId}/accessPointPositions,
 """
+
 EXAMPLES = r"""
-- name: Get all Floors Floor Id Access Point Positions Info
+---
+- name: Get all Floors Floor Id Access Point Positions
   cisco.catalystcenter.floors_floor_id_access_point_positions_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     name: string
     macAddress: string
@@ -79,8 +92,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

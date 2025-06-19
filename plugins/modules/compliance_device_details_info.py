@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: compliance_device_details_info
-short_description: Information module for Compliance Device Details Info
+short_description: Information module for Compliance
+  Device Details
 description:
-  - This module represents an alias of the module compliance_device_details_v1_info
+  - Get all Compliance Device Details.
+  - Return Compliance Detail.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -19,57 +23,63 @@ options:
   complianceType:
     description:
       - >
-        ComplianceType query parameter. Specify "Compliance type(s)" in commas. The
-        Compliance type can be
-        'NETWORK_PROFILE', 'IMAGE', 'FABRIC', 'APPLICATION_VISIBILITY', 'FABRIC',
-        RUNNING_CONFIG',
-        'NETWORK_SETTINGS', 'WORKFLOW' , 'EOX'.
+        ComplianceType query parameter. Specify "Compliance
+        type(s)" in commas. The Compliance type can
+        be 'NETWORK_PROFILE', 'IMAGE', 'FABRIC', 'APPLICATION_VISIBILITY',
+        'FABRIC', RUNNING_CONFIG', 'NETWORK_SETTINGS',
+        'WORKFLOW' , 'EOX'.
     type: str
   complianceStatus:
     description:
       - >
-        ComplianceStatus query parameter. Specify "Compliance status(es)" in commas.
-        The Compliance status can be
-        'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
-        'ERROR'.
+        ComplianceStatus query parameter. Specify "Compliance
+        status(es)" in commas. The Compliance status
+        can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS',
+        'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
   deviceUuid:
     description:
-      - DeviceUuid query parameter. Comma separated "Device Id(s)".
+      - DeviceUuid query parameter. Comma separated
+        "Device Id(s)".
     type: str
   offset:
     description:
-      - Offset query parameter. Offset starting row.
+      - Offset query parameter. Offset/starting row.
     type: float
   limit:
     description:
       - >
-        Limit query parameter. The number of records to be retrieved defaults to 500
-        if not specified, with a
-        maximum allowed limit of 500.
+        Limit query parameter. The number of records
+        to be retrieved defaults to 500 if not specified,
+        with a maximum allowed limit of 500.
     type: float
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Compliance GetComplianceDetailV1
-    description: Complete reference of the GetComplianceDetailV1 API.
+  - name: Cisco DNA Center documentation for Compliance
+      GetComplianceDetail
+    description: Complete reference of the GetComplianceDetail
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail
 notes:
-  - SDK Method used are compliance.Compliance.get_compliance_detail_v1,
-  - Paths used are get /dna/intent/api/v1/compliance/detail,
-  - It should be noted that this module is an alias of compliance_device_details_v1_info
+  - SDK Method used are
+    compliance.Compliance.get_compliance_detail,
+  - Paths used are
+    get /dna/intent/api/v1/compliance/detail,
 """
+
 EXAMPLES = r"""
-- name: Get all Compliance Device Details Info
+---
+- name: Get all Compliance Device Details
   cisco.catalystcenter.compliance_device_details_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     complianceType: string
     complianceStatus: string
@@ -79,8 +89,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

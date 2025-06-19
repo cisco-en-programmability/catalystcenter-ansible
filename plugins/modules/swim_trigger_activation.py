@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: swim_trigger_activation
-short_description: Resource module for Swim Trigger Activation
+short_description: Resource module for Swim Trigger
+  Activation
 description:
-  - This module represents an alias of the module swim_trigger_activation_v1
+  - Manage operation create of the resource Swim Trigger
+    Activation.
+  - Activates a software image on a given device. Software
+    image must be present in the device flash.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -42,32 +48,36 @@ options:
         type: list
     type: list
   scheduleValidate:
-    description: ScheduleValidate query parameter. ScheduleValidate, validates data
-      before schedule (Optional).
+    description: ScheduleValidate query parameter. ScheduleValidate,
+      validates data before schedule (Optional).
     type: bool
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivationV1
-    description: Complete reference of the TriggerSoftwareImageActivationV1 API.
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) TriggerSoftwareImageActivation
+    description: Complete reference of the TriggerSoftwareImageActivation
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation_v1,
-  - Paths used are post /dna/intent/api/v1/image/activation/device,
-  - It should be noted that this module is an alias of swim_trigger_activation_v1
+    software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation,
+  - Paths used are
+    post /dna/intent/api/v1/image/activation/device,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.swim_trigger_activation:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: '{{my_headers | from_json}}'
     payload:
       - activateLowerImageVersion: true
@@ -81,8 +91,8 @@ EXAMPLES = r"""
     scheduleValidate: true
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

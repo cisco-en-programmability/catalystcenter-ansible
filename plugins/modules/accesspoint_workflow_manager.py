@@ -37,11 +37,11 @@ options:
     type: str
     choices: ["merged", "deleted"]
     default: merged
-  catalystcenter_api_task_timeout:
+  dnac_api_task_timeout:
     description: The number of times to retry resynchronization.
     type: int
     default: 1200
-  catalystcenter_task_poll_interval:
+  dnac_task_poll_interval:
     description: The interval, in seconds, for polling Cisco Catalyst Center.
     type: int
     default: 2
@@ -1116,18 +1116,18 @@ options:
                     type: str
                     required: false
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.8
 seealso:
-  - name: Cisco DNAC Ansible Collection Documentation
-    description: Complete guide to using the Cisco DNAC Ansible collection.
-    link: https://docs.ansible.com/ansible/latest/collections/cisco/dnac/index.html
-  - name: Cisco DNAC API Documentation
-    description: Official API documentation for Cisco DNAC.
+  - name: Cisco CATALYST Ansible Collection Documentation
+    description: Complete guide to using the Cisco CATALYST Ansible collection.
+    link: https://docs.ansible.com/ansible/latest/collections/cisco/catalystcenter/index.html
+  - name: Cisco CATALYST API Documentation
+    description: Official API documentation for Cisco CATALYST.
     link: https://developer.cisco.com/docs/dna-center/
 notes:
   - Make sure to install the required Python dependencies by executing pip install
-    dnacentersdk.
+    catalystcentersdk.
   - SDK Method used are
   - devices.get_device_list
   - wireless.get_access_point_configuration
@@ -1149,7 +1149,7 @@ notes:
 """
 EXAMPLES = r"""
 - name: Provision/Move/Update Wireless Access Point Configuration
-  hosts: catalystcenter_servers
+  hosts: dnac_servers
   connection: local
   gather_facts: false  # This space must be "no." It was set to false due to formatting errors.
   vars_files:
@@ -1157,15 +1157,15 @@ EXAMPLES = r"""
   tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1179,15 +1179,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1198,15 +1198,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1217,15 +1217,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1236,15 +1236,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1257,15 +1257,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1279,15 +1279,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1306,15 +1306,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Provisioning and Re-provisiong Access Point Site details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1327,15 +1327,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Update / Controller Name
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1359,15 +1359,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Update / remove tertiary_controller_name
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1389,15 +1389,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: false
         state: merged
         config:
@@ -1430,15 +1430,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1471,15 +1471,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Updating Access Point Configuration
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1517,15 +1517,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Reboot single or multiple access point
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1536,15 +1536,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Reboot single or multiple access point by hostname
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1555,15 +1555,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Factory reset single or multiple access point
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1574,15 +1574,15 @@ EXAMPLES = r"""
       register: output_list
     - name: Bulk update Access Point Configurations
       cisco.catalystcenter.accesspoint_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
         config_verify: true
         state: merged
         config:
@@ -1731,7 +1731,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 class Accesspoint(CatalystCenterBase):
-    """Class containing member attributes for DNAC Access Point Automation module"""
+    """Class containing member attributes for CATALYST Access Point Automation module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -2018,8 +2018,8 @@ class Accesspoint(CatalystCenterBase):
         self.log("Access Point update response: {0} .".format(task_response), "INFO")
 
         if task_response and isinstance(task_response, dict):
-            resync_retry_count = self.payload.get("catalystcenter_api_task_timeout")
-            resync_retry_interval = self.payload.get("catalystcenter_task_poll_interval")
+            resync_retry_count = self.payload.get("dnac_api_task_timeout")
+            resync_retry_interval = self.payload.get("dnac_task_poll_interval")
             while resync_retry_count:
                 task_details_response = self.get_tasks_by_id(
                     task_response["response"]["taskId"])
@@ -2962,7 +2962,7 @@ class Accesspoint(CatalystCenterBase):
                     site = response["response"][0]
                     self.log("Site response: {0}".format(self.pprint(site)), "INFO")
 
-                    if self.version <= self.catalystcenter_versions["2.3.5.3"]:
+                    if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                         location = get_dict_result(site.get("additionalInfo"), 'nameSpace', "Location")
                         type_info = location.get("attributes", {}).get("type")
                         parent_name = site.get("siteNameHierarchy").split("/" + site.get("name"))[0]
@@ -3213,13 +3213,13 @@ class Accesspoint(CatalystCenterBase):
         site_id = self.have.get("site_id")
 
         try:
-            if self.version <= self.catalystcenter_versions["2.3.5.3"]:
+            if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
                 response = self.access_point_provision_old(rf_profile, hostname,
                                                            type_name, site_name_hierarchy)
                 if response and isinstance(response, dict):
                     executionid = response.get("executionId")
-                    resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
-                    resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval", 5))
+                    resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
 
                     while resync_retry_count:
                         execution_details = self.get_execution_details(executionid)
@@ -3241,8 +3241,8 @@ class Accesspoint(CatalystCenterBase):
                 response = self.access_point_provision_new(rf_profile, device_id, site_id)
                 if response and isinstance(response, dict):
                     task_id = response.get("response", {}).get("taskId")
-                    resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-                    resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+                    resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                     while resync_retry_count:
                         task_details_response = self.get_tasks_by_id(task_id)
@@ -3859,8 +3859,8 @@ class Accesspoint(CatalystCenterBase):
 
             if response and isinstance(response, dict):
                 task_id = response.get("response", {}).get("taskId")
-                resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-                resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+                resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+                resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
                 while resync_retry_count:
                     task_details_response = self.get_tasks_by_id(task_id)
@@ -3971,8 +3971,8 @@ class Accesspoint(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-            resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+            resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
             while resync_retry_count:
                 task_details_response = self.get_tasks_by_id(task_id)
@@ -4147,8 +4147,8 @@ class Accesspoint(CatalystCenterBase):
             self.log("Access Point update response: {0} .".format(task_response), "INFO")
             responses = {}
             if task_response and isinstance(task_response, dict):
-                resync_retry_count = self.payload.get("catalystcenter_api_task_timeout")
-                resync_retry_interval = self.payload.get("catalystcenter_task_poll_interval")
+                resync_retry_count = self.payload.get("dnac_api_task_timeout")
+                resync_retry_interval = self.payload.get("dnac_task_poll_interval")
                 self.log("Starting task polling with timeout: {0} and interval: {1}".
                          format(str(resync_retry_count), str(resync_retry_interval)), "INFO")
                 while resync_retry_count:
@@ -4193,20 +4193,20 @@ def main():
     """ main entry point for module execution
     """
     accepoint_spec = {
-        "_host": {"required": True, "type": "str"},
-        "_api_port": {"type": "str", "default": "443"},
-        "_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "_password": {"type": "str", "no_log": True},
-        "_verify": {"type": "bool", "default": "True"},
-        "_version": {"type": "str", "default": "2.2.3.3"},
-        "_debug": {"type": "bool", "default": False},
-        "log": {"type": "bool", "default": False},
-        "log_level": {"type": "str", "default": "WARNING"},
-        "log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "dnac_host": {"required": True, "type": "str"},
+        "dnac_port": {"type": "str", "default": "443"},
+        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "dnac_password": {"type": "str", "no_log": True},
+        "dnac_verify": {"type": "bool", "default": "True"},
+        "dnac_version": {"type": "str", "default": "2.2.3.3"},
+        "dnac_debug": {"type": "bool", "default": False},
+        "dnac_log": {"type": "bool", "default": False},
+        "dnac_log_level": {"type": "str", "default": "WARNING"},
+        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "config_verify": {"type": "bool", "default": False},
-        "log_append": {"type": "bool", "default": True},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
+        "dnac_log_append": {"type": "bool", "default": True},
+        "dnac_api_task_timeout": {"type": "int", "default": 1200},
+        "dnac_task_poll_interval": {"type": "int", "default": 2},
         "next_task_after_interval": {"type": "int", "default": 5},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -4225,7 +4225,7 @@ def main():
         ccc_network.msg = "State {0} is invalid".format(state)
         ccc_network.check_return_status()
 
-    if ccc_network.compare_catalystcenter_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
         ccc_network.status = "failed"
         ccc_network.msg = (
             "The specified version '{0}' does not support the access point workflow feature."

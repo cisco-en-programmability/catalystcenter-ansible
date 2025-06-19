@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: swim_image_details_info
-short_description: Information module for Swim Image Details Info
+short_description: Information module for Swim Image
+  Details
 description:
-  - This module represents an alias of the module swim_image_details_v1_info
+  - Get all Swim Image Details.
+  - Returns software image list based on a filter criteria.
+    For example "filterbyName = cat3k%".
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -34,8 +39,8 @@ options:
     type: str
   imageIntegrityStatus:
     description:
-      - ImageIntegrityStatus query parameter. ImageIntegrityStatus - FAILURE, UNKNOWN,
-        VERIFIED.
+      - ImageIntegrityStatus query parameter. ImageIntegrityStatus
+        - FAILURE, UNKNOWN, VERIFIED.
     type: str
   version:
     description:
@@ -55,31 +60,38 @@ options:
     type: bool
   isCCORecommended:
     description:
-      - IsCCORecommended query parameter. Is recommended from cisco.com.
+      - IsCCORecommended query parameter. Is recommended
+        from cisco.com.
     type: bool
   isCCOLatest:
     description:
-      - IsCCOLatest query parameter. Is latest from cisco.com.
+      - IsCCOLatest query parameter. Is latest from
+        cisco.com.
     type: bool
   createdTime:
     description:
-      - CreatedTime query parameter. Time in milliseconds (epoch format).
+      - CreatedTime query parameter. Time in milliseconds
+        (epoch format).
     type: int
   imageSizeGreaterThan:
     description:
-      - ImageSizeGreaterThan query parameter. Size in bytes.
+      - ImageSizeGreaterThan query parameter. Size in
+        bytes.
     type: int
   imageSizeLesserThan:
     description:
-      - ImageSizeLesserThan query parameter. Size in bytes.
+      - ImageSizeLesserThan query parameter. Size in
+        bytes.
     type: int
   sortBy:
     description:
-      - SortBy query parameter. Sort results by this field.
+      - SortBy query parameter. Sort results by this
+        field.
     type: str
   sortOrder:
     description:
-      - SortOrder query parameter. Sort order - 'asc' or 'des'. Default is asc.
+      - SortOrder query parameter. Sort order - 'asc'
+        or 'des'. Default is asc.
     type: str
   limit:
     description:
@@ -90,28 +102,32 @@ options:
       - Offset query parameter.
     type: int
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetailsV1
-    description: Complete reference of the GetSoftwareImageDetailsV1 API.
+  - name: Cisco DNA Center documentation for Software
+      Image Management (SWIM) GetSoftwareImageDetails
+    description: Complete reference of the GetSoftwareImageDetails
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details_v1,
-  - Paths used are get /dna/intent/api/v1/image/importation,
-  - It should be noted that this module is an alias of swim_image_details_v1_info
+    software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
+  - Paths used are
+    get /dna/intent/api/v1/image/importation,
 """
+
 EXAMPLES = r"""
-- name: Get all Swim Image Details Info
+---
+- name: Get all Swim Image Details
   cisco.catalystcenter.swim_image_details_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     imageUuid: string
     name: string
@@ -134,8 +150,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

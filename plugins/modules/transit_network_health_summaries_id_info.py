@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: transit_network_health_summaries_id_info
-short_description: Information module for Transit Network Health Summaries Id Info
+short_description: Information module for Transit Network
+  Health Summaries Id
 description:
-  - This module represents an alias of the module transit_network_health_summaries_id_v1_info
+  - Get Transit Network Health Summaries Id by id.
+  - Get health summary for a specific transit Network
+    by providing the unique transit networks id in the
+    url path.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,59 +24,66 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
+      - Id path parameter. The unique transit network
+        id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9"
     type: str
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API queries the data set related
-        to the resource. It must be
-        specified in UNIX epochtime in milliseconds. Value is inclusive.
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which API queries the data set
-        related to the resource. It must
-        be specified in UNIX epochtime in milliseconds. Value is inclusive.
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   attribute:
     description:
-      - Attribute query parameter. The interested fields in the request. For valid
-        attributes, verify the documentation.
+      - Attribute query parameter. The interested fields
+        in the request. For valid attributes, verify
+        the documentation.
     type: str
   view:
     description:
       - >
-        View query parameter. The specific summary view being requested. This is an
-        optional parameter which can be
-        passed to get one or more of the specific health data summaries associated
-        with sites.
+        View query parameter. The specific summary view
+        being requested. This is an optional parameter
+        which can be passed to get one or more of the
+        specific health data summaries associated with
+        sites.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromIdV1
-    description: Complete reference of the ReadTransitNetworkWithItsHealthSummaryFromIdV1
+  - name: Cisco DNA Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromId
+    description: Complete reference of the ReadTransitNetworkWithItsHealthSummaryFromId
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!read-transit-network-with-its-health-summary-from-id
+    link: https://developer.cisco.com/docs/dna-center/#!read-transit-network-with-its-health-summary-from-id
 notes:
-  - SDK Method used are sda.Sda.read_transit_network_with_its_health_summary_from_id_v1,
-  - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries/{id},
-  - It should be noted that this module is an alias of transit_network_health_summaries_id_v1_info
+  - SDK Method used are
+    sda.Sda.read_transit_network_with_its_health_summary_from_id,
+  - Paths used are
+    get /dna/data/api/v1/transitNetworkHealthSummaries/{id},
 """
+
 EXAMPLES = r"""
-- name: Get Transit Network Health Summaries Id Info by id
+---
+- name: Get Transit Network Health Summaries Id by id
   cisco.catalystcenter.transit_network_health_summaries_id_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     endTime: 0
     startTime: 0
@@ -80,8 +93,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
@@ -90,11 +103,14 @@ catalystcenter_response:
         "id": "string",
         "name": "string",
         "controlPlaneCount": 0,
-        "transitType": "string",
+        "transitType": [
+          "string"
+        ],
+        "networkProtocol": "string",
         "fabricSitesCount": 0,
         "goodHealthPercentage": 0,
         "goodHealthDeviceCount": 0,
-        "totalDeviceCount": 0,
+        "totalHealthDeviceCount": 0,
         "poorHealthDeviceCount": 0,
         "fairHealthDeviceCount": 0,
         "transitControlPlaneHealthPercentage": 0,
@@ -126,7 +142,10 @@ catalystcenter_response:
         "bgpTcpTotalDeviceCount": 0,
         "bgpTcpGoodHealthDeviceCount": 0,
         "bgpTcpPoorHealthDeviceCount": 0,
-        "bgpTcpFairHealthDeviceCount": 0
-      }
+        "bgpTcpFairHealthDeviceCount": 0,
+        "siteHierarchy": "string",
+        "siteHierarchyId": "string"
+      },
+      "version": "string"
     }
 """

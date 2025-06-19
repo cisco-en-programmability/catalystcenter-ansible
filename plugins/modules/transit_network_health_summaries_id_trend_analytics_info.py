@@ -1,14 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: transit_network_health_summaries_id_trend_analytics_info
-short_description: Information module for Transit Network Health Summaries Id Trend
-  Analytics Info
+short_description: Information module for Transit Network
+  Health Summaries Id Trend Analytics
 description:
-  - This module represents an alias of the module transit_network_health_summaries_id_trend_analytics_v1_info
+  - Get all Transit Network Health Summaries Id Trend
+    Analytics. - > Get health time series for a specific
+    Transit Network by providing the unique Transit
+    Network id in the url path. The data will be grouped
+    based on the specified trend time interval. If startTime
+    and endTime are not provided, the API defaults to
+    the last 24 hours.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -19,74 +27,84 @@ options:
     type: dict
   id:
     description:
-      - Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
+      - Id path parameter. The unique transit network
+        id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9"
     type: str
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which API queries the data set
-        related to the resource. It must
-        be specified in UNIX epochtime in milliseconds. Value is inclusive.
+        StartTime query parameter. Start time from which
+        API queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API queries the data set related
-        to the resource. It must be
-        specified in UNIX epochtime in milliseconds. Value is inclusive.
+        EndTime query parameter. End time to which API
+        queries the data set related to the resource.
+        It must be specified in UNIX epochtime in milliseconds.
+        Value is inclusive.
     type: float
   trendInterval:
     description:
       - >
-        TrendInterval query parameter. The time window to aggregate the metrics. Interval
-        can be 5 minutes or 10
-        minutes or 1 hour or 1 day or 7 days.
+        TrendInterval query parameter. The time window
+        to aggregate the metrics. Interval can be 5
+        minutes or 10 minutes or 1 hour or 1 day or
+        7 days.
     type: str
   limit:
     description:
-      - Limit query parameter. Maximum number of records to return.
+      - Limit query parameter. Maximum number of records
+        to return.
     type: float
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting point within all records returned
-        by the API. It's one based
-        offset. The starting value is 1.
+        Offset query parameter. Specifies the starting
+        point within all records returned by the API.
+        It's one based offset. The starting value is
+        1.
     type: float
   order:
     description:
-      - Order query parameter. The sort order of the field ascending or descending.
+      - Order query parameter. The sort order of the
+        field ascending or descending.
     type: str
   attribute:
     description:
-      - Attribute query parameter. The interested fields in the request. For valid
-        attributes, verify the documentation.
+      - Attribute query parameter. The interested fields
+        in the request. For valid attributes, verify
+        the documentation.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRangeV1
-    description: Complete reference of the TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRangeV1
+  - name: Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRange
+    description: Complete reference of the TheTrendAnalyticsDataForATransitNetworkInTheSpecifiedTimeRange
       API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-transit-network-in-the-specified-time-range
+    link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-transit-network-in-the-specified-time-range
 notes:
   - SDK Method used are
-    sda.Sda.the_trend_analytics_data_for_a_transit_network_in_the_specified_time_range_v1,
-  - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries/{id}/trendAnalytics,
-  - It should be noted that this module is an alias of transit_network_health_summaries_id_trend_analytics_v1_info
+    sda.Sda.the_trend_analytics_data_for_a_transit_network_in_the_specified_time_range,
+  - Paths used are
+    get /dna/data/api/v1/transitNetworkHealthSummaries/{id}/trendAnalytics,
 """
+
 EXAMPLES = r"""
-- name: Get all Transit Network Health Summaries Id Trend Analytics Info
+---
+- name: Get all Transit Network Health Summaries Id
+    Trend Analytics
   cisco.catalystcenter.transit_network_health_summaries_id_trend_analytics_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     startTime: 0
     endTime: 0
@@ -99,8 +117,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
@@ -119,8 +137,9 @@ catalystcenter_response:
       "page": {
         "limit": 0,
         "offset": 0,
+        "count": 0,
         "timeSortOrder": "string"
       },
-      "version": 0
+      "version": "string"
     }
 """

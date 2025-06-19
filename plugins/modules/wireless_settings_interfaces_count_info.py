@@ -7,7 +7,7 @@ DOCUMENTATION = r"""
 module: wireless_settings_interfaces_count_info
 short_description: Information module for Wireless Settings Interfaces Count Info
 description:
-  - This module represents an alias of the module wireless_settings_interfaces_count_v1_info
+  - This module represents an alias of the module wireless_settings_interfaces_count_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,9 +24,9 @@ seealso:
     description: Complete reference of the GetInterfacesCountV1 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-count
 notes:
-  - SDK Method used are wireless.Wireless.get_interfaces_count_v1,
+  - SDK Method used are wireless.Wireless.get_interfaces_count,
   - Paths used are get /dna/intent/api/v1/wirelessSettings/interfaces/count,
-  - It should be noted that this module is an alias of wireless_settings_interfaces_count_v1_info
+  - It should be noted that this module is an alias of wireless_settings_interfaces_count_info
 """
 EXAMPLES = r"""
 - name: Get all Wireless Settings Interfaces Count Info

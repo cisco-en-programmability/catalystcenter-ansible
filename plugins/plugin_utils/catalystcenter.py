@@ -13,14 +13,8 @@ except ImportError:
     CATALYST_SDK_IS_INSTALLED = False
 else:
     CATALYST_SDK_IS_INSTALLED = True
-from ansible.module_utils.basic import env_fallback
 from ansible.module_utils._text import to_native
-try:
-    from ansible.errors import AnsibleActionFail
-except ImportError:
-    ANSIBLE_ERRORS_INSTALLED = False
-else:
-    ANSIBLE_ERRORS_INSTALLED = True
+
 try:
     import logging
 except ImportError:
@@ -28,6 +22,8 @@ except ImportError:
 else:
     LOGGING_IN_STANDARD = True
 import os.path
+
+ANSIBLE_SUCCESS_STATUS = 200
 
 
 def is_list_complex(x):
@@ -77,7 +73,8 @@ def catalystcenter_compare_equality(current_value, requested_value):
     if current_value is None:
         return True
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        all_dict_params = list(current_value.keys()) + \
+            list(requested_value.keys())
         return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
@@ -99,7 +96,8 @@ def catalystcenter_compare_equality2(current_value, requested_value, is_query_pa
     if current_value is None:
         return False
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        all_dict_params = list(current_value.keys()) + \
+            list(requested_value.keys())
         return not any((not fn_comp_key2(param, current_value, requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
@@ -135,55 +133,14 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        _host=dict(
-            type="str",
-            fallback=(env_fallback, ['CATALYST_HOST']),
-            required=True,
-            aliases=['catalystcenter_host', '_host']
-        ),
-        _api_port=dict(
-            type="int",
-            fallback=(env_fallback, ['CATALYST_PORT']),
-            required=False,
-            default=443,
-            aliases=['catalystcenter_port', '_api_port']
-        ),
-        _username=dict(
-            type="str",
-            fallback=(env_fallback, ['CATALYST_USERNAME']),
-            default="admin",
-            aliases=['user', 'catalystcenter_username', '_username']
-        ),
-        _password=dict(
-            type="str",
-            fallback=(env_fallback, ['CATALYST_PASSWORD']),
-            no_log=True,
-            aliases=['catalystcenter_password', '_password']
-        ),
-        _verify=dict(
-            type="bool",
-            fallback=(env_fallback, ['CATALYST_VERIFY']),
-            default=True,
-            aliases=['catalystcenter_verify', '_verify']
-        ),
-        _version=dict(
-            type="str",
-            fallback=(env_fallback, ['CATALYST_VERSION']),
-            default="2.3.7.6",
-            aliases=['catalystcenter_version', '_version']
-        ),
-        _debug=dict(
-            type="bool",
-            fallback=(env_fallback, ['CATALYST_DEBUG']),
-            default=False,
-            aliases=['catalystcenter_debug', '_debug']
-        ),
-        validate_response_schema=dict(
-            type="bool",
-            fallback=(env_fallback, ['VALIDATE_RESPONSE_SCHEMA']),
-            default=True,
-            aliases=['']
-        ),
+        _host=dict(type="str", required=True, aliases=['catalystcenter_host', '_host']),
+        _api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', '_api_port']),
+        _username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', '_username']),
+        _password=dict(type="str", no_log=True, aliases=['catalystcenter_password', '_password']),
+        _verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', '_verify']),
+        _version=dict(type="str", default="3.1.3.0", aliases=['catalystcenter_version', '_version']),
+        _debug=dict(type="bool", default=False, aliases=['catalystcenter_debug', '_debug']),
+        validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
 
@@ -204,9 +161,11 @@ class CatalystCenterSDK(object):
                 debug=params.get("_debug"),
             )
             if params.get("_debug") and LOGGING_IN_STANDARD:
-                logging.getLogger('catalystcentersdk').addHandler(logging.StreamHandler())
+                logging.getLogger('catalystcentersdk').addHandler(
+                    logging.StreamHandler())
         else:
-            self.fail_json(msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")
+            self.fail_json(
+                msg="Catalyst Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")
 
     def changed(self):
         self.result["changed"] = True
@@ -261,7 +220,8 @@ class CatalystCenterSDK(object):
                         if isinstance(params.get(key), str) and self.is_file(params[key]):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
-                            multipart_fields[value] = (file_name, open(file_path, 'rb'))
+                            multipart_fields[value] = (
+                                file_name, open(file_path, 'rb'))
 
                     params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)
@@ -270,6 +230,12 @@ class CatalystCenterSDK(object):
                     params["active_validation"] = False
 
                 response = func(**params)
+
+                self.result.update({
+                    'status': ANSIBLE_SUCCESS_STATUS,
+                    'failed': False,
+                    'msg': None,
+                })
             else:
                 response = func()
         except exceptions.catalystcentersdkException as e:
@@ -277,13 +243,20 @@ class CatalystCenterSDK(object):
                 msg=(
                     "An error occured when executing operation."
                     " The error was: {error}"
-                ).format(error=to_native(e))
+                ).format(error=to_native(e)),
+                status=e.status_code
             )
+            response = None
         return response
 
     def fail_json(self, msg, **kwargs):
-        self.result.update(**kwargs)
-        raise AnsibleActionFail(msg, kwargs)
+        self.result.update({
+            'failed': True,
+            'changed': False,
+            'status': kwargs.get('status'),
+            'msg': msg,
+        })
+        return self.result
 
     def exit_json(self):
         return self.result

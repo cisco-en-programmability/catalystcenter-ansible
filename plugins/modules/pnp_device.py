@@ -1,13 +1,20 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device
 short_description: Resource module for Pnp Device
 description:
-  - This module represents an alias of the module pnp_device_v1
+  - Manage operations create, update and delete of the
+    resource Pnp Device.
+  - Adds a device to the PnP database.
+  - Deletes specified device from PnP database.
+  - Updates device details specified by device id in
+    PnP database.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -110,8 +117,9 @@ options:
         elements: str
         type: list
       userSudiSerialNos:
-        description: List of Secure Unique Device Identifier (SUDI) serial numbers
-          to perform SUDI authorization, Required if sudiRequired is true.
+        description: List of Secure Unique Device Identifier
+          (SUDI) serial numbers to perform SUDI authorization,
+          Required if sudiRequired is true.
         elements: str
         type: list
       workflowId:
@@ -125,35 +133,46 @@ options:
     description: Id.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1
-    description: Complete reference of the AddDeviceV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!add-device
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1
-    description: Complete reference of the DeleteDeviceByIdFromPnPV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) AddDevice
+    description: Complete reference of the AddDevice
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-device-2
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) DeleteDeviceByIdFromPnP
+    description: Complete reference of the DeleteDeviceByIdFromPnP
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1
-    description: Complete reference of the UpdateDeviceV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) UpdateDevice
+    description: Complete reference of the UpdateDevice
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_device, device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp_v1,
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device_v1,
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device, delete /dna/intent/api/v1/onboarding/pnp-device/{id},
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.add_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-device,
+    delete /dna/intent/api/v1/onboarding/pnp-device/{id},
     put /dna/intent/api/v1/onboarding/pnp-device/{id},
-  - It should be noted that this module is an alias of pnp_device_v1
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.pnp_device:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     deviceInfo:
       description: string
@@ -194,13 +213,13 @@ EXAMPLES = r"""
       workflowName: string
 - name: Update by id
   cisco.catalystcenter.pnp_device:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     deviceInfo:
       hostname: string
@@ -213,19 +232,19 @@ EXAMPLES = r"""
     id: string
 - name: Delete by id
   cisco.catalystcenter.pnp_device:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
