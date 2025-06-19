@@ -42,7 +42,7 @@ cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Soft
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 2.3.7.9
+- catalystcentersdk \>= 3.1.3.0.0
 - python \>= 3.9
 
 
@@ -109,354 +109,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_debug:
-
-      .. rst-class:: ansible-option-title
-
-      **_debug**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_host:
-
-      .. rst-class:: ansible-option-title
-
-      **_host**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The hostname of the Cisco Catalyst Center.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_password:
-
-      .. rst-class:: ansible-option-title
-
-      **_password**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The password for authentication at the Cisco Catalyst Center.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_username:
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-user:
-
-      .. rst-class:: ansible-option-title
-
-      **_username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The username for authentication at the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_verify:
-
-      .. rst-class:: ansible-option-title
-
-      **_verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-_version:
-
-      .. rst-class:: ansible-option-title
-
-      **_version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the version of the Cisco Catalyst Center that the SDK should use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-catalystcenter_api_task_timeout:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_task_timeout**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_task_poll_interval**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the interval in seconds between successive calls to the API to retrieve task details.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -921,7 +573,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SWIM image's name
+      Specifies the name of the SWIM image to be activated.
 
 
       .. raw:: html
@@ -998,6 +650,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Used to get device details associated to this site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/sub_package_images"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/sub_package_images:
+
+      .. rst-class:: ansible-option-title
+
+      **sub_package_images**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/sub_package_images" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a list of SWIM sub-package image names.
 
 
       .. raw:: html
@@ -1316,7 +1002,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      SWIM image's name
+      Specifies the name of the SWIM image to be distributed.
 
 
       .. raw:: html
@@ -1351,6 +1037,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Used to get device details associated to this site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/sub_package_images"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/sub_package_images:
+
+      .. rst-class:: ansible-option-title
+
+      **sub_package_images**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/sub_package_images" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a list of SWIM sub-package image names.
 
 
       .. raw:: html
@@ -2345,17 +2065,55 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-log"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-log:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **log**
+      **dnac_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-log" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2369,17 +2127,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag to enable/disable playbook execution logging.
-
-      When true and log\_file\_path is provided, - Create the log file at the execution location with the specified name.
-
-      When true and log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
-
-      When false, - Logging is disabled.
-
-      If the log file doesn't exist, - It is created in append or write mode based on the "log\_append" flag.
-
-      If the log file exists, - It is overwritten or appended based on the "log\_append" flag.
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
 
 
       .. rst-class:: ansible-option-line
@@ -2397,17 +2145,103 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-log_append"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-log_append:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_host:
 
       .. rst-class:: ansible-option-title
 
-      **log_append**
+      **dnac_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-log_append" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2439,17 +2273,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-log_file_path"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-log_file_path:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **log_file_path**
+      **dnac_log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-log_file_path" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2463,11 +2297,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Governs logging. Logs are recorded if log is True.
+      Governs logging. Logs are recorded if dnac\_log is True.
 
-      If path is not specified, - When 'log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+      If path is not specified, - When 'dnac\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
 
-      If path is specified, - When 'log\_append' is True, the file opens in append mode. - When 'log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
 
 
       .. rst-class:: ansible-option-line
@@ -2481,17 +2315,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-log_level"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-log_level:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_log_level:
 
       .. rst-class:: ansible-option-title
 
-      **log_level**
+      **dnac_log_level**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-log_level" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2521,6 +2355,240 @@ Parameters
       .. rst-class:: ansible-option-line
 
       :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
 
       .. raw:: html
 
@@ -2620,11 +2688,10 @@ Notes
 
 .. note::
    - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation,
-   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device,
-   - Added the parameter 'dnac\_api\_task\_timeout', 'dnac\_task\_poll\_interval' options in v6.13.2.
+   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, - Added the parameter 'dnac\_api\_task\_timeout', 'dnac\_task\_poll\_interval' options in v6.13.2.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
-   - The parameters starting with catalystCenter\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
 
 .. Seealso
 
@@ -2637,17 +2704,19 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Import an image from a URL, tag it as golden and load it on device
+    ---
+    - name: Import an image from a URL, tag it as golden
+        and load it on device
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - import_image_details:
               type: remote
@@ -2659,7 +2728,8 @@ Examples
             tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
             image_distribution_details:
@@ -2673,15 +2743,15 @@ Examples
               device_serial_number: FJC2327U0S2
     - name: Import an image from local, tag it as golden.
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - import_image_details:
               type: local
@@ -2691,20 +2761,21 @@ Examples
             tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
     - name: Import bulk images from URL
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - import_image_details:
               type: remote
@@ -2716,15 +2787,15 @@ Examples
                 is_third_party: false
     - name: Import image from URL using str
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - import_image_details:
               type: remote
@@ -2734,15 +2805,15 @@ Examples
                 is_third_party: false
     - name: Import images from CCO (cisco.com)
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - import_image_details:
               type: CCO
@@ -2750,15 +2821,15 @@ Examples
                 image_name: cat9k_iosxe.17.06.06a.SPA.bin
     - name: Import list of images from CCO (cisco.com)
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - import_image_details:
               type: CCO
@@ -2767,122 +2838,132 @@ Examples
                   - cat9k_iosxe.17.16.01.SPA.bin
                   - C9800-SW-iosxe-wlc.17.16.01.SPA.bin
                   - C9800-80-universalk9_wlc.17.15.02b.SPA.bin
-    - name: Tag the given image as golden and load it on device
+    - name: Tag the given image as golden and load it on
+        device
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
     # Remove the golden tag from the specified image for the given device role and assign it to another device role.
-    - name: Update golden tag assignment for image based on device role
+    - name: Update golden tag assignment for image based
+        on device role
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: CORE
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               tagging: false
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               tagging: true
-    - name: Tag the specified image as golden for multiple device roles and load it
-        into the device
+    - name: Tag the specified image as golden for multiple
+        device roles and load it into the device
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS,CORE
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: true
-    - name: Un-tagged the given image as golden and load it on device
+    - name: Un-tagged the given image as golden and load
+        it on device
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - tagging_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               device_role: ACCESS
-              device_image_family_name: Cisco Catalyst 9300 Switch
+              device_image_family_name: Cisco Catalyst 9300
+                Switch
               site_name: Global/USA/San Francisco/BGL_18
               tagging: false
-    - name: Distribute the given image on devices associated to that site with specified
-        role.
+    - name: Distribute the given image on devices associated
+        to that site with specified role.
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - image_distribution_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               site_name: Global/USA/San Francisco/BGL_18
               device_role: ALL
               device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series Switches
-    - name: Activate the given image on devices associated to that site with specified
-        role.
+              device_series_name: Cisco Catalyst 9300 Series
+                Switches
+    - name: Activate the given image on devices associated
+        to that site with specified role.
       cisco.catalystcenter.swim_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: "{{log_level}}"
-        log: true
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: true
         config:
           - image_activation_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               site_name: Global/USA/San Francisco/BGL_18
               device_role: ALL
               device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series Switches
+              device_series_name: Cisco Catalyst 9300 Series
+                Switches
               scehdule_validate: false
               activate_lower_image_version: true
               distribute_if_needed: true

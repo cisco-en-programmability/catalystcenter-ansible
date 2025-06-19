@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.catalystcenter.assurance_events_info module -- Information module for Assurance Events Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.catalystcenter.assurance_events_info module -- Information module for Assurance Events
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module assurance\_events\_v1\_info
+- Get all Assurance Events.
+- Get Assurance Events by id. - \> API to fetch the details of an assurance event using event \`id\`. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceEvents-1.0.0-resolved.yaml. - \> Returns the list of events discovered by Catalyst Center, determined by the complex filters. Please refer to the 'API Support Documentation' section to understand which fields are supported. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceEvents-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 2.3.7.9
+- catalystcentersdk \>= 3.1.3.0.0
 - python \>= 3.5
 
 
@@ -106,278 +107,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_debug:
-
-      .. rst-class:: ansible-option-title
-
-      **_debug**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag for Cisco CATALYST Center SDK to enable debugging.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_host:
-
-      .. rst-class:: ansible-option-title
-
-      **_host**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string` / :ansible-option-required:`required`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center hostname.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_password:
-
-      .. rst-class:: ansible-option-title
-
-      **_password**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center password to authenticate.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_username:
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-user:
-
-      .. rst-class:: ansible-option-title
-
-      **_username**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center username to authenticate.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_verify:
-
-      .. rst-class:: ansible-option-title
-
-      **_verify**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Flag to enable or disable SSL certificate verification.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-_version:
-
-      .. rst-class:: ansible-option-title
-
-      **_version**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Informs the SDK which version of Cisco CATALYST Center to use.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -514,6 +243,278 @@ Parameters
       DeviceFamily query parameter. Device family. Please note that multiple families across network device type and client type is not allowed. For example, choosing \`Routers\` along with \`Wireless Client\` or \`Unified AP\` is not supported. Examples \`deviceFamily=Switches and Hubs\` (single deviceFamily requested) \`deviceFamily=Switches and Hubs&deviceFamily=Routers\` (multiple deviceFamily requested).
           
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -718,7 +719,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      NetworkDeviceId query parameter. The list of Network Device Uuids. (Ex. \`6bef213c-19ca-4170-8375-b694e251101c\`) Examples \`networkDeviceId=6bef213c-19ca-4170-8375-b694e251101c\` (single networkDeviceId requested) \`networkDeviceId=6bef213c-19ca-4170-8375- b694e251101c&networkDeviceId=32219612-819e-4b5e-a96b-cf22aca13dd9&networkDeviceId=2541e9a7-b80d-4955-8aa2- 79b233318ba0\` (multiple networkDeviceId with & separator).
+      NetworkDeviceId query parameter. The list of Network Device Uuids. (Ex. \`6bef213c-19ca-4170-8375-b694e251101c\`) Examples \`networkDeviceId=6bef213c-19ca-4170-8375-b694e251101c\` (single networkDeviceId requested) \`networkDeviceId=6bef213c-19ca-4170-8375- b694e251101c&networkDeviceId=32219612-819e-4b5e-a96b-cf22aca13dd9&networkDeviceId=2541e9a7-b80d-4955- 8aa2-79b233318ba0\` (multiple networkDeviceId with & separator).
           
 
 
@@ -892,7 +893,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global site UUID and ending with the specific site UUID. (Ex. \`globalUuid/areaUuid/buildingUuid/floorUuid\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*uuid\*, \*uuid, uuid\*\` Examples \`?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid \`(single siteHierarchyId requested) \`?siteHiera rchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2/floorUu id2\` (multiple siteHierarchyId requested).
+      SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global site UUID and ending with the specific site UUID. (Ex. \`globalUuid/areaUuid/buildingUuid/floorUuid\`) This field supports wildcard asterisk (\`\*\`) character search support. E.g. \`\*uuid\*, \*uuid, uuid\*\` Examples \`?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid \`(single siteHierarchyId requested) \`?siteH ierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globalUuid/areaUuid2/buildingUuid2 /floorUuid2\` (multiple siteHierarchyId requested).
           
 
 
@@ -1031,7 +1032,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable the validation of request bodies against a JSON schema.
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
 
 
       .. rst-class:: ansible-option-line
@@ -1091,12 +1092,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_details\_of\_a\_single\_assurance\_event\_v1, devices.Devices.query\_assurance\_events\_v1,
+   - SDK Method used are devices.Devices.get\_details\_of\_a\_single\_assurance\_event, devices.Devices.query\_assurance\_events,
    - Paths used are get /dna/data/api/v1/assuranceEvents, get /dna/data/api/v1/assuranceEvents/{id},
-   - It should be noted that this module is an alias of assurance\_events\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK
-   - The parameters starting with catalystCenter\_ are used by the Cisco CATALYST Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco CATALYST Python SDK to establish the connection
 
 .. Seealso
 
@@ -1105,10 +1105,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDetailsOfASingleAssuranceEventV1 <https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event>`_
-       Complete reference of the GetDetailsOfASingleAssuranceEventV1 API.
-   `Cisco DNA Center documentation for Devices QueryAssuranceEventsV1 <https://developer.cisco.com/docs/dna-center/#!query-assurance-events>`_
-       Complete reference of the QueryAssuranceEventsV1 API.
+   `Cisco DNA Center documentation for Devices GetDetailsOfASingleAssuranceEvent <https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event>`_
+       Complete reference of the GetDetailsOfASingleAssuranceEvent API.
+   `Cisco DNA Center documentation for Devices QueryAssuranceEvents <https://developer.cisco.com/docs/dna-center/#!query-assurance-events>`_
+       Complete reference of the QueryAssuranceEvents API.
 
 .. Examples
 
@@ -1118,15 +1118,16 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Assurance Events Info
+    ---
+    - name: Get all Assurance Events
       cisco.catalystcenter.assurance_events_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         deviceFamily: string
         startTime: 0
@@ -1146,15 +1147,15 @@ Examples
         sortBy: string
         order: string
       register: result
-    - name: Get Assurance Events Info by id
+    - name: Get Assurance Events by id
       cisco.catalystcenter.assurance_events_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         attribute: string
         view: string
@@ -1186,17 +1187,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__return-catalystcenter_response:
+      .. _ansible_collections.cisco.catalystcenter.assurance_events_info_module__return-dnac_response:
 
       .. rst-class:: ansible-option-title
 
-      **catalystcenter_response**
+      **dnac_response**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1210,7 +1211,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
 
 
       .. rst-class:: ansible-option-line

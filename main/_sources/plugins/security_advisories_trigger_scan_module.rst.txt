@@ -42,7 +42,7 @@ cisco.catalystcenter.security_advisories_trigger_scan module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module security\_advisories\_trigger\_scan\_v1
+- Manage operation create of the resource Security Advisories Trigger Scan. - \> Triggers a security advisories scan for the supported network devices. The supported devices are switches, routers and wireless controllers with IOS and IOS-XE. If a device is not supported, the SecurityAdvisoryNetworkDevice scanStatus will be Failed with appropriate comments.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 2.3.7.9
+- catalystcentersdk \>= 3.1.3.0.0
 - python \>= 3.5
 
 
@@ -110,55 +110,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco CATALYST Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_debug:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_debug:
 
       .. rst-class:: ansible-option-title
 
-      **_debug**
+      **dnac_debug**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -172,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable debugging.
+      Flag for Cisco DNA Center SDK to enable debugging.
 
 
       .. rst-class:: ansible-option-line
@@ -190,17 +152,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_host:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_host:
 
       .. rst-class:: ansible-option-title
 
-      **_host**
+      **dnac_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -214,7 +176,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center hostname.
+      The Cisco DNA Center hostname.
 
 
       .. raw:: html
@@ -224,17 +186,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_password:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_password:
 
       .. rst-class:: ansible-option-title
 
-      **_password**
+      **dnac_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -248,7 +210,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center password to authenticate.
+      The Cisco DNA Center password to authenticate.
 
 
       .. raw:: html
@@ -258,19 +220,57 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
         <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_username:
       .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
-      **_username**
+      **dnac_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -288,7 +288,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center username to authenticate.
+      The Cisco DNA Center username to authenticate.
 
 
       .. rst-class:: ansible-option-line
@@ -302,17 +302,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_verify:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_verify:
 
       .. rst-class:: ansible-option-title
 
-      **_verify**
+      **dnac_verify**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -344,17 +344,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-_version:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__parameter-dnac_version:
 
       .. rst-class:: ansible-option-title
 
-      **_version**
+      **dnac_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -368,7 +368,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Informs the SDK which version of Cisco CATALYST Center to use.
+      Informs the SDK which version of Cisco DNA Center to use.
 
 
       .. rst-class:: ansible-option-line
@@ -448,7 +448,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable the validation of request bodies against a JSON schema.
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
 
 
       .. rst-class:: ansible-option-line
@@ -473,12 +473,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.triggers\_a\_security\_advisories\_scan\_for\_the\_supported\_network\_devices\_v1,
+   - SDK Method used are compliance.Compliance.triggers\_a\_security\_advisories\_scan\_for\_the\_supported\_network\_devices,
    - Paths used are post /dna/intent/api/v1/securityAdvisories/triggerScan,
-   - It should be noted that this module is an alias of security\_advisories\_trigger\_scan\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK
-   - The parameters starting with catalystCenter\_ are used by the Cisco CATALYST Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco CATALYST Python SDK to establish the connection
 
 .. Seealso
 
@@ -487,8 +486,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!triggers-a-security-advisories-scan-for-the-supported-network-devices>`_
-       Complete reference of the TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Compliance TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevices <https://developer.cisco.com/docs/dna-center/#!triggers-a-security-advisories-scan-for-the-supported-network-devices>`_
+       Complete reference of the TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevices API.
 
 .. Examples
 
@@ -498,15 +497,16 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    ---
     - name: Create
       cisco.catalystcenter.security_advisories_trigger_scan:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         failedDevicesOnly: true
 
 
@@ -534,17 +534,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__return-catalystcenter_response:
+      .. _ansible_collections.cisco.catalystcenter.security_advisories_trigger_scan_module__return-dnac_response:
 
       .. rst-class:: ansible-option-title
 
-      **catalystcenter_response**
+      **dnac_response**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -558,7 +558,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
 
 
       .. rst-class:: ansible-option-line

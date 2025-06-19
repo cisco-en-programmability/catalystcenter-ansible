@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.catalystcenter.transit_network_health_summaries_info module -- Information module for Transit Network Health Summaries Info
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.catalystcenter.transit_network_health_summaries_info module -- Information module for Transit Network Health Summaries
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.1.4).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- This module represents an alias of the module transit\_network\_health\_summaries\_v1\_info
+- Get all Transit Network Health Summaries.
+- Get a paginated list of Transit Networks with health summary.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 2.3.7.9
+- catalystcentersdk \>= 3.1.3.0.0
 - python \>= 3.5
 
 
@@ -110,21 +111,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-attribute"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_api_port:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-attribute:
 
       .. rst-class:: ansible-option-title
 
-      **_api_port**
+      **attribute**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-attribute" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -134,12 +135,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center port.
+      Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -148,17 +145,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_debug:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_debug:
 
       .. rst-class:: ansible-option-title
 
-      **_debug**
+      **dnac_debug**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -172,7 +169,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable debugging.
+      Flag for Cisco DNA Center SDK to enable debugging.
 
 
       .. rst-class:: ansible-option-line
@@ -190,17 +187,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_host:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_host:
 
       .. rst-class:: ansible-option-title
 
-      **_host**
+      **dnac_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -214,7 +211,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center hostname.
+      The Cisco DNA Center hostname.
 
 
       .. raw:: html
@@ -224,17 +221,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_password:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_password:
 
       .. rst-class:: ansible-option-title
 
-      **_password**
+      **dnac_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -248,7 +245,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center password to authenticate.
+      The Cisco DNA Center password to authenticate.
 
 
       .. raw:: html
@@ -258,19 +255,57 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
         <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_username:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_username:
       .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
-      **_username**
+      **dnac_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_username" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -288,7 +323,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco CATALYST Center username to authenticate.
+      The Cisco DNA Center username to authenticate.
 
 
       .. rst-class:: ansible-option-line
@@ -302,17 +337,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_verify:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_verify:
 
       .. rst-class:: ansible-option-title
 
-      **_verify**
+      **dnac_verify**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_verify" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -344,17 +379,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-_version:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-dnac_version:
 
       .. rst-class:: ansible-option-title
 
-      **_version**
+      **dnac_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-_version" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -368,46 +403,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Informs the SDK which version of Cisco CATALYST Center to use.
+      Informs the SDK which version of Cisco DNA Center to use.
 
 
       .. rst-class:: ansible-option-line
 
       :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-attribute"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__parameter-attribute:
-
-      .. rst-class:: ansible-option-title
-
-      **attribute**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-attribute" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
-
 
       .. raw:: html
 
@@ -716,7 +717,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco CATALYST Center SDK to enable the validation of request bodies against a JSON schema.
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
 
 
       .. rst-class:: ansible-option-line
@@ -776,12 +777,11 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.read\_list\_of\_transit\_networks\_with\_their\_health\_summary\_v1,
+   - SDK Method used are sda.Sda.read\_list\_of\_transit\_networks\_with\_their\_health\_summary,
    - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries,
-   - It should be noted that this module is an alias of transit\_network\_health\_summaries\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK
-   - The parameters starting with catalystCenter\_ are used by the Cisco CATALYST Python SDK to establish the connection
+   - The parameters starting with dnac\_ are used by the Cisco CATALYST Python SDK to establish the connection
 
 .. Seealso
 
@@ -790,8 +790,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA ReadListOfTransitNetworksWithTheirHealthSummaryV1 <https://developer.cisco.com/docs/dna-center/#!read-list-of-transit-networks-with-their-health-summary>`_
-       Complete reference of the ReadListOfTransitNetworksWithTheirHealthSummaryV1 API.
+   `Cisco DNA Center documentation for SDA ReadListOfTransitNetworksWithTheirHealthSummary <https://developer.cisco.com/docs/dna-center/#!read-list-of-transit-networks-with-their-health-summary>`_
+       Complete reference of the ReadListOfTransitNetworksWithTheirHealthSummary API.
 
 .. Examples
 
@@ -801,15 +801,16 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Transit Network Health Summaries Info
+    ---
+    - name: Get all Transit Network Health Summaries
       cisco.catalystcenter.transit_network_health_summaries_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         startTime: 0
         endTime: 0
@@ -847,21 +848,21 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__return-catalystcenter_response:
+      .. _ansible_collections.cisco.catalystcenter.transit_network_health_summaries_info_module__return-dnac_response:
 
       .. rst-class:: ansible-option-title
 
-      **catalystcenter_response**
+      **dnac_response**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -871,7 +872,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -881,7 +882,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"id\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"controlPlaneCount\\": 0,\\n    \\"transitType\\": \\"string\\",\\n    \\"fabricSitesCount\\": 0,\\n    \\"goodHealthPercentage\\": 0,\\n    \\"goodHealthDeviceCount\\": 0,\\n    \\"totalDeviceCount\\": 0,\\n    \\"poorHealthDeviceCount\\": 0,\\n    \\"fairHealthDeviceCount\\": 0,\\n    \\"transitControlPlaneHealthPercentage\\": 0,\\n    \\"transitControlPlaneTotalDeviceCount\\": 0,\\n    \\"transitControlPlaneGoodHealthDeviceCount\\": 0,\\n    \\"transitControlPlanePoorHealthDeviceCount\\": 0,\\n    \\"transitControlPlaneFairHealthDeviceCount\\": 0,\\n    \\"transitServicesHealthPercentage\\": 0,\\n    \\"transitServicesTotalDeviceCount\\": 0,\\n    \\"transitServicesGoodHealthDeviceCount\\": 0,\\n    \\"transitServicesPoorHealthDeviceCount\\": 0,\\n    \\"transitServicesFairHealthDeviceCount\\": 0,\\n    \\"pubsubTransitHealthPercentage\\": 0,\\n    \\"pubsubTransitTotalDeviceCount\\": 0,\\n    \\"pubsubTransitGoodHealthDeviceCount\\": 0,\\n    \\"pubsubTransitPoorHealthDeviceCount\\": 0,\\n    \\"pubsubTransitFairHealthDeviceCount\\": 0,\\n    \\"lispTransitHealthPercentage\\": 0,\\n    \\"lispTransitTotalDeviceCount\\": 0,\\n    \\"lispTransitGoodHealthDeviceCount\\": 0,\\n    \\"lispTransitPoorHealthDeviceCount\\": 0,\\n    \\"lispTransitFairHealthDeviceCount\\": 0,\\n    \\"internetAvailTransitHealthPercentage\\": 0,\\n    \\"internetAvailTransitTotalDeviceCount\\": 0,\\n    \\"internetAvailTransitGoodHealthDeviceCount\\": 0,\\n    \\"internetAvailTransitPoorHealthDeviceCount\\": 0,\\n    \\"internetAvailTransitFairHealthDeviceCount\\": 0,\\n    \\"bgpTcpHealthPercentage\\": 0,\\n    \\"bgpTcpTotalDeviceCount\\": 0,\\n    \\"bgpTcpGoodHealthDeviceCount\\": 0,\\n    \\"bgpTcpPoorHealthDeviceCount\\": 0,\\n    \\"bgpTcpFairHealthDeviceCount\\": 0\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"bgpTcpFairHealthDeviceCount": 0, "bgpTcpGoodHealthDeviceCount": 0, "bgpTcpHealthPercentage": 0, "bgpTcpPoorHealthDeviceCount": 0, "bgpTcpTotalDeviceCount": 0, "controlPlaneCount": 0, "fabricSitesCount": 0, "fairHealthDeviceCount": 0, "goodHealthDeviceCount": 0, "goodHealthPercentage": 0, "id": "string", "internetAvailTransitFairHealthDeviceCount": 0, "internetAvailTransitGoodHealthDeviceCount": 0, "internetAvailTransitHealthPercentage": 0, "internetAvailTransitPoorHealthDeviceCount": 0, "internetAvailTransitTotalDeviceCount": 0, "lispTransitFairHealthDeviceCount": 0, "lispTransitGoodHealthDeviceCount": 0, "lispTransitHealthPercentage": 0, "lispTransitPoorHealthDeviceCount": 0, "lispTransitTotalDeviceCount": 0, "name": "string", "networkProtocol": "string", "poorHealthDeviceCount": 0, "pubsubTransitFairHealthDeviceCount": 0, "pubsubTransitGoodHealthDeviceCount": 0, "pubsubTransitHealthPercentage": 0, "pubsubTransitPoorHealthDeviceCount": 0, "pubsubTransitTotalDeviceCount": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "totalHealthDeviceCount": 0, "transitControlPlaneFairHealthDeviceCount": 0, "transitControlPlaneGoodHealthDeviceCount": 0, "transitControlPlaneHealthPercentage": 0, "transitControlPlanePoorHealthDeviceCount": 0, "transitControlPlaneTotalDeviceCount": 0, "transitServicesFairHealthDeviceCount": 0, "transitServicesGoodHealthDeviceCount": 0, "transitServicesHealthPercentage": 0, "transitServicesPoorHealthDeviceCount": 0, "transitServicesTotalDeviceCount": 0, "transitType": ["string"]}], "version": "string"}`
 
 
       .. raw:: html
