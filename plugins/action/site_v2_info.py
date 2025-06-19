@@ -5,31 +5,38 @@
 # GNU General Public License v3.0+ (see LICENSE or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
+
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
     ANSIBLE_UTILS_IS_INSTALLED = True
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
-    CatalystCenterSDK, catalystcenter_argument_spec, )
+    CatalystCenterSDK,
+    catalystcenter_argument_spec,
+)
 
 # Get common arguments specification
 argument_spec = catalystcenter_argument_spec()
 # Add arguments specific for this module
-argument_spec.update(dict(
-    groupNameHierarchy=dict(type="str"),
-    id=dict(type="str"),
-    type=dict(type="str"),
-    offset=dict(type="str"),
-    limit=dict(type="str"),
-    headers=dict(type="dict"),
-))
+argument_spec.update(
+    dict(
+        groupNameHierarchy=dict(type="str"),
+        id=dict(type="str"),
+        type=dict(type="str"),
+        offset=dict(type="str"),
+        limit=dict(type="str"),
+        headers=dict(type="dict"),
+    )
+)
 
 required_if = []
 required_one_of = []
@@ -40,8 +47,7 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -82,15 +88,15 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(catalyst_response={}))
+        self._result.update(dict(dnac_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
         response = catalystcenter.exec(
             family="sites",
-            function='get_site_v2',
+            function="get_site_v2",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalyst_response=response))
+        self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

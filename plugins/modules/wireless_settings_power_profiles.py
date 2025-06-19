@@ -1,26 +1,35 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_power_profiles
-short_description: Resource module for Wireless Settings Power Profiles
+short_description: Resource module for Wireless Settings
+  Power Profiles
 description:
-  - This module represents an alias of the module wireless_settings_power_profiles_v1
+  - Manage operation create of the resource Wireless
+    Settings Power Profiles.
+  - This API allows the user to create a custom Power
+    Profile.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   description:
-    description: Description of the Power Profile. Max allowed characters is 128.
+    description: Description of the Power Profile. Max
+      allowed characters is 128.
     type: str
   profileName:
-    description: Name of the Power Profile. Max allowed characters is 128.
+    description: Name of the Power Profile. Max allowed
+      characters is 128.
     type: str
   rules:
-    description: Wireless Settings Power Profiles's rules.
+    description: Wireless Settings Power Profiles's
+      rules.
     elements: dict
     suboptions:
       interfaceId:
@@ -37,27 +46,32 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreatePowerProfileV1
-    description: Complete reference of the CreatePowerProfileV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      CreatePowerProfile
+    description: Complete reference of the CreatePowerProfile
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!create-power-profile
 notes:
-  - SDK Method used are wireless.Wireless.create_power_profile_v1,
-  - Paths used are post /dna/intent/api/v1/wirelessSettings/powerProfiles,
-  - It should be noted that this module is an alias of wireless_settings_power_profiles_v1
+  - SDK Method used are
+    wireless.Wireless.create_power_profile,
+  - Paths used are
+    post /dna/intent/api/v1/wirelessSettings/powerProfiles,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.wireless_settings_power_profiles:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     description: string
     profileName: string
@@ -68,8 +82,8 @@ EXAMPLES = r"""
         parameterValue: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

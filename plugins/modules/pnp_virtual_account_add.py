@@ -1,13 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_add
-short_description: Resource module for Pnp Virtual Account Add
+short_description: Resource module for Pnp Virtual Account
+  Add
 description:
-  - This module represents an alias of the module pnp_virtual_account_add_v1
+  - Manage operation create of the resource Pnp Virtual
+    Account Add. - > Registers a Smart Account, Virtual
+    Account and the relevant server profile info with
+    the PnP System & database. The devices present in
+    the registered virtual account are synced with the
+    PnP database as well. The response payload returns
+    the new profile.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -29,14 +38,16 @@ options:
     description: Pnp Virtual Account Add's profile.
     suboptions:
       addressFqdn:
-        description: Required when cluster is configured with fully qualified domain
-          name (FQDN).
+        description: Required when cluster is configured
+          with fully qualified domain name (FQDN).
         type: str
       addressIpV4:
-        description: Required when cluster is configured with IPv4.
+        description: Required when cluster is configured
+          with IPv4.
         type: str
       addressIpV6:
-        description: Required when cluster is configured with IPv6.
+        description: Required when cluster is configured
+          with IPv6.
         type: str
       cert:
         description: Pnp Virtual Account Add's cert.
@@ -80,45 +91,54 @@ options:
         type: str
     type: dict
   syncResultStr:
-    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD
+      not be used or relied upon. (Deprecated).
     type: str
   syncStartTime:
     description: Pnp Virtual Account Add's syncStartTime.
     type: int
   syncStatus:
-    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD
+      not be used or relied upon. (Deprecated).
     type: str
   tenantId:
-    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD
+      not be used or relied upon. (Deprecated).
     type: str
   token:
-    description: Represent internal state and SHOULD not be used or relied upon. (Deprecated).
+    description: Represent internal state and SHOULD
+      not be used or relied upon. (Deprecated).
     type: str
   virtualAccountId:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
-    description: Complete reference of the AddVirtualAccountV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Onboarding (PnP) AddVirtualAccount
+    description: Complete reference of the AddVirtualAccount
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
-  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,
-  - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
-  - It should be noted that this module is an alias of pnp_virtual_account_add_v1
+  - SDK Method used are
+    device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account,
+  - Paths used are
+    post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
 """
+
 EXAMPLES = r"""
+---
 - name: Create
   cisco.catalystcenter.pnp_virtual_account_add:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     autoSyncPeriod: 0
     ccoUser: string
     expiry: 0
@@ -148,8 +168,8 @@ EXAMPLES = r"""
     virtualAccountId: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

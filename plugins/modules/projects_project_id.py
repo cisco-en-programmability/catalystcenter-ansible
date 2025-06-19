@@ -1,13 +1,19 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: projects_project_id
-short_description: Resource module for Projects Project Id
+short_description: Resource module for Projects Project
+  Id
 description:
-  - This module represents an alias of the module projects_project_id_v1
+  - Manage operations update and delete of the resource
+    Projects Project Id.
+  - Delete a template project by the project's ID.
+  - Update a template project by the project's ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -20,54 +26,63 @@ options:
     description: Name of the project.
     type: str
   projectId:
-    description: ProjectId path parameter. The id of the project to update, retrieveable
-      from `GET /dna/intent/api/v1/projects`.
+    description: ProjectId path parameter. The id of
+      the project to update, retrieveable from `GET
+      /dna/intent/api/v1/projects`.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates DeleteTemplateProjectV1
-    description: Complete reference of the DeleteTemplateProjectV1 API.
+  - name: Cisco DNA Center documentation for Configuration
+      Templates DeleteTemplateProject
+    description: Complete reference of the DeleteTemplateProject
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-template-project
-  - name: Cisco DNA Center documentation for Configuration Templates UpdateTemplateProjectV1
-    description: Complete reference of the UpdateTemplateProjectV1 API.
+  - name: Cisco DNA Center documentation for Configuration
+      Templates UpdateTemplateProject
+    description: Complete reference of the UpdateTemplateProject
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!update-template-project
 notes:
-  - SDK Method used are configuration_templates.ConfigurationTemplates.delete_template_project_v1,
-    configuration_templates.ConfigurationTemplates.update_template_project_v1,
-  - Paths used are delete /dna/intent/api/v1/projects/{projectId}, put /dna/intent/api/v1/projects/{projectId},
-  - It should be noted that this module is an alias of projects_project_id_v1
+  - SDK Method used are
+    configuration_templates.ConfigurationTemplates.delete_template_project,
+    configuration_templates.ConfigurationTemplates.update_template_project,
+  - Paths used are
+    delete /dna/intent/api/v1/projects/{projectId},
+    put /dna/intent/api/v1/projects/{projectId},
 """
+
 EXAMPLES = r"""
+---
 - name: Update by id
   cisco.catalystcenter.projects_project_id:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     description: string
     name: string
     projectId: string
 - name: Delete by id
   cisco.catalystcenter.projects_project_id:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: absent
     projectId: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

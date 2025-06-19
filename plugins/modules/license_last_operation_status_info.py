@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: license_last_operation_status_info
-short_description: Information module for License Last Operation Status Info
+short_description: Information module for License Last
+  Operation Status
 description:
-  - This module represents an alias of the module license_last_operation_status_v1_info
+  - Get all License Last Operation Status.
+  - Retrieves the status of the last system licensing
+    operation.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -17,34 +22,38 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Licenses SystemLicensingLastOperationStatusV1
-    description: Complete reference of the SystemLicensingLastOperationStatusV1 API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!system-licensing-last-operation-status
+  - name: Cisco DNA Center documentation for Licenses
+      SystemLicensingLastOperationStatus
+    description: Complete reference of the SystemLicensingLastOperationStatus
+      API.
+    link: https://developer.cisco.com/docs/dna-center/#!system-licensing-last-operation-status
 notes:
-  - SDK Method used are licenses.Licenses.system_licensing_last_operation_status_v1,
-  - Paths used are get /dna/system/api/v1/license/lastOperationStatus,
-  - It should be noted that this module is an alias of license_last_operation_status_v1_info
+  - SDK Method used are
+    licenses.Licenses.system_licensing_last_operation_status,
+  - Paths used are
+    get /dna/system/api/v1/license/lastOperationStatus,
 """
+
 EXAMPLES = r"""
-- name: Get all License Last Operation Status Info
+---
+- name: Get all License Last Operation Status
   cisco.catalystcenter.license_last_operation_status_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

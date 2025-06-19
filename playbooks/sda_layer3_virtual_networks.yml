@@ -6,7 +6,7 @@
   gather_facts: false
   tasks:
     - name: Update layer 3 virtual networks v1
-      cisco.catalystcenter.sda_layer3_virtual_networks_v1:
+      cisco.catalystcenter.sda_layer3_virtual_networks:
         _host: "{{ _host }}"
         _api_port: "{{ _api_port }}"
         _username: "{{ _username }}"
@@ -19,7 +19,7 @@
             id: "1cc6dab4-d4e8-4523-bbc5-7f7bb4eb4c7c"
       register: result
     - name: Create layer 3 virtual networks v1
-      cisco.catalystcenter.sda_layer3_virtual_networks_v1:
+      cisco.catalystcenter.sda_layer3_virtual_networks:
         _host: "{{ _host }}"
         _api_port: "{{ _api_port }}"
         _username: "{{ _username }}"

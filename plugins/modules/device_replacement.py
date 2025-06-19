@@ -1,13 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: device_replacement
 short_description: Resource module for Device Replacement
 description:
-  - This module represents an alias of the module device_replacement_v1
+  - Manage operations create and update of the resource
+    Device Replacement.
+  - Marks device for replacement.
+  - UnMarks device for replacement.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -18,13 +23,15 @@ options:
     elements: dict
     suboptions:
       creationTime:
-        description: Date and time of marking the device for replacement.
+        description: Date and time of marking the device
+          for replacement.
         type: int
       family:
         description: Faulty device family.
         type: str
       faultyDeviceId:
-        description: Unique identifier of the faulty device.
+        description: Unique identifier of the faulty
+          device.
         type: str
       faultyDeviceName:
         description: Faulty device name.
@@ -36,13 +43,16 @@ options:
         description: Faulty device serial number.
         type: str
       id:
-        description: Unique identifier of the device replacement resource.
+        description: Unique identifier of the device
+          replacement resource.
         type: str
       neighbourDeviceId:
-        description: Unique identifier of the neighbor device to create the DHCP server.
+        description: Unique identifier of the neighbor
+          device to create the DHCP server.
         type: str
       networkReadinessTaskId:
-        description: Unique identifier of network readiness task.
+        description: Unique identifier of network readiness
+          task.
         type: str
       replacementDevicePlatform:
         description: Replacement device platform.
@@ -51,42 +61,51 @@ options:
         description: Replacement device serial number.
         type: str
       replacementStatus:
-        description: Device replacement status. Use NON-FAULTY to unmark the device
-          for replacement.
+        description: Device replacement status. Use
+          NON-FAULTY to unmark the device for replacement.
         type: str
       replacementTime:
         description: Date and time of device replacement.
         type: int
       workflowId:
-        description: Unique identifier of the device replacement workflow.
+        description: Unique identifier of the device
+          replacement workflow.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacementV1
-    description: Complete reference of the MarkDeviceForReplacementV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Replacement MarkDeviceForReplacement
+    description: Complete reference of the MarkDeviceForReplacement
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
-  - name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacementV1
-    description: Complete reference of the UnMarkDeviceForReplacementV1 API.
+  - name: Cisco DNA Center documentation for Device
+      Replacement UnMarkDeviceForReplacement
+    description: Complete reference of the UnMarkDeviceForReplacement
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
 notes:
-  - SDK Method used are device_replacement.DeviceReplacement.mark_device_for_replacement_v1,
-    device_replacement.DeviceReplacement.unmark_device_for_replacement_v1,
-  - Paths used are post /dna/intent/api/v1/device-replacement, put /dna/intent/api/v1/device-replacement,
-  - It should be noted that this module is an alias of device_replacement_v1
+  - SDK Method used are
+    device_replacement.DeviceReplacement.mark_device_for_replacement,
+    device_replacement.DeviceReplacement.unmark_device_for_replacement,
+  - Paths used are
+    post /dna/intent/api/v1/device-replacement,
+    put /dna/intent/api/v1/device-replacement,
 """
+
 EXAMPLES = r"""
+---
 - name: Update all
   cisco.catalystcenter.device_replacement:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
       - creationTime: 0
@@ -105,13 +124,13 @@ EXAMPLES = r"""
         workflowId: string
 - name: Create
   cisco.catalystcenter.device_replacement:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
       - creationTime: 0
@@ -130,8 +149,8 @@ EXAMPLES = r"""
         workflowId: string
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile_info
-short_description: Information module for Wireless Rf Profile Info
+short_description: Information module for Wireless Rf
+  Profile
 description:
-  - This module represents an alias of the module wireless_rf_profile_v1_info
+  - Get all Wireless Rf Profile.
+  - Retrieve all RF profiles.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,37 +22,43 @@ options:
     type: dict
   rf_profile_name:
     description:
-      - Rf-profile-name query parameter. RF Profile Name.
+      - Rf-profile-name query parameter. RF Profile
+        Name.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Wireless RetrieveRFProfilesV1
-    description: Complete reference of the RetrieveRFProfilesV1 API.
+  - name: Cisco DNA Center documentation for Wireless
+      RetrieveRFProfiles
+    description: Complete reference of the RetrieveRFProfiles
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
-  - SDK Method used are wireless.Wireless.retrieve_rf_profiles_v1,
-  - Paths used are get /dna/intent/api/v1/wireless/rf-profile,
-  - It should be noted that this module is an alias of wireless_rf_profile_v1_info
+  - SDK Method used are
+    wireless.Wireless.retrieve_rf_profiles,
+  - Paths used are
+    get /dna/intent/api/v1/wireless/rf-profile,
 """
+
 EXAMPLES = r"""
-- name: Get all Wireless Rf Profile Info
+---
+- name: Get all Wireless Rf Profile
   cisco.catalystcenter.wireless_rf_profile_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     rf_profile_name: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >

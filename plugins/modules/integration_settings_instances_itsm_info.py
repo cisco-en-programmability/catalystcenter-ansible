@@ -1,13 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
 DOCUMENTATION = r"""
 ---
 module: integration_settings_instances_itsm_info
-short_description: Information module for Integration Settings Instances Itsm Info
+short_description: Information module for Integration
+  Settings Instances Itsm
 description:
-  - This module represents an alias of the module integration_settings_instances_itsm_v1_info
+  - Get Integration Settings Instances Itsm by id.
+  - Fetches ITSM Integration setting by ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -18,37 +22,43 @@ options:
     type: dict
   instanceId:
     description:
-      - InstanceId path parameter. Instance Id of the Integration setting instance.
+      - InstanceId path parameter. Instance Id of the
+        Integration setting instance.
     type: str
 requirements:
-  - catalystcentersdk >= 2.3.7.9
+  - catalystcentersdk >= 3.1.3.0.0
   - python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationSettingByIdV1
-    description: Complete reference of the GetITSMIntegrationSettingByIdV1 API.
+  - name: Cisco DNA Center documentation for ITSM Integration
+      GetITSMIntegrationSettingById
+    description: Complete reference of the GetITSMIntegrationSettingById
+      API.
     link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-setting-by-id
 notes:
-  - SDK Method used are itsm_integration.ItsmIntegration.get_itsm_integration_setting_by_id_v1,
-  - Paths used are get /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId},
-  - It should be noted that this module is an alias of integration_settings_instances_itsm_v1_info
+  - SDK Method used are
+    itsm_integration.ItsmIntegration.get_itsm_integration_setting_by_id,
+  - Paths used are
+    get /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId},
 """
+
 EXAMPLES = r"""
-- name: Get Integration Settings Instances Itsm Info by id
+---
+- name: Get Integration Settings Instances Itsm by id
   cisco.catalystcenter.integration_settings_instances_itsm_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     instanceId: string
   register: result
 """
 RETURN = r"""
-catalystcenter_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
   returned: always
   type: dict
   sample: >
