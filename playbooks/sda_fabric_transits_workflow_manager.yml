@@ -8,13 +8,13 @@
   tasks:
     - name: Create the SDA fabric transits with transit_type as IP_BASED_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -30,13 +30,13 @@
                   autonomous_system_number: 1234  # between 1 and 4294967295
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -53,13 +53,13 @@
                     - 10.0.0.2
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -79,13 +79,13 @@
                     - 11.0.0.4
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -102,13 +102,13 @@
                     - 10.0.0.4
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -128,13 +128,13 @@
                     - 11.0.0.8
     - name: Delete the SDA fabric transits
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
         log: true
         log_level: DEBUG
         log_append: true

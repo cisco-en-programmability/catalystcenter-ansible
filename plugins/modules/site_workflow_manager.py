@@ -169,13 +169,13 @@ notes:
 EXAMPLES = r"""
 - name: Create a new area site
   cisco.catalystcenter.site_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -187,13 +187,13 @@ EXAMPLES = r"""
         site_type: area
 - name: Create a new building site
   cisco.catalystcenter.site_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -208,13 +208,13 @@ EXAMPLES = r"""
         site_type: building
 - name: Create a Floor site under the building
   cisco.catalystcenter.site_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -231,13 +231,13 @@ EXAMPLES = r"""
         site_type: floor
 - name: Updating the Floor details under the building
   cisco.catalystcenter.site_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -252,13 +252,13 @@ EXAMPLES = r"""
         site_type: floor
 - name: Deleting any site you need site name and parent name
   cisco.catalystcenter.site_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: deleted
@@ -270,13 +270,13 @@ EXAMPLES = r"""
         site_type: floor
 - name: Create bulk sites and upload floor map
   cisco.catalystcenter.site_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: DEBUG
     configverify: true

@@ -448,13 +448,13 @@ EXAMPLES = r"""
 - name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -479,13 +479,13 @@ EXAMPLES = r"""
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco
     Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -503,13 +503,13 @@ EXAMPLES = r"""
 - name: Deleting Layer 2 Fabric VLAN from the Cisco
     Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -523,13 +523,13 @@ EXAMPLES = r"""
 - name: Create layer3 Virtual Network and anchored the
     site to the VN as well.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -543,13 +543,13 @@ EXAMPLES = r"""
 - name: Create layer3 Virtual Network and extend it
     to multiple fabric sites.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -564,13 +564,13 @@ EXAMPLES = r"""
 - name: Update layer3 Virtual Network in the Cisco Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -587,13 +587,13 @@ EXAMPLES = r"""
 - name: Removing the fabric sites only from the given
     Virtual Network in the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -608,13 +608,13 @@ EXAMPLES = r"""
 - name: Deleting Virtual Network from the Cisco Catalyst
     Center and removing fabric sites if any.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -624,13 +624,13 @@ EXAMPLES = r"""
 - name: Create the Anycast gateway(s) for SDA in Catalsyt
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -648,13 +648,13 @@ EXAMPLES = r"""
 - name: Update the Anycast gateway(s) for SDA in Catalsyt
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -673,13 +673,13 @@ EXAMPLES = r"""
 - name: Deleting Anycast Gateway from the Cisco Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted

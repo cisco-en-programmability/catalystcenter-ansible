@@ -575,13 +575,13 @@ EXAMPLES = r"""
 ---
 - name: Create global pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -599,13 +599,13 @@ EXAMPLES = r"""
                 dns_server_ips: list
 - name: Create reserve an ip pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -628,13 +628,13 @@ EXAMPLES = r"""
 - name: Create reserve an ip pool using global pool
     name
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -656,13 +656,13 @@ EXAMPLES = r"""
             slaac_support: true
 - name: Delete reserved pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
@@ -691,13 +691,13 @@ EXAMPLES = r"""
               - name: string
 - name: Manage the network functions
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -728,13 +728,13 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     AAA server
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -756,13 +756,13 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     ISE server
   cisco.catalystcenter.network_settings_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged

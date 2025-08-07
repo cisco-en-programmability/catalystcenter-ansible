@@ -9,12 +9,12 @@
   tasks:
     - name: Test project template
       cisco.catalystcenter.template_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         log: true
         log_level: DEBUG
         log_append: true

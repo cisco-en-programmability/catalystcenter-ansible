@@ -154,13 +154,13 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using IP address
     list (run_compliance by default is True)
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -168,13 +168,13 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using IP address
     list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -182,13 +182,13 @@ EXAMPLES = r"""
         run_compliance: true
 - name: Run Compliance check on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -197,13 +197,13 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using both
     IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -213,13 +213,13 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -229,13 +229,13 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -245,13 +245,13 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -262,13 +262,13 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -278,13 +278,13 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -294,13 +294,13 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -311,13 +311,13 @@ EXAMPLES = r"""
 - name: Run Compliance and Sync Device Configuration
     using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:

@@ -499,13 +499,13 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with both global
     credentials and discovery specific credentials
   cisco.catalystcenter.discovery_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -577,13 +577,13 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with discovery
     specific credentials only
   cisco.catalystcenter.discovery_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -632,13 +632,13 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with global credentials
     only
   cisco.catalystcenter.discovery_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -679,13 +679,13 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with all the global
     credentials (max 5 allowed)
   cisco.catalystcenter.discovery_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -706,13 +706,13 @@ EXAMPLES = r"""
         use_global_credentials: true
 - name: Delete disovery by name
   cisco.catalystcenter.discovery_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted

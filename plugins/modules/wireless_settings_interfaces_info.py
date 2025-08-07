@@ -75,13 +75,13 @@ EXAMPLES = r"""
 ---
 - name: Get all Wireless Settings Interfaces
   cisco.catalystcenter.wireless_settings_interfaces_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
@@ -90,13 +90,13 @@ EXAMPLES = r"""
   register: result
 - name: Get Wireless Settings Interfaces by id
   cisco.catalystcenter.wireless_settings_interfaces_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result

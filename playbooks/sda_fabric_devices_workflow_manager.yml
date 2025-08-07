@@ -8,13 +8,13 @@
   tasks:
     - name: Add the SDA fabric device as BORDER and CONTROL node and do L2 and L3 handoff.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -53,13 +53,13 @@
                         external_vlan_id: 444
     - name: Delete the SDA fabric device's L2 and L3 handoff configurations
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true
@@ -83,13 +83,13 @@
                         internal_vlan_id: 443
     - name: Delete the SDA fabric device
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
-        version: "{{ version }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
         log: true
         log_level: DEBUG
         log_append: true

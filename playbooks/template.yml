@@ -7,11 +7,11 @@
   tasks:
     - name: Create an configuration_template_project
       cisco.catalystcenter.configuration_template_project:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         state: present
         name: Cloud Test Template 5
       register: configuration_template_project_result

@@ -226,13 +226,13 @@ EXAMPLES = r"""
 ---
 - name: Import multiple switches in bulk only
   cisco.catalystcenter.pnp_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: merged
@@ -252,13 +252,13 @@ EXAMPLES = r"""
             pid: c9300-24P
 - name: Add a new EWLC and claim it
   cisco.catalystcenter.pnp_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: merged
@@ -285,13 +285,13 @@ EXAMPLES = r"""
 - name: Claim a pre-added switch, apply a template,
     and perform an image upgrade for a specific site
   cisco.catalystcenter.pnp_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: merged
@@ -312,13 +312,13 @@ EXAMPLES = r"""
 - name: Remove multiple devices from the PnP dashboard
     safely (ignores non-existent devices)
   cisco.catalystcenter.pnp_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: deleted

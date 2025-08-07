@@ -165,13 +165,13 @@ EXAMPLES = r"""
 ---
 - name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -185,13 +185,13 @@ EXAMPLES = r"""
           autonomous_system_number: 1234
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -206,13 +206,13 @@ EXAMPLES = r"""
             - 10.0.0.2
 - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -230,13 +230,13 @@ EXAMPLES = r"""
             - 10.0.0.4
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -251,13 +251,13 @@ EXAMPLES = r"""
             - 10.0.0.2
 - name: Update the multicast over transit
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -270,13 +270,13 @@ EXAMPLES = r"""
           is_multicast_over_transit_enabled: true
 - name: Update the control plane network devices
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
@@ -292,13 +292,13 @@ EXAMPLES = r"""
             - 10.0.0.3
 - name: Delete SDA fabric transit
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted

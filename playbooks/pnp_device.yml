@@ -7,13 +7,13 @@
   tasks:
     # - name: Delete by id
     #   cisco.catalystcenter.pnp_device:
-    #     host: "{{ host }}"
-    #     username: "{{ username }}"
-    #     password: "{{ password }}"
-    #     verify: "{{ verify }}"
-    #     api_port: "{{ api_port }}"
-    #     version: "{{ version }}"
-    #     debug: "{{ debug }}"
+    #     catc_host: "{{ catc_host }}"
+    #     catc_username: "{{ catc_username }}"
+    #     catc_password: "{{ catc_password }}"
+    #     catc_verify: "{{ catc_verify }}"
+    #     catc_api_port: "{{ catc_api_port }}"
+    #     catc_version: "{{ catc_version }}"
+    #     catc_debug: "{{ catc_debug }}"
     #     state: absent
     #     id: 5f96f83854ee220008a9c456
     #   register: pnp_device_delete_result
@@ -25,13 +25,13 @@
     #     - pnp_device_delete_result is defined
     - name: Adds or Updates a device to the PnP database
       cisco.catalystcenter.pnp_device:
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
         state: present
         deviceInfo:
           serialNumber: FOCTEST2
