@@ -42,7 +42,7 @@ options:
       task completion.
     type: int
     default: 30
-  config_verify:
+  configverify:
     description: Set to true to verify the LAN Automation
       config after applying the playbook config.
     type: bool
@@ -353,15 +353,15 @@ EXAMPLES = r"""
 - name: Start a LAN Automation session without waiting
     for it to finish
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automation:
@@ -399,15 +399,15 @@ EXAMPLES = r"""
 - name: Start a LAN Automation session with device authorization
     and waiting for the task to complete
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automation:
@@ -447,15 +447,15 @@ EXAMPLES = r"""
             - "FJC2721261A"
 - name: Stop a LAN Automation session
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: deleted
     config:
       - lan_automation:
@@ -464,15 +464,15 @@ EXAMPLES = r"""
           primary_device_management_ip_address: "204.1.1.1"
 - name: Update loopback for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -483,15 +483,15 @@ EXAMPLES = r"""
               new_loopback0_ip_address: "91.1.2.5"
 - name: Update hostname for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -502,15 +502,15 @@ EXAMPLES = r"""
               new_host_name: "Test"
 - name: Add link for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -522,15 +522,15 @@ EXAMPLES = r"""
             ip_pool_name: "underlay_sj"
 - name: Delete link between LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -542,15 +542,15 @@ EXAMPLES = r"""
 - name: Apply loopback and hostname updates for LAN
     Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
-    config_verify: false
+    configverify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -3823,13 +3823,13 @@ def main():
 
     # Define the specification for the module's arguments
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -3876,7 +3876,7 @@ def main():
         ccc_lan_automation.get_have(config).check_return_status()
         ccc_lan_automation.get_want(config).check_return_status()
         ccc_lan_automation.get_diff_state_apply[state]().check_return_status()
-        if config_verify:
+        if configverify:
             ccc_lan_automation.verify_diff_state_apply[state](
                 config
             ).check_return_status()

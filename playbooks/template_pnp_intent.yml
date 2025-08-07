@@ -12,15 +12,15 @@
     #
     - name: Test project template
       cisco.catalystcenter.template_intent:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         state: "merged"
-        config_verify: true
+        configverify: true
         # ignore_errors: true        # Enable this to continue execution even the task fails
         config:
           - configuration_templates:
@@ -39,12 +39,12 @@
         - template
     - name: Create pnp
       cisco.catalystcenter.pnp_intent:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        debug: "{{ debug }}"
         log: true
         config:
           - site_name: "{{ item.site_name }}"

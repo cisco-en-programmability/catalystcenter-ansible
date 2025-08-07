@@ -52,13 +52,13 @@ EXAMPLES = r"""
 ---
 - name: Delete by id
   cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     networkDeviceId: string
     previewActivityId: string
 """

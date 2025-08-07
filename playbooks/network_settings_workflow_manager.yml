@@ -8,18 +8,18 @@
   tasks:
     - name: Create global pool, reserve subpool and network functions
       cisco.catalystcenter.network_settings_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - global_pool_details:
               settings:
@@ -99,16 +99,16 @@
                     # - 10.0.0.7
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         log_level: "{{ log_level }}"
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - global_pool_details:
               settings:

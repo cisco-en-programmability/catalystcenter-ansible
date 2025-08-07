@@ -25,7 +25,7 @@ author:
   - Rangaprabhu Deenadayalu (@rangaprabha-d)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -652,16 +652,16 @@ EXAMPLES = r"""
 ---
 - name: Create a user
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -676,16 +676,16 @@ EXAMPLES = r"""
 - name: Update a user for first name, last name, email,
     and role list
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -698,16 +698,16 @@ EXAMPLES = r"""
           role_list: ["SUPER-ADMIN-ROLE"]
 - name: Update a user for role list
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -717,16 +717,16 @@ EXAMPLES = r"""
           role_list: ["NETWORK-ADMIN-ROLE"]
 - name: Update the user password
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -737,16 +737,16 @@ EXAMPLES = r"""
           password_update: true
 - name: Delete a user using username or email address
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: deleted
@@ -755,16 +755,16 @@ EXAMPLES = r"""
         username: "ajithandrewj"
 - name: Create a Comprehensive Role
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     config:
       role_details:
         - role_name: "Full-Access-Admin"
@@ -823,16 +823,16 @@ EXAMPLES = r"""
               search: "write"
 - name: Create Assurance Role
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     config:
       role_details:
         - role_name: "Assurance-Manager"
@@ -843,16 +843,16 @@ EXAMPLES = r"""
               monitoring_and_troubleshooting: "read"
 - name: Create a Network Provision Role
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     config:
       role_details:
         - role_name: "Network-Provision-Manager"
@@ -870,16 +870,16 @@ EXAMPLES = r"""
               provision: "read"
 - name: Update a Role for Assurance and Platform
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     config:
       role_details:
         - role_name: "Full-Access-Admin"
@@ -892,16 +892,16 @@ EXAMPLES = r"""
               reports: "read"
 - name: Delete a role
   cisco.catalystcenter.user_role_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: deleted
@@ -3380,7 +3380,7 @@ class UserandRole(CatalystCenterBase):
         desired_username = self.want.get("username").lower()
         current_username = current_user.get("username").lower()
         if desired_username is not None:
-            if current_username != desired_username:
+            if current_username != desiredusername:
                 self.log(
                     "Username for an existing User cannot be updated from {0} to {1}.".format(
                         current_username, desired_username
@@ -4406,7 +4406,7 @@ class UserandRole(CatalystCenterBase):
                 self.get_have(config).check_return_status()
                 self.get_diff_state_apply[state](config).check_return_status()
 
-                if config_verify:
+                if configverify:
                     self.verify_diff_state_apply[state](config).check_return_status()
 
 
@@ -4414,13 +4414,13 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check or assign default.
     user_role_details = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},

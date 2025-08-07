@@ -28,7 +28,7 @@ ip_range:
       cli_credentials_list:
         - username: cisco
           password: Cisco#123
-          enable_password: Cisco#123
+          enablepassword: Cisco#123
       http_read_credential:
         username: wlcaccess
         password: Lablab#123
@@ -44,12 +44,12 @@ ip_range:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        authpassword: Lablab#1234
         privacy_type: AES256
-        privacy_password: Lablab#1234
+        privacypassword: Lablab#1234
     start_index: 1
     records_to_return: 1000
-    snmp_version: v2
+    snmpversion: v2
     retry: 1
     timeout: 2
   
@@ -83,14 +83,14 @@ multi_range:
       cli_credentials_list:
         - username: cisco
           password: Cisco#123
-          enable_password: Cisco#123
+          enablepassword: Cisco#123
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        authpassword: Lablab#1234
         privacy_type: AES256
-        privacy_password: Lablab#1234 
+        privacypassword: Lablab#1234 
     retry: 1
     timeout: 1
 
@@ -106,14 +106,14 @@ cdp:
       cli_credentials_list:
         - username: cisco
           password: Cisco#123
-          enable_password: Cisco#123
+          enablepassword: Cisco#123
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        authpassword: Lablab#1234
         privacy_type: AES256
-        privacy_password: Lablab#1234
+        privacypassword: Lablab#1234
     retry: 1
     timeout: 1
 
@@ -129,14 +129,14 @@ lldp:
       cli_credentials_list:
         - username: cisco
           password: Cisco#123
-          enable_password: Cisco#123
+          enablepassword: Cisco#123
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        authpassword: Lablab#1234
         privacy_type: AES256
-        privacy_password: Lablab#1234 
+        privacypassword: Lablab#1234 
     retry: 1
     timeout: 1
 
@@ -152,13 +152,13 @@ cidr:
       cli_credentials_list:
         - username: cisco
           password: Cisco#123
-          enable_password: Cisco#123
+          enablepassword: Cisco#123
       snmp_v3_credential:
         username: v3Public2
         snmp_mode: AUTHPRIV
         auth_type: SHA
-        auth_password: Lablab#1234
+        authpassword: Lablab#1234
         privacy_type: AES256
-        privacy_password: Lablab#1234
+        privacypassword: Lablab#1234
     retry: 1
     timeout: 1

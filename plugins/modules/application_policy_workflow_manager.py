@@ -31,7 +31,7 @@ author:
   - Syed Khadeer Ahmed (@syed-khadeerahmed)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -490,16 +490,16 @@ EXAMPLES = r"""
     - name: Create Enterprise QoS Profile for Optimized
         Network Performance
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -549,16 +549,16 @@ EXAMPLES = r"""
     - name: Configure Enterprise QoS Profile for Consistent
         Traffic Prioritization
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -596,16 +596,16 @@ EXAMPLES = r"""
     - name: Configure QoS Profile for Different Interface
         Speeds
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        host: "{{host}}"
+        username: "{{username}}"
+        password: "{{password}}"
+        verify: "{{verify}}"
+        api_port: "{{api_port}}"
+        version: "{{version}}"
+        debug: "{{debug}}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: false
+        configverify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -714,16 +714,16 @@ EXAMPLES = r"""
     - name: Create an Application Queueing Profile for
         Traffic Prioritization
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -804,16 +804,16 @@ EXAMPLES = r"""
     - name: Create an Application Queuing Profile with
         DSCP Settings
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -847,16 +847,16 @@ EXAMPLES = r"""
     - name: Update Application Queuing Profile in Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -909,16 +909,16 @@ EXAMPLES = r"""
     - name: Delete application queuing profile from
         Cisco Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: deleted
@@ -936,16 +936,16 @@ EXAMPLES = r"""
     - name: Create Application with Server Name on Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -973,16 +973,16 @@ EXAMPLES = r"""
     - name: Create application with Server IP on Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -1018,16 +1018,16 @@ EXAMPLES = r"""
     - name: Create Application with URL Type in Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -1057,16 +1057,16 @@ EXAMPLES = r"""
     - name: Delete Video Streaming Application from
         Cisco Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: deleted
@@ -1084,16 +1084,16 @@ EXAMPLES = r"""
   tasks:
     - name: Define and Deploy Wired Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -1124,16 +1124,16 @@ EXAMPLES = r"""
   tasks:
     - name: Define and Deploy Wireless Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -1165,16 +1165,16 @@ EXAMPLES = r"""
     - name: Delete application policy from Cisco Catalyst
         Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: deleted
@@ -7432,13 +7432,13 @@ class ApplicationPolicy(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -7485,7 +7485,7 @@ def main():
         ccc_application.get_want(config).check_return_status()
         ccc_application.get_have().check_return_status()
         ccc_application.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_application.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_application.update_all_messages()

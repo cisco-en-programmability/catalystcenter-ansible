@@ -41,7 +41,7 @@ extends_documentation_fragment:
 author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center configuration after applying the playbook
       configuration.
@@ -441,13 +441,13 @@ EXAMPLES = r"""
 - name: Add port assignments, port channels and wireless
     ssids for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -518,13 +518,13 @@ EXAMPLES = r"""
 - name: Update port assignments, port channels and wireless
     ssids for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -593,13 +593,13 @@ EXAMPLES = r"""
 - name: Add or Update just wireless ssid mappings for
     a specific fabric site (IP/Hostname not required)
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -618,13 +618,13 @@ EXAMPLES = r"""
 - name: Delete ALL port assignments, port channels and
     wireless SSID mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -635,13 +635,13 @@ EXAMPLES = r"""
 - name: Delete ALL port assignments, port channels and
     wireless SSID mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -652,13 +652,13 @@ EXAMPLES = r"""
 - name: Delete just ALL wireless SSIDs mappings from
     a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -668,13 +668,13 @@ EXAMPLES = r"""
 - name: Delete specific port assignments, port channels
     and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -703,13 +703,13 @@ EXAMPLES = r"""
 - name: Delete specific port assignments, port channels
     and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -737,13 +737,13 @@ EXAMPLES = r"""
 - name: Delete all wireless SSIDs mapped to specific
     VLANs
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -756,13 +756,13 @@ EXAMPLES = r"""
           - vlan_name: "IAC-VLAN-3"
 - name: Delete specific wireless SSIDs mapped to a VLAN
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -781,13 +781,13 @@ EXAMPLES = r"""
 - name: Skip collection status check when add/update port assignments, port channels and wireless ssids for a
     specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -813,13 +813,13 @@ EXAMPLES = r"""
 - name: Skip device collection stat when Deleting specific port assignments, port channels
     and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -5863,13 +5863,13 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -5927,7 +5927,7 @@ def main():
         ccc_sda_host_port_onboarding.get_want(config, state).check_return_status()
         ccc_sda_host_port_onboarding.get_diff_state_apply[state]().check_return_status()
 
-        if config_verify:
+        if configverify:
             ccc_sda_host_port_onboarding.verify_diff_state_apply[
                 state
             ]().check_return_status()

@@ -142,13 +142,13 @@ EXAMPLES = r"""
 ---
 - name: Get all Custom Issue Definitions
   cisco.catalystcenter.custom_issue_definitions_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
     profileId: string
@@ -165,13 +165,13 @@ EXAMPLES = r"""
   register: result
 - name: Get Custom Issue Definitions by id
   cisco.catalystcenter.custom_issue_definitions_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result

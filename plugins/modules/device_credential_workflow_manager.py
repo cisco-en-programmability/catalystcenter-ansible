@@ -29,7 +29,7 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel) Megha Kandari (@kandarimegha)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -61,7 +61,7 @@ options:
                 description: Description. Required for
                   creating the credential.
                 type: str
-              enable_password:
+              enablepassword:
                 description:
                   - cli_credential credential Enable
                     Password.
@@ -90,7 +90,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              old_username:
+              oldusername:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -128,7 +128,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              old_username:
+              oldusername:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -166,7 +166,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              old_username:
+              oldusername:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -221,7 +221,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              auth_password:
+              authpassword:
                 description:
                   - snmp_v3 Auth Password.
                   - Password must contain minimum 8
@@ -242,7 +242,7 @@ options:
                 description: Credential Id. Use this
                   for updating the device credential.
                 type: str
-              privacy_password:
+              privacypassword:
                 description:
                   - snmp_v3 Privacy Password.
                   - Password must contain minimum 8
@@ -491,23 +491,23 @@ EXAMPLES = r"""
 ---
 - name: Create Credentials and assign it to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   dnac_log_level: "{{ dnac_log_level }}"
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - global_credential_details:
         cli_credential:
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -515,10 +515,10 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123456'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -553,27 +553,27 @@ EXAMPLES = r"""
           - Global/USA
 - name: Create Multiple Credentials.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   dnac_log_level: "{{ dnac_log_level }}"
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - global_credential_details:
         cli_credential:
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
           - description: CLI2
             username: cli2
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -585,17 +585,17 @@ EXAMPLES = r"""
           - description: SNMPv2c Write2
             write_community: '123456'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmp
             description: snmp
@@ -619,23 +619,23 @@ EXAMPLES = r"""
             port: 443
 - name: Update global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   dnac_log_level: "{{ dnac_log_level }}"
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - global_credential_details:
         cli_credential:
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -643,10 +643,10 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123456'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -662,27 +662,27 @@ EXAMPLES = r"""
             port: 443
 - name: Update multiple global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   dnac_log_level: "{{ dnac_log_level }}"
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - global_credential_details:
         cli_credential:
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
           - description: CLI2
             username: cli2
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -694,17 +694,17 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123466'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345644'
+            privacypassword: '12345644'
             privacy_type: AES128
             username: snmpV32
             description: snmpV32
@@ -729,25 +729,25 @@ EXAMPLES = r"""
 - name: Update global device credential name/description
     using old name and description.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   dnac_log_level: "{{ dnac_log_level }}"
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - global_credential_details:
         cli_credential:
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
             old_description: CLI
-            old_username: cli
+            oldusername: cli
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -757,10 +757,10 @@ EXAMPLES = r"""
             write_community: '123456'
             old_description: SNMPv2c write
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -771,27 +771,27 @@ EXAMPLES = r"""
             password: '12345'
             port: 443
             old_description: HTTP Read
-            old_username: HTTP Read
+            oldusername: HTTP Read
         https_write:
           - description: HTTP_Write1
             username: HTTP_Write1
             password: '12345'
             port: 443
             old_description: HTTP_Write
-            old_username: HTTP_Write
+            oldusername: HTTP_Write
 - name: Assign Credentials to sites using old description
     and username.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   dnac_log_level: "{{ dnac_log_level }}"
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - assign_credentials_to_site:
         cli_credential:
@@ -813,17 +813,17 @@ EXAMPLES = r"""
           - Global/USA
 - name: Sync global device credentials to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_version: "{{dnac_version}}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  version: "{{version}}"
+  debug: "{{ dnac_debug }}"
   dnac_log_level: "{{ dnac_log_level }}"
   dnac_log: true
   state: merged
-  config_verify: true
+  configverify: true
   config:
     - apply_credentials_to_site:
         cli_credential:
@@ -839,15 +839,15 @@ EXAMPLES = r"""
           - Global/Vietnam/halong/Hanoi
 - name: Delete credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
+  host: "{{ dnac_host }}"
+  api_port: "{{ dnac_port }}"
+  username: "{{ dnac_username }}"
+  password: "{{ dnac_password }}"
+  verify: "{{ dnac_verify }}"
+  debug: "{{ dnac_debug }}"
   dnac_log: true
   state: deleted
-  config_verify: true
+  configverify: true
   config:
     - global_credential_details:
         cli_credential:
@@ -2445,7 +2445,7 @@ class DeviceCredential(CatalystCenterBase):
             cli_description = cli_credential.get("description")
             cli_username = cli_credential.get("username")
 
-            if cli_id or cli_description and cli_username:
+            if cli_id or cli_description and cliusername:
                 # All CLI details from the Cisco Catalyst Center
                 global_cli_details = global_credentials.get("cliCredential")
 
@@ -2461,7 +2461,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID for the CLI credential is not valid."
                         self.status = "failed"
                         return self
-                elif cli_description and cli_username:
+                elif cli_description and cliusername:
                     for item in global_cli_details:
                         if (
                             item.get("description") == cli_description
@@ -2585,7 +2585,7 @@ class DeviceCredential(CatalystCenterBase):
             https_read_description = https_read.get("description")
             https_read_username = https_read.get("username")
 
-            if https_read_id or https_read_description and https_read_username:
+            if https_read_id or https_read_description and https_readusername:
                 # All httpRead details from the Cisco Catalyst Center
                 global_https_read_details = global_credentials.get("httpsRead")
                 if not global_https_read_details:
@@ -2602,7 +2602,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID of the https_read credential is not valid."
                         self.status = "failed"
                         return self
-                elif https_read_description and https_read_username:
+                elif https_read_description and https_readusername:
                     for item in global_https_read_details:
                         if (
                             item.get("description") == https_read_description
@@ -2636,7 +2636,7 @@ class DeviceCredential(CatalystCenterBase):
             https_write_description = https_write.get("description")
             https_write_username = https_write.get("username")
 
-            if https_write_id or https_write_description and https_write_username:
+            if https_write_id or https_write_description and https_writeusername:
                 # All httpWrite details from the Cisco Catalyst Center
                 global_https_write_details = global_credentials.get("httpsWrite")
                 if not global_https_write_details:
@@ -2653,7 +2653,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID of the https_write credential is not valid."
                         self.status = "failed"
                         return self
-                elif https_write_description and https_write_username:
+                elif https_write_description and https_writeusername:
                     for item in global_https_write_details:
                         if (
                             item.get("description") == https_write_description
@@ -2777,7 +2777,7 @@ class DeviceCredential(CatalystCenterBase):
             cli_id = cli_credential.get("id")
             cli_description = cli_credential.get("description")
             cli_username = cli_credential.get("username")
-            if cli_id or cli_description and cli_username:
+            if cli_id or cli_description and cliusername:
                 # All CLI details from the Cisco Catalyst Center
                 global_cli_details = global_credentials.get("cliCredential")
 
@@ -2793,7 +2793,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID for the CLI credential is not valid."
                         self.status = "failed"
                         return self
-                elif cli_description and cli_username:
+                elif cli_description and cliusername:
                     for item in global_cli_details:
                         if (
                             item.get("description") == cli_description
@@ -4136,13 +4136,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -4184,7 +4184,7 @@ def main():
         if state != "deleted":
             ccc_credential.get_want(config).check_return_status()
         ccc_credential.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_credential.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_credential.result)

@@ -24,7 +24,7 @@ extends_documentation_fragment:
 author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -448,13 +448,13 @@ EXAMPLES = r"""
 - name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -479,13 +479,13 @@ EXAMPLES = r"""
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco
     Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -503,13 +503,13 @@ EXAMPLES = r"""
 - name: Deleting Layer 2 Fabric VLAN from the Cisco
     Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -523,13 +523,13 @@ EXAMPLES = r"""
 - name: Create layer3 Virtual Network and anchored the
     site to the VN as well.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -543,13 +543,13 @@ EXAMPLES = r"""
 - name: Create layer3 Virtual Network and extend it
     to multiple fabric sites.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -564,13 +564,13 @@ EXAMPLES = r"""
 - name: Update layer3 Virtual Network in the Cisco Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -587,13 +587,13 @@ EXAMPLES = r"""
 - name: Removing the fabric sites only from the given
     Virtual Network in the Cisco Catalyst Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -608,13 +608,13 @@ EXAMPLES = r"""
 - name: Deleting Virtual Network from the Cisco Catalyst
     Center and removing fabric sites if any.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -624,13 +624,13 @@ EXAMPLES = r"""
 - name: Create the Anycast gateway(s) for SDA in Catalsyt
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -648,13 +648,13 @@ EXAMPLES = r"""
 - name: Update the Anycast gateway(s) for SDA in Catalsyt
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -673,13 +673,13 @@ EXAMPLES = r"""
 - name: Deleting Anycast Gateway from the Cisco Catalyst
     Center.
   cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -5297,13 +5297,13 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -5357,7 +5357,7 @@ def main():
         ccc_virtual_network.get_want(config).check_return_status()
         ccc_virtual_network.get_have(config).check_return_status()
         ccc_virtual_network.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_virtual_network.verify_diff_state_apply[state](
                 config
             ).check_return_status()

@@ -25,7 +25,7 @@ extends_documentation_fragment:
 author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
   (@madhansansel) Sonali Deepthi (@skesali)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -154,13 +154,13 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using IP address
     list (run_compliance by default is True)
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -168,13 +168,13 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using IP address
     list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -182,13 +182,13 @@ EXAMPLES = r"""
         run_compliance: true
 - name: Run Compliance check on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -197,13 +197,13 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using both
     IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -213,13 +213,13 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -229,13 +229,13 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -245,13 +245,13 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -262,13 +262,13 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -278,13 +278,13 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -294,13 +294,13 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -311,13 +311,13 @@ EXAMPLES = r"""
 - name: Run Compliance and Sync Device Configuration
     using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     config:
@@ -2142,13 +2142,13 @@ def main():
 
     # Define the specification for the module"s arguments
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -2203,7 +2203,7 @@ def main():
     for config in ccc_network_compliance.validated_config:
         ccc_network_compliance.get_want(config).check_return_status()
         ccc_network_compliance.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_network_compliance.verify_diff_state_apply[state](
                 config
             ).check_return_status()

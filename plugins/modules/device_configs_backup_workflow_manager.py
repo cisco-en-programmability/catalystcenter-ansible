@@ -24,7 +24,7 @@ author: Abinash Mishra (@abimishr) Rugvedi Kapse (@rukapse)
   Madhan Sankaranarayanan (@madhansansel) Sonali Deepthi
   Kesali (@skesali)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -151,7 +151,7 @@ options:
             playbook.
         type: str
         default: tmp
-      file_password:
+      filepassword:
         description:
           - Optional file password for zipping and unzipping
             the config file.
@@ -191,27 +191,27 @@ EXAMPLES = r"""
 - name: Take backup of all devices in the Cisco Catalyst
     Center
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-      - file_password: qsaA12!asdasd
+      - filepassword: qsaA12!asdasd
 - name: Take backup of device(s) using hostname(s)
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -222,30 +222,30 @@ EXAMPLES = r"""
 - name: Take backup of device(s) using hostname(s) and
     provide file password
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
       - hostname_list: ["DC-T-9300.cisco.local"]
         file_path: backup
-        file_password: qsaA12!asdasd
+        filepassword: qsaA12!asdasd
         unzip_backup: true
 - name: Take backup of all devices in a site(s)
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -255,13 +255,13 @@ EXAMPLES = r"""
         file_path: backup
 - name: Take backup of device(s) using IP Address List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -270,13 +270,13 @@ EXAMPLES = r"""
         file_path: backup
 - name: Take backup of device(s) using MAC Address List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -287,13 +287,13 @@ EXAMPLES = r"""
 - name: Take backup of device(s) using Serial Number
     List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -302,13 +302,13 @@ EXAMPLES = r"""
         file_path: backup
 - name: Take backup of device(s) using Family List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -319,13 +319,13 @@ EXAMPLES = r"""
 - name: Take backup of device(s) using Device Family
     Type List
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -335,13 +335,13 @@ EXAMPLES = r"""
         unzip_backup: false
 - name: Take backup of device(s) using Device Series
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -351,13 +351,13 @@ EXAMPLES = r"""
 - name: Take backup of devices with certain Collection
     Status
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -367,13 +367,13 @@ EXAMPLES = r"""
 - name: Take backup of device(s) in a site and also
     that meet other parameters
   cisco.catalystcenter.device_configs_backup_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
@@ -1227,7 +1227,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
             self.validate_ip4_address_list(ip_address_list)
 
         # Validate the file password or generate a new one if not provided
-        if file_password:
+        if filepassword:
             self.validate_file_password(file_password)
         else:
             file_password = self.password_generator()
@@ -1361,13 +1361,13 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -1421,7 +1421,7 @@ def main():
         ccc_device_configs_backup.reset_values()
         ccc_device_configs_backup.get_want(config).check_return_status()
         ccc_device_configs_backup.get_diff_state_apply[state]().check_return_status()
-        if config_verify:
+        if configverify:
             ccc_device_configs_backup.verify_diff_state_apply[
                 state
             ]().check_return_status()

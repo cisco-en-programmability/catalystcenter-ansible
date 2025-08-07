@@ -36,12 +36,12 @@ extends_documentation_fragment:
 author: Archit Soni (@koderchit) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  dnac_version:
+  version:
     description: The Catalyst Center version required
       for using 'tags_workflow_manager' module.
     type: str
     default: 2.3.7.9
-  config_verify:
+  configverify:
     description: Set to 'true' to verify the Cisco Catalyst
       Center configuration after applying the playbook
       configuration.
@@ -387,19 +387,19 @@ EXAMPLES = r"""
   tasks:
     - name: Create a tag with description.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Server_Connected_Devices_and_Ports
@@ -417,19 +417,19 @@ EXAMPLES = r"""
     - name: Create a tag for border devices in the 9300
         series.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Border_9300_Tag
@@ -457,19 +457,19 @@ EXAMPLES = r"""
     - name: Create a tag for high-speed server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: HighSpeed_Server_Interfaces
@@ -502,19 +502,19 @@ EXAMPLES = r"""
     - name: Update scope description for tagged server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Server_Connected_Interfaces
@@ -539,19 +539,19 @@ EXAMPLES = r"""
     - name: Update port rule descriptions for server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Server_Connected_Interfaces
@@ -577,19 +577,19 @@ EXAMPLES = r"""
   tasks:
     - name: Assign tags to devices or interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag_memberships:
               tags:
@@ -646,19 +646,19 @@ EXAMPLES = r"""
     - name: Assign tags to devices or interfaces within
         a specific site.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: merged
-        config_verify: false
+        configverify: false
         config:
           - tag_memberships:
               tags:
@@ -685,19 +685,19 @@ EXAMPLES = r"""
   tasks:
     - name: Delete a Tag.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Server_Connected_Devices
@@ -712,19 +712,19 @@ EXAMPLES = r"""
   tasks:
     - name: Force delete a Tag.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Server_Connected_Devices
@@ -741,19 +741,19 @@ EXAMPLES = r"""
     - name: Delete rule description of a tag with device
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Catalyst_Access_Tag
@@ -774,19 +774,19 @@ EXAMPLES = r"""
     - name: Delete scope members of a tag with port
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Catalyst_Site_Tag
@@ -809,19 +809,19 @@ EXAMPLES = r"""
     - name: Delete rule descriptions of a tag with port
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: false
+        configverify: false
         config:
           - tag:
               name: Catalyst_Port_Tag
@@ -847,19 +847,19 @@ EXAMPLES = r"""
   tasks:
     - name: Delete tags from members.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: false
+        configverify: false
         config:
           - tag_memberships:
               tags:
@@ -907,19 +907,19 @@ EXAMPLES = r"""
     - name: Delete tags from members within a specific
         sites.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - tag_memberships:
               tags:
@@ -5781,13 +5781,13 @@ def main():
     """
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.3.7.9"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": True},
+        "version": {"type": "str", "default": "2.3.7.9"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -5833,7 +5833,7 @@ def main():
         ccc_tags.get_have(config).check_return_status()
 
         ccc_tags.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_tags.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_tags.update_tags_profile_messages().check_return_status()

@@ -35,7 +35,7 @@ extends_documentation_fragment:
 author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -345,7 +345,7 @@ options:
               server is listening.
             type: str
             required: true
-          snmp_version:
+          snmpversion:
             description: The SNMP protocol version used
               for network management and monitoring,
               selectable between SNMPv2c and SNMPv3.
@@ -412,14 +412,14 @@ options:
               employed in SNMPv3 for message authenticity
               and integrity verification.
             type: str
-          auth_password:
+          authpassword:
             description: Password used for SNMP authentication.
             type: str
           privacy_type:
             description: Encryption algorithm used for
               SNMP privacy, such as AES128.
             type: str
-          privacy_password:
+          privacypassword:
             description: Password used for encryption
               in SNMP privacy.
             type: str
@@ -782,13 +782,13 @@ EXAMPLES = r"""
 ---
 - name: Create Rest Webhook destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -802,13 +802,13 @@ EXAMPLES = r"""
 - name: Updating Rest Webhook destination with given
     name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -818,13 +818,13 @@ EXAMPLES = r"""
           description: "updating webhook for testing"
 - name: Configuring the email destination in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -839,13 +839,13 @@ EXAMPLES = r"""
             smtp_type: "DEFAULT"
 - name: Updating the email destination in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -856,13 +856,13 @@ EXAMPLES = r"""
           subject: "Ansible updated email config testing"
 - name: Create Syslog destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -875,13 +875,13 @@ EXAMPLES = r"""
           port: 6553
 - name: Update Syslog destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -891,13 +891,13 @@ EXAMPLES = r"""
           description: "Updating syslog destination."
 - name: Create SNMP destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -908,22 +908,22 @@ EXAMPLES = r"""
             testing."
           server_address: "10.30.0.90"
           port: "25"
-          snmp_version: "V3"
+          snmpversion: "V3"
           username: cisco
           mode: AUTH_PRIVACY
           auth_type: SHA
-          auth_password: authpass123
+          authpassword: authpass123
           privacy_type: AES128
-          privacy_password: privacy123
+          privacypassword: privacy123
 - name: Update SNMP destination with given name.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -934,18 +934,18 @@ EXAMPLES = r"""
             snmp version v2."
           server_address: "10.30.0.23"
           port: "25"
-          snmp_version: "V2C"
+          snmpversion: "V2C"
           community: "public123"
 - name: Create ITSM Integration Setting with given name
     in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -960,13 +960,13 @@ EXAMPLES = r"""
 - name: Updating ITSM Integration Setting with given
     name in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -979,13 +979,13 @@ EXAMPLES = r"""
 - name: Creating Webhook Notification with the list
     of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -1001,13 +1001,13 @@ EXAMPLES = r"""
 - name: Updating Webhook Notification with the list
     of names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -1021,13 +1021,13 @@ EXAMPLES = r"""
 - name: Creating Email Notification with the list of
     names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -1045,13 +1045,13 @@ EXAMPLES = r"""
 - name: Updating Email Notification with the list of
     names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -1069,13 +1069,13 @@ EXAMPLES = r"""
 - name: Creating Syslog Notification with the list of
     names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -1090,13 +1090,13 @@ EXAMPLES = r"""
 - name: Updating Syslog Notification with the list of
     names of subscribed events in the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -1110,13 +1110,13 @@ EXAMPLES = r"""
 - name: Deleting ITSM Integration Setting with given
     name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -1126,13 +1126,13 @@ EXAMPLES = r"""
 - name: Deleting Webhook Events Subscription Notification
     with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -1142,13 +1142,13 @@ EXAMPLES = r"""
 - name: Deleting Email Events Subscription Notification
     with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -1158,13 +1158,13 @@ EXAMPLES = r"""
 - name: Deleting Syslog Events Subscription Notification
     with given name from the system.
   cisco.catalystcenter.events_and_notifications_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -6921,13 +6921,13 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -6969,7 +6969,7 @@ def main():
         ccc_events.get_want(config).check_return_status()
         ccc_events.get_have(config).check_return_status()
         ccc_events.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_events.verify_diff_state_apply[state](config).check_return_status()
 
     # Invoke the API to check the status and log the output of each destination and notification on the console

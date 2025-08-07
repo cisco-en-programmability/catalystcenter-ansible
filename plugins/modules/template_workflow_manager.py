@@ -32,7 +32,7 @@ author: Madhan Sankaranarayanan (@madhansansel) Rishita
   Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari
   (@abmahesh) Archit Soni (@koderchit)
 options:
-  config_verify:
+  configverify:
     description: If set to True, verifies the Cisco
       Catalyst Center configuration after applying the
       playbook.
@@ -381,7 +381,7 @@ options:
               - NFV-OS
               - Others
             type: str
-          software_version:
+          softwareversion:
             description: Applicable device software
               version.
             type: str
@@ -554,7 +554,7 @@ options:
             description: Import the projects.
             type: dict
             suboptions:
-              do_version:
+              doversion:
                 description:
                   - Determines whether to create a new
                     version of the project with the
@@ -596,7 +596,7 @@ options:
             description: Import the templates.
             type: dict
             suboptions:
-              do_version:
+              doversion:
                 description: DoVersion query parameter.
                   If this flag is true, creates a new
                   version of the template with the imported
@@ -984,7 +984,7 @@ options:
                       - NFV-OS
                       - Others
                     type: str
-                  software_version:
+                  softwareversion:
                     description: Applicable device software
                       version.
                     type: str
@@ -1352,17 +1352,17 @@ EXAMPLES = r"""
 ---
 - name: Create a new template.
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - configuration_templates:
           author: string
@@ -1380,7 +1380,7 @@ EXAMPLES = r"""
           project_name: string
           project_description: string
           software_type: string
-          software_version: string
+          softwareversion: string
           tags:
             - id: string
               name: string
@@ -1388,17 +1388,17 @@ EXAMPLES = r"""
           version: string
 - name: Update a template.
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - configuration_templates:
           author: string
@@ -1417,7 +1417,7 @@ EXAMPLES = r"""
           project_name: string
           project_description: string
           software_type: string
-          software_version: string
+          softwareversion: string
           tags:
             - id: string
               name: string
@@ -1425,17 +1425,17 @@ EXAMPLES = r"""
           version: string
 - name: Export the projects.
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       export:
         project:
@@ -1443,17 +1443,17 @@ EXAMPLES = r"""
           - string
 - name: Export the templates.
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       export:
         template:
@@ -1463,57 +1463,57 @@ EXAMPLES = r"""
             template_name: string
 - name: Import the Projects.
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       import:
         project:
-          do_version: false
+          doversion: false
           payload:
             - name: string
             - name: string
 - name: Import the Templates.
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       import:
         template:
-          do_version: false
+          doversion: false
           project_name: string
           template_file: string
 - name: Creating a JINJA-based template to configure
     access VLAN and interfaces on Catalyst 9300
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - configuration_templates:
           author: Test_User
@@ -1545,17 +1545,17 @@ EXAMPLES = r"""
 - name: Creating a VELOCITY-based Fusion Router template
     for Catalyst 3850 switches
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - configuration_templates:
           template_name: "Fusion Router Config"
@@ -1592,17 +1592,17 @@ EXAMPLES = r"""
 - name: Deploy the given template to the devices based
     on site specific details and other filtering mode
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       deploy_template:
         project_name: "Sample_Project"
@@ -1619,17 +1619,17 @@ EXAMPLES = r"""
 - name: Deploy the given template to the devices based
     on device specific details
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       deploy_template:
         project_name: "Sample_Project"
@@ -1645,17 +1645,17 @@ EXAMPLES = r"""
 - name: Deploy template to the devices using resource
     parameters and copying config
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       deploy_template:
         project_name: "Sample_Project"
@@ -1675,17 +1675,17 @@ EXAMPLES = r"""
 - name: Delete the given project or template from the
     Cisco Catalyst Center
   cisco.catalystcenter.template_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       configuration_templates:
         project_name: "Sample_Project"
@@ -3618,7 +3618,7 @@ class Template(CatalystCenterBase):
         _import_project = _import.get("project")
         if _import_project:
             do_version = _import_project.get("do_version")
-            if not do_version:
+            if not doversion:
                 do_version = False
 
             payload = _import.get("project").get("payload")
@@ -3700,7 +3700,7 @@ class Template(CatalystCenterBase):
         _import_template = _import.get("template")
         if _import_template:
             do_version = _import_template.get("do_version")
-            if not do_version:
+            if not doversion:
                 do_version = False
 
             project_name = _import_template.get("project_name")
@@ -5233,13 +5233,13 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -5277,7 +5277,7 @@ def main():
         ccc_template.get_have(config).check_return_status()
         ccc_template.get_want(config).check_return_status()
         ccc_template.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_template.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_template.result)

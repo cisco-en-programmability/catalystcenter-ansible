@@ -77,13 +77,13 @@ EXAMPLES = r"""
 ---
 - name: Get Transit Network Health Summaries Id by id
   cisco.catalystcenter.transit_network_health_summaries_id_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     endTime: 0
     startTime: 0

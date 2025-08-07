@@ -37,7 +37,7 @@ extends_documentation_fragment:
 author: Megha Kandari (@kandarimegha) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: >
       Set to `True` to enable configuration verification
       on Cisco Catalyst Center after applying the playbook
@@ -304,18 +304,18 @@ EXAMPLES = r"""
   tasks:
     - name: Update Health score and threshold settings
       cisco.catalystcenter. assurance_device_health_score_settings_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: debug
         dnac_log_append: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - device_health_score:
               - device_family: SWITCH_AND_HUB  # required field
@@ -331,18 +331,18 @@ EXAMPLES = r"""
   tasks:
     - name: Update Health score and threshold settings
       cisco.catalystcenter. assurance_device_health_score_settings_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: debug
         dnac_log_append: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - device_health_score:
               - device_family: ROUTER  # required field
@@ -358,18 +358,18 @@ EXAMPLES = r"""
   tasks:
     - name: Update Health score and threshold settings
       cisco.catalystcenter. assurance_device_health_score_settings_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: debug
         dnac_log_append: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - device_health_score:
               - device_family: UNIFIED_AP  # required field
@@ -1262,13 +1262,13 @@ class Healthscore(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": True},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -1308,7 +1308,7 @@ def main():
         ccc_assurance.get_want(config).check_return_status()
         ccc_assurance.get_have(config).check_return_status()
         ccc_assurance.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_assurance.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_assurance.result)

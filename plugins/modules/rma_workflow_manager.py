@@ -68,7 +68,7 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
   - Ajith Andrew J (@ajithandrewj)
 options:
-  config_verify:
+  configverify:
     description: |
       Set to True to verify the Cisco Catalyst Center configuration after applying the playbook config.
     type: bool
@@ -213,16 +213,16 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     device names
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -235,16 +235,16 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -257,16 +257,16 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -279,16 +279,16 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     device names
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -300,16 +300,16 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -321,16 +321,16 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -342,16 +342,16 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     all
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
     ccc_poll_interval: 2
@@ -1615,13 +1615,13 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check and assigning defaults.
     device_replacement_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -1674,7 +1674,7 @@ def main():
             ccc_device_replacement.get_diff_state_apply[state](
                 config
             ).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_device_replacement.verify_diff_state_apply[state](
                 config
             ).check_return_status()

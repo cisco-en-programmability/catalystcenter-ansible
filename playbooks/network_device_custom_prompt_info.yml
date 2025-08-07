@@ -7,13 +7,13 @@
   tasks:
     - name: Get all Network Device Custom Prompt
       cisco.catalystcenter.network_device_custom_prompt_info_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
       register: network_device_custom_prompt_result
     - name: Show all network_device_custom_prompt
       ansible.builtin.debug:

@@ -27,7 +27,7 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -576,17 +576,17 @@ EXAMPLES = r"""
 - name: Create SDA fabric device with device role as
     CONTROL_PLANE_NODE
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -596,17 +596,17 @@ EXAMPLES = r"""
 - name: Create SDA fabric device with device role as
     CONTROL_PLANE_NODE, EDGE_NODE
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -616,17 +616,17 @@ EXAMPLES = r"""
 - name: Create SDA fabric device with device role as
     CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -643,17 +643,17 @@ EXAMPLES = r"""
 - name: Update the SDA fabric device with the device
     roles with BORDER_NODE and add L2 Handoff
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -674,17 +674,17 @@ EXAMPLES = r"""
 - name: Add the L3 Handoff with SDA Transit to the SDA
     fabric device
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -701,17 +701,17 @@ EXAMPLES = r"""
 - name: Add L3 Handoff with IP Transit to the SDA fabric
     device with external_connectivity_ip_pool_name
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -729,17 +729,17 @@ EXAMPLES = r"""
 - name: Add L3 Handoff with IP Transit to the SDA fabric
     device with local and remote network
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -759,17 +759,17 @@ EXAMPLES = r"""
                     remote_ipv6_address: 2009:db8::2/64
 - name: Update the border settings of the SDA Devices
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -786,17 +786,17 @@ EXAMPLES = r"""
 - name: Update the L3 Handoffs with SDA Transit and
     IP Transit.
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -822,17 +822,17 @@ EXAMPLES = r"""
                     remote_ipv6_address: 2009:db8::2/64
 - name: Delete the L2 Handoff
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -844,17 +844,17 @@ EXAMPLES = r"""
                     internal_vlan_id: 550
 - name: Delete the L3 Handoff with SDA Transit
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -865,17 +865,17 @@ EXAMPLES = r"""
                   transit_network_name: SDA_PUB_SUB_TRANSIT
 - name: Delete the L3 Handoff with IP Transit
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -888,17 +888,17 @@ EXAMPLES = r"""
                     virtual_network_name: L3VN1
 - name: Delete the device
   cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_devices:
           fabric_name: Global/USA/SAN-JOSE
@@ -6237,13 +6237,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -6290,7 +6290,7 @@ def main():
         if state != "deleted":
             ccc_sda_devices.get_want(config).check_return_status()
         ccc_sda_devices.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_sda_devices.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_sda_devices.result)

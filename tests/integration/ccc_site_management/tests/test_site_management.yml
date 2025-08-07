@@ -9,16 +9,16 @@
       name: vars_map
     vars:
       catalystcenter_login: &catalystcenter_login
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log: true
         log_level: DEBUG
-        config_verify: true
+        configverify: true
 
   # - debug:
   #     msg: "{{ vars_map.design_sites }}"

@@ -9,16 +9,16 @@
   tasks:
     - name: Add/update channels with destination and create/update events in Cisco Catalyst Center.
       cisco.catalystcenter.events_and_notifications_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log_level: DEBUG
         log: true
-        config_verify: true
+        configverify: true
         state: merged
         config:
           - webhook_destination:
@@ -46,13 +46,13 @@
               description: "{{ item.snmp_destination.description }}"
               server_address: "{{ item.snmp_destination.server_address }}"
               port: "{{ item.snmp_destination.port }}"
-              snmp_version: "{{ item.snmp_destination.snmp_version }}"
+              snmpversion: "{{ item.snmp_destination.snmp_version }}"
               username: "{{ item.snmp_destination.username }}"
               mode: "{{ item.snmp_destination.mode }}"
               auth_type: "{{ item.snmp_destination.auth_type }}"
-              auth_password: "{{ item.snmp_destination.auth_password }}"
+              authpassword: "{{ item.snmp_destination.auth_password }}"
               privacy_type: "{{ item.snmp_destination.privacy_type }}"
-              privacy_password: "{{ item.snmp_destination.privacy_password }}"
+              privacypassword: "{{ item.snmp_destination.privacy_password }}"
             itsm_setting:
               instance_name: "{{ item.itsm_setting.instance_name }}"
               description: "{{ item.itsm_setting.description }}"
