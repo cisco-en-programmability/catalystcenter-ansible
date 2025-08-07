@@ -54,6 +54,7 @@ options:
           - Flag for Cisco Catalyst Center SDK to enable debugging.
         type: bool
         default: false
+        aliases: [debug, catalystcenter_debug]
     validate_response_schema:
         description:
           - Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
@@ -61,5 +62,5 @@ options:
         default: true
 notes:
     - "Supports C(check_mode)"
-    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK"
+    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead uses the embedded connection manager from Cisco CATALYST SDK"
 '''
