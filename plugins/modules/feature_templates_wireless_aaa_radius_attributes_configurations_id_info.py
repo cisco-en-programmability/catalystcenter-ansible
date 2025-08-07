@@ -49,13 +49,13 @@ EXAMPLES = r"""
 - name: Get Feature Templates Wireless Aaa Radius Attributes
     Configurations Id by id
   cisco.catalystcenter.feature_templates_wireless_aaa_radius_attributes_configurations_id_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
   register: result

@@ -64,13 +64,13 @@ EXAMPLES = r"""
 ---
 - name: Get all Dna Event Snmp Config
   cisco.catalystcenter.dna_event_snmp_config_info:
-    host: "{{host}}"
-    username: "{{username}}"
-    password: "{{password}}"
-    verify: "{{verify}}"
-    api_port: "{{api_port}}"
-    version: "{{version}}"
-    debug: "{{debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     configId: string
     offset: 0

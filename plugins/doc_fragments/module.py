@@ -14,44 +14,49 @@ class ModuleDocFragment(object):
     # Standard files documentation fragment
     DOCUMENTATION = r'''
 options:
-    host:
+    catc_host:
         description:
-          - The Cisco DNA Center hostname.
+          - The Cisco Catalyst Center hostname.
         type: str
         required: true
-    port:
+        aliases: [host, catalystcenter_host]
+    catc_api_port:
         description:
-          - The Cisco DNA Center port.
+          - The Cisco Catalyst Center port.
         type: int
         default: 443
-    username:
+        aliases: [port, api_port, catalystcenter_port]
+    catc_username:
         description:
-          - The Cisco DNA Center username to authenticate.
+          - The Cisco Catalyst Center username to authenticate.
         type: str
         default: admin
-        aliases: [ user ]
-    password:
+        aliases: [user, username, catalystcenter_username]
+    catc_password:
         description:
-          - The Cisco DNA Center password to authenticate.
+          - The Cisco Catalyst Center password to authenticate.
         type: str
-    verify:
+        aliases: [password, catalystcenter_password]
+    catc_verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
-    version:
+        aliases: [verify, catalystcenter_verify]
+    catc_version:
         description:
-          - Informs the SDK which version of Cisco DNA Center to use.
+          - Informs the SDK which version of Cisco Catalyst Center to use.
         type: str
         default: 2.3.7.6
-    debug:
+        aliases: [version, catalystcenter_version]
+    catc_debug:
         description:
-          - Flag for Cisco DNA Center SDK to enable debugging.
+          - Flag for Cisco Catalyst Center SDK to enable debugging.
         type: bool
         default: false
     validate_response_schema:
         description:
-          - Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+          - Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
         type: bool
         default: true
 notes:

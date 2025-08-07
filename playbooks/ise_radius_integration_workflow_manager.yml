@@ -8,12 +8,12 @@
   tasks:
     - name: Create an  Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
@@ -36,12 +36,12 @@
                 role: secondary
     - name: Delete Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
@@ -53,12 +53,12 @@
               - server_ip_address: 10.0.0.20
     - name: Create ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
@@ -91,12 +91,12 @@
                 ise_integration_wait_time: 20
     - name: Delete an ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        host: "{{ host }}"
-        api_port: "{{ api_port }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        debug: "{{ debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true

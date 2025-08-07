@@ -818,7 +818,7 @@ EXAMPLES = r"""
   username: "{{ dnac_username }}"
   password: "{{ dnac_password }}"
   verify: "{{ dnac_verify }}"
-  version: "{{version}}"
+  catc_version: "{{catc_version}}"
   debug: "{{ dnac_debug }}"
   dnac_log_level: "{{ dnac_log_level }}"
   dnac_log: true
