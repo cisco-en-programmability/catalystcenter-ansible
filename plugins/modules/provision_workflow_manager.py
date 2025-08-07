@@ -25,7 +25,7 @@ author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan
   (@madhansansel) Syed Khadeer Ahmed(@syed-khadeerahmed)
   Ajith Andrew J (@ajithandrewj)
 options:
-  config_verify:
+  configverify:
     description: Set to true to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -260,13 +260,13 @@ EXAMPLES = r"""
 ---
 - name: Provision a wireless device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: merged
     config:
@@ -282,13 +282,13 @@ EXAMPLES = r"""
 - name: Provision a wireless device to a site for version
     - 2.3.7.6
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: merged
     config:
@@ -309,13 +309,13 @@ EXAMPLES = r"""
           ap_reboot_percentage: 5
 - name: Provision a wired device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: merged
     config:
@@ -323,13 +323,13 @@ EXAMPLES = r"""
         management_ip_address: 204.192.3.40
 - name: Re-Provision a wired device to a site forcefully
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: merged
     config:
@@ -338,13 +338,13 @@ EXAMPLES = r"""
         force_provisioning: true
 - name: Assign a wired device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: merged
     config:
@@ -353,16 +353,16 @@ EXAMPLES = r"""
         provisioning: false
 - name: Provision a wireless device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - site_name_hierarchy: Global/USA/RTP/BLD11
         management_ip_address: 204.192.12.201
@@ -370,30 +370,30 @@ EXAMPLES = r"""
           - Global/USA/RTP/BLD11/BLD11_FLOOR1
 - name: Unprovision a device from a site
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - management_ip_address: 204.1.2.2
 - name: Unprovision a device from a site
   cisco.catalystcenter.provision_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - management_ip_address: 204.1.2.2
         clean_config: true
@@ -408,16 +408,16 @@ EXAMPLES = r"""
     - name: Enable application telemetry on specified
         network devices
       cisco.catalystcenter.provision_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: false
+        configverify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -438,16 +438,16 @@ EXAMPLES = r"""
     - name: Disable application telemetry on specified
         network devices
       cisco.catalystcenter.provision_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: false
+        configverify: false
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -3335,13 +3335,13 @@ def main():
     """
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -3414,7 +3414,7 @@ def main():
                     "Applying configuration for wired devices.", "INFO")
                 ccc_provision.get_diff_state_apply[state](
                 ).check_return_status()
-                if config_verify:
+                if configverify:
                     ccc_provision.log(
                         "Verifying configuration for wired devices.", "INFO"
                     )
@@ -3437,7 +3437,7 @@ def main():
                         ccc_provision.get_diff_state_apply[
                             state
                         ]().check_return_status()
-                        if config_verify:
+                        if configverify:
                             ccc_provision.log(
                                 "Verifying configuration for wireless device: {0}".format(
                                     device_ip
@@ -3471,7 +3471,7 @@ def main():
                 ccc_provision.get_diff_state_apply[state](
                 ).check_return_status()
 
-                if config_verify:
+                if configverify:
                     ccc_provision.log(
                         "Verifying telemetry configuration", "INFO")
                     ccc_provision.verify_diff_state_apply[state](
@@ -3488,7 +3488,7 @@ def main():
             ccc_provision.reset_values()
             ccc_provision.get_want(config).check_return_status()
             ccc_provision.get_diff_state_apply[state]().check_return_status()
-            if config_verify:
+            if configverify:
                 ccc_provision.log(
                     "Verifying configuration for device with management IP: {0}".format(
                         config.get("management_ip_address")

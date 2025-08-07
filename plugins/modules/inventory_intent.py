@@ -20,7 +20,7 @@ extends_documentation_fragment:
   - cisco.catalystcenter.intent_params
 author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst Center config after applying
       the playbook config.
     type: bool
@@ -73,13 +73,13 @@ options:
           device export. Required for adding Network Device. Also needed for file
           encryption while exporting device in a csv file.
         type: str
-      enable_password:
+      enablepassword:
         description: Password required for enabling configurations on the device.
         type: str
       extended_discovery_info:
         description: Additional discovery information for the device.
         type: str
-      http_password:
+      httppassword:
         description: HTTP password required for adding compute, Meraki, and Firepower
           Management Devices.
         type: str
@@ -90,7 +90,7 @@ options:
       http_secure:
         description: Flag indicating HTTP security.
         type: bool
-      http_username:
+      httpusername:
         description: HTTP username required for adding compute and Firepower Management
           Devices.
         type: str
@@ -181,11 +181,11 @@ options:
         description: SNMP timeout duration.
         type: int
         default: 5
-      snmp_username:
+      snmpusername:
         description: SNMP username required for adding network, compute, and third-party
           devices.
         type: str
-      snmp_version:
+      snmpversion:
         description: It is a standard protocol used for managing and monitoring network
           devices. v2 - In this communication between the SNMP manager (such as Cisco
           Catalyst) and the managed devices (such as routers, switches, or access
@@ -418,13 +418,13 @@ notes:
 EXAMPLES = r"""
 - name: Add new device in Inventory with full credentials
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -432,10 +432,10 @@ EXAMPLES = r"""
       - cli_transport: ssh
         compute_device: false
         password: Test@123
-        enable_password: Test@1234
+        enablepassword: Test@1234
         extended_discovery_info: test
-        http_username: "testuser"
-        http_password: "test"
+        httpusername: "testuser"
+        httppassword: "test"
         http_port: "443"
         http_secure: false
         ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -447,27 +447,27 @@ EXAMPLES = r"""
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmp_username: v3Public
-        snmp_version: v3
+        snmpusername: v3Public
+        snmpversion: v3
         type: NETWORK_DEVICE
         username: cisco
 - name: Add new Compute device in Inventory with full credentials.Inputs needed
     for Compute Device
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        http_username: "testuser"
-        http_password: "test"
+        httpusername: "testuser"
+        httppassword: "test"
         http_port: "443"
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
@@ -476,55 +476,55 @@ EXAMPLES = r"""
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmp_username: v3Public
+        snmpusername: v3Public
         compute_device: true
         username: cisco
         type: "COMPUTE_DEVICE"
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for
     Meraki Device.
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
     config:
-      - http_password: "test"
+      - httppassword: "test"
         type: "MERAKI_DASHBOARD"
 - name: Add new Firepower Management device in Inventory with full credentials.Input
     needed to add Device.
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        http_username: "testuser"
-        http_password: "test"
+        httpusername: "testuser"
+        httppassword: "test"
         http_port: "443"
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 - name: Add new Third Party device in Inventory with full credentials.Input needed
     to add Device.
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -537,17 +537,17 @@ EXAMPLES = r"""
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmp_username: v3Public
+        snmpusername: v3Public
         type: "THIRD_PARTY_DEVICE"
 - name: Update device details or credentails in Inventory
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -555,19 +555,19 @@ EXAMPLES = r"""
       - cli_transport: telnet
         compute_device: false
         password: newtest123
-        enable_password: newtest1233
+        enablepassword: newtest1233
         ip_address_list: ["1.1.1.1", "2.2.2.2"]
         type: NETWORK_DEVICE
         credential_update: true
 - name: Update new management IP address of device in inventory
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -579,13 +579,13 @@ EXAMPLES = r"""
             new_mgmt_ipaddress: "12.12.12.12"
 - name: Associate Wired Devices to site and Provisioned it in Inventory
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -601,13 +601,13 @@ EXAMPLES = r"""
             resync_retry_interval: 2
 - name: Update Device Role with IP Address
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -616,13 +616,13 @@ EXAMPLES = r"""
         role: ACCESS
 - name: Update Interface details with IP Address
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -638,13 +638,13 @@ EXAMPLES = r"""
           clear_mac_address_table: true
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -656,13 +656,13 @@ EXAMPLES = r"""
           parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 - name: Create Global User Defined with IP Address
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -677,13 +677,13 @@ EXAMPLES = r"""
             value: "value321"
 - name: Resync Device with IP Addresses
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -693,13 +693,13 @@ EXAMPLES = r"""
         force_sync: false
 - name: Reboot AP Devices with IP Addresses
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: merged
@@ -708,13 +708,13 @@ EXAMPLES = r"""
         reboot_device: true
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: false
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
@@ -723,13 +723,13 @@ EXAMPLES = r"""
         clean_config: false
 - name: Delete Global User Defined Field with name
   cisco.catalystcenter.inventory_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: false
     state: deleted
@@ -4519,16 +4519,16 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {
+        "host": {
             "type": "str",
             "required": True,
         },
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "dnac_log_append": {"type": "bool", "default": True},
@@ -4560,7 +4560,7 @@ def main():
         dnac_device.get_want(config).check_return_status()
         dnac_device.get_have(config).check_return_status()
         dnac_device.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             dnac_device.verify_diff_state_apply[state](
                 config).check_return_status()
 

@@ -24,7 +24,7 @@ author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowd
   Abhishek Maheshwari (@abhishekmaheshwari) Megha Kandari (@kandarimegha) Sonali Deepthi
   Kesali (@skesali)
 options:
-  config_verify:
+  configverify:
     description: Set to true to verify the Cisco Catalyst Center config after applying
       the playbook config.
     type: bool
@@ -169,13 +169,13 @@ notes:
 EXAMPLES = r"""
 - name: Create a new area site
   cisco.catalystcenter.site_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -187,13 +187,13 @@ EXAMPLES = r"""
         site_type: area
 - name: Create a new building site
   cisco.catalystcenter.site_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -208,13 +208,13 @@ EXAMPLES = r"""
         site_type: building
 - name: Create a Floor site under the building
   cisco.catalystcenter.site_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -231,13 +231,13 @@ EXAMPLES = r"""
         site_type: floor
 - name: Updating the Floor details under the building
   cisco.catalystcenter.site_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: merged
@@ -252,13 +252,13 @@ EXAMPLES = r"""
         site_type: floor
 - name: Deleting any site you need site name and parent name
   cisco.catalystcenter.site_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: "{{dnac_log}}"
     state: deleted
@@ -270,16 +270,16 @@ EXAMPLES = r"""
         site_type: floor
 - name: Create bulk sites and upload floor map
   cisco.catalystcenter.site_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: true
+    configverify: true
     state: merged
     config:
       - site:

@@ -7,12 +7,12 @@
   tasks:
     - name: Create sda anycast gateways v1
       cisco.catalystcenter.sda_anycast_gateways:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         payload:
           - fabricId: "b6af9074-b1d8-4b40-82f9-776d34adb0fc"

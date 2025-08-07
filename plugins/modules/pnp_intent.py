@@ -24,7 +24,7 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan
   (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -209,17 +209,17 @@ EXAMPLES = r"""
 ---
 - name: Import multiple switches in bulk only
   cisco.catalystcenter.pnp_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - device_info:
           - serial_number: QD2425L8M7
@@ -235,17 +235,17 @@ EXAMPLES = r"""
             pid: c9300-24P
 - name: Add a new EWLC and claim it
   cisco.catalystcenter.pnp_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - device_info:
           - serial_number: FOX2639PAY7
@@ -268,17 +268,17 @@ EXAMPLES = r"""
 - name: Claim a pre-added switch, apply a template,
     and perform an image upgrade for a specific site
   cisco.catalystcenter.pnp_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - device_info:
           - serial_number: FJC271924EQ
@@ -295,17 +295,17 @@ EXAMPLES = r"""
 - name: Remove multiple devices from the PnP dashboard
     safely (ignores non-existent devices)
   cisco.catalystcenter.pnp_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log_level: "{{dnac_log_level}}"
     dnac_log: true
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - device_info:
           - serial_number: QD2425L8M7
@@ -1464,13 +1464,13 @@ def main():
     """
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -1500,7 +1500,7 @@ def main():
         ccc_pnp.get_want(config).check_return_status()
         ccc_pnp.get_have().check_return_status()
         ccc_pnp.get_diff_state_apply[state]().check_return_status()
-        if config_verify:
+        if configverify:
             ccc_pnp.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_pnp.result)

@@ -8,18 +8,18 @@
   tasks:
     - name: Create an  Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - authentication_policy_server:
               - server_type: AAA  # [ISE, AAA]
@@ -36,35 +36,35 @@
                 role: secondary
     - name: Delete Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - authentication_policy_server:
               - server_ip_address: 10.0.0.20
     - name: Create ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - authentication_policy_server:
               - server_type: ISE  # [ISE, AAA]
@@ -91,18 +91,18 @@
                 ise_integration_wait_time: 20
     - name: Delete an ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         log: true
         log_level: "{{ log_level }}"
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - authentication_policy_server:
               - server_ip_address: 10.195.243.59

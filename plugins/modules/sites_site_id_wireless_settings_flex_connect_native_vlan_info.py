@@ -48,13 +48,13 @@ EXAMPLES = r"""
 - name: Get all Sites Site Id Wireless Settings Flex
     Connect Native Vlan
   cisco.catalystcenter.sites_site_id_wireless_settings_flex_connect_native_vlan_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result

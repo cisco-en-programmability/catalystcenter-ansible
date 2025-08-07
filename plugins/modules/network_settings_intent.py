@@ -27,7 +27,7 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -155,7 +155,7 @@ options:
             description: Indicates the IPv4 subnet address,
               for example, "175.175.0.0".
             type: str
-          ipv4_total_host:
+          ipv4_totalhost:
             description: The total number of hosts for
               IPv4, required when the 'ipv4_prefix'
               is set to false.
@@ -205,7 +205,7 @@ options:
             description: IPv6 Subnet address, example
               2001 db8 85a3 0 100.
             type: str
-          ipv6_total_host:
+          ipv6_totalhost:
             description: The total number of hosts for
               IPv6 is required if the 'ipv6_prefix'
               is set to false.
@@ -424,17 +424,17 @@ EXAMPLES = r"""
 ---
 - name: Create global pool, reserve an ip pool and network
   cisco.catalystcenter.network_settings_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - global_pool_details:
           settings:
@@ -2547,13 +2547,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -2584,7 +2584,7 @@ def main():
         if state != "deleted":
             dnac_network.get_want(config).check_return_status()
         dnac_network.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             dnac_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_network.result)

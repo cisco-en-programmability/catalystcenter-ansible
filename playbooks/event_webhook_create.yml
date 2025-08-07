@@ -7,11 +7,11 @@
   tasks:
     - name: Test
       cisco.catalystcenter.event_webhook:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: true
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: true
         description: "webhok description for iac2.0"
         headers:
           - defaultValue: string

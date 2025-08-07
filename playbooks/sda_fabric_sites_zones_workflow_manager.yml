@@ -9,16 +9,16 @@
   tasks:
     - name: Configure the fabric sites/zones and authentication profile template in Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log_level: DEBUG
         log: true
-        config_verify: true
+        configverify: true
         state: merged
         config:
           - fabric_sites:

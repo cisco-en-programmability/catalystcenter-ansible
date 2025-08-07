@@ -6,24 +6,24 @@
     - "credentials.yml"
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
+      api_port: "{{ api_port }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
       log: true
       log_level: INFO
       log_append: false
-      config_verify: true
+      configverify: true
   tasks:
     - name: Take backup of all devices in the Cisco Catalyst Center
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: merged
         config:
-          - file_password: qsaA12!asdasd
+          - filepassword: qsaA12!asdasd
     - name: Take backup of device(s) using hostname(s)
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         !!merge <<: *catalystcenter_login
@@ -39,7 +39,7 @@
         config:
           - hostname_list: ["DC-T-9300.cisco.local"]
             file_path: backup
-            file_password: qsaA12!asdasd
+            filepassword: qsaA12!asdasd
             unzip_backup: true
     - name: Take backup of all devices in a site(s)
       cisco.catalystcenter.device_configs_backup_workflow_manager:

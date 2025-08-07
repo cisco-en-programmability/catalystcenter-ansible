@@ -28,7 +28,7 @@ author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: |
       Set to `true` to enable configuration verification on Cisco DNA Center after applying
       the playbook configuration. This ensures that the system validates the configuration
@@ -156,18 +156,18 @@ EXAMPLES = r"""
     - name: Create and auto-delete path trace on Cisco
         Catalyst Center
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_log_append: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
@@ -186,33 +186,33 @@ EXAMPLES = r"""
     - name: Delete path trace based on source and destination
         IP
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
     - name: Retrieve last path trace
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
@@ -220,17 +220,17 @@ EXAMPLES = r"""
     - name: Retrieve path trace based on the flow analysis
         id
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
@@ -241,17 +241,17 @@ EXAMPLES = r"""
     - name: Retrieve and Delete path trace based on
         the required field
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
@@ -259,33 +259,33 @@ EXAMPLES = r"""
     - name: Delete path trace based on registered flow
         analysis id
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - flow_analysis_id: output_list.request.id
     - name: delete path trace based on the flow analysis
         id
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
@@ -294,17 +294,17 @@ EXAMPLES = r"""
     - name: Create/Retrieve Path trace for the config
         list.
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
+        host: "{{ dnac_host }}"
+        api_port: "{{ dnac_port }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        debug: "{{ dnac_debug }}"
+        version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
@@ -1661,13 +1661,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": True},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -1721,7 +1721,7 @@ def main():
     ccc_path_trace.get_want(config).check_return_status()
     ccc_path_trace.get_have(config).check_return_status()
     ccc_path_trace.get_diff_state_apply[state](config).check_return_status()
-    if config_verify:
+    if configverify:
         ccc_path_trace.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_path_trace.result)

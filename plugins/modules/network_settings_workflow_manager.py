@@ -27,7 +27,7 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel) Megha Kandari (@kandarimegha)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -216,7 +216,7 @@ options:
             description: The ipv4 prefix length is required
               when ipv4_prefix value is true.
             type: int
-          ipv4_total_host:
+          ipv4_totalhost:
             description: The total number of hosts for
               IPv4, required when the 'ipv4_prefix'
               is set to false.
@@ -289,7 +289,7 @@ options:
               Required when 'ipv6_prefix' is set to
               true.
             type: int
-          ipv6_total_host:
+          ipv6_totalhost:
             description:
               - Specifies the total number of IPv6 hosts.
                 Required when 'ipv6_prefix' is set to
@@ -575,17 +575,17 @@ EXAMPLES = r"""
 ---
 - name: Create global pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - global_pool_details:
           settings:
@@ -599,17 +599,17 @@ EXAMPLES = r"""
                 dns_server_ips: list
 - name: Create reserve an ip pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - reserve_pool_details:
           - site_name: string
@@ -628,17 +628,17 @@ EXAMPLES = r"""
 - name: Create reserve an ip pool using global pool
     name
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - reserve_pool_details:
           - name: string
@@ -656,34 +656,34 @@ EXAMPLES = r"""
             slaac_support: true
 - name: Delete reserved pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - reserve_pool_details:
           - site_name: string
             name: string
 - name: Delete Global Pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_version: "{{ dnac_version }}"
+    host: "{{ dnac_host }}"
+    api_port: "{{ dnac_port }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    debug: "{{ dnac_debug }}"
+    version: "{{ dnac_version }}"
     dnac_log_level: "{{ dnac_log_level }}"
     dnac_log: true
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - global_pool_details:
           settings:
@@ -691,17 +691,17 @@ EXAMPLES = r"""
               - name: string
 - name: Manage the network functions
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - network_management_details:
           - site_name: string
@@ -728,17 +728,17 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     AAA server
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - network_management_details:
           - site_name: string
@@ -756,17 +756,17 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     ISE server
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - network_management_details:
           - site_name: string
@@ -5694,13 +5694,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -5740,7 +5740,7 @@ def main():
         if state != "deleted":
             ccc_network.get_want(config).check_return_status()
         ccc_network.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_network.result)

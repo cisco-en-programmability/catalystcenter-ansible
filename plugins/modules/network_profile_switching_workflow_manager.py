@@ -28,7 +28,7 @@ author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: >
       Set to `True` to enable configuration verification
       on Cisco Catalyst Center after applying the playbook
@@ -109,16 +109,16 @@ EXAMPLES = r"""
   tasks:
     - name: Create network profile for switch
       cisco.catalystcenter.network_profile_switching_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -131,16 +131,16 @@ EXAMPLES = r"""
               - "Global/Abc"
     - name: Update network profile for switch
       cisco.catalystcenter.network_profile_switching_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -155,16 +155,16 @@ EXAMPLES = r"""
     - name: Delete switching profile for devices from
         specified sites
       cisco.catalystcenter.network_profile_switching_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
+        host: "{{ dnac_host }}"
+        username: "{{ dnac_username }}"
+        password: "{{ dnac_password }}"
+        verify: "{{ dnac_verify }}"
+        api_port: "{{ dnac_port }}"
+        version: "{{ dnac_version }}"
+        debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: true
+        configverify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: deleted
@@ -1210,13 +1210,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": True},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -1268,7 +1268,7 @@ def main():
     ccc_network_profile.get_want(config).check_return_status()
     ccc_network_profile.get_have(config).check_return_status()
     ccc_network_profile.get_diff_state_apply[state](config).check_return_status()
-    if config_verify:
+    if configverify:
         ccc_network_profile.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_network_profile.result)

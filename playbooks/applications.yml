@@ -7,11 +7,11 @@
   tasks:
     - name: Create an application
       cisco.catalystcenter.applications:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         payload:
           - name: itunes-video
@@ -45,10 +45,10 @@
       register: application_result
     - name: Get task info
       cisco.catalystcenter.task_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         taskId: "{{ application_result.catalystcenter_response.response.taskId }}"
       when:
         - application_result.catalystcenter_response is defined

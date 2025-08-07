@@ -53,13 +53,13 @@ EXAMPLES = r"""
 - name: Get all Sda Fabricdevices Layer2handoffs Sdatransits
     Count
   cisco.catalystcenter.sda_fabricDevices_layer2Handoffs_sdaTransits_count_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     headers: "{{my_headers | from_json}}"
     fabricId: string
     networkDeviceId: string

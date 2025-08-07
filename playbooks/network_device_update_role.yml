@@ -7,23 +7,23 @@
   tasks:
     - name: Update Network Device Role
       cisco.catalystcenter.network_device_update_role:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
         role: UNKNOWN
         roleSource: AUTO
       register: network_device_update_role_result
     - name: Get task info
       cisco.catalystcenter.task_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
         taskId: "{{ network_device_update_role_result.catalystcenter_response.response.taskId }}"
       when:
         - network_device_update_role_result.catalystcenter_response is defined

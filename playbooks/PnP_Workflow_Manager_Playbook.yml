@@ -7,13 +7,13 @@
     - "{{ CLUSTERFILE }}"
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
+      api_port: "{{ api_port }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
       log_level: DEBUG
   tasks:
     - name: Import devices in bulk
@@ -21,7 +21,7 @@
         !!merge <<: *catalystcenter_login
         log: true
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - device_info:
               - serial_number: QD2425L8M7
@@ -93,7 +93,7 @@
         !!merge <<: *catalystcenter_login
         log: true
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - device_info:
               - serial_number: QD2425L8M7  # Will get deleted

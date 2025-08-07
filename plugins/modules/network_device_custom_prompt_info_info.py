@@ -31,13 +31,13 @@ notes:
 EXAMPLES = r"""
 - name: Get all Network Device Custom Prompt Info Info
   cisco.catalystcenter.network_device_custom_prompt_info_info:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
+    api_port: "{{ api_port }}"
+    version: "{{ version }}"
+    debug: "{{ debug }}"
     headers: "{{my_headers | from_json}}"
   register: result
 """

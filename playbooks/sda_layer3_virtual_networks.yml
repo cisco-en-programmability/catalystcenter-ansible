@@ -7,12 +7,12 @@
   tasks:
     - name: Update layer 3 virtual networks v1
       cisco.catalystcenter.sda_layer3_virtual_networks:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         payload:
           - virtualNetworkName: "DEFAULT_VN"
@@ -20,12 +20,12 @@
       register: result
     - name: Create layer 3 virtual networks v1
       cisco.catalystcenter.sda_layer3_virtual_networks:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
         state: present
         payload:
           - virtualNetworkName: "DEFAULT_VNee"

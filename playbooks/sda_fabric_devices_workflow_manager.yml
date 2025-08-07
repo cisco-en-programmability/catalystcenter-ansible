@@ -8,19 +8,19 @@
   tasks:
     - name: Add the SDA fabric device as BORDER and CONTROL node and do L2 and L3 handoff.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - fabric_devices:
               fabric_name: Global/USA/SAN-JOSE
@@ -53,19 +53,19 @@
                         external_vlan_id: 444
     - name: Delete the SDA fabric device's L2 and L3 handoff configurations
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - fabric_devices:
               fabric_name: Global/USA/SAN-JOSE
@@ -83,19 +83,19 @@
                         internal_vlan_id: 443
     - name: Delete the SDA fabric device
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: deleted
-        config_verify: true
+        configverify: true
         config:
           - fabric_devices:
               fabric_name: Global/USA/SAN-JOSE

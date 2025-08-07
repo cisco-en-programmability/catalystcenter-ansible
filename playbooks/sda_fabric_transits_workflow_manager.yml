@@ -8,19 +8,19 @@
   tasks:
     - name: Create the SDA fabric transits with transit_type as IP_BASED_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - sda_fabric_transits:
               - name: Sample1
@@ -30,19 +30,19 @@
                   autonomous_system_number: 1234  # between 1 and 4294967295
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - sda_fabric_transits:
               - name: Sample2
@@ -53,19 +53,19 @@
                     - 10.0.0.2
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - sda_fabric_transits:
               - name: Sample3
@@ -79,19 +79,19 @@
                     - 11.0.0.4
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - sda_fabric_transits:
               - name: Sample2
@@ -102,19 +102,19 @@
                     - 10.0.0.4
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        debug: "{{ debug }}"
+        version: "{{ version }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - sda_fabric_transits:
               - name: Sample3
@@ -128,19 +128,19 @@
                     - 11.0.0.8
     - name: Delete the SDA fabric transits
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        api_port: "{{ api_port }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log: true
         log_level: DEBUG
         log_append: true
         log_file_path: "{{ log_file_path }}"
         state: merged
-        config_verify: true
+        configverify: true
         config:
           - sda_fabric_transits:
               - name: Sample1

@@ -6,17 +6,17 @@
     - "credentials.yml"
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
+      api_port: "{{ api_port }}"
+      version: "{{ version }}"
+      debug: "{{ debug }}"
       log: true
       log_level: INFO
       log_append: false
-      config_verify: true
+      configverify: true
   tasks:
     - name: Add port assignments, port channels and wireless ssids in a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:

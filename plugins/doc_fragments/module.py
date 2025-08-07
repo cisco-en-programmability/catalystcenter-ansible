@@ -14,37 +14,37 @@ class ModuleDocFragment(object):
     # Standard files documentation fragment
     DOCUMENTATION = r'''
 options:
-    dnac_host:
+    host:
         description:
           - The Cisco DNA Center hostname.
         type: str
         required: true
-    dnac_port:
+    port:
         description:
           - The Cisco DNA Center port.
         type: int
         default: 443
-    dnac_username:
+    username:
         description:
           - The Cisco DNA Center username to authenticate.
         type: str
         default: admin
         aliases: [ user ]
-    dnac_password:
+    password:
         description:
           - The Cisco DNA Center password to authenticate.
         type: str
-    dnac_verify:
+    verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
-    dnac_version:
+    version:
         description:
           - Informs the SDK which version of Cisco DNA Center to use.
         type: str
         default: 2.3.7.6
-    dnac_debug:
+    debug:
         description:
           - Flag for Cisco DNA Center SDK to enable debugging.
         type: bool
@@ -57,5 +57,4 @@ options:
 notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK"
-    - "The parameters starting with dnac_ are used by the Cisco CATALYST Python SDK to establish the connection"
 '''

@@ -9,18 +9,18 @@
   tasks:
     - name: Add/Update/Resync/Delete the devices in Cisco CATALYST Center Inventory.
       cisco.catalystcenter.inventory_intent:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        host: "{{ host }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        verify: "{{ verify }}"
+        api_port: "{{ api_port }}"
+        version: "{{ version }}"
+        debug: "{{ debug }}"
         log: true
         state: merged
         config:
           - username: "{{ item.username }}"
-            enable_password: "{{ item.enable_password }}"
+            enablepassword: "{{ item.enable_password }}"
             password: "{{ item.password }}"
             ip_address: "{{ item.ip_address }}"
             snmp_auth_passphrase: "{{ item.snmp_auth_passphrase }}"
@@ -30,7 +30,7 @@
             snmp_priv_protocol: "{{ item.snmp_priv_protocol }}"
             snmp_ro_community: "{{ item.snmp_ro_community }}"
             snmp_rw_community: "{{ item.snmp_rw_community }}"
-            snmp_username: "{{ item.snmp_username }}"
+            snmpusername: "{{ item.snmp_username }}"
             device_updated: "{{ item.device_updated }}"
             clean_config: "{{ item.clean_config }}"
             type: "{{ item.type }}"

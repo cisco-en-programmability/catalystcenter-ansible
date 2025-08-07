@@ -21,7 +21,7 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr) Phan Nguyen (@phannguy) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst Center config after applying
       the playbook config.
     type: bool
@@ -110,7 +110,7 @@ options:
                 description: Password for CLI authentication, mandatory when using
                   CLI credential.
                 type: str
-              enable_password:
+              enablepassword:
                 description: Enable password for CLI authentication, mandatory when
                   using CLI credential.
                 type: str
@@ -208,7 +208,7 @@ options:
                   - NOAUTHNOPRIV mode does not use either Authentication or Encryption.
                 type: str
                 choices: ['AUTHPRIV', 'AUTHNOPRIV', 'NOAUTHNOPRIV']
-              auth_password:
+              authpassword:
                 description:
                   - Authentication Password of the SNMP v3 protocol to be used.
                   - Must be of length greater than 7 characters.
@@ -230,7 +230,7 @@ options:
                   - Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp_mode.
                 type: str
                 choices: ['AES128', 'AES192', 'AES256']
-              privacy_password:
+              privacypassword:
                 description:
                   - Privacy password of the SNMP v3 protocol to be used in AUTHPRIV
                     SNMP mode
@@ -402,17 +402,17 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with both global credentials and discovery
     specific credentials
   cisco.catalystcenter.discovery_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - discovery_name: Discovery with both global and job specific credentials
         discovery_type: RANGE
@@ -425,7 +425,7 @@ EXAMPLES = r"""
           cli_credentials_list:
             - username: cisco
               password: Cisco123
-              enable_password: Cisco123
+              enablepassword: Cisco123
           http_read_credential:
             username: cisco
             password: Cisco123
@@ -446,9 +446,9 @@ EXAMPLES = r"""
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            auth_password: Lablab123
+            authpassword: Lablab123
             privacy_type: AES256
-            privacy_password: Lablab123
+            privacypassword: Lablab123
           net_conf_port: 750
         global_credentials:
           cli_credentials_list:
@@ -478,17 +478,17 @@ EXAMPLES = r"""
         timeout: 3
 - name: Execute discovery of devices with discovery specific credentials only
   cisco.catalystcenter.discovery_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - discovery_name: Single with discovery specific credentials only
         discovery_type: SINGLE
@@ -498,7 +498,7 @@ EXAMPLES = r"""
           cli_credentials_list:
             - username: cisco
               password: Cisco123
-              enable_password: Cisco123
+              enablepassword: Cisco123
           http_read_credential:
             username: cisco
             password: Cisco123
@@ -519,9 +519,9 @@ EXAMPLES = r"""
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            auth_password: Lablab123
+            authpassword: Lablab123
             privacy_type: AES256
-            privacy_password: Lablab123
+            privacypassword: Lablab123
           net_conf_port: 750
         use_global_credentials: false
         start_index: 1
@@ -531,17 +531,17 @@ EXAMPLES = r"""
         timeout: 3
 - name: Execute discovery of devices with global credentials only
   cisco.catalystcenter.discovery_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - discovery_name: CDP with global credentials only
         discovery_type: CDP
@@ -576,17 +576,17 @@ EXAMPLES = r"""
         timeout: 3
 - name: Execute discovery of devices with all the global credentials (max 5 allowed)
   cisco.catalystcenter.discovery_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - discovery_name: CIDR with all global credentials
         discovery_type: CIDR
@@ -603,17 +603,17 @@ EXAMPLES = r"""
         use_global_credentials: true
 - name: Delete disovery by name
   cisco.catalystcenter.discovery_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - discovery_name: Single discovery
 """
@@ -2133,13 +2133,13 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -2168,7 +2168,7 @@ def main():
     for config in ccc_discovery.validated_config:
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
-        if config_verify:
+        if configverify:
             ccc_discovery.verify_diff_state_apply[state](
                 config).check_return_status()
 

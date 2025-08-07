@@ -26,7 +26,7 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel) Archit Soni (@koderchit)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -368,17 +368,17 @@ EXAMPLES = r"""
 - name: Configure the SDA multicast on a L3 virtual
     network under a fabric site
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -397,17 +397,17 @@ EXAMPLES = r"""
 - name: Update the ssm configuration on a L3 virtual
     network under a fabric site
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -418,17 +418,17 @@ EXAMPLES = r"""
 - name: Update the asm configuration on a L3 virtual
     network under a fabric site
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -455,17 +455,17 @@ EXAMPLES = r"""
 - name: Update the replication mode of the SDA multicast
     configurations under a fabric site
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -474,17 +474,17 @@ EXAMPLES = r"""
 - name: Delete the source '226.0.0.0/8' from the ssm
     multicast configuration
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -495,17 +495,17 @@ EXAMPLES = r"""
 - name: Delete the RP '10.0.0.1' from the asm multicast
     configuration
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -516,17 +516,17 @@ EXAMPLES = r"""
 - name: Delete the SDA multicast configurations of the
     L3 virtual network from the fabric site.
   cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
+    host: "{{ dnac_host }}"
+    username: "{{ dnac_username }}"
+    password: "{{ dnac_password }}"
+    verify: "{{ dnac_verify }}"
+    api_port: "{{ dnac_port }}"
+    version: "{{ dnac_version }}"
+    debug: "{{ dnac_debug }}"
     dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: true
+    configverify: true
     config:
       - fabric_multicast:
           - fabric_name: "Global/USA/SAN JOSE"
@@ -4071,13 +4071,13 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"type": "str", "required": True},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": True},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -4122,7 +4122,7 @@ def main():
         ccc_sda_multicast.get_have(config).check_return_status()
         ccc_sda_multicast.get_want(config).check_return_status()
         ccc_sda_multicast.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             ccc_sda_multicast.verify_diff_state_apply[state](
                 config
             ).check_return_status()

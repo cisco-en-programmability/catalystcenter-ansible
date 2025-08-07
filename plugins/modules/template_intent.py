@@ -35,7 +35,7 @@ author: Madhan Sankaranarayanan (@madhansansel) Rishita
   Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask)
   Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
-  config_verify:
+  configverify:
     description: Set to True to verify the Cisco DNA
       Center after applying the playbook config.
     type: bool
@@ -478,7 +478,7 @@ options:
             description: Applicable device software
               variant.
             type: str
-          software_version:
+          softwareversion:
             description: Applicable device software
               version.
             type: str
@@ -605,7 +605,7 @@ options:
               template_id:
                 description: UUID of template.
                 type: str
-              template_version:
+              templateversion:
                 description: Current version of template.
                 type: str
             type: dict
@@ -644,7 +644,7 @@ options:
             description: Import the project details.
             type: dict
             suboptions:
-              do_version:
+              doversion:
                 description: DoVersion query parameter.
                   If this flag is true, creates a new
                   version of the template with the imported
@@ -657,7 +657,7 @@ options:
             description: Import the template details.
             type: dict
             suboptions:
-              do_version:
+              doversion:
                 description: DoVersion query parameter.
                   If this flag is true, creates a new
                   version of the template with the imported
@@ -1117,7 +1117,7 @@ options:
                     description: Applicable device software
                       variant.
                     type: str
-                  software_version:
+                  softwareversion:
                     description: Applicable device software
                       version.
                     type: str
@@ -1252,7 +1252,7 @@ options:
                       template_id:
                         description: UUID of template.
                         type: str
-                      template_version:
+                      templateversion:
                         description: Current version
                           of template.
                         type: str
@@ -1293,17 +1293,17 @@ EXAMPLES = r"""
 - name: Create a new template, export and import the
     project and template.
   cisco.catalystcenter.template_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    host: "{{host}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    verify: "{{verify}}"
+    api_port: "{{api_port}}"
+    version: "{{version}}"
+    debug: "{{debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
-    config_verify: true
+    configverify: true
     config:
       - configuration_templates:
           author: string
@@ -1328,7 +1328,7 @@ EXAMPLES = r"""
           rollback_template_content: string
           software_type: string
           software_variant: string
-          software_version: string
+          softwareversion: string
           tags:
             - id: string
               name: string
@@ -1339,7 +1339,7 @@ EXAMPLES = r"""
             template_errors:
               - {}
             template_id: string
-            template_version: string
+            templateversion: string
           version: string
         export:
           project:
@@ -1349,9 +1349,9 @@ EXAMPLES = r"""
               template_name: string
         import:
           project:
-            do_version: true
+            doversion: true
           export:
-            do_version: true
+            doversion: true
             payload:
               - author: string
                 composite: true
@@ -3083,13 +3083,13 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
+        "host": {"required": True, "type": "str"},
+        "api_port": {"type": "str", "default": "443"},
+        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "password": {"type": "str", "no_log": True},
+        "verify": {"type": "bool", "default": "True"},
+        "version": {"type": "str", "default": "2.2.3.3"},
+        "debug": {"type": "bool", "default": False},
         "dnac_log": {"type": "bool", "default": False},
         "dnac_log_level": {"type": "str", "default": "WARNING"},
         "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
@@ -3116,7 +3116,7 @@ def main():
         dnac_template.get_have(config).check_return_status()
         dnac_template.get_want(config).check_return_status()
         dnac_template.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
+        if configverify:
             dnac_template.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_template.result)
