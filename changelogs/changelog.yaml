@@ -67,3 +67,12 @@ releases:
       release_summary: Update Modules
       minor_changes:
         - Collection is now compatible with Catalyst Center API 3.1.3.0.
+  2.2.1:
+    release_date: "2025-08-07"
+    changes:
+      release_summary: Parameter standardization and cleanup
+      minor_changes:
+        - Standardized connection parameters by removing dnac_ prefixes
+        - Parameters now use clean names as primary (host, username, password, verify, api_port, version, debug)
+        - Legacy parameter names maintained as aliases for backward compatibility
+        - Improved parameter consistency across all modules and actions
