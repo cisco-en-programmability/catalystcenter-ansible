@@ -5786,7 +5786,7 @@ def main():
         "catc_username": {"type": "str", "default": "admin"},
         "catc_password": {"type": "str", "no_log": True},
         "catc_verify": {"type": "bool", "default": True},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_version": {"type": "str", "default": "2.3.7.9"},
         "catc_debug": {"type": "bool", "default": False},
         "catc_log_level": {"type": "str", "default": "WARNING"},
         "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
