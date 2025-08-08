@@ -70,25 +70,12 @@ releases:
   2.2.1:
     release_date: "2025-08-07"
     changes:
-      release_summary: Parameter standardization and cleanup
+      release_summary: Complete migration to catc_ prefixed parameters
       minor_changes:
-        - Standardized connection parameters by removing dnac_ prefixes
-        - Parameters now use clean names as primary (host, username, password, verify, api_port, version, debug)
-        - Legacy parameter names maintained as aliases for backward compatibility
-        - Improved parameter consistency across all modules and actions
-  2.2.2:
-    release_date: "2025-08-07"
-    changes:
-      release_summary: Complete migration to catc_ prefixed connection parameters
-      minor_changes:
-        - Connection parameters now use catc_ prefix for consistency and clarity (catc_host, catc_username, catc_password, catc_verify, catc_api_port, catc_version, catc_debug)
-        - All module examples and documentation updated to use new catc_ prefixed parameters
-        - Playbook credential files updated to use new parameter structure
-        - Doc fragments updated to reflect new parameter naming convention
-        - Updated all module EXAMPLES sections to use catc_ prefixed template variables
-        - Updated all playbook files to use new parameter names in module calls
-        - Updated credentials.yml and credentials.template files
-        - Updated doc_fragments (module.py, module_info.py, intent_params.py, workflow_manager_params.py)
-        - Maintained backward compatibility through comprehensive aliases for old parameter names
-        - Updated CatalystCenterSDK initialization and argument specifications
-        - Improved parameter documentation with proper aliases listed
+        - Migrated all connection and logging parameters to use catc_ prefix (catc_host, catc_username, catc_password, catc_verify, catc_api_port, catc_version, catc_debug, catc_log, catc_log_level, catc_log_append, catc_log_file_path)
+        - Updated all module examples, playbooks, and documentation to use new parameter names
+        - Updated credentials files and doc fragments with new parameter structure
+        - Added timeout parameters catc_api_task_timeout and catc_task_poll_interval to core argument specifications
+        - Maintained backward compatibility through comprehensive aliases for legacy parameter names
+        - Standardized parameter naming across all workflow manager modules
+        - Fixed element_spec definitions in all modules to use consistent catc_ prefixed parameters
