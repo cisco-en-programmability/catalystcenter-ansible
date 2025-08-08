@@ -1231,7 +1231,7 @@
 <h1>cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update module -- Resource module for Sites Site Id Wireless Settings Ssids Id Update<a class="headerlink" href="#cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-resource-module-for-sites-site-id-wireless-settings-ssids-id-update" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1344,124 +1344,122 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-api-port"><strong>catc_api_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center port.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`443`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-debug"><strong>catc_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable debugging.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-host"><strong>catc_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center hostname.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-password"><strong>catc_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center password to authenticate.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_username"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-username"><strong>catc_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center username to authenticate.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id15"><span class="problematic" id="id16">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-verify"><strong>catc_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-catc-version"><strong>catc_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco Catalyst Center to use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`&quot;2.3.7.6&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-cckmTsfTolerance"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-cckmtsftolerance"><strong>cckmTsfTolerance</strong></p>
 <a class="ansibleOptionLink" href="#parameter-cckmTsfTolerance" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The default value is the Cckm Timestamp Tolerance (in milliseconds, if specified); otherwise, it is 0.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-clientExclusionEnable"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-clientexclusionenable"><strong>clientExclusionEnable</strong></p>
 <a class="ansibleOptionLink" href="#parameter-clientExclusionEnable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Activate the feature that allows for the exclusion of clients.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-clientExclusionTimeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-clientexclusiontimeout"><strong>clientExclusionTimeout</strong></p>
 <a class="ansibleOptionLink" href="#parameter-clientExclusionTimeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number of unsuccessful attempts.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-clientRateLimit"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-clientratelimit"><strong>clientRateLimit</strong></p>
 <a class="ansibleOptionLink" href="#parameter-clientRateLimit" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-coverageHoleDetectionEnable"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-coverageholedetectionenable"><strong>coverageHoleDetectionEnable</strong></p>
 <a class="ansibleOptionLink" href="#parameter-coverageHoleDetectionEnable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Activate Coverage Hole Detection feature when set to true.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-directedMulticastServiceEnable"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-directedmulticastserviceenable"><strong>directedMulticastServiceEnable</strong></p>
 <a class="ansibleOptionLink" href="#parameter-directedMulticastServiceEnable" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The Directed Multicast Service feature becomes operational when it is set to true.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-host"><strong>dnac_host</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-password"><strong>dnac_password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id25"><span class="problematic" id="id26">:ansible-option-default:`443`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-user"><span id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
-<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-dnac-version"><strong>dnac_version</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id33"><span class="problematic" id="id34">:ansible-option-default:`&quot;2.3.7.6&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2025,7 +2023,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-site-id-wireless-settings-ssids-id-update-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
+<td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id167"><span class="problematic" id="id168">:ansible-option-choices-entry:`false`</span></a></p></li>
@@ -2075,8 +2073,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <li><p>SDK Method used are wireless.Wireless.update_or_overridessid,</p></li>
 <li><p>Paths used are post /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id}/update,</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
-<li><p>The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK</p></li>
-<li><p>The parameters starting with dnac_ are used by the Cisco CATALYST Python SDK to establish the connection</p></li>
+<li><p>The plugin runs on the control node and does not use any ansible connection plugins,</p></li>
+<li><p>but instead uses the embedded connection manager from Cisco CATALYST SDK</p></li>
 </ul>
 </div>
 </section>
@@ -2095,13 +2093,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_api_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">aaaOverride</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">acctServers</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>

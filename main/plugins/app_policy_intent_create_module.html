@@ -1231,7 +1231,7 @@
 <h1>cisco.catalystcenter.app_policy_intent_create module -- Resource module for App Policy Intent Create<a class="headerlink" href="#cisco-catalystcenter-app-policy-intent-create-module-resource-module-for-app-policy-intent-create" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1278,247 +1278,245 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-api-port"><strong>catc_api_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center port.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`443`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-debug"><strong>catc_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable debugging.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-host"><strong>catc_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center hostname.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-password"><strong>catc_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center password to authenticate.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_username"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-username"><strong>catc_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The Cisco Catalyst Center username to authenticate.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id7"><span class="problematic" id="id8">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-verify"><strong>catc_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-catc-version"><strong>catc_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco Catalyst Center to use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id13"><span class="problematic" id="id14">:ansible-option-default:`&quot;2.3.7.6&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist"><strong>createList</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>App Policy Intent Create's createList.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope"><strong>advancedPolicyScope</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's advancedPolicyScope.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-advancedpolicyscopeelement"><strong>advancedPolicyScopeElement</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's advancedPolicyScopeElement.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-advancedpolicyscopeelement-groupid"><strong>groupId</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The site(s) ID where the Application QoS Policy will be deployed.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-advancedpolicyscopeelement-ssid"><strong>ssid</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Ssid.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-advancedpolicyscope-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Policy name.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/consumer"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-consumer"><strong>consumer</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/consumer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's consumer.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-consumer-scalablegroup"><strong>scalableGroup</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's scalableGroup.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-consumer-scalablegroup-idref"><strong>idRef</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to application Scalable group.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/contract"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-contract"><strong>contract</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/contract" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's contract.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/contract/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-contract-idref"><strong>idRef</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/contract/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to Queueing profile.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/deletePolicyStatus"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-deletepolicystatus"><strong>deletePolicyStatus</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/deletePolicyStatus" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-exclusivecontract"><strong>exclusiveContract</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's exclusiveContract.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause"><strong>clause</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's clause.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/deviceRemovalBehavior"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-deviceremovalbehavior"><strong>deviceRemovalBehavior</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Device eemoval behavior.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/hostTrackingEnabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-hosttrackingenabled"><strong>hostTrackingEnabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Is host tracking enabled.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/relevanceLevel"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-relevancelevel"><strong>relevanceLevel</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Relevance level.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-exclusivecontract-clause-type"><strong>type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Type.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Concatination of &lt;polcy name&gt;_&lt;application-set-name&gt; or &lt;polcy name&gt;_global_policy_configuration or &lt;polcy name&gt;_queuing_customization.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/policyScope"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-policyscope"><strong>policyScope</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/policyScope" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Policy name.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-priority"><strong>priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Set to 4095 while producer refer to application Scalable group otherwise 100.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/producer"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-producer"><strong>producer</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/producer" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's producer.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-producer-scalablegroup"><strong>scalableGroup</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>App Policy Intent Create's scalableGroup.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup/idRef"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-createlist-producer-scalablegroup-idref"><strong>idRef</strong></p>
 <a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup/idRef" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Id ref to application-set or application Scalable group.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-deleteList"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-deletelist"><strong>deleteList</strong></p>
 <a class="ansibleOptionLink" href="#parameter-deleteList" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Delete list of Group Based Policy ids.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable debugging.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-host"><strong>dnac_host</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center hostname.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-password"><strong>dnac_password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center password to authenticate.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center port.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`443`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-user"><span id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
-<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The Cisco DNA Center username to authenticate.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id11"><span class="problematic" id="id12">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-dnac-version"><strong>dnac_version</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Informs the SDK which version of Cisco DNA Center to use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id17"><span class="problematic" id="id18">:ansible-option-default:`&quot;2.3.7.6&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1747,7 +1745,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-app-policy-intent-create-module-parameter-validate-response-schema"><strong>validate_response_schema</strong></p>
 <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.</p>
+<td><div class="ansible-option-cell"><p>Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`false`</span></a></p></li>
@@ -1766,8 +1764,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <li><p>SDK Method used are application_policy.ApplicationPolicy.application_policy_intent,</p></li>
 <li><p>Paths used are post /dna/intent/api/v1/app-policy-intent,</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
-<li><p>The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK</p></li>
-<li><p>The parameters starting with dnac_ are used by the Cisco CATALYST Python SDK to establish the connection</p></li>
+<li><p>The plugin runs on the control node and does not use any ansible connection plugins,</p></li>
+<li><p>but instead uses the embedded connection manager from Cisco CATALYST SDK</p></li>
 </ul>
 </div>
 </section>
@@ -1786,13 +1784,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create</span>
 <span class="w">  </span><span class="nt">cisco.catalystcenter.app_policy_intent_create</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_api_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">catc_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">createList</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">advancedPolicyScope</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">advancedPolicyScopeElement</span><span class="p">:</span>

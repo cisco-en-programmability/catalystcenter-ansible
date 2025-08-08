@@ -1231,7 +1231,7 @@
 <h1>cisco.catalystcenter.assurance_icap_settings_workflow_manager module -- Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.<a class="headerlink" href="#cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-configure-and-manage-icap-intelligent-capture-settings-in-cisco-catalyst-center-for-network-assurance" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1276,246 +1276,82 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config"><strong>config</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-api-port"><strong>catc_api_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>List of parameters required to configure, create, and deploy ICAP settings in Cisco Catalyst Center.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download"><strong>assurance_icap_download</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines settings for downloading Intelligent Capture (ICAP) data.</p>
-<p>Used to configure the parameters for capturing client data during a specific timeframe.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/ap_mac"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-ap-mac"><strong>ap_mac</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/ap_mac" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The Ap mac address of the AP for which the capture will be performed through.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/capture_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-capture-type"><strong>capture_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/capture_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of ICAP session to be executed.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`&quot;FULL&quot;`</span></a></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`&quot;ONBOARDING&quot;`</span></a></p></li>
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;OTA&quot;`</span></a></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;RFSTATS&quot;`</span></a></p></li>
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;ANOMALY&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/client_mac"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-client-mac"><strong>client_mac</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/client_mac" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The MAC address of the client device for which the capture is being performed.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/end_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-end-time"><strong>end_time</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/end_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-file-path"><strong>file_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file system path where the captured data will be saved.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/start_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-start-time"><strong>start_time</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/start_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings"><strong>assurance_icap_settings</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines ICAP settings for capturing client and network device information.</p>
-<p>Used for onboarding, monitoring, and troubleshooting network connectivity issues.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ap_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ap-name"><strong>ap_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ap_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Access Point (AP) for the capture.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/capture_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-capture-type"><strong>capture_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/capture_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of Intelligent Capture to be performed (e.g., onboarding).</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;FULL&quot;`</span></a></p></li>
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`&quot;ONBOARDING&quot;`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`&quot;OTA&quot;`</span></a></p></li>
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`&quot;RFSTATS&quot;`</span></a></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`&quot;ANOMALY&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/client_mac"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-client-mac"><strong>client_mac</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/client_mac" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The MAC address of the client device for which the capture is being performed.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/duration_in_mins"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-duration-in-mins"><strong>duration_in_mins</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/duration_in_mins" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The duration of the Intelligent Capture session in minutes.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ota_band"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ota-band"><strong>ota_band</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ota_band" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the wireless frequency band for the ICAP capture.</p>
-<p>Ensure the selected band is valid for the region and device capabilities.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;2.4GHz&quot;`</span></a></p></li>
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`&quot;5GHz&quot;`</span></a></p></li>
-<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`&quot;6GHz&quot;`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ota_channel"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ota-channel"><strong>ota_channel</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ota_channel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Wireless channel used for the ICAP capture (For example, 36, 40).</p>
-<p>Available channels depend on the selected `ota_band` and regulatory restrictions.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ota_channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ota-channel-width"><strong>ota_channel_width</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ota_channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the channel width in MHz for the ICAP capture (For example, 20, 40).</p>
-<p>Ensure compatibility with the selected `ota_band` and regulatory requirements.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/preview_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-preview-description"><strong>preview_description</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/preview_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A short summary or metadata about the Intelligent Capture session, providing details such as purpose, expected outcomes, or session context.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/slot"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-slot"><strong>slot</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/slot" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=integer</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of slot numbers for the capture session.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/wlc_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-wlc-name"><strong>wlc_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/wlc_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Wireless LAN Controller (WLC) involved in the Intelligent Capture.</p>
+<td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`&quot;443&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-api-task-timeout"><strong>catc_api_task_timeout</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Set to 'true' to verify the ICAP configuration on Cisco Catalyst Center after deployment.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-</ul>
+<td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id3"><span class="problematic" id="id4">:ansible-option-default:`1200`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id31"><span class="problematic" id="id32">:ansible-option-default:`1200`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-debug"><strong>catc_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-host"><strong>catc_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-log"><strong>catc_log</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable/disable playbook execution logging.</p>
-<p>When true and dnac_log_file_path is provided, - Create the log file at the execution location with the specified name.</p>
-<p>When true and dnac_log_file_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.</p>
+<p>When true and catc_log_file_path is provided, - Create the log file at the execution location with the specified name.</p>
+<p>When true and catc_log_file_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.</p>
 <p>When false, - Logging is disabled.</p>
-<p>If the log file doesn't exist, - It is created in append or write mode based on the &quot;dnac_log_append&quot; flag.</p>
-<p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
+<p>If the log file doesn't exist, - It is created in append or write mode based on the &quot;catc_log_append&quot; flag.</p>
+<p>If the log file exists, - It is overwritten or appended based on the &quot;catc_log_append&quot; flag.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-log-append"><strong>catc_log_append</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-log-file-path"><strong>catc_log_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
-<p>If path is not specified, - When 'dnac_log_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'catalystcenter.log' is generated; logs are overwritten.</p>
-<p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id45"><span class="problematic" id="id46">:ansible-option-default:`&quot;catalystcenter.log&quot;`</span></a></p>
+<td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if catc_log is True.</p>
+<p>If path is not specified, - When 'catc_log_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catc_log_append' is False, 'catalystcenter.log' is generated; logs are overwritten.</p>
+<p>If path is specified, - When 'catc_log_append' is True, the file opens in append mode. - When 'catc_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id17"><span class="problematic" id="id18">:ansible-option-default:`&quot;catalystcenter.log&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-log-level"><strong>catc_log_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].</p>
 <p>CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.</p>
@@ -1523,60 +1359,222 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
 <p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
 <p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-password"><strong>catc_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id49"><span class="problematic" id="id50">:ansible-option-default:`&quot;443&quot;`</span></a></p>
-</div></td>
-</tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-task-poll-interval"><strong>catc_task_poll_interval</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-option-default:`2`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`2`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
-<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_username"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-username"><strong>catc_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id53"><span class="problematic" id="id54">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-verify"><strong>catc_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
 </ul>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-catc_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-catc-version"><strong>catc_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id59"><span class="problematic" id="id60">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config"><strong>config</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>List of parameters required to configure, create, and deploy ICAP settings in Cisco Catalyst Center.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download"><strong>assurance_icap_download</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines settings for downloading Intelligent Capture (ICAP) data.</p>
+<p>Used to configure the parameters for capturing client data during a specific timeframe.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/ap_mac"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-ap-mac"><strong>ap_mac</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/ap_mac" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The Ap mac address of the AP for which the capture will be performed through.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/capture_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-capture-type"><strong>capture_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/capture_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of ICAP session to be executed.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`&quot;FULL&quot;`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;ONBOARDING&quot;`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;OTA&quot;`</span></a></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;RFSTATS&quot;`</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;ANOMALY&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/client_mac"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-client-mac"><strong>client_mac</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/client_mac" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The MAC address of the client device for which the capture is being performed.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/end_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-end-time"><strong>end_time</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/end_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-file-path"><strong>file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The file system path where the captured data will be saved.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_download/start_time"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-download-start-time"><strong>start_time</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_download/start_time" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings"><strong>assurance_icap_settings</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Defines ICAP settings for capturing client and network device information.</p>
+<p>Used for onboarding, monitoring, and troubleshooting network connectivity issues.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ap_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ap-name"><strong>ap_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ap_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Access Point (AP) for the capture.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/capture_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-capture-type"><strong>capture_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/capture_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The type of Intelligent Capture to be performed (e.g., onboarding).</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;FULL&quot;`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;ONBOARDING&quot;`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;OTA&quot;`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;RFSTATS&quot;`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;ANOMALY&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/client_mac"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-client-mac"><strong>client_mac</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/client_mac" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The MAC address of the client device for which the capture is being performed.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/duration_in_mins"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-duration-in-mins"><strong>duration_in_mins</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/duration_in_mins" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The duration of the Intelligent Capture session in minutes.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ota_band"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ota-band"><strong>ota_band</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ota_band" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the wireless frequency band for the ICAP capture.</p>
+<p>Ensure the selected band is valid for the region and device capabilities.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;2.4GHz&quot;`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;5GHz&quot;`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;6GHz&quot;`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ota_channel"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ota-channel"><strong>ota_channel</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ota_channel" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Wireless channel used for the ICAP capture (For example, 36, 40).</p>
+<p>Available channels depend on the selected `ota_band` and regulatory restrictions.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/ota_channel_width"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-ota-channel-width"><strong>ota_channel_width</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/ota_channel_width" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the channel width in MHz for the ICAP capture (For example, 20, 40).</p>
+<p>Ensure compatibility with the selected `ota_band` and regulatory requirements.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/preview_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-preview-description"><strong>preview_description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/preview_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A short summary or metadata about the Intelligent Capture session, providing details such as purpose, expected outcomes, or session context.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/slot"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-slot"><strong>slot</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/slot" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=integer</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>List of slot numbers for the capture session.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/assurance_icap_settings/wlc_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-assurance-icap-settings-wlc-name"><strong>wlc_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/assurance_icap_settings/wlc_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Wireless LAN Controller (WLC) involved in the Intelligent Capture.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-icap-settings-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Set to 'true' to verify the ICAP configuration on Cisco Catalyst Center after deployment.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1614,7 +1612,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <li><p>Paths used are GET /dna/intent/api/v1/icapSettings/deviceDeployments POST /dna/intent/api/icapSettings/configurationModels DELETE /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId} POST /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/deploy GET /dna/data/api/v1/icap/captureFiles GET /dna/data/api/v1/icap/captureFiles/${id}/download</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
-<li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
 </ul>
 </div>
 </section>
@@ -1629,16 +1626,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configure ICAP on Cisco Catalyst Center</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_icap_settings_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -1663,16 +1660,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Download ICAP on Cisco Catalyst Center</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_icap_settings_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
