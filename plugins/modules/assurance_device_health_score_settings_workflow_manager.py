@@ -37,7 +37,7 @@ extends_documentation_fragment:
 author: Megha Kandari (@kandarimegha) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: >
       Set to `True` to enable configuration verification
       on Cisco Catalyst Center after applying the playbook
@@ -315,7 +315,7 @@ EXAMPLES = r"""
         catc_log_level: debug
         catc_log_append: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - device_health_score:
               - device_family: SWITCH_AND_HUB  # required field
@@ -342,7 +342,7 @@ EXAMPLES = r"""
         catc_log_level: debug
         catc_log_append: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - device_health_score:
               - device_family: ROUTER  # required field
@@ -369,7 +369,7 @@ EXAMPLES = r"""
         catc_log_level: debug
         catc_log_append: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - device_health_score:
               - device_family: UNIFIED_AP  # required field
@@ -1262,20 +1262,20 @@ class Healthscore(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "catc_host": {"type": "str", "required": True},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": True},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True, "aliases": ["host"]},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
+        "catc_verify": {"type": "bool", "default": True, "aliases": ["verify"]},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -1308,7 +1308,7 @@ def main():
         ccc_assurance.get_want(config).check_return_status()
         ccc_assurance.get_have(config).check_return_status()
         ccc_assurance.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             ccc_assurance.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_assurance.result)

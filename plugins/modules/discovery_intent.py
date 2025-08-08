@@ -21,7 +21,7 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr) Phan Nguyen (@phannguy) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying
       the playbook config.
     type: bool
@@ -412,7 +412,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{log_level}}"
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - discovery_name: Discovery with both global and job specific credentials
         discovery_type: RANGE
@@ -488,7 +488,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{log_level}}"
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - discovery_name: Single with discovery specific credentials only
         discovery_type: SINGLE
@@ -541,7 +541,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{log_level}}"
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - discovery_name: CDP with global credentials only
         discovery_type: CDP
@@ -586,7 +586,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{log_level}}"
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - discovery_name: CIDR with all global credentials
         discovery_type: CIDR
@@ -613,7 +613,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{log_level}}"
     state: deleted
-    configverify: true
+    config_verify: true
     config:
       - discovery_name: Single discovery
 """
@@ -2168,7 +2168,7 @@ def main():
     for config in ccc_discovery.validated_config:
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
-        if configverify:
+        if config_verify:
             ccc_discovery.verify_diff_state_apply[state](
                 config).check_return_status()
 

@@ -41,7 +41,7 @@ options:
       for using 'tags_workflow_manager' module.
     type: str
     default: 2.3.7.9
-  configverify:
+  config_verify:
     description: Set to 'true' to verify the Cisco Catalyst
       Center configuration after applying the playbook
       configuration.
@@ -399,7 +399,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Server_Connected_Devices_and_Ports
@@ -429,7 +429,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Border_9300_Tag
@@ -469,7 +469,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: HighSpeed_Server_Interfaces
@@ -514,7 +514,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Server_Connected_Interfaces
@@ -551,7 +551,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Server_Connected_Interfaces
@@ -589,7 +589,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag_memberships:
               tags:
@@ -658,7 +658,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: false
+        config_verify: false
         config:
           - tag_memberships:
               tags:
@@ -697,7 +697,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Server_Connected_Devices
@@ -724,7 +724,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Server_Connected_Devices
@@ -753,7 +753,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Catalyst_Access_Tag
@@ -786,7 +786,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Catalyst_Site_Tag
@@ -821,7 +821,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: false
+        config_verify: false
         config:
           - tag:
               name: Catalyst_Port_Tag
@@ -859,7 +859,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: false
+        config_verify: false
         config:
           - tag_memberships:
               tags:
@@ -919,7 +919,7 @@ EXAMPLES = r"""
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
-        configverify: true
+        config_verify: true
         config:
           - tag_memberships:
               tags:
@@ -5782,20 +5782,20 @@ def main():
 
     element_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": True},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
+        "catc_verify": {"type": "bool", "default": True, "aliases": ["verify"]},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
@@ -5833,7 +5833,7 @@ def main():
         ccc_tags.get_have(config).check_return_status()
 
         ccc_tags.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             ccc_tags.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_tags.update_tags_profile_messages().check_return_status()

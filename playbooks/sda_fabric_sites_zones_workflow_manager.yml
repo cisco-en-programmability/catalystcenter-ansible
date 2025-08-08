@@ -18,7 +18,7 @@
         catc_debug: "{{ catc_debug }}"
         catc_log_level: DEBUG
         catc_log: true
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - fabric_sites:

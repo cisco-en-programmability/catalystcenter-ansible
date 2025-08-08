@@ -16,7 +16,7 @@
       catc_log: true
       catc_log_level: INFO
       catc_log_append: false
-      configverify: true
+      config_verify: true
   tasks:
     - name: Take backup of all devices in the Cisco Catalyst Center
       cisco.catalystcenter.device_configs_backup_workflow_manager:

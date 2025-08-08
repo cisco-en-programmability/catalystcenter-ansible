@@ -18,7 +18,7 @@
         catc_log_level: "{{ catc_log_level }}"
         catc_log: true
         catc_log_append: false
-        configverify: false
+        config_verify: false
         state: deleted
         config:
           - lan_automation:

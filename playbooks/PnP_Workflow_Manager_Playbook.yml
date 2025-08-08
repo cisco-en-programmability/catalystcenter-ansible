@@ -21,7 +21,7 @@
         !!merge <<: *catalystcenter_login
         catc_log: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - device_info:
               - serial_number: QD2425L8M7
@@ -93,7 +93,7 @@
         !!merge <<: *catalystcenter_login
         catc_log: true
         state: deleted
-        configverify: true
+        config_verify: true
         config:
           - device_info:
               - serial_number: QD2425L8M7  # Will get deleted

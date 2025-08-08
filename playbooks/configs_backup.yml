@@ -21,7 +21,7 @@
         !!merge <<: *catalystcenter_login
         catc_log: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - hostname: NY-BN-9500.cisco.local
             file_path: /home/admin/madhan_ansible/collections/ansible_collections/cisco/catalystcenter/playbooks/new_tmp
@@ -30,6 +30,6 @@
         !!merge <<: *catalystcenter_login
         catc_log: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - family: Switches and Hubs

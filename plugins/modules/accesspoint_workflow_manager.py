@@ -27,7 +27,7 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
   - Abhishek Maheshwari (@abmahesh)
 options:
-  configverify:
+  config_verify:
     description: Set to true to verify the Cisco Catalyst Center configuration after
       applying the playbook config.
     type: bool
@@ -1166,7 +1166,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1188,7 +1188,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1207,7 +1207,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1226,7 +1226,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1245,7 +1245,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1266,7 +1266,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1288,7 +1288,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1315,7 +1315,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1336,7 +1336,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - mac_address: a4:88:73:d4:d6:60
@@ -1368,7 +1368,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - mac_address: a4:88:73:d4:d6:60
@@ -1398,7 +1398,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         state: merged
         config:
           - mac_address: 90:e9:5e:03:f3:40
@@ -1439,7 +1439,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - mac_address: 6c:d6:e3:75:5a:e0
@@ -1480,7 +1480,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - mac_address: e4:38:7e:42:bc:00
@@ -1526,7 +1526,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - reboot_aps:
@@ -1545,7 +1545,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - reboot_aps:
@@ -1564,7 +1564,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - factory_reset_aps:
@@ -1583,7 +1583,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         state: merged
         config:
           - bulk_update_aps:
@@ -4194,19 +4194,19 @@ def main():
     """
     accepoint_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
         "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
         "config_verify": {"type": "bool", "default": False},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "next_task_after_interval": {"type": "int", "default": 5},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -4259,7 +4259,7 @@ def main():
         ccc_network.get_have(config).check_return_status()
         ccc_network.get_diff_state_apply[state](config).check_return_status()
 
-        if configverify:
+        if config_verify:
             waiting_time_to_verify = 10
             ccc_network.log("Starting verify AP details after {0} seconds".format(
                 str(waiting_time_to_verify)), "INFO")

@@ -20,7 +20,7 @@
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - sda_fabric_transits:
               - name: Sample1
@@ -42,7 +42,7 @@
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - sda_fabric_transits:
               - name: Sample2
@@ -65,7 +65,7 @@
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - sda_fabric_transits:
               - name: Sample3
@@ -91,7 +91,7 @@
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - sda_fabric_transits:
               - name: Sample2
@@ -114,7 +114,7 @@
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - sda_fabric_transits:
               - name: Sample3
@@ -140,7 +140,7 @@
         catc_log_append: true
         catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - sda_fabric_transits:
               - name: Sample1

@@ -31,7 +31,7 @@ author:
   - Syed Khadeer Ahmed (@syed-khadeerahmed)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -499,7 +499,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -558,7 +558,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -605,7 +605,7 @@ EXAMPLES = r"""
         catc_debug: "{{catc_debug}}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -723,7 +723,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -813,7 +813,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -856,7 +856,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -918,7 +918,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: deleted
@@ -945,7 +945,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -982,7 +982,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -1027,7 +1027,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -1066,7 +1066,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: deleted
@@ -1093,7 +1093,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -1133,7 +1133,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -1174,7 +1174,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: deleted
@@ -7433,20 +7433,20 @@ def main():
     """main entry point for module execution"""
     element_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
         "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
@@ -7485,7 +7485,7 @@ def main():
         ccc_application.get_want(config).check_return_status()
         ccc_application.get_have().check_return_status()
         ccc_application.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             ccc_application.verify_diff_state_apply[state](config).check_return_status()
 
     ccc_application.update_all_messages()

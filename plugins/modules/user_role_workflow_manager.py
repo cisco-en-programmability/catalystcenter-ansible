@@ -25,7 +25,7 @@ author:
   - Rangaprabhu Deenadayalu (@rangaprabha-d)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -661,7 +661,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     catc_api_task_timeout: 1000
     catc_task_poll_interval: 1
     state: merged
@@ -685,7 +685,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     catc_api_task_timeout: 1000
     catc_task_poll_interval: 1
     state: merged
@@ -707,7 +707,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     catc_api_task_timeout: 1000
     catc_task_poll_interval: 1
     state: merged
@@ -726,7 +726,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     catc_api_task_timeout: 1000
     catc_task_poll_interval: 1
     state: merged
@@ -746,7 +746,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     catc_api_task_timeout: 1000
     catc_task_poll_interval: 1
     state: deleted
@@ -764,7 +764,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     config:
       role_details:
         - role_name: "Full-Access-Admin"
@@ -832,7 +832,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     config:
       role_details:
         - role_name: "Assurance-Manager"
@@ -852,7 +852,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     config:
       role_details:
         - role_name: "Network-Provision-Manager"
@@ -879,7 +879,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     config:
       role_details:
         - role_name: "Full-Access-Admin"
@@ -901,7 +901,7 @@ EXAMPLES = r"""
     catc_debug: "{{ catc_debug }}"
     catc_log: true
     catc_log_level: DEBUG
-    configverify: true
+    config_verify: true
     catc_api_task_timeout: 1000
     catc_task_poll_interval: 1
     state: deleted
@@ -4406,7 +4406,7 @@ class UserandRole(CatalystCenterBase):
                 self.get_have(config).check_return_status()
                 self.get_diff_state_apply[state](config).check_return_status()
 
-                if configverify:
+                if config_verify:
                     self.verify_diff_state_apply[state](config).check_return_status()
 
 
@@ -4415,19 +4415,19 @@ def main():
     # Basic Ansible type check or assign default.
     user_role_details = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
         "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
         "config_verify": {"type": "bool", "default": False},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "config": {"required": True, "type": "dict"},
         "validate_response_schema": {"type": "bool", "default": True},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},

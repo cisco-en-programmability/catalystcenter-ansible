@@ -21,7 +21,7 @@
         catc_log_file_path: "{{ catc_log_file_path }}"
         validate_response_schema: false
         state: "merged"
-        configverify: true
+        config_verify: true
         # ignore_errors: true        # Enable this to continue execution even the task fails
         config:
           - configuration_templates:

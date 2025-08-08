@@ -24,7 +24,7 @@ author: Abinash Mishra (@abimishr) Rugvedi Kapse (@rukapse)
   Madhan Sankaranarayanan (@madhansansel) Sonali Deepthi
   Kesali (@skesali)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -1362,19 +1362,19 @@ def main():
     # Define the specification for the module"s arguments
     element_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
         "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged"]},
@@ -1421,7 +1421,7 @@ def main():
         ccc_device_configs_backup.reset_values()
         ccc_device_configs_backup.get_want(config).check_return_status()
         ccc_device_configs_backup.get_diff_state_apply[state]().check_return_status()
-        if configverify:
+        if config_verify:
             ccc_device_configs_backup.verify_diff_state_apply[
                 state
             ]().check_return_status()

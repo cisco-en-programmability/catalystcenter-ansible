@@ -20,7 +20,7 @@ extends_documentation_fragment:
   - cisco.catalystcenter.intent_params
 author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying
       the playbook config.
     type: bool
@@ -4560,7 +4560,7 @@ def main():
         dnac_device.get_want(config).check_return_status()
         dnac_device.get_have(config).check_return_status()
         dnac_device.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             dnac_device.verify_diff_state_apply[state](
                 config).check_return_status()
 

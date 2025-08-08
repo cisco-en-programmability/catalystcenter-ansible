@@ -35,7 +35,7 @@ author: Madhan Sankaranarayanan (@madhansansel) Rishita
   Chowdhary (@rishitachowdhary) Abhishek Maheshwari
   (@abmahesh)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -2542,7 +2542,7 @@ def main():
         dnac_swims.get_diff_import().check_return_status()
         dnac_swims.get_have().check_return_status()
         dnac_swims.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             dnac_swims.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_swims.result)

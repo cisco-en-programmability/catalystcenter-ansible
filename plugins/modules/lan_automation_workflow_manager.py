@@ -42,7 +42,7 @@ options:
       task completion.
     type: int
     default: 30
-  configverify:
+  config_verify:
     description: Set to true to verify the LAN Automation
       config after applying the playbook config.
     type: bool
@@ -361,7 +361,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automation:
@@ -407,7 +407,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automation:
@@ -455,7 +455,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: deleted
     config:
       - lan_automation:
@@ -472,7 +472,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -491,7 +491,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -510,7 +510,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -530,7 +530,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -550,7 +550,7 @@ EXAMPLES = r"""
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
     catc_log: true
-    configverify: false
+    config_verify: false
     state: merged
     config:
       - lan_automated_device_update:
@@ -3824,16 +3824,16 @@ def main():
     # Define the specification for the module's arguments
     element_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
         "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catc_api_task_timeout": {"type": "int", "default": 604800},
@@ -3876,7 +3876,7 @@ def main():
         ccc_lan_automation.get_have(config).check_return_status()
         ccc_lan_automation.get_want(config).check_return_status()
         ccc_lan_automation.get_diff_state_apply[state]().check_return_status()
-        if configverify:
+        if config_verify:
             ccc_lan_automation.verify_diff_state_apply[state](
                 config
             ).check_return_status()

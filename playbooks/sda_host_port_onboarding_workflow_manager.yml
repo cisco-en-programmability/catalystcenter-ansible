@@ -16,7 +16,7 @@
       catc_log: true
       catc_log_level: INFO
       catc_log_append: false
-      configverify: true
+      config_verify: true
   tasks:
     - name: Add port assignments, port channels and wireless ssids in a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
