@@ -2133,13 +2133,13 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "int", "default": 443},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
         "catc_log": {"type": "bool", "default": False},
         "catc_log_level": {"type": "str", "default": "WARNING"},
         "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
