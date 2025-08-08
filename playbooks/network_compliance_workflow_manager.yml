@@ -13,9 +13,9 @@
       catc_api_port: "{{ catc_api_port }}"
       catc_version: "{{ catc_version }}"
       catc_debug: "{{ catc_debug }}"
-      log: true
-      log_level: INFO
-      log_append: false
+      catc_log: true
+      catc_log_level: INFO
+      catc_log_append: false
       configverify: true
   tasks:
     - name: Run Compliance check using IP address list (run_compliance by default is true)

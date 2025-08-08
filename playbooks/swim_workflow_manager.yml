@@ -16,10 +16,10 @@
         catc_api_port: "{{ catc_api_port }}"
         catc_version: "{{ catc_version }}"
         catc_debug: "{{ catc_debug }}"
-        log: true
-        log_level: DEBUG
-        catalyst_api_task_timeout: 1000
-        catalyst_task_poll_interval: 1
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         config:
           - import_image_details:
               type: "{{ item.type }}"

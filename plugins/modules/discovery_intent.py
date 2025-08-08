@@ -409,8 +409,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -485,8 +485,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -538,8 +538,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -583,8 +583,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -610,8 +610,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     configverify: true
     config:
@@ -2140,14 +2140,14 @@ def main():
         "verify": {"type": "bool", "default": "True"},
         "version": {"type": "str", "default": "2.2.3.3"},
         "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

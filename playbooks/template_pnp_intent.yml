@@ -18,7 +18,7 @@
         catc_password: "{{ catc_password }}"
         catc_verify: "{{ catc_verify }}"
         catc_debug: "{{ catc_debug }}"
-        log: true
+        catc_log: true
         state: "merged"
         configverify: true
         # ignore_errors: true        # Enable this to continue execution even the task fails
@@ -45,7 +45,7 @@
         catc_verify: "{{ catc_verify }}"
         catc_api_port: "{{ catc_api_port }}"
         catc_debug: "{{ catc_debug }}"
-        log: true
+        catc_log: true
         config:
           - site_name: "{{ item.site_name }}"
             project_name: "{{ item.proj_name }}"

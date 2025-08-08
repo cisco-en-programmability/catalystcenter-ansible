@@ -15,9 +15,9 @@
         catc_api_port: "{{ catc_api_port }}"
         catc_version: "{{ catc_version }}"
         catc_debug: "{{ catc_debug }}"
-        log_level: "{{ log_level }}"
-        log: true
-        log_append: false
+        catc_log_level: "{{ catc_log_level }}"
+        catc_log: true
+        catc_log_append: false
         configverify: false
         state: deleted
         config:

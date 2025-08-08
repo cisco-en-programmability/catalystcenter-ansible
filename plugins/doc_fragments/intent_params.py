@@ -54,22 +54,23 @@ options:
         type: bool
         default: false
         aliases: [debug, catalystcenter_debug]
-    log:
+    catc_log:
         description:
           - Flag to enable/disable playbook execution logging.
-          - When true and log_file_path is provided,
+          - When true and catc_log_file_path is provided,
             - Create the log file at the execution location with the specified name.
-          - When true and log_file_path is not provided,
+          - When true and catc_log_file_path is not provided,
             - Create the log file at the execution location with the name 'catalystcenter.log'.
           - When false,
             - Logging is disabled.
           - If the log file doesn't exist,
-            - It is created in append or write mode based on the "log_append" flag.
+            - It is created in append or write mode based on the "catc_log_append" flag.
           - If the log file exists,
-            - It is overwritten or appended based on the "log_append" flag.
+            - It is overwritten or appended based on the "catc_log_append" flag.
         type: bool
         default: false
-    log_level:
+        aliases: [log]
+    catc_log_level:
         description:
           - Sets the threshold for log level. Messages with a level equal to or higher than
             this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
@@ -80,33 +81,36 @@ options:
           - DEBUG provides detailed diagnostic info. Displays all log messages.
         type: str
         default: WARNING
-    log_file_path:
+        aliases: [log_level]
+    catc_log_file_path:
         description:
-        - Governs logging. Logs are recorded if log is True.
+        - Governs logging. Logs are recorded if catc_log is True.
         - If path is not specified,
-          - When 'log_append' is True, 'catalystcenter.log' is generated in the
+          - When 'catc_log_append' is True, 'catalystcenter.log' is generated in the
             current Ansible directory; logs are appended.
-          - When 'log_append' is False, 'catalystcenter.log' is generated; logs
+          - When 'catc_log_append' is False, 'catalystcenter.log' is generated; logs
             are overwritten.
         - If path is specified,
-          - When 'log_append' is True, the file opens in append mode.
-          - When 'log_append' is False, the file opens in write (w) mode.
+          - When 'catc_log_append' is True, the file opens in append mode.
+          - When 'catc_log_append' is False, the file opens in write (w) mode.
           - In shared file scenarios, without append mode, content is
             overwritten after each module execution.
           - For a shared log file, set append to False for the 1st module
             (to overwrite); for subsequent modules, set append to True.
         type: str
         default: catalystcenter.log
-    log_append:
+        aliases: [log_file_path]
+    catc_log_append:
         description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
         type: bool
         default: True
-    dnac_api_task_timeout:
+        aliases: [log_append]
+    catc_api_task_timeout:
       description:  Defines the timeout in seconds for API calls to retrieve task details. If the task details
           are not received within this period, the process will end, and a timeout notification will be logged.
       type: int
       default: 1200
-    dnac_task_poll_interval:
+    catc_task_poll_interval:
       description: Specifies the interval in seconds between successive calls to the API to retrieve task details.
       type: int
       default: 2

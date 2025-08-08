@@ -199,18 +199,18 @@ EXAMPLES = r"""
   tasks:
     - name: Create network wireless profile
       cisco.catalystcenter.network_profile_wireless_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - profile_name: "Corporate_Wireless_Profile"
@@ -245,18 +245,18 @@ EXAMPLES = r"""
               - "Wireless_Controller_Config"
     - name: Update wireless network profile
       cisco.catalystcenter.network_profile_wireless_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - profile_name: "Corporate_Wireless_Profile"
@@ -281,18 +281,18 @@ EXAMPLES = r"""
     - name: Delete wireless profile from Cisco Catalyst
         Center.
       cisco.catalystcenter.network_profile_wireless_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: deleted
         config:
           - profile_name: "Corporate_Wireless_Profile"
@@ -2498,20 +2498,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "host": {"type": "str", "required": True},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": True},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -491,14 +491,14 @@ EXAMPLES = r"""
 ---
 - name: Create Credentials and assign it to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   configverify: true
   config:
@@ -553,14 +553,14 @@ EXAMPLES = r"""
           - Global/USA
 - name: Create Multiple Credentials.
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   configverify: true
   config:
@@ -619,14 +619,14 @@ EXAMPLES = r"""
             port: 443
 - name: Update global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   configverify: true
   config:
@@ -662,14 +662,14 @@ EXAMPLES = r"""
             port: 443
 - name: Update multiple global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   configverify: true
   config:
@@ -729,14 +729,14 @@ EXAMPLES = r"""
 - name: Update global device credential name/description
     using old name and description.
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   configverify: true
   config:
@@ -782,14 +782,14 @@ EXAMPLES = r"""
 - name: Assign Credentials to sites using old description
     and username.
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   configverify: true
   config:
@@ -813,15 +813,15 @@ EXAMPLES = r"""
           - Global/USA
 - name: Sync global device credentials to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
   catc_version: "{{catc_version}}"
-  debug: "{{ dnac_debug }}"
-  dnac_log_level: "{{ dnac_log_level }}"
-  dnac_log: true
+  catc_debug: "{{ catc_debug }}"
+  log_level: "{{ catc_log_level }}"
+  log: true
   state: merged
   configverify: true
   config:
@@ -839,13 +839,13 @@ EXAMPLES = r"""
           - Global/Vietnam/halong/Hanoi
 - name: Delete credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
-  dnac_log: true
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
   state: deleted
   configverify: true
   config:
@@ -4136,20 +4136,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "host": {"type": "str", "required": True},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -490,18 +490,18 @@ EXAMPLES = r"""
     - name: Create Enterprise QoS Profile for Optimized
         Network Performance
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -549,18 +549,18 @@ EXAMPLES = r"""
     - name: Configure Enterprise QoS Profile for Consistent
         Traffic Prioritization
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -603,11 +603,11 @@ EXAMPLES = r"""
         catc_api_port: "{{catc_api_port}}"
         catc_version: "{{catc_version}}"
         catc_debug: "{{catc_debug}}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: false
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -714,18 +714,18 @@ EXAMPLES = r"""
     - name: Create an Application Queueing Profile for
         Traffic Prioritization
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -804,18 +804,18 @@ EXAMPLES = r"""
     - name: Create an Application Queuing Profile with
         DSCP Settings
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -847,18 +847,18 @@ EXAMPLES = r"""
     - name: Update Application Queuing Profile in Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -909,18 +909,18 @@ EXAMPLES = r"""
     - name: Delete application queuing profile from
         Cisco Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: deleted
         config:
           - queuing_profile:
@@ -936,18 +936,18 @@ EXAMPLES = r"""
     - name: Create Application with Server Name on Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - application:
@@ -973,18 +973,18 @@ EXAMPLES = r"""
     - name: Create application with Server IP on Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - application:
@@ -1018,18 +1018,18 @@ EXAMPLES = r"""
     - name: Create Application with URL Type in Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - application:
@@ -1057,18 +1057,18 @@ EXAMPLES = r"""
     - name: Delete Video Streaming Application from
         Cisco Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: deleted
         config:
           - application:
@@ -1084,18 +1084,18 @@ EXAMPLES = r"""
   tasks:
     - name: Define and Deploy Wired Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - application_policy:
@@ -1124,18 +1124,18 @@ EXAMPLES = r"""
   tasks:
     - name: Define and Deploy Wireless Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - application_policy:
@@ -1165,18 +1165,18 @@ EXAMPLES = r"""
     - name: Delete application policy from Cisco Catalyst
         Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        host: "{{ dnac_host }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        api_port: "{{ dnac_port }}"
-        version: "{{ dnac_version }}"
-        debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
-        dnac_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: deleted
         config:
           - application_policy:
@@ -7432,21 +7432,21 @@ class ApplicationPolicy(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

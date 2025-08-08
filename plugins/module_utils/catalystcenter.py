@@ -67,16 +67,16 @@ class CatalystCenterBase():
                                         'rendered': self.verify_diff_rendered,
                                         'parsed': self.verify_diff_parsed
                                         }
-        self.log = catalystcenter_params.get("log")
-        self.max_timeout = self.params.get('catalystcenter_api_task_timeout')
+        self.log = catalystcenter_params.get("catc_log")
+        self.max_timeout = self.params.get('catc_api_task_timeout')
 
         if self.log and not CatalystCenterBase.__is_log_init:
-            self.log_level = catalystcenter_params.get("log_level") or 'WARNING'
+            self.log_level = catalystcenter_params.get("catc_log_level") or 'WARNING'
             self.log_level = self.log_level.upper()
             self.validate_catalystcenter_log_level()
-            self.log_file_path = catalystcenter_params.get("log_file_path") or 'catalystcenter.log'
+            self.log_file_path = catalystcenter_params.get("catc_log_file_path") or 'catalystcenter.log'
             self.validate_catalystcenter_log_file_path()
-            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("log_append") else 'a'
+            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("catc_log_append") else 'a'
             self.setup_logger('logger')
             self.logger = logging.getLogger('logger')
             CatalystCenterBase.__is_log_init = True
@@ -394,7 +394,7 @@ class CatalystCenterBase():
                     self.msg = str(task_details.get("failureReason"))
                     string_check = "check task tree"
                     if string_check in self.msg.lower():
-                        time.sleep(self.params.get('catalystcenter_task_poll_interval'))
+                        time.sleep(self.params.get('catc_task_poll_interval'))
                         self.msg = self.check_task_tree_response(task_id)
                 else:
                     self.msg = str(task_details.get("progress"))
@@ -592,8 +592,8 @@ class CatalystCenterBase():
                         or None if the maximum timeout is reached.
         Description:
             This method repeatedly checks the status of an API event in Cisco Catalyst Center using the provided
-            execution ID. The status is checked at intervals specified by the 'catalystcenter_task_poll_interval' parameter
-            until the status is no longer "IN_PROGRESS" or the maximum timeout ('catalystcenter_api_task_timeout') is reached.
+            execution ID. The status is checked at intervals specified by the 'catc_task_poll_interval' parameter
+            until the status is no longer "IN_PROGRESS" or the maximum timeout ('catc_api_task_timeout') is reached.
             If the status becomes anything other than "IN_PROGRESS" before the timeout, the method returns the
             response from the API. If the timeout is reached first, the method logs a warning and returns None.
         """
@@ -618,7 +618,7 @@ class CatalystCenterBase():
             if response['apiStatus'] != "IN_PROGRESS":
                 events_response = response
                 break
-            time.sleep(self.params.get('catalystcenter_task_poll_interval'))
+            time.sleep(self.params.get('catc_task_poll_interval'))
 
         return events_response
 
@@ -807,13 +807,15 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        catc_host=dict(type="str", required=True, aliases=['catalystcenter_host', 'host', 'catc_host']),
-        catc_api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', 'api_port', 'catc_api_port']),
-        catc_username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', 'username', 'catc_username']),
-        catc_password=dict(type="str", no_log=True, aliases=['catalystcenter_password', 'password', 'catc_password']),
-        catc_verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', 'verify', 'catc_verify']),
-        catc_version=dict(type="str", default="3.1.3.0", aliases=['catalystcenter_version', 'version', 'catc_version']),
-        catc_debug=dict(type="bool", default=False, aliases=['catalystcenter_debug', 'debug', 'catc_debug']),
+        catc_host=dict(type="str", required=True, aliases=['catalystcenter_host', 'host']),
+        catc_api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', 'api_port']),
+        catc_username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', 'username']),
+        catc_password=dict(type="str", no_log=True, aliases=['catalystcenter_password', 'password']),
+        catc_verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', 'verify']),
+        catc_version=dict(type="str", default="3.1.3.0", aliases=['catalystcenter_version', 'version']),
+        catc_debug=dict(type="bool", default=False, aliases=['catalystcenter_debug', 'debug']),
+        catc_api_task_timeout=dict(type="int", default=1200, aliases=['catalystcenter_api_task_timeout', 'api_task_timeout']),
+        catc_task_poll_interval=dict(type="int", default=2, aliases=['catalystcenter_task_poll_interval', 'task_poll_interval']),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec

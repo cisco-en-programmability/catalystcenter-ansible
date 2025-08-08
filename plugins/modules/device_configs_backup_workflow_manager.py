@@ -198,8 +198,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - filepassword: qsaA12!asdasd
@@ -212,8 +212,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
@@ -229,8 +229,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - hostname_list: ["DC-T-9300.cisco.local"]
@@ -246,8 +246,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - site_list: ["Global/USA/RTP/BLD10", "Global/USA/New
@@ -262,8 +262,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
@@ -277,8 +277,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
@@ -294,8 +294,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
@@ -309,8 +309,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - family_list: ["Switches and Hubs", "Routers"]
@@ -326,8 +326,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - type_list: ["Cisco Catalyst 9300 Switch"]
@@ -342,8 +342,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - series_list: ["Cisco Catalyst 9300 Series Switches"]
@@ -358,8 +358,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - collection_status_list: ["Managed"]
@@ -374,8 +374,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - site_list: ["Global"]
@@ -1361,20 +1361,20 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "validate_response_schema": {"type": "bool", "default": True},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged"]},

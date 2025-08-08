@@ -15,7 +15,7 @@
         catc_password: "{{ catc_password }}"
         catc_verify: "{{ catc_verify }}"
         catc_debug: "{{ catc_debug }}"
-        log: true
+        catc_log: true
         config:
           - import_image_details:
               type: "{{ item.type }}"

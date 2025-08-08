@@ -16,7 +16,7 @@
         catc_api_port: "{{ catc_api_port }}"
         catc_version: "{{ catc_version }}"
         catc_debug: "{{ catc_debug }}"
-        log: true
+        catc_log: true
         state: merged
         config:
           - username: "{{ item.username }}"

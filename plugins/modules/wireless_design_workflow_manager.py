@@ -33,7 +33,7 @@ author:
   - Rugvedi Kapse (@rukapse)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to true to verify the Cisco Catalyst
       Center configuration after applying the playbook
       configuration.
@@ -3103,8 +3103,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - ssids:
@@ -3270,8 +3270,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - ssids:
@@ -3316,8 +3316,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - ssids:
@@ -3345,8 +3345,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - interfaces:
@@ -3371,8 +3371,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - interfaces:
@@ -3393,8 +3393,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - interfaces:
@@ -3413,8 +3413,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - power_profiles:
@@ -3556,8 +3556,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - power_profiles:
@@ -3654,8 +3654,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - power_profiles:
@@ -3674,8 +3674,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - access_point_profiles:
@@ -4126,8 +4126,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - access_point_profiles:
@@ -4234,8 +4234,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - access_point_profiles:
@@ -4281,8 +4281,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - radio_frequency_profiles:
@@ -4542,8 +4542,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - radio_frequency_profiles:
@@ -4658,8 +4658,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - radio_frequency_profiles:
@@ -4689,8 +4689,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - anchor_groups:
@@ -4757,8 +4757,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config:
       - anchor_groups:
@@ -4821,8 +4821,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - anchor_groups:
@@ -16813,21 +16813,21 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
@@ -16876,7 +16876,7 @@ def main():
         ccc_wireless_design.get_want(config, state).check_return_status()
         ccc_wireless_design.get_diff_state_apply[state]().check_return_status()
 
-        if configverify:
+        if config_verify:
             ccc_wireless_design.verify_diff_state_apply[state]().check_return_status()
 
     module.exit_json(**ccc_wireless_design.result)
