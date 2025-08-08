@@ -20,10 +20,6 @@ extends_documentation_fragment:
   - cisco.catalystcenter.intent_params
 author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
-  host:
-    description: The Cisco Catalyst Center hostname.
-    type: str
-    required: true
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying
       the playbook config.
@@ -4523,7 +4519,7 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "host": {
+        "catc_host": {
             "type": "str",
             "required": True,
         },
