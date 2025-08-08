@@ -644,7 +644,7 @@ options:
             description: Import the project details.
             type: dict
             suboptions:
-              doversion:
+              do_version:
                 description: DoVersion query parameter.
                   If this flag is true, creates a new
                   version of the template with the imported
@@ -657,7 +657,7 @@ options:
             description: Import the template details.
             type: dict
             suboptions:
-              doversion:
+              do_version:
                 description: DoVersion query parameter.
                   If this flag is true, creates a new
                   version of the template with the imported
@@ -1349,9 +1349,9 @@ EXAMPLES = r"""
               template_name: string
         import:
           project:
-            doversion: true
+            do_version: true
           export:
-            doversion: true
+            do_version: true
             payload:
               - author: string
                 composite: true

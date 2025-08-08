@@ -39,10 +39,6 @@ options:
       configuration.
     type: bool
     default: false
-  config_verify:
-    description: Set to true to verify the configuration after applying changes.
-    type: bool
-    default: false
   state:
     description: The desired state of Cisco Catalyst
       Center after module execution.
