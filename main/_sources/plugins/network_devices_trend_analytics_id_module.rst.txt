@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_trend_analytics_id module -- Resource modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -247,17 +247,55 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_debug:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_debug**
+      **catc_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catc_debug"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **catc_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -271,7 +309,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco DNA Center SDK to enable debugging.
+      Flag for Cisco Catalyst Center SDK to enable debugging.
 
 
       .. rst-class:: ansible-option-line
@@ -289,17 +327,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catc_host"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_host:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_host:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_host**
+      **catc_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -313,7 +351,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco DNA Center hostname.
+      The Cisco Catalyst Center hostname.
 
 
       .. raw:: html
@@ -323,17 +361,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catc_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_password:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_password:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_password**
+      **catc_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -347,7 +385,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco DNA Center password to authenticate.
+      The Cisco Catalyst Center password to authenticate.
 
 
       .. raw:: html
@@ -357,61 +395,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catc_username"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_port:
-
-      .. rst-class:: ansible-option-title
-
-      **dnac_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco DNA Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-        <div class="ansibleOptionAnchor" id="parameter-user"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_username:
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-user:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_username:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_username**
+      **catc_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-aliases:`aliases: user`
+        <a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -425,7 +419,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The Cisco DNA Center username to authenticate.
+      The Cisco Catalyst Center username to authenticate.
 
 
       .. rst-class:: ansible-option-line
@@ -439,17 +433,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catc_verify"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_verify:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_verify:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_verify**
+      **catc_verify**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -481,17 +475,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catc_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-dnac_version:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_trend_analytics_id_module__parameter-catc_version:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_version**
+      **catc_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -505,7 +499,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Informs the SDK which version of Cisco DNA Center to use.
+      Informs the SDK which version of Cisco Catalyst Center to use.
 
 
       .. rst-class:: ansible-option-line
@@ -1055,7 +1049,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
 
 
       .. rst-class:: ansible-option-line
@@ -1083,8 +1077,8 @@ Notes
    - SDK Method used are devices.Devices.the\_trend\_analytics\_data\_for\_the\_network\_device\_in\_the\_specified\_time\_range,
    - Paths used are post /dna/data/api/v1/networkDevices/{id}/trendAnalytics,
    - Does not support \ :literal:`check\_mode`\ 
-   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK
-   - The parameters starting with dnac\_ are used by the Cisco CATALYST Python SDK to establish the connection
+   - The plugin runs on the control node and does not use any ansible connection plugins,
+   - but instead uses the embedded connection manager from Cisco CATALYST SDK
 
 .. Seealso
 
@@ -1107,13 +1101,13 @@ Examples
     ---
     - name: Create
       cisco.catalystcenter.network_devices_trend_analytics_id:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        catc_host: "{{catc_host}}"
+        catc_username: "{{catc_username}}"
+        catc_password: "{{catc_password}}"
+        catc_verify: "{{catc_verify}}"
+        catc_api_port: "{{catc_api_port}}"
+        catc_version: "{{catc_version}}"
+        catc_debug: "{{catc_debug}}"
         aggregateAttributes:
           - function: string
             name: string

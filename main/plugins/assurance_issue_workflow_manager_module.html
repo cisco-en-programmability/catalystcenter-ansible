@@ -1231,7 +1231,7 @@
 <h1>cisco.catalystcenter.assurance_issue_workflow_manager module -- Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center<a class="headerlink" href="#cisco-catalystcenter-assurance-issue-workflow-manager-module-resource-module-for-managing-assurance-global-profile-settings-and-issue-resolution-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.2.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1275,41 +1275,171 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-api-port"><strong>catc_api_port</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id1"><span class="problematic" id="id2">:ansible-option-default:`&quot;443&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-api-task-timeout"><strong>catc_api_task_timeout</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id3"><span class="problematic" id="id4">:ansible-option-default:`1200`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-debug"><strong>catc_debug</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-host"><strong>catc_host</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-log"><strong>catc_log</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable/disable playbook execution logging.</p>
+<p>When true and catc_log_file_path is provided, - Create the log file at the execution location with the specified name.</p>
+<p>When true and catc_log_file_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.</p>
+<p>When false, - Logging is disabled.</p>
+<p>If the log file doesn't exist, - It is created in append or write mode based on the &quot;catc_log_append&quot; flag.</p>
+<p>If the log file exists, - It is overwritten or appended based on the &quot;catc_log_append&quot; flag.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`true`</span></a></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-log-append"><strong>catc_log_append</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-log-file-path"><strong>catc_log_file_path</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if catc_log is True.</p>
+<p>If path is not specified, - When 'catc_log_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catc_log_append' is False, 'catalystcenter.log' is generated; logs are overwritten.</p>
+<p>If path is specified, - When 'catc_log_append' is True, the file opens in append mode. - When 'catc_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id17"><span class="problematic" id="id18">:ansible-option-default:`&quot;catalystcenter.log&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-log-level"><strong>catc_log_level</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].</p>
+<p>CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.</p>
+<p>ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.</p>
+<p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
+<p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
+<p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-password"><strong>catc_password</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-task-poll-interval"><strong>catc_task_poll_interval</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id21"><span class="problematic" id="id22">:ansible-option-default:`2`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_username"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-username"><strong>catc_username</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id23"><span class="problematic" id="id24">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-verify"><strong>catc_verify</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
+<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
+<ul class="simple">
+<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-catc_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-catc-version"><strong>catc_version</strong></p>
+<a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
+<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id29"><span class="problematic" id="id30">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config"><strong>config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A list of settings and parameters to be applied. It consists of different sub-configurations for managing assurance settings such as issue settings, health score, ICAP settings, issue resolution, and command execution.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue"><strong>assurance_issue</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Allow to resolve, ignore, or execute commands based on the issue settings assurance in Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/device_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-device-name"><strong>device_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/device_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A filter to select issues based on the device name that is associated with the issue (e.g., `NY-EN-9300.cisco.local`).</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/end_datetime"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-end-datetime"><strong>end_datetime</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/end_datetime" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A filter to select issues that ended at or before this date and time. The format is &quot;YYYY-MM-DD HH:MM:SS&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/issue_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-issue-name"><strong>issue_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/issue_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the issue to be processed (either resolved, ignored, or command executed). This field is required when creating or updating an issue.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/issue_process_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-issue-process-type"><strong>issue_process_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/issue_process_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
@@ -1328,7 +1458,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/issue_status"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-issue-status"><strong>issue_status</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/issue_status" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1347,21 +1477,21 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </dl>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/mac_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-mac-address"><strong>mac_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/mac_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A filter to select issues based on the MAC address of the device associated with the issue.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/network_device_ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-network-device-ip-address"><strong>network_device_ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/network_device_ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A filter to select issues based on the network device's IP address associated with the issue.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-priority"><strong>priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
@@ -1384,527 +1514,395 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </dl>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/site_hierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-site-hierarchy"><strong>site_hierarchy</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/site_hierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A filter to select issues based on the site location hierarchy. The format is &quot;Global/Region/Location/Building&quot;, where each level is separated by a slash.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/start_datetime"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-issue-start-datetime"><strong>start_datetime</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/start_datetime" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A filter to select issues that started at or after this date and time. The format is &quot;YYYY-MM-DD HH:MM:SS&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings"><strong>assurance_system_issue_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Manages system issue settings for assurance in Cisco Catalyst Center.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Provides a detailed explanation of the system issue setting, including the specific threshold fields that require updates for the defined issue names. This field is essential for understanding which parameters need adjustment to align with the current system configurations and alerting criteria.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-device-type"><strong>device_type</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of device to which the issue configuration applies. For example, choices: - ROUTER - SWITCH_AND_HUB - UNIFIED_AP - WIRELESS_CLIENT - WIRED_CLIENT - WIRELESS_CONTROLLER - THIRD_PARTY_DEVICE - APPLICATION - SENSOR</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/issue_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-issue-enabled"><strong>issue_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/issue_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A boolean value that determines whether the issue is enabled or disabled. Accepts &quot;true&quot; or &quot;false&quot;.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id1"><span class="problematic" id="id2">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id3"><span class="problematic" id="id4">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the system issue setting, used to identify the configuration in the system. Required when creating or updating an issue setting.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-priority"><strong>priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the priority level of the issue.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id5"><span class="problematic" id="id6">:ansible-option-choices-entry:`&quot;P1&quot;`</span></a></p></li>
-<li><p><a href="#id7"><span class="problematic" id="id8">:ansible-option-choices-entry:`&quot;P2&quot;`</span></a></p></li>
-<li><p><a href="#id9"><span class="problematic" id="id10">:ansible-option-choices-entry:`&quot;P3&quot;`</span></a></p></li>
-<li><p><a href="#id11"><span class="problematic" id="id12">:ansible-option-choices-entry:`&quot;P4&quot;`</span></a></p></li>
+<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;P1&quot;`</span></a></p></li>
+<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;P2&quot;`</span></a></p></li>
+<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;P3&quot;`</span></a></p></li>
+<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;P4&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-synchronize-to-health-threshold"><strong>synchronize_to_health_threshold</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/synchronize_to_health_threshold" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A boolean value indicating whether the system issue should be synchronized to the health threshold. Accepts &quot;true&quot; or &quot;false&quot;.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id13"><span class="problematic" id="id14">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id15"><span class="problematic" id="id16">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_system_issue_settings/threshold_value"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-system-issue-settings-threshold-value"><strong>threshold_value</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_system_issue_settings/threshold_value" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue. For example, for the issue &quot;Wireless client exhibiting sticky behavior,&quot; the threshold could be a maximum RSSI value (e.g., -70 dBm). Similarly, for a &quot;WLC Memory High Utilization&quot;, a threshold like 90% can be used. - **Percentage-based thresholds**: Must not exceed 100%. - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings"><strong>assurance_user_defined_issue_settings</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Configures user-defined issue settings for assurance in Cisco Catalyst Center. Allows defining issue names, descriptions, severity, priority, and rules governing network issues.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/description"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-description"><strong>description</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A brief explanation of the issue for clarity in reports and dashboards.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/is_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-is-enabled"><strong>is_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/is_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Enables or disables the issue setting.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id17"><span class="problematic" id="id18">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/is_notification_enabled"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-is-notification-enabled"><strong>is_notification_enabled</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/is_notification_enabled" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Boolean value to specify if notifications for this issue setting should be enabled.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`false`</span></a></p></li>
+<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-name"><strong>name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the issue setting, used for identification in the system. Required when creating a new setting or updating an existing one.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/prev_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-prev-name"><strong>prev_name</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/prev_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The previous name of the issue setting (used when updating an existing issue setting).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/priority"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-priority"><strong>priority</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/priority" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the priority of the issue.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id25"><span class="problematic" id="id26">:ansible-option-choices-entry:`&quot;P1&quot;`</span></a></p></li>
-<li><p><a href="#id27"><span class="problematic" id="id28">:ansible-option-choices-entry:`&quot;P2&quot;`</span></a></p></li>
-<li><p><a href="#id29"><span class="problematic" id="id30">:ansible-option-choices-entry:`&quot;P3&quot;`</span></a></p></li>
-<li><p><a href="#id31"><span class="problematic" id="id32">:ansible-option-choices-entry:`&quot;P4&quot;`</span></a></p></li>
+<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;P1&quot;`</span></a></p></li>
+<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;P2&quot;`</span></a></p></li>
+<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;P3&quot;`</span></a></p></li>
+<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;P4&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules"><strong>rules</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A set of rules that define the parameters for triggering the issue. Includes severity, facility, mnemonic, pattern, occurrences, and duration.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-duration-in-minutes"><strong>duration_in_minutes</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/duration_in_minutes" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The duration, in minutes, for which the issue pattern must persist to be considered valid.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/facility"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-facility"><strong>facility</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/facility" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The facility type that the rule applies to.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id33"><span class="problematic" id="id34">:ansible-option-choices-entry:`&quot;CI&quot;`</span></a></p></li>
-<li><p><a href="#id35"><span class="problematic" id="id36">:ansible-option-choices-entry:`&quot;PLATFORM\_ENV&quot;`</span></a></p></li>
-<li><p><a href="#id37"><span class="problematic" id="id38">:ansible-option-choices-entry:`&quot;PLATFORM\_THERMAL&quot;`</span></a></p></li>
-<li><p><a href="#id39"><span class="problematic" id="id40">:ansible-option-choices-entry:`&quot;PLATFORM\_FEP&quot;`</span></a></p></li>
-<li><p><a href="#id41"><span class="problematic" id="id42">:ansible-option-choices-entry:`&quot;ENVMON&quot;`</span></a></p></li>
-<li><p><a href="#id43"><span class="problematic" id="id44">:ansible-option-choices-entry:`&quot;HARDWARE&quot;`</span></a></p></li>
-<li><p><a href="#id45"><span class="problematic" id="id46">:ansible-option-choices-entry:`&quot;SYS&quot;`</span></a></p></li>
-<li><p><a href="#id47"><span class="problematic" id="id48">:ansible-option-choices-entry:`&quot;ENVM&quot;`</span></a></p></li>
-<li><p><a href="#id49"><span class="problematic" id="id50">:ansible-option-choices-entry:`&quot;PLATFORM&quot;`</span></a></p></li>
-<li><p><a href="#id51"><span class="problematic" id="id52">:ansible-option-choices-entry:`&quot;CTS&quot;`</span></a></p></li>
-<li><p><a href="#id53"><span class="problematic" id="id54">:ansible-option-choices-entry:`&quot;THERMAL&quot;`</span></a></p></li>
-<li><p><a href="#id55"><span class="problematic" id="id56">:ansible-option-choices-entry:`&quot;SPA&quot;`</span></a></p></li>
-<li><p><a href="#id57"><span class="problematic" id="id58">:ansible-option-choices-entry:`&quot;IOSXE\_RP\_ALARM&quot;`</span></a></p></li>
-<li><p><a href="#id59"><span class="problematic" id="id60">:ansible-option-choices-entry:`&quot;ENVIRONMENT&quot;`</span></a></p></li>
-<li><p><a href="#id61"><span class="problematic" id="id62">:ansible-option-choices-entry:`&quot;SPANTREE&quot;`</span></a></p></li>
-<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;CMRP\_ENVMON&quot;`</span></a></p></li>
-<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;LISP&quot;`</span></a></p></li>
-<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`&quot;PM&quot;`</span></a></p></li>
-<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`&quot;UDLD&quot;`</span></a></p></li>
-<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry:`&quot;IP&quot;`</span></a></p></li>
-<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`&quot;SW\_MATM&quot;`</span></a></p></li>
-<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`&quot;CMRP\_PFU&quot;`</span></a></p></li>
-<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`&quot;C4K\_IOSMODPORTMAN&quot;`</span></a></p></li>
-<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry:`&quot;C6KENV&quot;`</span></a></p></li>
-<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;MAC\_MOVE&quot;`</span></a></p></li>
-<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;OSP&quot;`</span></a></p></li>
-<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`&quot;SFF8472&quot;`</span></a></p></li>
-<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry:`&quot;DUAL&quot;`</span></a></p></li>
-<li><p><a href="#id89"><span class="problematic" id="id90">:ansible-option-choices-entry:`&quot;DMI&quot;`</span></a></p></li>
-<li><p><a href="#id91"><span class="problematic" id="id92">:ansible-option-choices-entry:`&quot;BGP&quot;`</span></a></p></li>
-<li><p><a href="#id93"><span class="problematic" id="id94">:ansible-option-choices-entry:`&quot;REDUNDANCY&quot;`</span></a></p></li>
-<li><p><a href="#id95"><span class="problematic" id="id96">:ansible-option-choices-entry:`&quot;IFDAMP&quot;`</span></a></p></li>
-<li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`&quot;CAPWAPAC\_SMGR\_TRACE\_MESSAGE&quot;`</span></a></p></li>
-<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry:`&quot;OSPF&quot;`</span></a></p></li>
-<li><p><a href="#id101"><span class="problematic" id="id102">:ansible-option-choices-entry:`&quot;DOT1X&quot;`</span></a></p></li>
-<li><p><a href="#id103"><span class="problematic" id="id104">:ansible-option-choices-entry:`&quot;ILPOWER&quot;`</span></a></p></li>
-<li><p><a href="#id105"><span class="problematic" id="id106">:ansible-option-choices-entry:`&quot;IOSXE\_OIR&quot;`</span></a></p></li>
-<li><p><a href="#id107"><span class="problematic" id="id108">:ansible-option-choices-entry:`&quot;TRANSCEIVER&quot;`</span></a></p></li>
-<li><p><a href="#id109"><span class="problematic" id="id110">:ansible-option-choices-entry:`&quot;SMART\_LIC&quot;`</span></a></p></li>
-<li><p><a href="#id111"><span class="problematic" id="id112">:ansible-option-choices-entry:`&quot;STANDBY&quot;`</span></a></p></li>
-<li><p><a href="#id113"><span class="problematic" id="id114">:ansible-option-choices-entry:`&quot;IOSXE\_PEM&quot;`</span></a></p></li>
-<li><p><a href="#id115"><span class="problematic" id="id116">:ansible-option-choices-entry:`&quot;PLATFORM\_STACKPOWER&quot;`</span></a></p></li>
-<li><p><a href="#id117"><span class="problematic" id="id118">:ansible-option-choices-entry:`&quot;ENV\_MON&quot;`</span></a></p></li>
-<li><p><a href="#id119"><span class="problematic" id="id120">:ansible-option-choices-entry:`&quot;IOSXE\_INFRA&quot;`</span></a></p></li>
-<li><p><a href="#id121"><span class="problematic" id="id122">:ansible-option-choices-entry:`&quot;STACKMGR&quot;`</span></a></p></li>
+<li><p><a href="#id63"><span class="problematic" id="id64">:ansible-option-choices-entry:`&quot;CI&quot;`</span></a></p></li>
+<li><p><a href="#id65"><span class="problematic" id="id66">:ansible-option-choices-entry:`&quot;PLATFORM\_ENV&quot;`</span></a></p></li>
+<li><p><a href="#id67"><span class="problematic" id="id68">:ansible-option-choices-entry:`&quot;PLATFORM\_THERMAL&quot;`</span></a></p></li>
+<li><p><a href="#id69"><span class="problematic" id="id70">:ansible-option-choices-entry:`&quot;PLATFORM\_FEP&quot;`</span></a></p></li>
+<li><p><a href="#id71"><span class="problematic" id="id72">:ansible-option-choices-entry:`&quot;ENVMON&quot;`</span></a></p></li>
+<li><p><a href="#id73"><span class="problematic" id="id74">:ansible-option-choices-entry:`&quot;HARDWARE&quot;`</span></a></p></li>
+<li><p><a href="#id75"><span class="problematic" id="id76">:ansible-option-choices-entry:`&quot;SYS&quot;`</span></a></p></li>
+<li><p><a href="#id77"><span class="problematic" id="id78">:ansible-option-choices-entry:`&quot;ENVM&quot;`</span></a></p></li>
+<li><p><a href="#id79"><span class="problematic" id="id80">:ansible-option-choices-entry:`&quot;PLATFORM&quot;`</span></a></p></li>
+<li><p><a href="#id81"><span class="problematic" id="id82">:ansible-option-choices-entry:`&quot;CTS&quot;`</span></a></p></li>
+<li><p><a href="#id83"><span class="problematic" id="id84">:ansible-option-choices-entry:`&quot;THERMAL&quot;`</span></a></p></li>
+<li><p><a href="#id85"><span class="problematic" id="id86">:ansible-option-choices-entry:`&quot;SPA&quot;`</span></a></p></li>
+<li><p><a href="#id87"><span class="problematic" id="id88">:ansible-option-choices-entry:`&quot;IOSXE\_RP\_ALARM&quot;`</span></a></p></li>
+<li><p><a href="#id89"><span class="problematic" id="id90">:ansible-option-choices-entry:`&quot;ENVIRONMENT&quot;`</span></a></p></li>
+<li><p><a href="#id91"><span class="problematic" id="id92">:ansible-option-choices-entry:`&quot;SPANTREE&quot;`</span></a></p></li>
+<li><p><a href="#id93"><span class="problematic" id="id94">:ansible-option-choices-entry:`&quot;CMRP\_ENVMON&quot;`</span></a></p></li>
+<li><p><a href="#id95"><span class="problematic" id="id96">:ansible-option-choices-entry:`&quot;LISP&quot;`</span></a></p></li>
+<li><p><a href="#id97"><span class="problematic" id="id98">:ansible-option-choices-entry:`&quot;PM&quot;`</span></a></p></li>
+<li><p><a href="#id99"><span class="problematic" id="id100">:ansible-option-choices-entry:`&quot;UDLD&quot;`</span></a></p></li>
+<li><p><a href="#id101"><span class="problematic" id="id102">:ansible-option-choices-entry:`&quot;IP&quot;`</span></a></p></li>
+<li><p><a href="#id103"><span class="problematic" id="id104">:ansible-option-choices-entry:`&quot;SW\_MATM&quot;`</span></a></p></li>
+<li><p><a href="#id105"><span class="problematic" id="id106">:ansible-option-choices-entry:`&quot;CMRP\_PFU&quot;`</span></a></p></li>
+<li><p><a href="#id107"><span class="problematic" id="id108">:ansible-option-choices-entry:`&quot;C4K\_IOSMODPORTMAN&quot;`</span></a></p></li>
+<li><p><a href="#id109"><span class="problematic" id="id110">:ansible-option-choices-entry:`&quot;C6KENV&quot;`</span></a></p></li>
+<li><p><a href="#id111"><span class="problematic" id="id112">:ansible-option-choices-entry:`&quot;MAC\_MOVE&quot;`</span></a></p></li>
+<li><p><a href="#id113"><span class="problematic" id="id114">:ansible-option-choices-entry:`&quot;OSP&quot;`</span></a></p></li>
+<li><p><a href="#id115"><span class="problematic" id="id116">:ansible-option-choices-entry:`&quot;SFF8472&quot;`</span></a></p></li>
+<li><p><a href="#id117"><span class="problematic" id="id118">:ansible-option-choices-entry:`&quot;DUAL&quot;`</span></a></p></li>
+<li><p><a href="#id119"><span class="problematic" id="id120">:ansible-option-choices-entry:`&quot;DMI&quot;`</span></a></p></li>
+<li><p><a href="#id121"><span class="problematic" id="id122">:ansible-option-choices-entry:`&quot;BGP&quot;`</span></a></p></li>
+<li><p><a href="#id123"><span class="problematic" id="id124">:ansible-option-choices-entry:`&quot;REDUNDANCY&quot;`</span></a></p></li>
+<li><p><a href="#id125"><span class="problematic" id="id126">:ansible-option-choices-entry:`&quot;IFDAMP&quot;`</span></a></p></li>
+<li><p><a href="#id127"><span class="problematic" id="id128">:ansible-option-choices-entry:`&quot;CAPWAPAC\_SMGR\_TRACE\_MESSAGE&quot;`</span></a></p></li>
+<li><p><a href="#id129"><span class="problematic" id="id130">:ansible-option-choices-entry:`&quot;OSPF&quot;`</span></a></p></li>
+<li><p><a href="#id131"><span class="problematic" id="id132">:ansible-option-choices-entry:`&quot;DOT1X&quot;`</span></a></p></li>
+<li><p><a href="#id133"><span class="problematic" id="id134">:ansible-option-choices-entry:`&quot;ILPOWER&quot;`</span></a></p></li>
+<li><p><a href="#id135"><span class="problematic" id="id136">:ansible-option-choices-entry:`&quot;IOSXE\_OIR&quot;`</span></a></p></li>
+<li><p><a href="#id137"><span class="problematic" id="id138">:ansible-option-choices-entry:`&quot;TRANSCEIVER&quot;`</span></a></p></li>
+<li><p><a href="#id139"><span class="problematic" id="id140">:ansible-option-choices-entry:`&quot;SMART\_LIC&quot;`</span></a></p></li>
+<li><p><a href="#id141"><span class="problematic" id="id142">:ansible-option-choices-entry:`&quot;STANDBY&quot;`</span></a></p></li>
+<li><p><a href="#id143"><span class="problematic" id="id144">:ansible-option-choices-entry:`&quot;IOSXE\_PEM&quot;`</span></a></p></li>
+<li><p><a href="#id145"><span class="problematic" id="id146">:ansible-option-choices-entry:`&quot;PLATFORM\_STACKPOWER&quot;`</span></a></p></li>
+<li><p><a href="#id147"><span class="problematic" id="id148">:ansible-option-choices-entry:`&quot;ENV\_MON&quot;`</span></a></p></li>
+<li><p><a href="#id149"><span class="problematic" id="id150">:ansible-option-choices-entry:`&quot;IOSXE\_INFRA&quot;`</span></a></p></li>
+<li><p><a href="#id151"><span class="problematic" id="id152">:ansible-option-choices-entry:`&quot;STACKMGR&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/mnemonic"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-mnemonic"><strong>mnemonic</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/mnemonic" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A system-generated identifier or label representing the issue.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id123"><span class="problematic" id="id124">:ansible-option-choices-entry:`&quot;SHUT\_LC\_FANGONE&quot;`</span></a></p></li>
-<li><p><a href="#id125"><span class="problematic" id="id126">:ansible-option-choices-entry:`&quot;SHUTFANGONE&quot;`</span></a></p></li>
-<li><p><a href="#id127"><span class="problematic" id="id128">:ansible-option-choices-entry:`&quot;SHUTFANFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id129"><span class="problematic" id="id130">:ansible-option-choices-entry:`&quot;SHUT\_LC\_FANFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id131"><span class="problematic" id="id132">:ansible-option-choices-entry:`&quot;FRU\_PS\_FAN\_FAILED&quot;`</span></a></p></li>
-<li><p><a href="#id133"><span class="problematic" id="id134">:ansible-option-choices-entry:`&quot;RPS\_FAN\_FAILED&quot;`</span></a></p></li>
-<li><p><a href="#id135"><span class="problematic" id="id136">:ansible-option-choices-entry:`&quot;FRU\_PS\_FAN\_OK&quot;`</span></a></p></li>
-<li><p><a href="#id137"><span class="problematic" id="id138">:ansible-option-choices-entry:`&quot;FAN&quot;`</span></a></p></li>
-<li><p><a href="#id139"><span class="problematic" id="id140">:ansible-option-choices-entry:`&quot;FAN\_NOT\_PRESENT&quot;`</span></a></p></li>
-<li><p><a href="#id141"><span class="problematic" id="id142">:ansible-option-choices-entry:`&quot;FRU\_FAN\_OK&quot;`</span></a></p></li>
-<li><p><a href="#id143"><span class="problematic" id="id144">:ansible-option-choices-entry:`&quot;PLATFORM\_FAN\_CRITICAL&quot;`</span></a></p></li>
-<li><p><a href="#id145"><span class="problematic" id="id146">:ansible-option-choices-entry:`&quot;RPS\_PS\_FAN\_FAILED&quot;`</span></a></p></li>
-<li><p><a href="#id147"><span class="problematic" id="id148">:ansible-option-choices-entry:`&quot;FRU\_FAN\_FAILURE&quot;`</span></a></p></li>
-<li><p><a href="#id149"><span class="problematic" id="id150">:ansible-option-choices-entry:`&quot;FRU\_FAN\_RECOVERY&quot;`</span></a></p></li>
-<li><p><a href="#id151"><span class="problematic" id="id152">:ansible-option-choices-entry:`&quot;FAN\_CRITICAL&quot;`</span></a></p></li>
-<li><p><a href="#id153"><span class="problematic" id="id154">:ansible-option-choices-entry:`&quot;FRU\_FAN\_NOT\_PRESENT&quot;`</span></a></p></li>
-<li><p><a href="#id155"><span class="problematic" id="id156">:ansible-option-choices-entry:`&quot;FRU\_FAN\_DISABLED&quot;`</span></a></p></li>
-<li><p><a href="#id157"><span class="problematic" id="id158">:ansible-option-choices-entry:`&quot;FRU\_FAN\_INSUFFICIENTFANTRAYSDETECTEDPOWERDOWN&quot;`</span></a></p></li>
-<li><p><a href="#id159"><span class="problematic" id="id160">:ansible-option-choices-entry:`&quot;FRU\_PS\_SIGNAL\_FAULTY&quot;`</span></a></p></li>
-<li><p><a href="#id161"><span class="problematic" id="id162">:ansible-option-choices-entry:`&quot;FAN\_FAILURE\_LC\_SHUT&quot;`</span></a></p></li>
-<li><p><a href="#id163"><span class="problematic" id="id164">:ansible-option-choices-entry:`&quot;FAN\_MISSING&quot;`</span></a></p></li>
-<li><p><a href="#id165"><span class="problematic" id="id166">:ansible-option-choices-entry:`&quot;TOTALFANFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id167"><span class="problematic" id="id168">:ansible-option-choices-entry:`&quot;NOFAN&quot;`</span></a></p></li>
-<li><p><a href="#id169"><span class="problematic" id="id170">:ansible-option-choices-entry:`&quot;THERMAL\_CRITICAL&quot;`</span></a></p></li>
-<li><p><a href="#id171"><span class="problematic" id="id172">:ansible-option-choices-entry:`&quot;OVERTEMP&quot;`</span></a></p></li>
-<li><p><a href="#id173"><span class="problematic" id="id174">:ansible-option-choices-entry:`&quot;OVERTEMP\_ALERT&quot;`</span></a></p></li>
-<li><p><a href="#id175"><span class="problematic" id="id176">:ansible-option-choices-entry:`&quot;PFM\_ALERT&quot;`</span></a></p></li>
-<li><p><a href="#id177"><span class="problematic" id="id178">:ansible-option-choices-entry:`&quot;PFU\_FAN\_FAILED&quot;`</span></a></p></li>
-<li><p><a href="#id179"><span class="problematic" id="id180">:ansible-option-choices-entry:`&quot;MODULECRITICALTEMP&quot;`</span></a></p></li>
-<li><p><a href="#id181"><span class="problematic" id="id182">:ansible-option-choices-entry:`&quot;CRITICALTEMP&quot;`</span></a></p></li>
-<li><p><a href="#id183"><span class="problematic" id="id184">:ansible-option-choices-entry:`&quot;AUTHZ\_POLICY\_SGACL\_ACE\_FAILED&quot;`</span></a></p></li>
-<li><p><a href="#id185"><span class="problematic" id="id186">:ansible-option-choices-entry:`&quot;THERMAL\_YELLOW\_THRESHOLD&quot;`</span></a></p></li>
-<li><p><a href="#id187"><span class="problematic" id="id188">:ansible-option-choices-entry:`&quot;THERMAL\_RED\_THRESHOLD&quot;`</span></a></p></li>
-<li><p><a href="#id189"><span class="problematic" id="id190">:ansible-option-choices-entry:`&quot;TEMP\_CRITICAL&quot;`</span></a></p></li>
-<li><p><a href="#id191"><span class="problematic" id="id192">:ansible-option-choices-entry:`&quot;PEM&quot;`</span></a></p></li>
-<li><p><a href="#id193"><span class="problematic" id="id194">:ansible-option-choices-entry:`&quot;FANOK&quot;`</span></a></p></li>
-<li><p><a href="#id195"><span class="problematic" id="id196">:ansible-option-choices-entry:`&quot;FAN\_FAULT&quot;`</span></a></p></li>
-<li><p><a href="#id197"><span class="problematic" id="id198">:ansible-option-choices-entry:`&quot;PS\_RED\_MODE\_CHG&quot;`</span></a></p></li>
-<li><p><a href="#id199"><span class="problematic" id="id200">:ansible-option-choices-entry:`&quot;PS\_FAIL&quot;`</span></a></p></li>
-<li><p><a href="#id201"><span class="problematic" id="id202">:ansible-option-choices-entry:`&quot;PS\_DETECT&quot;`</span></a></p></li>
-<li><p><a href="#id203"><span class="problematic" id="id204">:ansible-option-choices-entry:`&quot;PS\_ABSENT&quot;`</span></a></p></li>
-<li><p><a href="#id205"><span class="problematic" id="id206">:ansible-option-choices-entry:`&quot;BLOCK\_BPDUGUARD&quot;`</span></a></p></li>
-<li><p><a href="#id207"><span class="problematic" id="id208">:ansible-option-choices-entry:`&quot;MAJORTEMPALARM&quot;`</span></a></p></li>
-<li><p><a href="#id209"><span class="problematic" id="id210">:ansible-option-choices-entry:`&quot;PEER\_MONITOR&quot;`</span></a></p></li>
-<li><p><a href="#id211"><span class="problematic" id="id212">:ansible-option-choices-entry:`&quot;SWITCHOVER&quot;`</span></a></p></li>
-<li><p><a href="#id213"><span class="problematic" id="id214">:ansible-option-choices-entry:`&quot;STANDBY\_LOST&quot;`</span></a></p></li>
-<li><p><a href="#id215"><span class="problematic" id="id216">:ansible-option-choices-entry:`&quot;PARTIAL\_FAN\_FAIL&quot;`</span></a></p></li>
-<li><p><a href="#id217"><span class="problematic" id="id218">:ansible-option-choices-entry:`&quot;PARTFANFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id219"><span class="problematic" id="id220">:ansible-option-choices-entry:`&quot;PSFANFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id221"><span class="problematic" id="id222">:ansible-option-choices-entry:`&quot;DUPADDR&quot;`</span></a></p></li>
-<li><p><a href="#id223"><span class="problematic" id="id224">:ansible-option-choices-entry:`&quot;PEMCHASFSERR&quot;`</span></a></p></li>
-<li><p><a href="#id225"><span class="problematic" id="id226">:ansible-option-choices-entry:`&quot;PEMFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id227"><span class="problematic" id="id228">:ansible-option-choices-entry:`&quot;FAN\_FAIL\_SHUTDOWN&quot;`</span></a></p></li>
-<li><p><a href="#id229"><span class="problematic" id="id230">:ansible-option-choices-entry:`&quot;FANFAIL&quot;`</span></a></p></li>
-<li><p><a href="#id231"><span class="problematic" id="id232">:ansible-option-choices-entry:`&quot;TEMP\_SYS\_SHUTDOWN\_PENDING&quot;`</span></a></p></li>
-<li><p><a href="#id233"><span class="problematic" id="id234">:ansible-option-choices-entry:`&quot;TEMP\_WARN\_CRITICAL&quot;`</span></a></p></li>
-<li><p><a href="#id235"><span class="problematic" id="id236">:ansible-option-choices-entry:`&quot;TEMP\_FRU\_SHUTDOWN\_PENDING&quot;`</span></a></p></li>
-<li><p><a href="#id237"><span class="problematic" id="id238">:ansible-option-choices-entry:`&quot;MAP\_CACHE\_WARNING\_THRESHOLD\_REACHED&quot;`</span></a></p></li>
-<li><p><a href="#id239"><span class="problematic" id="id240">:ansible-option-choices-entry:`&quot;LOCAL\_EID\_NO\_ROUTE&quot;`</span></a></p></li>
-<li><p><a href="#id241"><span class="problematic" id="id242">:ansible-option-choices-entry:`&quot;LOCAL\_EID\_MAP\_REGISTER\_FAILURE&quot;`</span></a></p></li>
-<li><p><a href="#id243"><span class="problematic" id="id244">:ansible-option-choices-entry:`&quot;CEF\_DISABLED&quot;`</span></a></p></li>
-<li><p><a href="#id245"><span class="problematic" id="id246">:ansible-option-choices-entry:`&quot;ERR\_DISABLE&quot;`</span></a></p></li>
-<li><p><a href="#id247"><span class="problematic" id="id248">:ansible-option-choices-entry:`&quot;UNDER\_BUDGET&quot;`</span></a></p></li>
-<li><p><a href="#id249"><span class="problematic" id="id250">:ansible-option-choices-entry:`&quot;VERSION\_MISMATCH&quot;`</span></a></p></li>
-<li><p><a href="#id251"><span class="problematic" id="id252">:ansible-option-choices-entry:`&quot;TOO\_MANY\_ERRORS&quot;`</span></a></p></li>
-<li><p><a href="#id253"><span class="problematic" id="id254">:ansible-option-choices-entry:`&quot;INSUFFICIENT\_PWR&quot;`</span></a></p></li>
-<li><p><a href="#id255"><span class="problematic" id="id256">:ansible-option-choices-entry:`&quot;REDUNDANCY\_LOSS&quot;`</span></a></p></li>
-<li><p><a href="#id257"><span class="problematic" id="id258">:ansible-option-choices-entry:`&quot;UDLD\_PORT\_DISABLED&quot;`</span></a></p></li>
-<li><p><a href="#id259"><span class="problematic" id="id260">:ansible-option-choices-entry:`&quot;DUPADDR&quot;`</span></a></p></li>
-<li><p><a href="#id261"><span class="problematic" id="id262">:ansible-option-choices-entry:`&quot;MACFLAP\_NOTIF&quot;`</span></a></p></li>
-<li><p><a href="#id263"><span class="problematic" id="id264">:ansible-option-choices-entry:`&quot;PFU\_FAN\_WARN&quot;`</span></a></p></li>
-<li><p><a href="#id265"><span class="problematic" id="id266">:ansible-option-choices-entry:`&quot;MODULETEMPHIGH&quot;`</span></a></p></li>
-<li><p><a href="#id267"><span class="problematic" id="id268">:ansible-option-choices-entry:`&quot;POWERSUPPLYBAD&quot;`</span></a></p></li>
-<li><p><a href="#id269"><span class="problematic" id="id270">:ansible-option-choices-entry:`&quot;CRITICALTEMP&quot;`</span></a></p></li>
-<li><p><a href="#id271"><span class="problematic" id="id272">:ansible-option-choices-entry:`&quot;MODULECRITICALTEMP&quot;`</span></a></p></li>
-<li><p><a href="#id273"><span class="problematic" id="id274">:ansible-option-choices-entry:`&quot;TEMPHIGH&quot;`</span></a></p></li>
-<li><p><a href="#id275"><span class="problematic" id="id276">:ansible-option-choices-entry:`&quot;FANTRAYREMOVED&quot;`</span></a></p></li>
-<li><p><a href="#id277"><span class="problematic" id="id278">:ansible-option-choices-entry:`&quot;TERMINATOR\_PS\_TEMP\_MAJORALARM&quot;`</span></a></p></li>
-<li><p><a href="#id279"><span class="problematic" id="id280">:ansible-option-choices-entry:`&quot;NOTIF&quot;`</span></a></p></li>
-<li><p><a href="#id281"><span class="problematic" id="id282">:ansible-option-choices-entry:`&quot;THRESHOLD\_VIOLATION&quot;`</span></a></p></li>
-<li><p><a href="#id283"><span class="problematic" id="id284">:ansible-option-choices-entry:`&quot;NBRCHANGE&quot;`</span></a></p></li>
-<li><p><a href="#id285"><span class="problematic" id="id286">:ansible-option-choices-entry:`&quot;SUCCESS&quot;`</span></a></p></li>
-<li><p><a href="#id287"><span class="problematic" id="id288">:ansible-option-choices-entry:`&quot;FAIL&quot;`</span></a></p></li>
-<li><p><a href="#id289"><span class="problematic" id="id290">:ansible-option-choices-entry:`&quot;SYNC\_NEEDED&quot;`</span></a></p></li>
-<li><p><a href="#id291"><span class="problematic" id="id292">:ansible-option-choices-entry:`&quot;SYNC\_START&quot;`</span></a></p></li>
-<li><p><a href="#id293"><span class="problematic" id="id294">:ansible-option-choices-entry:`&quot;ADJCHANGE&quot;`</span></a></p></li>
-<li><p><a href="#id295"><span class="problematic" id="id296">:ansible-option-choices-entry:`&quot;PEER\_MONITOR\_EVENT&quot;`</span></a></p></li>
-<li><p><a href="#id297"><span class="problematic" id="id298">:ansible-option-choices-entry:`&quot;UPDOWN&quot;`</span></a></p></li>
-<li><p><a href="#id299"><span class="problematic" id="id300">:ansible-option-choices-entry:`&quot;AP\_JOIN\_DISJOIN&quot;`</span></a></p></li>
-<li><p><a href="#id301"><span class="problematic" id="id302">:ansible-option-choices-entry:`&quot;ADJCHG&quot;`</span></a></p></li>
-<li><p><a href="#id303"><span class="problematic" id="id304">:ansible-option-choices-entry:`&quot;ILPOWER\_POWER\_DENY&quot;`</span></a></p></li>
-<li><p><a href="#id305"><span class="problematic" id="id306">:ansible-option-choices-entry:`&quot;REMSPA&quot;`</span></a></p></li>
-<li><p><a href="#id307"><span class="problematic" id="id308">:ansible-option-choices-entry:`&quot;INSSPA&quot;`</span></a></p></li>
-<li><p><a href="#id309"><span class="problematic" id="id310">:ansible-option-choices-entry:`&quot;OFFLINECARD&quot;`</span></a></p></li>
-<li><p><a href="#id311"><span class="problematic" id="id312">:ansible-option-choices-entry:`&quot;REMOVED&quot;`</span></a></p></li>
-<li><p><a href="#id313"><span class="problematic" id="id314">:ansible-option-choices-entry:`&quot;INSERTED&quot;`</span></a></p></li>
-<li><p><a href="#id315"><span class="problematic" id="id316">:ansible-option-choices-entry:`&quot;AGENT\_READY&quot;`</span></a></p></li>
-<li><p><a href="#id317"><span class="problematic" id="id318">:ansible-option-choices-entry:`&quot;HA\_ROLE\_CHANGED&quot;`</span></a></p></li>
-<li><p><a href="#id319"><span class="problematic" id="id320">:ansible-option-choices-entry:`&quot;AGENT\_ENABLED&quot;`</span></a></p></li>
-<li><p><a href="#id321"><span class="problematic" id="id322">:ansible-option-choices-entry:`&quot;STATECHANGE&quot;`</span></a></p></li>
-<li><p><a href="#id323"><span class="problematic" id="id324">:ansible-option-choices-entry:`&quot;REMPEM\_FM&quot;`</span></a></p></li>
-<li><p><a href="#id325"><span class="problematic" id="id326">:ansible-option-choices-entry:`&quot;PEMOK&quot;`</span></a></p></li>
-<li><p><a href="#id327"><span class="problematic" id="id328">:ansible-option-choices-entry:`&quot;CABLE\_EVENT&quot;`</span></a></p></li>
-<li><p><a href="#id329"><span class="problematic" id="id330">:ansible-option-choices-entry:`&quot;LINK\_EVENT&quot;`</span></a></p></li>
-<li><p><a href="#id331"><span class="problematic" id="id332">:ansible-option-choices-entry:`&quot;REMPEM&quot;`</span></a></p></li>
-<li><p><a href="#id333"><span class="problematic" id="id334">:ansible-option-choices-entry:`&quot;HASTATUS\_DETAIL&quot;`</span></a></p></li>
-<li><p><a href="#id335"><span class="problematic" id="id336">:ansible-option-choices-entry:`&quot;HASTATUS&quot;`</span></a></p></li>
-<li><p><a href="#id337"><span class="problematic" id="id338">:ansible-option-choices-entry:`&quot;PROCPATH\_CLIENT\_HOG&quot;`</span></a></p></li>
-<li><p><a href="#id339"><span class="problematic" id="id340">:ansible-option-choices-entry:`&quot;STACK\_LINK\_CHANGE&quot;`</span></a></p></li>
+<li><p><a href="#id153"><span class="problematic" id="id154">:ansible-option-choices-entry:`&quot;SHUT\_LC\_FANGONE&quot;`</span></a></p></li>
+<li><p><a href="#id155"><span class="problematic" id="id156">:ansible-option-choices-entry:`&quot;SHUTFANGONE&quot;`</span></a></p></li>
+<li><p><a href="#id157"><span class="problematic" id="id158">:ansible-option-choices-entry:`&quot;SHUTFANFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id159"><span class="problematic" id="id160">:ansible-option-choices-entry:`&quot;SHUT\_LC\_FANFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id161"><span class="problematic" id="id162">:ansible-option-choices-entry:`&quot;FRU\_PS\_FAN\_FAILED&quot;`</span></a></p></li>
+<li><p><a href="#id163"><span class="problematic" id="id164">:ansible-option-choices-entry:`&quot;RPS\_FAN\_FAILED&quot;`</span></a></p></li>
+<li><p><a href="#id165"><span class="problematic" id="id166">:ansible-option-choices-entry:`&quot;FRU\_PS\_FAN\_OK&quot;`</span></a></p></li>
+<li><p><a href="#id167"><span class="problematic" id="id168">:ansible-option-choices-entry:`&quot;FAN&quot;`</span></a></p></li>
+<li><p><a href="#id169"><span class="problematic" id="id170">:ansible-option-choices-entry:`&quot;FAN\_NOT\_PRESENT&quot;`</span></a></p></li>
+<li><p><a href="#id171"><span class="problematic" id="id172">:ansible-option-choices-entry:`&quot;FRU\_FAN\_OK&quot;`</span></a></p></li>
+<li><p><a href="#id173"><span class="problematic" id="id174">:ansible-option-choices-entry:`&quot;PLATFORM\_FAN\_CRITICAL&quot;`</span></a></p></li>
+<li><p><a href="#id175"><span class="problematic" id="id176">:ansible-option-choices-entry:`&quot;RPS\_PS\_FAN\_FAILED&quot;`</span></a></p></li>
+<li><p><a href="#id177"><span class="problematic" id="id178">:ansible-option-choices-entry:`&quot;FRU\_FAN\_FAILURE&quot;`</span></a></p></li>
+<li><p><a href="#id179"><span class="problematic" id="id180">:ansible-option-choices-entry:`&quot;FRU\_FAN\_RECOVERY&quot;`</span></a></p></li>
+<li><p><a href="#id181"><span class="problematic" id="id182">:ansible-option-choices-entry:`&quot;FAN\_CRITICAL&quot;`</span></a></p></li>
+<li><p><a href="#id183"><span class="problematic" id="id184">:ansible-option-choices-entry:`&quot;FRU\_FAN\_NOT\_PRESENT&quot;`</span></a></p></li>
+<li><p><a href="#id185"><span class="problematic" id="id186">:ansible-option-choices-entry:`&quot;FRU\_FAN\_DISABLED&quot;`</span></a></p></li>
+<li><p><a href="#id187"><span class="problematic" id="id188">:ansible-option-choices-entry:`&quot;FRU\_FAN\_INSUFFICIENTFANTRAYSDETECTEDPOWERDOWN&quot;`</span></a></p></li>
+<li><p><a href="#id189"><span class="problematic" id="id190">:ansible-option-choices-entry:`&quot;FRU\_PS\_SIGNAL\_FAULTY&quot;`</span></a></p></li>
+<li><p><a href="#id191"><span class="problematic" id="id192">:ansible-option-choices-entry:`&quot;FAN\_FAILURE\_LC\_SHUT&quot;`</span></a></p></li>
+<li><p><a href="#id193"><span class="problematic" id="id194">:ansible-option-choices-entry:`&quot;FAN\_MISSING&quot;`</span></a></p></li>
+<li><p><a href="#id195"><span class="problematic" id="id196">:ansible-option-choices-entry:`&quot;TOTALFANFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id197"><span class="problematic" id="id198">:ansible-option-choices-entry:`&quot;NOFAN&quot;`</span></a></p></li>
+<li><p><a href="#id199"><span class="problematic" id="id200">:ansible-option-choices-entry:`&quot;THERMAL\_CRITICAL&quot;`</span></a></p></li>
+<li><p><a href="#id201"><span class="problematic" id="id202">:ansible-option-choices-entry:`&quot;OVERTEMP&quot;`</span></a></p></li>
+<li><p><a href="#id203"><span class="problematic" id="id204">:ansible-option-choices-entry:`&quot;OVERTEMP\_ALERT&quot;`</span></a></p></li>
+<li><p><a href="#id205"><span class="problematic" id="id206">:ansible-option-choices-entry:`&quot;PFM\_ALERT&quot;`</span></a></p></li>
+<li><p><a href="#id207"><span class="problematic" id="id208">:ansible-option-choices-entry:`&quot;PFU\_FAN\_FAILED&quot;`</span></a></p></li>
+<li><p><a href="#id209"><span class="problematic" id="id210">:ansible-option-choices-entry:`&quot;MODULECRITICALTEMP&quot;`</span></a></p></li>
+<li><p><a href="#id211"><span class="problematic" id="id212">:ansible-option-choices-entry:`&quot;CRITICALTEMP&quot;`</span></a></p></li>
+<li><p><a href="#id213"><span class="problematic" id="id214">:ansible-option-choices-entry:`&quot;AUTHZ\_POLICY\_SGACL\_ACE\_FAILED&quot;`</span></a></p></li>
+<li><p><a href="#id215"><span class="problematic" id="id216">:ansible-option-choices-entry:`&quot;THERMAL\_YELLOW\_THRESHOLD&quot;`</span></a></p></li>
+<li><p><a href="#id217"><span class="problematic" id="id218">:ansible-option-choices-entry:`&quot;THERMAL\_RED\_THRESHOLD&quot;`</span></a></p></li>
+<li><p><a href="#id219"><span class="problematic" id="id220">:ansible-option-choices-entry:`&quot;TEMP\_CRITICAL&quot;`</span></a></p></li>
+<li><p><a href="#id221"><span class="problematic" id="id222">:ansible-option-choices-entry:`&quot;PEM&quot;`</span></a></p></li>
+<li><p><a href="#id223"><span class="problematic" id="id224">:ansible-option-choices-entry:`&quot;FANOK&quot;`</span></a></p></li>
+<li><p><a href="#id225"><span class="problematic" id="id226">:ansible-option-choices-entry:`&quot;FAN\_FAULT&quot;`</span></a></p></li>
+<li><p><a href="#id227"><span class="problematic" id="id228">:ansible-option-choices-entry:`&quot;PS\_RED\_MODE\_CHG&quot;`</span></a></p></li>
+<li><p><a href="#id229"><span class="problematic" id="id230">:ansible-option-choices-entry:`&quot;PS\_FAIL&quot;`</span></a></p></li>
+<li><p><a href="#id231"><span class="problematic" id="id232">:ansible-option-choices-entry:`&quot;PS\_DETECT&quot;`</span></a></p></li>
+<li><p><a href="#id233"><span class="problematic" id="id234">:ansible-option-choices-entry:`&quot;PS\_ABSENT&quot;`</span></a></p></li>
+<li><p><a href="#id235"><span class="problematic" id="id236">:ansible-option-choices-entry:`&quot;BLOCK\_BPDUGUARD&quot;`</span></a></p></li>
+<li><p><a href="#id237"><span class="problematic" id="id238">:ansible-option-choices-entry:`&quot;MAJORTEMPALARM&quot;`</span></a></p></li>
+<li><p><a href="#id239"><span class="problematic" id="id240">:ansible-option-choices-entry:`&quot;PEER\_MONITOR&quot;`</span></a></p></li>
+<li><p><a href="#id241"><span class="problematic" id="id242">:ansible-option-choices-entry:`&quot;SWITCHOVER&quot;`</span></a></p></li>
+<li><p><a href="#id243"><span class="problematic" id="id244">:ansible-option-choices-entry:`&quot;STANDBY\_LOST&quot;`</span></a></p></li>
+<li><p><a href="#id245"><span class="problematic" id="id246">:ansible-option-choices-entry:`&quot;PARTIAL\_FAN\_FAIL&quot;`</span></a></p></li>
+<li><p><a href="#id247"><span class="problematic" id="id248">:ansible-option-choices-entry:`&quot;PARTFANFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id249"><span class="problematic" id="id250">:ansible-option-choices-entry:`&quot;PSFANFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id251"><span class="problematic" id="id252">:ansible-option-choices-entry:`&quot;DUPADDR&quot;`</span></a></p></li>
+<li><p><a href="#id253"><span class="problematic" id="id254">:ansible-option-choices-entry:`&quot;PEMCHASFSERR&quot;`</span></a></p></li>
+<li><p><a href="#id255"><span class="problematic" id="id256">:ansible-option-choices-entry:`&quot;PEMFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id257"><span class="problematic" id="id258">:ansible-option-choices-entry:`&quot;FAN\_FAIL\_SHUTDOWN&quot;`</span></a></p></li>
+<li><p><a href="#id259"><span class="problematic" id="id260">:ansible-option-choices-entry:`&quot;FANFAIL&quot;`</span></a></p></li>
+<li><p><a href="#id261"><span class="problematic" id="id262">:ansible-option-choices-entry:`&quot;TEMP\_SYS\_SHUTDOWN\_PENDING&quot;`</span></a></p></li>
+<li><p><a href="#id263"><span class="problematic" id="id264">:ansible-option-choices-entry:`&quot;TEMP\_WARN\_CRITICAL&quot;`</span></a></p></li>
+<li><p><a href="#id265"><span class="problematic" id="id266">:ansible-option-choices-entry:`&quot;TEMP\_FRU\_SHUTDOWN\_PENDING&quot;`</span></a></p></li>
+<li><p><a href="#id267"><span class="problematic" id="id268">:ansible-option-choices-entry:`&quot;MAP\_CACHE\_WARNING\_THRESHOLD\_REACHED&quot;`</span></a></p></li>
+<li><p><a href="#id269"><span class="problematic" id="id270">:ansible-option-choices-entry:`&quot;LOCAL\_EID\_NO\_ROUTE&quot;`</span></a></p></li>
+<li><p><a href="#id271"><span class="problematic" id="id272">:ansible-option-choices-entry:`&quot;LOCAL\_EID\_MAP\_REGISTER\_FAILURE&quot;`</span></a></p></li>
+<li><p><a href="#id273"><span class="problematic" id="id274">:ansible-option-choices-entry:`&quot;CEF\_DISABLED&quot;`</span></a></p></li>
+<li><p><a href="#id275"><span class="problematic" id="id276">:ansible-option-choices-entry:`&quot;ERR\_DISABLE&quot;`</span></a></p></li>
+<li><p><a href="#id277"><span class="problematic" id="id278">:ansible-option-choices-entry:`&quot;UNDER\_BUDGET&quot;`</span></a></p></li>
+<li><p><a href="#id279"><span class="problematic" id="id280">:ansible-option-choices-entry:`&quot;VERSION\_MISMATCH&quot;`</span></a></p></li>
+<li><p><a href="#id281"><span class="problematic" id="id282">:ansible-option-choices-entry:`&quot;TOO\_MANY\_ERRORS&quot;`</span></a></p></li>
+<li><p><a href="#id283"><span class="problematic" id="id284">:ansible-option-choices-entry:`&quot;INSUFFICIENT\_PWR&quot;`</span></a></p></li>
+<li><p><a href="#id285"><span class="problematic" id="id286">:ansible-option-choices-entry:`&quot;REDUNDANCY\_LOSS&quot;`</span></a></p></li>
+<li><p><a href="#id287"><span class="problematic" id="id288">:ansible-option-choices-entry:`&quot;UDLD\_PORT\_DISABLED&quot;`</span></a></p></li>
+<li><p><a href="#id289"><span class="problematic" id="id290">:ansible-option-choices-entry:`&quot;DUPADDR&quot;`</span></a></p></li>
+<li><p><a href="#id291"><span class="problematic" id="id292">:ansible-option-choices-entry:`&quot;MACFLAP\_NOTIF&quot;`</span></a></p></li>
+<li><p><a href="#id293"><span class="problematic" id="id294">:ansible-option-choices-entry:`&quot;PFU\_FAN\_WARN&quot;`</span></a></p></li>
+<li><p><a href="#id295"><span class="problematic" id="id296">:ansible-option-choices-entry:`&quot;MODULETEMPHIGH&quot;`</span></a></p></li>
+<li><p><a href="#id297"><span class="problematic" id="id298">:ansible-option-choices-entry:`&quot;POWERSUPPLYBAD&quot;`</span></a></p></li>
+<li><p><a href="#id299"><span class="problematic" id="id300">:ansible-option-choices-entry:`&quot;CRITICALTEMP&quot;`</span></a></p></li>
+<li><p><a href="#id301"><span class="problematic" id="id302">:ansible-option-choices-entry:`&quot;MODULECRITICALTEMP&quot;`</span></a></p></li>
+<li><p><a href="#id303"><span class="problematic" id="id304">:ansible-option-choices-entry:`&quot;TEMPHIGH&quot;`</span></a></p></li>
+<li><p><a href="#id305"><span class="problematic" id="id306">:ansible-option-choices-entry:`&quot;FANTRAYREMOVED&quot;`</span></a></p></li>
+<li><p><a href="#id307"><span class="problematic" id="id308">:ansible-option-choices-entry:`&quot;TERMINATOR\_PS\_TEMP\_MAJORALARM&quot;`</span></a></p></li>
+<li><p><a href="#id309"><span class="problematic" id="id310">:ansible-option-choices-entry:`&quot;NOTIF&quot;`</span></a></p></li>
+<li><p><a href="#id311"><span class="problematic" id="id312">:ansible-option-choices-entry:`&quot;THRESHOLD\_VIOLATION&quot;`</span></a></p></li>
+<li><p><a href="#id313"><span class="problematic" id="id314">:ansible-option-choices-entry:`&quot;NBRCHANGE&quot;`</span></a></p></li>
+<li><p><a href="#id315"><span class="problematic" id="id316">:ansible-option-choices-entry:`&quot;SUCCESS&quot;`</span></a></p></li>
+<li><p><a href="#id317"><span class="problematic" id="id318">:ansible-option-choices-entry:`&quot;FAIL&quot;`</span></a></p></li>
+<li><p><a href="#id319"><span class="problematic" id="id320">:ansible-option-choices-entry:`&quot;SYNC\_NEEDED&quot;`</span></a></p></li>
+<li><p><a href="#id321"><span class="problematic" id="id322">:ansible-option-choices-entry:`&quot;SYNC\_START&quot;`</span></a></p></li>
+<li><p><a href="#id323"><span class="problematic" id="id324">:ansible-option-choices-entry:`&quot;ADJCHANGE&quot;`</span></a></p></li>
+<li><p><a href="#id325"><span class="problematic" id="id326">:ansible-option-choices-entry:`&quot;PEER\_MONITOR\_EVENT&quot;`</span></a></p></li>
+<li><p><a href="#id327"><span class="problematic" id="id328">:ansible-option-choices-entry:`&quot;UPDOWN&quot;`</span></a></p></li>
+<li><p><a href="#id329"><span class="problematic" id="id330">:ansible-option-choices-entry:`&quot;AP\_JOIN\_DISJOIN&quot;`</span></a></p></li>
+<li><p><a href="#id331"><span class="problematic" id="id332">:ansible-option-choices-entry:`&quot;ADJCHG&quot;`</span></a></p></li>
+<li><p><a href="#id333"><span class="problematic" id="id334">:ansible-option-choices-entry:`&quot;ILPOWER\_POWER\_DENY&quot;`</span></a></p></li>
+<li><p><a href="#id335"><span class="problematic" id="id336">:ansible-option-choices-entry:`&quot;REMSPA&quot;`</span></a></p></li>
+<li><p><a href="#id337"><span class="problematic" id="id338">:ansible-option-choices-entry:`&quot;INSSPA&quot;`</span></a></p></li>
+<li><p><a href="#id339"><span class="problematic" id="id340">:ansible-option-choices-entry:`&quot;OFFLINECARD&quot;`</span></a></p></li>
+<li><p><a href="#id341"><span class="problematic" id="id342">:ansible-option-choices-entry:`&quot;REMOVED&quot;`</span></a></p></li>
+<li><p><a href="#id343"><span class="problematic" id="id344">:ansible-option-choices-entry:`&quot;INSERTED&quot;`</span></a></p></li>
+<li><p><a href="#id345"><span class="problematic" id="id346">:ansible-option-choices-entry:`&quot;AGENT\_READY&quot;`</span></a></p></li>
+<li><p><a href="#id347"><span class="problematic" id="id348">:ansible-option-choices-entry:`&quot;HA\_ROLE\_CHANGED&quot;`</span></a></p></li>
+<li><p><a href="#id349"><span class="problematic" id="id350">:ansible-option-choices-entry:`&quot;AGENT\_ENABLED&quot;`</span></a></p></li>
+<li><p><a href="#id351"><span class="problematic" id="id352">:ansible-option-choices-entry:`&quot;STATECHANGE&quot;`</span></a></p></li>
+<li><p><a href="#id353"><span class="problematic" id="id354">:ansible-option-choices-entry:`&quot;REMPEM\_FM&quot;`</span></a></p></li>
+<li><p><a href="#id355"><span class="problematic" id="id356">:ansible-option-choices-entry:`&quot;PEMOK&quot;`</span></a></p></li>
+<li><p><a href="#id357"><span class="problematic" id="id358">:ansible-option-choices-entry:`&quot;CABLE\_EVENT&quot;`</span></a></p></li>
+<li><p><a href="#id359"><span class="problematic" id="id360">:ansible-option-choices-entry:`&quot;LINK\_EVENT&quot;`</span></a></p></li>
+<li><p><a href="#id361"><span class="problematic" id="id362">:ansible-option-choices-entry:`&quot;REMPEM&quot;`</span></a></p></li>
+<li><p><a href="#id363"><span class="problematic" id="id364">:ansible-option-choices-entry:`&quot;HASTATUS\_DETAIL&quot;`</span></a></p></li>
+<li><p><a href="#id365"><span class="problematic" id="id366">:ansible-option-choices-entry:`&quot;HASTATUS&quot;`</span></a></p></li>
+<li><p><a href="#id367"><span class="problematic" id="id368">:ansible-option-choices-entry:`&quot;PROCPATH\_CLIENT\_HOG&quot;`</span></a></p></li>
+<li><p><a href="#id369"><span class="problematic" id="id370">:ansible-option-choices-entry:`&quot;STACK\_LINK\_CHANGE&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/occurrences"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-occurrences"><strong>occurrences</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/occurrences" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The number of times the issue pattern must occur before triggering the issue.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/pattern"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-pattern"><strong>pattern</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/pattern" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A pattern or regular expression defining the issue detection criteria.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/assurance_user_defined_issue_settings/rules/severity"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-assurance-user-defined-issue-settings-rules-severity"><strong>severity</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/assurance_user_defined_issue_settings/rules/severity" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the severity level of the issue. The severity value can be an integer (0 to 6) or its corresponding string representation.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id341"><span class="problematic" id="id342">:ansible-option-choices-entry:`&quot;0&quot;`</span></a></p></li>
-<li><p><a href="#id343"><span class="problematic" id="id344">:ansible-option-choices-entry:`&quot;1&quot;`</span></a></p></li>
-<li><p><a href="#id345"><span class="problematic" id="id346">:ansible-option-choices-entry:`&quot;2&quot;`</span></a></p></li>
-<li><p><a href="#id347"><span class="problematic" id="id348">:ansible-option-choices-entry:`&quot;3&quot;`</span></a></p></li>
-<li><p><a href="#id349"><span class="problematic" id="id350">:ansible-option-choices-entry:`&quot;4&quot;`</span></a></p></li>
-<li><p><a href="#id351"><span class="problematic" id="id352">:ansible-option-choices-entry:`&quot;5&quot;`</span></a></p></li>
-<li><p><a href="#id353"><span class="problematic" id="id354">:ansible-option-choices-entry:`&quot;6&quot;`</span></a></p></li>
-<li><p><a href="#id355"><span class="problematic" id="id356">:ansible-option-choices-entry:`&quot;Emergency&quot;`</span></a></p></li>
-<li><p><a href="#id357"><span class="problematic" id="id358">:ansible-option-choices-entry:`&quot;Alert&quot;`</span></a></p></li>
-<li><p><a href="#id359"><span class="problematic" id="id360">:ansible-option-choices-entry:`&quot;Critical&quot;`</span></a></p></li>
-<li><p><a href="#id361"><span class="problematic" id="id362">:ansible-option-choices-entry:`&quot;Error&quot;`</span></a></p></li>
-<li><p><a href="#id363"><span class="problematic" id="id364">:ansible-option-choices-entry:`&quot;Warning&quot;`</span></a></p></li>
-<li><p><a href="#id365"><span class="problematic" id="id366">:ansible-option-choices-entry:`&quot;Notice&quot;`</span></a></p></li>
-<li><p><a href="#id367"><span class="problematic" id="id368">:ansible-option-choices-entry:`&quot;Info&quot;`</span></a></p></li>
+<li><p><a href="#id371"><span class="problematic" id="id372">:ansible-option-choices-entry:`&quot;0&quot;`</span></a></p></li>
+<li><p><a href="#id373"><span class="problematic" id="id374">:ansible-option-choices-entry:`&quot;1&quot;`</span></a></p></li>
+<li><p><a href="#id375"><span class="problematic" id="id376">:ansible-option-choices-entry:`&quot;2&quot;`</span></a></p></li>
+<li><p><a href="#id377"><span class="problematic" id="id378">:ansible-option-choices-entry:`&quot;3&quot;`</span></a></p></li>
+<li><p><a href="#id379"><span class="problematic" id="id380">:ansible-option-choices-entry:`&quot;4&quot;`</span></a></p></li>
+<li><p><a href="#id381"><span class="problematic" id="id382">:ansible-option-choices-entry:`&quot;5&quot;`</span></a></p></li>
+<li><p><a href="#id383"><span class="problematic" id="id384">:ansible-option-choices-entry:`&quot;6&quot;`</span></a></p></li>
+<li><p><a href="#id385"><span class="problematic" id="id386">:ansible-option-choices-entry:`&quot;Emergency&quot;`</span></a></p></li>
+<li><p><a href="#id387"><span class="problematic" id="id388">:ansible-option-choices-entry:`&quot;Alert&quot;`</span></a></p></li>
+<li><p><a href="#id389"><span class="problematic" id="id390">:ansible-option-choices-entry:`&quot;Critical&quot;`</span></a></p></li>
+<li><p><a href="#id391"><span class="problematic" id="id392">:ansible-option-choices-entry:`&quot;Error&quot;`</span></a></p></li>
+<li><p><a href="#id393"><span class="problematic" id="id394">:ansible-option-choices-entry:`&quot;Warning&quot;`</span></a></p></li>
+<li><p><a href="#id395"><span class="problematic" id="id396">:ansible-option-choices-entry:`&quot;Notice&quot;`</span></a></p></li>
+<li><p><a href="#id397"><span class="problematic" id="id398">:ansible-option-choices-entry:`&quot;Info&quot;`</span></a></p></li>
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-config-verify"><strong>config_verify</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
 <td><div class="ansible-option-cell"><p>Set to `true` to enable configuration verification on Cisco Catalyst Center after applying the playbook config. This will ensure that the system validates the configuration state after the change is applied.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
-<li><p><a href="#id369"><span class="problematic" id="id370">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id371"><span class="problematic" id="id372">:ansible-option-choices-entry:`true`</span></a></p></li>
+<li><p><a href="#id399"><span class="problematic" id="id400">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
+<li><p><a href="#id401"><span class="problematic" id="id402">:ansible-option-choices-entry:`true`</span></a></p></li>
 </ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-api-task-timeout"><strong>dnac_api_task_timeout</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id373"><span class="problematic" id="id374">:ansible-option-default:`1200`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-debug"><strong>dnac_debug</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id375"><span class="problematic" id="id376">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id377"><span class="problematic" id="id378">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_host"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-host"><strong>dnac_host</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The hostname of the Cisco Catalyst Center.</p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-log"><strong>dnac_log</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Flag to enable/disable playbook execution logging.</p>
-<p>When true and dnac_log_file_path is provided, - Create the log file at the execution location with the specified name.</p>
-<p>When true and dnac_log_file_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.</p>
-<p>When false, - Logging is disabled.</p>
-<p>If the log file doesn't exist, - It is created in append or write mode based on the &quot;dnac_log_append&quot; flag.</p>
-<p>If the log file exists, - It is overwritten or appended based on the &quot;dnac_log_append&quot; flag.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id379"><span class="problematic" id="id380">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-<li><p><a href="#id381"><span class="problematic" id="id382">:ansible-option-choices-entry:`true`</span></a></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-log-append"><strong>dnac_log_append</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id383"><span class="problematic" id="id384">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id385"><span class="problematic" id="id386">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-log-file-path"><strong>dnac_log_file_path</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Governs logging. Logs are recorded if dnac_log is True.</p>
-<p>If path is not specified, - When 'dnac_log_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'dnac_log_append' is False, 'catalystcenter.log' is generated; logs are overwritten.</p>
-<p>If path is specified, - When 'dnac_log_append' is True, the file opens in append mode. - When 'dnac_log_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id387"><span class="problematic" id="id388">:ansible-option-default:`&quot;catalystcenter.log&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-log-level"><strong>dnac_log_level</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].</p>
-<p>CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.</p>
-<p>ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.</p>
-<p>WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.</p>
-<p>INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.</p>
-<p>DEBUG provides detailed diagnostic info. Displays all log messages.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id389"><span class="problematic" id="id390">:ansible-option-default:`&quot;WARNING&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_password"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-password"><strong>dnac_password</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The password for authentication at the Cisco Catalyst Center.</p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_port"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-port"><strong>dnac_port</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Specifies the port number associated with the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id391"><span class="problematic" id="id392">:ansible-option-default:`&quot;443&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-task-poll-interval"><strong>dnac_task_poll_interval</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Specifies the interval in seconds between successive calls to the API to retrieve task details.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id393"><span class="problematic" id="id394">:ansible-option-default:`2`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
-<div class="ansibleOptionAnchor" id="parameter-user"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-user"><span id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-username"></span><strong>dnac_username</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-aliases">aliases: user</span></p>
-<p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>The username for authentication at the Cisco Catalyst Center.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id395"><span class="problematic" id="id396">:ansible-option-default:`&quot;admin&quot;`</span></a></p>
-</div></td>
-</tr>
-<tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-verify"><strong>dnac_verify</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Flag to enable or disable SSL certificate verification.</p>
-<p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
-<ul class="simple">
-<li><p><a href="#id397"><span class="problematic" id="id398">:ansible-option-choices-entry:`false`</span></a></p></li>
-<li><p><a href="#id399"><span class="problematic" id="id400">:ansible-option-choices-entry-default:`true`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
-</ul>
-</div></td>
-</tr>
-<tr class="row-odd"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-dnac_version"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-assurance-issue-workflow-manager-module-parameter-dnac-version"><strong>dnac_version</strong></p>
-<a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
-</div></td>
-<td><div class="ansible-option-cell"><p>Specifies the version of the Cisco Catalyst Center that the SDK should use.</p>
-<p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id401"><span class="problematic" id="id402">:ansible-option-default:`&quot;2.2.3.3&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -1943,7 +1941,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <li><p>Paths used are POST /dna/intent/api/api/v1/customIssueDefinitions POST /dna/intent/api/v1/assuranceIssues/resolve POST /dna/intent/api/v1/execute-suggested-actions-commands POST /dna/intent/api/v1/assuranceIssues/ignore POST /dna/intent/api/v1/flow-analysis/${flowAnalysisId} POST /dna/intent/api/v1/flow-analysis PUT /dna/intent/api/v1/systemIssueDefinitions/${id} DELETE /dna/intent/api/v1/flow-analysis/{flowAnalysisId} DELETE /dna/intent/api/v1/customIssueDefinitions/{id}</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
-<li><p>The parameters starting with dnac_ are used by the Cisco Catalyst Center Python SDK to establish the connection</p></li>
 </ul>
 </div>
 </section>
@@ -1958,16 +1955,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create issue settings</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -1987,16 +1984,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">                </span><span class="nt">is_notification_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">update issue settings</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -2016,15 +2013,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">                </span><span class="nt">is_notification_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete issue settings</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -2038,16 +2035,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update System issue</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -2068,16 +2065,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">  </span><span class="nt">tasks</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Resolving Issues</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -2095,16 +2092,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">                </span><span class="nt">network_device_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">204.1.2.4</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Ignoring issues</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
@@ -2122,16 +2119,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span class="w">                </span><span class="nt">network_device_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">204.1.2.4</span><span class="w">  </span><span class="c1"># optional field</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Execute suggested commands</span>
 <span class="w">      </span><span class="nt">cisco.catalystcenter.assurance_issue_workflow_manager</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">        </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
-<span class="w">        </span><span class="nt">dnac_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_host</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_api_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_api_port</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_username</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_password</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_verify</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_debug</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">catc_version</span> <span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="nt">catc_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">catc_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">        </span><span class="nt">catc_log_append</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">        </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">config</span><span class="p">:</span>
