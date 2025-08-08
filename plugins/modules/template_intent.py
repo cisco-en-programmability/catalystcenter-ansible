@@ -35,7 +35,7 @@ author: Madhan Sankaranarayanan (@madhansansel) Rishita
   Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask)
   Muthu Rakesh (@MUTHU-RAKESH-27)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco DNA
       Center after applying the playbook config.
     type: bool
@@ -1303,7 +1303,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{log_level}}"
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - configuration_templates:
           author: string
@@ -3116,7 +3116,7 @@ def main():
         dnac_template.get_have(config).check_return_status()
         dnac_template.get_want(config).check_return_status()
         dnac_template.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             dnac_template.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_template.result)

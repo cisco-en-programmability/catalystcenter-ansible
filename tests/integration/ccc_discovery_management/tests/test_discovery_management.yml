@@ -19,7 +19,7 @@
         debug: "{{ debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
 
   - name: Clean up vars
     include_vars:

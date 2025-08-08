@@ -21,7 +21,7 @@
         !!merge <<: *catalystcenter_login
         catc_log: true
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - site_name_hierarchy: Global/USA/New York/NY_BLD1
             management_ip_address: 204.192.3.40
@@ -32,7 +32,7 @@
         catc_log: true
         catc_log_level: DEBUG
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - site_name_hierarchy: Global/USA/SAN JOSE/BLD23/BLD20_FLOOR2
             management_ip_address: 204.192.3.40
@@ -49,7 +49,7 @@
         catc_log: true
         catc_log_level: DEBUG
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - site_name_hierarchy: Global/USA/RTP/BLD11
             management_ip_address: 204.192.12.201

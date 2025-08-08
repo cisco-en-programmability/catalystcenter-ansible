@@ -24,7 +24,7 @@ extends_documentation_fragment:
 author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan
   (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -219,7 +219,7 @@ EXAMPLES = r"""
     catc_log_level: "{{log_level}}"
     catc_log: true
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - device_info:
           - serial_number: QD2425L8M7
@@ -245,7 +245,7 @@ EXAMPLES = r"""
     catc_log_level: "{{log_level}}"
     catc_log: true
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - device_info:
           - serial_number: FOX2639PAY7
@@ -278,7 +278,7 @@ EXAMPLES = r"""
     catc_log_level: "{{log_level}}"
     catc_log: true
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - device_info:
           - serial_number: FJC271924EQ
@@ -305,7 +305,7 @@ EXAMPLES = r"""
     catc_log_level: "{{log_level}}"
     catc_log: true
     state: deleted
-    configverify: true
+    config_verify: true
     config:
       - device_info:
           - serial_number: QD2425L8M7
@@ -1500,7 +1500,7 @@ def main():
         ccc_pnp.get_want(config).check_return_status()
         ccc_pnp.get_have().check_return_status()
         ccc_pnp.get_diff_state_apply[state]().check_return_status()
-        if configverify:
+        if config_verify:
             ccc_pnp.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_pnp.result)

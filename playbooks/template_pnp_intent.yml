@@ -20,7 +20,7 @@
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         state: "merged"
-        configverify: true
+        config_verify: true
         # ignore_errors: true        # Enable this to continue execution even the task fails
         config:
           - configuration_templates:

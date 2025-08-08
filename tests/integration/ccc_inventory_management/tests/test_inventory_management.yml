@@ -18,7 +18,7 @@
         debug: "{{ debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: true
+        config_verify: true
 
   # - debug:
   #     msg: "{{ vars_map.device_details }}"

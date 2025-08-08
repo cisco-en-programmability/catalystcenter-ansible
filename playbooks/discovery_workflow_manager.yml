@@ -21,7 +21,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - discovery_name: Multi_global
             discovery_type: MULTI RANGE
@@ -52,7 +52,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - discovery_name: Single IP Discovery
             discovery_type: "SINGLE"
@@ -86,7 +86,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - discovery_name: Single without Global Credentials
             discovery_type: "SINGLE"
@@ -121,7 +121,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - discovery_type: "MULTI RANGE"
             discovery_name: Multi_range
@@ -158,7 +158,7 @@
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: merged
-        configverify: true
+        config_verify: true
         config:
           - discovery_name: CDP_Test_1
             discovery_type: "CDP"  # Can be LLDP and CIDR
@@ -175,13 +175,13 @@
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: deleted
-        configverify: true
+        config_verify: true
         config:
           - discovery_name: CDP_Test_1
     - name: Execute deletion of all the discoveries from the dashboard
       cisco.catalystcenter.discovery_workflow_manager:
         !!merge <<: *catalystcenter_login
         state: deleted
-        configverify: true
+        config_verify: true
         config:
           - delete_all: true

@@ -27,7 +27,7 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
     type: bool
@@ -434,7 +434,7 @@ EXAMPLES = r"""
     catc_log: true
     catc_log_level: "{{ catc_log_level }}"
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - global_pool_details:
           settings:
@@ -2584,7 +2584,7 @@ def main():
         if state != "deleted":
             dnac_network.get_want(config).check_return_status()
         dnac_network.get_diff_state_apply[state](config).check_return_status()
-        if configverify:
+        if config_verify:
             dnac_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_network.result)

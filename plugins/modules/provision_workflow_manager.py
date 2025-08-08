@@ -25,7 +25,7 @@ author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan
   (@madhansansel) Syed Khadeer Ahmed(@syed-khadeerahmed)
   Ajith Andrew J (@ajithandrewj)
 options:
-  configverify:
+  config_verify:
     description: Set to true to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
@@ -362,7 +362,7 @@ EXAMPLES = r"""
     catc_debug: "{{catc_debug}}"
     catc_log: true
     state: merged
-    configverify: true
+    config_verify: true
     config:
       - site_name_hierarchy: Global/USA/RTP/BLD11
         management_ip_address: 204.192.12.201
@@ -379,7 +379,7 @@ EXAMPLES = r"""
     catc_debug: "{{catc_debug}}"
     catc_log: true
     state: deleted
-    configverify: true
+    config_verify: true
     config:
       - management_ip_address: 204.1.2.2
 - name: Unprovision a device from a site
@@ -393,7 +393,7 @@ EXAMPLES = r"""
     catc_debug: "{{catc_debug}}"
     catc_log: true
     state: deleted
-    configverify: true
+    config_verify: true
     config:
       - management_ip_address: 204.1.2.2
         clean_config: true
@@ -417,7 +417,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -447,7 +447,7 @@ EXAMPLES = r"""
         catc_debug: "{{ catc_debug }}"
         catc_log: true
         catc_log_level: DEBUG
-        configverify: false
+        config_verify: false
         catc_api_task_timeout: 1000
         catc_task_poll_interval: 1
         state: merged
@@ -3336,19 +3336,19 @@ def main():
 
     element_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "catc_password": {"type": "str", "no_log": True},
+        "catc_api_port": {"type": "int", "default": 443, "aliases": ["api_port"]},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user", "username"]},
+        "catc_password": {"type": "str", "no_log": True, "aliases": ["password"]},
         "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3", "aliases": ["version"]},
+        "catc_debug": {"type": "bool", "default": False, "aliases": ["debug"]},
+        "catc_log": {"type": "bool", "default": False, "aliases": ["log"]},
+        "catc_log_level": {"type": "str", "default": "WARNING", "aliases": ["log_level"]},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["log_file_path"]},
+        "catc_log_append": {"type": "bool", "default": True, "aliases": ["log_append"]},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200, "aliases": ["api_task_timeout"]},
+        "catc_task_poll_interval": {"type": "int", "default": 2, "aliases": ["task_poll_interval"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
@@ -3414,7 +3414,7 @@ def main():
                     "Applying configuration for wired devices.", "INFO")
                 ccc_provision.get_diff_state_apply[state](
                 ).check_return_status()
-                if configverify:
+                if config_verify:
                     ccc_provision.log(
                         "Verifying configuration for wired devices.", "INFO"
                     )
@@ -3437,7 +3437,7 @@ def main():
                         ccc_provision.get_diff_state_apply[
                             state
                         ]().check_return_status()
-                        if configverify:
+                        if config_verify:
                             ccc_provision.log(
                                 "Verifying configuration for wireless device: {0}".format(
                                     device_ip
@@ -3471,7 +3471,7 @@ def main():
                 ccc_provision.get_diff_state_apply[state](
                 ).check_return_status()
 
-                if configverify:
+                if config_verify:
                     ccc_provision.log(
                         "Verifying telemetry configuration", "INFO")
                     ccc_provision.verify_diff_state_apply[state](
@@ -3488,7 +3488,7 @@ def main():
             ccc_provision.reset_values()
             ccc_provision.get_want(config).check_return_status()
             ccc_provision.get_diff_state_apply[state]().check_return_status()
-            if configverify:
+            if config_verify:
                 ccc_provision.log(
                     "Verifying configuration for device with management IP: {0}".format(
                         config.get("management_ip_address")

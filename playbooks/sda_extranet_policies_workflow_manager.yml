@@ -16,7 +16,7 @@
       catc_log: true
       catc_log_level: INFO
       catc_log_append: false
-      configverify: true
+      config_verify: true
   tasks:
     - name: Create Extranet Policy
       cisco.catalystcenter.network_compliance_workflow_manager:

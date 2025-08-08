@@ -23,7 +23,7 @@ extends_documentation_fragment:
   - cisco.catalystcenter.intent_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco DNA Center after applying the playbook
       config.
     type: bool
@@ -333,7 +333,7 @@ EXAMPLES = r"""
   log: true
   log_level: "{{ catc_log_level }}"
   state: merged
-  configverify: true
+  config_verify: true
   config:
     - global_credential_details:
         cli_credential:
@@ -391,7 +391,7 @@ EXAMPLES = r"""
   log: true
   log_level: "{{ catc_log_level }}"
   state: merged
-  configverify: true
+  config_verify: true
   config:
     - global_credential_details:
         cli_credential:
@@ -457,7 +457,7 @@ EXAMPLES = r"""
   log: true
   log_level: "{{ catc_log_level }}"
   state: merged
-  configverify: true
+  config_verify: true
   config:
     - global_credential_details:
         cli_credential:
@@ -506,7 +506,7 @@ EXAMPLES = r"""
   log: true
   log_level: "{{ catc_log_level }}"
   state: merged
-  configverify: true
+  config_verify: true
   config:
     - global_credential_details:
         cli_credential:
@@ -584,7 +584,7 @@ EXAMPLES = r"""
   log: true
   log_level: "{{ catc_log_level }}"
   state: merged
-  configverify: true
+  config_verify: true
   config:
     - global_credential_details:
         cli_credential:
@@ -635,7 +635,7 @@ EXAMPLES = r"""
   log: true
   log_level: "{{ catc_log_level }}"
   state: merged
-  configverify: true
+  config_verify: true
   config:
     - assign_credentials_to_site:
         cli_credential:
@@ -2992,7 +2992,7 @@ def main():
             dnac_credential.get_want(config).check_return_status()
         dnac_credential.get_diff_state_apply[state](
             config).check_return_status()
-        if configverify:
+        if config_verify:
             dnac_credential.verify_diff_state_apply[state](
                 config).check_return_status()
 

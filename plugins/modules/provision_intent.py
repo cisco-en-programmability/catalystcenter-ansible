@@ -19,7 +19,7 @@ extends_documentation_fragment:
   - cisco.catalystcenter.intent_params
 author: Abinash Mishra (@abimishr)
 options:
-  configverify:
+  config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center config after applying the playbook config.
     type: bool
