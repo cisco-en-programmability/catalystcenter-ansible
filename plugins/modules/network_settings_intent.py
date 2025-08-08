@@ -27,10 +27,6 @@ extends_documentation_fragment:
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  host:
-    description: The Cisco Catalyst Center hostname.
-    type: str
-    required: true
   config_verify:
     description: Set to True to verify the Cisco Catalyst
       Center after applying the playbook config.
@@ -2551,7 +2547,7 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "host": {"type": "str", "required": True},
+        "catc_host": {"type": "str", "required": True},
         "catc_api_port": {"type": "str", "default": "443"},
         "catc_username": {"type": "str", "default": "admin"},
         "catc_password": {"type": "str", "no_log": True},

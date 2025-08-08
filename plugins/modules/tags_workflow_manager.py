@@ -35,7 +35,9 @@ extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author: Archit Soni (@koderchit) Madhan Sankaranarayanan
   (@madhansansel)
-options:    description: The Catalyst Center version required
+options:
+  catc_version:
+    description: The Catalyst Center version required
       for using 'tags_workflow_manager' module.
     type: str
     default: 2.3.7.9
