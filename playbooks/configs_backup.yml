@@ -7,19 +7,19 @@
     - "{{ CLUSTERFILE }}"
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
-      log_level: "DEBUG"
+      catc_host: "{{ catc_host }}"
+      catc_username: "{{ catc_username }}"
+      catc_password: "{{ catc_password }}"
+      catc_verify: "{{ catc_verify }}"
+      catc_api_port: "{{ catc_api_port }}"
+      catc_version: "{{ catc_version }}"
+      catc_debug: "{{ catc_debug }}"
+      catc_log_level: "DEBUG"
   tasks:
     - name: Take backup of a wired 9500 switch
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: merged
         config_verify: true
         config:
@@ -28,7 +28,7 @@
     - name: Take backup of all the switches
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: merged
         config_verify: true
         config:

@@ -8,18 +8,18 @@
   tasks:
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: DEBUG
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: DEBUG
         config_verify: true
-        catalystcenter_api_task_timeout: 1000
-        catalystcenter_task_poll_interval: 1
+        catc_api_task_timeout: 1000
+        catc_task_poll_interval: 1
         state: merged
         config:
           - site_name_hierarchy: Global/Chennai/LTTS/FLOOR1

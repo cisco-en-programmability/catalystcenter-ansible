@@ -36,7 +36,7 @@ extends_documentation_fragment:
 author: Archit Soni (@koderchit) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  dnac_version:
+  catc_version:
     description: The Catalyst Center version required
       for using 'tags_workflow_manager' module.
     type: str
@@ -387,17 +387,17 @@ EXAMPLES = r"""
   tasks:
     - name: Create a tag with description.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -417,17 +417,17 @@ EXAMPLES = r"""
     - name: Create a tag for border devices in the 9300
         series.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -457,17 +457,17 @@ EXAMPLES = r"""
     - name: Create a tag for high-speed server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -502,17 +502,17 @@ EXAMPLES = r"""
     - name: Update scope description for tagged server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -539,17 +539,17 @@ EXAMPLES = r"""
     - name: Update port rule descriptions for server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -577,17 +577,17 @@ EXAMPLES = r"""
   tasks:
     - name: Assign tags to devices or interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -646,17 +646,17 @@ EXAMPLES = r"""
     - name: Assign tags to devices or interfaces within
         a specific site.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -685,17 +685,17 @@ EXAMPLES = r"""
   tasks:
     - name: Delete a Tag.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -712,17 +712,17 @@ EXAMPLES = r"""
   tasks:
     - name: Force delete a Tag.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -741,17 +741,17 @@ EXAMPLES = r"""
     - name: Delete rule description of a tag with device
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -774,17 +774,17 @@ EXAMPLES = r"""
     - name: Delete scope members of a tag with port
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -809,17 +809,17 @@ EXAMPLES = r"""
     - name: Delete rule descriptions of a tag with port
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -847,17 +847,17 @@ EXAMPLES = r"""
   tasks:
     - name: Delete tags from members.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -907,17 +907,17 @@ EXAMPLES = r"""
     - name: Delete tags from members within a specific
         sites.
       cisco.catalystcenter.tags_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
-        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: true
         config:
@@ -5781,21 +5781,21 @@ def main():
     """
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.3.7.9"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.3.7.9"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

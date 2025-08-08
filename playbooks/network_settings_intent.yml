@@ -12,16 +12,16 @@
       #
 
       cisco.catalystcenter.network_settings_intent:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: "{{ log_level }}"
-        log_append: true
-        log_file_path: "{{ log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: "{{ catc_log_level }}"
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: true
         config:
@@ -93,14 +93,14 @@
               site_name: Global/Chennai
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_intent:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        log: true
-        log_level: "{{ log_level }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
+        catc_log_level: "{{ catc_log_level }}"
         state: deleted
         config_verify: true
         config:

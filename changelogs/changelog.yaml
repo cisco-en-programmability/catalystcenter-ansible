@@ -67,3 +67,15 @@ releases:
       release_summary: Update Modules
       minor_changes:
         - Collection is now compatible with Catalyst Center API 3.1.3.0.
+  2.2.1:
+    release_date: "2025-08-07"
+    changes:
+      release_summary: Complete migration to catc_ prefixed parameters
+      minor_changes:
+        - Migrated all connection and logging parameters to use catc_ prefix (catc_host, catc_username, catc_password, catc_verify, catc_api_port, catc_version, catc_debug, catc_log, catc_log_level, catc_log_append, catc_log_file_path)
+        - Updated all module examples, playbooks, and documentation to use new parameter names
+        - Updated credentials files and doc fragments with new parameter structure
+        - Added timeout parameters catc_api_task_timeout and catc_task_poll_interval to core argument specifications
+        - Maintained backward compatibility through comprehensive aliases for legacy parameter names
+        - Standardized parameter naming across all workflow manager modules
+        - Fixed element_spec definitions in all modules to use consistent catc_ prefixed parameters

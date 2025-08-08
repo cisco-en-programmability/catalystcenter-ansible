@@ -16,7 +16,7 @@ The following table shows the supported versions.
 |-------------------------------|----------------------------------------|------------------------------------|
 | 2.3.7.6                       | 1.0.0                                  |  2.3.7.6.2                         |
 | 2.3.7.9                       | 2.1.4                                  |  2.3.7.9.5                         |
-| 3.1.3.0                       | ^2.2.0                                 |  ^3.1.3.0.0                        |
+| 3.1.3.0                       | ^2.2.1                                 |  ^3.1.3.0.0                        |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -107,13 +107,13 @@ ansible-playbook -i hosts myplaybook.yml
 First, define a `credentials.yml` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/credentials.template)) file where you specify your CATALYST Center credentials as Ansible variables:
 ```
 ---
-_host: <A.B.C.D>
-_api_port: 443  # optional, defaults to 443
-_username: <username>
-_password: <password>
-_version: 2.3.7.6  # optional, defaults to 2.3.7.6. See the Compatibility matrix
-_verify: False  # optional, defaults to True
-_debug: False  # optional, defaults to False
+host: <A.B.C.D>
+api_port: 443  # optional, defaults to 443
+username: <username>
+password: <password>
+version: 2.3.7.6  # optional, defaults to 2.3.7.6. See the Compatibility matrix
+verify: False  # optional, defaults to True
+debug: False  # optional, defaults to False
 ```
 
 Create a `hosts` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/hosts)) file that uses `[catalystcenter_servers]` with your Cisco CATALYST Center Settings:
@@ -131,10 +131,10 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
   tasks:
   - name: Create tag with name "MyNewTag"
     cisco.catalystcenter.tag:
-      _host: "{{_host}}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
+      host: "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      verify: "{{ verify }}"
       state: present
       description: My Tag
       name: MyNewTag

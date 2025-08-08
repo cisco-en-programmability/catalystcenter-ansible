@@ -67,16 +67,16 @@ class CatalystCenterBase():
                                         'rendered': self.verify_diff_rendered,
                                         'parsed': self.verify_diff_parsed
                                         }
-        self.log = catalystcenter_params.get("log")
-        self.max_timeout = self.params.get('catalystcenter_api_task_timeout')
+        self.log = catalystcenter_params.get("catc_log")
+        self.max_timeout = self.params.get('catc_api_task_timeout')
 
         if self.log and not CatalystCenterBase.__is_log_init:
-            self.log_level = catalystcenter_params.get("log_level") or 'WARNING'
+            self.log_level = catalystcenter_params.get("catc_log_level") or 'WARNING'
             self.log_level = self.log_level.upper()
             self.validate_catalystcenter_log_level()
-            self.log_file_path = catalystcenter_params.get("log_file_path") or 'catalystcenter.log'
+            self.log_file_path = catalystcenter_params.get("catc_log_file_path") or 'catalystcenter.log'
             self.validate_catalystcenter_log_file_path()
-            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("log_append") else 'a'
+            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("catc_log_append") else 'a'
             self.setup_logger('logger')
             self.logger = logging.getLogger('logger')
             CatalystCenterBase.__is_log_init = True
@@ -287,12 +287,12 @@ class CatalystCenterBase():
         """Store the Cisco Catalyst Center parameters from the playbook"""
 
         catalystcenter_params = {
-            "_host": params.get("_host"),
-            "_api_port": params.get("_api_port"),
-            "_username": params.get("_username"),
-            "_password": params.get("_password"),
-            "_verify": params.get("_verify"),
-            "_debug": params.get("_debug"),
+            "host": params.get("catc_host"),
+            "api_port": params.get("catc_api_port"),
+            "username": params.get("catc_username"),
+            "password": params.get("catc_password"),
+            "verify": params.get("catc_verify"),
+            "debug": params.get("catc_debug"),
             "log": params.get("log"),
             "log_level": params.get("log_level"),
             "log_file_path": params.get("log_file_path"),
@@ -394,7 +394,7 @@ class CatalystCenterBase():
                     self.msg = str(task_details.get("failureReason"))
                     string_check = "check task tree"
                     if string_check in self.msg.lower():
-                        time.sleep(self.params.get('catalystcenter_task_poll_interval'))
+                        time.sleep(self.params.get('catc_task_poll_interval'))
                         self.msg = self.check_task_tree_response(task_id)
                 else:
                     self.msg = str(task_details.get("progress"))
@@ -592,8 +592,8 @@ class CatalystCenterBase():
                         or None if the maximum timeout is reached.
         Description:
             This method repeatedly checks the status of an API event in Cisco Catalyst Center using the provided
-            execution ID. The status is checked at intervals specified by the 'catalystcenter_task_poll_interval' parameter
-            until the status is no longer "IN_PROGRESS" or the maximum timeout ('catalystcenter_api_task_timeout') is reached.
+            execution ID. The status is checked at intervals specified by the 'catc_task_poll_interval' parameter
+            until the status is no longer "IN_PROGRESS" or the maximum timeout ('catc_api_task_timeout') is reached.
             If the status becomes anything other than "IN_PROGRESS" before the timeout, the method returns the
             response from the API. If the timeout is reached first, the method logs a warning and returns None.
         """
@@ -618,7 +618,7 @@ class CatalystCenterBase():
             if response['apiStatus'] != "IN_PROGRESS":
                 events_response = response
                 break
-            time.sleep(self.params.get('catalystcenter_task_poll_interval'))
+            time.sleep(self.params.get('catc_task_poll_interval'))
 
         return events_response
 
@@ -807,13 +807,15 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        _host=dict(type="str", required=True, aliases=['catalystcenter_host', '_host']),
-        _api_port=dict(type="int", required=False, default=443, aliases=['catalystcenter_port', '_api_port']),
-        _username=dict(type="str", default="admin", aliases=['user', 'catalystcenter_username', '_username']),
-        _password=dict(type="str", no_log=True, aliases=['catalystcenter_password', '_password']),
-        _verify=dict(type="bool", default=True, aliases=['catalystcenter_verify', '_verify']),
-        _version=dict(type="str", default="3.1.3.0", aliases=['catalystcenter_version', '_version']),
-        _debug=dict(type="bool", default=False, aliases=['catalystcenter_debug', '_debug']),
+        catc_host=dict(type="str", required=True),
+        catc_api_port=dict(type="int", required=False, default=443),
+        catc_username=dict(type="str", default="admin"),
+        catc_password=dict(type="str", no_log=True),
+        catc_verify=dict(type="bool", default=True),
+        catc_version=dict(type="str", default="3.1.3.0"),
+        catc_debug=dict(type="bool", default=False),
+        catc_api_task_timeout=dict(type="int", default=1200),
+        catc_task_poll_interval=dict(type="int", default=2),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
@@ -1061,16 +1063,16 @@ class CatalystCenterSDK(object):
         self.logger = logging.getLogger('catalystcentersdk')
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
-                username=params.get("_username"),
-                password=params.get("_password"),
-                base_url="https://{_host}:{_api_port}".format(
-                    _host=params.get("_host"), _api_port=params.get("_api_port")
+                username=params.get("catc_username"),
+                password=params.get("catc_password"),
+                base_url="https://{host}:{api_port}".format(
+                    host=params.get("catc_host"), api_port=params.get("catc_api_port")
                 ),
-                version=params.get("_version"),
-                verify=params.get("_verify"),
-                debug=params.get("_debug"),
+                version=params.get("catc_version"),
+                verify=params.get("catc_verify"),
+                debug=params.get("catc_debug"),
             )
-            if params.get("_debug") and LOGGING_IN_STANDARD:
+            if params.get("catc_debug") and LOGGING_IN_STANDARD:
                 self.logger.addHandler(logging.StreamHandler())
         else:
             self.fail_json(msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")

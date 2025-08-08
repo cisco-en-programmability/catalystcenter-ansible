@@ -107,13 +107,13 @@ notes:
 EXAMPLES = r"""
 - name: Create
   cisco.catalystcenter.lan_automation:
-    _host: "{{ _host }}"
-    _username: "{{ _username }}"
-    _password: "{{ _password }}"
-    _verify: "{{ _verify }}"
-    _api_port: "{{ _api_port }}"
-    _version: "{{ _version }}"
-    _debug: "{{ _debug }}"
+    host: "{{ host }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    verify: "{{ verify }}"
+    api_port: "{{ api_port }}"
+    version: "{{ version }}"
+    debug: "{{ debug }}"
     payload:
       - discoveredDeviceSiteNameHierarchy: string
         discoveryDevices:

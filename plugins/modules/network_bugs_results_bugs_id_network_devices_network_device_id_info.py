@@ -52,13 +52,13 @@ EXAMPLES = r"""
 - name: Get Network Bugs Results Bugs Id Network Devices
     Network Device Id by id
   cisco.catalystcenter.network_bugs_results_bugs_id_network_devices_network_device_id_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     id: string
     networkDeviceId: string

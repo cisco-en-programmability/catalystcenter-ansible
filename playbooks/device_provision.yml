@@ -7,18 +7,18 @@
     - "{{ CLUSTERFILE }}"
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
+      catc_host: "{{ catc_host }}"
+      catc_username: "{{ catc_username }}"
+      catc_password: "{{ catc_password }}"
+      catc_verify: "{{ catc_verify }}"
+      catc_api_port: "{{ catc_api_port }}"
+      catc_version: "{{ catc_version }}"
+      catc_debug: "{{ catc_debug }}"
   tasks:
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_intent:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -26,7 +26,7 @@
     - name: Unprovision a wired device to a site
       cisco.catalystcenter.provision_intent:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: deleted
         config:
           - management_ip_address: 204.1.2.2

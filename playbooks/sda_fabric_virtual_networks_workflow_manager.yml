@@ -8,15 +8,15 @@
   tasks:
     - name: Configure the Fabric Vlan(s), Virtual network(s) and Anycast gateway(s) for SDA in Cisco Catalyst Center
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _api_port: "{{ _api_port }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
-        log_level: DEBUG
-        log: true
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log_level: DEBUG
+        catc_log: true
         config_verify: true
         state: deleted
         config:

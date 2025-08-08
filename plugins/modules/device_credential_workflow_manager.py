@@ -61,7 +61,7 @@ options:
                 description: Description. Required for
                   creating the credential.
                 type: str
-              enable_password:
+              enablepassword:
                 description:
                   - cli_credential credential Enable
                     Password.
@@ -90,7 +90,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              old_username:
+              oldusername:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -128,7 +128,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              old_username:
+              oldusername:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -166,7 +166,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              old_username:
+              oldusername:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -221,7 +221,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              auth_password:
+              authpassword:
                 description:
                   - snmp_v3 Auth Password.
                   - Password must contain minimum 8
@@ -242,7 +242,7 @@ options:
                 description: Credential Id. Use this
                   for updating the device credential.
                 type: str
-              privacy_password:
+              privacypassword:
                 description:
                   - snmp_v3 Privacy Password.
                   - Password must contain minimum 8
@@ -491,14 +491,14 @@ EXAMPLES = r"""
 ---
 - name: Create Credentials and assign it to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -507,7 +507,7 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -515,10 +515,10 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123456'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -553,14 +553,14 @@ EXAMPLES = r"""
           - Global/USA
 - name: Create Multiple Credentials.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -569,11 +569,11 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
           - description: CLI2
             username: cli2
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -585,17 +585,17 @@ EXAMPLES = r"""
           - description: SNMPv2c Write2
             write_community: '123456'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmp
             description: snmp
@@ -619,14 +619,14 @@ EXAMPLES = r"""
             port: 443
 - name: Update global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -635,7 +635,7 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -643,10 +643,10 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123456'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -662,14 +662,14 @@ EXAMPLES = r"""
             port: 443
 - name: Update multiple global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -678,11 +678,11 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
           - description: CLI2
             username: cli2
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -694,17 +694,17 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123466'
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345644'
+            privacypassword: '12345644'
             privacy_type: AES128
             username: snmpV32
             description: snmpV32
@@ -729,14 +729,14 @@ EXAMPLES = r"""
 - name: Update global device credential name/description
     using old name and description.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -745,9 +745,9 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enable_password: '12345'
+            enablepassword: '12345'
             old_description: CLI
-            old_username: cli
+            oldusername: cli
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -757,10 +757,10 @@ EXAMPLES = r"""
             write_community: '123456'
             old_description: SNMPv2c write
         snmp_v3:
-          - auth_password: '12345678'
+          - authpassword: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacy_password: '12345678'
+            privacypassword: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -771,25 +771,25 @@ EXAMPLES = r"""
             password: '12345'
             port: 443
             old_description: HTTP Read
-            old_username: HTTP Read
+            oldusername: HTTP Read
         https_write:
           - description: HTTP_Write1
             username: HTTP_Write1
             password: '12345'
             port: 443
             old_description: HTTP_Write
-            old_username: HTTP_Write
+            oldusername: HTTP_Write
 - name: Assign Credentials to sites using old description
     and username.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
-  dnac_log_level: "{{ dnac_log_level }}"
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
+  log_level: "{{ catc_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -813,15 +813,15 @@ EXAMPLES = r"""
           - Global/USA
 - name: Sync global device credentials to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_version: "{{dnac_version}}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log_level: "{{ dnac_log_level }}"
-  dnac_log: true
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_version: "{{catc_version}}"
+  catc_debug: "{{ catc_debug }}"
+  log_level: "{{ catc_log_level }}"
+  log: true
   state: merged
   config_verify: true
   config:
@@ -839,13 +839,13 @@ EXAMPLES = r"""
           - Global/Vietnam/halong/Hanoi
 - name: Delete credentials
   cisco.catalystcenter.device_credential_workflow_manager:
-  dnac_host: "{{ dnac_host }}"
-  dnac_port: "{{ dnac_port }}"
-  dnac_username: "{{ dnac_username }}"
-  dnac_password: "{{ dnac_password }}"
-  dnac_verify: "{{ dnac_verify }}"
-  dnac_debug: "{{ dnac_debug }}"
-  dnac_log: true
+  catc_host: "{{ catc_host }}"
+  catc_api_port: "{{ catc_api_port }}"
+  catc_username: "{{ catc_username }}"
+  catc_password: "{{ catc_password }}"
+  catc_verify: "{{ catc_verify }}"
+  catc_debug: "{{ catc_debug }}"
+  log: true
   state: deleted
   config_verify: true
   config:
@@ -4136,20 +4136,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

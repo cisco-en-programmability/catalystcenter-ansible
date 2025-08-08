@@ -165,15 +165,15 @@ EXAMPLES = r"""
 ---
 - name: Create SDA fabric transit of transit_type IP_BASED_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -185,15 +185,15 @@ EXAMPLES = r"""
           autonomous_system_number: 1234
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -206,15 +206,15 @@ EXAMPLES = r"""
             - 10.0.0.2
 - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -230,15 +230,15 @@ EXAMPLES = r"""
             - 10.0.0.4
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -251,15 +251,15 @@ EXAMPLES = r"""
             - 10.0.0.2
 - name: Update the multicast over transit
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -270,15 +270,15 @@ EXAMPLES = r"""
           is_multicast_over_transit_enabled: true
 - name: Update the control plane network devices
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -292,15 +292,15 @@ EXAMPLES = r"""
             - 10.0.0.3
 - name: Delete SDA fabric transit
   cisco.catalystcenter.sda_fabric_transits_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: deleted
     config_verify: true
     config:
@@ -368,7 +368,7 @@ class FabricTransit(CatalystCenterBase):
         self.supported_states = ["merged", "deleted"]
         self.response = [{"fabric_transits": {"response": {}, "msg": {}}}]
         self.fabric_transits_obj_params = self.get_obj_params("fabricTransits")
-        self.max_timeout = self.params.get("dnac_api_task_timeout")
+        self.max_timeout = self.params.get("catc_api_task_timeout")
 
     def validate_input(self):
         """
@@ -1575,20 +1575,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -156,16 +156,16 @@ EXAMPLES = r"""
     - name: Create and auto-delete path trace on Cisco
         Catalyst Center
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
         state: merged
         config_verify: true
         config:
@@ -186,15 +186,15 @@ EXAMPLES = r"""
     - name: Delete path trace based on source and destination
         IP
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: deleted
         config_verify: true
         config:
@@ -202,15 +202,15 @@ EXAMPLES = r"""
             dest_ip: "204.1.2.4"  # required field
     - name: Retrieve last path trace
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: merged
         config_verify: true
         config:
@@ -220,15 +220,15 @@ EXAMPLES = r"""
     - name: Retrieve path trace based on the flow analysis
         id
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: merged
         config_verify: true
         config:
@@ -241,15 +241,15 @@ EXAMPLES = r"""
     - name: Retrieve and Delete path trace based on
         the required field
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: merged
         config_verify: true
         config:
@@ -259,15 +259,15 @@ EXAMPLES = r"""
     - name: Delete path trace based on registered flow
         analysis id
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: deleted
         config_verify: true
         config:
@@ -275,15 +275,15 @@ EXAMPLES = r"""
     - name: delete path trace based on the flow analysis
         id
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: deleted
         config_verify: true
         config:
@@ -294,15 +294,15 @@ EXAMPLES = r"""
     - name: Create/Retrieve Path trace for the config
         list.
       cisco.catalystcenter.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: merged
         config_verify: true
         config:
@@ -1194,7 +1194,7 @@ class PathTraceWorkflow(CatalystCenterBase):
             "Getting path trace flow analysis id: {0}".format(str(flow_id)), "INFO"
         )
         try:
-            dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
+            catc_api_task_timeout = int(self.payload.get("catc_api_task_timeout"))
             start_time = time.time()
 
             while True:
@@ -1224,9 +1224,9 @@ class PathTraceWorkflow(CatalystCenterBase):
                         return response.get("response")
 
                 elapsed_time = time.time() - start_time
-                if elapsed_time >= dnac_api_task_timeout:
+                if elapsed_time >= catc_api_task_timeout:
                     self.msg = "Max timeout of {0} sec has reached for the API 'retrieves_previous_pathtrace' status.".format(
-                        dnac_api_task_timeout
+                        catc_api_task_timeout
                     )
                     self.log(self.msg, "CRITICAL")
                     self.status = "failed"
@@ -1291,7 +1291,7 @@ class PathTraceWorkflow(CatalystCenterBase):
                     self.fail_and_exit(self.msg)
 
                 self.log("Received the task id: {0}".format(task_id), "INFO")
-                dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
+                catc_api_task_timeout = int(self.payload.get("catc_api_task_timeout"))
                 start_time = time.time()
 
                 while True:
@@ -1307,9 +1307,9 @@ class PathTraceWorkflow(CatalystCenterBase):
                         return delete_details
 
                     elapsed_time = time.time() - start_time
-                    if elapsed_time >= dnac_api_task_timeout:
+                    if elapsed_time >= catc_api_task_timeout:
                         self.msg = "Max timeout of {0} sec has reached for the 'Task details' API status.".format(
-                            dnac_api_task_timeout
+                            catc_api_task_timeout
                         )
                         return self.fail_and_exit(self.msg)
 
@@ -1661,20 +1661,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": True},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

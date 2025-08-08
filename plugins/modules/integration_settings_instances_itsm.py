@@ -28,10 +28,10 @@ options:
         description: Integration Settings Instances
           Itsm's ConnectionSettings.
         suboptions:
-          Auth_Password:
+          Authpassword:
             description: Auth Password.
             type: str
-          Auth_UserName:
+          Authusername:
             description: Auth User Name.
             type: str
           Url:
@@ -86,36 +86,36 @@ EXAMPLES = r"""
 ---
 - name: Create
   cisco.catalystcenter.integration_settings_instances_itsm:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     state: present
     data:
       ConnectionSettings:
-        Auth_Password: string
-        Auth_UserName: string
+        Authpassword: string
+        Authusername: string
         Url: string
     description: string
     dypName: string
     name: string
 - name: Update by id
   cisco.catalystcenter.integration_settings_instances_itsm:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     state: present
     data:
       ConnectionSettings:
-        Auth_Password: string
-        Auth_UserName: string
+        Authpassword: string
+        Authusername: string
         Url: string
     description: string
     dypName: string
@@ -123,13 +123,13 @@ EXAMPLES = r"""
     name: string
 - name: Delete by id
   cisco.catalystcenter.integration_settings_instances_itsm:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     state: absent
     instanceId: string
 """
