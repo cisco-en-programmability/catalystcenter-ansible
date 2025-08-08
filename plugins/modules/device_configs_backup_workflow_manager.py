@@ -151,7 +151,7 @@ options:
             playbook.
         type: str
         default: tmp
-      filepassword:
+      file_password:
         description:
           - Optional file password for zipping and unzipping
             the config file.
@@ -202,7 +202,7 @@ EXAMPLES = r"""
     catc_log_level: "{{log_level}}"
     state: merged
     config:
-      - filepassword: qsaA12!asdasd
+      - file_password: qsaA12!asdasd
 - name: Take backup of device(s) using hostname(s)
   cisco.catalystcenter.device_configs_backup_workflow_manager:
     catc_host: "{{catc_host}}"
@@ -235,7 +235,7 @@ EXAMPLES = r"""
     config:
       - hostname_list: ["DC-T-9300.cisco.local"]
         file_path: backup
-        filepassword: qsaA12!asdasd
+        file_password: qsaA12!asdasd
         unzip_backup: true
 - name: Take backup of all devices in a site(s)
   cisco.catalystcenter.device_configs_backup_workflow_manager:
@@ -1227,7 +1227,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
             self.validate_ip4_address_list(ip_address_list)
 
         # Validate the file password or generate a new one if not provided
-        if filepassword:
+        if file_password:
             self.validate_file_password(file_password)
         else:
             file_password = self.password_generator()
