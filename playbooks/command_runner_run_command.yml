@@ -7,10 +7,10 @@
   tasks:
     - name: Run command
       cisco.catalystcenter.command_runner_run_command:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
         commands:
           - pwd
         deviceUuids:
@@ -21,10 +21,10 @@
         msg: "{{ result }}"
     - name: Get task info
       cisco.catalystcenter.task_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
         taskId: "{{ result.catalystcenter_response.response.taskId }}"
       when:
         - result.catalystcenter_response is defined

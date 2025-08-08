@@ -24,13 +24,13 @@ events_notification:
       description: "Adding snmp destination for testing for update"
       server_address: "10.30.0.91"
       port: '265'
-      snmp_version: "V3"
-      _username: cisco123
+      snmpversion: "V3"
+      username: cisco123
       mode: AUTH_PRIVACY
       auth_type: SHA
-      auth_password: authpass123
+      authpassword: authpass123
       privacy_type: AES128
-      privacy_password: privacy123
+      privacypassword: privacy123
     itsm_setting:
       instance_name: "Playbook itsm demo"
       description: "ITSM description for testing"

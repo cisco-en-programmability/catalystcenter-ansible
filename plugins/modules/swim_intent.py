@@ -466,7 +466,7 @@ options:
             description: Used to get device details
               associated to this site.
             type: str
-          activate_lower_image_version:
+          activate_lower_imageversion:
             description: ActivateLowerImageVersion flag.
             type: bool
           device_upgrade_mode:
@@ -548,8 +548,8 @@ notes:
     post
     /dna/intent/api/v1/image/activation/device,
     - Added
-    the parameter 'dnac_api_task_timeout',
-    'dnac_task_poll_interval'
+    the parameter 'catc_api_task_timeout',
+    'catc_task_poll_interval'
     options in v6.13.2.
 """
 EXAMPLES = r"""
@@ -557,15 +557,15 @@ EXAMPLES = r"""
 - name: Import an image from a URL, tag it as golden
     and load it on device
   cisco.catalystcenter.swim_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: true
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log_level: "{{log_level}}"
+    catc_log: true
     config:
       - import_image_details:
           type: remote
@@ -586,20 +586,20 @@ EXAMPLES = r"""
         image_activation_details:
           image_name: cat9k_iosxe.17.12.01.SPA.bin
           schedule_validate: false
-          activate_lower_image_version: false
+          activate_lower_imageversion: false
           distribute_if_needed: true
           device_serial_number: FJC2327U0S2
 - name: Import an image from local, tag it as golden.
   cisco.catalystcenter.swim_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: true
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log_level: "{{log_level}}"
+    catc_log: true
     config:
       - import_image_details:
           type: local
@@ -616,15 +616,15 @@ EXAMPLES = r"""
 - name: Tag the given image as golden and load it on
     device
   cisco.catalystcenter.swim_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: true
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log_level: "{{log_level}}"
+    catc_log: true
     config:
       - tagging_details:
           image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -636,15 +636,15 @@ EXAMPLES = r"""
 - name: Un-tagged the given image as golden and load
     it on device
   cisco.catalystcenter.swim_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: true
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log_level: "{{log_level}}"
+    catc_log: true
     config:
       - tagging_details:
           image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -656,15 +656,15 @@ EXAMPLES = r"""
 - name: Distribute the given image on devices associated
     to that site with specified role.
   cisco.catalystcenter.swim_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: true
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log_level: "{{log_level}}"
+    catc_log: true
     config:
       - image_distribution_details:
           image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -676,15 +676,15 @@ EXAMPLES = r"""
 - name: Activate the given image on devices associated
     to that site with specified role.
   cisco.catalystcenter.swim_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: true
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log_level: "{{log_level}}"
+    catc_log: true
     config:
       - image_activation_details:
           image_name: cat9k_iosxe.17.12.01.SPA.bin
@@ -694,7 +694,7 @@ EXAMPLES = r"""
           device_series_name: Cisco Catalyst 9300 Series
             Switches
           scehdule_validate: false
-          activate_lower_image_version: true
+          activate_lower_imageversion: true
           distribute_if_needed: true
 """
 RETURN = r"""
@@ -1831,7 +1831,7 @@ class DnacSwims(CatalystCenterBase):
 
         for device_ip, task_id in swim_task_dict.items():
             start_time = time.time()
-            max_timeout = self.params.get("dnac_api_task_timeout")
+            max_timeout = self.params.get("catc_api_task_timeout")
 
             while True:
                 end_time = time.time()
@@ -1870,7 +1870,7 @@ class DnacSwims(CatalystCenterBase):
                     self.result["response"] = task_details
                     device_ips_list.append(device_ip)
                     break
-                time.sleep(self.params.get("dnac_task_poll_interval"))
+                time.sleep(self.params.get("catc_task_poll_interval"))
 
         return device_ips_list, device_count
 
@@ -2504,21 +2504,21 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged"]},
     }

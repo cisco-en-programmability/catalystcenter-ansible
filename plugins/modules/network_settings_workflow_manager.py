@@ -216,7 +216,7 @@ options:
             description: The ipv4 prefix length is required
               when ipv4_prefix value is true.
             type: int
-          ipv4_total_host:
+          ipv4_totalhost:
             description: The total number of hosts for
               IPv4, required when the 'ipv4_prefix'
               is set to false.
@@ -289,7 +289,7 @@ options:
               Required when 'ipv6_prefix' is set to
               true.
             type: int
-          ipv6_total_host:
+          ipv6_totalhost:
             description:
               - Specifies the total number of IPv6 hosts.
                 Required when 'ipv6_prefix' is set to
@@ -575,15 +575,15 @@ EXAMPLES = r"""
 ---
 - name: Create global pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -599,15 +599,15 @@ EXAMPLES = r"""
                 dns_server_ips: list
 - name: Create reserve an ip pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -628,15 +628,15 @@ EXAMPLES = r"""
 - name: Create reserve an ip pool using global pool
     name
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -656,15 +656,15 @@ EXAMPLES = r"""
             slaac_support: true
 - name: Delete reserved pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: deleted
     config_verify: true
     config:
@@ -673,15 +673,15 @@ EXAMPLES = r"""
             name: string
 - name: Delete Global Pool
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_log_level: "{{ dnac_log_level }}"
-    dnac_log: true
+    catc_host: "{{ catc_host }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_version: "{{ catc_version }}"
+    catc_log_level: "{{ catc_log_level }}"
+    catc_log: true
     state: deleted
     config_verify: true
     config:
@@ -691,15 +691,15 @@ EXAMPLES = r"""
               - name: string
 - name: Manage the network functions
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -728,15 +728,15 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     AAA server
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -756,15 +756,15 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     ISE server
   cisco.catalystcenter.network_settings_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{ dnac_log_level }}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{ catc_log_level }}"
     state: merged
     config_verify: true
     config:
@@ -5694,20 +5694,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "dnac_host": {"type": "str", "required": True},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

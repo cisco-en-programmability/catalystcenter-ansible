@@ -8,17 +8,17 @@
   tasks:
     - name: Add the SDA fabric device as BORDER and CONTROL node and do L2 and L3 handoff.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
-        log: true
-        log_level: DEBUG
-        log_append: true
-        log_file_path: "{{ log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: merged
         config_verify: true
         config:
@@ -53,17 +53,17 @@
                         external_vlan_id: 444
     - name: Delete the SDA fabric device's L2 and L3 handoff configurations
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
-        log: true
-        log_level: DEBUG
-        log_append: true
-        log_file_path: "{{ log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: true
         config:
@@ -83,17 +83,17 @@
                         internal_vlan_id: 443
     - name: Delete the SDA fabric device
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        _version: "{{ _version }}"
-        log: true
-        log_level: DEBUG
-        log_append: true
-        log_file_path: "{{ log_file_path }}"
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
+        catc_log_file_path: "{{ catc_log_file_path }}"
         state: deleted
         config_verify: true
         config:

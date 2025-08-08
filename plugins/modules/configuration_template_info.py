@@ -116,13 +116,13 @@ EXAMPLES = r"""
 ---
 - name: Get all Configuration Template
   cisco.catalystcenter.configuration_template_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     projectId: string
     softwareType: string
@@ -138,13 +138,13 @@ EXAMPLES = r"""
   register: result
 - name: Get Configuration Template by id
   cisco.catalystcenter.configuration_template_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
     headers: "{{my_headers | from_json}}"
     latestVersion: true
     templateId: string

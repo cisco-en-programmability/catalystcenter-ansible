@@ -478,7 +478,7 @@ options:
             description: Applicable device software
               variant.
             type: str
-          software_version:
+          softwareversion:
             description: Applicable device software
               version.
             type: str
@@ -605,7 +605,7 @@ options:
               template_id:
                 description: UUID of template.
                 type: str
-              template_version:
+              templateversion:
                 description: Current version of template.
                 type: str
             type: dict
@@ -1117,7 +1117,7 @@ options:
                     description: Applicable device software
                       variant.
                     type: str
-                  software_version:
+                  softwareversion:
                     description: Applicable device software
                       version.
                     type: str
@@ -1252,7 +1252,7 @@ options:
                       template_id:
                         description: UUID of template.
                         type: str
-                      template_version:
+                      templateversion:
                         description: Current version
                           of template.
                         type: str
@@ -1293,15 +1293,15 @@ EXAMPLES = r"""
 - name: Create a new template, export and import the
     project and template.
   cisco.catalystcenter.template_intent:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config_verify: true
     config:
@@ -1328,7 +1328,7 @@ EXAMPLES = r"""
           rollback_template_content: string
           software_type: string
           software_variant: string
-          software_version: string
+          softwareversion: string
           tags:
             - id: string
               name: string
@@ -1339,7 +1339,7 @@ EXAMPLES = r"""
             template_errors:
               - {}
             template_id: string
-            template_version: string
+            templateversion: string
           version: string
         export:
           project:
@@ -3083,21 +3083,21 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": True},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

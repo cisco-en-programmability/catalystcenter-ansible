@@ -11,11 +11,11 @@
   tasks:
     - name: Find discovery
       cisco.catalystcenter.discovery_range_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         startIndex: 1
         recordsToReturn: 500
       register: discovery_range_result
@@ -46,11 +46,11 @@
       register: discovery_filtered_result_id
     - name: Create a discovery
       cisco.catalystcenter.discovery:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         validate_response_schema: false
         state: present
         cdpLevel: 16
@@ -82,11 +82,11 @@
         - discovery_filtered_result_id is not defined
     - name: Update a discovery
       cisco.catalystcenter.discovery:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
         validate_response_schema: false
         state: present
         cdpLevel: 16

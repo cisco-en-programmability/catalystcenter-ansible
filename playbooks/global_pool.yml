@@ -7,12 +7,12 @@
   tasks:
     - name: Find discovery
       cisco.catalystcenter.global_pool:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _version: "{{ _version }}"
-        _debug: "{{ _debug }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_version: "{{ catc_version }}"
+        catc_debug: "{{ catc_debug }}"
         state: present
         # id: 1bf5ecf3-be14-48fb-b724-df801bc61172
         settings:

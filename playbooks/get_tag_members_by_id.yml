@@ -7,10 +7,10 @@
   tasks:
     - name: Get application sets local-services
       cisco.catalystcenter.tag_member_info:
-        _host: "{{ _host }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
+        catc_host: "{{ catc_host }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
         memberType: interface
         id: 4f53e256-7219-4e88-a648-69d0e37a3df6
         offset: 3

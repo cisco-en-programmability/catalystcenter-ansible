@@ -5,10 +5,10 @@ device_details:
     # CLI Credentials
     username: "cisco"
     password: "Cisco#123"
-    enable_password: "Cisco#123"
+    enablepassword: "Cisco#123"
     # SNMP Credentials
-    snmp_version: v3
-    snmp_username: "v3Public2"
+    snmpversion: v3
+    snmpusername: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
     snmp_auth_passphrase: "Lablab#1234"

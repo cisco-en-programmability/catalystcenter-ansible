@@ -14,48 +14,47 @@ class ModuleDocFragment(object):
     # Standard files documentation fragment
     DOCUMENTATION = r'''
 options:
-    dnac_host:
+    catc_host:
         description:
-          - The Cisco DNA Center hostname.
+          - The Cisco Catalyst Center hostname.
         type: str
         required: true
-    dnac_port:
+    catc_api_port:
         description:
-          - The Cisco DNA Center port.
+          - The Cisco Catalyst Center port.
         type: int
         default: 443
-    dnac_username:
+    catc_username:
         description:
-          - The Cisco DNA Center username to authenticate.
+          - The Cisco Catalyst Center username to authenticate.
         type: str
         default: admin
-        aliases: [ user ]
-    dnac_password:
+    catc_password:
         description:
-          - The Cisco DNA Center password to authenticate.
+          - The Cisco Catalyst Center password to authenticate.
         type: str
-    dnac_verify:
+    catc_verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
-    dnac_version:
+    catc_version:
         description:
-          - Informs the SDK which version of Cisco DNA Center to use.
+          - Informs the SDK which version of Cisco Catalyst Center to use.
         type: str
         default: 2.3.7.6
-    dnac_debug:
+    catc_debug:
         description:
-          - Flag for Cisco DNA Center SDK to enable debugging.
+          - Flag for Cisco Catalyst Center SDK to enable debugging.
         type: bool
         default: false
     validate_response_schema:
         description:
-          - Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+          - Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
         type: bool
         default: true
 notes:
     - "Supports C(check_mode)"
-    - "The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco CATALYST SDK"
-    - "The parameters starting with dnac_ are used by the Cisco CATALYST Python SDK to establish the connection"
+    - "The plugin runs on the control node and does not use any ansible connection plugins,"
+    - "but instead uses the embedded connection manager from Cisco CATALYST SDK"
 '''

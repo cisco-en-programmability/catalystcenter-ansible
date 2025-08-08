@@ -6,16 +6,16 @@
     - "credentials.yml"
   vars:
     catalystcenter_login: &catalystcenter_login
-      _host: "{{ _host }}"
-      _username: "{{ _username }}"
-      _password: "{{ _password }}"
-      _verify: "{{ _verify }}"
-      _api_port: "{{ _api_port }}"
-      _version: "{{ _version }}"
-      _debug: "{{ _debug }}"
-      log: true
-      log_level: INFO
-      log_append: false
+      catc_host: "{{ catc_host }}"
+      catc_username: "{{ catc_username }}"
+      catc_password: "{{ catc_password }}"
+      catc_verify: "{{ catc_verify }}"
+      catc_api_port: "{{ catc_api_port }}"
+      catc_version: "{{ catc_version }}"
+      catc_debug: "{{ catc_debug }}"
+      catc_log: true
+      catc_log_level: INFO
+      catc_log_append: false
       config_verify: true
   tasks:
     - name: Add port assignments, port channels and wireless ssids in a fabric site

@@ -5,10 +5,10 @@ device_details:
     # CLI Credentials
     username: "cisco"
     password: "Cisco#123"
-    enable_password: "Cisco#123"
+    enablepassword: "Cisco#123"
     # SNMP Credentials
-    snmp_version: v3
-    snmp_username: "v3Public2"
+    snmpversion: v3
+    snmpusername: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
     snmp_auth_passphrase: "Lablab#1234"
@@ -28,15 +28,15 @@ device_details:
   #   # CLI Credentials
   #   username: "cisco"
   #   password: "Cisco#123"
-  #   enable_password: "Cisco#123"
+  #   enablepassword: "Cisco#123"
   #   # HTTP Credentials
-  #   http_username: "wlcaccess"
-  #   http_password: "Lablab#123"
+  #   httpusername: "wlcaccess"
+  #   httppassword: "Lablab#123"
   #   http_port: "443"
   #   http_secure: false
   #   # SNMP Credentials
-  #   snmp_version: v3
-  #   snmp_username: "v3Public2"
+  #   snmpversion: v3
+  #   snmpusername: "v3Public2"
   #   snmp_mode: "AUTHPRIV"
   #   snmp_auth_protocol: "SHA"
   #   snmp_auth_passphrase: "Lablab#1234"
@@ -72,7 +72,7 @@ device_credential_updates:
     ip_address_list: ["204.1.2.5"]
     credential_update: true
     # SNMP Credentials
-    snmp_username: "v3Public2-2"
+    snmpusername: "v3Public2-2"
 
 
   # Update SNMP mode
@@ -80,7 +80,7 @@ device_credential_updates:
     ip_address_list: ["204.1.2.5"]
     credential_update: true
     # SNMP Credentials
-    snmp_version: v3
+    snmpversion: v3
     snmp_mode: "NOAUTHNOPRIV"
 
   # Update cli_transport
@@ -94,7 +94,7 @@ device_credential_updates:
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
     credential_update: true
-    snmp_version: v2
+    snmpversion: v2
     snmp_ro_community: 'j5aj#0z%'
     snmp_rw_community: 'j5aj#0z%'
 
@@ -105,10 +105,10 @@ device_credential_updates:
     # CLI Credentials
     username: "cisco"
     password: "Cisco#123"
-    enable_password: "Cisco#123"
+    enablepassword: "Cisco#123"
     # SNMP Credentials
-    snmp_version: v3
-    snmp_username: "v3Public2"
+    snmpversion: v3
+    snmpusername: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
     snmp_auth_passphrase: "Lablab#1234"

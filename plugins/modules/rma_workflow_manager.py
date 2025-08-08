@@ -213,15 +213,15 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     device names
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -235,15 +235,15 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -257,15 +257,15 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -279,15 +279,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     device names
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -300,15 +300,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -321,15 +321,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -342,15 +342,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     all
   cisco.catalystcenter.rma_workflow_manager:
-    dnac_host: "{{ dnac_host }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_version: "{{ dnac_version }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -1358,7 +1358,7 @@ class DeviceReplacement(CatalystCenterBase):
         # If we've exhausted all retries without a definitive result
         self.status = "failed"
         self.msg = "Device replacement monitoring timed out after {0} attempts".format(
-            self.params.get("dnac_api_task_timeout")
+            self.params.get("catc_api_task_timeout")
         )
         self.log(self.msg, "ERROR")
         return {"status": "failed", "msg": self.msg}
@@ -1615,20 +1615,20 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check and assigning defaults.
     device_replacement_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "resync_retry_count": {"type": "int", "default": 1000},
         "resync_retry_interval": {"type": "int", "default": 30},
         "ccc_poll_interval": {"type": "int", "default": 2},

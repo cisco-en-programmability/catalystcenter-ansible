@@ -133,7 +133,7 @@ options:
                 description: Password for CLI authentication,
                   mandatory when using CLI credential.
                 type: str
-              enable_password:
+              enablepassword:
                 description: Enable password for CLI
                   authentication, mandatory when using
                   CLI credential.
@@ -258,7 +258,7 @@ options:
                 type: str
                 choices: ['AUTHPRIV', 'AUTHNOPRIV',
                   'NOAUTHNOPRIV']
-              auth_password:
+              authpassword:
                 description:
                   - Authentication Password of the SNMP
                     v3 protocol to be used.
@@ -287,7 +287,7 @@ options:
                     NOAUTHNOPRIV snmp_mode.
                 type: str
                 choices: ['AES128', 'AES192', 'AES256']
-              privacy_password:
+              privacypassword:
                 description:
                   - Privacy password of the SNMP v3
                     protocol to be used in AUTHPRIV
@@ -499,15 +499,15 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with both global
     credentials and discovery specific credentials
   cisco.catalystcenter.discovery_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config_verify: true
     config:
@@ -523,7 +523,7 @@ EXAMPLES = r"""
           cli_credentials_list:
             - username: cisco
               password: Cisco123
-              enable_password: Cisco123
+              enablepassword: Cisco123
           http_read_credential:
             username: cisco
             password: Cisco123
@@ -544,9 +544,9 @@ EXAMPLES = r"""
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            auth_password: Lablab123
+            authpassword: Lablab123
             privacy_type: AES256
-            privacy_password: Lablab123
+            privacypassword: Lablab123
           net_conf_port: 750
         global_credentials:
           cli_credentials_list:
@@ -577,15 +577,15 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with discovery
     specific credentials only
   cisco.catalystcenter.discovery_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config_verify: true
     config:
@@ -598,7 +598,7 @@ EXAMPLES = r"""
           cli_credentials_list:
             - username: cisco
               password: Cisco123
-              enable_password: Cisco123
+              enablepassword: Cisco123
           http_read_credential:
             username: cisco
             password: Cisco123
@@ -619,9 +619,9 @@ EXAMPLES = r"""
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            auth_password: Lablab123
+            authpassword: Lablab123
             privacy_type: AES256
-            privacy_password: Lablab123
+            privacypassword: Lablab123
           net_conf_port: 750
         use_global_credentials: false
         start_index: 1
@@ -632,15 +632,15 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with global credentials
     only
   cisco.catalystcenter.discovery_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config_verify: true
     config:
@@ -679,15 +679,15 @@ EXAMPLES = r"""
 - name: Execute discovery of devices with all the global
     credentials (max 5 allowed)
   cisco.catalystcenter.discovery_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     config_verify: true
     config:
@@ -706,15 +706,15 @@ EXAMPLES = r"""
         use_global_credentials: true
 - name: Delete disovery by name
   cisco.catalystcenter.discovery_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_host: "{{catc_host}}"
+    catc_username: "{{catc_username}}"
+    catc_password: "{{catc_password}}"
+    catc_verify: "{{catc_verify}}"
+    catc_api_port: "{{catc_api_port}}"
+    catc_version: "{{catc_version}}"
+    catc_debug: "{{catc_debug}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     config_verify: true
     config:
@@ -2206,21 +2206,21 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "dnac_host": {"required": True, "type": "str"},
-        "dnac_port": {"type": "str", "default": "443"},
-        "dnac_username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "dnac_password": {"type": "str", "no_log": True},
-        "dnac_verify": {"type": "bool", "default": "True"},
-        "dnac_version": {"type": "str", "default": "2.2.3.3"},
-        "dnac_debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin"},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

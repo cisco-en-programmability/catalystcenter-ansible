@@ -9,13 +9,13 @@
   tasks:
     - name: Import an image, tag it as golden and load it on device
       cisco.catalystcenter.swim_intent:
-        _host: "{{ _host }}"
-        _api_port: "{{ _api_port }}"
-        _username: "{{ _username }}"
-        _password: "{{ _password }}"
-        _verify: "{{ _verify }}"
-        _debug: "{{ _debug }}"
-        log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_log: true
         config:
           - import_image_details:
               type: "{{ item.type }}"
