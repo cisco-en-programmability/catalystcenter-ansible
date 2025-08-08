@@ -7231,7 +7231,7 @@ def main():
             "type": "str",
             "required": True,
         },
-        "catc_api_port": {"type": "int", "default": 443},
+        "catc_api_port": {"type": "str", "default": "443"},
         "catc_username": {"type": "str", "default": "admin"},
         "catc_password": {"type": "str", "no_log": True},
         "catc_verify": {"type": "bool", "default": "True"},

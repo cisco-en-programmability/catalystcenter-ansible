@@ -39,6 +39,10 @@ options:
       configuration.
     type: bool
     default: false
+  config_verify:
+    description: Set to true to verify the configuration after applying changes.
+    type: bool
+    default: false
   state:
     description: The desired state of Cisco Catalyst
       Center after module execution.
@@ -16814,7 +16818,7 @@ def main():
     # Define the specification for the module"s arguments
     element_spec = {
         "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "int", "default": 443},
+        "catc_api_port": {"type": "str", "default": "443"},
         "catc_username": {"type": "str", "default": "admin"},
         "catc_password": {"type": "str", "no_log": True},
         "catc_verify": {"type": "bool", "default": "True"},
@@ -16825,7 +16829,7 @@ def main():
         "catc_log_append": {"type": "bool", "default": True},
         "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
-        "configverify": {"type": "bool", "default": False},
+        "config_verify": {"type": "bool", "default": False},
         "catc_api_task_timeout": {"type": "int", "default": 1200},
         "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},

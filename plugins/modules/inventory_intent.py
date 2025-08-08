@@ -20,6 +20,10 @@ extends_documentation_fragment:
   - cisco.catalystcenter.intent_params
 author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
+  host:
+    description: The Cisco Catalyst Center hostname.
+    type: str
+    required: true
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying
       the playbook config.
@@ -4523,7 +4527,7 @@ def main():
             "type": "str",
             "required": True,
         },
-        "catc_api_port": {"type": "int", "default": 443},
+        "catc_api_port": {"type": "str", "default": "443"},
         "catc_username": {"type": "str", "default": "admin"},
         "catc_password": {"type": "str", "no_log": True},
         "catc_verify": {"type": "bool", "default": True},
