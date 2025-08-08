@@ -554,7 +554,7 @@ options:
             description: Import the projects.
             type: dict
             suboptions:
-              doversion:
+              do_version:
                 description:
                   - Determines whether to create a new
                     version of the project with the
@@ -596,7 +596,7 @@ options:
             description: Import the templates.
             type: dict
             suboptions:
-              doversion:
+              do_version:
                 description: DoVersion query parameter.
                   If this flag is true, creates a new
                   version of the template with the imported
@@ -1477,7 +1477,7 @@ EXAMPLES = r"""
     config:
       import:
         project:
-          doversion: false
+          do_version: false
           payload:
             - name: string
             - name: string
@@ -1497,7 +1497,7 @@ EXAMPLES = r"""
     config:
       import:
         template:
-          doversion: false
+          do_version: false
           project_name: string
           template_file: string
 - name: Creating a JINJA-based template to configure
@@ -3618,7 +3618,7 @@ class Template(CatalystCenterBase):
         _import_project = _import.get("project")
         if _import_project:
             do_version = _import_project.get("do_version")
-            if not doversion:
+            if not do_version:
                 do_version = False
 
             payload = _import.get("project").get("payload")
@@ -3700,7 +3700,7 @@ class Template(CatalystCenterBase):
         _import_template = _import.get("template")
         if _import_template:
             do_version = _import_template.get("do_version")
-            if not doversion:
+            if not do_version:
                 do_version = False
 
             project_name = _import_template.get("project_name")

@@ -2445,7 +2445,7 @@ class DeviceCredential(CatalystCenterBase):
             cli_description = cli_credential.get("description")
             cli_username = cli_credential.get("username")
 
-            if cli_id or cli_description and cliusername:
+            if cli_id or cli_description and cli_username:
                 # All CLI details from the Cisco Catalyst Center
                 global_cli_details = global_credentials.get("cliCredential")
 
@@ -2461,7 +2461,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID for the CLI credential is not valid."
                         self.status = "failed"
                         return self
-                elif cli_description and cliusername:
+                elif cli_description and cli_username:
                     for item in global_cli_details:
                         if (
                             item.get("description") == cli_description
@@ -2585,7 +2585,7 @@ class DeviceCredential(CatalystCenterBase):
             https_read_description = https_read.get("description")
             https_read_username = https_read.get("username")
 
-            if https_read_id or https_read_description and https_readusername:
+            if https_read_id or https_read_description and https_read_username:
                 # All httpRead details from the Cisco Catalyst Center
                 global_https_read_details = global_credentials.get("httpsRead")
                 if not global_https_read_details:
@@ -2602,7 +2602,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID of the https_read credential is not valid."
                         self.status = "failed"
                         return self
-                elif https_read_description and https_readusername:
+                elif https_read_description and https_read_username:
                     for item in global_https_read_details:
                         if (
                             item.get("description") == https_read_description
@@ -2636,7 +2636,7 @@ class DeviceCredential(CatalystCenterBase):
             https_write_description = https_write.get("description")
             https_write_username = https_write.get("username")
 
-            if https_write_id or https_write_description and https_writeusername:
+            if https_write_id or https_write_description and https_write_username:
                 # All httpWrite details from the Cisco Catalyst Center
                 global_https_write_details = global_credentials.get("httpsWrite")
                 if not global_https_write_details:
@@ -2653,7 +2653,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID of the https_write credential is not valid."
                         self.status = "failed"
                         return self
-                elif https_write_description and https_writeusername:
+                elif https_write_description and https_write_username:
                     for item in global_https_write_details:
                         if (
                             item.get("description") == https_write_description
@@ -2777,7 +2777,7 @@ class DeviceCredential(CatalystCenterBase):
             cli_id = cli_credential.get("id")
             cli_description = cli_credential.get("description")
             cli_username = cli_credential.get("username")
-            if cli_id or cli_description and cliusername:
+            if cli_id or cli_description and cli_username:
                 # All CLI details from the Cisco Catalyst Center
                 global_cli_details = global_credentials.get("cliCredential")
 
@@ -2793,7 +2793,7 @@ class DeviceCredential(CatalystCenterBase):
                         self.msg = "The ID for the CLI credential is not valid."
                         self.status = "failed"
                         return self
-                elif cli_description and cliusername:
+                elif cli_description and cli_username:
                     for item in global_cli_details:
                         if (
                             item.get("description") == cli_description
