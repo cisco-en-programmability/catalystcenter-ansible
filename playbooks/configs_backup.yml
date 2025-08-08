@@ -14,12 +14,12 @@
       catc_api_port: "{{ catc_api_port }}"
       catc_version: "{{ catc_version }}"
       catc_debug: "{{ catc_debug }}"
-      log_level: "DEBUG"
+      catc_log_level: "DEBUG"
   tasks:
     - name: Take backup of a wired 9500 switch
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: merged
         configverify: true
         config:
@@ -28,7 +28,7 @@
     - name: Take backup of all the switches
       cisco.catalystcenter.device_configs_backup_workflow_manager:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: merged
         configverify: true
         config:

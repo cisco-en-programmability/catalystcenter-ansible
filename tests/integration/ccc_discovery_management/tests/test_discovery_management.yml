@@ -17,8 +17,8 @@
         api_port: "{{ api_port }}"
         version: "{{ version }}"
         debug: "{{ debug }}"
-        log: true
-        log_level: DEBUG
+        catc_log: true
+        catc_log_level: DEBUG
         configverify: true
 
   - name: Clean up vars

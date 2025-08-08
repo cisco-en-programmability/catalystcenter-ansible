@@ -14,8 +14,8 @@
       catc_api_port: "{{ catc_api_port }}"
       catc_version: "{{ catc_version }}"
       catc_debug: "{{ catc_debug }}"
-      log: true
-      log_level: DEBUG
+      catc_log: true
+      catc_log_level: DEBUG
   tasks:
     - name: Execute discovery devices using MULTI RANGE with various global credentials
       cisco.catalystcenter.discovery_workflow_manager:

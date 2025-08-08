@@ -1359,8 +1359,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1395,8 +1395,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1432,8 +1432,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1450,8 +1450,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1470,8 +1470,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1490,8 +1490,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1510,8 +1510,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1552,8 +1552,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1599,8 +1599,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1626,8 +1626,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1652,8 +1652,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: merged
     configverify: true
     config:
@@ -1682,8 +1682,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: true
+    catc_log_level: "{{log_level}}"
     state: deleted
     configverify: true
     config:
@@ -1783,7 +1783,7 @@ class Template(CatalystCenterBase):
         self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
-        self.max_timeout = self.params.get("dnac_api_task_timeout")
+        self.max_timeout = self.params.get("catc_api_task_timeout")
         self.result["response"] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
@@ -4266,7 +4266,7 @@ class Template(CatalystCenterBase):
                     self.check_return_status()
 
                 # Wait for the specified poll interval before the next check
-                poll_interval = self.params.get("dnac_task_poll_interval")
+                poll_interval = self.params.get("catc_task_poll_interval")
                 self.log(
                     "Waiting for the next poll interval of {0} seconds before checking deployment status again.".format(
                         poll_interval
@@ -4327,7 +4327,7 @@ class Template(CatalystCenterBase):
                 return self
 
             loop_start_time = time.time()
-            sleep_duration = self.params.get("dnac_task_poll_interval")
+            sleep_duration = self.params.get("catc_task_poll_interval")
             self.log(
                 "Starting task monitoring for '{0}' with task ID '{1}'.".format(
                     task_name, task_id
@@ -4912,7 +4912,7 @@ class Template(CatalystCenterBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            sleep_duration = self.params.get("dnac_task_poll_interval")
+            sleep_duration = self.params.get("catc_task_poll_interval")
             while True:
                 task_details = self.get_task_details(task_id)
                 self.log("Printing task details: {0}".format(task_details), "DEBUG")
@@ -5233,21 +5233,21 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

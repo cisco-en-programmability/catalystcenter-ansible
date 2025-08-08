@@ -18,7 +18,7 @@
     - name: Provision a wired device to a site
       cisco.catalystcenter.provision_intent:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -26,7 +26,7 @@
     - name: Unprovision a wired device to a site
       cisco.catalystcenter.provision_intent:
         !!merge <<: *catalystcenter_login
-        log: true
+        catc_log: true
         state: deleted
         config:
           - management_ip_address: 204.1.2.2

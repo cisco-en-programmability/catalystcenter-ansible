@@ -32,12 +32,12 @@ author:
   - Luna Aliaj (@majlona)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  dnac_api_task_timeout:
+  catc_api_task_timeout:
     description: The maximum time to wait for a task
       to complete on Cisco DNA Center for LAN Automation.
     type: int
     default: 604800
-  dnac_task_poll_interval:
+  catc_task_poll_interval:
     description: The interval, in seconds, to poll for
       task completion.
     type: int
@@ -360,7 +360,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -406,7 +406,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -454,7 +454,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: deleted
     config:
@@ -471,7 +471,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -490,7 +490,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -509,7 +509,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -529,7 +529,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -549,7 +549,7 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: true
+    catc_log: true
     configverify: false
     state: merged
     config:
@@ -3021,7 +3021,7 @@ class LanAutomation(CatalystCenterBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
 
             self.log("Waiting for 30 seconds before the next status check...", "DEBUG")
-            time.sleep(self.params.get("dnac_task_poll_interval", 30))
+            time.sleep(self.params.get("catc_task_poll_interval", 30))
 
         if self.status != "success":
             elapsed_time = time.time() - start_time
@@ -3205,7 +3205,7 @@ class LanAutomation(CatalystCenterBase):
                         "DEBUG",
                     )
 
-                    time.sleep(self.params.get("dnac_task_poll_interval", 30))
+                    time.sleep(self.params.get("catc_task_poll_interval", 30))
 
         return self
 
@@ -3740,12 +3740,12 @@ class LanAutomation(CatalystCenterBase):
             self.log(
                 "LAN automation session for seed IP '{0}' is still running. Checking again in "
                 "{1} seconds...".format(
-                    seed_ip_address, self.params.get("dnac_task_poll_interval")
+                    seed_ip_address, self.params.get("catc_task_poll_interval")
                 ),
                 "INFO",
             )
 
-            time.sleep(self.params.get("dnac_task_poll_interval"))
+            time.sleep(self.params.get("catc_task_poll_interval"))
 
         self.status = "failed"
         self.msg = (
@@ -3823,21 +3823,21 @@ def main():
 
     # Define the specification for the module's arguments
     element_spec = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 604800},
-        "dnac_task_poll_interval": {"type": "int", "default": 30},
+        "catc_api_task_timeout": {"type": "int", "default": 604800},
+        "catc_task_poll_interval": {"type": "int", "default": 30},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

@@ -653,16 +653,16 @@ EXAMPLES = r"""
   tasks:
     - name: Create issue settings
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
         state: merged
         configverify: true
         config:
@@ -682,16 +682,16 @@ EXAMPLES = r"""
                 is_notification_enabled: false
     - name: update issue settings
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: DEBUG
+        catc_log_append: true
         state: merged
         configverify: true
         config:
@@ -711,15 +711,15 @@ EXAMPLES = r"""
                 is_notification_enabled: false
     - name: Delete issue settings
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log_level: DEBUG
+        catc_log: true
         state: deleted
         configverify: true
         config:
@@ -733,16 +733,16 @@ EXAMPLES = r"""
   tasks:
     - name: Update System issue
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: debug
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: debug
+        catc_log_append: true
         state: merged
         configverify: true
         config:
@@ -763,16 +763,16 @@ EXAMPLES = r"""
   tasks:
     - name: Resolving Issues
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: debug
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: debug
+        catc_log_append: true
         state: merged
         configverify: true
         config:
@@ -790,16 +790,16 @@ EXAMPLES = r"""
                 network_device_ip_address: 204.1.2.4  # optional field
     - name: Ignoring issues
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: debug
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: debug
+        catc_log_append: true
         state: merged
         configverify: true
         config:
@@ -817,16 +817,16 @@ EXAMPLES = r"""
                 network_device_ip_address: 204.1.2.4  # optional field
     - name: Execute suggested commands
       cisco.catalystcenter.assurance_issue_workflow_manager:
-        host: "{{ dnac_host }}"
-        api_port: "{{ dnac_port }}"
-        username: "{{ dnac_username }}"
-        password: "{{ dnac_password }}"
-        verify: "{{ dnac_verify }}"
-        debug: "{{ dnac_debug }}"
-        version: "{{ dnac_version }}"
-        dnac_log: true
-        dnac_log_level: debug
-        dnac_log_append: true
+        catc_host: "{{ catc_host }}"
+        catc_api_port: "{{ catc_api_port }}"
+        catc_username: "{{ catc_username }}"
+        catc_password: "{{ catc_password }}"
+        catc_verify: "{{ catc_verify }}"
+        catc_debug: "{{ catc_debug }}"
+        catc_version: "{{ catc_version }}"
+        catc_log: true
+        catc_log_level: debug
+        catc_log_append: true
         state: merged
         configverify: true
         config:
@@ -2529,13 +2529,13 @@ class AssuranceSettings(CatalystCenterBase):
                 self.log("No execution ID received from API response.", "ERROR")
                 return None
 
-            resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+            resync_retry_count = int(self.payload.get("catc_api_task_timeout", 100))
 
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
-                resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+                resync_retry_count = int(self.payload.get("catc_api_task_timeout", 100))
                 resync_retry_interval = int(
-                    self.payload.get("dnac_task_poll_interval", 5)
+                    self.payload.get("catc_task_poll_interval", 5)
                 )
                 self.log(
                     "Polling execution details with retry count: {0}, interval: {1}s".format(
@@ -4052,20 +4052,20 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "host": {"type": "str", "required": True},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
+        "catc_host": {"type": "str", "required": True},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "list", "required": True, "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
         "validate_response_schema": {"type": "bool", "default": True},

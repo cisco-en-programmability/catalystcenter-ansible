@@ -652,18 +652,18 @@ EXAMPLES = r"""
 ---
 - name: Create a user
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
-    dnac_api_task_timeout: 1000
-    dnac_task_poll_interval: 1
+    catc_api_task_timeout: 1000
+    catc_task_poll_interval: 1
     state: merged
     config:
       user_details:
@@ -676,18 +676,18 @@ EXAMPLES = r"""
 - name: Update a user for first name, last name, email,
     and role list
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
-    dnac_api_task_timeout: 1000
-    dnac_task_poll_interval: 1
+    catc_api_task_timeout: 1000
+    catc_task_poll_interval: 1
     state: merged
     config:
       user_details:
@@ -698,18 +698,18 @@ EXAMPLES = r"""
           role_list: ["SUPER-ADMIN-ROLE"]
 - name: Update a user for role list
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
-    dnac_api_task_timeout: 1000
-    dnac_task_poll_interval: 1
+    catc_api_task_timeout: 1000
+    catc_task_poll_interval: 1
     state: merged
     config:
       user_details:
@@ -717,18 +717,18 @@ EXAMPLES = r"""
           role_list: ["NETWORK-ADMIN-ROLE"]
 - name: Update the user password
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
-    dnac_api_task_timeout: 1000
-    dnac_task_poll_interval: 1
+    catc_api_task_timeout: 1000
+    catc_task_poll_interval: 1
     state: merged
     config:
       user_details:
@@ -737,33 +737,33 @@ EXAMPLES = r"""
           password_update: true
 - name: Delete a user using username or email address
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
-    dnac_api_task_timeout: 1000
-    dnac_task_poll_interval: 1
+    catc_api_task_timeout: 1000
+    catc_task_poll_interval: 1
     state: deleted
     config:
       user_details:
         username: "ajithandrewj"
 - name: Create a Comprehensive Role
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
     config:
       role_details:
@@ -823,15 +823,15 @@ EXAMPLES = r"""
               search: "write"
 - name: Create Assurance Role
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
     config:
       role_details:
@@ -843,15 +843,15 @@ EXAMPLES = r"""
               monitoring_and_troubleshooting: "read"
 - name: Create a Network Provision Role
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
     config:
       role_details:
@@ -870,15 +870,15 @@ EXAMPLES = r"""
               provision: "read"
 - name: Update a Role for Assurance and Platform
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
     config:
       role_details:
@@ -892,18 +892,18 @@ EXAMPLES = r"""
               reports: "read"
 - name: Delete a role
   cisco.catalystcenter.user_role_workflow_manager:
-    host: "{{ dnac_host }}"
-    username: "{{ dnac_username }}"
-    password: "{{ dnac_password }}"
-    verify: "{{ dnac_verify }}"
-    api_port: "{{ dnac_port }}"
-    version: "{{ dnac_version }}"
-    debug: "{{ dnac_debug }}"
-    dnac_log: true
-    dnac_log_level: DEBUG
+    catc_host: "{{ catc_host }}"
+    catc_username: "{{ catc_username }}"
+    catc_password: "{{ catc_password }}"
+    catc_verify: "{{ catc_verify }}"
+    catc_api_port: "{{ catc_api_port }}"
+    catc_version: "{{ catc_version }}"
+    catc_debug: "{{ catc_debug }}"
+    catc_log: true
+    catc_log_level: DEBUG
     configverify: true
-    dnac_api_task_timeout: 1000
-    dnac_task_poll_interval: 1
+    catc_api_task_timeout: 1000
+    catc_task_poll_interval: 1
     state: deleted
     config:
       role_details:
@@ -4414,20 +4414,20 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check or assign default.
     user_role_details = {
-        "host": {"required": True, "type": "str"},
-        "api_port": {"type": "str", "default": "443"},
-        "username": {"type": "str", "default": "admin", "aliases": ["user"]},
-        "password": {"type": "str", "no_log": True},
-        "verify": {"type": "bool", "default": "True"},
-        "version": {"type": "str", "default": "2.2.3.3"},
-        "debug": {"type": "bool", "default": False},
-        "dnac_log": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_host": {"required": True, "type": "str"},
+        "catc_api_port": {"type": "str", "default": "443"},
+        "catc_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catc_password": {"type": "str", "no_log": True},
+        "catc_verify": {"type": "bool", "default": "True"},
+        "catc_version": {"type": "str", "default": "2.2.3.3"},
+        "catc_debug": {"type": "bool", "default": False},
+        "catc_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "dict"},
         "validate_response_schema": {"type": "bool", "default": True},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},

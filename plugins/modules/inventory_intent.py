@@ -425,8 +425,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - cli_transport: ssh
@@ -461,8 +461,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -490,8 +490,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - httppassword: "test"
@@ -506,8 +506,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -525,8 +525,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -548,8 +548,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - cli_transport: telnet
@@ -568,8 +568,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1"]
@@ -586,8 +586,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - provision_wired_device:
@@ -608,8 +608,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -623,8 +623,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -645,8 +645,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -663,8 +663,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -684,8 +684,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -700,8 +700,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -715,8 +715,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log: false
-    dnac_log_level: "{{dnac_log_level}}"
+    catc_log: false
+    catc_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -730,8 +730,8 @@ EXAMPLES = r"""
     catc_api_port: "{{catc_api_port}}"
     catc_version: "{{catc_version}}"
     catc_debug: "{{catc_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: false
+    catc_log_level: "{{log_level}}"
+    catc_log: false
     state: deleted
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -1564,7 +1564,7 @@ class DnacDevice(CatalystCenterBase):
                     elif execution_details.get("isError"):
                         resync_failed_devices.extend(device_list)
                         break
-                    time.sleep(self.params.get("dnac_task_poll_interval"))
+                    time.sleep(self.params.get("catc_task_poll_interval"))
 
             if resync_failed_devices and resync_successful_devices:
                 self.msg = (
@@ -4529,14 +4529,14 @@ def main():
         "verify": {"type": "bool", "default": "True"},
         "version": {"type": "str", "default": "2.2.3.3"},
         "debug": {"type": "bool", "default": False},
-        "dnac_log_level": {"type": "str", "default": "WARNING"},
-        "dnac_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "dnac_log_append": {"type": "bool", "default": True},
-        "dnac_log": {"type": "bool", "default": False},
+        "catc_log_level": {"type": "str", "default": "WARNING"},
+        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catc_log_append": {"type": "bool", "default": True},
+        "catc_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "dnac_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catc_api_task_timeout": {"type": "int", "default": 1200},
+        "catc_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
