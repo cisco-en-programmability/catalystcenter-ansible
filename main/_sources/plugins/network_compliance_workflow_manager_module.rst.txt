@@ -42,7 +42,7 @@ cisco.catalystcenter.network_compliance_workflow_manager module -- Network Compl
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -110,17 +110,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_api_port:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **catc_api_port**
+      **catalystcenter_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -148,17 +148,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_api_task_timeout"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_task_timeout"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_api_task_timeout:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_api_task_timeout:
 
       .. rst-class:: ansible-option-title
 
-      **catc_api_task_timeout**
+      **catalystcenter_api_task_timeout**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_api_task_timeout" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_task_timeout" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -186,17 +186,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_debug:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_debug:
 
       .. rst-class:: ansible-option-title
 
-      **catc_debug**
+      **catalystcenter_debug**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -228,17 +228,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_host:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_host:
 
       .. rst-class:: ansible-option-title
 
-      **catc_host**
+      **catalystcenter_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -262,17 +262,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_log"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_log:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_log:
 
       .. rst-class:: ansible-option-title
 
-      **catc_log**
+      **catalystcenter_log**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_log" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_log" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -288,15 +288,15 @@ Parameters
 
       Flag to enable/disable playbook execution logging.
 
-      When true and catc\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+      When true and catalystcenter\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
 
-      When true and catc\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
+      When true and catalystcenter\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'catalystcenter.log'.
 
       When false, - Logging is disabled.
 
-      If the log file doesn't exist, - It is created in append or write mode based on the "catc\_log\_append" flag.
+      If the log file doesn't exist, - It is created in append or write mode based on the "catalystcenter\_log\_append" flag.
 
-      If the log file exists, - It is overwritten or appended based on the "catc\_log\_append" flag.
+      If the log file exists, - It is overwritten or appended based on the "catalystcenter\_log\_append" flag.
 
 
       .. rst-class:: ansible-option-line
@@ -314,17 +314,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_log_append"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log_append"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_log_append:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_log_append:
 
       .. rst-class:: ansible-option-title
 
-      **catc_log_append**
+      **catalystcenter_log_append**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_log_append" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_log_append" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -356,17 +356,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_log_file_path"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log_file_path"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_log_file_path:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_log_file_path:
 
       .. rst-class:: ansible-option-title
 
-      **catc_log_file_path**
+      **catalystcenter_log_file_path**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_log_file_path" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_log_file_path" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -380,11 +380,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Governs logging. Logs are recorded if catc\_log is True.
+      Governs logging. Logs are recorded if catalystcenter\_log is True.
 
-      If path is not specified, - When 'catc\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catc\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
+      If path is not specified, - When 'catalystcenter\_log\_append' is True, 'catalystcenter.log' is generated in the current Ansible directory; logs are appended. - When 'catalystcenter\_log\_append' is False, 'catalystcenter.log' is generated; logs are overwritten.
 
-      If path is specified, - When 'catc\_log\_append' is True, the file opens in append mode. - When 'catc\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+      If path is specified, - When 'catalystcenter\_log\_append' is True, the file opens in append mode. - When 'catalystcenter\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
 
 
       .. rst-class:: ansible-option-line
@@ -398,17 +398,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_log_level"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_log_level"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_log_level:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_log_level:
 
       .. rst-class:: ansible-option-title
 
-      **catc_log_level**
+      **catalystcenter_log_level**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_log_level" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_log_level" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -446,17 +446,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_password:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_password:
 
       .. rst-class:: ansible-option-title
 
-      **catc_password**
+      **catalystcenter_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -480,17 +480,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_task_poll_interval"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_task_poll_interval:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
 
       .. rst-class:: ansible-option-title
 
-      **catc_task_poll_interval**
+      **catalystcenter_task_poll_interval**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_task_poll_interval" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_task_poll_interval" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -518,17 +518,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_username:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_username:
 
       .. rst-class:: ansible-option-title
 
-      **catc_username**
+      **catalystcenter_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -556,17 +556,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_verify:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_verify:
 
       .. rst-class:: ansible-option-title
 
-      **catc_verify**
+      **catalystcenter_verify**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -598,17 +598,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catc_version:
+      .. _ansible_collections.cisco.catalystcenter.network_compliance_workflow_manager_module__parameter-catalystcenter_version:
 
       .. rst-class:: ansible-option-title
 
-      **catc_version**
+      **catalystcenter_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1047,58 +1047,58 @@ Examples
     - name: Run Compliance check on device(s) using IP address
         list (run_compliance by default is True)
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
     - name: Run Compliance check on device(s) using IP address
         list
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             run_compliance: true
     - name: Run Compliance check on device(s) using Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance: true
     - name: Run Compliance check on device(s) using both
         IP address list and Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -1106,15 +1106,15 @@ Examples
     - name: Run Compliance check with specific categories
         on device(s) using IP address list
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             run_compliance: true
@@ -1122,15 +1122,15 @@ Examples
     - name: Run Compliance check with specific categories
         on device(s) using Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance: true
@@ -1138,15 +1138,15 @@ Examples
     - name: Run Compliance check with specific categories
         on device(s) using both IP address list and Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -1155,15 +1155,15 @@ Examples
     - name: Sync Device Configuration on device(s) using
         IP address list
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - site_name: "Global"
             sync_device_config: true
@@ -1171,15 +1171,15 @@ Examples
     - name: Sync Device Configuration on device(s) using
         Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             sync_device_config: true
@@ -1187,15 +1187,15 @@ Examples
     - name: Sync Device Configuration on device(s) using
         both IP address list and Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -1204,15 +1204,15 @@ Examples
     - name: Run Compliance and Sync Device Configuration
         using both IP address list and Site
       cisco.catalystcenter.network_compliance_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log_level: "{{log_level}}"
-        catc_log: false
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
