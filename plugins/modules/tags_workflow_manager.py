@@ -36,7 +36,7 @@ extends_documentation_fragment:
 author: Archit Soni (@koderchit) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  catc_version:
+  catalystcenter_version:
     description: The Catalyst Center version required
       for using 'tags_workflow_manager' module.
     type: str
@@ -387,17 +387,17 @@ EXAMPLES = r"""
   tasks:
     - name: Create a tag with description.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -417,17 +417,17 @@ EXAMPLES = r"""
     - name: Create a tag for border devices in the 9300
         series.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -457,17 +457,17 @@ EXAMPLES = r"""
     - name: Create a tag for high-speed server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -502,17 +502,17 @@ EXAMPLES = r"""
     - name: Update scope description for tagged server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -539,17 +539,17 @@ EXAMPLES = r"""
     - name: Update port rule descriptions for server-connected
         interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -577,17 +577,17 @@ EXAMPLES = r"""
   tasks:
     - name: Assign tags to devices or interfaces.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -646,17 +646,17 @@ EXAMPLES = r"""
     - name: Assign tags to devices or interfaces within
         a specific site.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: merged
         config_verify: false
         config:
@@ -685,17 +685,17 @@ EXAMPLES = r"""
   tasks:
     - name: Delete a Tag.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -712,17 +712,17 @@ EXAMPLES = r"""
   tasks:
     - name: Force delete a Tag.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -741,17 +741,17 @@ EXAMPLES = r"""
     - name: Delete rule description of a tag with device
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -774,17 +774,17 @@ EXAMPLES = r"""
     - name: Delete scope members of a tag with port
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -809,17 +809,17 @@ EXAMPLES = r"""
     - name: Delete rule descriptions of a tag with port
         rules
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -847,17 +847,17 @@ EXAMPLES = r"""
   tasks:
     - name: Delete tags from members.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: false
         config:
@@ -907,17 +907,17 @@ EXAMPLES = r"""
     - name: Delete tags from members within a specific
         sites.
       cisco.catalystcenter.tags_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_version: "{{ catc_version }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         state: deleted
         config_verify: true
         config:
@@ -5781,21 +5781,21 @@ def main():
     """
 
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": True},
-        "catc_version": {"type": "str", "default": "2.3.7.9"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.9"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

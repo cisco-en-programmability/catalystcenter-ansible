@@ -8,18 +8,18 @@
   tasks:
     - name: User and Role Workflow Manager
       cisco.catalystcenter.user_role_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           user_details:

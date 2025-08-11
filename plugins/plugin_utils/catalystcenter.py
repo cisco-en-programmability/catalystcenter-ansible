@@ -133,15 +133,15 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        catc_host=dict(type="str", required=True),
-        catc_api_port=dict(type="int", required=False, default=443),
-        catc_username=dict(type="str", default="admin"),
-        catc_password=dict(type="str", no_log=True),
-        catc_verify=dict(type="bool", default=True),
-        catc_version=dict(type="str", default="3.1.3.0"),
-        catc_debug=dict(type="bool", default=False),
-        catc_api_task_timeout=dict(type="int", default=1200),
-        catc_task_poll_interval=dict(type="int", default=2),
+        catalystcenter_host=dict(type="str", required=True),
+        catalystcenter_api_port=dict(type="int", required=False, default=443),
+        catalystcenter_username=dict(type="str", default="admin"),
+        catalystcenter_password=dict(type="str", no_log=True),
+        catalystcenter_verify=dict(type="bool", default=True),
+        catalystcenter_version=dict(type="str", default="3.1.3.0"),
+        catalystcenter_debug=dict(type="bool", default=False),
+        catalystcenter_api_task_timeout=dict(type="int", default=1200),
+        catalystcenter_task_poll_interval=dict(type="int", default=2),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
@@ -153,16 +153,16 @@ class CatalystCenterSDK(object):
         self.validate_response_schema = params.get("validate_response_schema")
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
-                username=params.get("catc_username"),
-                password=params.get("catc_password"),
+                username=params.get("catalystcenter_username"),
+                password=params.get("catalystcenter_password"),
                 base_url="https://{host}:{api_port}".format(
-                    host=params.get("catc_host"), api_port=params.get("catc_api_port")
+                    host=params.get("catalystcenter_host"), api_port=params.get("catalystcenter_api_port")
                 ),
-                version=params.get("catc_version"),
-                verify=params.get("catc_verify"),
-                debug=params.get("catc_debug"),
+                version=params.get("catalystcenter_version"),
+                verify=params.get("catalystcenter_verify"),
+                debug=params.get("catalystcenter_debug"),
             )
-            if params.get("catc_debug") and LOGGING_IN_STANDARD:
+            if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
                 logging.getLogger('catalystcentersdk').addHandler(
                     logging.StreamHandler())
         else:

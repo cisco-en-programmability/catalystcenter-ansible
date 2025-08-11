@@ -213,15 +213,15 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     device names
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -235,15 +235,15 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -257,15 +257,15 @@ EXAMPLES = r"""
 - name: RMA workflow for faulty device replacement using
     serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -279,15 +279,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     device names
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -300,15 +300,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     IP addresses
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -321,15 +321,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     serial numbers
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -342,15 +342,15 @@ EXAMPLES = r"""
 - name: RMA workflow for unmark faulty device using
     all
   cisco.catalystcenter.rma_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     resync_retry_count: 1000
     resync_retry_interval: 30
@@ -1358,7 +1358,7 @@ class DeviceReplacement(CatalystCenterBase):
         # If we've exhausted all retries without a definitive result
         self.status = "failed"
         self.msg = "Device replacement monitoring timed out after {0} attempts".format(
-            self.params.get("catc_api_task_timeout")
+            self.params.get("catalystcenter_api_task_timeout")
         )
         self.log(self.msg, "ERROR")
         return {"status": "failed", "msg": self.msg}
@@ -1615,20 +1615,20 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check and assigning defaults.
     device_replacement_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "config_verify": {"type": "bool", "default": False},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "resync_retry_count": {"type": "int", "default": 1000},
         "resync_retry_interval": {"type": "int", "default": 30},
         "ccc_poll_interval": {"type": "int", "default": 2},

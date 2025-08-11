@@ -9,16 +9,16 @@
   tasks:
     - name: Test project template
       cisco.catalystcenter.template_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        catc_log_append: true
-        catc_log_file_path: "{{ catc_log_file_path }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log_append: true
+        catalystcenter_log_file_path: "{{ catalystcenter_log_file_path }}"
         validate_response_schema: false
         state: "merged"
         config_verify: true

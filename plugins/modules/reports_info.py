@@ -61,26 +61,26 @@ EXAMPLES = r"""
 ---
 - name: Get all Reports
   cisco.catalystcenter.reports_info:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     viewGroupId: string
     viewId: string
   register: result
 - name: Get Reports by id
   cisco.catalystcenter.reports_info:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
     reportId: string
   register: result

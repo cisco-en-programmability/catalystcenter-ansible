@@ -260,14 +260,14 @@ EXAMPLES = r"""
 ---
 - name: Provision a wireless device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: merged
     config:
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -282,14 +282,14 @@ EXAMPLES = r"""
 - name: Provision a wireless device to a site for version
     - 2.3.7.6
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: merged
     config:
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -309,28 +309,28 @@ EXAMPLES = r"""
           ap_reboot_percentage: 5
 - name: Provision a wired device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: merged
     config:
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
         management_ip_address: 204.192.3.40
 - name: Re-Provision a wired device to a site forcefully
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: merged
     config:
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -338,14 +338,14 @@ EXAMPLES = r"""
         force_provisioning: true
 - name: Assign a wired device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: merged
     config:
       - site_name_hierarchy: Global/USA/San Francisco/BGL_18
@@ -353,14 +353,14 @@ EXAMPLES = r"""
         provisioning: false
 - name: Provision a wireless device to a site
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: merged
     config_verify: true
     config:
@@ -370,28 +370,28 @@ EXAMPLES = r"""
           - Global/USA/RTP/BLD11/BLD11_FLOOR1
 - name: Unprovision a device from a site
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: deleted
     config_verify: true
     config:
       - management_ip_address: 204.1.2.2
 - name: Unprovision a device from a site
   cisco.catalystcenter.provision_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     state: deleted
     config_verify: true
     config:
@@ -408,18 +408,18 @@ EXAMPLES = r"""
     - name: Enable application telemetry on specified
         network devices
       cisco.catalystcenter.provision_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: false
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application_telemetry:
@@ -438,18 +438,18 @@ EXAMPLES = r"""
     - name: Disable application telemetry on specified
         network devices
       cisco.catalystcenter.provision_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: false
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application_telemetry:
@@ -3335,20 +3335,20 @@ def main():
     """
 
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "validate_response_schema": {"type": "bool", "default": True},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
