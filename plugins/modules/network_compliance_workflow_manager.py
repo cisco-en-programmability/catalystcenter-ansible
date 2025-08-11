@@ -154,58 +154,58 @@ EXAMPLES = r"""
 - name: Run Compliance check on device(s) using IP address
     list (run_compliance by default is True)
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
 - name: Run Compliance check on device(s) using IP address
     list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
 - name: Run Compliance check on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
 - name: Run Compliance check on device(s) using both
     IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -213,15 +213,15 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         run_compliance: true
@@ -229,15 +229,15 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         run_compliance: true
@@ -245,15 +245,15 @@ EXAMPLES = r"""
 - name: Run Compliance check with specific categories
     on device(s) using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -262,15 +262,15 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     IP address list
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - site_name: "Global"
         sync_device_config: true
@@ -278,15 +278,15 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - site_name: "Global/USA/San Francisco/Building_1/floor_1"
         sync_device_config: true
@@ -294,15 +294,15 @@ EXAMPLES = r"""
 - name: Sync Device Configuration on device(s) using
     both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -311,15 +311,15 @@ EXAMPLES = r"""
 - name: Run Compliance and Sync Device Configuration
     using both IP address list and Site
   cisco.catalystcenter.network_compliance_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     config:
       - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         site_name: "Global/USA/San Francisco/Building_1/floor_1"
@@ -2142,21 +2142,24 @@ def main():
 
     # Define the specification for the module"s arguments
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged"]},
     }

@@ -3096,15 +3096,15 @@ EXAMPLES = r"""
 ---
 - name: Add SSIDs
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - ssids:
@@ -3263,15 +3263,15 @@ EXAMPLES = r"""
                 client_rate_limit: 9000
 - name: Update SSIDs
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - ssids:
@@ -3309,15 +3309,15 @@ EXAMPLES = r"""
                 auth_key_management: ["PSK"]
 - name: Delete SSIDs
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ssids:
@@ -3338,15 +3338,15 @@ EXAMPLES = r"""
                 remove_override_in_hierarchy: true
 - name: Add Interfaces
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - interfaces:
@@ -3364,15 +3364,15 @@ EXAMPLES = r"""
             vlan_id: 6
 - name: Update Interfaces
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - interfaces:
@@ -3386,15 +3386,15 @@ EXAMPLES = r"""
             vlan_id: 10
 - name: Delete Interfaces
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - interfaces:
@@ -3406,15 +3406,15 @@ EXAMPLES = r"""
           - interface_name: "corporate"
 - name: Add Power Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - power_profiles:
@@ -3549,15 +3549,15 @@ EXAMPLES = r"""
                 parameter_value: "DISABLE"
 - name: Update Power Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - power_profiles:
@@ -3647,15 +3647,15 @@ EXAMPLES = r"""
               - interface_type: "USB"
 - name: Delete Power Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - power_profiles:
@@ -3667,15 +3667,15 @@ EXAMPLES = r"""
           - power_profile_name: "UsbState"
 - name: Add Access Point Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - access_point_profiles:
@@ -4119,15 +4119,15 @@ EXAMPLES = r"""
             maximum_client_limit: 900
 - name: Update Access Point Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - access_point_profiles:
@@ -4227,15 +4227,15 @@ EXAMPLES = r"""
         maximum_client_limit: 900
 - name: Delete Access Point Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - access_point_profiles:
@@ -4274,15 +4274,15 @@ EXAMPLES = r"""
           - access_point_profile_name: "Staging-AP"
 - name: Add Radio Frequency Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - radio_frequency_profiles:
@@ -4535,15 +4535,15 @@ EXAMPLES = r"""
                 srg_obss_pd_max_threshold: -62
 - name: Update Radio Frequency Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - radio_frequency_profiles:
@@ -4651,15 +4651,15 @@ EXAMPLES = r"""
               mandatory_data_rates_list: [24]
 - name: Delete Radio Frequency Profiles
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - radio_frequency_profiles:
@@ -4682,15 +4682,15 @@ EXAMPLES = r"""
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
 - name: Add Anchor Groups
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - anchor_groups:
@@ -4750,15 +4750,15 @@ EXAMPLES = r"""
                 managed_device: false
 - name: Update Anchor Groups
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - anchor_groups:
@@ -4814,15 +4814,15 @@ EXAMPLES = r"""
                 managed_device: false
 - name: Delete Anchor Groups
   cisco.catalystcenter.wireless_design_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - anchor_groups:
@@ -16813,21 +16813,24 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

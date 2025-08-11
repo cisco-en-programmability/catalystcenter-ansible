@@ -133,28 +133,46 @@ class Discovery(object):
         new_object_params = {}
         new_object_params["cdpLevel"] = self.new_object.get("cdpLevel")
         new_object_params["discoveryType"] = self.new_object.get("discoveryType")
-        new_object_params["enablePasswordList"] = self.new_object.get("enablePasswordList")
-        new_object_params["globalCredentialIdList"] = self.new_object.get("globalCredentialIdList")
-        new_object_params["httpReadCredential"] = self.new_object.get("httpReadCredential")
-        new_object_params["httpWriteCredential"] = self.new_object.get("httpWriteCredential")
+        new_object_params["enablePasswordList"] = self.new_object.get(
+            "enablePasswordList"
+        )
+        new_object_params["globalCredentialIdList"] = self.new_object.get(
+            "globalCredentialIdList"
+        )
+        new_object_params["httpReadCredential"] = self.new_object.get(
+            "httpReadCredential"
+        )
+        new_object_params["httpWriteCredential"] = self.new_object.get(
+            "httpWriteCredential"
+        )
         new_object_params["ipAddressList"] = self.new_object.get("ipAddressList")
         new_object_params["ipFilterList"] = self.new_object.get("ipFilterList")
         new_object_params["lldpLevel"] = self.new_object.get("lldpLevel")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["netconfPort"] = self.new_object.get("netconfPort")
         new_object_params["passwordList"] = self.new_object.get("passwordList")
-        new_object_params["preferredMgmtIPMethod"] = self.new_object.get("preferredMgmtIPMethod")
+        new_object_params["preferredMgmtIPMethod"] = self.new_object.get(
+            "preferredMgmtIPMethod"
+        )
         new_object_params["protocolOrder"] = self.new_object.get("protocolOrder")
         new_object_params["retry"] = self.new_object.get("retry")
-        new_object_params["snmpAuthPassphrase"] = self.new_object.get("snmpAuthPassphrase")
+        new_object_params["snmpAuthPassphrase"] = self.new_object.get(
+            "snmpAuthPassphrase"
+        )
         new_object_params["snmpAuthProtocol"] = self.new_object.get("snmpAuthProtocol")
         new_object_params["snmpMode"] = self.new_object.get("snmpMode")
-        new_object_params["snmpPrivPassphrase"] = self.new_object.get("snmpPrivPassphrase")
+        new_object_params["snmpPrivPassphrase"] = self.new_object.get(
+            "snmpPrivPassphrase"
+        )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
-        new_object_params["snmpRoCommunityDesc"] = self.new_object.get("snmpRoCommunityDesc")
+        new_object_params["snmpRoCommunityDesc"] = self.new_object.get(
+            "snmpRoCommunityDesc"
+        )
         new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
-        new_object_params["snmpRwCommunityDesc"] = self.new_object.get("snmpRwCommunityDesc")
+        new_object_params["snmpRwCommunityDesc"] = self.new_object.get(
+            "snmpRwCommunityDesc"
+        )
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
         new_object_params["snmpVersion"] = self.new_object.get("snmpVersion")
         new_object_params["timeout"] = self.new_object.get("timeout")
@@ -181,39 +199,67 @@ class Discovery(object):
         new_object_params["attributeInfo"] = self.new_object.get("attributeInfo")
         new_object_params["cdpLevel"] = self.new_object.get("cdpLevel")
         new_object_params["deviceIds"] = self.new_object.get("deviceIds")
-        new_object_params["discoveryCondition"] = self.new_object.get("discoveryCondition")
+        new_object_params["discoveryCondition"] = self.new_object.get(
+            "discoveryCondition"
+        )
         new_object_params["discoveryStatus"] = self.new_object.get("discoveryStatus")
         new_object_params["discoveryType"] = self.new_object.get("discoveryType")
-        new_object_params["enablePasswordList"] = self.convert_list_string(self.new_object.get("enablePasswordList"))
-        new_object_params["globalCredentialIdList"] = self.new_object.get("globalCredentialIdList")
-        new_object_params["httpReadCredential"] = self.new_object.get("httpReadCredential")
-        new_object_params["httpWriteCredential"] = self.new_object.get("httpWriteCredential")
+        new_object_params["enablePasswordList"] = self.convert_list_string(
+            self.new_object.get("enablePasswordList")
+        )
+        new_object_params["globalCredentialIdList"] = self.new_object.get(
+            "globalCredentialIdList"
+        )
+        new_object_params["httpReadCredential"] = self.new_object.get(
+            "httpReadCredential"
+        )
+        new_object_params["httpWriteCredential"] = self.new_object.get(
+            "httpWriteCredential"
+        )
         new_object_params["id"] = self.new_object.get("id")
         new_object_params["ipAddressList"] = self.new_object.get("ipAddressList")
-        new_object_params["ipFilterList"] = self.convert_list_string(self.new_object.get("ipFilterList"))
+        new_object_params["ipFilterList"] = self.convert_list_string(
+            self.new_object.get("ipFilterList")
+        )
         new_object_params["isAutoCdp"] = self.new_object.get("isAutoCdp")
         new_object_params["lldpLevel"] = self.new_object.get("lldpLevel")
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["netconfPort"] = self.new_object.get("netconfPort")
         new_object_params["numDevices"] = self.new_object.get("numDevices")
-        new_object_params["parentDiscoveryId"] = self.new_object.get("parentDiscoveryId")
-        new_object_params["passwordList"] = self.convert_list_string(self.new_object.get("passwordList"))
-        new_object_params["preferredMgmtIPMethod"] = self.new_object.get("preferredMgmtIPMethod")
+        new_object_params["parentDiscoveryId"] = self.new_object.get(
+            "parentDiscoveryId"
+        )
+        new_object_params["passwordList"] = self.convert_list_string(
+            self.new_object.get("passwordList")
+        )
+        new_object_params["preferredMgmtIPMethod"] = self.new_object.get(
+            "preferredMgmtIPMethod"
+        )
         new_object_params["protocolOrder"] = self.new_object.get("protocolOrder")
         new_object_params["retryCount"] = self.new_object.get("retryCount")
-        new_object_params["snmpAuthPassphrase"] = self.new_object.get("snmpAuthPassphrase")
+        new_object_params["snmpAuthPassphrase"] = self.new_object.get(
+            "snmpAuthPassphrase"
+        )
         new_object_params["snmpAuthProtocol"] = self.new_object.get("snmpAuthProtocol")
         new_object_params["snmpMode"] = self.new_object.get("snmpMode")
-        new_object_params["snmpPrivPassphrase"] = self.new_object.get("snmpPrivPassphrase")
+        new_object_params["snmpPrivPassphrase"] = self.new_object.get(
+            "snmpPrivPassphrase"
+        )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpRoCommunity"] = self.new_object.get("snmpRoCommunity")
-        new_object_params["snmpRoCommunityDesc"] = self.new_object.get("snmpRoCommunityDesc")
+        new_object_params["snmpRoCommunityDesc"] = self.new_object.get(
+            "snmpRoCommunityDesc"
+        )
         new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
-        new_object_params["snmpRwCommunityDesc"] = self.new_object.get("snmpRwCommunityDesc")
+        new_object_params["snmpRwCommunityDesc"] = self.new_object.get(
+            "snmpRwCommunityDesc"
+        )
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
         new_object_params["timeout"] = self.new_object.get("timeout")
         new_object_params["updateMgmtIp"] = self.new_object.get("updateMgmtIp")
-        new_object_params["userNameList"] = self.convert_list_string(self.new_object.get("userNameList"))
+        new_object_params["userNameList"] = self.convert_list_string(
+            self.new_object.get("userNameList")
+        )
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -225,7 +271,9 @@ class Discovery(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="discovery", function="get_discovery_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="discovery", function="get_discovery_by_id", params={"id": id}
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -249,7 +297,9 @@ class Discovery(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -305,7 +355,9 @@ class Discovery(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -359,7 +411,9 @@ class Discovery(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

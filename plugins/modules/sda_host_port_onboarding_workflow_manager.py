@@ -441,15 +441,15 @@ EXAMPLES = r"""
 - name: Add port assignments, port channels and wireless
     ssids for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - ip_address: "204.1.2.2"
@@ -518,15 +518,15 @@ EXAMPLES = r"""
 - name: Update port assignments, port channels and wireless
     ssids for a specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - hostname: "DC-T-9300.cisco.local"
@@ -593,15 +593,15 @@ EXAMPLES = r"""
 - name: Add or Update just wireless ssid mappings for
     a specific fabric site (IP/Hostname not required)
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - fabric_site_name_hierarchy: "Global/USA/San
@@ -618,15 +618,15 @@ EXAMPLES = r"""
 - name: Delete ALL port assignments, port channels and
     wireless SSID mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - hostname: "DC-T-9300.cisco.local"
@@ -635,15 +635,15 @@ EXAMPLES = r"""
 - name: Delete ALL port assignments, port channels and
     wireless SSID mappings from a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -652,15 +652,15 @@ EXAMPLES = r"""
 - name: Delete just ALL wireless SSIDs mappings from
     a fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - fabric_site_name_hierarchy: "Global/USA/San
@@ -668,15 +668,15 @@ EXAMPLES = r"""
 - name: Delete specific port assignments, port channels
     and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -703,15 +703,15 @@ EXAMPLES = r"""
 - name: Delete specific port assignments, port channels
     and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -737,15 +737,15 @@ EXAMPLES = r"""
 - name: Delete all wireless SSIDs mapped to specific
     VLANs
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -756,15 +756,15 @@ EXAMPLES = r"""
           - vlan_name: "IAC-VLAN-3"
 - name: Delete specific wireless SSIDs mapped to a VLAN
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -781,15 +781,15 @@ EXAMPLES = r"""
 - name: Skip collection status check when add/update port assignments, port channels and wireless ssids for a
     specific fabric site
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: merged
     config:
       - ip_address: "204.1.2.2"
@@ -813,15 +813,15 @@ EXAMPLES = r"""
 - name: Skip device collection stat when Deleting specific port assignments, port channels
     and wireless SSID mappings
   cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address: "204.1.2.2"
@@ -955,16 +955,16 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         "required": False,
                         "options": {
                             "ssid_name": {"type": "str"},
-                            "security_group_name": {"type": "str"}
-                        }
-                    }
-                }
+                            "security_group_name": {"type": "str"},
+                        },
+                    },
+                },
             },
             "device_collection_status_check": {
                 "type": "bool",
                 "required": False,
-                "default": True
-            }
+                "default": True,
+            },
         }
 
         # Validate params
@@ -983,7 +983,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname, device_collection_status_check):
+    def validate_device_exists_and_reachable(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates whether a device is present in the Catalyst Center, is reachable, and has an acceptable collection status.
         Args:
@@ -1050,26 +1052,32 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "Skipping collection status check for device '{0}' as 'device_collection_status_check' is set to False.".format(
                     device_identifier
                 ),
-                "INFO"
+                "INFO",
             )
             return True
 
         # Check collection status
         if collection_status in ["In Progress", "Managed"]:
             self.log(
-                "Device '{0}' has an acceptable collection status: '{1}'.".format(device_identifier, collection_status),
-                "INFO"
+                "Device '{0}' has an acceptable collection status: '{1}'.".format(
+                    device_identifier, collection_status
+                ),
+                "INFO",
             )
             return True
 
         # Unacceptable collection status
         self.msg = (
             "Device '{0}' does not have an acceptable collection status. "
-            "Current collection status: '{1}'.".format(device_identifier, collection_status)
+            "Current collection status: '{1}'.".format(
+                device_identifier, collection_status
+            )
         )
         return False
 
-    def validate_ip_and_hostname(self, ip_address, hostname, device_collection_status_check):
+    def validate_ip_and_hostname(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -1105,7 +1113,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             self.fail_and_exit(self.msg)
 
         # Check if device exists and is reachable in Catalyst Center
-        if not self.validate_device_exists_and_reachable(ip_address, hostname, device_collection_status_check):
+        if not self.validate_device_exists_and_reachable(
+            ip_address, hostname, device_collection_status_check
+        ):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1861,16 +1871,20 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             )
             self.fail_and_exit(self.msg)
 
-        is_port_operation_requested = bool(port_assignment_details or port_channel_details)
+        is_port_operation_requested = bool(
+            port_assignment_details or port_channel_details
+        )
         is_delete_all_operation = state == "deleted" and (ip_address or hostname)
 
         if is_port_operation_requested or is_delete_all_operation:
             self.log(
                 "Validation triggered: Port assignment/Port Channel operation requested "
                 "or 'delete all' operation detected. Validating IP and Hostname.",
-                "DEBUG"
+                "DEBUG",
             )
-            self.validate_ip_and_hostname(ip_address, hostname, device_collection_status_check)
+            self.validate_ip_and_hostname(
+                ip_address, hostname, device_collection_status_check
+            )
 
         if state == "merged":
             # Validate parameters for add/update in port assignments
@@ -5863,21 +5877,24 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

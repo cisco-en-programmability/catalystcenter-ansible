@@ -418,15 +418,15 @@ notes:
 EXAMPLES = r"""
 - name: Add new device in Inventory with full credentials
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - cli_transport: ssh
@@ -454,15 +454,15 @@ EXAMPLES = r"""
 - name: Add new Compute device in Inventory with full credentials.Inputs needed
     for Compute Device
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -483,15 +483,15 @@ EXAMPLES = r"""
 - name: Add new Meraki device in Inventory with full credentials.Inputs needed for
     Meraki Device.
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - httppassword: "test"
@@ -499,15 +499,15 @@ EXAMPLES = r"""
 - name: Add new Firepower Management device in Inventory with full credentials.Input
     needed to add Device.
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -518,15 +518,15 @@ EXAMPLES = r"""
 - name: Add new Third Party device in Inventory with full credentials.Input needed
     to add Device.
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -541,15 +541,15 @@ EXAMPLES = r"""
         type: "THIRD_PARTY_DEVICE"
 - name: Update device details or credentails in Inventory
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - cli_transport: telnet
@@ -561,15 +561,15 @@ EXAMPLES = r"""
         credential_update: true
 - name: Update new management IP address of device in inventory
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1"]
@@ -579,15 +579,15 @@ EXAMPLES = r"""
             new_mgmt_ipaddress: "12.12.12.12"
 - name: Associate Wired Devices to site and Provisioned it in Inventory
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - provision_wired_device:
@@ -601,30 +601,30 @@ EXAMPLES = r"""
             resync_retry_interval: 2
 - name: Update Device Role with IP Address
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         role: ACCESS
 - name: Update Interface details with IP Address
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -638,15 +638,15 @@ EXAMPLES = r"""
           clear_mac_address_table: true
 - name: Export Device Details in a CSV file Interface details with IP Address
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -656,15 +656,15 @@ EXAMPLES = r"""
           parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 - name: Create Global User Defined with IP Address
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -677,15 +677,15 @@ EXAMPLES = r"""
             value: "value321"
 - name: Resync Device with IP Addresses
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -693,45 +693,45 @@ EXAMPLES = r"""
         force_sync: false
 - name: Reboot AP Devices with IP Addresses
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         reboot_device: true
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: false
-    catc_log_level: "{{log_level}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: false
+    catalystcenter_log_level: "{{log_level}}"
     state: deleted
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         clean_config: false
 - name: Delete Global User Defined Field with name
   cisco.catalystcenter.inventory_intent:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: false
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: false
     state: deleted
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -873,12 +873,10 @@ class DnacDevice(CatalystCenterBase):
         }
 
         # Validate device params
-        valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(
-                invalid_params)
+            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.log(self.msg, "ERROR")
             self.status = "failed"
             self.result["response"] = self.msg
@@ -915,8 +913,7 @@ class DnacDevice(CatalystCenterBase):
         # If device IPs are not available, check hostnames
         device_hostnames = self.config[0].get("hostnames")
         if device_hostnames:
-            device_ip_dict = self.get_device_ips_from_hostnames(
-                device_hostnames)
+            device_ip_dict = self.get_device_ips_from_hostnames(device_hostnames)
             return self.get_list_from_dict_values(device_ip_dict)
 
         # If hostnames are not available, check serial numbers
@@ -1172,8 +1169,7 @@ class DnacDevice(CatalystCenterBase):
             execution_details = self.get_task_details(task_id)
 
             if execution_details.get("additionalStatusURL"):
-                file_id = execution_details.get(
-                    "additionalStatusURL").split("/")[-1]
+                file_id = execution_details.get("additionalStatusURL").split("/")[-1]
                 break
             elif execution_details.get("isError"):
                 self.status = "failed"
@@ -1239,8 +1235,7 @@ class DnacDevice(CatalystCenterBase):
             encryption_method = encryption_dict.get(snmp_protocol)
         except Exception as e:
             self.log(
-                "Given SNMP protcol '{0}' not present".format(
-                    snmp_protocol), "WARNING"
+                "Given SNMP protcol '{0}' not present".format(snmp_protocol), "WARNING"
             )
 
         if not encryption_method:
@@ -1260,8 +1255,7 @@ class DnacDevice(CatalystCenterBase):
             file_name = zip_ref.namelist()[0]
 
             # Extract the content of the file with the provided password
-            file_content_binary = zip_ref.read(
-                file_name, pwd=password.encode("utf-8"))
+            file_content_binary = zip_ref.read(file_name, pwd=password.encode("utf-8"))
 
         # Now 'file_content_binary' contains the binary content of the decrypted file
         # Since the content is text, so we can decode it
@@ -1269,8 +1263,7 @@ class DnacDevice(CatalystCenterBase):
 
         # Now 'file_content_text' contains the text content of the decrypted file
         self.log(
-            "Text content of decrypted file: {0}".format(
-                file_content_text), "DEBUG"
+            "Text content of decrypted file: {0}".format(file_content_text), "DEBUG"
         )
 
         # Parse the CSV-like string into a list of dictionaries
@@ -1331,14 +1324,12 @@ class DnacDevice(CatalystCenterBase):
 
             # Export the device data in a batch of 500 devices at a time
             start = 0
-            device_batch_size = self.config[0].get(
-                "export_device_details_limit", 500)
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
             device_data = []
             first_run = True
 
             while start < len(device_uuids):
-                device_ids_list = device_uuids[start: start +
-                                               device_batch_size]
+                device_ids_list = device_uuids[start : start + device_batch_size]
                 payload_params = {
                     "deviceUuids": device_ids_list,
                     "password": password,
@@ -1352,8 +1343,7 @@ class DnacDevice(CatalystCenterBase):
                 if payload_params["operationEnum"] == "0":
                     temp_file_name = response.filename
                     if first_run:
-                        output_file_name = temp_file_name.split(".")[
-                            0] + ".csv"
+                        output_file_name = temp_file_name.split(".")[0] + ".csv"
                     csv_reader = self.decrypt_and_read_csv(response, password)
                     self.check_return_status()
                 else:
@@ -1369,8 +1359,7 @@ class DnacDevice(CatalystCenterBase):
                     current_date = datetime.now()
                     formatted_date = current_date.strftime("%m-%d-%Y")
                     if first_run:
-                        output_file_name = "devices-" + \
-                            str(formatted_date) + ".csv"
+                        output_file_name = "devices-" + str(formatted_date) + ".csv"
 
                 for row in csv_reader:
                     device_data.append(row)
@@ -1462,8 +1451,7 @@ class DnacDevice(CatalystCenterBase):
 
         ap_devices = self.get_ap_devices(input_device_ips)
         self.log(
-            "AP Devices from the playbook input are: {0}".format(
-                str(ap_devices)),
+            "AP Devices from the playbook input are: {0}".format(str(ap_devices)),
             "INFO",
         )
 
@@ -1492,17 +1480,14 @@ class DnacDevice(CatalystCenterBase):
             # Resync the device in a batch of 200 devices at a time in inventory by default
             start = 0
             resync_failed_for_all_device = False
-            resync_device_count = self.config[0].get(
-                "resync_device_count", 200)
+            resync_device_count = self.config[0].get("resync_device_count", 200)
             resync_successful_devices, resync_failed_devices = [], []
             force_sync = self.config[0].get("force_sync", False)
             resync_task_dict = {}
 
             while start < len(device_ids):
-                device_ids_list = device_ids[start: start +
-                                             resync_device_count]
-                device_ips_list = input_device_ips[start: start +
-                                                   resync_device_count]
+                device_ids_list = device_ids[start : start + resync_device_count]
+                device_ips_list = input_device_ips[start : start + resync_device_count]
                 resync_param_dict = {
                     "payload": device_ids_list,
                     "force_sync": force_sync,
@@ -1564,7 +1549,7 @@ class DnacDevice(CatalystCenterBase):
                     elif execution_details.get("isError"):
                         resync_failed_devices.extend(device_list)
                         break
-                    time.sleep(self.params.get("catc_task_poll_interval"))
+                    time.sleep(self.params.get("catalystcenter_task_poll_interval"))
 
             if resync_failed_devices and resync_successful_devices:
                 self.msg = (
@@ -1621,8 +1606,7 @@ class DnacDevice(CatalystCenterBase):
         if input_device_ips:
             ap_devices = self.get_ap_devices(input_device_ips)
             self.log(
-                "AP Devices from the playbook input are: {0}".format(
-                    str(ap_devices)),
+                "AP Devices from the playbook input are: {0}".format(str(ap_devices)),
                 "INFO",
             )
             for device_ip in input_device_ips:
@@ -1724,8 +1708,7 @@ class DnacDevice(CatalystCenterBase):
         self.result["changed"] = True
         self.result["response"] = execution_details
         self.log(
-            "{0} Device {1} provisioned successfully!!".format(
-                device_type, device_ip),
+            "{0} Device {1} provisioned successfully!!".format(device_type, device_ip),
             "INFO",
         )
 
@@ -1807,8 +1790,7 @@ class DnacDevice(CatalystCenterBase):
         self.status = "success"
         self.result["changed"] = True
         self.log(
-            "All {0} Devices provisioned successfully!!".format(
-                device_type), "INFO"
+            "All {0} Devices provisioned successfully!!".format(device_type), "INFO"
         )
 
     def handle_all_failed_provision(self, device_type):
@@ -1825,8 +1807,7 @@ class DnacDevice(CatalystCenterBase):
         """
 
         self.status = "failed"
-        self.msg = "{0} Device Provisioning failed for all devices".format(
-            device_type)
+        self.msg = "{0} Device Provisioning failed for all devices".format(device_type)
         self.log(self.msg, "INFO")
         self.result["response"] = self.msg
 
@@ -1908,8 +1889,7 @@ class DnacDevice(CatalystCenterBase):
                 continue
             if device_prov_status == 3:
                 self.status = "failed"
-                error_msg = "Cannot do Provisioning for device {0}.".format(
-                    device_ip)
+                error_msg = "Cannot do Provisioning for device {0}.".format(device_ip)
                 self.log(error_msg, "ERROR")
                 continue
 
@@ -1937,8 +1917,7 @@ class DnacDevice(CatalystCenterBase):
                     break
 
                 if (
-                    response.get(
-                        "collectionStatus") == "Partial Collection Failure"
+                    response.get("collectionStatus") == "Partial Collection Failure"
                     or response.get("collectionStatus") == "Could Not Synchronize"
                 ):
                     device_status = response.get("collectionStatus")
@@ -2131,8 +2110,7 @@ class DnacDevice(CatalystCenterBase):
                 return site_type
 
             self.log(
-                "Received API response from 'get_site': {0}".format(
-                    str(response)),
+                "Received API response from 'get_site': {0}".format(str(response)),
                 "DEBUG",
             )
             site = response.get("response")
@@ -2178,8 +2156,7 @@ class DnacDevice(CatalystCenterBase):
                 provisioning_params = self.wireless_param
                 resync_retry_count = prov_dict.get("resync_retry_count", 200)
                 # This resync retry interval will be in seconds which will check device status at given interval
-                resync_retry_interval = prov_dict.get(
-                    "resync_retry_interval", 2)
+                resync_retry_interval = prov_dict.get("resync_retry_interval", 2)
                 managed_flag = True
 
                 # Check till device comes into managed state
@@ -2206,8 +2183,7 @@ class DnacDevice(CatalystCenterBase):
                         break
 
                     if (
-                        response.get(
-                            "collectionStatus") == "Partial Collection Failure"
+                        response.get("collectionStatus") == "Partial Collection Failure"
                         or response.get("collectionStatus") == "Could Not Synchronize"
                     ):
                         device_status = response.get("collectionStatus")
@@ -2273,8 +2249,7 @@ class DnacDevice(CatalystCenterBase):
                 # but for others it gets provision successfully or If some devices are already provsioned
                 self.handle_provisioning_exception(device_ip, e, device_type)
                 if "already provisioned" in str(e):
-                    self.msg = "Device '{0}' already provisioned".format(
-                        device_ip)
+                    self.msg = "Device '{0}' already provisioned".format(device_ip)
                     self.log(self.msg, "INFO")
                     already_provision_count += 1
 
@@ -2441,8 +2416,7 @@ class DnacDevice(CatalystCenterBase):
                         device_not_in_dnac.append(device_ip_address)
 
         self.log(
-            "Device(s) {0} exists in Cisco Catalyst Center".format(
-                str(device_in_dnac)),
+            "Device(s) {0} exists in Cisco Catalyst Center".format(str(device_in_dnac)),
             "INFO",
         )
         have["want_device"] = want_device
@@ -2697,8 +2671,7 @@ class DnacDevice(CatalystCenterBase):
         """
 
         try:
-            interface_detail_params = {
-                "device_id": device_id, "name": interface_name}
+            interface_detail_params = {"device_id": device_id, "name": interface_name}
             response = self.catalystcenter._exec(
                 family="devices",
                 function="get_interface_details",
@@ -2853,8 +2826,7 @@ class DnacDevice(CatalystCenterBase):
             )
             return False
 
-        interface_detail_params = {
-            "device_id": device_id[0], "name": interface_name}
+        interface_detail_params = {"device_id": device_id[0], "name": interface_name}
         response = self.catalystcenter._exec(
             family="devices",
             function="get_interface_details",
@@ -2882,8 +2854,7 @@ class DnacDevice(CatalystCenterBase):
             "vlanId": int(response.get("vlanId")),
         }
 
-        interface_playbook_params = self.config[0].get(
-            "update_interface_details")
+        interface_playbook_params = self.config[0].get("update_interface_details")
         playbook_params = {
             "description": interface_playbook_params.get("description", ""),
             "adminStatus": interface_playbook_params.get("admin_status"),
@@ -2916,8 +2887,7 @@ class DnacDevice(CatalystCenterBase):
         device_uuids = self.get_device_ids(device_ips)
         password = "Testing@123"
         # Split the payload into 500 devices(by default) only to match the device credentials
-        device_batch_size = self.config[0].get(
-            "export_device_details_limit", 500)
+        device_batch_size = self.config[0].get("export_device_details_limit", 500)
         device_ids_list = device_uuids[0:device_batch_size]
         payload_params = {
             "deviceUuids": device_ids_list,
@@ -3123,8 +3093,7 @@ class DnacDevice(CatalystCenterBase):
 
                 # Now we call update interface details api with required parameter
                 try:
-                    interface_params = self.config[0].get(
-                        "update_interface_details")
+                    interface_params = self.config[0].get("update_interface_details")
                     clear_mac_address_table = interface_params.get(
                         "clear_mac_address_table", False
                     )
@@ -3222,8 +3191,7 @@ class DnacDevice(CatalystCenterBase):
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
-                                failure_reason = execution_details.get(
-                                    "failureReason")
+                                failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
                                     self.msg = "Interface Updation get failed because of {0}".format(
                                         failure_reason
@@ -3518,8 +3486,7 @@ class DnacDevice(CatalystCenterBase):
 
         if self.config[0].get("role"):
             devices_to_update_role = self.get_device_ips_from_config_priority()
-            device_exist = self.is_device_exist_for_update(
-                devices_to_update_role)
+            device_exist = self.is_device_exist_for_update(devices_to_update_role)
 
             if not device_exist:
                 self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
@@ -3605,8 +3572,7 @@ class DnacDevice(CatalystCenterBase):
                     device_params.pop("snmpPrivProtocol", None)
 
             device_to_add_in_ccc = device_params["ipAddress"]
-            self.mandatory_parameter(
-                device_to_add_in_ccc).check_return_status()
+            self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
@@ -3647,8 +3613,7 @@ class DnacDevice(CatalystCenterBase):
                             break
                         elif execution_details.get("isError"):
                             self.status = "failed"
-                            failure_reason = execution_details.get(
-                                "failureReason")
+                            failure_reason = execution_details.get("failureReason")
                             if failure_reason:
                                 self.msg = (
                                     "Device addition get failed because of {0}".format(
@@ -3737,8 +3702,7 @@ class DnacDevice(CatalystCenterBase):
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
-                                failure_reason = execution_details.get(
-                                    "failureReason")
+                                failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
                                     self.msg = "Device role updation get failed because of {0}".format(
                                         failure_reason
@@ -3790,12 +3754,10 @@ class DnacDevice(CatalystCenterBase):
             self.check_return_status()
             device_details = {}
             start = 0
-            device_batch_size = self.config[0].get(
-                "export_device_details_limit", 500)
+            device_batch_size = self.config[0].get("export_device_details_limit", 500)
 
             while start < len(device_uuids):
-                device_ids_list = device_uuids[start: start +
-                                               device_batch_size]
+                device_ids_list = device_uuids[start : start + device_batch_size]
                 export_payload = {
                     "deviceUuids": device_ids_list,
                     "password": password,
@@ -3803,8 +3765,7 @@ class DnacDevice(CatalystCenterBase):
                 }
                 export_response = self.trigger_export_api(export_payload)
                 self.check_return_status()
-                csv_reader = self.decrypt_and_read_csv(
-                    export_response, password)
+                csv_reader = self.decrypt_and_read_csv(export_response, password)
                 self.check_return_status()
 
                 for row in csv_reader:
@@ -3958,8 +3919,7 @@ class DnacDevice(CatalystCenterBase):
                         "http_config_password", None
                     )
                 if not playbook_params["httpPort"]:
-                    playbook_params["httpPort"] = device_data.get(
-                        "http_port", None)
+                    playbook_params["httpPort"] = device_data.get("http_port", None)
 
                 for key, value in playbook_params.items():
                     if value == " ":
@@ -4093,8 +4053,7 @@ class DnacDevice(CatalystCenterBase):
                     return self
 
                 # Now add code for adding Global UDF to device with Id
-                self.add_field_to_devices(
-                    device_ids, udf).check_return_status()
+                self.add_field_to_devices(device_ids, udf).check_return_status()
 
                 self.result["changed"] = True
                 self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
@@ -4187,8 +4146,7 @@ class DnacDevice(CatalystCenterBase):
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
-                                failure_reason = execution_details.get(
-                                    "failureReason")
+                                failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
                                     self.msg = "Failed to delete Global User Defined Field(UDF) due to: {0}".format(
                                         failure_reason
@@ -4239,8 +4197,7 @@ class DnacDevice(CatalystCenterBase):
                     executionid = response.get("executionId")
 
                     while True:
-                        execution_details = self.get_execution_details(
-                            executionid)
+                        execution_details = self.get_execution_details(executionid)
                         if execution_details.get("status") == "SUCCESS":
                             self.result["changed"] = True
                             self.msg = execution_details.get("bapiName")
@@ -4282,8 +4239,7 @@ class DnacDevice(CatalystCenterBase):
                             break
                         elif execution_details.get("isError"):
                             self.status = "failed"
-                            failure_reason = execution_details.get(
-                                "failureReason")
+                            failure_reason = execution_details.get("failureReason")
                             if failure_reason:
                                 self.msg = "Device '{0}' deletion get failed due to: {1}".format(
                                     device_ip, failure_reason
@@ -4347,8 +4303,7 @@ class DnacDevice(CatalystCenterBase):
         if self.config[0].get("update_interface_details"):
             interface_update_flag = True
             interface_names_list = (
-                self.config[0].get("update_interface_details").get(
-                    "interface_name")
+                self.config[0].get("update_interface_details").get("interface_name")
             )
 
             for device_ip in device_ips:
@@ -4519,30 +4474,32 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catc_host": {
+        "catalystcenter_host": {
             "type": "str",
             "required": True,
         },
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": True},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
 
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     dnac_device = DnacDevice(module)
     state = dnac_device.params.get("state")
@@ -4561,8 +4518,7 @@ def main():
         dnac_device.get_have(config).check_return_status()
         dnac_device.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_device.verify_diff_state_apply[state](
-                config).check_return_status()
+            dnac_device.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_device.result)
 

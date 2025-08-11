@@ -58,7 +58,9 @@ class NetworkV2(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["site_id"] = self.new_object.get("siteId") or self.new_object.get("site_id")
+        new_object_params["site_id"] = self.new_object.get(
+            "siteId"
+        ) or self.new_object.get("site_id")
         return new_object_params
 
     def create_params(self):
@@ -112,7 +114,9 @@ class NetworkV2(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("siteId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(site_id=_id))
@@ -129,7 +133,9 @@ class NetworkV2(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -167,7 +173,9 @@ class NetworkV2(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

@@ -59,24 +59,36 @@ class BusinessSdaHostonboardingSsidIppool(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["vlan_name"] = self.new_object.get("vlanName") or self.new_object.get("vlan_name")
-        new_object_params["site_name_hierarchy"] = self.new_object.get("siteNameHierarchy") or self.new_object.get("site_name_hierarchy")
+        new_object_params["vlan_name"] = self.new_object.get(
+            "vlanName"
+        ) or self.new_object.get("vlan_name")
+        new_object_params["site_name_hierarchy"] = self.new_object.get(
+            "siteNameHierarchy"
+        ) or self.new_object.get("site_name_hierarchy")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
         new_object_params["vlanName"] = self.new_object.get("vlanName")
-        new_object_params["scalableGroupName"] = self.new_object.get("scalableGroupName")
+        new_object_params["scalableGroupName"] = self.new_object.get(
+            "scalableGroupName"
+        )
         new_object_params["ssidNames"] = self.new_object.get("ssidNames")
-        new_object_params["siteNameHierarchy"] = self.new_object.get("siteNameHierarchy")
+        new_object_params["siteNameHierarchy"] = self.new_object.get(
+            "siteNameHierarchy"
+        )
         return new_object_params
 
     def update_all_params(self):
         new_object_params = {}
         new_object_params["vlanName"] = self.new_object.get("vlanName")
-        new_object_params["scalableGroupName"] = self.new_object.get("scalableGroupName")
+        new_object_params["scalableGroupName"] = self.new_object.get(
+            "scalableGroupName"
+        )
         new_object_params["ssidNames"] = self.new_object.get("ssidNames")
-        new_object_params["siteNameHierarchy"] = self.new_object.get("siteNameHierarchy")
+        new_object_params["siteNameHierarchy"] = self.new_object.get(
+            "siteNameHierarchy"
+        )
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -104,7 +116,11 @@ class BusinessSdaHostonboardingSsidIppool(object):
     def exists(self):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and "vlanName" in prev_obj
+        it_exists = (
+            prev_obj is not None
+            and isinstance(prev_obj, dict)
+            and "vlanName" in prev_obj
+        )
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -119,7 +135,9 @@ class BusinessSdaHostonboardingSsidIppool(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -148,7 +166,9 @@ class BusinessSdaHostonboardingSsidIppool(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

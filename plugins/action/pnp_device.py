@@ -62,21 +62,43 @@ class PnpDevice(object):
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["sort"] = self.new_object.get("sort")
-        new_object_params["sort_order"] = self.new_object.get("sortOrder") or self.new_object.get("sort_order")
-        new_object_params["serial_number"] = self.new_object.get("serialNumber") or self.new_object.get("serial_number")
-        new_object_params["state"] = self.new_object.get("state_") or self.new_object.get("state")
-        new_object_params["onb_state"] = self.new_object.get("onbState") or self.new_object.get("onb_state")
+        new_object_params["sort_order"] = self.new_object.get(
+            "sortOrder"
+        ) or self.new_object.get("sort_order")
+        new_object_params["serial_number"] = self.new_object.get(
+            "serialNumber"
+        ) or self.new_object.get("serial_number")
+        new_object_params["state"] = self.new_object.get(
+            "state_"
+        ) or self.new_object.get("state")
+        new_object_params["onb_state"] = self.new_object.get(
+            "onbState"
+        ) or self.new_object.get("onb_state")
         new_object_params["name"] = name or self.new_object.get("name")
         new_object_params["pid"] = self.new_object.get("pid")
         new_object_params["source"] = self.new_object.get("source")
-        new_object_params["workflow_id"] = self.new_object.get("workflowId") or self.new_object.get("workflow_id")
-        new_object_params["workflow_name"] = self.new_object.get("workflowName") or self.new_object.get("workflow_name")
-        new_object_params["smart_account_id"] = self.new_object.get("smartAccountId") or self.new_object.get("smart_account_id")
-        new_object_params["virtual_account_id"] = self.new_object.get("virtualAccountId") or self.new_object.get("virtual_account_id")
-        new_object_params["last_contact"] = self.new_object.get("lastContact") or self.new_object.get("last_contact")
-        new_object_params["mac_address"] = self.new_object.get("macAddress") or self.new_object.get("mac_address")
+        new_object_params["workflow_id"] = self.new_object.get(
+            "workflowId"
+        ) or self.new_object.get("workflow_id")
+        new_object_params["workflow_name"] = self.new_object.get(
+            "workflowName"
+        ) or self.new_object.get("workflow_name")
+        new_object_params["smart_account_id"] = self.new_object.get(
+            "smartAccountId"
+        ) or self.new_object.get("smart_account_id")
+        new_object_params["virtual_account_id"] = self.new_object.get(
+            "virtualAccountId"
+        ) or self.new_object.get("virtual_account_id")
+        new_object_params["last_contact"] = self.new_object.get(
+            "lastContact"
+        ) or self.new_object.get("last_contact")
+        new_object_params["mac_address"] = self.new_object.get(
+            "macAddress"
+        ) or self.new_object.get("mac_address")
         new_object_params["hostname"] = self.new_object.get("hostname")
-        new_object_params["site_name"] = self.new_object.get("siteName") or self.new_object.get("site_name")
+        new_object_params["site_name"] = self.new_object.get(
+            "siteName"
+        ) or self.new_object.get("site_name")
         return new_object_params
 
     def create_params(self):
@@ -119,7 +141,11 @@ class PnpDevice(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="device_onboarding_pnp", function="get_device_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="device_onboarding_pnp",
+                function="get_device_by_id",
+                params={"id": id},
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -147,7 +173,9 @@ class PnpDevice(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -165,7 +193,9 @@ class PnpDevice(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -227,7 +257,9 @@ class PnpDevice(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

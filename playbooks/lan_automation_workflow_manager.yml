@@ -8,16 +8,16 @@
   tasks:
     - name: Start a LAN Automation session and update LAN Automated devices
       cisco.catalystcenter.lan_automation_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log_level: "{{ catc_log_level }}"
-        catc_log: true
-        catc_log_append: false
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        catalystcenter_log: true
+        catalystcenter_log_append: false
         config_verify: false
         state: deleted
         config:

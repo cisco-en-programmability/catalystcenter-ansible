@@ -7,23 +7,23 @@
   tasks:
     - name: Update Network Device Role
       cisco.catalystcenter.network_device_update_role:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
         id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
         role: UNKNOWN
         roleSource: AUTO
       register: network_device_update_role_result
     - name: Get task info
       cisco.catalystcenter.task_info:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
         taskId: "{{ network_device_update_role_result.catalystcenter_response.response.taskId }}"
       when:
         - network_device_update_role_result.catalystcenter_response is defined

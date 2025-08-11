@@ -7,26 +7,26 @@
   tasks:
     - name: Get Network Devices
       cisco.catalystcenter.network_device_info:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
       register: network_devices_result
     - name: Show all network_devices
       ansible.builtin.debug:
         msg: "{{ network_devices_result }}"
     - name: Get Network Device by id
       cisco.catalystcenter.network_device_info:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
         id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
       register: network_device_result
     - name: Show network_device

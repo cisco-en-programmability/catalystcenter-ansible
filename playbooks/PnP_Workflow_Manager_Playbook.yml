@@ -7,19 +7,19 @@
     - "{{ CLUSTERFILE }}"
   vars:
     catalystcenter_login: &catalystcenter_login
-      catc_host: "{{ catc_host }}"
-      catc_username: "{{ catc_username }}"
-      catc_password: "{{ catc_password }}"
-      catc_verify: "{{ catc_verify }}"
-      catc_api_port: "{{ catc_api_port }}"
-      catc_version: "{{ catc_version }}"
-      catc_debug: "{{ catc_debug }}"
-      catc_log_level: DEBUG
+      catalystcenter_host: "{{ catalystcenter_host }}"
+      catalystcenter_username: "{{ catalystcenter_username }}"
+      catalystcenter_password: "{{ catalystcenter_password }}"
+      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+      catalystcenter_version: "{{ catalystcenter_version }}"
+      catalystcenter_debug: "{{ catalystcenter_debug }}"
+      catalystcenter_log_level: DEBUG
   tasks:
     - name: Import devices in bulk
       cisco.catalystcenter.pnp_workflow_manager:
         !!merge <<: *catalystcenter_login
-        catc_log: true
+        catalystcenter_log: true
         state: merged
         config_verify: true
         config:
@@ -38,7 +38,7 @@
     - name: Add a new device and claim it
       cisco.catalystcenter.pnp_workflow_manager:
         !!merge <<: *catalystcenter_login
-        catc_log: true
+        catalystcenter_log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -51,7 +51,7 @@
     - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
       cisco.catalystcenter.pnp_workflow_manager:
         !!merge <<: *catalystcenter_login
-        catc_log: true
+        catalystcenter_log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -69,7 +69,7 @@
     - name: Claim an existing Wireless Controller, apply a template, and upgrade its image for a specified site
       cisco.catalystcenter.pnp_workflow_manager:
         !!merge <<: *catalystcenter_login
-        catc_log: true
+        catalystcenter_log: true
         state: merged
         config:
           - site_name: Global/USA/San Francisco/BGL_18
@@ -91,7 +91,7 @@
     - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
       cisco.catalystcenter.pnp_workflow_manager:
         !!merge <<: *catalystcenter_login
-        catc_log: true
+        catalystcenter_log: true
         state: deleted
         config_verify: true
         config:

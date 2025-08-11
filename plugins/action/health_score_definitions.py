@@ -62,11 +62,13 @@ class HealthScoreDefinitions(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["device_type"] = self.new_object.get("deviceType") or self.new_object.get("device_type")
+        new_object_params["device_type"] = self.new_object.get(
+            "deviceType"
+        ) or self.new_object.get("device_type")
         new_object_params["id"] = id or self.new_object.get("id")
-        new_object_params["include_for_overall_health"] = self.new_object.get("includeForOverallHealth") or self.new_object.get(
-            "include_for_overall_health"
-        )
+        new_object_params["include_for_overall_health"] = self.new_object.get(
+            "includeForOverallHealth"
+        ) or self.new_object.get("include_for_overall_health")
         new_object_params["attribute"] = self.new_object.get("attribute")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["limit"] = self.new_object.get("limit")
@@ -74,9 +76,13 @@ class HealthScoreDefinitions(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params["includeForOverallHealth"] = self.new_object.get("includeForOverallHealth")
+        new_object_params["includeForOverallHealth"] = self.new_object.get(
+            "includeForOverallHealth"
+        )
         new_object_params["thresholdValue"] = self.new_object.get("thresholdValue")
-        new_object_params["synchronizeToIssueThreshold"] = self.new_object.get("synchronizeToIssueThreshold")
+        new_object_params["synchronizeToIssueThreshold"] = self.new_object.get(
+            "synchronizeToIssueThreshold"
+        )
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
@@ -100,7 +106,11 @@ class HealthScoreDefinitions(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="devices", function="get_health_score_definition_for_the_given_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="devices",
+                function="get_health_score_definition_for_the_given_id",
+                params={"id": id},
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -124,7 +134,9 @@ class HealthScoreDefinitions(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -144,7 +156,9 @@ class HealthScoreDefinitions(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -171,7 +185,9 @@ class HealthScoreDefinitions(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -217,7 +233,9 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     catalystcenter.object_already_present()
             else:
-                catalystcenter.fail_json("Object does not exists, plugin only has update")
+                catalystcenter.fail_json(
+                    "Object does not exists, plugin only has update"
+                )
 
         self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())

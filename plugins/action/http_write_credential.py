@@ -76,7 +76,18 @@ class HttpWriteCredential(object):
     def create_params(self):
         new_object_params = {}
         payload = {}
-        keys = ["comments", "credentialType", "description", "id", "instanceTenantId", "instanceUuid", "password", "port", "secure", "username"]
+        keys = [
+            "comments",
+            "credentialType",
+            "description",
+            "id",
+            "instanceTenantId",
+            "instanceUuid",
+            "password",
+            "port",
+            "secure",
+            "username",
+        ]
         for key in keys:
             if self.new_object.get(key) is not None:
                 payload[key] = self.new_object.get(key)
@@ -108,7 +119,9 @@ class HttpWriteCredential(object):
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
-            result = get_dict_result(items, "description", name) or get_dict_result(items, "username", name)
+            result = get_dict_result(items, "description", name) or get_dict_result(
+                items, "username", name
+            )
         except Exception:
             result = None
         return result
@@ -144,7 +157,9 @@ class HttpWriteCredential(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -166,7 +181,9 @@ class HttpWriteCredential(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(catalyst_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(catalyst_param), requested_obj.get(ansible_param)
+            )
             for (catalyst_param, ansible_param) in obj_params
         )
 
@@ -195,7 +212,9 @@ class HttpWriteCredential(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

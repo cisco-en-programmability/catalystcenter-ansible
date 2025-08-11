@@ -56,21 +56,31 @@ class DeviceReplacement(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["faulty_device_name"] = self.new_object.get("faultyDeviceName") or self.new_object.get("faulty_device_name")
-        new_object_params["faulty_device_platform"] = self.new_object.get("faultyDevicePlatform") or self.new_object.get("faulty_device_platform")
-        new_object_params["replacement_device_platform"] = self.new_object.get("replacementDevicePlatform") or self.new_object.get(
-            "replacement_device_platform"
-        )
-        new_object_params["faulty_device_serial_number"] = self.new_object.get("faultyDeviceSerialNumber") or self.new_object.get(
-            "faulty_device_serial_number"
-        )
-        new_object_params["replacement_device_serial_number"] = self.new_object.get("replacementDeviceSerialNumber") or self.new_object.get(
-            "replacement_device_serial_number"
-        )
-        new_object_params["replacement_status"] = self.new_object.get("replacementStatus") or self.new_object.get("replacement_status")
+        new_object_params["faulty_device_name"] = self.new_object.get(
+            "faultyDeviceName"
+        ) or self.new_object.get("faulty_device_name")
+        new_object_params["faulty_device_platform"] = self.new_object.get(
+            "faultyDevicePlatform"
+        ) or self.new_object.get("faulty_device_platform")
+        new_object_params["replacement_device_platform"] = self.new_object.get(
+            "replacementDevicePlatform"
+        ) or self.new_object.get("replacement_device_platform")
+        new_object_params["faulty_device_serial_number"] = self.new_object.get(
+            "faultyDeviceSerialNumber"
+        ) or self.new_object.get("faulty_device_serial_number")
+        new_object_params["replacement_device_serial_number"] = self.new_object.get(
+            "replacementDeviceSerialNumber"
+        ) or self.new_object.get("replacement_device_serial_number")
+        new_object_params["replacement_status"] = self.new_object.get(
+            "replacementStatus"
+        ) or self.new_object.get("replacement_status")
         new_object_params["family"] = self.new_object.get("family")
-        new_object_params["sort_by"] = self.new_object.get("sortBy") or self.new_object.get("sort_by")
-        new_object_params["sort_order"] = self.new_object.get("sortOrder") or self.new_object.get("sort_order")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
+        new_object_params["sort_order"] = self.new_object.get(
+            "sortOrder"
+        ) or self.new_object.get("sort_order")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
@@ -125,7 +135,9 @@ class DeviceReplacement(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -155,7 +167,9 @@ class DeviceReplacement(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -187,7 +201,9 @@ class DeviceReplacement(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

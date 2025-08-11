@@ -24,7 +24,6 @@ from .catalystcenter_module import TestCatalystcenterModule, set_module_args
 
 class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
     def __init__(self):
-
         """
         Inheriting from the base class of catalystcenter_module
         """
@@ -33,7 +32,6 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
-
         """
         Load fixtures for a specific device.
 
@@ -56,7 +54,7 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 self.test_data.get("site_exists_response"),
                 [],
                 self.test_data.get("add_device_response"),
-                self.test_data.get("claim_response")
+                self.test_data.get("claim_response"),
             ]
 
         elif "device_exists" in self._testMethodName:
@@ -65,20 +63,22 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 self.test_data.get("template_exists_response"),
                 self.test_data.get("site_exists_response"),
                 self.test_data.get("device_exists_response"),
-                self.test_data.get("claim_response")
+                self.test_data.get("claim_response"),
             ]
 
         elif "delete_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("device_exists_response"),
-                self.test_data.get("delete_device_response")
+                self.test_data.get("delete_device_response"),
             ]
 
         elif "deletion_error" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("device_exists_response"),
-                AnsibleActionFail("An error occured when executing operation." +
-                                  "The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"),
+                AnsibleActionFail(
+                    "An error occured when executing operation."
+                    + "The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"
+                ),
             ]
 
         elif "image_doesnot_exist" in self._testMethodName:
@@ -89,21 +89,18 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
         elif "template_doesnot_exist" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
-                self.test_data.get("template_doesnot_exist_response")
+                self.test_data.get("template_doesnot_exist_response"),
             ]
 
         elif "project_not_found" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("image_exists_response"),
-                []
+                [],
             ]
         elif "delete_nonexisting_device" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                []
-            ]
+            self.run_catalystcenter_exec.side_effect = [[]]
 
     def test_pnp_intent_site_not_found(self):
-
         """
         Test case for PnP intent when site is not found.
 
@@ -117,17 +114,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Site not found"
-        )
+        self.assertEqual(result.get("msg"), "Site not found")
 
     def test_pnp_intent_add_new_device(self):
-
         """
         Test case for PnP intent when adding a new device.
 
@@ -141,17 +134,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
-        )
+        self.assertEqual(result.get("response").get("response"), "Device Claimed")
 
     def test_pnp_intent_device_exists(self):
-
         """
         Test case for PnP intent when a device already exists.
 
@@ -165,17 +154,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('response'),
-            "Device Claimed"
-        )
+        self.assertEqual(result.get("response").get("response"), "Device Claimed")
 
     def test_pnp_intent_image_doesnot_exist(self):
-
         """
         Test case for PnP intent when an image does not exist.
 
@@ -189,17 +174,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Image not found"
-        )
+        self.assertEqual(result.get("msg"), "Image not found")
 
     def test_pnp_intent_template_doesnot_exist(self):
-
         """
         Test case for PnP intent when a template does not exist.
 
@@ -213,17 +194,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Template not found"
-        )
+        self.assertEqual(result.get("msg"), "Template not found")
 
     def test_pnp_intent_project_not_found(self):
-
         """
         Test case for PnP intent when a project is not found.
 
@@ -237,17 +214,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Project Not Found"
-        )
+        self.assertEqual(result.get("msg"), "Project Not Found")
 
     def test_pnp_intent_missing_param(self):
-
         """
         Test case for PnP intent with missing parameters in the playbook.
 
@@ -261,17 +234,16 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.test_data.get("playbook_config_missing_parameter")
+                config=self.test_data.get("playbook_config_missing_parameter"),
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Invalid parameters in playbook: image_name : Required parameter not found"
+            result.get("msg"),
+            "Invalid parameters in playbook: image_name : Required parameter not found",
         )
 
     def test_pnp_intent_delete_device(self):
-
         """
         Test case for PnP intent when deleting a device.
 
@@ -285,17 +257,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            "Device Deleted Successfully"
-        )
+        self.assertEqual(result.get("msg"), "Device Deleted Successfully")
 
     def test_pnp_intent_deletion_error(self):
-
         """
         Test case for PnP intent when device deletion fails.
 
@@ -309,17 +277,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Device Deletion Failed"
-        )
+        self.assertEqual(result.get("msg"), "Device Deletion Failed")
 
     def test_pnp_intent_delete_nonexisting_device(self):
-
         """
         Test case for PnP intent when deleting a non-existing device.
 
@@ -333,17 +297,13 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Device Not Found"
-        )
+        self.assertEqual(result.get("msg"), "Device Not Found")
 
     def test_pnp_intent_invalid_state(self):
-
         """
         Test case for PnP intent with an invalid state parameter.
 
@@ -357,11 +317,11 @@ class TestCatalystcenterPnPIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merge",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "value of state must be one of: merged, deleted, got: merge"
+            result.get("msg"),
+            "value of state must be one of: merged, deleted, got: merge",
         )

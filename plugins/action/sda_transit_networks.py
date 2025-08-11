@@ -118,7 +118,11 @@ class SdaTransitNetworks(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
+        it_exists = (
+            prev_obj is not None
+            and isinstance(prev_obj, dict)
+            and prev_obj.get("status") != "failed"
+        )
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -137,7 +141,9 @@ class SdaTransitNetworks(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -184,7 +190,9 @@ class SdaTransitNetworks(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -235,7 +243,9 @@ class ActionModule(ActionBase):
                     response = obj.create()
                     catalystcenter.object_created()
                 except AnsibleSDAException as e:
-                    catalystcenter.fail_json("Could not create object {e}".format(e=e._response))
+                    catalystcenter.fail_json(
+                        "Could not create object {e}".format(e=e._response)
+                    )
 
         elif state == "absent":
             try:
@@ -246,7 +256,9 @@ class ActionModule(ActionBase):
                 else:
                     catalystcenter.object_already_absent()
             except AnsibleSDAException as e:
-                catalystcenter.fail_json("Could not get object to be delete {e}".format(e=e._response))
+                catalystcenter.fail_json(
+                    "Could not get object to be delete {e}".format(e=e._response)
+                )
 
         self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())
