@@ -63,12 +63,16 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverride(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["site_id"] = self.new_object.get("siteId") or self.new_object.get("site_id")
+        new_object_params["site_id"] = self.new_object.get(
+            "siteId"
+        ) or self.new_object.get("site_id")
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params["remove_override_in_hierarchy"] = self.new_object.get("remove_override_in_hierarchy")
+        new_object_params["remove_override_in_hierarchy"] = self.new_object.get(
+            "remove_override_in_hierarchy"
+        )
         new_object_params["site_id"] = self.new_object.get("site_id")
         return new_object_params
 
@@ -118,7 +122,9 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverride(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -138,7 +144,9 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverride(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -175,7 +183,9 @@ class SitesSiteIdWirelessSettingsFlexConnectAaaOverride(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -206,7 +216,9 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         catalystcenter = CatalystCenterSDK(self._task.args)
-        obj = SitesSiteIdWirelessSettingsFlexConnectAaaOverride(self._task.args, catalystcenter)
+        obj = SitesSiteIdWirelessSettingsFlexConnectAaaOverride(
+            self._task.args, catalystcenter
+        )
 
         state = self._task.args.get("state")
 
@@ -221,7 +233,9 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     catalystcenter.object_already_present()
             else:
-                catalystcenter.fail_json("Object does not exists, plugin only has update")
+                catalystcenter.fail_json(
+                    "Object does not exists, plugin only has update"
+                )
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

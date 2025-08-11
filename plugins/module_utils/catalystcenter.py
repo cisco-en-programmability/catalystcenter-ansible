@@ -4,7 +4,8 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 try:
     from catalystcentersdk import api, exceptions
@@ -14,13 +15,18 @@ else:
     CATALYST_SDK_IS_INSTALLED = True
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
+
 # Añadir import de env_fallback con protección
 try:
     from ansible.module_utils.basic import env_fallback  # type: ignore
 except Exception:
+
     def env_fallback(_names):  # type: ignore
         return None
+
+
 from abc import ABCMeta, abstractmethod
+
 try:
     import logging
     import ipaddress
@@ -31,6 +37,7 @@ else:
 import os.path
 import copy
 import json
+
 # import datetime
 import inspect
 import re
@@ -38,8 +45,7 @@ import socket
 import time
 
 
-class CatalystCenterBase():
-
+class CatalystCenterBase:
     """Class contains members which can be reused for all intent modules"""
 
     __metaclass__ = ABCMeta
@@ -56,44 +62,66 @@ class CatalystCenterBase():
         self.status = "success"
         catalystcenter_params = self.get_catalystcenter_params(self.params)
         self.catalystcenter = CatalystCenterSDK(params=catalystcenter_params)
-        self.catalystcenter_apply = {'exec': self.catalystcenter._exec}
-        self.get_diff_state_apply = {'merged': self.get_diff_merged,
-                                     'deleted': self.get_diff_deleted,
-                                     'replaced': self.get_diff_replaced,
-                                     'overridden': self.get_diff_overridden,
-                                     'gathered': self.get_diff_gathered,
-                                     'rendered': self.get_diff_rendered,
-                                     'parsed': self.get_diff_parsed
-                                     }
-        self.verify_diff_state_apply = {'merged': self.verify_diff_merged,
-                                        'deleted': self.verify_diff_deleted,
-                                        'replaced': self.verify_diff_replaced,
-                                        'overridden': self.verify_diff_overridden,
-                                        'gathered': self.verify_diff_gathered,
-                                        'rendered': self.verify_diff_rendered,
-                                        'parsed': self.verify_diff_parsed
-                                        }
+        self.catalystcenter_apply = {"exec": self.catalystcenter._exec}
+        self.get_diff_state_apply = {
+            "merged": self.get_diff_merged,
+            "deleted": self.get_diff_deleted,
+            "replaced": self.get_diff_replaced,
+            "overridden": self.get_diff_overridden,
+            "gathered": self.get_diff_gathered,
+            "rendered": self.get_diff_rendered,
+            "parsed": self.get_diff_parsed,
+        }
+        self.verify_diff_state_apply = {
+            "merged": self.verify_diff_merged,
+            "deleted": self.verify_diff_deleted,
+            "replaced": self.verify_diff_replaced,
+            "overridden": self.verify_diff_overridden,
+            "gathered": self.verify_diff_gathered,
+            "rendered": self.verify_diff_rendered,
+            "parsed": self.verify_diff_parsed,
+        }
         self.log = catalystcenter_params.get("catalystcenter_log")
-        self.max_timeout = self.params.get('catalystcenter_api_task_timeout')
+        self.max_timeout = self.params.get("catalystcenter_api_task_timeout")
 
         if self.log and not CatalystCenterBase.__is_log_init:
-            self.log_level = catalystcenter_params.get("catalystcenter_log_level") or 'WARNING'
+            self.log_level = (
+                catalystcenter_params.get("catalystcenter_log_level") or "WARNING"
+            )
             self.log_level = self.log_level.upper()
             self.validate_catalystcenter_log_level()
-            self.log_file_path = catalystcenter_params.get("catalystcenter_log_file_path") or 'catalystcenter.log'
+            self.log_file_path = (
+                catalystcenter_params.get("catalystcenter_log_file_path")
+                or "catalystcenter.log"
+            )
             self.validate_catalystcenter_log_file_path()
-            self.catalystcenter_log_mode = 'w' if not catalystcenter_params.get("catalystcenter_log_append") else 'a'
-            self.setup_logger('logger')
-            self.logger = logging.getLogger('logger')
+            self.catalystcenter_log_mode = (
+                "w"
+                if not catalystcenter_params.get("catalystcenter_log_append")
+                else "a"
+            )
+            self.setup_logger("logger")
+            self.logger = logging.getLogger("logger")
             CatalystCenterBase.__is_log_init = True
-            self.log('Logging configured and initiated', "DEBUG")
+            self.log("Logging configured and initiated", "DEBUG")
         else:
             # If log is False, return an empty logger
-            self.logger = logging.getLogger('empty_logger')
+            self.logger = logging.getLogger("empty_logger")
             self.logger.addHandler(logging.NullHandler())
 
-        self.log('Cisco Catalyst Center parameters: {0}'.format(catalystcenter_params), "DEBUG")
-        self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
+        self.log(
+            "Cisco Catalyst Center parameters: {0}".format(catalystcenter_params),
+            "DEBUG",
+        )
+        self.supported_states = [
+            "merged",
+            "deleted",
+            "replaced",
+            "overridden",
+            "gathered",
+            "rendered",
+            "parsed",
+        ]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
     @abstractmethod
@@ -176,19 +204,23 @@ class CatalystCenterBase():
     def setup_logger(self, logger_name):
         """Set up a logger with specified name and configuration based on log_level"""
         level_mapping = {
-            'INFO': logging.INFO,
-            'DEBUG': logging.DEBUG,
-            'WARNING': logging.WARNING,
-            'ERROR': logging.ERROR,
-            'CRITICAL': logging.CRITICAL
+            "INFO": logging.INFO,
+            "DEBUG": logging.DEBUG,
+            "WARNING": logging.WARNING,
+            "ERROR": logging.ERROR,
+            "CRITICAL": logging.CRITICAL,
         }
         level = level_mapping.get(self.log_level, logging.WARNING)
 
         logger = logging.getLogger(logger_name)
         # formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s: %(funcName)s: %(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+        formatter = logging.Formatter(
+            "%(asctime)s %(levelname)s %(message)s", datefmt="%m-%d-%Y %H:%M:%S"
+        )
 
-        file_handler = logging.FileHandler(self.log_file_path, mode=self.catalystcenter_log_mode)
+        file_handler = logging.FileHandler(
+            self.log_file_path, mode=self.catalystcenter_log_mode
+        )
         file_handler.setFormatter(formatter)
 
         logger.setLevel(level)
@@ -196,8 +228,10 @@ class CatalystCenterBase():
 
     def validate_catalystcenter_log_level(self):
         """Validates if the logging level is string and of expected value"""
-        if self.log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
-            raise ValueError("Invalid log level: 'log_level:{0}'".format(self.log_level))
+        if self.log_level not in ("INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"):
+            raise ValueError(
+                "Invalid log level: 'log_level:{0}'".format(self.log_level)
+            )
 
     def validate_catalystcenter_log_file_path(self):
         """
@@ -210,7 +244,9 @@ class CatalystCenterBase():
         # Validate if the directory exists
         log_directory = os.path.dirname(log_file_path)
         if not os.path.exists(log_directory):
-            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(log_file_path))
+            raise FileNotFoundError(
+                "The directory for log file '{0}' does not exist.".format(log_file_path)
+            )
 
     def log(self, message, level="WARNING", frameIncrement=0):
         """Logs formatted messages with specified log level and incrementing the call stack frame
@@ -228,7 +264,12 @@ class CatalystCenterBase():
             callerframerecord = inspect.stack()[1 + frameIncrement]
             frame = callerframerecord[0]
             info = inspect.getframeinfo(frame)
-            log_message = " %s: %s: %s: %s \n" % (class_name, info.function, info.lineno, message)
+            log_message = " %s: %s: %s: %s \n" % (
+                class_name,
+                info.function,
+                info.lineno,
+                message,
+            )
             log_method = getattr(self.logger, level.lower())
             log_method(log_message)
 
@@ -238,11 +279,15 @@ class CatalystCenterBase():
         # self.log("status: {0}, msg:{1}".format(self.status, self.msg), frameIncrement=1)
         self.log("status: {0}, msg: {1}".format(self.status, self.msg), "DEBUG")
         if "failed" in self.status:
-            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
+            self.module.fail_json(
+                msg=self.msg, response=self.result.get("response", [])
+            )
         elif "exited" in self.status:
             self.module.exit_json(**self.result)
         elif "invalid" in self.status:
-            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
+            self.module.fail_json(
+                msg=self.msg, response=self.result.get("response", [])
+            )
 
     def is_valid_password(self, password):
         """
@@ -282,7 +327,7 @@ class CatalystCenterBase():
         """
 
         # Define the regex pattern for a valid email address
-        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
         # Use re.match to see if the email matches the pattern
         if re.match(pattern, email):
             return True
@@ -302,7 +347,7 @@ class CatalystCenterBase():
             "log": params.get("log"),
             "log_level": params.get("log_level"),
             "log_file_path": params.get("log_file_path"),
-            "log_append": params.get("log_append")
+            "log_append": params.get("log_append"),
         }
         return catalystcenter_params
 
@@ -321,16 +366,19 @@ class CatalystCenterBase():
 
         result = None
         response = self.catalystcenter._exec(
-            family="task",
-            function='get_task_by_id',
-            params={"task_id": task_id}
+            family="task", function="get_task_by_id", params={"task_id": task_id}
         )
 
-        self.log('Task Details: {0}'.format(str(response)), 'DEBUG')
-        self.log("Retrieving task details by the API 'get_task_by_id' using task ID: {0}, Response: {1}".format(task_id, response), "DEBUG")
+        self.log("Task Details: {0}".format(str(response)), "DEBUG")
+        self.log(
+            "Retrieving task details by the API 'get_task_by_id' using task ID: {0}, Response: {1}".format(
+                task_id, response
+            ),
+            "DEBUG",
+        )
 
         if response and isinstance(response, dict):
-            result = response.get('response')
+            result = response.get("response")
 
         return result
 
@@ -349,7 +397,9 @@ class CatalystCenterBase():
         api_response_limit = 500
         return api_response_limit
 
-    def check_task_response_status(self, response, validation_string, api_name, data=False):
+    def check_task_response_status(
+        self, response, validation_string, api_name, data=False
+    ):
         """
         Get the site id from the site name.
 
@@ -385,22 +435,29 @@ class CatalystCenterBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. " \
-                           .format(max_timeout=self.max_timeout, task_id=task_id) + \
-                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. ".format(
+                    max_timeout=self.max_timeout, task_id=task_id
+                ) + "Exiting the loop due to unexpected API '{api_name}' status.".format(
+                    api_name=api_name
+                )
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
 
             task_details = self.get_task_details(task_id)
-            self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
+            self.log(
+                "Getting task details from task ID {0}: {1}".format(
+                    task_id, task_details
+                ),
+                "DEBUG",
+            )
 
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
                     self.msg = str(task_details.get("failureReason"))
                     string_check = "check task tree"
                     if string_check in self.msg.lower():
-                        time.sleep(self.params.get('catalystcenter_task_poll_interval'))
+                        time.sleep(self.params.get("catalystcenter_task_poll_interval"))
                         self.msg = self.check_task_tree_response(task_id)
                 else:
                     self.msg = str(task_details.get("progress"))
@@ -408,13 +465,18 @@ class CatalystCenterBase():
                 break
 
             if validation_string in task_details.get("progress").lower():
-                self.result['changed'] = True
+                self.result["changed"] = True
                 if data is True:
                     self.msg = task_details.get("data")
                 self.status = "success"
                 break
 
-            self.log("Progress is {0} for task ID: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+            self.log(
+                "Progress is {0} for task ID: {1}".format(
+                    task_details.get("progress"), task_id
+                ),
+                "DEBUG",
+            )
 
         return self
 
@@ -438,8 +500,8 @@ class CatalystCenterBase():
         self.log("Execution Id: {0}".format(execid), "DEBUG")
         response = self.catalystcenter._exec(
             family="task",
-            function='get_business_api_execution_details',
-            params={"execution_id": execid}
+            function="get_business_api_execution_details",
+            params={"execution_id": execid},
         )
         self.log("Response for the current execution: {0}".format(response))
         return response
@@ -471,16 +533,18 @@ class CatalystCenterBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.msg = "Max timeout of {max_timeout} sec has reached for the execution id '{execution_id}'. "\
-                           .format(max_timeout=self.max_timeout, execution_id=execution_id) + \
-                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                self.msg = "Max timeout of {max_timeout} sec has reached for the execution id '{execution_id}'. ".format(
+                    max_timeout=self.max_timeout, execution_id=execution_id
+                ) + "Exiting the loop due to unexpected API '{api_name}' status.".format(
+                    api_name=api_name
+                )
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
 
             execution_details = self.get_execution_details(execution_id)
             if execution_details.get("status") == "SUCCESS":
-                self.result['changed'] = True
+                self.result["changed"] = True
                 self.msg = "Successfully executed"
                 self.status = "success"
                 break
@@ -525,9 +589,14 @@ class CatalystCenterBase():
         if isinstance(config, dict):
             new_config = {}
             for key, value in config.items():
-                new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                new_key = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", key).lower()
                 if new_key != key:
-                    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key), "DEBUG")
+                    self.log(
+                        "{0} will be deprecated soon. Please use {1}.".format(
+                            key, new_key
+                        ),
+                        "DEBUG",
+                    )
                 new_value = self.camel_to_snake_case(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
@@ -553,7 +622,7 @@ class CatalystCenterBase():
                 if key == "site_type":
                     new_key = "type"
                 else:
-                    new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                    new_key = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", key).lower()
                 new_value = self.update_site_type_key(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
@@ -577,7 +646,7 @@ class CatalystCenterBase():
 
         try:
             socket.inet_aton(ip_address)
-            octets = ip_address.split('.')
+            octets = ip_address.split(".")
             if len(octets) != 4:
                 return False
             for octet in octets:
@@ -610,21 +679,31 @@ class CatalystCenterBase():
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.log("""Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected
-                        api status so moving out of the loop.""".format(self.max_timeout, status_execution_id), "WARNING")
+                self.log(
+                    """Max timeout of {0} sec has reached for the execution id '{1}' for the event and unexpected
+                        api status so moving out of the loop.""".format(
+                        self.max_timeout, status_execution_id
+                    ),
+                    "WARNING",
+                )
                 break
             # Now we check the status of API Events for configuring destination and notifications
             response = self.catalystcenter._exec(
                 family="event_management",
-                function='get_status_api_for_events',
+                function="get_status_api_for_events",
                 op_modifies=True,
-                params={"execution_id": status_execution_id}
+                params={"execution_id": status_execution_id},
             )
-            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(response)), "DEBUG")
-            if response['apiStatus'] != "IN_PROGRESS":
+            self.log(
+                "Received API response from 'get_status_api_for_events': {0}".format(
+                    str(response)
+                ),
+                "DEBUG",
+            )
+            if response["apiStatus"] != "IN_PROGRESS":
                 events_response = response
                 break
-            time.sleep(self.params.get('catalystcenter_task_poll_interval'))
+            time.sleep(self.params.get("catalystcenter_task_poll_interval"))
 
         return events_response
 
@@ -646,12 +725,12 @@ class CatalystCenterBase():
 
         # Define the regex for a valid hostname
         hostname_regex = re.compile(
-            r'^('  # Start of the string
-            r'([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com)
-            r'localhost|'  # Localhost
-            r'(\d{1,3}\.)+\d{1,3}|'  # Custom IPv4-like format (e.g., 2.2.3.31.3.4.4)
-            r'[A-Fa-f0-9:]+$'  # IPv6 address (e.g., 2f8:192:3::40:41:41:42)
-            r')$'  # End of the string
+            r"^("  # Start of the string
+            r"([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,6}|"  # Domain name (e.g., example.com)
+            r"localhost|"  # Localhost
+            r"(\d{1,3}\.)+\d{1,3}|"  # Custom IPv4-like format (e.g., 2.2.3.31.3.4.4)
+            r"[A-Fa-f0-9:]+$"  # IPv6 address (e.g., 2f8:192:3::40:41:41:42)
+            r")$"  # End of the string
         )
 
         # Check if the address is a valid hostname
@@ -675,7 +754,12 @@ class CatalystCenterBase():
         final_file_path = os.path.join(current_working_directory, file_path)
         self.log(str(final_file_path))
         if not os.path.exists(final_file_path):
-            self.log("The specified path '{0}' is not valid. Please provide a valid path.".format(final_file_path), "ERROR")
+            self.log(
+                "The specified path '{0}' is not valid. Please provide a valid path.".format(
+                    final_file_path
+                ),
+                "ERROR",
+            )
             return False
 
         return True
@@ -692,12 +776,15 @@ class CatalystCenterBase():
         """
 
         try:
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 json.load(file)
                 return True
 
         except (ValueError, FileNotFoundError):
-            self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
+            self.log(
+                "The provided file '{0}' is not in JSON format".format(file_path),
+                "CRITICAL",
+            )
             return False
 
     def check_task_tree_response(self, task_id):
@@ -712,15 +799,17 @@ class CatalystCenterBase():
         """
 
         response = self.catalystcenter._exec(
-            family="task",
-            function='get_task_tree',
-            params={"task_id": task_id}
+            family="task", function="get_task_tree", params={"task_id": task_id}
         )
-        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, Response: {response}"
-                 .format(task_id=task_id, response=response), "DEBUG")
+        self.log(
+            "Retrieving task tree details by the API 'get_task_tree' using task ID: {task_id}, Response: {response}".format(
+                task_id=task_id, response=response
+            ),
+            "DEBUG",
+        )
         error_msg = ""
         if response and isinstance(response, dict):
-            result = response.get('response')
+            result = response.get("response")
             error_messages = []
             for item in result:
                 if item.get("isError") is True:
@@ -778,7 +867,12 @@ def catalystcenter_compare_equality(current_value, requested_value):
         return True
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + list(requested_value.keys())
-        return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
+        return not any(
+            (
+                not fn_comp_key(param, current_value, requested_value)
+                for param in all_dict_params
+            )
+        )
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -800,7 +894,9 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
                 result = None
         else:
             for item in result:
-                if isinstance(item, dict) and (item.get(key) is None or item.get(key) == value):
+                if isinstance(item, dict) and (
+                    item.get(key) is None or item.get(key) == value
+                ):
                     result = item
                     return result
             result = None
@@ -813,13 +909,40 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        catalystcenter_host=dict(type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])),
-        catalystcenter_api_port=dict(type="int", required=False, default=443, fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"])),
-        catalystcenter_username=dict(type="str", default="admin", fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"])),
-        catalystcenter_password=dict(type="str", no_log=True, fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"])),
-        catalystcenter_verify=dict(type="bool", default=True, fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"])),
-        catalystcenter_version=dict(type="str", default="3.1.3.0", fallback=(env_fallback, ["CATALYSTCENTER_VERSION"])),
-        catalystcenter_debug=dict(type="bool", default=False, fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"])),
+        catalystcenter_host=dict(
+            type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])
+        ),
+        catalystcenter_api_port=dict(
+            type="int",
+            required=False,
+            default=443,
+            fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"]),
+        ),
+        catalystcenter_username=dict(
+            type="str",
+            default="admin",
+            fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
+        ),
+        catalystcenter_password=dict(
+            type="str",
+            no_log=True,
+            fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"]),
+        ),
+        catalystcenter_verify=dict(
+            type="bool",
+            default=True,
+            fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"]),
+        ),
+        catalystcenter_version=dict(
+            type="str",
+            default="3.1.3.0",
+            fallback=(env_fallback, ["CATALYSTCENTER_VERSION"]),
+        ),
+        catalystcenter_debug=dict(
+            type="bool",
+            default=False,
+            fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
+        ),
         catalystcenter_api_task_timeout=dict(type="int", default=1200),
         catalystcenter_task_poll_interval=dict(type="int", default=2),
         validate_response_schema=dict(type="bool", default=True),
@@ -856,7 +979,9 @@ def validate_str(item, param_spec, param_name, invalid_params):
         else:
             invalid_params.append(
                 "{0}:{1} : The string exceeds the allowed "
-                "range of max {2} char".format(param_name, item, param_spec.get("length_max"))
+                "range of max {2} char".format(
+                    param_name, item, param_spec.get("length_max")
+                )
             )
     return item
 
@@ -943,18 +1068,22 @@ def validate_list(item, param_spec, param_name, invalid_params):
 
             temp_dict = {keys_list[1]: param_spec[keys_list[1]]}
             try:
-                if param_spec['elements']:
-                    get_spec_type = param_spec['type']
-                    get_spec_element = param_spec['elements']
+                if param_spec["elements"]:
+                    get_spec_type = param_spec["type"]
+                    get_spec_element = param_spec["elements"]
                     if type(item).__name__ == get_spec_type:
                         for element in item:
                             if type(element).__name__ != get_spec_element:
                                 invalid_params.append(
-                                    "{0} is not of the same datatype as expected which is {1}".format(element, get_spec_element)
+                                    "{0} is not of the same datatype as expected which is {1}".format(
+                                        element, get_spec_element
+                                    )
                                 )
                     else:
                         invalid_params.append(
-                            "{0} is not of the same datatype as expected which is {1}".format(item, get_spec_type)
+                            "{0} is not of the same datatype as expected which is {1}".format(
+                                item, get_spec_type
+                            )
                         )
             except Exception as e:
                 item, list_invalid_params = validate_list_of_dicts(item, temp_dict)
@@ -1032,15 +1161,15 @@ def validate_list_of_dicts(param_list, spec, module=None):
                 item = validator(item, spec[param], param, invalid_params)
             else:
                 invalid_params.append(
-                    "{0}:{1} : Unsupported data type {2}.".format(param, item, data_type)
+                    "{0}:{1} : Unsupported data type {2}.".format(
+                        param, item, data_type
+                    )
                 )
 
             choice = spec[param].get("choices")
             if choice:
                 if item not in choice:
-                    invalid_params.append(
-                        "{0} : Invalid choice provided".format(item)
-                    )
+                    invalid_params.append("{0} : Invalid choice provided".format(item))
 
             no_log = spec[param].get("no_log")
             if no_log:
@@ -1066,13 +1195,14 @@ class CatalystCenterSDK(object):
     def __init__(self, params):
         self.result = dict(changed=False, result="")
         self.validate_response_schema = params.get("validate_response_schema")
-        self.logger = logging.getLogger('catalystcentersdk')
+        self.logger = logging.getLogger("catalystcentersdk")
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
                 username=params.get("catalystcenter_username"),
                 password=params.get("catalystcenter_password"),
                 base_url="https://{host}:{api_port}".format(
-                    host=params.get("catalystcenter_host"), api_port=params.get("catalystcenter_api_port")
+                    host=params.get("catalystcenter_host"),
+                    api_port=params.get("catalystcenter_api_port"),
                 ),
                 version=params.get("catalystcenter_version"),
                 verify=params.get("catalystcenter_verify"),
@@ -1081,7 +1211,9 @@ class CatalystCenterSDK(object):
             if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
                 self.logger.addHandler(logging.StreamHandler())
         else:
-            self.fail_json(msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")
+            self.fail_json(
+                msg="CATALYST Center Python SDK is not installed. Execute 'pip install catalystcentersdk'"
+            )
 
     def changed(self):
         self.result["changed"] = True
@@ -1105,7 +1237,9 @@ class CatalystCenterSDK(object):
         self.result["result"] = "Object already present"
 
     def object_present_and_different(self):
-        self.result["result"] = "Object already present, but it has different values to the requested"
+        self.result["result"] = (
+            "Object already present, but it has different values to the requested"
+        )
 
     def object_modify_result(self, changed=None, result=None):
         if result is not None:
@@ -1130,15 +1264,17 @@ class CatalystCenterSDK(object):
 
         try:
             if params:
-                file_paths_params = kwargs.get('file_paths', [])
+                file_paths_params = kwargs.get("file_paths", [])
                 # This substitution is for the import file operation
                 if file_paths_params and isinstance(file_paths_params, list):
                     multipart_fields = {}
-                    for (key, value) in file_paths_params:
-                        if isinstance(params.get(key), str) and self.is_file(params[key]):
+                    for key, value in file_paths_params:
+                        if isinstance(params.get(key), str) and self.is_file(
+                            params[key]
+                        ):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
-                            multipart_fields[value] = (file_name, open(file_path, 'rb'))
+                            multipart_fields[value] = (file_name, open(file_path, "rb"))
 
                     params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)

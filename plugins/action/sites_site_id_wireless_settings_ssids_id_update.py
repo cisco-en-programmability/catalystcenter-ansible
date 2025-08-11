@@ -111,7 +111,9 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -150,10 +152,14 @@ class ActionModule(ActionBase):
             clientExclusionEnable=params.get("clientExclusionEnable"),
             clientExclusionTimeout=params.get("clientExclusionTimeout"),
             basicServiceSetMaxIdleEnable=params.get("basicServiceSetMaxIdleEnable"),
-            basicServiceSetClientIdleTimeout=params.get("basicServiceSetClientIdleTimeout"),
+            basicServiceSetClientIdleTimeout=params.get(
+                "basicServiceSetClientIdleTimeout"
+            ),
             directedMulticastServiceEnable=params.get("directedMulticastServiceEnable"),
             neighborListEnable=params.get("neighborListEnable"),
-            managementFrameProtectionClientprotection=params.get("managementFrameProtectionClientprotection"),
+            managementFrameProtectionClientprotection=params.get(
+                "managementFrameProtectionClientprotection"
+            ),
             nasOptions=params.get("nasOptions"),
             profileName=params.get("profileName"),
             aaaOverride=params.get("aaaOverride"),
@@ -202,7 +208,9 @@ class ActionModule(ActionBase):
             isCckmEnabled=params.get("isCckmEnabled"),
             isHex=params.get("isHex"),
             isRandomMacFilterEnabled=params.get("isRandomMacFilterEnabled"),
-            fastTransitionOverTheDistributedSystemEnable=params.get("fastTransitionOverTheDistributedSystemEnable"),
+            fastTransitionOverTheDistributedSystemEnable=params.get(
+                "fastTransitionOverTheDistributedSystemEnable"
+            ),
             isRadiusProfilingEnabled=params.get("isRadiusProfilingEnabled"),
             policyProfileName=params.get("policyProfileName"),
             site_id=params.get("siteId"),

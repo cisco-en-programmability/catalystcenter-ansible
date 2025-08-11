@@ -955,16 +955,16 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         "required": False,
                         "options": {
                             "ssid_name": {"type": "str"},
-                            "security_group_name": {"type": "str"}
-                        }
-                    }
-                }
+                            "security_group_name": {"type": "str"},
+                        },
+                    },
+                },
             },
             "device_collection_status_check": {
                 "type": "bool",
                 "required": False,
-                "default": True
-            }
+                "default": True,
+            },
         }
 
         # Validate params
@@ -983,7 +983,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname, device_collection_status_check):
+    def validate_device_exists_and_reachable(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates whether a device is present in the Catalyst Center, is reachable, and has an acceptable collection status.
         Args:
@@ -1050,26 +1052,32 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 "Skipping collection status check for device '{0}' as 'device_collection_status_check' is set to False.".format(
                     device_identifier
                 ),
-                "INFO"
+                "INFO",
             )
             return True
 
         # Check collection status
         if collection_status in ["In Progress", "Managed"]:
             self.log(
-                "Device '{0}' has an acceptable collection status: '{1}'.".format(device_identifier, collection_status),
-                "INFO"
+                "Device '{0}' has an acceptable collection status: '{1}'.".format(
+                    device_identifier, collection_status
+                ),
+                "INFO",
             )
             return True
 
         # Unacceptable collection status
         self.msg = (
             "Device '{0}' does not have an acceptable collection status. "
-            "Current collection status: '{1}'.".format(device_identifier, collection_status)
+            "Current collection status: '{1}'.".format(
+                device_identifier, collection_status
+            )
         )
         return False
 
-    def validate_ip_and_hostname(self, ip_address, hostname, device_collection_status_check):
+    def validate_ip_and_hostname(
+        self, ip_address, hostname, device_collection_status_check
+    ):
         """
         Validates the provided IP address and hostname.
         Args:
@@ -1105,7 +1113,9 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             self.fail_and_exit(self.msg)
 
         # Check if device exists and is reachable in Catalyst Center
-        if not self.validate_device_exists_and_reachable(ip_address, hostname, device_collection_status_check):
+        if not self.validate_device_exists_and_reachable(
+            ip_address, hostname, device_collection_status_check
+        ):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1861,16 +1871,20 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             )
             self.fail_and_exit(self.msg)
 
-        is_port_operation_requested = bool(port_assignment_details or port_channel_details)
+        is_port_operation_requested = bool(
+            port_assignment_details or port_channel_details
+        )
         is_delete_all_operation = state == "deleted" and (ip_address or hostname)
 
         if is_port_operation_requested or is_delete_all_operation:
             self.log(
                 "Validation triggered: Port assignment/Port Channel operation requested "
                 "or 'delete all' operation detected. Validating IP and Hostname.",
-                "DEBUG"
+                "DEBUG",
             )
-            self.validate_ip_and_hostname(ip_address, hostname, device_collection_status_check)
+            self.validate_ip_and_hostname(
+                ip_address, hostname, device_collection_status_check
+            )
 
         if state == "merged":
             # Validate parameters for add/update in port assignments
@@ -5871,7 +5885,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -115,37 +115,79 @@ class NetworkDevice(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params["hostname"] = self.new_object.get("hostname")
-        new_object_params["management_ip_address"] = self.new_object.get("management_ip_address") or self.new_object.get("ipAddress")
-        new_object_params["mac_address"] = self.new_object.get("macAddress") or self.new_object.get("mac_address")
-        new_object_params["location_name"] = self.new_object.get("locationName") or self.new_object.get("location_name")
-        new_object_params["serial_number"] = self.new_object.get("serialNumber") or self.new_object.get("serial_number")
+        new_object_params["management_ip_address"] = self.new_object.get(
+            "management_ip_address"
+        ) or self.new_object.get("ipAddress")
+        new_object_params["mac_address"] = self.new_object.get(
+            "macAddress"
+        ) or self.new_object.get("mac_address")
+        new_object_params["location_name"] = self.new_object.get(
+            "locationName"
+        ) or self.new_object.get("location_name")
+        new_object_params["serial_number"] = self.new_object.get(
+            "serialNumber"
+        ) or self.new_object.get("serial_number")
         new_object_params["location"] = self.new_object.get("location")
         new_object_params["family"] = self.new_object.get("family")
         # new_object_params['type'] = self.new_object.get('type')
         new_object_params["series"] = self.new_object.get("series")
-        new_object_params["collection_status"] = self.new_object.get("collectionStatus") or self.new_object.get("collection_status")
-        new_object_params["collection_interval"] = self.new_object.get("collectionInterval") or self.new_object.get("collection_interval")
-        new_object_params["not_synced_for_minutes"] = self.new_object.get("notSyncedForMinutes") or self.new_object.get("not_synced_for_minutes")
-        new_object_params["error_code"] = self.new_object.get("errorCode") or self.new_object.get("error_code")
-        new_object_params["error_description"] = self.new_object.get("errorDescription") or self.new_object.get("error_description")
-        new_object_params["software_version"] = self.new_object.get("softwareVersion") or self.new_object.get("software_version")
-        new_object_params["software_type"] = self.new_object.get("softwareType") or self.new_object.get("software_type")
-        new_object_params["platform_id"] = self.new_object.get("platformId") or self.new_object.get("platform_id")
+        new_object_params["collection_status"] = self.new_object.get(
+            "collectionStatus"
+        ) or self.new_object.get("collection_status")
+        new_object_params["collection_interval"] = self.new_object.get(
+            "collectionInterval"
+        ) or self.new_object.get("collection_interval")
+        new_object_params["not_synced_for_minutes"] = self.new_object.get(
+            "notSyncedForMinutes"
+        ) or self.new_object.get("not_synced_for_minutes")
+        new_object_params["error_code"] = self.new_object.get(
+            "errorCode"
+        ) or self.new_object.get("error_code")
+        new_object_params["error_description"] = self.new_object.get(
+            "errorDescription"
+        ) or self.new_object.get("error_description")
+        new_object_params["software_version"] = self.new_object.get(
+            "softwareVersion"
+        ) or self.new_object.get("software_version")
+        new_object_params["software_type"] = self.new_object.get(
+            "softwareType"
+        ) or self.new_object.get("software_type")
+        new_object_params["platform_id"] = self.new_object.get(
+            "platformId"
+        ) or self.new_object.get("platform_id")
         new_object_params["role"] = self.new_object.get("role")
-        new_object_params["reachability_status"] = self.new_object.get("reachabilityStatus") or self.new_object.get("reachability_status")
-        new_object_params["up_time"] = self.new_object.get("upTime") or self.new_object.get("up_time")
-        new_object_params["associated_wlc_ip"] = self.new_object.get("associatedWlcIp") or self.new_object.get("associated_wlc_ip")
+        new_object_params["reachability_status"] = self.new_object.get(
+            "reachabilityStatus"
+        ) or self.new_object.get("reachability_status")
+        new_object_params["up_time"] = self.new_object.get(
+            "upTime"
+        ) or self.new_object.get("up_time")
+        new_object_params["associated_wlc_ip"] = self.new_object.get(
+            "associatedWlcIp"
+        ) or self.new_object.get("associated_wlc_ip")
         new_object_params["license_name"] = self.new_object.get("license_name")
         new_object_params["license_type"] = self.new_object.get("license_type")
         new_object_params["license_status"] = self.new_object.get("license_status")
         new_object_params["module_name"] = self.new_object.get("module_name")
-        new_object_params["module_equpimenttype"] = self.new_object.get("module_equpimenttype")
-        new_object_params["module_servicestate"] = self.new_object.get("module_servicestate")
-        new_object_params["module_vendorequipmenttype"] = self.new_object.get("module_vendorequipmenttype")
-        new_object_params["module_partnumber"] = self.new_object.get("module_partnumber")
-        new_object_params["module_operationstatecode"] = self.new_object.get("module_operationstatecode")
+        new_object_params["module_equpimenttype"] = self.new_object.get(
+            "module_equpimenttype"
+        )
+        new_object_params["module_servicestate"] = self.new_object.get(
+            "module_servicestate"
+        )
+        new_object_params["module_vendorequipmenttype"] = self.new_object.get(
+            "module_vendorequipmenttype"
+        )
+        new_object_params["module_partnumber"] = self.new_object.get(
+            "module_partnumber"
+        )
+        new_object_params["module_operationstatecode"] = self.new_object.get(
+            "module_operationstatecode"
+        )
         new_object_params["id"] = id or self.new_object.get("id")
-        new_object_params["device_support_level"] = self.new_object.get("deviceSupportLevel") or self.new_object.get("device_support_level")
+        new_object_params["device_support_level"] = self.new_object.get(
+            "deviceSupportLevel"
+        ) or self.new_object.get("device_support_level")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
@@ -155,7 +197,9 @@ class NetworkDevice(object):
         new_object_params["cliTransport"] = self.new_object.get("cliTransport")
         new_object_params["computeDevice"] = self.new_object.get("computeDevice")
         new_object_params["enablePassword"] = self.new_object.get("enablePassword")
-        new_object_params["extendedDiscoveryInfo"] = self.new_object.get("extendedDiscoveryInfo")
+        new_object_params["extendedDiscoveryInfo"] = self.new_object.get(
+            "extendedDiscoveryInfo"
+        )
         new_object_params["httpPassword"] = self.new_object.get("httpPassword")
         new_object_params["httpPort"] = self.new_object.get("httpPort")
         new_object_params["httpSecure"] = self.new_object.get("httpSecure")
@@ -165,10 +209,14 @@ class NetworkDevice(object):
         new_object_params["netconfPort"] = self.new_object.get("netconfPort")
         new_object_params["password"] = self.new_object.get("password")
         new_object_params["serialNumber"] = self.new_object.get("serialNumber")
-        new_object_params["snmpAuthPassphrase"] = self.new_object.get("snmpAuthPassphrase")
+        new_object_params["snmpAuthPassphrase"] = self.new_object.get(
+            "snmpAuthPassphrase"
+        )
         new_object_params["snmpAuthProtocol"] = self.new_object.get("snmpAuthProtocol")
         new_object_params["snmpMode"] = self.new_object.get("snmpMode")
-        new_object_params["snmpPrivPassphrase"] = self.new_object.get("snmpPrivPassphrase")
+        new_object_params["snmpPrivPassphrase"] = self.new_object.get(
+            "snmpPrivPassphrase"
+        )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
         new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
@@ -191,7 +239,9 @@ class NetworkDevice(object):
         new_object_params["cliTransport"] = self.new_object.get("cliTransport")
         new_object_params["computeDevice"] = self.new_object.get("computeDevice")
         new_object_params["enablePassword"] = self.new_object.get("enablePassword")
-        new_object_params["extendedDiscoveryInfo"] = self.new_object.get("extendedDiscoveryInfo")
+        new_object_params["extendedDiscoveryInfo"] = self.new_object.get(
+            "extendedDiscoveryInfo"
+        )
         new_object_params["httpPassword"] = self.new_object.get("httpPassword")
         new_object_params["httpPort"] = self.new_object.get("httpPort")
         new_object_params["httpSecure"] = self.new_object.get("httpSecure")
@@ -201,10 +251,14 @@ class NetworkDevice(object):
         new_object_params["netconfPort"] = self.new_object.get("netconfPort")
         new_object_params["password"] = self.new_object.get("password")
         new_object_params["serialNumber"] = self.new_object.get("serialNumber")
-        new_object_params["snmpAuthPassphrase"] = self.new_object.get("snmpAuthPassphrase")
+        new_object_params["snmpAuthPassphrase"] = self.new_object.get(
+            "snmpAuthPassphrase"
+        )
         new_object_params["snmpAuthProtocol"] = self.new_object.get("snmpAuthProtocol")
         new_object_params["snmpMode"] = self.new_object.get("snmpMode")
-        new_object_params["snmpPrivPassphrase"] = self.new_object.get("snmpPrivPassphrase")
+        new_object_params["snmpPrivPassphrase"] = self.new_object.get(
+            "snmpPrivPassphrase"
+        )
         new_object_params["snmpPrivProtocol"] = self.new_object.get("snmpPrivProtocol")
         new_object_params["snmpROCommunity"] = self.new_object.get("snmpROCommunity")
         new_object_params["snmpRwCommunity"] = self.new_object.get("snmpRwCommunity")
@@ -213,7 +267,9 @@ class NetworkDevice(object):
         new_object_params["snmpUserName"] = self.new_object.get("snmpUserName")
         new_object_params["snmpVersion"] = self.new_object.get("snmpVersion")
         new_object_params["type"] = self.new_object.get("type")
-        new_object_params["updateMgmtIPaddressList"] = self.new_object.get("updateMgmtIPaddressList")
+        new_object_params["updateMgmtIPaddressList"] = self.new_object.get(
+            "updateMgmtIPaddressList"
+        )
         new_object_params["userName"] = self.new_object.get("userName")
         return new_object_params
 
@@ -237,7 +293,9 @@ class NetworkDevice(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="devices", function="get_device_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="devices", function="get_device_by_id", params={"id": id}
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -263,7 +321,9 @@ class NetworkDevice(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -307,7 +367,9 @@ class NetworkDevice(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -358,7 +420,9 @@ class NetworkDevice(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

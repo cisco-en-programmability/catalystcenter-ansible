@@ -69,14 +69,20 @@ class WirelessProfiles(object):
         new_object_params = {}
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
-        new_object_params["wireless_profile_name"] = self.new_object.get("wirelessProfileName") or self.new_object.get("wireless_profile_name")
+        new_object_params["wireless_profile_name"] = self.new_object.get(
+            "wirelessProfileName"
+        ) or self.new_object.get("wireless_profile_name")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["wirelessProfileName"] = self.new_object.get("wirelessProfileName")
+        new_object_params["wirelessProfileName"] = self.new_object.get(
+            "wirelessProfileName"
+        )
         new_object_params["ssidDetails"] = self.new_object.get("ssidDetails")
-        new_object_params["additionalInterfaces"] = self.new_object.get("additionalInterfaces")
+        new_object_params["additionalInterfaces"] = self.new_object.get(
+            "additionalInterfaces"
+        )
         new_object_params["apZones"] = self.new_object.get("apZones")
         new_object_params["featureTemplates"] = self.new_object.get("featureTemplates")
         return new_object_params
@@ -88,9 +94,13 @@ class WirelessProfiles(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params["wirelessProfileName"] = self.new_object.get("wirelessProfileName")
+        new_object_params["wirelessProfileName"] = self.new_object.get(
+            "wirelessProfileName"
+        )
         new_object_params["ssidDetails"] = self.new_object.get("ssidDetails")
-        new_object_params["additionalInterfaces"] = self.new_object.get("additionalInterfaces")
+        new_object_params["additionalInterfaces"] = self.new_object.get(
+            "additionalInterfaces"
+        )
         new_object_params["apZones"] = self.new_object.get("apZones")
         new_object_params["featureTemplates"] = self.new_object.get("featureTemplates")
         new_object_params["id"] = self.new_object.get("id")
@@ -116,7 +126,11 @@ class WirelessProfiles(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="wireless", function="get_wireless_profile_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="wireless",
+                function="get_wireless_profile_by_id",
+                params={"id": id},
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -140,7 +154,9 @@ class WirelessProfiles(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -162,7 +178,9 @@ class WirelessProfiles(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -216,7 +234,9 @@ class WirelessProfiles(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

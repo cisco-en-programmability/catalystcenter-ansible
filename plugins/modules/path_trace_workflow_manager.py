@@ -1194,7 +1194,9 @@ class PathTraceWorkflow(CatalystCenterBase):
             "Getting path trace flow analysis id: {0}".format(str(flow_id)), "INFO"
         )
         try:
-            catalystcenter_api_task_timeout = int(self.payload.get("catalystcenter_api_task_timeout"))
+            catalystcenter_api_task_timeout = int(
+                self.payload.get("catalystcenter_api_task_timeout")
+            )
             start_time = time.time()
 
             while True:
@@ -1291,7 +1293,9 @@ class PathTraceWorkflow(CatalystCenterBase):
                     self.fail_and_exit(self.msg)
 
                 self.log("Received the task id: {0}".format(task_id), "INFO")
-                catalystcenter_api_task_timeout = int(self.payload.get("catalystcenter_api_task_timeout"))
+                catalystcenter_api_task_timeout = int(
+                    self.payload.get("catalystcenter_api_task_timeout")
+                )
                 start_time = time.time()
 
                 while True:
@@ -1670,7 +1674,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

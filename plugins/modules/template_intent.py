@@ -2199,9 +2199,7 @@ class DnacTemplate(CatalystCenterBase):
         )
 
         self.have_template = have_template
-        self.msg = (
-            "Successfully collected all template parameters from catalystcenter for comparison"
-        )
+        self.msg = "Successfully collected all template parameters from catalystcenter for comparison"
         self.status = "success"
         return self
 
@@ -2980,7 +2978,9 @@ class DnacTemplate(CatalystCenterBase):
             is_template_available = self.get_have_project(config)
             self.log("Template availability: {0}".format(is_template_available), "INFO")
             if not is_template_available:
-                self.msg = "Configuration Template config is not applied to the CATALYST."
+                self.msg = (
+                    "Configuration Template config is not applied to the CATALYST."
+                )
                 self.status = "failed"
                 return self
 
@@ -3092,7 +3092,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},

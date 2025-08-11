@@ -53,7 +53,9 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -84,7 +86,9 @@ class ActionModule(ActionBase):
             faulty_device_platform=params.get("faultyDevicePlatform"),
             faulty_device_serial_number=params.get("faultyDeviceSerialNumber"),
             replacement_device_platform=params.get("replacementDevicePlatform"),
-            replacement_device_serial_number=params.get("replacementDeviceSerialNumber"),
+            replacement_device_serial_number=params.get(
+                "replacementDeviceSerialNumber"
+            ),
             replacement_status=params.get("replacementStatus"),
             offset=params.get("offset"),
             limit=params.get("limit"),

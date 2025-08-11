@@ -72,16 +72,22 @@ class CustomIssueDefinitions(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params["id"] = id or self.new_object.get("id")
-        new_object_params["profile_id"] = self.new_object.get("profileId") or self.new_object.get("profile_id")
+        new_object_params["profile_id"] = self.new_object.get(
+            "profileId"
+        ) or self.new_object.get("profile_id")
         new_object_params["name"] = name or self.new_object.get("name")
         new_object_params["priority"] = self.new_object.get("priority")
-        new_object_params["is_enabled"] = self.new_object.get("isEnabled") or self.new_object.get("is_enabled")
+        new_object_params["is_enabled"] = self.new_object.get(
+            "isEnabled"
+        ) or self.new_object.get("is_enabled")
         new_object_params["severity"] = self.new_object.get("severity")
         new_object_params["facility"] = self.new_object.get("facility")
         new_object_params["mnemonic"] = self.new_object.get("mnemonic")
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
-        new_object_params["sort_by"] = self.new_object.get("sortBy") or self.new_object.get("sort_by")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
         new_object_params["order"] = self.new_object.get("order")
         return new_object_params
 
@@ -92,7 +98,9 @@ class CustomIssueDefinitions(object):
         new_object_params["rules"] = self.new_object.get("rules")
         new_object_params["isEnabled"] = self.new_object.get("isEnabled")
         new_object_params["priority"] = self.new_object.get("priority")
-        new_object_params["isNotificationEnabled"] = self.new_object.get("isNotificationEnabled")
+        new_object_params["isNotificationEnabled"] = self.new_object.get(
+            "isNotificationEnabled"
+        )
         return new_object_params
 
     def delete_by_id_params(self):
@@ -107,7 +115,9 @@ class CustomIssueDefinitions(object):
         new_object_params["rules"] = self.new_object.get("rules")
         new_object_params["isEnabled"] = self.new_object.get("isEnabled")
         new_object_params["priority"] = self.new_object.get("priority")
-        new_object_params["isNotificationEnabled"] = self.new_object.get("isNotificationEnabled")
+        new_object_params["isNotificationEnabled"] = self.new_object.get(
+            "isNotificationEnabled"
+        )
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
@@ -132,7 +142,9 @@ class CustomIssueDefinitions(object):
         result = None
         try:
             items = self.catalystcenter.exec(
-                family="issues", function="get_the_custom_issue_definition_for_the_given_custom_issue_definition_id", params={"id": id}
+                family="issues",
+                function="get_the_custom_issue_definition_for_the_given_custom_issue_definition_id",
+                params={"id": id},
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -157,7 +169,9 @@ class CustomIssueDefinitions(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -181,7 +195,9 @@ class CustomIssueDefinitions(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -235,7 +251,9 @@ class CustomIssueDefinitions(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

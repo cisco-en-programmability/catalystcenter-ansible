@@ -72,21 +72,41 @@ class PathTrace(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["periodic_refresh"] = self.new_object.get("periodicRefresh") or self.new_object.get("periodic_refresh")
-        new_object_params["source_ip"] = self.new_object.get("sourceIP") or self.new_object.get("source_ip")
-        new_object_params["dest_ip"] = self.new_object.get("destIP") or self.new_object.get("dest_ip")
-        new_object_params["source_port"] = self.new_object.get("sourcePort") or self.new_object.get("source_port")
-        new_object_params["dest_port"] = self.new_object.get("destPort") or self.new_object.get("dest_port")
-        new_object_params["gt_create_time"] = self.new_object.get("gtCreateTime") or self.new_object.get("gt_create_time")
-        new_object_params["lt_create_time"] = self.new_object.get("ltCreateTime") or self.new_object.get("lt_create_time")
+        new_object_params["periodic_refresh"] = self.new_object.get(
+            "periodicRefresh"
+        ) or self.new_object.get("periodic_refresh")
+        new_object_params["source_ip"] = self.new_object.get(
+            "sourceIP"
+        ) or self.new_object.get("source_ip")
+        new_object_params["dest_ip"] = self.new_object.get(
+            "destIP"
+        ) or self.new_object.get("dest_ip")
+        new_object_params["source_port"] = self.new_object.get(
+            "sourcePort"
+        ) or self.new_object.get("source_port")
+        new_object_params["dest_port"] = self.new_object.get(
+            "destPort"
+        ) or self.new_object.get("dest_port")
+        new_object_params["gt_create_time"] = self.new_object.get(
+            "gtCreateTime"
+        ) or self.new_object.get("gt_create_time")
+        new_object_params["lt_create_time"] = self.new_object.get(
+            "ltCreateTime"
+        ) or self.new_object.get("lt_create_time")
         new_object_params["protocol"] = self.new_object.get("protocol")
         new_object_params["status"] = self.new_object.get("status")
-        new_object_params["task_id"] = self.new_object.get("taskId") or self.new_object.get("task_id")
-        new_object_params["last_update_time"] = self.new_object.get("lastUpdateTime") or self.new_object.get("last_update_time")
+        new_object_params["task_id"] = self.new_object.get(
+            "taskId"
+        ) or self.new_object.get("task_id")
+        new_object_params["last_update_time"] = self.new_object.get(
+            "lastUpdateTime"
+        ) or self.new_object.get("last_update_time")
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["order"] = self.new_object.get("order")
-        new_object_params["sort_by"] = self.new_object.get("sortBy") or self.new_object.get("sort_by")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
         return new_object_params
 
     def create_params(self):
@@ -126,7 +146,11 @@ class PathTrace(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="path_trace", function="retrieves_previous_pathtrace", params={"flow_analysis_id": id})
+            items = self.catalystcenter.exec(
+                family="path_trace",
+                function="retrieves_previous_pathtrace",
+                params={"flow_analysis_id": id},
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -154,7 +178,9 @@ class PathTrace(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("flowAnalysisId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(flow_analysis_id=_id))
@@ -180,7 +206,9 @@ class PathTrace(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -217,7 +245,9 @@ class PathTrace(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

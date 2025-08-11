@@ -68,20 +68,24 @@ class Tag(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params["name"] = name or self.new_object.get("name")
-        new_object_params["additional_info_name_space"] = self.new_object.get("additionalInfo_nameSpace") or self.new_object.get(
-            "additional_info_name_space"
-        )
-        new_object_params["additional_info_attributes"] = self.new_object.get("additionalInfo_attributes") or self.new_object.get(
-            "additional_info_attributes"
-        )
+        new_object_params["additional_info_name_space"] = self.new_object.get(
+            "additionalInfo_nameSpace"
+        ) or self.new_object.get("additional_info_name_space")
+        new_object_params["additional_info_attributes"] = self.new_object.get(
+            "additionalInfo_attributes"
+        ) or self.new_object.get("additional_info_attributes")
         new_object_params["level"] = self.new_object.get("level")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["size"] = self.new_object.get("size")
         new_object_params["field"] = self.new_object.get("field")
-        new_object_params["sort_by"] = self.new_object.get("sortBy") or self.new_object.get("sort_by")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
         new_object_params["order"] = self.new_object.get("order")
-        new_object_params["system_tag"] = self.new_object.get("systemTag") or self.new_object.get("system_tag")
+        new_object_params["system_tag"] = self.new_object.get(
+            "systemTag"
+        ) or self.new_object.get("system_tag")
         return new_object_params
 
     def create_params(self):
@@ -129,7 +133,9 @@ class Tag(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="tag", function="get_tag_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="tag", function="get_tag_by_id", params={"id": id}
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -153,7 +159,9 @@ class Tag(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -175,7 +183,9 @@ class Tag(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -222,7 +232,9 @@ class Tag(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
