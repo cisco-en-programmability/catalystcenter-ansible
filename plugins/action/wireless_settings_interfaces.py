@@ -63,8 +63,12 @@ class WirelessSettingsInterfaces(object):
         new_object_params = {}
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
-        new_object_params["interface_name"] = self.new_object.get("interfaceName") or self.new_object.get("interface_name")
-        new_object_params["vlan_id"] = self.new_object.get("vlanId") or self.new_object.get("vlan_id")
+        new_object_params["interface_name"] = self.new_object.get(
+            "interfaceName"
+        ) or self.new_object.get("interface_name")
+        new_object_params["vlan_id"] = self.new_object.get(
+            "vlanId"
+        ) or self.new_object.get("vlan_id")
         return new_object_params
 
     def create_params(self):
@@ -105,7 +109,9 @@ class WirelessSettingsInterfaces(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="wireless", function="get_interface_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="wireless", function="get_interface_by_id", params={"id": id}
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -129,7 +135,9 @@ class WirelessSettingsInterfaces(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -148,7 +156,9 @@ class WirelessSettingsInterfaces(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -202,7 +212,9 @@ class WirelessSettingsInterfaces(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

@@ -91,9 +91,15 @@ class WirelessRfProfile(object):
         new_object_params["channelWidth"] = self.new_object.get("channelWidth")
         new_object_params["enableCustom"] = self.new_object.get("enableCustom")
         new_object_params["enableBrownField"] = self.new_object.get("enableBrownField")
-        new_object_params["radioTypeAProperties"] = self.new_object.get("radioTypeAProperties")
-        new_object_params["radioTypeBProperties"] = self.new_object.get("radioTypeBProperties")
-        new_object_params["radioTypeCProperties"] = self.new_object.get("radioTypeCProperties")
+        new_object_params["radioTypeAProperties"] = self.new_object.get(
+            "radioTypeAProperties"
+        )
+        new_object_params["radioTypeBProperties"] = self.new_object.get(
+            "radioTypeBProperties"
+        )
+        new_object_params["radioTypeCProperties"] = self.new_object.get(
+            "radioTypeCProperties"
+        )
         new_object_params["enableRadioTypeC"] = self.new_object.get("enableRadioTypeC")
         return new_object_params
 
@@ -145,7 +151,9 @@ class WirelessRfProfile(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -171,7 +179,9 @@ class WirelessRfProfile(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -208,7 +218,9 @@ class WirelessRfProfile(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

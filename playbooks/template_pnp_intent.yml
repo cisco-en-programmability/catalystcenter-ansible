@@ -12,13 +12,13 @@
     #
     - name: Test project template
       cisco.catalystcenter.template_intent:
-        catc_host: "{{ catc_host }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
         state: "merged"
         config_verify: true
         # ignore_errors: true        # Enable this to continue execution even the task fails
@@ -39,13 +39,13 @@
         - template
     - name: Create pnp
       cisco.catalystcenter.pnp_intent:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
         config:
           - site_name: "{{ item.site_name }}"
             project_name: "{{ item.proj_name }}"

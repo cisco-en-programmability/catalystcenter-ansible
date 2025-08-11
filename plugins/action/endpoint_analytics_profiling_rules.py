@@ -86,11 +86,17 @@ class EndpointAnalyticsProfilingRules(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["rule_type"] = self.new_object.get("ruleType") or self.new_object.get("rule_type")
-        new_object_params["include_deleted"] = self.new_object.get("includeDeleted") or self.new_object.get("include_deleted")
+        new_object_params["rule_type"] = self.new_object.get(
+            "ruleType"
+        ) or self.new_object.get("rule_type")
+        new_object_params["include_deleted"] = self.new_object.get(
+            "includeDeleted"
+        ) or self.new_object.get("include_deleted")
         new_object_params["limit"] = self.new_object.get("limit")
         new_object_params["offset"] = self.new_object.get("offset")
-        new_object_params["sort_by"] = self.new_object.get("sortBy") or self.new_object.get("sort_by")
+        new_object_params["sort_by"] = self.new_object.get(
+            "sortBy"
+        ) or self.new_object.get("sort_by")
         new_object_params["order"] = self.new_object.get("order")
         return new_object_params
 
@@ -158,7 +164,9 @@ class EndpointAnalyticsProfilingRules(object):
         result = None
         try:
             items = self.catalystcenter.exec(
-                family="ai_endpoint_analytics", function="get_details_of_a_single_profiling_rule", params={"rule_id": id}
+                family="ai_endpoint_analytics",
+                function="get_details_of_a_single_profiling_rule",
+                params={"rule_id": id},
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -185,7 +193,9 @@ class EndpointAnalyticsProfilingRules(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("ruleId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(rule_id=_id))
@@ -218,7 +228,9 @@ class EndpointAnalyticsProfilingRules(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -276,7 +288,9 @@ class EndpointAnalyticsProfilingRules(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

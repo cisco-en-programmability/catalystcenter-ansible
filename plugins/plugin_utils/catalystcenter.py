@@ -4,7 +4,7 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 try:
@@ -14,6 +14,14 @@ except ImportError:
 else:
     CATALYST_SDK_IS_INSTALLED = True
 from ansible.module_utils._text import to_native
+
+try:
+    from ansible.module_utils.basic import env_fallback  # type: ignore
+except Exception:
+    # Fallback stub to satisfy local linters when Ansible runtime isn't present
+    def env_fallback(_names):  # type: ignore
+        return None
+
 
 try:
     import logging
@@ -73,9 +81,13 @@ def catalystcenter_compare_equality(current_value, requested_value):
     if current_value is None:
         return True
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + \
-            list(requested_value.keys())
-        return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
+        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        return not any(
+            (
+                not fn_comp_key(param, current_value, requested_value)
+                for param in all_dict_params
+            )
+        )
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -86,7 +98,9 @@ def fn_comp_key2(k, dict1, dict2):
     return catalystcenter_compare_equality2(dict1.get(k), dict2.get(k))
 
 
-def catalystcenter_compare_equality2(current_value, requested_value, is_query_param=False):
+def catalystcenter_compare_equality2(
+    current_value, requested_value, is_query_param=False
+):
     if is_query_param:
         return True
     if requested_value is None and current_value is None:
@@ -96,9 +110,13 @@ def catalystcenter_compare_equality2(current_value, requested_value, is_query_pa
     if current_value is None:
         return False
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + \
-            list(requested_value.keys())
-        return not any((not fn_comp_key2(param, current_value, requested_value) for param in all_dict_params))
+        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        return not any(
+            (
+                not fn_comp_key2(param, current_value, requested_value)
+                for param in all_dict_params
+            )
+        )
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -120,7 +138,9 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
                 result = None
         else:
             for item in result:
-                if isinstance(item, dict) and (item.get(key) is None or item.get(key) == value):
+                if isinstance(item, dict) and (
+                    item.get(key) is None or item.get(key) == value
+                ):
                     result = item
                     return result
             result = None
@@ -133,15 +153,42 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        catc_host=dict(type="str", required=True),
-        catc_api_port=dict(type="int", required=False, default=443),
-        catc_username=dict(type="str", default="admin"),
-        catc_password=dict(type="str", no_log=True),
-        catc_verify=dict(type="bool", default=True),
-        catc_version=dict(type="str", default="3.1.3.0"),
-        catc_debug=dict(type="bool", default=False),
-        catc_api_task_timeout=dict(type="int", default=1200),
-        catc_task_poll_interval=dict(type="int", default=2),
+        catalystcenter_host=dict(
+            type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])
+        ),
+        catalystcenter_api_port=dict(
+            type="int",
+            required=False,
+            default=443,
+            fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"]),
+        ),
+        catalystcenter_username=dict(
+            type="str",
+            default="admin",
+            fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
+        ),
+        catalystcenter_password=dict(
+            type="str",
+            no_log=True,
+            fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"]),
+        ),
+        catalystcenter_verify=dict(
+            type="bool",
+            default=True,
+            fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"]),
+        ),
+        catalystcenter_version=dict(
+            type="str",
+            default="3.1.3.0",
+            fallback=(env_fallback, ["CATALYSTCENTER_VERSION"]),
+        ),
+        catalystcenter_debug=dict(
+            type="bool",
+            default=False,
+            fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
+        ),
+        catalystcenter_api_task_timeout=dict(type="int", default=1200),
+        catalystcenter_task_poll_interval=dict(type="int", default=2),
         validate_response_schema=dict(type="bool", default=True),
     )
     return argument_spec
@@ -153,21 +200,24 @@ class CatalystCenterSDK(object):
         self.validate_response_schema = params.get("validate_response_schema")
         if CATALYST_SDK_IS_INSTALLED:
             self.api = api.CatalystCenterAPI(
-                username=params.get("catc_username"),
-                password=params.get("catc_password"),
+                username=params.get("catalystcenter_username"),
+                password=params.get("catalystcenter_password"),
                 base_url="https://{host}:{api_port}".format(
-                    host=params.get("catc_host"), api_port=params.get("catc_api_port")
+                    host=params.get("catalystcenter_host"),
+                    api_port=params.get("catalystcenter_api_port"),
                 ),
-                version=params.get("catc_version"),
-                verify=params.get("catc_verify"),
-                debug=params.get("catc_debug"),
+                version=params.get("catalystcenter_version"),
+                verify=params.get("catalystcenter_verify"),
+                debug=params.get("catalystcenter_debug"),
             )
-            if params.get("catc_debug") and LOGGING_IN_STANDARD:
-                logging.getLogger('catalystcentersdk').addHandler(
-                    logging.StreamHandler())
+            if params.get("catalystcenter_debug") and LOGGING_IN_STANDARD:
+                logging.getLogger("catalystcentersdk").addHandler(
+                    logging.StreamHandler()
+                )
         else:
             self.fail_json(
-                msg="Catalyst Center Python SDK is not installed. Execute 'pip install catalystcentersdk'")
+                msg="Catalyst Center Python SDK is not installed. Execute 'pip install catalystcentersdk'"
+            )
 
     def changed(self):
         self.result["changed"] = True
@@ -191,7 +241,9 @@ class CatalystCenterSDK(object):
         self.result["result"] = "Object already present"
 
     def object_present_and_different(self):
-        self.result["result"] = "Object already present, but it has different values to the requested"
+        self.result["result"] = (
+            "Object already present, but it has different values to the requested"
+        )
 
     def object_modify_result(self, changed=None, result=None):
         if result is not None:
@@ -214,16 +266,17 @@ class CatalystCenterSDK(object):
 
         try:
             if params:
-                file_paths_params = kwargs.get('file_paths', [])
+                file_paths_params = kwargs.get("file_paths", [])
                 # This substitution is for the import file operation
                 if file_paths_params and isinstance(file_paths_params, list):
                     multipart_fields = {}
-                    for (key, value) in file_paths_params:
-                        if isinstance(params.get(key), str) and self.is_file(params[key]):
+                    for key, value in file_paths_params:
+                        if isinstance(params.get(key), str) and self.is_file(
+                            params[key]
+                        ):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
-                            multipart_fields[value] = (
-                                file_name, open(file_path, 'rb'))
+                            multipart_fields[value] = (file_name, open(file_path, "rb"))
 
                     params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)
@@ -233,11 +286,13 @@ class CatalystCenterSDK(object):
 
                 response = func(**params)
 
-                self.result.update({
-                    'status': ANSIBLE_SUCCESS_STATUS,
-                    'failed': False,
-                    'msg': None,
-                })
+                self.result.update(
+                    {
+                        "status": ANSIBLE_SUCCESS_STATUS,
+                        "failed": False,
+                        "msg": None,
+                    }
+                )
             else:
                 response = func()
         except exceptions.catalystcentersdkException as e:
@@ -246,18 +301,20 @@ class CatalystCenterSDK(object):
                     "An error occured when executing operation."
                     " The error was: {error}"
                 ).format(error=to_native(e)),
-                status=e.status_code
+                status=e.status_code,
             )
             response = None
         return response
 
     def fail_json(self, msg, **kwargs):
-        self.result.update({
-            'failed': True,
-            'changed': False,
-            'status': kwargs.get('status'),
-            'msg': msg,
-        })
+        self.result.update(
+            {
+                "failed": True,
+                "changed": False,
+                "status": kwargs.get("status"),
+                "msg": msg,
+            }
+        )
         return self.result
 
     def exit_json(self):

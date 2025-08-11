@@ -109,21 +109,39 @@ class ConfigurationTemplate(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["project_id"] = self.new_object.get("projectId") or self.new_object.get("project_id")
-        new_object_params["software_type"] = self.new_object.get("softwareType") or self.new_object.get("software_type")
-        new_object_params["software_version"] = self.new_object.get("softwareVersion") or self.new_object.get("software_version")
-        new_object_params["product_family"] = self.new_object.get("productFamily") or self.new_object.get("product_family")
-        new_object_params["product_series"] = self.new_object.get("productSeries") or self.new_object.get("product_series")
-        new_object_params["product_type"] = self.new_object.get("productType") or self.new_object.get("product_type")
-        new_object_params["filter_conflicting_templates"] = self.new_object.get("filterConflictingTemplates") or self.new_object.get(
-            "filter_conflicting_templates"
-        )
+        new_object_params["project_id"] = self.new_object.get(
+            "projectId"
+        ) or self.new_object.get("project_id")
+        new_object_params["software_type"] = self.new_object.get(
+            "softwareType"
+        ) or self.new_object.get("software_type")
+        new_object_params["software_version"] = self.new_object.get(
+            "softwareVersion"
+        ) or self.new_object.get("software_version")
+        new_object_params["product_family"] = self.new_object.get(
+            "productFamily"
+        ) or self.new_object.get("product_family")
+        new_object_params["product_series"] = self.new_object.get(
+            "productSeries"
+        ) or self.new_object.get("product_series")
+        new_object_params["product_type"] = self.new_object.get(
+            "productType"
+        ) or self.new_object.get("product_type")
+        new_object_params["filter_conflicting_templates"] = self.new_object.get(
+            "filterConflictingTemplates"
+        ) or self.new_object.get("filter_conflicting_templates")
         new_object_params["tags"] = self.new_object.get("tags")
         new_object_params["project_names"] = (
-            self.new_object.get("projectName") or self.new_object.get("projectNames") or self.new_object.get("project_names")
+            self.new_object.get("projectName")
+            or self.new_object.get("projectNames")
+            or self.new_object.get("project_names")
         )
-        new_object_params["un_committed"] = self.new_object.get("unCommitted") or self.new_object.get("un_committed")
-        new_object_params["sort_order"] = self.new_object.get("sortOrder") or self.new_object.get("sort_order")
+        new_object_params["un_committed"] = self.new_object.get(
+            "unCommitted"
+        ) or self.new_object.get("un_committed")
+        new_object_params["sort_order"] = self.new_object.get(
+            "sortOrder"
+        ) or self.new_object.get("sort_order")
         return new_object_params
 
     def delete_by_id_params(self):
@@ -136,22 +154,32 @@ class ConfigurationTemplate(object):
         new_object_params["tags"] = self.new_object.get("tags")
         new_object_params["author"] = self.new_object.get("author")
         new_object_params["composite"] = self.new_object.get("composite")
-        new_object_params["containingTemplates"] = self.new_object.get("containingTemplates")
+        new_object_params["containingTemplates"] = self.new_object.get(
+            "containingTemplates"
+        )
         new_object_params["createTime"] = self.new_object.get("createTime")
-        new_object_params["customParamsOrder"] = self.new_object.get("customParamsOrder")
+        new_object_params["customParamsOrder"] = self.new_object.get(
+            "customParamsOrder"
+        )
         new_object_params["description"] = self.new_object.get("description")
         new_object_params["deviceTypes"] = self.new_object.get("deviceTypes")
         new_object_params["failurePolicy"] = self.new_object.get("failurePolicy")
         new_object_params["id"] = self.new_object.get("id")
         new_object_params["language"] = self.new_object.get("language")
         new_object_params["lastUpdateTime"] = self.new_object.get("lastUpdateTime")
-        new_object_params["latestVersionTime"] = self.new_object.get("latestVersionTime")
+        new_object_params["latestVersionTime"] = self.new_object.get(
+            "latestVersionTime"
+        )
         new_object_params["name"] = self.new_object.get("name")
         new_object_params["parentTemplateId"] = self.new_object.get("parentTemplateId")
         new_object_params["projectId"] = self.new_object.get("projectId")
         new_object_params["projectName"] = self.new_object.get("projectName")
-        new_object_params["rollbackTemplateContent"] = self.new_object.get("rollbackTemplateContent")
-        new_object_params["rollbackTemplateParams"] = self.new_object.get("rollbackTemplateParams")
+        new_object_params["rollbackTemplateContent"] = self.new_object.get(
+            "rollbackTemplateContent"
+        )
+        new_object_params["rollbackTemplateParams"] = self.new_object.get(
+            "rollbackTemplateParams"
+        )
         new_object_params["softwareType"] = self.new_object.get("softwareType")
         new_object_params["softwareVariant"] = self.new_object.get("softwareVariant")
         new_object_params["softwareVersion"] = self.new_object.get("softwareVersion")
@@ -181,7 +209,11 @@ class ConfigurationTemplate(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="configuration_templates", function="get_template_details", params={"template_id": id})
+            items = self.catalystcenter.exec(
+                family="configuration_templates",
+                function="get_template_details",
+                params={"template_id": id},
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -207,7 +239,9 @@ class ConfigurationTemplate(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("templateId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(template_id=_id))
@@ -251,7 +285,9 @@ class ConfigurationTemplate(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -291,7 +327,9 @@ class ConfigurationTemplate(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -337,7 +375,9 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     catalystcenter.object_already_present()
             else:
-                catalystcenter.fail_json("Object does not exists, plugin only has update")
+                catalystcenter.fail_json(
+                    "Object does not exists, plugin only has update"
+                )
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

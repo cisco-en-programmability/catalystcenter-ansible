@@ -62,25 +62,35 @@ class LanAutomationPortChannels(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["device1_management_ipaddress"] = self.new_object.get("device1ManagementIPAddress") or self.new_object.get(
-            "device1_management_ipaddress"
-        )
-        new_object_params["device1_uuid"] = self.new_object.get("device1Uuid") or self.new_object.get("device1_uuid")
-        new_object_params["device2_management_ipaddress"] = self.new_object.get("device2ManagementIPAddress") or self.new_object.get(
-            "device2_management_ipaddress"
-        )
-        new_object_params["device2_uuid"] = self.new_object.get("device2Uuid") or self.new_object.get("device2_uuid")
+        new_object_params["device1_management_ipaddress"] = self.new_object.get(
+            "device1ManagementIPAddress"
+        ) or self.new_object.get("device1_management_ipaddress")
+        new_object_params["device1_uuid"] = self.new_object.get(
+            "device1Uuid"
+        ) or self.new_object.get("device1_uuid")
+        new_object_params["device2_management_ipaddress"] = self.new_object.get(
+            "device2ManagementIPAddress"
+        ) or self.new_object.get("device2_management_ipaddress")
+        new_object_params["device2_uuid"] = self.new_object.get(
+            "device2Uuid"
+        ) or self.new_object.get("device2_uuid")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["device1ManagementIPAddress"] = self.new_object.get("device1ManagementIPAddress")
+        new_object_params["device1ManagementIPAddress"] = self.new_object.get(
+            "device1ManagementIPAddress"
+        )
         new_object_params["device1Uuid"] = self.new_object.get("device1Uuid")
-        new_object_params["device2ManagementIPAddress"] = self.new_object.get("device2ManagementIPAddress")
+        new_object_params["device2ManagementIPAddress"] = self.new_object.get(
+            "device2ManagementIPAddress"
+        )
         new_object_params["device2Uuid"] = self.new_object.get("device2Uuid")
-        new_object_params["portChannelMembers"] = self.new_object.get("portChannelMembers")
+        new_object_params["portChannelMembers"] = self.new_object.get(
+            "portChannelMembers"
+        )
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -120,7 +130,9 @@ class LanAutomationPortChannels(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -139,7 +151,9 @@ class LanAutomationPortChannels(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -156,7 +170,9 @@ class LanAutomationPortChannels(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

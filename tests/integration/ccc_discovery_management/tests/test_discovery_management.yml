@@ -10,16 +10,16 @@
 
     vars:
       catalystCenter_login: &catalystCenter_login
-        host: "{{ host }}"
-        username: "{{ username }}"
-        password: "{{ password }}"
-        verify: "{{ verify }}"
-        api_port: "{{ api_port }}"
-        version: "{{ version }}"
-        debug: "{{ debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
-        config_verify: true
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        config_catalystcenter_verify: true
 
   - name: Clean up vars
     include_vars:
@@ -65,7 +65,7 @@
   #   register: result_singleip_discovery
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: result_singleip_discovery
 
   # - name: Check single IP discovery creation
@@ -89,7 +89,7 @@
   #   register: result_ip_range_discovery
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: result_ip_range_discovery
 
   # - name: Check IP address range discovery creation
@@ -137,7 +137,7 @@
   #   register: result_cdp_discovery
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: result_cdp_discovery
 
   # - name: Check CDP discovery creation
@@ -161,7 +161,7 @@
   #   register: result_lldp_discovery
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: result_lldp_discovery
 
   # - name: Check LLDP discovery creation
@@ -185,7 +185,7 @@
   #   register: result_cidr_discovery
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: result_cidr_discovery
 
   # - name: Check CIDR discovery creation
@@ -230,7 +230,7 @@
   #   register: result_multiple_discoveries
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: result_multiple_discoveries
   # #   when: result_multiple_discoveries is defined
 
@@ -256,7 +256,7 @@
   #   register: result_delete_discoveries
 
   # # - name: Debug item
-  # #   debug:
+  # #   catalystcenter_debug:
   # #     var: item
   # #   loop: "{{ result_delete_discoveries.results }}"
 

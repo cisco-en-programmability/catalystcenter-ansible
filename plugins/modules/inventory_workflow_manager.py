@@ -765,15 +765,15 @@ EXAMPLES = r"""
 ---
 - name: Add new device in Inventory with full credentials
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -803,15 +803,15 @@ EXAMPLES = r"""
 - name: Add new Compute device in Inventory with full
     credentials.Inputs needed for Compute Device
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -834,15 +834,15 @@ EXAMPLES = r"""
 - name: Add new Meraki device in Inventory with full
     credentials.Inputs needed for Meraki Device.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - httppassword: "test"
@@ -850,15 +850,15 @@ EXAMPLES = r"""
 - name: Add new Firepower Management device in Inventory
     with full credentials.Input needed to add Device.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -871,15 +871,15 @@ EXAMPLES = r"""
 - name: Add new Third Party device in Inventory with
     full credentials.Input needed to add Device.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -896,15 +896,15 @@ EXAMPLES = r"""
         type: "THIRD_PARTY_DEVICE"
 - name: Update device details or credentails in Inventory
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -919,15 +919,15 @@ EXAMPLES = r"""
 - name: Update new management IP address of device in
     inventory
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -940,15 +940,15 @@ EXAMPLES = r"""
 - name: Associate Wired Devices to site and Provisioned
     it in Inventory
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - provision_wired_device:
@@ -962,15 +962,15 @@ EXAMPLES = r"""
             resync_retry_interval: 2
 - name: Update Device Role with IP Address
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -979,15 +979,15 @@ EXAMPLES = r"""
         role: ACCESS
 - name: Update Interface details with IP Address
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -1005,15 +1005,15 @@ EXAMPLES = r"""
 - name: Export Device Details in a CSV file Interface
     details with IP Address
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -1025,15 +1025,15 @@ EXAMPLES = r"""
           parameters: ["componentName", "SerialNumber", "Last Sync Status"]
 - name: Create Global User Defined with IP Address
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -1048,15 +1048,15 @@ EXAMPLES = r"""
             value: "value321"
 - name: Resync Device with IP Addresses
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -1066,15 +1066,15 @@ EXAMPLES = r"""
         force_sync: false
 - name: Reboot AP Devices with IP Addresses
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - ip_address_list:
@@ -1084,15 +1084,15 @@ EXAMPLES = r"""
 - name: Schedule the maintenance for the devices for
     one time.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - devices_maintenance_schedule:
@@ -1107,15 +1107,15 @@ EXAMPLES = r"""
 - name: Schedule the maintenance for the devices with
     recurrence interval and recurrence end time.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - devices_maintenance_schedule:
@@ -1131,15 +1131,15 @@ EXAMPLES = r"""
             recurrence_interval: 2
 - name: Update the maintenance schedule for the devices.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - devices_maintenance_schedule:
@@ -1155,15 +1155,15 @@ EXAMPLES = r"""
             recurrence_interval: 1
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: false
-    catc_log_level: "{{ catc_log_level }}"
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: false
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
     state: deleted
     config:
       - ip_address_list:
@@ -1173,15 +1173,15 @@ EXAMPLES = r"""
 - name: Delete Provision/Unprovision network devices
     along with configuration
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log: false
-    catc_log_level: "{{ catc_log_level }}"
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: false
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
     state: deleted
     config:
       - ip_address_list:
@@ -1190,15 +1190,15 @@ EXAMPLES = r"""
         clean_config: true
 - name: Delete Global User Defined Field with name
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: deleted
     config:
       - ip_address_list:
@@ -1208,15 +1208,15 @@ EXAMPLES = r"""
           - name: "Test123"
 - name: Delete the maintenance schedule for the devices.
   cisco.catalystcenter.inventory_workflow_manager:
-    catc_host: "{{ catc_host }}"
-    catc_username: "{{ catc_username }}"
-    catc_password: "{{ catc_password }}"
-    catc_verify: "{{ catc_verify }}"
-    catc_api_port: "{{ catc_api_port }}"
-    catc_version: "{{ catc_version }}"
-    catc_debug: "{{ catc_debug }}"
-    catc_log_level: "{{ catc_log_level }}"
-    catc_log: false
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: false
     state: merged
     config:
       - devices_maintenance_schedule:
@@ -2093,7 +2093,7 @@ class Inventory(CatalystCenterBase):
                     elif execution_details.get("isError"):
                         resync_failed_devices.extend(device_list)
                         break
-                    time.sleep(self.params.get("catc_task_poll_interval"))
+                    time.sleep(self.params.get("catalystcenter_task_poll_interval"))
 
             if resync_failed_devices and resync_successful_devices:
                 self.msg = (
@@ -2543,9 +2543,7 @@ class Inventory(CatalystCenterBase):
                     ),
                     "INFO",
                 )
-                self.provision_wired_device(
-                    device_ip, site_name_hierarchy, device_type
-                )
+                self.provision_wired_device(device_ip, site_name_hierarchy, device_type)
 
         else:
             device_ip_in_managed_state = []
@@ -7227,24 +7225,27 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catc_host": {
+        "catalystcenter_host": {
             "type": "str",
             "required": True,
         },
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
