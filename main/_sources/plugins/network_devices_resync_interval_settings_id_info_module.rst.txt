@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_resync_interval_settings_id_info module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -111,17 +111,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_api_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_api_port:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_api_port:
 
       .. rst-class:: ansible-option-title
 
-      **catc_api_port**
+      **catalystcenter_api_port**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_api_port" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -149,17 +149,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_debug:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_debug:
 
       .. rst-class:: ansible-option-title
 
-      **catc_debug**
+      **catalystcenter_debug**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_debug" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -191,17 +191,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_host:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_host:
 
       .. rst-class:: ansible-option-title
 
-      **catc_host**
+      **catalystcenter_host**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_host" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -225,17 +225,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_password:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_password:
 
       .. rst-class:: ansible-option-title
 
-      **catc_password**
+      **catalystcenter_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_password" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -259,17 +259,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_username:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_username:
 
       .. rst-class:: ansible-option-title
 
-      **catc_username**
+      **catalystcenter_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_username" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -297,17 +297,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_verify:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_verify:
 
       .. rst-class:: ansible-option-title
 
-      **catc_verify**
+      **catalystcenter_verify**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_verify" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -339,17 +339,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catc_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catc_version:
+      .. _ansible_collections.cisco.catalystcenter.network_devices_resync_interval_settings_id_info_module__parameter-catalystcenter_version:
 
       .. rst-class:: ansible-option-title
 
-      **catc_version**
+      **catalystcenter_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-catc_version" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -522,13 +522,13 @@ Examples
     - name: Get all Network Devices Resync Interval Settings
         Id
       cisco.catalystcenter.network_devices_resync_interval_settings_id_info:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
         id: string
       register: result
