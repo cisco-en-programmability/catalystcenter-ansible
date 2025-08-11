@@ -490,18 +490,18 @@ EXAMPLES = r"""
     - name: Create Enterprise QoS Profile for Optimized
         Network Performance
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -549,18 +549,18 @@ EXAMPLES = r"""
     - name: Configure Enterprise QoS Profile for Consistent
         Traffic Prioritization
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -596,18 +596,18 @@ EXAMPLES = r"""
     - name: Configure QoS Profile for Different Interface
         Speeds
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{catc_host}}"
-        catc_username: "{{catc_username}}"
-        catc_password: "{{catc_password}}"
-        catc_verify: "{{catc_verify}}"
-        catc_api_port: "{{catc_api_port}}"
-        catc_version: "{{catc_version}}"
-        catc_debug: "{{catc_debug}}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: false
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -714,18 +714,18 @@ EXAMPLES = r"""
     - name: Create an Application Queueing Profile for
         Traffic Prioritization
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -804,18 +804,18 @@ EXAMPLES = r"""
     - name: Create an Application Queuing Profile with
         DSCP Settings
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -847,18 +847,18 @@ EXAMPLES = r"""
     - name: Update Application Queuing Profile in Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
@@ -909,18 +909,18 @@ EXAMPLES = r"""
     - name: Delete application queuing profile from
         Cisco Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: deleted
         config:
           - queuing_profile:
@@ -936,18 +936,18 @@ EXAMPLES = r"""
     - name: Create Application with Server Name on Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application:
@@ -973,18 +973,18 @@ EXAMPLES = r"""
     - name: Create application with Server IP on Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application:
@@ -1018,18 +1018,18 @@ EXAMPLES = r"""
     - name: Create Application with URL Type in Cisco
         Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application:
@@ -1057,18 +1057,18 @@ EXAMPLES = r"""
     - name: Delete Video Streaming Application from
         Cisco Catalyst Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: deleted
         config:
           - application:
@@ -1084,18 +1084,18 @@ EXAMPLES = r"""
   tasks:
     - name: Define and Deploy Wired Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application_policy:
@@ -1124,18 +1124,18 @@ EXAMPLES = r"""
   tasks:
     - name: Define and Deploy Wireless Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: merged
         config:
           - application_policy:
@@ -1165,18 +1165,18 @@ EXAMPLES = r"""
     - name: Delete application policy from Cisco Catalyst
         Center
       cisco.catalystcenter.application_policy_workflow_manager:
-        catc_host: "{{ catc_host }}"
-        catc_username: "{{ catc_username }}"
-        catc_password: "{{ catc_password }}"
-        catc_verify: "{{ catc_verify }}"
-        catc_api_port: "{{ catc_api_port }}"
-        catc_version: "{{ catc_version }}"
-        catc_debug: "{{ catc_debug }}"
-        catc_log: true
-        catc_log_level: DEBUG
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
-        catc_api_task_timeout: 1000
-        catc_task_poll_interval: 1
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
         state: deleted
         config:
           - application_policy:
@@ -7432,21 +7432,21 @@ class ApplicationPolicy(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
-        "catc_api_task_timeout": {"type": "int", "default": 1200},
-        "catc_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

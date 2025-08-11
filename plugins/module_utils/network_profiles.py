@@ -692,8 +692,8 @@ class NetworkProfileFunctions(CatalystCenterBase):
                 self.log("self.payload is not a valid dictionary.", "ERROR")
                 return None
 
-            resync_retry_count = int(self.payload.get("catc_api_task_timeout", 10))
-            resync_retry_interval = int(self.payload.get("catc_task_poll_interval", 5))
+            resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 10))
+            resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval", 5))
             while resync_retry_count > 0:
                 task_details_response = self.get_tasks_by_id(task_id)
 

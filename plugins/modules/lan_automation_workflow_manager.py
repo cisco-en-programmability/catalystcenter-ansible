@@ -32,12 +32,12 @@ author:
   - Luna Aliaj (@majlona)
   - Madhan Sankaranarayanan (@madhansansel)
 options:
-  catc_api_task_timeout:
+  catalystcenter_api_task_timeout:
     description: The maximum time to wait for a task
       to complete on Cisco DNA Center for LAN Automation.
     type: int
     default: 604800
-  catc_task_poll_interval:
+  catalystcenter_task_poll_interval:
     description: The interval, in seconds, to poll for
       task completion.
     type: int
@@ -353,14 +353,14 @@ EXAMPLES = r"""
 - name: Start a LAN Automation session without waiting
     for it to finish
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -399,14 +399,14 @@ EXAMPLES = r"""
 - name: Start a LAN Automation session with device authorization
     and waiting for the task to complete
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -447,14 +447,14 @@ EXAMPLES = r"""
             - "FJC2721261A"
 - name: Stop a LAN Automation session
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: deleted
     config:
@@ -464,14 +464,14 @@ EXAMPLES = r"""
           primary_device_management_ip_address: "204.1.1.1"
 - name: Update loopback for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -483,14 +483,14 @@ EXAMPLES = r"""
               new_loopback0_ip_address: "91.1.2.5"
 - name: Update hostname for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -502,14 +502,14 @@ EXAMPLES = r"""
               new_host_name: "Test"
 - name: Add link for LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -522,14 +522,14 @@ EXAMPLES = r"""
             ip_pool_name: "underlay_sj"
 - name: Delete link between LAN Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -542,14 +542,14 @@ EXAMPLES = r"""
 - name: Apply loopback and hostname updates for LAN
     Automated devices
   cisco.catalystcenter.lan_automation_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
     config_verify: false
     state: merged
     config:
@@ -3021,7 +3021,7 @@ class LanAutomation(CatalystCenterBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
 
             self.log("Waiting for 30 seconds before the next status check...", "DEBUG")
-            time.sleep(self.params.get("catc_task_poll_interval", 30))
+            time.sleep(self.params.get("catalystcenter_task_poll_interval", 30))
 
         if self.status != "success":
             elapsed_time = time.time() - start_time
@@ -3205,7 +3205,7 @@ class LanAutomation(CatalystCenterBase):
                         "DEBUG",
                     )
 
-                    time.sleep(self.params.get("catc_task_poll_interval", 30))
+                    time.sleep(self.params.get("catalystcenter_task_poll_interval", 30))
 
         return self
 
@@ -3740,12 +3740,12 @@ class LanAutomation(CatalystCenterBase):
             self.log(
                 "LAN automation session for seed IP '{0}' is still running. Checking again in "
                 "{1} seconds...".format(
-                    seed_ip_address, self.params.get("catc_task_poll_interval")
+                    seed_ip_address, self.params.get("catalystcenter_task_poll_interval")
                 ),
                 "INFO",
             )
 
-            time.sleep(self.params.get("catc_task_poll_interval"))
+            time.sleep(self.params.get("catalystcenter_task_poll_interval"))
 
         self.status = "failed"
         self.msg = (
@@ -3823,21 +3823,21 @@ def main():
 
     # Define the specification for the module's arguments
     element_spec = {
-        "catc_host": {"required": True, "type": "str"},
-        "catc_api_port": {"type": "str", "default": "443"},
-        "catc_username": {"type": "str", "default": "admin"},
-        "catc_password": {"type": "str", "no_log": True},
-        "catc_verify": {"type": "bool", "default": "True"},
-        "catc_version": {"type": "str", "default": "2.2.3.3"},
-        "catc_debug": {"type": "bool", "default": False},
-        "catc_log_level": {"type": "str", "default": "WARNING"},
-        "catc_log_file_path": {"type": "str", "default": "catalystcenter.log"},
-        "catc_log_append": {"type": "bool", "default": True},
-        "catc_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_api_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
-        "catc_api_task_timeout": {"type": "int", "default": 604800},
-        "catc_task_poll_interval": {"type": "int", "default": 30},
+        "catalystcenter_api_task_timeout": {"type": "int", "default": 604800},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 30},
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }

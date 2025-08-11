@@ -169,15 +169,15 @@ notes:
 EXAMPLES = r"""
 - name: Create a new area site
   cisco.catalystcenter.site_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: "{{log}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: "{{log}}"
     state: merged
     config:
       - site:
@@ -187,15 +187,15 @@ EXAMPLES = r"""
         site_type: area
 - name: Create a new building site
   cisco.catalystcenter.site_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: "{{log}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: "{{log}}"
     state: merged
     config:
       - site:
@@ -208,15 +208,15 @@ EXAMPLES = r"""
         site_type: building
 - name: Create a Floor site under the building
   cisco.catalystcenter.site_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: "{{log}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: "{{log}}"
     state: merged
     config:
       - site:
@@ -231,15 +231,15 @@ EXAMPLES = r"""
         site_type: floor
 - name: Updating the Floor details under the building
   cisco.catalystcenter.site_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: "{{log}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: "{{log}}"
     state: merged
     config:
       - site:
@@ -252,15 +252,15 @@ EXAMPLES = r"""
         site_type: floor
 - name: Deleting any site you need site name and parent name
   cisco.catalystcenter.site_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log_level: "{{log_level}}"
-    catc_log: "{{log}}"
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log: "{{log}}"
     state: deleted
     config:
       - site:
@@ -270,15 +270,15 @@ EXAMPLES = r"""
         site_type: floor
 - name: Create bulk sites and upload floor map
   cisco.catalystcenter.site_workflow_manager:
-    catc_host: "{{catc_host}}"
-    catc_username: "{{catc_username}}"
-    catc_password: "{{catc_password}}"
-    catc_verify: "{{catc_verify}}"
-    catc_api_port: "{{catc_api_port}}"
-    catc_version: "{{catc_version}}"
-    catc_debug: "{{catc_debug}}"
-    catc_log: true
-    catc_log_level: DEBUG
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
     config_verify: true
     state: merged
     config:
@@ -2624,21 +2624,21 @@ class Site(CatalystCenterBase):
 def main():
     """ main entry point for module execution
     """
-    element_spec = {'catc_host': {'required': True, 'type': 'str'},
-                    'catc_api_port': {'type': 'str', 'default': '443'},
-                    'catc_username': {'type': 'str', 'default': 'admin'},
-                    'catc_password': {'type': 'str', 'no_log': True},
-                    'catc_verify': {'type': 'bool', 'default': 'True'},
-                    'catc_version': {'type': 'str', 'default': '2.2.3.3'},
-                    'catc_debug': {'type': 'bool', 'default': False},
-                    'catc_log_level': {'type': 'str', 'default': 'WARNING'},
-                    "catc_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
-                    "catc_log_append": {"type": 'bool', "default": True},
-                    'catc_log': {'type': 'bool', 'default': False},
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_api_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin'},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
                     'validate_response_schema': {'type': 'bool', 'default': True},
                     'config_verify': {'type': 'bool', "default": False},
-                    'catc_api_task_timeout': {'type': 'int', "default": 1200},
-                    'catc_task_poll_interval': {'type': 'int', "default": 2},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
                     'config': {'required': True, 'type': 'list', 'elements': 'dict'},
                     'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
                     }
