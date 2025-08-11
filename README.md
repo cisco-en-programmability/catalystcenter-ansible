@@ -10,6 +10,7 @@ This collection has been tested and supports Cisco CATALYST Center 2.3.7.6.
 Other versions of this collection have support for previous Cisco CATALYST Center versions. The recommended versions are listed below on the [Compatibility matrix](https://github.com/cisco-en-programmability/catalystcenter-ansible#compatibility-matrix).
 
 ## Compatibility matrix
+
 The following table shows the supported versions.
 
 | Cisco CATALYST Center version | Ansible "cisco.catalystcenter" version | Python "catalystcentersdk" version |
@@ -20,8 +21,7 @@ The following table shows the supported versions.
 
 If your Ansible collection is older please consider updating it first.
 
-*Notes*:
-
+Notes:
 
 1. The "Python 'catalystcentersdk' version" column has the minimum recommended version used when testing the Ansible collection. This means you could use later versions of the Python "catalystcentersdk" than those listed.
 2. The "Cisco CATALYST Center version" column has the value of the `version` you should use for the Ansible collection.
@@ -31,61 +31,74 @@ If your Ansible collection is older please consider updating it first.
 For example, for Cisco CATALYST Center 2.3.7.6, it is recommended to use Ansible "cisco.catalystcenter" v2.3.7.6 and Python "catalystcentersdk" v2.3.7.6.
 
 To get the Python CATALYST Center SDK v2.3.7.9 in a fresh development environment:
-```
+
+```bash
 sudo pip install catalystcentersdk==2.3.7.9
 ```
 
 To get the Ansible collection v1.0.0 in a fresh development environment:
-```
+
+```bash
 ansible-galaxy collection install cisco.catalystcenter:1.0.0
 ```
 
 ## Requirements
+
 - Ansible >= 2.15
 - [Python CATALYST Center SDK](https://github.com/cisco-en-programmability/catalystcentersdk) v1.0.0 or newer
 - Python >= 3.9, as the CATALYST Center SDK doesn't support Python version 2.x
 
 ## Install
+
 Ansible must be installed ([Install guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html))
-```
+
+```bash
 sudo pip install ansible
 ```
 
 Python CATALYST Center SDK must be installed
-```
+
+```bash
 sudo pip install catalystcentersdk
 ```
 
 Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/catalystcenter))
-```
+
+```bash
 ansible-galaxy collection install cisco.catalystcenter
 ```
+
 ## Using this collection
 
 There are three ways to use it:
-- [Using environment variables](#using-environment-variables)
-- [Using vars_files](#using-vars_files)
+
+- Using environment variables
+- Using vars_files
 
 ### Using environment variables
+
 First, export the environment variables where you specify your CATALYST Center credentials as ansible variables:
-```
-export CATALYST_HOST=<A.B.C.D>
-export CATALYST_PORT=443 # optional, defaults to 443
-export CATALYST_USERNAME=<username>
-export CATALYST_PASSWORD=<password>
-export CATALYST_VERSION=2.3.7.6 # optional, defaults to 2.3.7.6. See the Compatibility matrix
-export CATALYST_VERIFY=False # optional, defaults to True
-export CATALYST_DEBUG=False # optional, defaults to False
+
+```bash
+export CATALYSTCENTER_HOST=<A.B.C.D>
+export CATALYSTCENTER_API_PORT=443 # optional, defaults to 443
+export CATALYSTCENTER_USERNAME=<username>
+export CATALYSTCENTER_PASSWORD=<password>
+export CATALYSTCENTER_VERSION=3.1.3.0 # optional, see the Compatibility matrix
+export CATALYSTCENTER_VERIFY=False # optional, defaults to True
+export CATALYSTCENTER_DEBUG=False # optional, defaults to False
 ```
 
 Create a `hosts` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/hosts)) file that uses `[catalystcenter_servers]` with your Cisco CATALYST Center Settings:
-```
+
+```ini
 [catalystcenter_servers]
 catalystcenter_server
 ```
 
-Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
-```
+Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/tag.yml)) specifying the full namespace path to the module, plugin and/or role. The module will read connection details from the environment variables above:
+
+```yaml
 - hosts: catalystcenter_servers
   gather_facts: false
   tasks:
@@ -98,32 +111,36 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
 ```
 
 Execute the playbook:
-```
+
+```bash
 ansible-playbook -i hosts myplaybook.yml
 ```
 
 ### Using vars_files
 
 First, define a `credentials.yml` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/credentials.template)) file where you specify your CATALYST Center credentials as Ansible variables:
-```
+
+```yaml
 ---
-host: <A.B.C.D>
-api_port: 443  # optional, defaults to 443
-username: <username>
-password: <password>
-version: 2.3.7.6  # optional, defaults to 2.3.7.6. See the Compatibility matrix
-verify: False  # optional, defaults to True
-debug: False  # optional, defaults to False
+catalystcenter_host: <A.B.C.D>
+catalystcenter_api_port: 443  # optional, defaults to 443
+catalystcenter_username: <username>
+catalystcenter_password: <password>
+catalystcenter_version: 3.1.3.0  # optional, see the Compatibility matrix
+catalystcenter_verify: False  # optional, defaults to True
+catalystcenter_debug: False  # optional, defaults to False
 ```
 
 Create a `hosts` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/hosts)) file that uses `[catalystcenter_servers]` with your Cisco CATALYST Center Settings:
-```
+
+```ini
 [catalystcenter_servers]
 catalystcenter_server
 ```
 
 Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks/tag.yml)) referencing the variables in your credentials.yml file and specifying the full namespace path to the module, plugin and/or role:
-```
+
+```yaml
 - hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
@@ -131,10 +148,13 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
   tasks:
   - name: Create tag with name "MyNewTag"
     cisco.catalystcenter.tag:
-      host: "{{ host }}"
-      username: "{{ username }}"
-      password: "{{ password }}"
-      verify: "{{ verify }}"
+      catalystcenter_host: "{{ catalystcenter_host }}"
+      catalystcenter_username: "{{ catalystcenter_username }}"
+      catalystcenter_password: "{{ catalystcenter_password }}"
+      catalystcenter_verify: "{{ catalystcenter_verify }}"
+      catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+      catalystcenter_version: "{{ catalystcenter_version }}"
+      catalystcenter_debug: "{{ catalystcenter_debug }}"
       state: present
       description: My Tag
       name: MyNewTag
@@ -142,52 +162,59 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
 ```
 
 Execute the playbook:
-```
+
+```bash
 ansible-playbook -i hosts myplaybook.yml
 ```
+
 In the `playbooks` [directory](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks) you can find more examples and use cases.
 
-
 ## Update
+
 Getting the latest/nightly collection build
 
 Clone the catalystcenter-ansible repository.
-```
+
+```bash
 git clone https://github.com/cisco-en-programmability/catalystcenter-ansible.git
 ```
 
 Go to the catalystcenter-ansible directory
-```
+
+```bash
 cd catalystcenter-ansible
 ```
 
 Pull the latest master from the repo
-```
+
+```bash
 git pull origin master
 ```
 
 Build and install a collection from source
-```
+
+```bash
 ansible-galaxy collection build --force
 ansible-galaxy collection install cisco-catalystcenter-* --force
 ```
 
-### See Also:
+### See Also
 
-* [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.
+- [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.
 
 ## Attention macOS users
 
 If you're using macOS you may receive this error when running your playbook:
 
-```
+```text
 objc[34120]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
 objc[34120]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called. We cannot safely call it or ignore it in the fork() child process. Crashing instead. Set a breakpoint on objc_initializeAfterForkError to debug.
 ERROR! A worker was found in a dead state
 ```
 
 If that's the case try setting this environment variable:
-```
+
+```bash
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 ```
 
@@ -198,6 +225,7 @@ Ongoing development efforts and contributions to this collection are tracked as 
 We welcome community contributions to this collection. If you find problems, need an enhancement or need a new module, please open an issue or create a PR against the [Cisco CATALYST Center Ansible collection repository](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues).
 
 ## Code of Conduct
+
 This collection follows the Ansible project's
 [Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html).
 Please read and familiarize yourself with this document.

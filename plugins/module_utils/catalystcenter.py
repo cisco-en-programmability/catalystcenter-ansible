@@ -14,6 +14,12 @@ else:
     CATALYST_SDK_IS_INSTALLED = True
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
+# Añadir import de env_fallback con protección
+try:
+    from ansible.module_utils.basic import env_fallback  # type: ignore
+except Exception:
+    def env_fallback(_names):  # type: ignore
+        return None
 from abc import ABCMeta, abstractmethod
 try:
     import logging
@@ -807,13 +813,13 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 
 def catalystcenter_argument_spec():
     argument_spec = dict(
-        catalystcenter_host=dict(type="str", required=True),
-        catalystcenter_api_port=dict(type="int", required=False, default=443),
-        catalystcenter_username=dict(type="str", default="admin"),
-        catalystcenter_password=dict(type="str", no_log=True),
-        catalystcenter_verify=dict(type="bool", default=True),
-        catalystcenter_version=dict(type="str", default="3.1.3.0"),
-        catalystcenter_debug=dict(type="bool", default=False),
+        catalystcenter_host=dict(type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])),
+        catalystcenter_api_port=dict(type="int", required=False, default=443, fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"])),
+        catalystcenter_username=dict(type="str", default="admin", fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"])),
+        catalystcenter_password=dict(type="str", no_log=True, fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"])),
+        catalystcenter_verify=dict(type="bool", default=True, fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"])),
+        catalystcenter_version=dict(type="str", default="3.1.3.0", fallback=(env_fallback, ["CATALYSTCENTER_VERSION"])),
+        catalystcenter_debug=dict(type="bool", default=False, fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"])),
         catalystcenter_api_task_timeout=dict(type="int", default=1200),
         catalystcenter_task_poll_interval=dict(type="int", default=2),
         validate_response_schema=dict(type="bool", default=True),
