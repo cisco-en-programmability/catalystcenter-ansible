@@ -48,7 +48,9 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -78,8 +80,12 @@ class ActionModule(ActionBase):
             skipApProvision=params.get("skipApProvision"),
             rollingApUpgrade=params.get("rollingApUpgrade"),
             apAuthorizationListName=params.get("apAuthorizationListName"),
-            authorizeMeshAndNonMeshAccessPoints=params.get("authorizeMeshAndNonMeshAccessPoints"),
-            featureTemplatesOverridenAttributes=params.get("featureTemplatesOverridenAttributes"),
+            authorizeMeshAndNonMeshAccessPoints=params.get(
+                "authorizeMeshAndNonMeshAccessPoints"
+            ),
+            featureTemplatesOverridenAttributes=params.get(
+                "featureTemplatesOverridenAttributes"
+            ),
             device_id=params.get("deviceId"),
         )
         return new_object

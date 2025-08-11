@@ -2288,7 +2288,7 @@ class AssuranceSettings(CatalystCenterBase):
             "network_device_ip_address",
             "device_name",
             "issue_process_type",
-            "mac_address"
+            "mac_address",
         ]
 
         for key, value in config_data.items():
@@ -2529,11 +2529,15 @@ class AssuranceSettings(CatalystCenterBase):
                 self.log("No execution ID received from API response.", "ERROR")
                 return None
 
-            resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
+            resync_retry_count = int(
+                self.payload.get("catalystcenter_api_task_timeout", 100)
+            )
 
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
-                resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
+                resync_retry_count = int(
+                    self.payload.get("catalystcenter_api_task_timeout", 100)
+                )
                 resync_retry_interval = int(
                     self.payload.get("catalystcenter_task_poll_interval", 5)
                 )
@@ -4061,7 +4065,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

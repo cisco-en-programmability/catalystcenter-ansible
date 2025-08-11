@@ -581,7 +581,11 @@ class DeviceConfigsBackup(CatalystCenterBase):
         processed_device_count = 0
         skipped_device_count = 0
         # Define device families to skip
-        skipped_device_families = {"Unified AP", "Wireless Sensor", "Third Party Device"}
+        skipped_device_families = {
+            "Unified AP",
+            "Wireless Sensor",
+            "Third Party Device",
+        }
 
         try:
             offset = 1
@@ -624,7 +628,10 @@ class DeviceConfigsBackup(CatalystCenterBase):
                     collection_status = device_info.get("collectionStatus")
                     device_family = device_info.get("family")
 
-                    if reachability == "Reachable" and collection_status in ["Managed", "In Progress"]:
+                    if reachability == "Reachable" and collection_status in [
+                        "Managed",
+                        "In Progress",
+                    ]:
                         # Skip Unified AP devices
                         if device_family not in skipped_device_families:
                             device_id = device_info["id"]
@@ -633,8 +640,10 @@ class DeviceConfigsBackup(CatalystCenterBase):
                             skipped_device_count += 1
                             self.skipped_devices_list.append(device_ip)
                             self.log(
-                                "Skipping device {0} as its family is: {1}.".format(device_ip, device_family),
-                                "INFO"
+                                "Skipping device {0} as its family is: {1}.".format(
+                                    device_ip, device_family
+                                ),
+                                "INFO",
                             )
                     else:
                         skipped_device_count += 1
@@ -643,7 +652,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
                             "Skipping device {0} as its reachabilityStatus is '{1}' or collectionStatus is '{2}'.".format(
                                 device_ip, reachability, collection_status
                             ),
-                            "INFO"
+                            "INFO",
                         )
 
                 # Check if the response size is less than the limit
@@ -1370,7 +1379,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

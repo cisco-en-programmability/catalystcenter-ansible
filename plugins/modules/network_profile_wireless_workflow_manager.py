@@ -1263,9 +1263,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             "vlan_id": vlan_id,
         }
         try:
-            interfaces = self.execute_get_request(
-                "wireless", "get_interfaces", payload
-            )
+            interfaces = self.execute_get_request("wireless", "get_interfaces", payload)
             if interfaces and isinstance(interfaces.get("response"), list):
                 self.log(
                     "Interface {0} with VLAN {1} already exists.".format(
@@ -2507,7 +2505,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

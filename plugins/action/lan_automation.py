@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -- coding: utf-8 --
 from ansible.plugins.action import ActionBase
-from ansible_collections.cisco.catalystcenter.plugins.action.lan_automation_v2 import ActionModule
+from ansible_collections.cisco.catalystcenter.plugins.action.lan_automation_v2 import (
+    ActionModule,
+)
 
 
 class ActionModule2(ActionBase):

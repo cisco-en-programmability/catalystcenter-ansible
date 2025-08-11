@@ -48,7 +48,9 @@ mutually_exclusive = []
 required_together = []
 
 
-class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModelsPreviewActivityIdConfig(object):
+class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModelsPreviewActivityIdConfig(
+    object
+):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
@@ -69,7 +71,9 @@ class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModel
         result = None
         try:
             items = self.catalystcenter.exec(
-                family="wired", function="gets_the_device_config_for_the_configuration_model", params={"preview_activity_id": id}
+                family="wired",
+                function="gets_the_device_config_for_the_configuration_model",
+                params={"preview_activity_id": id},
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -96,7 +100,9 @@ class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModel
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("previewActivityId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(preview_activity_id=_id))
@@ -115,7 +121,9 @@ class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModel
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -132,7 +140,9 @@ class WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModel
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -163,7 +173,9 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         catalystcenter = CatalystCenterSDK(self._task.args)
-        obj = WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModelsPreviewActivityIdConfig(self._task.args, catalystcenter)
+        obj = WiredNetworkDevicesNetworkDeviceIdConfigFeaturesIntendedConfigurationModelsPreviewActivityIdConfig(
+            self._task.args, catalystcenter
+        )
 
         state = self._task.args.get("state")
 

@@ -53,7 +53,9 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -89,7 +91,9 @@ class ActionModule(ActionBase):
             cbar_readiness_status=params.get("cbarReadinessStatus"),
             protocol_pack_status=params.get("protocolPackStatus"),
             protocol_pack_update_status=params.get("protocolPackUpdateStatus"),
-            application_registry_sync_status=params.get("applicationRegistrySyncStatus"),
+            application_registry_sync_status=params.get(
+                "applicationRegistrySyncStatus"
+            ),
             headers=params.get("headers"),
         )
         return new_object

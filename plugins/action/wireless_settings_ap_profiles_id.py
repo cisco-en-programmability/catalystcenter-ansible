@@ -98,20 +98,36 @@ class WirelessSettingsApProfilesId(object):
         new_object_params = {}
         new_object_params["apProfileName"] = self.new_object.get("apProfileName")
         new_object_params["description"] = self.new_object.get("description")
-        new_object_params["remoteWorkerEnabled"] = self.new_object.get("remoteWorkerEnabled")
-        new_object_params["managementSetting"] = self.new_object.get("managementSetting")
+        new_object_params["remoteWorkerEnabled"] = self.new_object.get(
+            "remoteWorkerEnabled"
+        )
+        new_object_params["managementSetting"] = self.new_object.get(
+            "managementSetting"
+        )
         new_object_params["awipsEnabled"] = self.new_object.get("awipsEnabled")
-        new_object_params["awipsForensicEnabled"] = self.new_object.get("awipsForensicEnabled")
-        new_object_params["rogueDetectionSetting"] = self.new_object.get("rogueDetectionSetting")
+        new_object_params["awipsForensicEnabled"] = self.new_object.get(
+            "awipsForensicEnabled"
+        )
+        new_object_params["rogueDetectionSetting"] = self.new_object.get(
+            "rogueDetectionSetting"
+        )
         new_object_params["pmfDenialEnabled"] = self.new_object.get("pmfDenialEnabled")
         new_object_params["meshEnabled"] = self.new_object.get("meshEnabled")
         new_object_params["meshSetting"] = self.new_object.get("meshSetting")
-        new_object_params["apPowerProfileName"] = self.new_object.get("apPowerProfileName")
-        new_object_params["calendarPowerProfiles"] = self.new_object.get("calendarPowerProfiles")
+        new_object_params["apPowerProfileName"] = self.new_object.get(
+            "apPowerProfileName"
+        )
+        new_object_params["calendarPowerProfiles"] = self.new_object.get(
+            "calendarPowerProfiles"
+        )
         new_object_params["countryCode"] = self.new_object.get("countryCode")
         new_object_params["timeZone"] = self.new_object.get("timeZone")
-        new_object_params["timeZoneOffsetHour"] = self.new_object.get("timeZoneOffsetHour")
-        new_object_params["timeZoneOffsetMinutes"] = self.new_object.get("timeZoneOffsetMinutes")
+        new_object_params["timeZoneOffsetHour"] = self.new_object.get(
+            "timeZoneOffsetHour"
+        )
+        new_object_params["timeZoneOffsetMinutes"] = self.new_object.get(
+            "timeZoneOffsetMinutes"
+        )
         new_object_params["clientLimit"] = self.new_object.get("clientLimit")
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
@@ -124,7 +140,9 @@ class WirelessSettingsApProfilesId(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="wireless", function="get_ap_profile_by_id", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="wireless", function="get_ap_profile_by_id", params={"id": id}
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -148,7 +166,9 @@ class WirelessSettingsApProfilesId(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -182,7 +202,9 @@ class WirelessSettingsApProfilesId(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -227,7 +249,9 @@ class WirelessSettingsApProfilesId(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -273,7 +297,9 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     catalystcenter.object_already_present()
             else:
-                catalystcenter.fail_json("Object does not exists, plugin only has update")
+                catalystcenter.fail_json(
+                    "Object does not exists, plugin only has update"
+                )
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

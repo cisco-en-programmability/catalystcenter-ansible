@@ -4,14 +4,15 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
+
 __metaclass__ = type
 
 
 class ModuleDocFragment(object):
 
     # Standard files documentation fragment
-    DOCUMENTATION = r'''
+    DOCUMENTATION = r"""
 options:
     catalystcenter_host:
         description:
@@ -112,4 +113,4 @@ notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins,"
     - "but instead uses the embedded connection manager from Cisco CATALYST SDK"
-'''
+"""

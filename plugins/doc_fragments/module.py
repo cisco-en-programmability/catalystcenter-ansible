@@ -12,7 +12,7 @@ __metaclass__ = type
 class ModuleDocFragment(object):
 
     # Standard files documentation fragment
-    DOCUMENTATION = r'''
+    DOCUMENTATION = r"""
 options:
     catalystcenter_host:
         description:
@@ -57,4 +57,4 @@ notes:
     - "Does not support C(check_mode)"
     - "The plugin runs on the control node and does not use any ansible connection plugins,"
     - "but instead uses the embedded connection manager from Cisco CATALYST SDK"
-'''
+"""

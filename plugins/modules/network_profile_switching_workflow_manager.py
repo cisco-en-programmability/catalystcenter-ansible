@@ -472,7 +472,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         limit = 500
 
         resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-        resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
+        resync_retry_interval = int(
+            self.payload.get("catalystcenter_task_poll_interval")
+        )
         while resync_retry_count > 0:
             profiles = self.get_network_profile("Switching", offset, limit)
             if not profiles:
@@ -1219,7 +1221,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

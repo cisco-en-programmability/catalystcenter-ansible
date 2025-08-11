@@ -91,19 +91,27 @@ class AuthenticationPolicyServers(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["is_ise_enabled"] = self.new_object.get("isIseEnabled") or self.new_object.get("is_ise_enabled")
-        new_object_params["state"] = self.new_object.get("state_") or self.new_object.get("state")
+        new_object_params["is_ise_enabled"] = self.new_object.get(
+            "isIseEnabled"
+        ) or self.new_object.get("is_ise_enabled")
+        new_object_params["state"] = self.new_object.get(
+            "state_"
+        ) or self.new_object.get("state")
         new_object_params["role"] = self.new_object.get("role")
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params["authenticationPort"] = self.new_object.get("authenticationPort")
+        new_object_params["authenticationPort"] = self.new_object.get(
+            "authenticationPort"
+        )
         new_object_params["accountingPort"] = self.new_object.get("accountingPort")
         new_object_params["ciscoIseDtos"] = self.new_object.get("ciscoIseDtos")
         new_object_params["ipAddress"] = self.new_object.get("ipAddress")
         new_object_params["pxgridEnabled"] = self.new_object.get("pxgridEnabled")
-        new_object_params["useDnacCertForPxgrid"] = self.new_object.get("useDnacCertForPxgrid")
+        new_object_params["useDnacCertForPxgrid"] = self.new_object.get(
+            "useDnacCertForPxgrid"
+        )
         new_object_params["isIseEnabled"] = self.new_object.get("isIseEnabled")
         new_object_params["port"] = self.new_object.get("port")
         new_object_params["protocol"] = self.new_object.get("protocol")
@@ -114,7 +122,9 @@ class AuthenticationPolicyServers(object):
         new_object_params["encryptionScheme"] = self.new_object.get("encryptionScheme")
         new_object_params["messageKey"] = self.new_object.get("messageKey")
         new_object_params["encryptionKey"] = self.new_object.get("encryptionKey")
-        new_object_params["externalCiscoIseIpAddrDtos"] = self.new_object.get("externalCiscoIseIpAddrDtos")
+        new_object_params["externalCiscoIseIpAddrDtos"] = self.new_object.get(
+            "externalCiscoIseIpAddrDtos"
+        )
         return new_object_params
 
     def delete_by_id_params(self):
@@ -129,11 +139,17 @@ class AuthenticationPolicyServers(object):
         new_object_params["protocol"] = self.new_object.get("protocol")
         new_object_params["retries"] = self.new_object.get("retries")
         new_object_params["timeoutSeconds"] = self.new_object.get("timeoutSeconds")
-        new_object_params["externalCiscoIseIpAddrDtos"] = self.new_object.get("externalCiscoIseIpAddrDtos")
-        new_object_params["authenticationPort"] = self.new_object.get("authenticationPort")
+        new_object_params["externalCiscoIseIpAddrDtos"] = self.new_object.get(
+            "externalCiscoIseIpAddrDtos"
+        )
+        new_object_params["authenticationPort"] = self.new_object.get(
+            "authenticationPort"
+        )
         new_object_params["accountingPort"] = self.new_object.get("accountingPort")
         new_object_params["port"] = self.new_object.get("port")
-        new_object_params["useDnacCertForPxgrid"] = self.new_object.get("useDnacCertForPxgrid")
+        new_object_params["useDnacCertForPxgrid"] = self.new_object.get(
+            "useDnacCertForPxgrid"
+        )
         new_object_params["id"] = self.new_object.get("id")
         return new_object_params
 
@@ -186,7 +202,9 @@ class AuthenticationPolicyServers(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -218,7 +236,9 @@ class AuthenticationPolicyServers(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -272,7 +292,9 @@ class AuthenticationPolicyServers(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

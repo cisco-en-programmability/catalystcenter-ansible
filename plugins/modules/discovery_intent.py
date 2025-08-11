@@ -740,8 +740,7 @@ class Discovery(CatalystCenterBase):
                 "required": True,
                 "elements": "str",
             }
-            discovery_spec["discovery_type"] = {
-                "type": "str", "required": True}
+            discovery_spec["discovery_type"] = {"type": "str", "required": True}
 
         elif state == "deleted":
             if self.config[0].get("delete_all") is True:
@@ -824,8 +823,7 @@ class Discovery(CatalystCenterBase):
         """
 
         self.log(
-            "Credential Ids list passed is {0}".format(
-                str(self.creds_ids_list)), "INFO"
+            "Credential Ids list passed is {0}".format(str(self.creds_ids_list)), "INFO"
         )
         return self.creds_ids_list
 
@@ -874,8 +872,7 @@ class Discovery(CatalystCenterBase):
                         msg = "Kindly ensure you include both the description and the username for the Global CLI credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
-        http_read_credential_list = global_credentials.get(
-            "http_read_credential_list")
+        http_read_credential_list = global_credentials.get("http_read_credential_list")
         if http_read_credential_list:
             if not isinstance(http_read_credential_list, list):
                 msg = "Global HTTP read credentials must be passed as a list"
@@ -994,8 +991,7 @@ class Discovery(CatalystCenterBase):
                         msg = "Kindly ensure you include the description for the Global SNMPV2 write credential to discover the devices"
                         self.discovery_specific_cred_failure(msg=msg)
 
-        snmp_v3_credential_list = global_credentials.get(
-            "snmp_v3_credential_list")
+        snmp_v3_credential_list = global_credentials.get("snmp_v3_credential_list")
         if snmp_v3_credential_list:
             if not isinstance(snmp_v3_credential_list, list):
                 msg = "Global SNMPv3 write credentials must be passed as a list"
@@ -1014,8 +1010,7 @@ class Discovery(CatalystCenterBase):
                             if snmp.get("description") == snmp_cred.get(
                                 "description"
                             ) and snmp.get("username") == snmp_cred.get("username"):
-                                global_credentials_all["snmpV3"].append(
-                                    snmp.get("id"))
+                                global_credentials_all["snmpV3"].append(snmp.get("id"))
                         global_credentials_all["snmpV3"] = global_credentials_all[
                             "snmpV3"
                         ][:cred_len]
@@ -1054,8 +1049,7 @@ class Discovery(CatalystCenterBase):
                         self.discovery_specific_cred_failure(msg=msg)
 
         self.log(
-            "Fetched Global credentials IDs are {0}".format(
-                global_credentials_all),
+            "Fetched Global credentials IDs are {0}".format(global_credentials_all),
             "INFO",
         )
         return global_credentials_all
@@ -1090,8 +1084,7 @@ class Discovery(CatalystCenterBase):
         global_credentials_all = {}
         global_credentials = self.validated_config[0].get("global_credentials")
         if global_credentials:
-            global_credentials_all = self.handle_global_credentials(
-                response=response)
+            global_credentials_all = self.handle_global_credentials(response=response)
 
         global_cred_set = set(global_credentials_all.keys())
         response_cred_set = set(response.keys())
@@ -1126,8 +1119,7 @@ class Discovery(CatalystCenterBase):
         ip_address_list = self.validated_config[0].get("ip_address_list")
         self.result.update(dict(devices_info=ip_address_list))
         self.log(
-            "Details of the device list passed: {0}".format(
-                str(ip_address_list)),
+            "Details of the device list passed: {0}".format(str(ip_address_list)),
             "INFO",
         )
         return ip_address_list
@@ -1152,8 +1144,7 @@ class Discovery(CatalystCenterBase):
             ip_address_list = []
         discovery_type = self.validated_config[0].get("discovery_type")
         self.log(
-            "Discovery type passed for the discovery is {0}".format(
-                discovery_type),
+            "Discovery type passed for the discovery is {0}".format(discovery_type),
             "INFO",
         )
         if discovery_type in ["SINGLE", "CDP", "LLDP"]:
@@ -1203,8 +1194,7 @@ class Discovery(CatalystCenterBase):
                     new_ip_collected.append(ip)
             ip_address_list = ",".join(new_ip_collected)
         self.log(
-            "Collected IP address/addresses are {0}".format(
-                str(ip_address_list)),
+            "Collected IP address/addresses are {0}".format(str(ip_address_list)),
             "INFO",
         )
         return str(ip_address_list)
@@ -1261,8 +1251,7 @@ class Discovery(CatalystCenterBase):
         snmp_v2_write_credential = discovery_specific_credentials.get(
             "snmp_v2_write_credential"
         )
-        snmp_v3_credential = discovery_specific_credentials.get(
-            "snmp_v3_credential")
+        snmp_v3_credential = discovery_specific_credentials.get("snmp_v3_credential")
         net_conf_port = discovery_specific_credentials.get("net_conf_port")
 
         if cli_credentials_list:
@@ -1281,8 +1270,7 @@ class Discovery(CatalystCenterBase):
                     ):
                         username_list.append(cli_cred.get("username"))
                         password_list.append(cli_cred.get("password"))
-                        enable_password_list.append(
-                            cli_cred.get("enable_password"))
+                        enable_password_list.append(cli_cred.get("enable_password"))
                     else:
                         msg = "username, password and enable_password must be passed toether for creating CLI credentials"
                         self.discovery_specific_cred_failure(msg=msg)
@@ -1421,14 +1409,12 @@ class Discovery(CatalystCenterBase):
                         ):
                             msg = "Privacy password must be of string type"
                             self.discovery_specific_cred_failure(msg=msg)
-            new_object_params["snmpUserName"] = snmp_v3_credential.get(
-                "username")
+            new_object_params["snmpUserName"] = snmp_v3_credential.get("username")
             new_object_params["snmpMode"] = snmp_v3_credential.get("snmp_mode")
             new_object_params["snmpAuthPassphrase"] = snmp_v3_credential.get(
                 "auth_password"
             )
-            new_object_params["snmpAuthProtocol"] = snmp_v3_credential.get(
-                "auth_type")
+            new_object_params["snmpAuthProtocol"] = snmp_v3_credential.get("auth_type")
             new_object_params["snmpPrivProtocol"] = snmp_v3_credential.get(
                 "privacy_type"
             )
@@ -1461,8 +1447,7 @@ class Discovery(CatalystCenterBase):
         credential_ids = []
 
         new_object_params = {}
-        new_object_params["cdpLevel"] = self.validated_config[0].get(
-            "cdp_level")
+        new_object_params["cdpLevel"] = self.validated_config[0].get("cdp_level")
         new_object_params["discoveryType"] = self.validated_config[0].get(
             "discovery_type"
         )
@@ -1470,10 +1455,8 @@ class Discovery(CatalystCenterBase):
         new_object_params["ipFilterList"] = self.validated_config[0].get(
             "ip_filter_list"
         )
-        new_object_params["lldpLevel"] = self.validated_config[0].get(
-            "lldp_level")
-        new_object_params["name"] = self.validated_config[0].get(
-            "discovery_name")
+        new_object_params["lldpLevel"] = self.validated_config[0].get("lldp_level")
+        new_object_params["name"] = self.validated_config[0].get("discovery_name")
         new_object_params["preferredMgmtIPMethod"] = self.validated_config[0].get(
             "preferred_mgmt_ip_method"
         )
@@ -1488,8 +1471,7 @@ class Discovery(CatalystCenterBase):
                 new_object_params=new_object_params
             )
 
-        global_cred_flag = self.validated_config[0].get(
-            "use_global_credentials")
+        global_cred_flag = self.validated_config[0].get("use_global_credentials")
         global_credentials_all = {}
 
         if global_cred_flag is True:
@@ -1730,8 +1712,7 @@ class Discovery(CatalystCenterBase):
         else:
             params = dict(
                 start_index=self.validated_config[0].get("start_index"),
-                records_to_return=self.validated_config[0].get(
-                    "records_to_return"),
+                records_to_return=self.validated_config[0].get("records_to_return"),
                 headers=self.validated_config[0].get("headers"),
             )
 
@@ -1750,8 +1731,7 @@ class Discovery(CatalystCenterBase):
 
         return next(
             filter(
-                lambda x: x["name"] == self.validated_config[0].get(
-                    "discovery_name"),
+                lambda x: x["name"] == self.validated_config[0].get("discovery_name"),
                 response.get("response"),
             ),
             None,
@@ -1775,8 +1755,7 @@ class Discovery(CatalystCenterBase):
 
         if not discovery:
             msg = "Cannot find any discovery task with name {0} -- Discovery result: {1}".format(
-                str(self.validated_config[0].get(
-                    "discovery_name")), str(discovery)
+                str(self.validated_config[0].get("discovery_name")), str(discovery)
             )
             self.log(msg, "INFO")
             self.module.fail_json(msg=msg)
@@ -1803,8 +1782,7 @@ class Discovery(CatalystCenterBase):
                 self.module.fail_json(msg=msg)
             else:
                 msg = "Cannot find any discovery task with name {0} -- Discovery result: {1}".format(
-                    str(self.validated_config[0].get(
-                        "discovery_name")), str(discovery)
+                    str(self.validated_config[0].get("discovery_name")), str(discovery)
                 )
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg)
@@ -1881,8 +1859,7 @@ class Discovery(CatalystCenterBase):
             self.module.fail_json(msg=msg)
 
         self.log(
-            "Discovery network device with id {0} got completed".format(
-                discovery_id),
+            "Discovery network device with id {0} got completed".format(discovery_id),
             "INFO",
         )
         self.result.update(dict(discovery_device_info=devices))
@@ -1960,13 +1937,10 @@ class Discovery(CatalystCenterBase):
         if exist_discovery:
             params = dict(id=exist_discovery.get("id"))
             discovery_task_id = self.delete_exist_discovery(params=params)
-            complete_discovery = self.get_deleted_task_status(
-                task_id=discovery_task_id)
+            complete_discovery = self.get_deleted_task_status(task_id=discovery_task_id)
 
-        discovery_task_id = self.create_discovery(
-            ip_address_list=ip_address_list)
-        complete_discovery = self.get_merged_task_status(
-            task_id=discovery_task_id)
+        discovery_task_id = self.create_discovery(ip_address_list=ip_address_list)
+        complete_discovery = self.get_merged_task_status(task_id=discovery_task_id)
         discovery_task_info = self.get_discoveries_by_range_until_success()
         result = self.get_discovery_device_info(
             discovery_id=discovery_task_info.get("id")
@@ -2006,8 +1980,7 @@ class Discovery(CatalystCenterBase):
                 family="discovery",
                 function="delete_all_discovery",
             )
-            discovery_task_id = delete_all_response.get(
-                "response").get("taskId")
+            discovery_task_id = delete_all_response.get("response").get("taskId")
             self.result["changed"] = True
             self.result["msg"] = "All of the Discoveries Deleted Successfully"
             self.result["diff"] = self.validated_config
@@ -2023,8 +1996,7 @@ class Discovery(CatalystCenterBase):
 
             params = dict(id=exist_discovery.get("id"))
             discovery_task_id = self.delete_exist_discovery(params=params)
-            complete_discovery = self.get_deleted_task_status(
-                task_id=discovery_task_id)
+            complete_discovery = self.get_deleted_task_status(task_id=discovery_task_id)
             self.result["changed"] = True
             self.result["msg"] = "Successfully deleted discovery"
             self.result["diff"] = self.validated_config
@@ -2063,8 +2035,7 @@ class Discovery(CatalystCenterBase):
         discovery_name = config.get("discovery_name")
         if response:
             self.log(
-                "Requested Discovery with name {0} is completed".format(
-                    discovery_name),
+                "Requested Discovery with name {0} is completed".format(discovery_name),
                 "INFO",
             )
 
@@ -2112,8 +2083,7 @@ class Discovery(CatalystCenterBase):
         discovery_name = config.get("discovery_name")
         if discovery_task_info:
             self.log(
-                "Requested Discovery with name {0} is present".format(
-                    discovery_name),
+                "Requested Discovery with name {0} is present".format(discovery_name),
                 "WARNING",
             )
 
@@ -2142,7 +2112,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
@@ -2152,8 +2125,7 @@ def main():
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
 
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     ccc_discovery = Discovery(module)
     config_verify = ccc_discovery.params.get("config_verify")
@@ -2169,8 +2141,7 @@ def main():
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
         if config_verify:
-            ccc_discovery.verify_diff_state_apply[state](
-                config).check_return_status()
+            ccc_discovery.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_discovery.result)
 

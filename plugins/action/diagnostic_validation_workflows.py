@@ -63,9 +63,15 @@ class DiagnosticValidationWorkflows(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params["start_time"] = self.new_object.get("startTime") or self.new_object.get("start_time")
-        new_object_params["end_time"] = self.new_object.get("endTime") or self.new_object.get("end_time")
-        new_object_params["run_status"] = self.new_object.get("runStatus") or self.new_object.get("run_status")
+        new_object_params["start_time"] = self.new_object.get(
+            "startTime"
+        ) or self.new_object.get("start_time")
+        new_object_params["end_time"] = self.new_object.get(
+            "endTime"
+        ) or self.new_object.get("end_time")
+        new_object_params["run_status"] = self.new_object.get(
+            "runStatus"
+        ) or self.new_object.get("run_status")
         new_object_params["offset"] = self.new_object.get("offset")
         new_object_params["limit"] = self.new_object.get("limit")
         return new_object_params
@@ -102,7 +108,11 @@ class DiagnosticValidationWorkflows(object):
     def get_object_by_id(self, id):
         result = None
         try:
-            items = self.catalystcenter.exec(family="health_and_performance", function="retrieves_validation_workflow_details", params={"id": id})
+            items = self.catalystcenter.exec(
+                family="health_and_performance",
+                function="retrieves_validation_workflow_details",
+                params={"id": id},
+            )
             if isinstance(items, dict):
                 if "response" in items:
                     items = items.get("response")
@@ -126,7 +136,9 @@ class DiagnosticValidationWorkflows(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object"
+                )
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -146,7 +158,9 @@ class DiagnosticValidationWorkflows(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(current_obj.get(dnac_param), requested_obj.get(ansible_param))
+            not catalystcenter_compare_equality(
+                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            )
             for (dnac_param, ansible_param) in obj_params
         )
 
@@ -181,7 +195,9 @@ class DiagnosticValidationWorkflows(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'"
+            )
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

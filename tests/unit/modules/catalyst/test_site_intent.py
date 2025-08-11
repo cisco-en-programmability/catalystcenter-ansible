@@ -31,7 +31,6 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
-
         """
         Load fixtures for a specific device.
 
@@ -45,7 +44,7 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 Exception(),
                 self.test_data.get("create_site_response"),
                 self.test_data.get("get_business_api_execution_details_response"),
-                self.test_data.get("get_site_response")
+                self.test_data.get("get_site_response"),
             ]
 
         elif "update_not_needed" in self._testMethodName:
@@ -57,33 +56,30 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("update_needed_get_site_response"),
                 self.test_data.get("update_needed_update_site_response"),
-                self.test_data.get("get_business_api_execution_details_response")
+                self.test_data.get("get_business_api_execution_details_response"),
             ]
         elif "delete_existing_site" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_get_site_response"),
                 self.test_data.get("delete_delete_site_response"),
-                self.test_data.get("get_business_api_execution_details_response")
+                self.test_data.get("get_business_api_execution_details_response"),
             ]
         elif "delete_non_existing_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                Exception()
-            ]
+            self.run_catalystcenter_exec.side_effect = [Exception()]
         elif "error_delete" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_error_get_site_response"),
                 self.test_data.get("delete_delete_site_response"),
-                self.test_data.get("delete_execution_details_error")
+                self.test_data.get("delete_execution_details_error"),
             ]
         elif "error_create" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 Exception(),
                 self.test_data.get("create_site_response"),
-                self.test_data.get("delete_execution_details_error")
+                self.test_data.get("delete_execution_details_error"),
             ]
 
     def test_site_intent_create_site(self):
-
         """
         Test case for site intent when creating a site.
 
@@ -97,17 +93,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            "Site Created Successfully"
-        )
+        self.assertEqual(result.get("msg"), "Site Created Successfully")
 
     def test_site_intent_update_not_needed(self):
-
         """
         Test case for site intent when no update is needed.
 
@@ -121,17 +113,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            "Site does not need update"
-        )
+        self.assertEqual(result.get("msg"), "Site does not need update")
 
     def test_site_intent_update_needed(self):
-
         """
         Test case for site intent when an update is needed.
 
@@ -145,17 +133,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            "Site Updated Successfully"
-        )
+        self.assertEqual(result.get("msg"), "Site Updated Successfully")
 
     def test_site_intent_delete_existing_site(self):
-
         """
         Test case for site intent when deleting an existing site.
 
@@ -169,17 +153,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('response').get('status'),
-            "SUCCESS"
-        )
+        self.assertEqual(result.get("response").get("status"), "SUCCESS")
 
     def test_site_intent_delete_non_existing_site(self):
-
         """
         Test case for site intent when attempting to delete a non-existing site.
 
@@ -193,17 +173,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Site Not Found"
-        )
+        self.assertEqual(result.get("msg"), "Site Not Found")
 
     def test_site_intent_invalid_param(self):
-
         """
         Test case for site intent with invalid parameters in the playbook.
 
@@ -217,16 +193,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.test_data.get("playbook_config_invalid_param")
+                config=self.test_data.get("playbook_config_invalid_param"),
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertTrue(
-            "Invalid parameters in playbook:" in result.get('msg')
-        )
+        self.assertTrue("Invalid parameters in playbook:" in result.get("msg"))
 
     def test_site_intent_error_delete(self):
-
         """
         Test case for site intent when an error occurs during site deletion.
 
@@ -240,17 +213,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "True"
-        )
+        self.assertEqual(result.get("msg"), "True")
 
     def test_site_intent_error_create(self):
-
         """
         Test case for site intent when an error occurs during site creation.
 
@@ -264,17 +233,13 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "True"
-        )
+        self.assertEqual(result.get("msg"), "True")
 
     def test_site_intent_invalid_state(self):
-
         """
         Test case for site intent with an invalid 'state' parameter.
 
@@ -288,11 +253,11 @@ class TestCatalystcenterSiteIntent(TestCatalystcenterModule):
                 password="dummy",
                 log=True,
                 state="merge",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "value of state must be one of: merged, deleted, got: merge"
+            result.get("msg"),
+            "value of state must be one of: merged, deleted, got: merge",
         )
