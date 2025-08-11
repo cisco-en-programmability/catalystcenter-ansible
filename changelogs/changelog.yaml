@@ -79,3 +79,9 @@ releases:
         - Maintained backward compatibility through comprehensive aliases for legacy parameter names
         - Standardized parameter naming across all workflow manager modules
         - Fixed element_spec definitions in all modules to use consistent catc_ prefixed parameters
+  2.2.2:
+    release_date: "2025-08-11"
+    changes:
+      release_summary: Updated integration tests to use consistent catalystcenter_ prefixed variables
+      minor_changes:
+        - Updated all integration test files to use catalystcenter_ prefixed connection variables
