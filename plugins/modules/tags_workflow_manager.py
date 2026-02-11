@@ -36,7 +36,7 @@ extends_documentation_fragment:
 author: Archit Soni (@koderchit) Madhan Sankaranarayanan
   (@madhansansel)
 options:
-  dnac_version:
+  catalystcenter_version:
     description: The Catalyst Center version required
       for using 'tags_workflow_manager' module.
     type: str
@@ -5898,7 +5898,7 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.9"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

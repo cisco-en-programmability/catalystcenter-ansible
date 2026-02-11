@@ -29,6 +29,7 @@ options:
           - The Cisco Catalyst Center username to authenticate.
         type: str
         default: admin
+        aliases: [ user ]
     catalystcenter_password:
         description:
           - The Cisco Catalyst Center password to authenticate.

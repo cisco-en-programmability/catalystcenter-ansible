@@ -350,7 +350,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 config_verify=True,
                 catalystcenter_log_append=False,
-                catalystcenter_log_file_path="dnac.log",
+                catalystcenter_log_file_path="catalystcenter.log",
                 state="merged",
                 config=self.test_data.get("playbook_config_add_port_channels")
             )
@@ -375,7 +375,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 config_verify=True,
                 catalystcenter_log_append=False,
-                catalystcenter_log_file_path="dnac.log",
+                catalystcenter_log_file_path="catalystcenter.log",
                 state="merged",
                 config=self.test_data.get("playbook_config_update_port_channels")
             )
