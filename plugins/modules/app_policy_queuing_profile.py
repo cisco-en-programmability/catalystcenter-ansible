@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: app_policy_queuing_profile
-short_description: Resource module for App Policy Queuing
-  Profile
+short_description: Resource module for App Policy Queuing Profile
 description:
-  - Manage operations create, update and delete of the
-    resource App Policy Queuing Profile.
+  - Manage operations create, update and delete of the resource App Policy Queuing Profile.
   - Create new custom application queuing profile.
-  - Delete existing custom application policy queuing
-    profile by id.
+  - Delete existing custom application policy queuing profile by id.
   - Update existing custom application queuing profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
@@ -22,8 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Id of custom queuing
-      profile to delete.
+    description: Id path parameter. Id of custom queuing profile to delete.
     type: str
   payload:
     description: App Policy Queuing Profile's payload.
@@ -33,30 +29,19 @@ options:
         description: App Policy Queuing Profile's clause.
         elements: dict
         suboptions:
-          instanceId:
-            description: Instance id.
-            type: int
           interfaceSpeedBandwidthClauses:
-            description: App Policy Queuing Profile's
-              interfaceSpeedBandwidthClauses.
+            description: App Policy Queuing Profile's interfaceSpeedBandwidthClauses.
             elements: dict
             suboptions:
-              instanceId:
-                description: Instance id.
-                type: int
               interfaceSpeed:
                 description: Interface speed.
                 type: str
               tcBandwidthSettings:
-                description: App Policy Queuing Profile's
-                  tcBandwidthSettings.
+                description: App Policy Queuing Profile's tcBandwidthSettings.
                 elements: dict
                 suboptions:
                   bandwidthPercentage:
                     description: Bandwidth percentage.
-                    type: int
-                  instanceId:
-                    description: Instance id.
                     type: int
                   trafficClass:
                     description: Traffic Class.
@@ -64,57 +49,42 @@ options:
                 type: list
             type: list
           isCommonBetweenAllInterfaceSpeeds:
-            description: Is common between all interface
-              speeds.
+            description: Is common between all interface speeds.
             type: bool
           tcDscpSettings:
-            description: App Policy Queuing Profile's
-              tcDscpSettings.
+            description: App Policy Queuing Profile's tcDscpSettings.
             elements: dict
             suboptions:
               dscp:
                 description: Dscp value.
                 type: str
-              instanceId:
-                description: Instance id.
-                type: int
               trafficClass:
                 description: Traffic Class.
                 type: str
             type: list
           type:
-            description: The allowed clause types are
-              BANDWIDTH, DSCP_CUSTOMIZATION.
+            description: The allowed clause types are BANDWIDTH, DSCP_CUSTOMIZATION.
             type: str
         type: list
       description:
         description: Free test description.
-        type: str
-      id:
-        description: Id of Queueing profile.
         type: str
       name:
         description: Queueing profile name.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy CreateApplicationPolicyQueuingProfile
-    description: Complete reference of the CreateApplicationPolicyQueuingProfile
-      API.
+  - name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile
+    description: Complete reference of the CreateApplicationPolicyQueuingProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
-  - name: Cisco DNA Center documentation for Application
-      Policy DeleteApplicationPolicyQueuingProfile
-    description: Complete reference of the DeleteApplicationPolicyQueuingProfile
-      API.
+  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfile
+    description: Complete reference of the DeleteApplicationPolicyQueuingProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
-  - name: Cisco DNA Center documentation for Application
-      Policy UpdateApplicationPolicyQueuingProfile
-    description: Complete reference of the UpdateApplicationPolicyQueuingProfile
-      API.
+  - name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfile
+    description: Complete reference of the UpdateApplicationPolicyQueuingProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
   - SDK Method used are
@@ -129,13 +99,37 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Create
+  cisco.catalystcenter.app_policy_queuing_profile:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - clause:
+          - interfaceSpeedBandwidthClauses:
+              - interfaceSpeed: string
+                tcBandwidthSettings:
+                  - bandwidthPercentage: 0
+                    trafficClass: string
+            isCommonBetweenAllInterfaceSpeeds: true
+            tcDscpSettings:
+              - dscp: string
+                trafficClass: string
+            type: string
+        description: string
+        name: string
 - name: Update all
   cisco.catalystcenter.app_policy_queuing_profile:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -158,37 +152,13 @@ EXAMPLES = r"""
         description: string
         id: string
         name: string
-- name: Create
-  cisco.catalystcenter.app_policy_queuing_profile:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - clause:
-          - interfaceSpeedBandwidthClauses:
-              - interfaceSpeed: string
-                tcBandwidthSettings:
-                  - bandwidthPercentage: 0
-                    trafficClass: string
-            isCommonBetweenAllInterfaceSpeeds: true
-            tcDscpSettings:
-              - dscp: string
-                trafficClass: string
-            type: string
-        description: string
-        name: string
 - name: Delete by id
   cisco.catalystcenter.app_policy_queuing_profile:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -196,7 +166,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

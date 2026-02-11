@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_fabric_sites
 short_description: Resource module for Sda Fabric Sites
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Fabric Sites.
+  - Manage operations create, update and delete of the resource Sda Fabric Sites.
   - Adds a fabric site based on user input.
   - Deletes a fabric site based on id.
   - Updates a fabric site based on user input.
@@ -20,40 +19,34 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the fabric
-      site.
+    description: Id path parameter. ID of the fabric site.
     type: str
   payload:
     description: Sda Fabric Sites's payload.
     elements: dict
     suboptions:
       authenticationProfileName:
-        description: Authentication profile used for
-          this fabric.
+        description: Authentication profile used for this fabric.
         type: str
       isPubSubEnabled:
-        description: Specifies whether this fabric site
-          will use pub/sub for control nodes.
+        description: Specifies whether this fabric site will use pub/sub for control nodes.
         type: bool
       siteId:
         description: ID of the network hierarchy.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddFabricSite
-    description: Complete reference of the AddFabricSite
-      API.
+    description: Complete reference of the AddFabricSite API.
     link: https://developer.cisco.com/docs/dna-center/#!add-fabric-site
   - name: Cisco DNA Center documentation for SDA DeleteFabricSiteById
-    description: Complete reference of the DeleteFabricSiteById
-      API.
+    description: Complete reference of the DeleteFabricSiteById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id
   - name: Cisco DNA Center documentation for SDA UpdateFabricSite
-    description: Complete reference of the UpdateFabricSite
-      API.
+    description: Complete reference of the UpdateFabricSite API.
     link: https://developer.cisco.com/docs/dna-center/#!update-fabric-site
 notes:
   - SDK Method used are
@@ -74,7 +67,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -88,7 +81,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -103,7 +96,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -111,7 +104,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

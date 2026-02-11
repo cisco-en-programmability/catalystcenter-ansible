@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: activities_activity_id_triggered_jobs_info
-short_description: Information module for Activities
-  Activity Id Triggered Jobs
+short_description: Information module for Activities Activity Id Triggered Jobs
 description:
   - Get all Activities Activity Id Triggered Jobs.
-  - Returns the triggered jobs by the activity with
-    the given activity id.
+  - Returns the triggered jobs by the activity with the given activity id.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,33 +25,26 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page.
-    type: float
+      - Limit query parameter. The number of records to show for this page.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response.
+      - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Task GetTriggeredJobsByActivityId
-    description: Complete reference of the GetTriggeredJobsByActivityId
-      API.
+    description: Complete reference of the GetTriggeredJobsByActivityId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-triggered-jobs-by-activity-id
 notes:
   - SDK Method used are
@@ -70,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -83,7 +74,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -17,12 +17,13 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import discovery_intent
-from .catalystcenter_module import TestCatalystcenterModule, set_module_args
+from ansible_collections.cisco.dnac.plugins.modules import discovery_intent
+from .catalystcenter_module import TestDnacModule, set_module_args
 
 
-class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
+class TestDnacDiscoveryIntent(TestDnacModule):
     def __init__(self):
+
         """
         Inheriting from the base class of catalystcenter_module
         """
@@ -31,6 +32,7 @@ class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
+
         """
         Load fixtures for a specific device.
 
@@ -44,117 +46,125 @@ class TestCatalystcenterDiscoveryIntent(TestCatalystcenterModule):
                 Exception(),
                 self.test_data.get("create_discovery_response"),
                 self.test_data.get("get_business_api_execution_details_response"),
-                self.test_data.get("get_discovery_response"),
+                self.test_data.get("get_discovery_response")
             ]
         elif "delete_existing_discovery" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_get_discovery_response"),
                 self.test_data.get("delete_delete_discovery_response"),
-                self.test_data.get("get_business_api_execution_details_response"),
+                self.test_data.get("get_business_api_execution_details_response")
             ]
         elif "delete_non_existing_discovery" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [Exception()]
+            self.run_catalystcenter_exec.side_effect = [
+                Exception()
+            ]
         elif "error_delete" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_error_get_discovery_response"),
                 self.test_data.get("delete_delete_discovery_response"),
-                self.test_data.get("delete_execution_details_error"),
+                self.test_data.get("delete_execution_details_error")
             ]
         elif "error_create" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 Exception(),
                 self.test_data.get("create_discovery_response"),
-                self.test_data.get("delete_execution_details_error"),
+                self.test_data.get("delete_execution_details_error")
             ]
 
     def test_discovery_intent_create_discovery(self):
         set_module_args(
             dict(
-                host="172.23.241.186",
-                username="admin",
-                password="Maglev123",
-                verify=False,
-                log=True,
+                catalystcenter_host="172.23.241.186",
+                catalystcenter_username="admin",
+                catalystcenter_password="Maglev123",
+                catalystcenter_verify=False,
+                catalystcenter_log=True,
                 state="merged",
                 headers=None,
-                name=self.playbook_config.get("name"),
-                devices_list=self.playbook_config.get("devices_list"),
+                name=self.playbook_config.get('name'),
+                devices_list=self.playbook_config.get('devices_list'),
                 discoveryType="MULTI RANGE",
                 protocolOrder="ssh",
                 startIndex=1,
-                recordsToReturn=25,
+                recordsToReturn=25
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(result.get("msg"), "Discovery Created Successfully")
+        self.assertEqual(
+            result.get('msg'),
+            "Discovery Created Successfully"
+        )
 
     def test_discovery_intent_delete_existing_discovery(self):
         set_module_args(
             dict(
-                host="172.23.241.186",
-                username="admin",
-                password="Maglev123",
-                verify=False,
-                log=True,
+                catalystcenter_host="172.23.241.186",
+                catalystcenter_username="admin",
+                catalystcenter_password="Maglev123",
+                catalystcenter_verify=False,
+                catalystcenter_log=True,
                 state="deleted",
                 headers=None,
-                name=self.playbook_config.get("name"),
-                devices_list=self.playbook_config.get("devices_list"),
+                name=self.playbook_config.get('name'),
+                devices_list=self.playbook_config.get('devices_list'),
                 discoveryType="MULTI RANGE",
                 protocolOrder="ssh",
                 startIndex=1,
-                recordsToReturn=25,
+                recordsToReturn=25
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(result.get("msg"), "Discovery Deleted Successfully")
+        self.assertEqual(
+            result.get('msg'),
+            "Discovery Deleted Successfully"
+        )
 
     def test_discovery_intent_delete_non_existing_discovery(self):
         set_module_args(
             dict(
-                host="172.23.241.186",
-                username="admin",
-                password="Maglev123",
-                verify=False,
-                log=True,
+                catalystcenter_host="172.23.241.186",
+                catalystcenter_username="admin",
+                catalystcenter_password="Maglev123",
+                catalystcenter_verify=False,
+                catalystcenter_log=True,
                 state="deleted",
                 headers=None,
-                name=self.playbook_config.get("delete_non_exist_discovery_name"),
-                devices_list=self.playbook_config.get("devices_list"),
+                name=self.playbook_config.get('delete_non_exist_discovery_name'),
+                devices_list=self.playbook_config.get('devices_list'),
                 discoveryType="MULTI RANGE",
                 protocolOrder="ssh",
                 startIndex=1,
-                recordsToReturn=25,
+                recordsToReturn=25
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIsNone(result.get("exist_discovery"))
+        self.assertIsNone(result.get('exist_discovery'))
         self.assertEqual(
-            result.get("msg"),
-            f"Discovery {self.playbook_config.get('delete_non_exist_discovery_name')} Not Found",
+            result.get('msg'),
+            f"Discovery {self.playbook_config.get('delete_non_exist_discovery_name')} Not Found"
         )
 
     def test_discovery_intent_invalid_state(self):
 
         set_module_args(
             dict(
-                host="172.23.241.186",
-                username="admin",
-                password="Maglev123",
-                verify=False,
-                log=True,
+                catalystcenter_host="172.23.241.186",
+                catalystcenter_username="admin",
+                catalystcenter_password="Maglev123",
+                catalystcenter_verify=False,
+                catalystcenter_log=True,
                 state="present",
                 headers=None,
-                name=self.playbook_config.get("name"),
-                devices_list=self.playbook_config.get("devices_list"),
+                name=self.playbook_config.get('name'),
+                devices_list=self.playbook_config.get('devices_list'),
                 discoveryType="MULTI RANGE",
                 protocolOrder="ssh",
                 startIndex=1,
-                recordsToReturn=25,
+                recordsToReturn=25
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"),
-            "value of state must be one of: merged, deleted, got: present",
+            result.get('msg'),
+            "value of state must be one of: merged, deleted, got: present"
         )

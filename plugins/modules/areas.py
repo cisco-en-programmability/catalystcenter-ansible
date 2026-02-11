@@ -9,12 +9,9 @@ DOCUMENTATION = r"""
 module: areas
 short_description: Resource module for Areas
 description:
-  - Manage operations create, update and delete of the
-    resource Areas.
-  - Creates an area in the network hierarchy. - > Deletes
-    an area in the network hierarchy. This operations
-    fails if there are any child areas or buildings
-    for this area.
+  - Manage operations create, update and delete of the resource Areas.
+  - Creates an area in the network hierarchy. - > Deletes an area in the network hierarchy. This operations fails if there
+    are any child areas or buildings for this area.
   - Updates an area in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -22,7 +19,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. Area Id.
+    description: Id path parameter. Area ID.
     type: str
   name:
     description: Area name.
@@ -31,23 +28,17 @@ options:
     description: Parent Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      CreatesAnArea
-    description: Complete reference of the CreatesAnArea
-      API.
+  - name: Cisco DNA Center documentation for Site Design CreatesAnArea
+    description: Complete reference of the CreatesAnArea API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-an-area
-  - name: Cisco DNA Center documentation for Site Design
-      DeletesAnArea
-    description: Complete reference of the DeletesAnArea
-      API.
+  - name: Cisco DNA Center documentation for Site Design DeletesAnArea
+    description: Complete reference of the DeletesAnArea API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-an-area
-  - name: Cisco DNA Center documentation for Site Design
-      UpdatesAnArea
-    description: Complete reference of the UpdatesAnArea
-      API.
+  - name: Cisco DNA Center documentation for Site Design UpdatesAnArea
+    description: Complete reference of the UpdatesAnArea API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-area
 notes:
   - SDK Method used are
@@ -56,8 +47,7 @@ notes:
     site_design.SiteDesign.updates_an_area,
   - Paths used are
     post /dna/intent/api/v1/areas,
-    delete
-    /dna/intent/api/v1/areas/{id},
+    delete /dna/intent/api/v1/areas/{id},
     put /dna/intent/api/v1/areas/{id},
 """
 
@@ -69,23 +59,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
-    name: string
-    parentId: string
-- name: Update by id
-  cisco.catalystcenter.areas:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    id: string
     name: string
     parentId: string
 - name: Delete by id
@@ -94,23 +71,35 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
+- name: Update by id
+  cisco.catalystcenter.areas:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    id: string
+    name: string
+    parentId: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

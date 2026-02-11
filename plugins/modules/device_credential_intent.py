@@ -52,7 +52,7 @@ options:
               description:
                 description: Description. Required for creating the credential.
                 type: str
-              enablepassword:
+              enable_password:
                 description:
                   - cli_credential credential Enable Password.
                   - Password cannot contain spaces or angle brackets (< >)
@@ -74,7 +74,7 @@ options:
               old_description:
                 description: Old Description. Use this for updating the description/Username.
                 type: str
-              oldusername:
+              old_username:
                 description: Old Username. Use this for updating the description/Username.
                 type: str
           https_read:
@@ -105,7 +105,7 @@ options:
               old_description:
                 description: Old Description. Use this for updating the description/Username.
                 type: str
-              oldusername:
+              old_username:
                 description: Old Username. Use this for updating the description/Username.
                 type: str
           https_write:
@@ -136,7 +136,7 @@ options:
               old_description:
                 description: Old Description. Use this for updating the description/Username.
                 type: str
-              oldusername:
+              old_username:
                 description: Old Username. Use this for updating the description/Username.
                 type: str
           snmp_v2c_read:
@@ -182,7 +182,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              authpassword:
+              auth_password:
                 description:
                   - snmp_v3 Auth Password.
                   - Password must contain minimum 8 characters.
@@ -199,7 +199,7 @@ options:
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
-              privacypassword:
+              privacy_password:
                 description:
                   - snmp_v3 Privacy Password.
                   - Password must contain minimum 8 characters.
@@ -299,7 +299,7 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9
 seealso:
   - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
@@ -324,12 +324,12 @@ notes:
 EXAMPLES = r"""
 - name: Create Credentials and assign it to a site.
   cisco.catalystcenter.device_credential_intent:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
+  catalystcenter_host: "{{ catalystcenter_host }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
+  catalystcenter_username: "{{ catalystcenter_username }}"
+  catalystcenter_password: "{{ catalystcenter_password }}"
+  catalystcenter_verify: "{{ catalystcenter_verify }}"
+  catalystcenter_debug: "{{ catalystcenter_debug }}"
   log: true
   log_level: "{{ catalystcenter_log_level }}"
   state: merged
@@ -340,7 +340,7 @@ EXAMPLES = r"""
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
         snmp_v2c_read:
           - description: string
             read_community: string
@@ -348,10 +348,10 @@ EXAMPLES = r"""
           - description: string
             write_community: string
         snmp_v3:
-          - authpassword: string
+          - auth_password: string
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: string
+            privacy_password: string
             privacy_type: AES128
             username: string
             description: string
@@ -382,12 +382,12 @@ EXAMPLES = r"""
           - string
 - name: Create Multiple Credentials.
   cisco.catalystcenter.device_credential_intent:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
+  catalystcenter_host: "{{ catalystcenter_host }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
+  catalystcenter_username: "{{ catalystcenter_username }}"
+  catalystcenter_password: "{{ catalystcenter_password }}"
+  catalystcenter_verify: "{{ catalystcenter_verify }}"
+  catalystcenter_debug: "{{ catalystcenter_debug }}"
   log: true
   log_level: "{{ catalystcenter_log_level }}"
   state: merged
@@ -398,11 +398,11 @@ EXAMPLES = r"""
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
         snmp_v2c_read:
           - description: string
             read_community: string
@@ -414,17 +414,17 @@ EXAMPLES = r"""
           - description: string
             write_community: string
         snmp_v3:
-          - authpassword: string
+          - auth_password: string
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: string
+            privacy_password: string
             privacy_type: AES128
             username: string
             description: string
-          - authpassword: string
+          - auth_password: string
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: string
+            privacy_password: string
             privacy_type: AES128
             username: string
             description: string
@@ -448,12 +448,12 @@ EXAMPLES = r"""
             port: 443
 - name: Update global device credentials using id
   cisco.catalystcenter.device_credential_intent:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
+  catalystcenter_host: "{{ catalystcenter_host }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
+  catalystcenter_username: "{{ catalystcenter_username }}"
+  catalystcenter_password: "{{ catalystcenter_password }}"
+  catalystcenter_verify: "{{ catalystcenter_verify }}"
+  catalystcenter_debug: "{{ catalystcenter_debug }}"
   log: true
   log_level: "{{ catalystcenter_log_level }}"
   state: merged
@@ -464,7 +464,7 @@ EXAMPLES = r"""
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
             id: string
         snmp_v2c_read:
           - description: string
@@ -475,10 +475,10 @@ EXAMPLES = r"""
             write_community: string
             id: string
         snmp_v3:
-          - authpassword: string
+          - auth_password: string
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: string
+            privacy_password: string
             privacy_type: AES128
             username: string
             description: string
@@ -497,12 +497,12 @@ EXAMPLES = r"""
             id: string
 - name: Update multiple global device credentials using id
   cisco.catalystcenter.device_credential_intent:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
+  catalystcenter_host: "{{ catalystcenter_host }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
+  catalystcenter_username: "{{ catalystcenter_username }}"
+  catalystcenter_password: "{{ catalystcenter_password }}"
+  catalystcenter_verify: "{{ catalystcenter_verify }}"
+  catalystcenter_debug: "{{ catalystcenter_debug }}"
   log: true
   log_level: "{{ catalystcenter_log_level }}"
   state: merged
@@ -513,12 +513,12 @@ EXAMPLES = r"""
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
             id: string
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
             id: string
         snmp_v2c_read:
           - description: string
@@ -535,18 +535,18 @@ EXAMPLES = r"""
             write_community: string
             id: string
         snmp_v3:
-          - authpassword: string
+          - auth_password: string
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: string
+            privacy_password: string
             privacy_type: AES128
             username: string
             description: string
             id: string
-          - authpassword: string
+          - auth_password: string
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: string
+            privacy_password: string
             privacy_type: AES128
             username: string
             description: string
@@ -575,12 +575,12 @@ EXAMPLES = r"""
             id: string
 - name: Update global device credential name/description using old name and description.
   cisco.catalystcenter.device_credential_intent:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
+  catalystcenter_host: "{{ catalystcenter_host }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
+  catalystcenter_username: "{{ catalystcenter_username }}"
+  catalystcenter_password: "{{ catalystcenter_password }}"
+  catalystcenter_verify: "{{ catalystcenter_verify }}"
+  catalystcenter_debug: "{{ catalystcenter_debug }}"
   log: true
   log_level: "{{ catalystcenter_log_level }}"
   state: merged
@@ -591,9 +591,9 @@ EXAMPLES = r"""
           - description: string
             username: string
             password: string
-            enablepassword: string
+            enable_password: string
             old_description: string
-            oldusername: string
+            old_username: string
         snmp_v2c_read:
           - description: string
             read_community: string
@@ -603,10 +603,10 @@ EXAMPLES = r"""
             write_community: string
             old_description: string
         snmp_v3:
-          - authpassword: string
+          - auth_password: string
             auth_type: string
             snmp_mode: string
-            privacypassword: string
+            privacy_password: string
             privacy_type: string
             username: string
             description: string
@@ -616,22 +616,22 @@ EXAMPLES = r"""
             password: string
             port: string
             old_description: string
-            oldusername: string
+            old_username: string
         https_write:
           - description: string
             username: string
             password: string
             port: string
             old_description: string
-            oldusername: string
+            old_username: string
 - name: Assign Credentials to sites using old description and username.
   cisco.catalystcenter.device_credential_intent:
-  host: "{{ dnac_host }}"
-  api_port: "{{ dnac_port }}"
-  username: "{{ dnac_username }}"
-  password: "{{ dnac_password }}"
-  verify: "{{ dnac_verify }}"
-  debug: "{{ dnac_debug }}"
+  catalystcenter_host: "{{ catalystcenter_host }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
+  catalystcenter_username: "{{ catalystcenter_username }}"
+  catalystcenter_password: "{{ catalystcenter_password }}"
+  catalystcenter_verify: "{{ catalystcenter_verify }}"
+  catalystcenter_debug: "{{ catalystcenter_debug }}"
   log: true
   log_level: "{{ catalystcenter_log_level }}"
   state: merged
@@ -660,7 +660,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global device credentials
 dnac_response1:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -673,7 +673,7 @@ dnac_response1:
     }
 # Case_2: Successful assignment of global device credentials to a site.
 dnac_response2:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -689,7 +689,7 @@ dnac_response2:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -2757,7 +2757,7 @@ class DnacCredential(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the CATALYST configuration with the playbook details
+        Validating the DNAC configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2776,9 +2776,7 @@ class DnacCredential(CatalystCenterBase):
 
         if config.get("global_credential_details") is not None:
             if self.want.get("want_create"):
-                self.msg = (
-                    "Global Device Credentials config is not applied to the CATALYST"
-                )
+                self.msg = "Global Device Credentials config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
@@ -2811,7 +2809,7 @@ class DnacCredential(CatalystCenterBase):
                             ) is want_credential.get(value)
                             if not have_credential or not equality:
                                 self.msg = (
-                                    "{0} config is not applied ot the CATALYST".format(
+                                    "{0} config is not applied ot the DNAC".format(
                                         credential_type
                                     )
                                 )
@@ -2838,7 +2836,7 @@ class DnacCredential(CatalystCenterBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the CATALYST configuration with the playbook details
+        Validating the DNAC configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -2904,18 +2902,19 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

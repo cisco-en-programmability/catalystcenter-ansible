@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: interfaces_query
 short_description: Resource module for Interfaces Query
 description:
-  - Manage operation create of the resource Interfaces
-    Query. - > Gets the list of interfaces across the
-    Network Devices based on the provided complex filters
-    and aggregation functions.
+  - Manage operation create of the resource Interfaces Query.
+  - Gets the list of interfaces across the Network Devices based on the provided complex filters and aggregation functions.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -58,7 +56,7 @@ options:
             description: Operator.
             type: str
           value:
-            description: Value.
+            description: Interfaces Query's value.
             type: dict
         type: list
       key:
@@ -71,7 +69,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Interfaces Query's value.
         type: dict
     type: list
   page:
@@ -103,22 +101,15 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-          GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
-    description:
-      >
-      Complete reference of the GetsTheListOfInterfacesAcrossThe
-      NetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctions
-      API.
-    link:
-      https://developer.cisco.com/docs/dna-center/#!gets-the-list-
-      of-interfaces-across-the-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
+  - name: Cisco DNA Center documentation for Devices GetInterfacesQuery
+    description: Complete reference of the GetInterfacesQuery API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-query
 notes:
   - SDK Method used are
-    devices.Devices.gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions,
+    devices.Devices.get_interfaces_query,
   - Paths used are
     post /dna/data/api/v1/interfaces/query,
 """
@@ -131,7 +122,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -164,7 +155,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

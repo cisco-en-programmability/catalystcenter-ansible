@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_policy_tags_count_info
-short_description: Information module for Wireless Profiles
-  Id Policy Tags Count
+short_description: Information module for Wireless Profiles Id Policy Tags Count
 description:
-  - Get all Wireless Profiles Id Policy Tags Count.
-    - > This endpoint retrieves the total count of `Policy
-    Tags` associated with a specific `Wireless Profile`.This
-    API requires the `id` of the `Wireless Profile`
-    to be provided as a path parameter.
+  - Get all Wireless Profiles Id Policy Tags Count. - > This endpoint retrieves the total count of `Policy Tags` associated
+    with a specific `Wireless Profile`.This API requires the `id` of the `Wireless Profile` to be provided as a path parameter.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -28,13 +24,11 @@ options:
       - Id path parameter. Wireless Profile Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveTheCountOfPolicyTagsForAWirelessProfile
-    description: Complete reference of the RetrieveTheCountOfPolicyTagsForAWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveTheCountOfPolicyTagsForAWirelessProfile
+    description: Complete reference of the RetrieveTheCountOfPolicyTagsForAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-policy-tags-for-a-wireless-profile
 notes:
   - SDK Method used are
@@ -51,7 +45,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -60,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

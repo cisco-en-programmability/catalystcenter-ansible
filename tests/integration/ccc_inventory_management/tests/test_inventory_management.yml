@@ -3,22 +3,22 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name:  Load vars and declare catalystcenter vars
+  - name:  Load vars and declare dnac vars
     include_vars:
       file: "{{ role_path }}/vars/vars_inventory_management.yml"
       name: vars_map
     vars:
-      catalystcenter_login: &catalystcenter_login
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
-        config_catalystcenter_verify: true
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
 
   # - debug:
   #     msg: "{{ vars_map.device_details }}"
@@ -34,16 +34,16 @@
 #############################################
 
   - name: Delete device
-    cisco.catalystcenter.inventory_workflow_manager:
-      <<: *catalystcenter_login
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
       state: deleted
       config:
         - "{{ item }}"
     loop: "{{ vars_map.delete_devices }}"
 
   - name: Delete site
-    cisco.catalystcenter.site_workflow_manager:
-      <<: *catalystcenter_login
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
       state: deleted
       config:
           - "{{ item }}"
@@ -54,8 +54,8 @@
 #############################################
 
   - name: Add new device
-    cisco.catalystcenter.inventory_workflow_manager:
-      <<: *catalystcenter_login
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
       state: merged
       config:
         - "{{ item }}"
@@ -71,7 +71,7 @@
     assert:
       that:
         - item.changed == true
-        - "'added to Cisco Catalyst Center' in item.msg"
+        - "'added successfully in Cisco Catalyst Center.' in item.msg"
     loop: "{{ result_add_device.results }}"
     when: result_add_device is defined
 
@@ -80,8 +80,8 @@
 #############################################
 
   # - name: Update device credential details
-  #   cisco.catalystcenter.inventory_workflow_manager:
-  #     <<: *catalystcenter_login
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -110,8 +110,8 @@
   #     seconds: 60
 
   # - name: Update device interface details
-  #   cisco.catalystcenter.inventory_workflow_manager:
-  #     <<: *catalystcenter_login
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -136,8 +136,8 @@
 #############################################
 
 #   - name: Update device role details
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -167,8 +167,8 @@
 #   #     seconds: 60
 
 #   # - name: Update device interface description post changing role to non-access
-#   #   cisco.catalystcenter.inventory_workflow_manager:
-#   #     <<: *catalystcenter_login
+#   #   cisco.dnac.inventory_workflow_manager:
+#   #     <<: *dnac_login
 #   #     state: merged
 #   #     config:
 #   #       - "{{ item }}"
@@ -193,8 +193,8 @@
 # #############################################
 
 #   - name: Resync Device
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -219,9 +219,9 @@
 # #     Create & Assign User Defined Field    #
 # #############################################
 
-#   - name: Create & Assign user defined field
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#   - name: Create & Assign user defined field 
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -245,9 +245,9 @@
 # #         Update User Defined Field         #
 # #############################################
 
-#   - name: Update user defined field
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#   - name: Update user defined field 
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -272,9 +272,9 @@
 # #         Delete User Defined Field         #
 # #############################################
 
-#   - name: Delete user defined field
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#   - name: Delete user defined field 
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: deleted
 #       config:
 #         - "{{ item }}"
@@ -301,8 +301,8 @@
 # #############################################
 
 #   - name: Export Device Details in a CSV file
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -327,8 +327,8 @@
 # #############################################
 
 #   - name: Export Credential Device Details in a CSV file
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -354,8 +354,8 @@
 # #############################################
 
 #   - name: Create sites from design_sites config
-#     cisco.catalystcenter.site_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.site_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #           - "{{ item }}"
@@ -382,8 +382,8 @@
 # #############################################
 
 #   - name: Assign wired device to site and then provision
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: merged
 #       config:
 #         - "{{ item }}"
@@ -409,8 +409,8 @@
 # #############################################
 
 #   # - name: Assign wireless device to site and then provision
-#   #   cisco.catalystcenter.inventory_workflow_manager:
-#   #     <<: *catalystcenter_login
+#   #   cisco.dnac.inventory_workflow_manager:
+#   #     <<: *dnac_login
 #   #     state: merged
 #   #     config:
 #   #       - "{{ item }}"
@@ -435,8 +435,8 @@
 # #############################################
 
 #   - name: Delete device
-#     cisco.catalystcenter.inventory_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.inventory_workflow_manager:
+#       <<: *dnac_login
 #       state: deleted
 #       config:
 #         - "{{ item }}"
@@ -469,8 +469,8 @@
 # #############################################
 
 #   - name: Delete sites from design_sites config
-#     cisco.catalystcenter.site_workflow_manager:
-#       <<: *catalystcenter_login
+#     cisco.dnac.site_workflow_manager:
+#       <<: *dnac_login
 #       state: deleted
 #       config:
 #           - "{{ item }}"

@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_count_info
-short_description: Information module for Icap Settings
-  Count
+short_description: Information module for Icap Settings Count
 description:
-  - Get all Icap Settings Count. - > Retrieves the count
-    of deployed ICAP configurations while supporting
-    basic filtering. For detailed information about
-    the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-
+  - Get all Icap Settings Count. - > Retrieves the count of deployed ICAP configurations while supporting basic filtering.
+    For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
     programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -26,18 +22,15 @@ options:
     type: dict
   captureType:
     description:
-      - CaptureType query parameter. Catalyst Center
-        ICAP type.
+      - CaptureType query parameter. Catalyst Center ICAP type.
     type: str
   captureStatus:
     description:
-      - CaptureStatus query parameter. Catalyst Center
-        ICAP status.
+      - CaptureStatus query parameter. Catalyst Center ICAP status.
     type: str
   clientMac:
     description:
-      - ClientMac query parameter. The client device
-        MAC address in ICAP configuration.
+      - ClientMac query parameter. The client device MAC address in ICAP configuration.
     type: str
   apId:
     description:
@@ -45,17 +38,14 @@ options:
     type: str
   wlcId:
     description:
-      - WlcId query parameter. The wireless controller
-        device's UUID.
+      - WlcId query parameter. The wireless controller device's UUID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFiltering
-    description: Complete reference of the RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFiltering
-      API.
+  - name: Cisco DNA Center documentation for Sensors RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFiltering
+    description: Complete reference of the RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFiltering API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-deployed-icap-configurations-while-supporting-basic-filtering
 notes:
   - SDK Method used are
@@ -72,7 +62,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -85,7 +75,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,55 +7,39 @@
 DOCUMENTATION = r"""
 ---
 module: iot_non_fabric_rep_rings
-short_description: Resource module for Iot Non Fabric
-  Rep Rings
+short_description: Resource module for Iot Non Fabric Rep Rings
 description:
-  - Manage operation create of the resource Iot Non
-    Fabric Rep Rings. - > This API configures a REP
-    ring on NON-FABRIC deployment. The input payload
-    contains the following fields - ringName unique
-    ring name , rootNetworkDeviceId Network device ID
-    of the root node of the REP Ring and rootNeighbourNetworkDeviceIds
-    Network device IDs of the two immediate neighbour
-    devices of the root node of the REP Ring. The networkDeviceId
-    is the instanceUuid attribute in the response of
-    API - /dna/intent/api/v1/networkDevices.
+  - Manage operation create of the resource Iot Non Fabric Rep Rings. - > This API configures a REP ring on NON-FABRIC deployment.
+    The input payload contains the following fields - ringName unique ring name , rootNetworkDeviceId Network device ID of
+    the root node of the REP Ring and rootNeighbourNetworkDeviceIds Network device IDs of the two immediate neighbour devices
+    of the root node of the REP Ring. The networkDeviceId is the instanceUuid attribute in the response of API - /dna/intent/api/v1/networkDevices.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   deploymentMode:
-    description: Deployment mode of the configured REP
-      ring.
+    description: Deployment mode of the configured REP ring.
     type: str
   ringName:
     description: Unique name of REP ring to be configured.
     type: str
   rootNeighbourNetworkDeviceIds:
-    description: It contains the network device IDs
-      of the immediate neighboring ring members of the
-      root node. API `/dna/intent/api/v1/networkDevices`
-      can be used to get the list of networkDeviceIds
-      of the neighbors , `instanceUuid` attribute in
-      the response contains rootNeighbourNetworkDeviceIds.
+    description: It contains the network device IDs of the immediate neighboring ring members of the root node. API `/dna/intent/api/v1/networkDevices`
+      can be used to get the list of networkDeviceIds of the neighbors , `instanceUuid` attribute in the response contains
+      rootNeighbourNetworkDeviceIds.
     elements: str
     type: list
   rootNetworkDeviceId:
-    description: RootNetworkDeviceId is the network
-      device ID of the root node in the REP ring. API
-      `/dna/intent/api/v1/networkDevices` can be used
-      to get the rootNetworkDeviceId , `instanceUuid`
-      attribute in the response contains rootNetworkDeviceId.
+    description: RootNetworkDeviceId is the network device ID of the root node in the REP ring. API `/dna/intent/api/v1/networkDevices`
+      can be used to get the rootNetworkDeviceId , `instanceUuid` attribute in the response contains rootNetworkDeviceId.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Industrial
-      Configuration ConfigureAREPRingOnNONFABRICDeployment
-    description: Complete reference of the ConfigureAREPRingOnNONFABRICDeployment
-      API.
+  - name: Cisco DNA Center documentation for Industrial Configuration ConfigureAREPRingOnNONFABRICDeployment
+    description: Complete reference of the ConfigureAREPRingOnNONFABRICDeployment API.
     link: https://developer.cisco.com/docs/dna-center/#!configure-arep-ring-on-nonfabric-deployment
 notes:
   - SDK Method used are
@@ -72,7 +56,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     deploymentMode: string
@@ -83,7 +67,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

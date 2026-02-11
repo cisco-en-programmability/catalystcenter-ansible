@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_notices_info
-short_description: Information module for Field Notices
-  Results Notices
+short_description: Information module for Field Notices Results Notices
 description:
   - Get all Field Notices Results Notices.
+  - Get Field Notices Results Notices by id.
+  - Get field notice by Id.
   - Get field notices.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -26,55 +27,51 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return field notices
-        with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return field notices with deviceCount greater than this deviceCount.
     type: float
   type:
     description:
-      - Type query parameter. Return field notices with
-        this type. Available values SOFTWARE, HARDWARE.
+      - Type query parameter. Return field notices with this type. Available values SOFTWARE, HARDWARE.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Default value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. Default
+        value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Minimum value is 1. Maximum
-        value is 500. Default value is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
+        500. Default value is 500.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc. Default
-        value is asc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetFieldNotices
-    description: Complete reference of the GetFieldNotices
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetFieldNoticeById
+    description: Complete reference of the GetFieldNoticeById API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-field-notice-by-id
+  - name: Cisco DNA Center documentation for Compliance GetFieldNotices
+    description: Complete reference of the GetFieldNotices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-field-notices
 notes:
   - SDK Method used are
+    compliance.Compliance.get_field_notice_by_id,
     compliance.Compliance.get_field_notices,
   - Paths used are
     get /dna/intent/api/v1/fieldNotices/results/notices,
+    get /dna/intent/api/v1/fieldNotices/results/notices/{id},
 """
 
 EXAMPLES = r"""
@@ -85,7 +82,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -97,26 +94,36 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
+- name: Get Field Notices Results Notices by id
+  cisco.catalystcenter.field_notices_results_notices_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "publicationUrl": "string",
-          "deviceCount": 0,
-          "potentialDeviceCount": 0,
-          "type": "string",
-          "firstPublishDate": 0,
-          "lastUpdatedDate": 0
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "publicationUrl": "string",
+        "deviceCount": 0,
+        "potentialDeviceCount": 0,
+        "type": "string",
+        "firstPublishDate": 0,
+        "lastUpdatedDate": 0
+      },
       "version": "string"
     }
 """

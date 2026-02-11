@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sites_time_zone_settings_info
-short_description: Information module for Sites Time
-  Zone Settings
+short_description: Information module for Sites Time Zone Settings
 description:
-  - Get all Sites Time Zone Settings. - > Retrieve time
-    zone settings for a site; `null` values indicate
-    that the setting will be inherited from the parent
-    site; empty objects `{}` indicate that the setting
-    is unset at a site.
+  - Get all Sites Time Zone Settings. - > Retrieve time zone settings for a site; `null` values indicate that the setting
+    will be inherited from the parent site; empty objects `{}` indicate that the setting is unset at a site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,21 +26,16 @@ options:
   _inherited:
     description:
       - >
-        _inherited query parameter. Include settings
-        explicitly set for this site and settings inherited
-        from sites higher in the site hierarchy; when
-        `false`, `null` values indicate that the site
-        inherits that setting from the parent site or
-        a site higher in the site hierarchy.
+        _inherited query parameter. Include settings explicitly set for this site and settings inherited from
+        sites higher in the site hierarchy; when `false`, `null` values indicate that the site inherits that
+        setting from the parent site or a site higher in the site hierarchy.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrieveTimeZoneSettingsForASite
-    description: Complete reference of the RetrieveTimeZoneSettingsForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrieveTimeZoneSettingsForASite
+    description: Complete reference of the RetrieveTimeZoneSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-time-zone-settings-for-a-site
 notes:
   - SDK Method used are
@@ -61,7 +52,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -71,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,38 +7,29 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_config_files_id_download_unmasked
-short_description: Resource module for Network Device
-  Config Files Id Download Unmasked
+short_description: Resource module for Network Device Config Files Id Download Unmasked
 description:
-  - Manage operation create of the resource Network
-    Device Config Files Id Download Unmasked.
-  - Download the unmasked raw device configuration by
-    providing the file `id`.
+  - Manage operation create of the resource Network Device Config Files Id Download Unmasked.
+  - Download the unmasked raw device configuration by providing the file `id`.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. The value of `id`
-      can be obtained from the response of API `/dna/intent/api/v1/networkDeviceConfigFiles`.
+    description: Id path parameter. The value of `id` can be obtained from the response of API `/dna/intent/api/v1/networkDeviceConfigFiles`.
     type: str
   password:
-    description: Password for the zip file to protect
-      exported configurations. Must contain, at minimum
-      8 characters, one lowercase letter, one uppercase
-      letter, one number, one special character(-=;,./~!@#$%^&*()_+{}|
-      ?). It may not contain white space or the characters
-      <>.
+    description: Password for the zip file to protect exported configurations. Must contain, at minimum 8 characters, one
+      lowercase letter, one uppercase letter, one number, one special character(-=;,./~!@#$%^&*()_+{}| ?). It may not contain
+      white space or the characters <>.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Archive DownloadUnmaskedrawDeviceConfigurationAsZIP
-    description: Complete reference of the DownloadUnmaskedrawDeviceConfigurationAsZIP
-      API.
+  - name: Cisco DNA Center documentation for Configuration Archive DownloadUnmaskedrawDeviceConfigurationAsZIP
+    description: Complete reference of the DownloadUnmaskedrawDeviceConfigurationAsZIP API.
     link: https://developer.cisco.com/docs/dna-center/#!download-unmaskedraw-device-configuration-as-zip
 notes:
   - SDK Method used are
@@ -55,7 +46,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     id: string
@@ -63,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

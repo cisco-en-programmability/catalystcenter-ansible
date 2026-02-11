@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project_info
-short_description: Information module for Configuration
-  Template Project
+short_description: Information module for Configuration Template Project
 description:
   - Get all Configuration Template Project.
   - Get Configuration Template Project by id.
@@ -24,32 +23,25 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Name of project to be
-        searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   projectId:
     description:
-      - ProjectId path parameter. ProjectId(UUID) of
-        project to get project details.
+      - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetsAListOfProjects
-    description: Complete reference of the GetsAListOfProjects
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjects
+    description: Complete reference of the GetsAListOfProjects API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetsTheDetailsOfAGivenProject
-    description: Complete reference of the GetsTheDetailsOfAGivenProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProject
+    description: Complete reference of the GetsTheDetailsOfAGivenProject API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
   - SDK Method used are
@@ -68,7 +60,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -81,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -90,7 +82,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

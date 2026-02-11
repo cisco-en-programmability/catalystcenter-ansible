@@ -7,17 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: clients_trend_analytics_id
-short_description: Resource module for Clients Trend
-  Analytics Id
+short_description: Resource module for Clients Trend Analytics Id
 description:
-  - Manage operation create of the resource Clients
-    Trend Analytics Id. - > Retrieves the time series
-    information of a specific client by applying complex
-    filters, aggregate functions, and grouping. The
-    data will be grouped based on the specified trend
-    time interval. For detailed information about the
-    usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Trend Analytics Id. - > Retrieves the time series information of a specific
+    client by applying complex filters, aggregate functions, and grouping. The data will be grouped based on the specified
+    trend time interval. For detailed information about the usage of the API, please refer to the Open API specification document
+    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -63,10 +58,8 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Id is the client
-      mac address. It can be specified in one of the
-      notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB
-      or 0123.4567.89AB and is case insensitive.
+    description: Id path parameter. Id is the client mac address. It can be specified in one of the notational conventions
+      01 23 45 67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
     type: str
   page:
     description: Clients Trend Analytics Id's page.
@@ -88,13 +81,11 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      RetrievesSpecificClientInformationOverASpecifiedPeriodOfTime
-    description: Complete reference of the RetrievesSpecificClientInformationOverASpecifiedPeriodOfTime
-      API.
+  - name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationOverASpecifiedPeriodOfTime
+    description: Complete reference of the RetrievesSpecificClientInformationOverASpecifiedPeriodOfTime API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time
 notes:
   - SDK Method used are
@@ -111,7 +102,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -137,7 +128,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

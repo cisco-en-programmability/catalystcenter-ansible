@@ -3,22 +3,22 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load vars and declare catalystcenter vars
+  - name: Load vars and declare dnac vars
     include_vars:
       file: "{{ role_path }}/vars/vars_site_management.yml"
       name: vars_map
     vars:
-      catalystcenter_login: &catalystcenter_login
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
-        config_catalystcenter_verify: true
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
 
   # - debug:
   #     msg: "{{ vars_map.design_sites }}"
@@ -32,8 +32,8 @@
 #############################################
 
   - name: Clean up before test
-    cisco.catalystcenter.site_workflow_manager:
-      <<: *catalystcenter_login
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
       state: deleted
       config:
           - "{{ item }}"
@@ -43,9 +43,9 @@
 #                CREATE SITES               #
 #############################################
 
-  - name: Create sites
-    cisco.catalystcenter.site_workflow_manager:
-      <<: *catalystcenter_login
+  - name: Create sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
       state: merged
       config:
           - "{{ item }}"
@@ -70,9 +70,9 @@
 #                UPDATE SITES               #
 #############################################
 
-  - name: Update sites
-    cisco.catalystcenter.site_workflow_manager:
-      <<: *catalystcenter_login
+  - name: Update sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
       state: merged
       config:
           - "{{ item }}"
@@ -97,9 +97,9 @@
 #                DELETE SITES               #
 #############################################
 
-  - name: Delete sites
-    cisco.catalystcenter.site_workflow_manager:
-      <<: *catalystcenter_login
+  - name: Delete sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
       state: deleted
       config:
           - "{{ item }}"

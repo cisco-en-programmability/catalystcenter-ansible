@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_interface_neighbor_info
-short_description: Information module for Network Device
-  Interface Neighbor
+short_description: Information module for Network Device Interface Neighbor
 description:
   - Get all Network Device Interface Neighbor.
-  - Get connected device detail for given deviceUuid
-    and interfaceUuid.
+  - Get connected device detail for given deviceUuid and interfaceUuid.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,17 +25,14 @@ options:
     type: str
   interfaceUuid:
     description:
-      - InterfaceUuid path parameter. Instanceuuid of
-        interface.
+      - InterfaceUuid path parameter. Instanceuuid of interface.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetConnectedDeviceDetail
-    description: Complete reference of the GetConnectedDeviceDetail
-      API.
+  - name: Cisco DNA Center documentation for Devices GetConnectedDeviceDetail
+    description: Complete reference of the GetConnectedDeviceDetail API.
     link: https://developer.cisco.com/docs/dna-center/#!get-connected-device-detail
 notes:
   - SDK Method used are
@@ -54,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -64,7 +59,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -34,7 +34,13 @@ def validate_str(item, param_spec, param_name, invalid_params, module=None):
         }
     """
 
-    item = validation.check_type_str(item)
+    try:
+        item = validation.check_type_str(item, False)
+    except TypeError as e:
+        invalid_params.append(
+            f"'{param_name}': '{item}' is invalid. Reason: {str(e)}. "
+        )
+        return item
 
     max_length = param_spec.get("length_max")
     if max_length:
@@ -47,6 +53,33 @@ def validate_str(item, param_spec, param_name, invalid_params, module=None):
                     param_name, item, param_spec.get("length_max")
                 )
             )
+
+    return item
+
+
+def validate_float(item, param_spec, param_name, invalid_params, module=None):
+    """
+    This function checks that the input `item` is a valid float and conforms to
+    the constraints specified in `param_spec`. If the float is not valid or does
+    not meet the constraints, an error message is added to `invalid_params`.
+
+    Args:
+        item (float): The input float to be validated.
+        param_spec (dict): The parameter's specification, including validation constraints.
+        param_name (str): The name of the parameter being validated.
+        invalid_params (list): A list to collect validation error messages.
+        module (object, optional): Ansible module object, required if any parameter has `no_log` enabled.
+
+    Returns:
+        float: The validated float.
+    """
+    try:
+        item = validation.check_type_float(item)
+    except TypeError as e:
+        invalid_params.append(
+            f"'{param_name}': '{item}' is invalid. Reason: {str(e)}. "
+        )
+
     return item
 
 
@@ -78,7 +111,9 @@ def validate_integer_within_range(
     try:
         item = validation.check_type_int(item)
     except TypeError as e:
-        invalid_params.append("{0}: value: {1} {2}".format(param_name, item, str(e)))
+        invalid_params.append(
+            f"'{param_name}': '{item}' is invalid. Reason: {str(e)}. "
+        )
         return item
 
     min_value = param_spec.get("range_min", 1)
@@ -112,8 +147,14 @@ def validate_bool(item, param_spec, param_name, invalid_params, module=None):
     Returns:
         bool: The validated boolean value.
     """
+    try:
+        item = validation.check_type_bool(item)
+    except TypeError as e:
+        invalid_params.append(
+            f"'{param_name}': '{item}' is invalid. Reason: {str(e)}. "
+        )
 
-    return validation.check_type_bool(item)
+    return item
 
 
 def validate_list(item, param_spec, param_name, invalid_params, module=None):
@@ -184,7 +225,10 @@ def validate_list(item, param_spec, param_name, invalid_params, module=None):
                 item, list_invalid_params = validate_list_of_dicts(item, temp_dict)
                 invalid_params.extend(list_invalid_params)
         else:
-            invalid_params.append("{0} : is not a valid list".format(item))
+            invalid_params.append(
+                f"'{param_name}': '{item}' is invalid. Reason: expected type: '{param_spec.get('type')}'. "
+                f"Provided type: '{type(item).__name__}'. "
+            )
     except Exception as e:
         invalid_params.append("{0} : comes into the exception".format(e))
 
@@ -208,7 +252,11 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
         dict: The validated dictionary.
     """
     if param_spec.get("type") != type(item).__name__:
-        invalid_params.append("{0} : is not a valid dictionary".format(item))
+        invalid_params.append(
+            f"'{param_name}': '{item}' is invalid. Reason: expected type: '{param_spec.get('type')}'. "
+            f"Provided type: '{type(item).__name__}'. "
+        )
+        return item
 
     if param_spec.get("type") == "dict":
         common_defaults = {
@@ -243,9 +291,11 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
                 switch = {
                     "str": validate_str,
                     "int": validate_integer_within_range,
+                    "float": validate_float,
                     "bool": validate_bool,
                     "list": validate_list,
                     "dict": validate_dict,
+                    "raw": lambda item, *_: item,
                 }
 
                 validator = switch.get(data_type)
@@ -320,9 +370,11 @@ def validate_list_of_dicts(param_list, spec, module=None):
             switch = {
                 "str": validate_str,
                 "int": validate_integer_within_range,
+                "float": validate_float,
                 "bool": validate_bool,
                 "list": validate_list,
                 "dict": validate_dict,
+                "raw": lambda item, *_: item,
             }
 
             validator = switch.get(data_type)

@@ -9,13 +9,10 @@ DOCUMENTATION = r"""
 module: event_subscription
 short_description: Resource module for Event Subscription
 description:
-  - Manage operations create, update and delete of the
-    resource Event Subscription. - > Subscribe SubscriptionEndpoint
-    to list of registered events. Deprecated since Guardian
-    release. Alternative POST /intent/api/v1/event/subscription/rest.
-  - Delete EventSubscriptions. - > Update SubscriptionEndpoint
-    to list of registered events. Deprecated since Guardian
-    release. Alternative PUT /intent/api/v1/event/subscription/rest.
+  - Manage operations create, update and delete of the resource Event Subscription.
+  - Subscribe SubscriptionEndpoint to list of registered events.
+  - Delete EventSubscriptions.
+  - Update SubscriptionEndpoint to list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -48,8 +45,7 @@ options:
                 type: list
             type: list
           eventIds:
-            description: Event Ids (Comma separated
-              event ids).
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
           severities:
@@ -77,15 +73,13 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Rest/Webhook Subscription
-              Details --> pick instanceId).
+            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
             description: Event Subscription's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be
-                  REST).
+                description: Connector Type (Must be REST).
                 type: str
             type: dict
         type: list
@@ -97,27 +91,20 @@ options:
         type: str
     type: list
   subscriptions:
-    description: Subscriptions query parameter. List
-      of EventSubscriptionId's for removal.
+    description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CreateEventSubscriptions
-    description: Complete reference of the CreateEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management CreateEventSubscriptions
+    description: Complete reference of the CreateEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions
-  - name: Cisco DNA Center documentation for Event Management
-      DeleteEventSubscriptions
-    description: Complete reference of the DeleteEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management DeleteEventSubscriptions
+    description: Complete reference of the DeleteEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions
-  - name: Cisco DNA Center documentation for Event Management
-      UpdateEventSubscriptions
-    description: Complete reference of the UpdateEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management UpdateEventSubscriptions
+    description: Complete reference of the UpdateEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions
 notes:
   - SDK Method used are
@@ -127,8 +114,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/event/subscription,
     delete /dna/intent/api/v1/event/subscription,
-    put
-    /dna/intent/api/v1/event/subscription,
+    put /dna/intent/api/v1/event/subscription,
 """
 
 EXAMPLES = r"""
@@ -139,18 +125,18 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     subscriptions: string
-- name: Update all
+- name: Create
   cisco.catalystcenter.event_subscription:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -180,13 +166,13 @@ EXAMPLES = r"""
               connectorType: string
         subscriptionId: string
         version: string
-- name: Create
+- name: Update all
   cisco.catalystcenter.event_subscription:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -219,7 +205,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

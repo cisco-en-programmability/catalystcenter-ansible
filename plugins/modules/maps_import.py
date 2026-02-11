@@ -9,28 +9,24 @@ DOCUMENTATION = r"""
 module: maps_import
 short_description: Resource module for Maps Import
 description:
-  - Manage operation delete of the resource Maps Import.
-    - > Cancels a previously initatied import, allowing
-    the system to cleanup cached resources about that
-    import data, and ensures the import cannot accidentally
-    be performed / approved at a later time.
+  - Manage operation delete of the resource Maps Import. - > Cancels a previously initatied import, allowing the system to
+    cleanup cached resources about that import data, and ensures the import cannot accidentally be performed / approved at
+    a later time.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   importContextUuid:
-    description: ImportContextUuid path parameter. The
-      unique import context UUID given by a previous
-      call to Start Import API.
+    description: ImportContextUuid path parameter. The unique import context UUID given by a previous call to Start Import
+      API.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites ImportMapArchiveCancelAnImport
-    description: Complete reference of the ImportMapArchiveCancelAnImport
-      API.
+    description: Complete reference of the ImportMapArchiveCancelAnImport API.
     link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-cancel-an-import
 notes:
   - SDK Method used are
@@ -47,14 +43,14 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     importContextUuid: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

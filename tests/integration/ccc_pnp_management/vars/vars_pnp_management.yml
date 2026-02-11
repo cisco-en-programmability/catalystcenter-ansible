@@ -53,4 +53,4 @@ bulk:
 
 delete_devices:
   - ip_address_list: ["204.1.2.1"]
-    clean_config: false
+    clean_config: False

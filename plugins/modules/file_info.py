@@ -25,25 +25,22 @@ options:
     type: str
   dirPath:
     description:
-      - Directory absolute path. Defaults to the current
-        working directory.
+      - Directory absolute path. Defaults to the current working directory.
     type: str
   saveFile:
     description:
-      - Enable or disable automatic file creation of
-        raw response.
+      - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
     description:
       - The filename used to save the download file.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for File DownloadAFileByFileId
-    description: Complete reference of the DownloadAFileByFileId
-      API.
+    description: Complete reference of the DownloadAFileByFileId API.
     link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id
 notes:
   - SDK Method used are
@@ -60,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -69,7 +66,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

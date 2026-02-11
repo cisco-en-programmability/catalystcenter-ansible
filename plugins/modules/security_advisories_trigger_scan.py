@@ -7,36 +7,26 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_trigger_scan
-short_description: Resource module for Security Advisories
-  Trigger Scan
+short_description: Resource module for Security Advisories Trigger Scan
 description:
-  - Manage operation create of the resource Security
-    Advisories Trigger Scan. - > Triggers a security
-    advisories scan for the supported network devices.
-    The supported devices are switches, routers and
-    wireless controllers with IOS and IOS-XE. If a device
-    is not supported, the SecurityAdvisoryNetworkDevice
-    scanStatus will be Failed with appropriate comments.
+  - Manage operation create of the resource Security Advisories Trigger Scan. - > Triggers a security advisories scan for
+    the supported network devices. The supported devices are switches, routers and wireless controllers with IOS and IOS-XE.
+    If a device is not supported, the SecurityAdvisoryNetworkDevice scanStatus will be Failed with appropriate comments.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   failedDevicesOnly:
-    description: FailedDevicesOnly query parameter.
-      Used to specify if the scan should run only for
-      the network devices that failed during the previous
-      scan. If not specified, this parameter defaults
-      to false.
+    description: FailedDevicesOnly query parameter. Used to specify if the scan should run only for the network devices that
+      failed during the previous scan. If not specified, this parameter defaults to false.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevices
-    description: Complete reference of the TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevices
+    description: Complete reference of the TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!triggers-a-security-advisories-scan-for-the-supported-network-devices
 notes:
   - SDK Method used are
@@ -53,22 +43,21 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     failedDevicesOnly: true
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

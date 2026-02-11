@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: diagnostic_validation_workflows_count_info
-short_description: Information module for Diagnostic
-  Validation Workflows Count
+short_description: Information module for Diagnostic Validation Workflows Count
 description:
   - Get all Diagnostic Validation Workflows Count.
-  - Retrieves the count of workflows that have been
-    successfully submitted and are currently available.
+  - Retrieves the count of workflows that have been successfully submitted and are currently available.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,35 +21,26 @@ options:
     type: dict
   startTime:
     description:
-      - StartTime query parameter. Workflows started
-        after the given time (as milliseconds since
-        UNIX epoch).
+      - StartTime query parameter. Workflows started after the given time (as milliseconds since UNIX epoch).
     type: float
   endTime:
     description:
-      - EndTime query parameter. Workflows started before
-        the given time (as milliseconds since UNIX epoch).
+      - EndTime query parameter. Workflows started before the given time (as milliseconds since UNIX epoch).
     type: float
   runStatus:
     description:
       - >
-        RunStatus query parameter. Execution status
-        of the workflow. If the workflow is successfully
-        submitted, runStatus is `PENDING`. If the workflow
-        execution has started, runStatus is `IN_PROGRESS`.
-        If the workflow executed is completed with all
-        validations executed, runStatus is `COMPLETED`.
-        If the workflow execution fails while running
-        validations, runStatus is `FAILED`.
+        RunStatus query parameter. Execution status of the workflow. If the workflow is successfully submitted,
+        runStatus is `PENDING`. If the workflow execution has started, runStatus is `IN_PROGRESS`. If the
+        workflow executed is completed with all validations executed, runStatus is `COMPLETED`. If the workflow
+        execution fails while running validations, runStatus is `FAILED`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance RetrievesTheCountOfValidationWorkflows
-    description: Complete reference of the RetrievesTheCountOfValidationWorkflows
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesTheCountOfValidationWorkflows
+    description: Complete reference of the RetrievesTheCountOfValidationWorkflows API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-validation-workflows
 notes:
   - SDK Method used are
@@ -68,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -79,14 +68,26 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": {
-        "count": 0
-      },
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "description": "string",
+          "runStatus": "string",
+          "submitTime": 0,
+          "startTime": 0,
+          "endTime": 0,
+          "validationStatus": "string",
+          "validationSetIds": [
+            "string"
+          ]
+        }
+      ],
       "version": "string"
     }
 """

@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_policy_tags_policy_tag_id_info
-short_description: Information module for Wireless Profiles
-  Id Policy Tags Policy Tag Id
+short_description: Information module for Wireless Profiles Id Policy Tags Policy Tag Id
 description:
-  - Get Wireless Profiles Id Policy Tags Policy Tag
-    Id by id. - > This endpoint retrieves the details
-    of a specific `Policy Tag` associated with a given
-    `Wireless Profile`. This API requires the `id` of
-    the `Wireless Profile` and the `policyTagId` of
-    the `Policy Tag`.
+  - Get Wireless Profiles Id Policy Tags Policy Tag Id by id. - > This endpoint retrieves the details of a specific `Policy
+    Tag` associated with a given `Wireless Profile`. This API requires the `id` of the `Wireless Profile` and the `policyTagId`
+    of the `Policy Tag`.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -33,13 +29,11 @@ options:
       - PolicyTagId path parameter. Policy Tag Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveASpecificPolicyTagForAWirelessProfile
-    description: Complete reference of the RetrieveASpecificPolicyTagForAWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveASpecificPolicyTagForAWirelessProfile
+    description: Complete reference of the RetrieveASpecificPolicyTagForAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-policy-tag-for-a-wireless-profile
 notes:
   - SDK Method used are
@@ -50,14 +44,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get Wireless Profiles Id Policy Tags Policy
-    Tag Id by id
+- name: Get Wireless Profiles Id Policy Tags Policy Tag Id by id
   cisco.catalystcenter.wireless_profiles_id_policy_tags_policy_tag_id_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -67,7 +60,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

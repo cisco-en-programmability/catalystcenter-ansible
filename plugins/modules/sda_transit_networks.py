@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_transit_networks
 short_description: Resource module for Sda Transit Networks
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Transit Networks.
+  - Manage operations create and update of the resource Sda Transit Networks.
   - Adds transit networks based on user input.
   - Updates transit networks based on user input.
 version_added: '6.15.0'
@@ -22,74 +21,52 @@ options:
     description: Sda Transit Networks's payload.
     elements: dict
     suboptions:
-      id:
-        description: ID of the transit network (updating
-          this field is not allowed).
-        type: str
       ipTransitSettings:
         description: Sda Transit Networks's ipTransitSettings.
         suboptions:
           autonomousSystemNumber:
-            description: Autonomous System Number of
-              the IP transit network. Allowed range
-              is 1 to 4294967295 (updating this field
-              is not allowed).
+            description: Autonomous System Number of the IP transit network. Allowed range is 1 to 4294967295 (updating this
+              field is not allowed).
             type: str
           routingProtocolName:
-            description: Routing Protocol Name of the
-              IP transit network (updating this field
-              is not allowed).
+            description: Routing Protocol Name of the IP transit network (updating this field is not allowed).
             type: str
         type: dict
       name:
-        description: Name of the transit network (updating
-          this field is not allowed).
+        description: Name of the transit network.
         type: str
       sdaTransitSettings:
         description: Sda Transit Networks's sdaTransitSettings.
         suboptions:
           controlPlaneNetworkDeviceIds:
-            description: List of network device IDs
-              that will be used as control plane nodes.
-              Maximum 2 network device IDs can be provided
-              for transit of type SDA_LISP_BGP_TRANSIT
-              and maximum 4 network device IDs can be
-              provided for transit of type SDA_LISP_PUB_SUB_TRANSIT.
+            description: List of network device IDs that will be used as control plane nodes. Maximum 2 network device IDs
+              can be provided for transit of type SDA_LISP_BGP_TRANSIT and maximum 4 network device IDs can be provided for
+              transit of type SDA_LISP_PUB_SUB_TRANSIT.
             elements: str
             type: list
           isMulticastOverTransitEnabled:
-            description: Set this to true to enable
-              multicast over SD-Access transit. This
-              supports Native Multicast over SD-Access
-              Transit. This is only applicable for transit
-              of type SDA_LISP_PUB_SUB_TRANSIT.
+            description: Set this to true to enable multicast over SD-Access transit. This supports Native Multicast over
+              SD-Access Transit. This is only applicable for transit of type SDA_LISP_PUB_SUB_TRANSIT.
             type: bool
         type: dict
       siteId:
-        description: ID of the site of this transit
-          network. The transit network will be anchored
-          at this Site. Only Fabric Sites within this
-          Site location can associate their borders
-          with this transit network. Additionally, the
-          Transit Control Plane Devices must be located
-          within the transit network's Site.
+        description: ID of the site of this transit network. The transit network will be anchored at this Site. Only Fabric
+          Sites within this Site location can associate their borders with this transit network. Additionally, the Transit
+          Control Plane Devices must be located within the transit network's Site.
         type: str
       type:
-        description: Type of the transit network (updating
-          this field is not allowed).
+        description: Type of the transit network.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddTransitNetworks
-    description: Complete reference of the AddTransitNetworks
-      API.
+    description: Complete reference of the AddTransitNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks
   - name: Cisco DNA Center documentation for SDA UpdateTransitNetworks
-    description: Complete reference of the UpdateTransitNetworks
-      API.
+    description: Complete reference of the UpdateTransitNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks
 notes:
   - SDK Method used are
@@ -102,13 +79,34 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Create
+  cisco.catalystcenter.sda_transit_networks:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - ipTransitSettings:
+          autonomousSystemNumber: string
+          routingProtocolName: string
+        name: string
+        sdaTransitSettings:
+          controlPlaneNetworkDeviceIds:
+            - string
+          isMulticastOverTransitEnabled: true
+        siteId: string
+        type: string
 - name: Update all
   cisco.catalystcenter.sda_transit_networks:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -124,31 +122,10 @@ EXAMPLES = r"""
           isMulticastOverTransitEnabled: true
         siteId: string
         type: string
-- name: Create
-  cisco.catalystcenter.sda_transit_networks:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    payload:
-      - ipTransitSettings:
-          autonomousSystemNumber: string
-          routingProtocolName: string
-        name: string
-        sdaTransitSettings:
-          controlPlaneNetworkDeviceIds:
-            - string
-          isMulticastOverTransitEnabled: true
-        siteId: string
-        type: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

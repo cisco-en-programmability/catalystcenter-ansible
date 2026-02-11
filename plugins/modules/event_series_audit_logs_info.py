@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_series_audit_logs_info
-short_description: Information module for Event Series
-  Audit Logs
+short_description: Information module for Event Series Audit Logs
 description:
   - Get all Event Series Audit Logs.
   - Get Audit Log Event instances from the Event-Hub.
@@ -22,141 +21,114 @@ options:
     type: dict
   parentInstanceId:
     description:
-      - ParentInstanceId query parameter. Parent Audit
-        Log record's instanceID.
+      - ParentInstanceId query parameter. Parent Audit Log record's instanceID.
     type: str
   instanceId:
     description:
-      - InstanceId query parameter. InstanceID of the
-        Audit Log.
+      - InstanceId query parameter. InstanceID of the Audit Log.
     type: str
   name:
     description:
-      - Name query parameter. Audit Log notification
-        event name.
+      - Name query parameter. Audit Log notification event name.
     type: str
   eventId:
     description:
-      - EventId query parameter. Audit Log notification's
-        event ID.
+      - EventId query parameter. Audit Log notification's event ID.
     type: str
   category:
     description:
       - >
-        Category query parameter. Audit Log notification's
-        event category. Supported values INFO, WARN,
-        ERROR, ALERT, TASK_PROGRESS, TASK_FAILURE, TASK_COMPLETE,
-        COMMAND, QUERY, CONVERSATION.
+        Category query parameter. Audit Log notification's event category. Supported values INFO, WARN, ERROR,
+        ALERT, TASK_PROGRESS, TASK_FAILURE, TASK_COMPLETE, COMMAND, QUERY, CONVERSATION.
     type: str
   severity:
     description:
-      - Severity query parameter. Audit Log notification's
-        event severity. Supported values 1, 2, 3, 4,
-        5.
+      - Severity query parameter. Audit Log notification's event severity. Supported values 1, 2, 3, 4, 5.
     type: str
   domain:
     description:
-      - Domain query parameter. Audit Log notification's
-        event domain.
+      - Domain query parameter. Audit Log notification's event domain.
     type: str
   subDomain:
     description:
-      - SubDomain query parameter. Audit Log notification's
-        event sub-domain.
+      - SubDomain query parameter. Audit Log notification's event sub-domain.
     type: str
   source:
     description:
-      - Source query parameter. Audit Log notification's
-        event source.
+      - Source query parameter. Audit Log notification's event source.
     type: str
   userId:
     description:
-      - UserId query parameter. Audit Log notification's
-        event userId.
+      - UserId query parameter. Audit Log notification's event userId.
     type: str
   context:
     description:
-      - Context query parameter. Audit Log notification's
-        event correlationId.
+      - Context query parameter. Audit Log notification's event correlationId.
     type: str
   eventHierarchy:
     description:
       - >
-        EventHierarchy query parameter. Audit Log notification's
-        event eventHierarchy. Example "US.CA.San Jose"
-        OR "US.CA" OR "CA.San Jose" - Delimiter for
-        hierarchy separation is ".".
+        EventHierarchy query parameter. Audit Log notification's event eventHierarchy. Example "US.CA.San Jose"
+        OR "US.CA" OR "CA.San Jose" - Delimiter for hierarchy separation is ".".
     type: str
   siteId:
     description:
-      - SiteId query parameter. Audit Log notification's
-        siteId.
+      - SiteId query parameter. Audit Log notification's siteId.
     type: str
   deviceId:
     description:
-      - DeviceId query parameter. Audit Log notification's
-        deviceId.
+      - DeviceId query parameter. Audit Log notification's deviceId.
     type: str
   isSystemEvents:
     description:
-      - IsSystemEvents query parameter. Parameter to
-        filter system generated audit-logs.
+      - IsSystemEvents query parameter. Parameter to filter system generated audit-logs.
     type: bool
   description:
     description:
       - >
-        Description query parameter. String full/partial
-        search - (Provided input string is case insensitively
+        Description query parameter. String full/partial search - (Provided input string is case insensitively
         matched for records).
     type: str
   offset:
     description:
-      - Offset query parameter. Position of a particular
-        Audit Log record in the data.
-    type: float
+      - Offset query parameter. Position of a particular Audit Log record in the data.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. Number of Audit Log records
-        to be returned per page. Default is 25 if not
+        Limit query parameter. Number of Audit Log records to be returned per page. Default is 25 if not
         specified. Maximum allowed limit is 25.
-    type: float
+    type: int
   startTime:
     description:
       - >
-        StartTime query parameter. Start Time in milliseconds
-        since Epoch Eg. 1597950637211 (when provided
+        StartTime query parameter. Start Time in milliseconds since Epoch Eg. 1597950637211 (when provided
         endTime is mandatory).
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End Time in milliseconds
-        since Epoch Eg. 1597961437211 (when provided
-        startTime is mandatory).
+        EndTime query parameter. End Time in milliseconds since Epoch Eg. 1597961437211 (when provided startTime
+        is mandatory).
     type: float
   sortBy:
     description:
       - >
-        SortBy query parameter. Sort the Audit Logs
-        by certain fields. Supported values are event
-        notification header attributes.
+        SortBy query parameter. Sort the Audit Logs by certain fields. Supported values are event notification
+        header attributes.
     type: str
   order:
     description:
       - >
-        Order query parameter. Order of the sorted Audit
-        Log records. Default value is desc by timestamp.
+        Order query parameter. Order of the sorted Audit Log records. Default value is desc by timestamp.
         Supported values asc, desc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetAuditLogRecords
-    description: Complete reference of the GetAuditLogRecords
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetAuditLogRecords
+    description: Complete reference of the GetAuditLogRecords API.
     link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records
 notes:
   - SDK Method used are
@@ -173,7 +145,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -203,7 +175,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict
@@ -224,7 +196,7 @@ dnac_response:
         "source": "string",
         "timestamp": 0,
         "tags": [
-          {}
+          "string"
         ],
         "details": {},
         "ciscoDnaEventLink": "string",

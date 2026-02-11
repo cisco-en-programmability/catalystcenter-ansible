@@ -10,8 +10,9 @@ module: projects_info
 short_description: Information module for Projects
 description:
   - Get all Projects.
-  - Get all matching template projects based on the
-    filters selected.
+  - Get Projects by id.
+  - Get a template project by the project's ID.
+  - Get all matching template projects based on the filters selected.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,35 +23,37 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Name of project to be
-        searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
+  projectId:
+    description:
+      - ProjectId path parameter. The id of the project to get, retrieveable from `GET /dna/intent/api/v1/projects`.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetTemplateProjects
-    description: Complete reference of the GetTemplateProjects
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateProject
+    description: Complete reference of the GetTemplateProject API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-project
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateProjects
+    description: Complete reference of the GetTemplateProjects API.
     link: https://developer.cisco.com/docs/dna-center/#!get-template-projects
 notes:
   - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_template_project,
     configuration_templates.ConfigurationTemplates.get_template_projects,
   - Paths used are
     get /dna/intent/api/v1/projects,
+    get /dna/intent/api/v1/projects/{projectId},
 """
 
 EXAMPLES = r"""
@@ -61,7 +64,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -69,22 +72,32 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
   register: result
+- name: Get Projects by id
+  cisco.catalystcenter.projects_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    projectId: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
-      "response": [
-        {
-          "projectId": "string",
-          "name": "string",
-          "description": "string",
-          "lastUpdateTime": 0
-        }
-      ]
+      "response": {
+        "projectId": "string",
+        "name": "string",
+        "description": "string",
+        "lastUpdateTime": 0
+      }
     }
 """

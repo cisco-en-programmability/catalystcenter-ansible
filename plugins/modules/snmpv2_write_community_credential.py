@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: snmpv2_write_community_credential
-short_description: Resource module for Snmpv2 Write
-  Community Credential
+short_description: Resource module for Snmpv2 Write Community Credential
 description:
-  - Manage operations create and update of the resource
-    Snmpv2 Write Community Credential.
+  - Manage operations create and update of the resource Snmpv2 Write Community Credential.
   - Adds global SNMP write community.
   - Updates global SNMP write community.
 version_added: '3.1.0'
@@ -23,8 +21,7 @@ options:
     description: Comments to identify the credential.
     type: str
   credentialType:
-    description: Credential type to identify the application
-      that uses the credential.
+    description: Credential type to identify the application that uses the credential.
     type: str
   description:
     description: Name/Description of the credential.
@@ -33,22 +30,17 @@ options:
     description: Credential UUID.
     type: str
   writeCommunity:
-    description: SNMP write community. NO!$DATA!$ for
-      no value change.
+    description: SNMP write community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      CreateSNMPWriteCommunity
-    description: Complete reference of the CreateSNMPWriteCommunity
-      API.
+  - name: Cisco DNA Center documentation for Discovery CreateSNMPWriteCommunity
+    description: Complete reference of the CreateSNMPWriteCommunity API.
     link: https://developer.cisco.com/docs/dna-center/#!create-snmp-write-community
-  - name: Cisco DNA Center documentation for Discovery
-      UpdateSNMPWriteCommunity
-    description: Complete reference of the UpdateSNMPWriteCommunity
-      API.
+  - name: Cisco DNA Center documentation for Discovery UpdateSNMPWriteCommunity
+    description: Complete reference of the UpdateSNMPWriteCommunity API.
     link: https://developer.cisco.com/docs/dna-center/#!update-snmp-write-community
 notes:
   - SDK Method used are
@@ -67,7 +59,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -81,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -93,7 +85,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

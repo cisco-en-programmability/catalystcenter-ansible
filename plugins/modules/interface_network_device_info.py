@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: interface_network_device_info
-short_description: Information module for Interface
-  Network Device
+short_description: Information module for Interface Network Device
 description:
   - Get Interface Network Device by id.
   - Returns list of interfaces by specified device.
@@ -25,13 +24,11 @@ options:
       - DeviceId path parameter. Device ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetInterfaceInfoById
-    description: Complete reference of the GetInterfaceInfoById
-      API.
+  - name: Cisco DNA Center documentation for Devices GetInterfaceInfoById
+    description: Complete reference of the GetInterfaceInfoById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-info-by-id
 notes:
   - SDK Method used are
@@ -48,7 +45,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -57,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

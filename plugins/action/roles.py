@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -90,7 +89,7 @@ class Roles(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.catalystcenter.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_roles_api",
                 params=self.get_all_params(name=name),
             )
@@ -107,7 +106,7 @@ class Roles(object):
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.catalystcenter.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_roles_api",
                 params=self.get_all_params(id=id),
             )
@@ -155,18 +154,18 @@ class Roles(object):
             ("roleId", "roleId"),
             ("roleId", "role_id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
-                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
             )
-            for (dnac_param, ansible_param) in obj_params
+            for (catalystcenter_param, ansible_param) in obj_params
         )
 
     def create(self):
         result = self.catalystcenter.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="add_role_api",
             params=self.create_params(),
             op_modifies=True,
@@ -178,7 +177,7 @@ class Roles(object):
         name = self.new_object.get("name")
         result = None
         result = self.catalystcenter.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="update_role_api",
             params=self.update_all_params(),
             op_modifies=True,
@@ -199,7 +198,7 @@ class Roles(object):
             if id_:
                 self.new_object.update(dict(role_id=id_))
         result = self.catalystcenter.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="delete_role_api",
             params=self.delete_by_id_params(),
         )
@@ -249,7 +248,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -262,7 +261,7 @@ class ActionModule(ActionBase):
                 catalystcenter.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 catalystcenter.object_deleted()

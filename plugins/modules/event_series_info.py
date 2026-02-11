@@ -21,8 +21,7 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. The registered EventId
-        should be provided.
+      - EventIds query parameter. The registered EventId should be provided.
     type: str
   startTime:
     description:
@@ -59,19 +58,18 @@ options:
   offset:
     description:
       - Offset query parameter. Start Offset.
-    type: float
+    type: int
   limit:
     description:
       - Limit query parameter. # of records.
-    type: float
+    type: int
   sortBy:
     description:
       - SortBy query parameter. Sort By column.
     type: str
   order:
     description:
-      - Order query parameter. Ascending/Descending
-        order asc/desc.
+      - Order query parameter. Ascending/Descending order asc/desc.
     type: str
   tags:
     description:
@@ -86,13 +84,11 @@ options:
       - SiteId query parameter. Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetNotifications
-    description: Complete reference of the GetNotifications
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetNotifications
+    description: Complete reference of the GetNotifications API.
     link: https://developer.cisco.com/docs/dna-center/#!get-notifications
 notes:
   - SDK Method used are
@@ -109,7 +105,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -133,7 +129,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

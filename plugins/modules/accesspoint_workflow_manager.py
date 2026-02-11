@@ -9,14 +9,16 @@ __author__ = "A Mohamed Rafeek, Megha Kandari, Sonali Deepthi Kesali, Natarajan,
 DOCUMENTATION = r"""
 ---
 module: accesspoint_workflow_manager
-short_description: Automates bulk AP configuration changes.
+short_description: Manage Cisco Catalyst Center access points
 description:
-  - Automates bulk configuration changes for Access Points (APs).
-  - Modify AP display names, AP names, or other parameters.
-  - Filter specific device details, such as selecting devices with hostnames matching
-    "NFW-AP1-9130AXE".
-  - Compares input details with current AP configurations and applies desired changes
-    only to relevant APs.
+  - Manage access point configurations in Cisco Catalyst Center.
+  - Configure individual AP settings including radio interfaces, controller assignments, and location parameters.
+  - Perform bulk configuration updates across multiple access points of the same series.
+  - Execute lifecycle operations including AP reboot and factory reset for up to 100 devices.
+  - Provision access points to sites and assign RF profiles (HIGH, LOW, TYPICAL, or custom).
+  - Support advanced radio configurations for 2.4GHz, 5GHz, 6GHz, XOR, and TRI radio interfaces.
+  - Compare current configurations with desired state to apply only necessary changes.
+  - Identify access points using MAC address, hostname, or management IP address.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
@@ -29,8 +31,10 @@ author:
   - Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center configuration after
-      applying the playbook config.
+    description: >
+      Indicates whether configuration verification is enabled.
+      This flag is always set to false. As a result, some field changes
+      may not exhibit idempotent behavior due to Access Point reboots.
     type: bool
     default: false
   state:
@@ -47,7 +51,7 @@ options:
     type: int
     default: 2
   next_task_after_interval:
-    description: Time in second between Provision and AP updated execution
+    description: Time in seconds between Provision and AP updated execution
     type: int
     default: 5
   config:
@@ -118,8 +122,10 @@ options:
         type: str
         required: false
       led_status:
-        description: State of the AP's LED. Accepts "Enabled" or "Disabled". For example,
-          "Enabled".
+        description: >
+          Specifies led status for the access point accepts "Enabled" or "Disabled".
+          When a led brightness level is provided, the led status defaults to "Enabled".
+          For example, "Enabled".
         type: str
         required: false
       led_brightness_level:
@@ -129,8 +135,18 @@ options:
         required: false
       ap_mode:
         description: |
-          Defines the mode of operation for the Access Point (AP). Possible values include "Local",
-          "Monitor", "Sniffer", or "Bridge". For example, "Local".
+          Defines the operational mode of the Access Point (AP), which determines its primary function.
+          - C(Local): The default mode where the AP serves wireless clients by tunneling
+          all client traffic to the controller. Radio parameters (For example, C(2.4ghz_radio),
+          C(5ghz_radio)) can only be modified when the AP is in this mode.
+          - C(Monitor): The AP does not serve clients but actively monitors the RF environment
+          for rogue devices, interference, and supports features like Radio Resource Management (RRM)
+          and Intrusion Detection System (IDS).
+          - C(Sniffer): The AP is dedicated to capturing all 802.11 packets on a specific channel
+          and forwarding them to a remote machine for analysis with tools like Wireshark.
+          - C(Bridge): The AP acts as a dedicated point-to-point or point-to-multipoint bridge to
+          connect different network segments wirelessly. Clients cannot connect to the AP in this mode.
+          Note: Changing the AP mode may cause the AP to reboot. Not all AP models support all modes.
         type: str
         required: false
       location:
@@ -140,9 +156,13 @@ options:
         required: false
       is_assigned_site_as_location:
         description: |
-          Configures whether the access point location is automatically set to the site assigned to the access point.
-          Accepts "Enabled" or "Disabled". If set to "Enabled", no additional location configuration is required.
+          - Determines whether the access point's location is automatically set to its assigned site.
+          - When set to C(Enabled), the assigned site is used as the location and no manual location configuration is needed.
+          - When set to C(Disabled), the location must be specified manually.
+          - Accepted values are C(Enabled) and C(Disabled).
+          - Note: Idempotent behavior is not supported for this field; repeated runs may not guarantee consistent results.
         type: str
+        choices: ["Enabled", "Disabled"]
         required: false
       failover_priority:
         description: Priority order for failover in AP configuration. Accepts "Low",
@@ -151,20 +171,23 @@ options:
         required: false
       clean_air_si_2.4ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       clean_air_si_5ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       clean_air_si_6ghz:
         description: |
-          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-          Clean Air Spectrum Intelligence is enabled or disabled.
+          Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+          Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+          For example, "Enabled".
         type: str
         required: false
       primary_controller_name:
@@ -221,7 +244,10 @@ options:
             type: str
             required: true
       2.4ghz_radio:
-        description: Configuration options for the 2.4GHz radio interface.
+        description: |
+          Configuration options for the 2.4GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -237,18 +263,24 @@ options:
             required: false
           antenna_gain:
             description: |
-              Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-              from 0 to 40. For example, 10.
+              Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+              and antenna gain must be greater than cable loss.
+              Valid values range from 0 to 20. For example, 10.
             type: int
             required: false
           radio_role_assignment:
-            description: Role assignment mode for the 2.4GHz radio interface. Accepts
-              "Auto", "Client-serving", or "Monitor". For example, Auto.
+            description: |
+              Defines the operational role for the 2.4GHz radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
             description: |
-              Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+              Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
               This value must be less than the antenna gain. For example, 2.
             type: int
             required: false
@@ -258,27 +290,40 @@ options:
             type: str
             required: false
           channel_assignment_mode:
-            description: Mode of channel assignment for the 2.4GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the channel assignment for the 2.4GHz radio interface.
+              If the channel assignment is set to "Global", the channel_number is not required.
+              When a channel_number is provided, the channel assignment defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           channel_number:
-            description: Custom channel number configured for the 2.4GHz radio interface.
-              For example, 6.
+            description: >
+              Defines the custom channel number for the 2.4GHz radio interface.
+              When a channel number is provided, the channel assignment defaults to "Custom".
+              Valid values range from 1 to 14. For example: 3.
             type: int
             required: false
           power_assignment_mode:
-            description: Mode of power assignment for the 2.4GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the power assignment mode for the 2.4GHz radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the 2.4GHz radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the 2.4GHz radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       5ghz_radio:
-        description: Configuration options for the 5GHz radio interface.
+        description: >
+          Configuration options for the 5GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -294,19 +339,24 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-              from 0 to 40. For example, 5.
+              Antenna gain value in decibels (dB) for the 5GHz radio interface,
+              and antenna gain must be greater than cable loss.
+              Valid values range from 0 to 20. For example, 5.
             type: int
             required: false
           radio_role_assignment:
             description: |
-              Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-              or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+              Defines the operational role for the 5GHz radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
             description: |
-              Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+              Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
               This value must be less than the antenna gain. For example, 3.
             type: int
             required: false
@@ -316,27 +366,48 @@ options:
             type: str
             required: false
           channel_assignment_mode:
-            description: Mode of channel assignment for the 5GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the channel assignment for the 5GHz radio interface.
+              If the channel assignment is set to "Global", the channel_number is not required.
+              When a channel_number is provided, the channel assignment defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           channel_number:
-            description: Custom channel number configured for the 5GHz radio interface.
-              For example, 36.
+            description: >
+              Defines the custom channel number for the 5GHz radio interface.
+              When a channel number is provided, the channel assignment defaults to "Custom".
+              Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+              124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+              For example: 36.
             type: int
             required: false
+          channel_width:
+            description: |
+              Width of the channel configured for the 5GHz radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz" or "160 MHz". For example, 20 MHz.
+            type: str
+            required: false
           power_assignment_mode:
-            description: Mode of power assignment for the 5GHz radio interface. Accepts
-              "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the power assignment mode for the 5 GHz radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the 5GHz radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the 5 GHz radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       6ghz_radio:
-        description: Configuration options for the 6GHz radio interface.
+        description: |
+          Configuration options for the 6GHz radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -352,13 +423,19 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-              from 0 to 40. For example, 30.
+              Antenna gain value in decibels (dB) for the 6GHz radio interface,
+              and antenna gain must be greater than cable loss. Valid values range
+              from 0 to 40. For example, 10.
             type: int
             required: false
           radio_role_assignment:
-            description: Role assignment mode for the 6GHz radio interface. Accepts
-              "Auto", "Client-serving", or "Monitor".
+            description: |
+              Defines the operational role for the 6GHz radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
@@ -373,27 +450,50 @@ options:
             type: str
             required: false
           channel_assignment_mode:
-            description: Mode of channel assignment for the 6GHz radio interface.
-              Accepts "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the channel assignment for the 6GHz radio interface.
+              If the channel assignment is set to "Global", the channel_number is not required.
+              When a channel_number is provided, the channel assignment defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           channel_number:
-            description: Custom channel number configured for the 6GHz radio interface.
-              For example, 6.
+            description: >
+              Defines the custom channel number for the 6GHz radio interface.
+              When a channel number is provided, the channel assignment defaults to "Custom".
+              Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53,
+              57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121,
+              125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181,
+              185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
+              For example: 53.
             type: int
             required: false
+          channel_width:
+            description: |
+              Width of the channel configured for the 6GHz radio interface. Accepts values
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz" or "320 MHz". For example, 20 MHz.
+            type: str
+            required: false
           power_assignment_mode:
-            description: Mode of power assignment for the 6GHz radio interface. Accepts
-              "Global" or "Custom". For example, "Custom".
+            description: >
+              Specifies the power assignment mode for the 6GHz radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the 6GHz radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the 6GHz radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       xor_radio:
-        description: Configuration options for the XOR radio interface.
+        description: |
+          Configuration options for the XOR radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -409,13 +509,19 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+              Antenna gain value in decibels (dB) for the XOR radio interface,
+              and antenna gain must be greater than cable loss. Valid values range
               from 0 to 40. For example, 14.
             type: int
             required: false
           radio_role_assignment:
             description: |
-              Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+              Defines the operational role for the xor radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
               If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
               Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
               For example, "Auto".
@@ -440,7 +546,9 @@ options:
             required: false
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+              If the channel assignment mode is set to "Global", the channel number is not required.
+              When a channel number is provided, the channel assignment mode defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
               - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
               - For "Custom" mode and a radio band of "5 GHz", valid values are
                 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
@@ -458,6 +566,18 @@ options:
             required: false
           channel_number:
             description: Custom channel number configured for the XOR radio interface.
+              - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+              - For "Custom" mode and a radio band of "5 GHz", valid values are
+                36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                112, 116, 120, 124, 128, 132, 136, 140, 144,
+                149, 153, 157, 161, 165, 169, 173.
+              - For "Custom" mode and a radio band of "6 GHz", valid values are
+                1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                221, 225, 229, 233.
               For example, 6.
             type: int
             required: false
@@ -468,18 +588,25 @@ options:
             type: str
             required: false
           power_assignment_mode:
-            description: |
-              Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-              In "Custom" mode, valid values range from 1 to 8.
+            description: >
+              Specifies the power assignment mode for the XOR radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the XOR radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the XOR radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
       tri_radio:
-        description: Configuration options for the TRI radio interface.
+        description: |
+          Configuration options for the TRI radio interface.
+          Note: Updating access point radio configuration varies based on each model.
+          Refer to the respective access point documentation before updating the radio configuration.
         type: dict
         required: false
         suboptions:
@@ -495,14 +622,19 @@ options:
             required: false
           antenna_gain:
             description: |
-              Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+              Antenna gain value in decibels (dB) for the TRI radio interface,
+              and antenna gain must be greater than cable loss. Valid values range
               from 0 to 40. For example, 16.
             type: int
             required: false
           radio_role_assignment:
             description: |
-              Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-              If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+              Defines the operational role for the TRI radio interface.
+              - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+              - C(Client-serving): The radio is dedicated to serving wireless clients.
+              - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+              Note: This parameter, along with all other radio settings, can only be modified when
+              the access point's C(ap_mode) is set to C(Local).
             type: str
             required: false
           cable_loss:
@@ -518,48 +650,57 @@ options:
             required: false
           channel_assignment_mode:
             description: |
-              Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+              Specifies the channel assignment mode for the TRI radio interface.
+              If the channel assignment mode is set to "Global", the channel number is not required.
+              When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
               For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
               132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
             type: str
             required: false
           channel_number:
             description: Custom channel number configured for the TRI radio interface.
-              For example, 6.
+              For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+              132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+              For example, 36.
             type: int
             required: false
           channel_width:
             description: |
               Width of the channel configured for the TRI radio interface. Accepts values
-              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+              "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
             type: str
             required: false
           power_assignment_mode:
-            description: |
-              Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
-              In Custom, it accepts values 1 to 8.
+            description: >
+              Specifies the power assignment mode for the TRI radio interface.
+              If the power assignment mode is set to "Global", the power level is not required.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Accepts "Global" or "Custom". For example: "Global".
             type: str
             required: false
           power_level:
-            description: Custom power level configured for the TRI radio interface.
-              For example, 3.
+            description: >
+              Defines the custom power level for the TRI radio interface.
+              When a power level is provided, the power assignment mode automatically defaults to "Custom".
+              Valid values range from 1 to 8. For example: 3.
             type: int
             required: false
           dual_radio_mode:
             description: |
               Mode of operation configured for the TRI radio interface. Specifies how the
-              access point (AP) manages its dual radio functionality. eg . Auto
+              access point (AP) manages its dual radio functionality. For example, Auto.
             type: str
             required: false
       ap_selected_fields:
-        description: When enable the verify flag "config_verify" to see only the filter
+        description: When enabling the verify flag "config_verify" to see only the filter
           field of the AP details in the output. (eg.
           "id,hostname,family,type,mac_address,management_ip_address,ap_ethernet_mac_address")
         type: str
         required: false
       ap_config_selected_fields:
         description: |
-          When enable the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
+          When enabling the verify flag "config_verify" to see only the filter field of the AP configuration in the output.
           (eg. "mac_address,eth_mac,ap_name,led_brightness_level,led_status,location,radioDTOs")
         type: str
         required: false
@@ -633,7 +774,7 @@ options:
           ap_identifier:
             description: |
               AP identifier is a list of dict which contains MAC address, hostname, or management IP address
-              which is used to identify the access points for bulk updated with AP Name to update access point.
+              which is used to identify the access points for bulk updated with AP Name to update the access point.
             type: list
             elements: str
             required: true
@@ -672,7 +813,7 @@ options:
                 required: false
           common_fields_to_change:
             description: |
-              Common fields to change AP is a dict which contains below data which need to update all listed access points.
+              Common fields to change AP is a dict which contains below data which is needed to update all listed access points.
             type: dict
             required: true
             suboptions:
@@ -682,7 +823,9 @@ options:
                 type: str
                 required: false
               led_status:
-                description: State of the AP's LED. Accepts "Enabled" or "Disabled".
+                description: >
+                  Specifies led status for the access point accepts "Enabled" or "Disabled".
+                  When a led brightness level is provided, the led status defaults to "Enabled".
                   For example, "Enabled".
                 type: str
                 required: false
@@ -715,20 +858,23 @@ options:
                 required: false
               clean_air_si_2.4ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 2.4GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               clean_air_si_5ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 5GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               clean_air_si_6ghz:
                 description: |
-                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band. Indicates whether. For example, "Enabled".
-                  Clean Air Spectrum Intelligence is enabled or disabled.
+                  Clean Air Spectrum Intelligence (SI) feature status for the 6GHz band.
+                  Indicates whether Clean Air Spectrum Intelligence is enabled or disabled.
+                  For example, "Enabled".
                 type: str
                 required: false
               primary_controller_name:
@@ -785,7 +931,10 @@ options:
                     type: str
                     required: false
               2.4ghz_radio:
-                description: Configuration options for the 2.4GHz radio interface.
+                description: |
+                  Configuration options for the 2.4GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -801,19 +950,24 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface, valid values range
-                      from 0 to 40. For example, 10.
+                      Specifies the antenna gain value in decibels (dB) for the 2.4GHz radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
+                      from 0 to 20. For example, 10.
                     type: int
                     required: false
                   radio_role_assignment:
-                    description: Role assignment mode for the 2.4GHz radio interface.
-                      Accepts "Auto", "Client-serving", or "Monitor". For example,
-                      Auto.
+                    description: |
+                      Defines the operational role for the 2.4GHz radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                     type: str
                     required: false
                   cable_loss:
                     description: |
-                      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 40.
+                      Cable loss in dB for the 2.4GHz radio interface. Valid values are from 0 to 20.
                       This value must be less than the antenna gain. For example, 2.
                     type: int
                     required: false
@@ -823,27 +977,40 @@ options:
                     type: str
                     required: false
                   channel_assignment_mode:
-                    description: Mode of channel assignment for the 2.4GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the channel assignment for the 2.4GHz radio interface.
+                      If the channel assignment is set to "Global", the channel_number is not required.
+                      When a channel_number is provided, the channel assignment defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the 2.4GHz radio
-                      interface. For example, 6.
+                    description: >
+                      Defines the custom channel number for the 2.4GHz radio interface.
+                      When a channel number is provided, the channel assignment defaults to "Custom".
+                      Valid values range from 1 to 14. For example: 3.
                     type: int
                     required: false
                   power_assignment_mode:
-                    description: Mode of power assignment for the 2.4GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the power assignment mode for the 2.4GHz radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the 2.4GHz radio
-                      interface. For example, 3.
+                    description: >
+                      Defines the custom power level for the 2.4GHz radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               5ghz_radio:
-                description: Configuration options for the 5GHz radio interface.
+                description: |
+                  Configuration options for the 5GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -859,19 +1026,25 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the 5GHz radio interface, valid values range
-                      from 0 to 40. For example, 5.
+                      Antenna gain value in decibels (dB) for the 5GHz radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
+                      from 0 to 20. For example, 5.
                     type: int
                     required: false
                   radio_role_assignment:
                     description: |
-                      Role assignment mode for the 5GHz radio interface. Accepts "Auto", "Client-serving",
-                      or "Monitor". For example, "Auto". This field not required for xor series access point slot 1
+                      Defines the operational role for the 5GHz radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
+                      This field is not required for xor series access point slot 1.
                     type: str
                     required: false
                   cable_loss:
                     description: |
-                      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 40.
+                      Cable loss in dB for the 5GHz radio interface. Valid values are from 0 to 20.
                       This value must be less than the antenna gain. For example, 3.
                     type: int
                     required: false
@@ -881,27 +1054,42 @@ options:
                     type: str
                     required: false
                   channel_assignment_mode:
-                    description: Mode of channel assignment for the 5GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the channel assignment for the 5GHz radio interface.
+                      If the channel assignment is set to "Global", the channel_number is not required.
+                      When a channel_number is provided, the channel assignment defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the 5GHz radio
-                      interface. For example, 36.
+                    description: >
+                      Defines the custom channel number for the 5GHz radio interface.
+                      When a channel number is provided, the channel assignment defaults to "Custom".
+                      Valid values range from 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120,
+                      124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173.
+                      For example: 36.
                     type: int
                     required: false
                   power_assignment_mode:
-                    description: Mode of power assignment for the 5GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the power assignment mode for the 5GHz radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the 5GHz radio
-                      interface. For example, 3.
+                    description: >
+                      Defines the custom power level for the 5GHz radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               6ghz_radio:
-                description: Configuration options for the 6GHz radio interface.
+                description: |
+                  Configuration options for the 6GHz radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -917,13 +1105,19 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the 6GHz radio interface, valid values range
-                      from 0 to 40. For example, 30.
+                      Antenna gain value in decibels (dB) for the 6GHz radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
+                      from 0 to 40. For example, 10.
                     type: int
                     required: false
                   radio_role_assignment:
-                    description: Role assignment mode for the 6GHz radio interface.
-                      Accepts "Auto", "Client-serving", or "Monitor".
+                    description: |
+                      Defines the operational role for the 6GHz radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                     type: str
                     required: false
                   cable_loss:
@@ -938,27 +1132,44 @@ options:
                     type: str
                     required: false
                   channel_assignment_mode:
-                    description: Mode of channel assignment for the 6GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the channel assignment for the 6GHz radio interface.
+                      If the channel assignment is set to "Global", the channel_number is not required.
+                      When a channel_number is provided, the channel assignment defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the 6GHz radio
-                      interface. For example, 6.
+                    description: >
+                      Defines the custom channel number for the 6GHz radio interface.
+                      When a channel number is provided, the channel assignment defaults to "Custom".
+                      Valid values range from 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53,
+                      57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121,
+                      125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181,
+                      185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233.
+                      For example: 53.
                     type: int
                     required: false
                   power_assignment_mode:
-                    description: Mode of power assignment for the 6GHz radio interface.
-                      Accepts "Global" or "Custom". For example, "Custom".
+                    description: >
+                      Specifies the power assignment mode for the 6GHz radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the 6GHz radio
-                      interface. For example, 3.
+                    description: >
+                      Defines the custom power level for the 6GHz radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               xor_radio:
-                description: Configuration options for the XOR radio interface.
+                description: |
+                  Configuration options for the XOR radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -974,13 +1185,19 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the XOR radio interface, valid values range
+                      Antenna gain value in decibels (dB) for the XOR radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 40. For example, 14.
                     type: int
                     required: false
                   radio_role_assignment:
                     description: |
-                      Role assignment mode for the XOR radio interface. Accepts "Auto", "Client-serving", or "Monitor"
+                      Defines the operational role for the xor radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                       If "radio_role_assignment" is set to "Client-serving" only the power level and channel number can be changed.
                       Additionally, if the 5 GHz band is selected in the radio band, the power level cannot be modified.
                       For example, "Auto".
@@ -1005,7 +1222,9 @@ options:
                     required: false
                   channel_assignment_mode:
                     description: |
-                      Mode of channel assignment for the XOR radio interface. Accepts "Global" or "Custom".
+                      If the channel assignment mode is set to "Global", the channel number is not required.
+                      When a channel number is provided, the channel assignment mode defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                       - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
                       - For "Custom" mode and a radio band of "5 GHz", valid values are
                         36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
@@ -1022,8 +1241,20 @@ options:
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the XOR radio
-                      interface. For example, 6.
+                    description: Custom channel number configured for the XOR radio interface.
+                      - For "Custom" mode and a radio band of "2.4 GHz", valid values are from 1 to 14.
+                      - For "Custom" mode and a radio band of "5 GHz", valid values are
+                        36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108,
+                        112, 116, 120, 124, 128, 132, 136, 140, 144,
+                        149, 153, 157, 161, 165, 169, 173.
+                      - For "Custom" mode and a radio band of "6 GHz", valid values are
+                        1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49,
+                        53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97,
+                        101, 105, 109, 113, 117, 121, 125, 129, 133, 137,
+                        141, 145, 149, 153, 157, 161, 165, 169, 173, 177,
+                        181, 185, 189, 193, 197, 201, 205, 209, 213, 217,
+                        221, 225, 229, 233.
+                      For example, 6.
                     type: int
                     required: false
                   channel_width:
@@ -1033,18 +1264,25 @@ options:
                     type: str
                     required: false
                   power_assignment_mode:
-                    description: |
-                      Mode of power assignment for the XOR radio interface. Accepts "Global" or "Custom."
-                      In "Custom" mode, valid values range from 1 to 8.
+                    description: >
+                      Specifies the power assignment mode for the XOR radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the XOR radio interface.
-                      For example, 3.
+                    description: >
+                      Defines the custom power level for the XOR radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
               tri_radio:
-                description: Configuration options for the TRI radio interface.
+                description: |
+                  Configuration options for the TRI radio interface.
+                  Note: Updating access point radio configuration varies based on each model.
+                  Refer to the respective access point documentation before updating the radio configuration.
                 type: dict
                 required: false
                 suboptions:
@@ -1060,14 +1298,19 @@ options:
                     required: false
                   antenna_gain:
                     description: |
-                      Antenna gain value in decibels (dB) for the TRI radio interface, valid values range
+                      Antenna gain value in decibels (dB) for the TRI radio interface,
+                      and antenna gain must be greater than cable loss. Valid values range
                       from 0 to 40. For example, 16.
                     type: int
                     required: false
                   radio_role_assignment:
                     description: |
-                      Role assignment mode for the TRI radio interface. Accepts "Auto", "Client-serving", or "Monitor".
-                      If radio_role_assignment is "client-serving", then only power-level and channel-level can be changed.
+                      Defines the operational role for the TRI radio interface.
+                      - C(Auto): The controller automatically manages the radio's role. This is the default behavior.
+                      - C(Client-serving): The radio is dedicated to serving wireless clients.
+                      - C(Monitor): The radio is dedicated to monitoring the RF environment and does not serve clients.
+                      Note: This parameter, along with all other radio settings, can only be modified when
+                      the access point's C(ap_mode) is set to C(Local).
                     type: str
                     required: false
                   cable_loss:
@@ -1083,48 +1326,57 @@ options:
                     required: false
                   channel_assignment_mode:
                     description: |
-                      Mode of channel assignment for the TRI radio interface. Accepts "Global" or "Custom".
+                      Specifies the channel assignment mode for the TRI radio interface.
+                      If the channel assignment mode is set to "Global", the channel number is not required.
+                      When a channel number is provided, the channel assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                       For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
                       132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
                     type: str
                     required: false
                   channel_number:
-                    description: Custom channel number configured for the TRI radio
-                      interface. For example, 6.
+                    description: Custom channel number configured for the TRI radio interface.
+                      For Custom, it accepts values like 36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+                      132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173. (eg. Custom)
+                      For example, 36.
                     type: int
                     required: false
                   channel_width:
                     description: |
                       Width of the channel configured for the TRI radio interface. Accepts values
-                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". . For example, 20 MHz.
+                      "20 MHz", "40 MHz", "80 MHz", "160 MHz", or "320 MHz". For example, 20 MHz.
                     type: str
                     required: false
                   power_assignment_mode:
-                    description: |
-                      Mode of power assignment for the TRI radio interface. Accepts "Global" or "Custom".
-                      In Custom, it accepts values 1 to 8.
+                    description: >
+                      Specifies the power assignment mode for the TRI radio interface.
+                      If the power assignment mode is set to "Global", the power level is not required.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Accepts "Global" or "Custom". For example: "Global".
                     type: str
                     required: false
                   power_level:
-                    description: Custom power level configured for the TRI radio interface.
-                      For example, 3.
+                    description: >
+                      Defines the custom power level for the TRI radio interface.
+                      When a power level is provided, the power assignment mode automatically defaults to "Custom".
+                      Valid values range from 1 to 8. For example: 3.
                     type: int
                     required: false
                   dual_radio_mode:
                     description: |
                       Mode of operation configured for the TRI radio interface. Specifies how the
-                      access point (AP) manages its dual radio functionality. eg . Auto
+                      access point (AP) manages its dual radio functionality. For example, Auto.
                     type: str
                     required: false
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.8
 seealso:
-  - name: Cisco CATALYST Ansible Collection Documentation
-    description: Complete guide to using the Cisco CATALYST Ansible collection.
-    link: https://docs.ansible.com/ansible/latest/collections/cisco/catalystcenter/index.html
-  - name: Cisco CATALYST API Documentation
-    description: Official API documentation for Cisco CATALYST.
+  - name: Cisco DNAC Ansible Collection Documentation
+    description: Complete guide to using the Cisco DNAC Ansible collection.
+    link: https://docs.ansible.com/ansible/latest/collections/cisco/dnac/index.html
+  - name: Cisco DNAC API Documentation
+    description: Official API documentation for Cisco DNAC.
     link: https://developer.cisco.com/docs/dna-center/
 notes:
   - Make sure to install the required Python dependencies by executing pip install
@@ -1150,7 +1402,7 @@ notes:
 """
 EXAMPLES = r"""
 - name: Provision/Move/Update Wireless Access Point Configuration
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   connection: local
   gather_facts: false  # This space must be "no." It was set to false due to formatting errors.
   vars_files:
@@ -1162,7 +1414,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1184,7 +1436,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1203,7 +1455,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1222,7 +1474,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1241,7 +1493,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1262,7 +1514,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1284,7 +1536,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1311,7 +1563,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1332,7 +1584,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1364,7 +1616,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1394,7 +1646,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1435,7 +1687,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1476,7 +1728,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1522,7 +1774,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1541,7 +1793,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1560,7 +1812,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1579,7 +1831,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1722,7 +1974,7 @@ response_5:
 
 import time
 import re
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     validate_str,
@@ -1732,7 +1984,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 class Accesspoint(CatalystCenterBase):
-    """Class containing member attributes for CATALYST Access Point Automation module"""
+    """Class containing member attributes for DNAC Access Point Automation module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -1755,6 +2007,9 @@ class Accesspoint(CatalystCenterBase):
                 "9178I",
                 "9176I",
                 "9176D1",
+                "9172I",
+                "9172H",
+                "9179F",
             ],
             "xor_radio": [
                 "280",
@@ -1765,8 +2020,11 @@ class Accesspoint(CatalystCenterBase):
                 "IW9167EH",
                 "IW9165E",
                 "IW9165DH",
+                "9176",
+                "CW9174I",
+                "CW9174E",
             ],
-            "tri_radio": ["9124AXE", "9130AXI", "9130AXE", "9178I"],
+            "tri_radio": ["9124AXE", "9130AXI", "9130AXE", "9178I", "9179F"],
         }
         self.allowed_channel_no = {
             "2.4ghz_radio": list(range(1, 15)),
@@ -1925,10 +2183,10 @@ class Accesspoint(CatalystCenterBase):
             return self
 
         self.validated_config = valid_param
-        self.msg = "Successfully validated playbook config params:{0}".format(
+        msg = "Successfully validated playbook config params:{0}".format(
             self.pprint(valid_param)
         )
-        self.log(self.msg, "INFO")
+        self.log(msg, "INFO")
         self.status = "success"
         return self
 
@@ -1963,7 +2221,7 @@ class Accesspoint(CatalystCenterBase):
 
     def get_have(self, input_config):
         """
-        Retrieve current Access Point configuration and site releated details from
+        Retrieve current access point configuration and site related details from
         Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class for Cisco Catalyst Center interaction.
@@ -2000,6 +2258,7 @@ class Accesspoint(CatalystCenterBase):
             ]
             have["device_id"] = self.payload["access_point_details"]["id"]
             have["wlc_provision_status"] = self.payload.get("wlc_provision_status")
+            have["ap_provision_status"] = self.payload.get("ap_provision_status")
             have["associated_wlc_ip"] = self.payload["access_point_details"][
                 "associated_wlc_ip"
             ]
@@ -2056,7 +2315,17 @@ class Accesspoint(CatalystCenterBase):
 
         if site:
             if site_required_changes:
-                if self.have.get("wlc_provision_status") == "success":
+                if self.have.get("wlc_provision_status") != "success":
+                    self.msg = "Wireless Controller {0} not provisioned at the site {1}.".format(
+                        self.have.get("associated_wlc_ip"),
+                        self.have.get("site_name_hierarchy"),
+                    )
+                    self.log(self.msg, "INFO")
+                    self.result["changed"] = False
+                    responses["accesspoints_updates"].update(
+                        {"provision_message": self.msg}
+                    )
+                else:
                     provision_status, provision_details = self.provision_device()
                     if provision_status == "SUCCESS":
                         self.result["changed"] = True
@@ -2064,6 +2333,18 @@ class Accesspoint(CatalystCenterBase):
                             self.have["hostname"]
                         )
                         self.log(self.msg, "INFO")
+                        responses["accesspoints_updates"].update(
+                            {"provision_message": self.msg}
+                        )
+                    else:
+                        self.msg = (
+                            "Unable to provision the AP {0} for the site {1}.".format(
+                                self.have.get("hostname"),
+                                self.have.get("site_name_hierarchy"),
+                            )
+                        )
+                        self.log(self.msg, "INFO")
+                        self.result["changed"] = False
                         responses["accesspoints_updates"].update(
                             {"provision_message": self.msg}
                         )
@@ -2085,7 +2366,7 @@ class Accesspoint(CatalystCenterBase):
         self.log("Comparing current AP configuration with input data.", "INFO")
         consolidated_data = self.config_diff(self.have["current_ap_config"])
         if not consolidated_data:
-            self.msg = "AP - {0} does not need any update".format(
+            self.msg += "AP - {0} does not need any update".format(
                 self.have.get("current_ap_config").get("ap_name")
             )
             self.log(self.msg, "INFO")
@@ -2093,6 +2374,9 @@ class Accesspoint(CatalystCenterBase):
             responses["accesspoints_updates"].update({"ap_config_message": self.msg})
             self.result["changed"] = True if self.result["changed"] else False
             self.result["response"] = responses
+            self.set_operation_result(
+                "success", False, self.msg, "INFO", responses
+            ).check_return_status()
             return self
 
         self.log(
@@ -2241,11 +2525,12 @@ class Accesspoint(CatalystCenterBase):
         """
 
         self.get_have(config)
-        self.log("Current AP Config (have): {0}".format(str(self.have)), "INFO")
-        self.log("Desired AP Config (want): {0}".format(str(self.want)), "INFO")
+        self.log("Current AP Config (have): {0}".format(self.pprint(self.have)), "INFO")
+        self.log("Desired AP Config (want): {0}".format(self.pprint(self.want)), "INFO")
 
         ap_exists = self.have.get("ap_exists")
         ap_name = self.have.get("current_ap_config").get("ap_name")
+        responses = {}
 
         if not ap_exists:
             self.status = "failed"
@@ -2276,6 +2561,7 @@ class Accesspoint(CatalystCenterBase):
                             "cable_loss",
                             self.keymap["radio_role_assignment"],
                             self.keymap["radio_band"],
+                            self.keymap["admin_status"],
                         ):
                             unmatch_count += 1
 
@@ -2306,7 +2592,6 @@ class Accesspoint(CatalystCenterBase):
             "INFO",
         )
         self.log(str(require_update), "INFO")
-        responses = {}
         responses["accesspoints_verify"] = {}
 
         if self.have.get("site_required_changes") is False:
@@ -2794,8 +3079,8 @@ class Accesspoint(CatalystCenterBase):
             self.status = "failed"
             return self
 
-        self.msg = "Successfully validated config params: {0}".format(str(ap_config))
-        self.log(self.msg, "INFO")
+        msg = "Successfully validated config params: {0}".format(str(ap_config))
+        self.log(msg, "INFO")
         self.status = "success"
         return self
 
@@ -2890,16 +3175,52 @@ class Accesspoint(CatalystCenterBase):
             validate_str(antenna_name, param_spec, "antenna_name", errormsg)
 
         antenna_gain = radio_config.get("antenna_gain")
-        if antenna_gain and antenna_gain not in range(0, 41):
-            errormsg.append(
-                "antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40".format(
-                    antenna_gain
+        if antenna_gain:
+            if antenna_gain and radio_series in ["6ghz_radio"]:
+                errormsg.append(
+                    "antenna_gain: '{0}' Not supported for 6 GHz Radio in playbook.".format(
+                        antenna_gain
+                    )
                 )
-            )
+            elif antenna_gain not in range(0, 21) and radio_series in [
+                "2.4ghz_radio",
+                "5ghz_radio",
+            ]:
+                errormsg.append(
+                    "antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 20".format(
+                        antenna_gain
+                    )
+                )
+            elif antenna_gain not in range(0, 41) and radio_series in [
+                "xor_radio",
+                "tri_radio",
+            ]:
+                errormsg.append(
+                    "antenna_gain: Invalid '{0}' in playbook, allowed range of min: 0 and max: 40".format(
+                        antenna_gain
+                    )
+                )
 
         cable_loss = radio_config.get("cable_loss")
         if cable_loss:
-            if not 0 <= cable_loss <= 40:
+            if cable_loss and radio_series in ["6ghz_radio"]:
+                errormsg.append(
+                    "cable_loss: '{0}' Not supported for 6 GHz Radio in playbook.".format(
+                        cable_loss
+                    )
+                )
+            elif (
+                radio_series in ["2.4ghz_radio", "5ghz_radio"]
+                and not 0 <= cable_loss <= 20
+            ):
+                errormsg.append(
+                    "cable_loss: Invalid '{0}' in playbook. Must be between 0 and 20.".format(
+                        cable_loss
+                    )
+                )
+            elif (
+                radio_series in ["xor_radio", "tri_radio"] and not 0 <= cable_loss <= 40
+            ):
                 errormsg.append(
                     "cable_loss: Invalid '{0}' in playbook. Must be between 0 and 40.".format(
                         cable_loss
@@ -2975,10 +3296,11 @@ class Accesspoint(CatalystCenterBase):
                     self.have["current_ap_config"].get("radio_dtos", []),
                     radio_band,
                 )
-                if (
-                    self.want.get(radio_series).get("radio_role_assignment")
-                    != "Client-Serving"
-                    and radio_series != "5ghz_radio"
+                if self.want.get(radio_series).get(
+                    "radio_role_assignment"
+                ) != "Client-Serving" and radio_series not in (
+                    "5ghz_radio",
+                    "6ghz_radio",
                 ):
                     errormsg.append(
                         "channel_number: This configuration is only supported with Client-Serving Radio Role Assignment {0} ".format(
@@ -3036,10 +3358,11 @@ class Accesspoint(CatalystCenterBase):
                     self.have["current_ap_config"].get("radio_dtos", []),
                     radio_band,
                 )
-                if (
-                    self.want.get(radio_series).get("radio_role_assignment")
-                    != "Client-Serving"
-                    and radio_series != "5ghz_radio"
+                if self.want.get(radio_series).get(
+                    "radio_role_assignment"
+                ) != "Client-Serving" and radio_series not in (
+                    "5ghz_radio",
+                    "6ghz_radio",
                 ):
                     errormsg.append(
                         "power_level: This configuration is only supported with Client-Serving Radio Role Assignment {0} ".format(
@@ -3123,30 +3446,16 @@ class Accesspoint(CatalystCenterBase):
         """
         role_assignment = None
         for each_dto in radio_dtos:
-            slot_id = each_dto["slot_id"]
+            if_type = each_dto["if_type_value"]
             role_assignment = each_dto.get("radio_role_assignment")
             if (
-                (radio_type == "2.4ghz_radio" and slot_id == 0)
-                or (radio_type == "5ghz_radio" and slot_id == 1)
-                or (radio_type == "6ghz_radio" and slot_id == 2)
+                (radio_type == "2.4ghz_radio" and if_type == "2.4 GHz")
+                or (radio_type == "5ghz_radio" and if_type == "5 GHz")
+                or (radio_type == "6ghz_radio" and if_type == "6 GHz")
+                or (radio_type == "xor_radio" and if_type == "Dual Radio")
+                or (radio_type == "tri_radio" and if_type == "Tri Radio")
             ):
                 break
-
-            if radio_type == "xor_radio":
-                if (
-                    (radio_band == "2.4 GHz" and slot_id == 0)
-                    or (radio_band == "5 GHz" and slot_id == 2)
-                    or (radio_band == "6 GHz" and slot_id == 2)
-                ):
-                    break
-
-            if radio_type == "tri_radio":
-                if (
-                    (radio_band == "2.4 GHz" and slot_id == 0)
-                    or (radio_band == "5 GHz" and slot_id == 1)
-                    or (radio_band == "5 GHz" and slot_id == 2)
-                ):
-                    break
 
         self.log(
             "Completed checking radio role assignments. Role assignment: {0}, radio type: {1}, radio band: {2}".format(
@@ -3323,7 +3632,7 @@ class Accesspoint(CatalystCenterBase):
 
     def get_current_config(self, input_config):
         """
-        Retrieves the current configuration of an access point and site releated details
+        Retrieves current configuration of an access point and site related details
         from Cisco Catalyst Center.
 
         Parameters:
@@ -3366,6 +3675,29 @@ class Accesspoint(CatalystCenterBase):
             "INFO",
         )
 
+        current_eth_configuration = {}
+        if accesspoint_exists:
+            self.payload["access_point_details"] = current_configuration
+            ap_ethernet_mac_address = current_configuration["ap_ethernet_mac_address"]
+            ap_config_exists, current_eth_configuration = self.get_accesspoint_config(
+                ap_ethernet_mac_address
+            )
+            self.log(
+                "Access point configuration exists: {0}, Current configuration: {1}".format(
+                    ap_config_exists, str(current_eth_configuration)
+                ),
+                "INFO",
+            )
+
+            if ap_config_exists:
+                self.payload["access_point_config"] = current_eth_configuration
+                self.log(
+                    "Updated payload with access point configuration: {0}".format(
+                        str(self.payload)
+                    ),
+                    "INFO",
+                )
+
         if input_config.get("site"):
             site_exists, current_site = self.site_exists(input_config)
             self.log(
@@ -3387,41 +3719,31 @@ class Accesspoint(CatalystCenterBase):
                         ),
                     }
                 )
-                provision_status, wlc_details = self.verify_ap_provision(
+                provision_status, wlc_details = self.verify_wlc_provision(
                     current_configuration["associated_wlc_ip"]
                 )
                 self.payload["wlc_provision_status"] = provision_status
                 self.log("WLC provision status: {0}".format(provision_status), "INFO")
 
-        if accesspoint_exists:
-            self.payload["access_point_details"] = current_configuration
-            ap_ethernet_mac_address = current_configuration["ap_ethernet_mac_address"]
-            ap_config_exists, current_configuration = self.get_accesspoint_config(
-                ap_ethernet_mac_address
-            )
-            self.log(
-                "Access point configuration exists: {0}, Current configuration: {1}".format(
-                    ap_config_exists, str(current_configuration)
-                ),
-                "INFO",
-            )
-
-            if ap_config_exists:
-                self.payload["access_point_config"] = current_configuration
-                self.log(
-                    "Updated payload with access point configuration: {0}".format(
-                        str(self.payload)
-                    ),
-                    "INFO",
-                )
+                if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                    if current_eth_configuration.get("provisioning_status"):
+                        self.payload["ap_provision_status"] = "Provisioned"
+                    else:
+                        self.payload["ap_provision_status"] = None
+                    self.log(
+                        "AP provision status: {0}".format(
+                            self.payload["ap_provision_status"]
+                        ),
+                        "INFO",
+                    )
 
         self.log(
             "Completed retrieving current configuration. Access point exists: {0}, Current configuration: {1}".format(
-                accesspoint_exists, current_configuration
+                accesspoint_exists, current_eth_configuration
             ),
             "INFO",
         )
-        return (accesspoint_exists, current_configuration)
+        return (accesspoint_exists, current_eth_configuration)
 
     def get_accesspoint_config(self, ap_ethernet_mac_address):
         """
@@ -3644,9 +3966,9 @@ class Accesspoint(CatalystCenterBase):
             )
             return False
 
-    def verify_ap_provision(self, wlc_ip_address):
+    def verify_wlc_provision(self, wlc_ip_address):
         """
-        Verifies if the AP (device) is provisioned.
+        Verifies if the WLC (device) is provisioned.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -3984,10 +4306,15 @@ class Accesspoint(CatalystCenterBase):
             are found, they are collected and returned in a dictionary.
         """
         self.log("Starting radio configuration comparison.", "INFO")
-        self.log("Current radio configuration: {}".format(current_radio), "INFO")
-        self.log("Desired radio configuration: {}".format(want_radio), "INFO")
+        self.log(
+            "Current radio configuration: {0}".format(self.pprint(current_radio)),
+            "INFO",
+        )
+        self.log(
+            "Desired radio configuration: {0}".format(self.pprint(want_radio)), "INFO"
+        )
         available_key = {
-            "_0": (
+            "_1": (
                 "admin_status",
                 "antenna_gain",
                 "antenna_name",
@@ -4001,7 +4328,7 @@ class Accesspoint(CatalystCenterBase):
                 "radio_type",
                 "radio_band",
             ),
-            "_1": (
+            "_2": (
                 "admin_status",
                 "antenna_gain",
                 "antenna_name",
@@ -4017,7 +4344,7 @@ class Accesspoint(CatalystCenterBase):
                 "radio_band",
                 "dual_radio_mode",
             ),
-            "_2": (
+            "_7": (
                 "admin_status",
                 "radio_role_assignment",
                 "radio_type",
@@ -4044,7 +4371,7 @@ class Accesspoint(CatalystCenterBase):
                 "channel_width",
                 "radio_type",
             ),
-            "_4": (
+            "_5": (
                 "admin_status",
                 "antenna_gain",
                 "antenna_name",
@@ -4065,13 +4392,13 @@ class Accesspoint(CatalystCenterBase):
         unmatch_count = 0
         self.keymap["power_level"] = "powerlevel"
         dtos_keys = list(want_radio.keys())
-        slot_id_key = "_" + str(current_radio["slot_id"])
+        if_type_key = "_" + str(current_radio["if_type"])
         self.log(
-            "Comparing keys for slot ID: {}".format(current_radio["slot_id"]), "INFO"
+            "Comparing keys for if_type: {}".format(current_radio["if_type"]), "INFO"
         )
 
         for dto_key in dtos_keys:
-            if dto_key in available_key[slot_id_key]:
+            if dto_key in available_key[if_type_key]:
                 if dto_key == "antenna_name":
                     temp_dtos[dto_key] = want_radio[dto_key]
                     unmatch_count = unmatch_count + 1
@@ -4079,6 +4406,8 @@ class Accesspoint(CatalystCenterBase):
                         "Antenna name unmatched: {0}".format(want_radio[dto_key]),
                         "INFO",
                     )
+                elif dto_key == "admin_status" and want_radio.get(dto_key) == "Enabled":
+                    temp_dtos[self.keymap[dto_key]] = want_radio.get(dto_key)
                 elif dto_key == "cable_loss":
                     cable_loss = int(want_radio[dto_key])
                     antenna_gain = int(want_radio.get("antenna_gain", 0))
@@ -4100,12 +4429,15 @@ class Accesspoint(CatalystCenterBase):
                         "Radio type set to: {0}".format(want_radio[dto_key]), "INFO"
                     )
                 elif dto_key == "radio_role_assignment":
-                    temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
-                    self.log(
-                        "Radio Role Assignment set to: {0}".format(want_radio[dto_key]),
-                        "INFO",
-                    )
-                    unmatch_count = unmatch_count + 1
+                    if want_radio.get(dto_key) != current_radio.get(dto_key):
+                        temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
+                        self.log(
+                            "Radio Role Assignment set to: {0}".format(
+                                want_radio[dto_key]
+                            ),
+                            "INFO",
+                        )
+                        unmatch_count = unmatch_count + 1
                 elif dto_key == "radio_band":
                     temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                     self.log(
@@ -4187,9 +4519,15 @@ class Accesspoint(CatalystCenterBase):
                             update_config["apNameNew"] = self.want["ap_name"]
                             update_config["apName"] = current_ap_config.get("ap_name")
                     elif each_key == "is_assigned_site_as_location":
-                        update_config["isAssignedSiteAsLocation"] = self.want[
-                            "is_assigned_site_as_location"
-                        ]
+                        if (
+                            self.want.get("is_assigned_site_as_location") == "Enabled"
+                            and current_ap_config.get("location") == "default location"
+                        ):
+                            continue
+                        else:
+                            update_config["isAssignedSiteAsLocation"] = self.want[
+                                "is_assigned_site_as_location"
+                            ]
                     elif each_key in (
                         "2.4ghz_radio",
                         "5ghz_radio",
@@ -4202,30 +4540,35 @@ class Accesspoint(CatalystCenterBase):
                         for each_radio in current_radio_dtos:
                             if (
                                 each_key == "2.4ghz_radio"
-                                and each_radio["slot_id"] == 0
+                                and each_radio["if_type_value"] == "2.4 GHz"
                             ):
                                 radio_data = self.compare_radio_config(
                                     each_radio, self.want[each_key]
                                 )
                             elif (
-                                each_key == "5ghz_radio" and each_radio["slot_id"] == 1
+                                each_key == "5ghz_radio"
+                                and each_radio["if_type_value"] == "5 GHz"
                             ):
                                 radio_data = self.compare_radio_config(
                                     each_radio, self.want[each_key]
                                 )
                             elif (
-                                each_key == "6ghz_radio" and each_radio["slot_id"] == 2
+                                each_key == "6ghz_radio"
+                                and each_radio["if_type_value"] == "6 GHz"
                             ):
                                 radio_data = self.compare_radio_config(
                                     each_radio, self.want[each_key]
                                 )
-                            elif each_key == "xor_radio" and each_radio["slot_id"] == 0:
+                            elif (
+                                each_key == "xor_radio"
+                                and each_radio["if_type_value"] == "Dual Radio"
+                            ):
                                 radio_data = self.compare_radio_config(
                                     each_radio, self.want[each_key]
                                 )
                             elif (
                                 each_key == "tri_radio"
-                                and each_radio.get("dual_radio_mode") is not None
+                                and each_radio["if_type_value"] == "Tri Radio"
                             ):
                                 radio_data = self.compare_radio_config(
                                     each_radio, self.want[each_key]
@@ -4241,21 +4584,21 @@ class Accesspoint(CatalystCenterBase):
                         for each_dtos in current_radio_dtos:
                             if (
                                 each_key == "clean_air_si_2.4ghz"
-                                and each_dtos["slot_id"] == 0
+                                and each_dtos["if_type_value"] == "2.4 GHz"
                                 and each_dtos["clean_air_si"] != self.want.get(each_key)
                             ):
                                 update_config["cleanAirSI24"] = self.want[each_key]
                                 break
                             elif (
                                 each_key == "clean_air_si_5ghz"
-                                and each_dtos["slot_id"] == 1
+                                and each_dtos["if_type_value"] == "5 GHz"
                                 and each_dtos["clean_air_si"] != self.want.get(each_key)
                             ):
                                 update_config["cleanAirSI5"] = self.want[each_key]
                                 break
                             elif (
                                 each_key == "clean_air_si_6ghz"
-                                and each_dtos["slot_id"] == 2
+                                and each_dtos["if_type_value"] == "6 GHz"
                                 and each_dtos["clean_air_si"] != self.want.get(each_key)
                             ):
                                 update_config["cleanAirSI6"] = self.want[each_key]
@@ -4280,30 +4623,79 @@ class Accesspoint(CatalystCenterBase):
                     if ctrl_name == "primary_controller_name" and self.want.get(
                         ctrl_name
                     ):
-                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            update_config[self.keymap[ctrl_name]] = self.want.get(
+                        # Extract current and desired values for readability
+                        current_ctrl_name = current_ap_config.get(
+                            "primary_controller_name"
+                        )
+                        desired_ctrl_name = self.want.get(ctrl_name)
+                        current_ip = current_ap_config.get("primary_ip_address")
+                        desired_ip = self.want.get("primary_ip_address", {}).get(
+                            "address"
+                        )
+                        self.log(
+                            f"Current primary controller name: {current_ctrl_name}, Desired primary controller name: {desired_ctrl_name}"
+                        )
+                        self.log(
+                            f"Current primary controller IP: {current_ip}, Desired primary controller IP: {desired_ip}"
+                        )
+
+                        # Check if controller name matches (either exact match or both indicate inheritance)
+                        ctrl_name_matches = current_ctrl_name == desired_ctrl_name or (
+                            current_ctrl_name in ["", None]
+                            and desired_ctrl_name == "Inherit from site / Clear"
+                        )
+
+                        # Check if IP address matches (either exact match or both indicate no IP/default)
+                        ip_matches = current_ip == desired_ip or (
+                            current_ip == "0.0.0.0" and desired_ip in ["", None]
+                        )
+
+                        # Skip update if both controller name and IP are already in desired state
+                        if ctrl_name_matches and ip_matches:
+                            if update_config.get(ctrl_name) is not None:
+                                self.log(
+                                    f"Removing redundant key {ctrl_name} from update_config.",
+                                    "DEBUG",
+                                )
+                                del update_config[ctrl_name]
+
+                            if self.keymap["primary_ip_address"] in update_config:
+                                del update_config[self.keymap["primary_ip_address"]]
+
+                            if "primaryControllerName" in update_config:
+                                del update_config["primaryControllerName"]
+
+                            self.log(
+                                "Primary controller configuration matches the desired state. No update needed.",
+                                "INFO",
+                            )
+                            continue
+                        elif self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config["primaryControllerName"] = self.want.get(
                                 ctrl_name
                             )
                             update_config[self.keymap["primary_ip_address"]] = {}
                             update_config[self.keymap["primary_ip_address"]][
                                 "address"
                             ] = "0.0.0.0"
-                            update_config[self.keymap["secondary_controller_name"]] = (
-                                self.want.get(ctrl_name)
+                            update_config["secondaryControllerName"] = self.want.get(
+                                ctrl_name
                             )
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             update_config[self.keymap["secondary_ip_address"]][
                                 "address"
                             ] = "0.0.0.0"
-                            update_config[self.keymap["tertiary_controller_name"]] = (
-                                self.want.get(ctrl_name)
+                            update_config["tertiaryControllerName"] = self.want.get(
+                                ctrl_name
                             )
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             update_config[self.keymap["tertiary_ip_address"]][
                                 "address"
                             ] = "0.0.0.0"
                         else:
-                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config["primaryControllerName"] = self.want[
+                                ctrl_name
+                            ]
                             update_config[self.keymap["primary_ip_address"]] = {}
                             if self.want.get("primary_ip_address", {}).get("address"):
                                 update_config[self.keymap["primary_ip_address"]][
@@ -4316,23 +4708,70 @@ class Accesspoint(CatalystCenterBase):
                     elif ctrl_name == "secondary_controller_name" and self.want.get(
                         ctrl_name
                     ):
-                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            update_config[self.keymap[ctrl_name]] = self.want.get(
+                        current_ctrl_name = current_ap_config.get(
+                            "secondary_controller_name"
+                        )
+                        desired_ctrl_name = self.want.get(ctrl_name)
+                        current_ip = current_ap_config.get("secondary_ip_address")
+                        desired_ip = self.want.get("secondary_ip_address", {}).get(
+                            "address"
+                        )
+                        self.log(
+                            f"Current secondary controller name: {current_ctrl_name}, Desired secondary controller name: {desired_ctrl_name}"
+                        )
+                        self.log(
+                            f"Current secondary controller IP: {current_ip}, Desired secondary controller IP: {desired_ip}"
+                        )
+
+                        # Check if controller name matches (either exact match or both indicate inheritance)
+                        ctrl_name_matches = current_ctrl_name == desired_ctrl_name or (
+                            current_ctrl_name in ["", None]
+                            and desired_ctrl_name == "Inherit from site / Clear"
+                        )
+
+                        # Check if IP address matches (either exact match or both indicate no IP/default)
+                        ip_matches = current_ip == desired_ip or (
+                            current_ip == "0.0.0.0" and desired_ip in ["", None]
+                        )
+
+                        # Skip update if both controller name and IP are already in desired state
+                        if ctrl_name_matches and ip_matches:
+                            if update_config.get(ctrl_name) is not None:
+                                self.log(
+                                    f"Removing redundant key {ctrl_name} from update_config.",
+                                    "DEBUG",
+                                )
+                                del update_config[ctrl_name]
+
+                            if self.keymap["secondary_ip_address"] in update_config:
+                                del update_config[self.keymap["secondary_ip_address"]]
+
+                            if "secondaryControllerName" in update_config:
+                                del update_config["secondaryControllerName"]
+                            self.log(
+                                "Secondary controller configuration matches the desired state. No update needed.",
+                                "INFO",
+                            )
+                            continue
+                        elif self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config["secondaryControllerName"] = self.want.get(
                                 ctrl_name
                             )
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             update_config[self.keymap["secondary_ip_address"]][
                                 "address"
                             ] = "0.0.0.0"
-                            update_config[self.keymap["tertiary_controller_name"]] = (
-                                self.want.get(ctrl_name)
+                            update_config["tertiaryControllerName"] = self.want.get(
+                                ctrl_name
                             )
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             update_config[self.keymap["tertiary_ip_address"]][
                                 "address"
                             ] = "0.0.0.0"
                         else:
-                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config["secondaryControllerName"] = self.want[
+                                ctrl_name
+                            ]
                             update_config[self.keymap["secondary_ip_address"]] = {}
                             if self.want.get("secondary_ip_address", {}).get("address"):
                                 update_config[self.keymap["secondary_ip_address"]][
@@ -4345,8 +4784,53 @@ class Accesspoint(CatalystCenterBase):
                     elif ctrl_name == "tertiary_controller_name" and self.want.get(
                         ctrl_name
                     ):
-                        if self.want.get(ctrl_name) == "Inherit from site / Clear":
-                            update_config[self.keymap[ctrl_name]] = self.want.get(
+                        current_ctrl_name = current_ap_config.get(
+                            "tertiary_controller_name"
+                        )
+                        desired_ctrl_name = self.want.get(ctrl_name)
+                        current_ip = current_ap_config.get("tertiary_ip_address")
+                        desired_ip = self.want.get("tertiary_ip_address", {}).get(
+                            "address"
+                        )
+                        self.log(
+                            f"Current tertiary controller name: {current_ctrl_name}, Desired tertiary controller name: {desired_ctrl_name}"
+                        )
+                        self.log(
+                            f"Current tertiary controller IP: {current_ip}, Desired tertiary controller IP: {desired_ip}"
+                        )
+
+                        # Check if controller name matches (either exact match or both indicate inheritance)
+                        ctrl_name_matches = current_ctrl_name == desired_ctrl_name or (
+                            current_ctrl_name in ["", None]
+                            and desired_ctrl_name == "Inherit from site / Clear"
+                        )
+
+                        # Check if IP address matches (either exact match or both indicate no IP/default)
+                        ip_matches = current_ip == desired_ip or (
+                            current_ip == "0.0.0.0" and desired_ip in ["", None]
+                        )
+
+                        # Skip update if both controller name and IP are already in desired state
+                        if ctrl_name_matches and ip_matches:
+                            if update_config.get(ctrl_name) is not None:
+                                self.log(
+                                    f"Removing redundant key {ctrl_name} from update_config.",
+                                    "DEBUG",
+                                )
+                                del update_config[ctrl_name]
+
+                            if self.keymap["tertiary_ip_address"] in update_config:
+                                del update_config[self.keymap["tertiary_ip_address"]]
+
+                            if "tertiaryControllerName" in update_config:
+                                del update_config["tertiaryControllerName"]
+                            self.log(
+                                "Tertiary controller configuration matches the desired state. No update needed.",
+                                "INFO",
+                            )
+                            continue
+                        elif self.want.get(ctrl_name) == "Inherit from site / Clear":
+                            update_config["tertiaryControllerName"] = self.want.get(
                                 ctrl_name
                             )
                             update_config[self.keymap["tertiary_ip_address"]] = {}
@@ -4354,7 +4838,9 @@ class Accesspoint(CatalystCenterBase):
                                 "address"
                             ] = "0.0.0.0"
                         else:
-                            update_config[self.keymap[ctrl_name]] = self.want[ctrl_name]
+                            update_config["tertiaryControllerName"] = self.want[
+                                ctrl_name
+                            ]
                             update_config[self.keymap["tertiary_ip_address"]] = {}
                             if self.want.get("tertiary_ip_address", {}).get("address"):
                                 update_config[self.keymap["tertiary_ip_address"]][
@@ -4364,6 +4850,14 @@ class Accesspoint(CatalystCenterBase):
                                 update_config[self.keymap["tertiary_ip_address"]][
                                     "address"
                                 ] = "0.0.0.0"
+
+                    # remove the controller name if the key is in snake case.
+                    if update_config.get(ctrl_name) is not None:
+                        self.log(
+                            f"Removing redundant key {ctrl_name} from update_config.",
+                            "DEBUG",
+                        )
+                        del update_config[ctrl_name]
 
                 if update_config:
                     update_config["macAddress"] = current_ap_config["eth_mac"]
@@ -4554,7 +5048,7 @@ class Accesspoint(CatalystCenterBase):
                     radio_dtos["configureChannel"] = True
 
                 if each_radio.get(self.keymap["channel_number"]) is not None:
-                    radio_dtos[self.keymap["channel_number"]] = each_radio.get(
+                    radio_dtos["channelNumber"] = each_radio.get(
                         self.keymap["channel_number"]
                     )
                     radio_dtos["configureChannel"] = True
@@ -4581,7 +5075,7 @@ class Accesspoint(CatalystCenterBase):
                     radio_dtos["configurePower"] = True
                 self.log(self.pprint(each_radio), "INFO")
                 if each_radio.get(self.keymap["power_level"]) is not None:
-                    radio_dtos[self.keymap["power_level"]] = each_radio.get(
+                    radio_dtos["powerlevel"] = each_radio.get(
                         self.keymap["power_level"]
                     )
                     radio_dtos[self.keymap["power_assignment_mode"]] = 2
@@ -4598,11 +5092,12 @@ class Accesspoint(CatalystCenterBase):
                     radio_dtos["configureAntennaPatternName"] = True
 
                 if each_radio.get(self.keymap["radio_band"]) is not None:
-                    radio_dtos[self.keymap["radio_band"]] = (
-                        "RADIO24"
-                        if each_radio[self.keymap["radio_band"]] == "2.4 GHz"
-                        else "RADIO5"
-                    )
+                    if each_radio[self.keymap["radio_band"]] == "2.4 GHz":
+                        radio_dtos[self.keymap["radio_band"]] = "RADIO24"
+                    elif each_radio[self.keymap["radio_band"]] == "5 GHz":
+                        radio_dtos[self.keymap["radio_band"]] = "RADIO5"
+                    else:
+                        radio_dtos[self.keymap["radio_band"]] = "RADIO6"
 
                 if each_radio.get(self.keymap["radio_role_assignment"]) is not None:
                     if each_radio.get(self.keymap["radio_role_assignment"]) == "Auto":
@@ -4915,7 +5410,7 @@ class Accesspoint(CatalystCenterBase):
 
     def reset_access_point(self, ap_list):
         """
-        Factroy reset access points, handling single or bulk APs.
+        Factory reset access points, handling single or bulk APs.
 
         Parameters:
             self (dict): A dictionary used to collect the execution results.
@@ -4967,6 +5462,7 @@ class Accesspoint(CatalystCenterBase):
                 task_details_response = self.get_tasks_by_id(task_id)
                 self.log("Status of the reset task: {0} .".format(self.status), "INFO")
                 responses = {}
+
                 if task_details_response.get("endTime") is not None:
                     if task_details_response.get("status") == "SUCCESS":
                         self.log(
@@ -4990,7 +5486,7 @@ class Accesspoint(CatalystCenterBase):
                         self.result["changed"] = True
                         self.result["response"] = responses
                         self.log(
-                            "Given APs '{0}' factory reset done successfully with task: '{1}'.".format(
+                            "Factory reset of APs '{0}' completed successfully with task: '{1}'.".format(
                                 ap_list, self.pprint(task_details_response)
                             ),
                             "INFO",
@@ -4998,7 +5494,8 @@ class Accesspoint(CatalystCenterBase):
                         return self
 
                     self.msg = (
-                        "Unable to get success response, hence APs are not resetted"
+                        "Failed to receive a successful response from the reset task; "
+                        "therefore, the APs were not reset."
                     )
                     self.log(self.msg, "ERROR")
                     self.log(
@@ -5325,18 +5822,19 @@ def main():
     """main entry point for module execution"""
     accepoint_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

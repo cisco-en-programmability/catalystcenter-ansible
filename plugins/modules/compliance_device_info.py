@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: compliance_device_info
-short_description: Information module for Compliance
-  Device
+short_description: Information module for Compliance Device
 description:
   - Get all Compliance Device.
   - Return compliance status of devices.
@@ -23,36 +22,29 @@ options:
   complianceStatus:
     description:
       - >
-        ComplianceStatus query parameter. Specify "Compliance
-        status(es)" separated by commas. The Compliance
-        status can be 'COMPLIANT', 'NON_COMPLIANT',
-        'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
-        'ERROR'.
+        ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance
+        status can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
   deviceUuid:
     description:
-      - DeviceUuid query parameter. Comma separated
-        'Device Ids'.
+      - DeviceUuid query parameter. Comma separated 'Device Ids'.
     type: str
   offset:
     description:
       - "Offset query parameter. Offset/starting row\tnumber."
-    type: float
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to be retrieved defaults to 500 if not specified,
-        with a maximum allowed limit of 500.
-    type: float
+        Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a
+        maximum allowed limit of 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetComplianceStatus
-    description: Complete reference of the GetComplianceStatus
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetComplianceStatus
+    description: Complete reference of the GetComplianceStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status
 notes:
   - SDK Method used are
@@ -69,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -81,7 +73,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

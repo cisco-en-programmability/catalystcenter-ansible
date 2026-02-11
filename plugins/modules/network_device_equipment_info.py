@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_equipment_info
-short_description: Information module for Network Device
-  Equipment
+short_description: Information module for Network Device Equipment
 description:
-  - Get all Network Device Equipment. - > Return all
-    types of equipment details like PowerSupply, Fan,
-    Chassis, Backplane, Module, PROCESSOR, Other and
-    SFP for the Given device.
+  - Get all Network Device Equipment. - > Return all types of equipment details like PowerSupply, Fan, Chassis, Backplane,
+    Module, PROCESSOR, Other and SFP for the Given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -29,19 +26,15 @@ options:
   type:
     description:
       - >
-        Type query parameter. Type value can be PowerSupply,
-        Fan, Chassis, Backplane, Module, PROCESSOR,
-        Other, SFP. If no type is mentioned, All equipments
-        are fetched for the device.
+        Type query parameter. Type value can be PowerSupply, Fan, Chassis, Backplane, Module, PROCESSOR, Other,
+        SFP. If no type is mentioned, All equipments are fetched for the device.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
-    description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDevice
+    description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device
 notes:
   - SDK Method used are
@@ -58,7 +51,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -68,7 +61,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

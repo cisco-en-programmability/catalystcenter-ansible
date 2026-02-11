@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: users_external_authentication
-short_description: Resource module for Users External
-  Authentication
+short_description: Resource module for Users External Authentication
 description:
-  - Manage operation create of the resource Users External
-    Authentication.
-  - Enable or disable external authentication in the
-    System.
+  - Manage operation create of the resource Users External Authentication.
+  - Enable or disable external authentication in the System.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,13 +20,11 @@ options:
     description: Enable/disable External Authentication.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles ManageExternalAuthenticationSettingAPI
-    description: Complete reference of the ManageExternalAuthenticationSettingAPI
-      API.
+  - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPI
+    description: Complete reference of the ManageExternalAuthenticationSettingAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api
 notes:
   - SDK Method used are
@@ -46,7 +41,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -54,7 +49,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

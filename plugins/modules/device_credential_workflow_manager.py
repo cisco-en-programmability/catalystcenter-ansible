@@ -49,7 +49,11 @@ options:
     required: true
     suboptions:
       global_credential_details:
-        description: Manages global device credentials
+        description:
+          - Manages global-level device credentials (create, update, or delete).
+          - This is only for credential lifecycle operations (e.g., storing CLI, SNMP, HTTP credentials centrally).
+          - To assign credentials to a site, use the C(assign_credentials_to_site) parameter.
+          - To apply (sync) assigned credentials to devices under a site, use the C(apply_credentials_to_site) parameter.
         type: dict
         suboptions:
           cli_credential:
@@ -61,7 +65,7 @@ options:
                 description: Description. Required for
                   creating the credential.
                 type: str
-              enablepassword:
+              enable_password:
                 description:
                   - cli_credential credential Enable
                     Password.
@@ -90,7 +94,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              oldusername:
+              old_username:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -128,7 +132,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              oldusername:
+              old_username:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -166,7 +170,7 @@ options:
                 description: Old Description. Use this
                   for updating the description/Username.
                 type: str
-              oldusername:
+              old_username:
                 description: Old Username. Use this
                   for updating the description/Username.
                 type: str
@@ -221,7 +225,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              authpassword:
+              auth_password:
                 description:
                   - snmp_v3 Auth Password.
                   - Password must contain minimum 8
@@ -242,7 +246,7 @@ options:
                 description: Credential Id. Use this
                   for updating the device credential.
                 type: str
-              privacypassword:
+              privacy_password:
                 description:
                   - snmp_v3 Privacy Password.
                   - Password must contain minimum 8
@@ -430,7 +434,7 @@ options:
                   Use Description or Id.
                 type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery
@@ -465,10 +469,10 @@ seealso:
     link: https://developer.cisco.com/docs/dna-center/sync-network-devices-credential
 notes:
   - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
+    discovery.Discovery.create_global_credentials,
+    discovery.Discovery.delete_global_credential,
     discovery.Discovery.update_global_credentials_v2,
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+    network_settings.NetworkSettings.assign_device_credential_to_site,
     network_settings.NetworkSettings.get_device_credential_settings_for_a_site,
     network_settings.NetworkSettings.update_device_credential_settings_for_a_site,
     network_settings.NetworkSettings.sync_network_devices_credential,
@@ -492,7 +496,7 @@ EXAMPLES = r"""
 - name: Create Credentials and assign it to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -507,7 +511,7 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -515,10 +519,10 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123456'
         snmp_v3:
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345678'
+            privacy_password: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -554,7 +558,7 @@ EXAMPLES = r"""
 - name: Create Multiple Credentials.
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -569,11 +573,11 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
           - description: CLI2
             username: cli2
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -585,17 +589,17 @@ EXAMPLES = r"""
           - description: SNMPv2c Write2
             write_community: '123456'
         snmp_v3:
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345678'
+            privacy_password: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345678'
+            privacy_password: '12345678'
             privacy_type: AES128
             username: snmp
             description: snmp
@@ -620,7 +624,7 @@ EXAMPLES = r"""
 - name: Update global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -635,7 +639,7 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -643,10 +647,10 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123456'
         snmp_v3:
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345678'
+            privacy_password: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -663,7 +667,7 @@ EXAMPLES = r"""
 - name: Update multiple global device credentials
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -678,11 +682,11 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
           - description: CLI2
             username: cli2
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -694,17 +698,17 @@ EXAMPLES = r"""
           - description: SNMPv2c Write1
             write_community: '123466'
         snmp_v3:
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345678'
+            privacy_password: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345644'
+            privacy_password: '12345644'
             privacy_type: AES128
             username: snmpV32
             description: snmpV32
@@ -730,7 +734,7 @@ EXAMPLES = r"""
     using old name and description.
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -745,9 +749,9 @@ EXAMPLES = r"""
           - description: CLI1
             username: cli1
             password: '12345'
-            enablepassword: '12345'
+            enable_password: '12345'
             old_description: CLI
-            oldusername: cli
+            old_username: cli
         snmp_v2c_read:
           - description: SNMPv2c Read1
             read_community: '123456'
@@ -757,10 +761,10 @@ EXAMPLES = r"""
             write_community: '123456'
             old_description: SNMPv2c write
         snmp_v3:
-          - authpassword: '12345678'
+          - auth_password: '12345678'
             auth_type: SHA
             snmp_mode: AUTHPRIV
-            privacypassword: '12345678'
+            privacy_password: '12345678'
             privacy_type: AES128
             username: snmpV31
             description: snmpV31
@@ -771,19 +775,19 @@ EXAMPLES = r"""
             password: '12345'
             port: 443
             old_description: HTTP Read
-            oldusername: HTTP Read
+            old_username: HTTP Read
         https_write:
           - description: HTTP_Write1
             username: HTTP_Write1
             password: '12345'
             port: 443
             old_description: HTTP_Write
-            oldusername: HTTP_Write
+            old_username: HTTP_Write
 - name: Assign Credentials to sites using old description
     and username.
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -814,7 +818,7 @@ EXAMPLES = r"""
 - name: Sync global device credentials to a site.
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -840,7 +844,7 @@ EXAMPLES = r"""
 - name: Delete credentials
   cisco.catalystcenter.device_credential_workflow_manager:
   catalystcenter_host: "{{ catalystcenter_host }}"
-  catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+  catalystcenter_port: "{{ catalystcenter_port }}"
   catalystcenter_username: "{{ catalystcenter_username }}"
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -898,7 +902,7 @@ dnac_response2:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -1099,7 +1103,7 @@ class DeviceCredential(CatalystCenterBase):
         try:
             global_credentials = self.catalystcenter._exec(
                 family="discovery",
-                function="get_all_global_credentials_v2",
+                function="get_all_global_credentials",
             )
             global_credentials = global_credentials.get("response")
             self.log(
@@ -1380,7 +1384,7 @@ class DeviceCredential(CatalystCenterBase):
         # All snmp_v2c_read details from the Cisco Catalyst Center
         global_snmp_v2c_read_details = global_credentials.get("snmpV2cRead")
 
-        # Cisco Catalyst Center details for the snmpc_read Credential given in the playbook
+        # Cisco Catalyst Center details for the snmp_v2c_read Credential given in the playbook
         snmp_v2c_read_details = []
 
         if all_snmp_v2c_read and global_snmp_v2c_read_details:
@@ -1444,7 +1448,7 @@ class DeviceCredential(CatalystCenterBase):
         # All snmp_v2c_write details from the Cisco Catalyst Center
         global_snmp_v2c_write_details = global_credentials.get("snmpV2cWrite")
 
-        # Cisco Catalyst Center details for the snmpc_write Credential given in the playbook
+        # Cisco Catalyst Center details for the snmp_v2c_write Credential given in the playbook
         snmp_v2c_write_details = []
 
         if all_snmp_v2c_write and global_snmp_v2c_write_details:
@@ -2990,12 +2994,12 @@ class DeviceCredential(CatalystCenterBase):
         )
         response = self.catalystcenter._exec(
             family="discovery",
-            function="create_global_credentials_v2",
+            function="create_global_credentials",
             op_modifies=True,
             params=credential_params,
         )
         self.log(
-            "Received API response from 'create_global_credentials_v2': {0}".format(
+            "Received API response from 'create_global_credentials': {0}".format(
                 response
             ),
             "DEBUG",
@@ -3006,11 +3010,11 @@ class DeviceCredential(CatalystCenterBase):
         ):
             validation_string = "global credential addition performed"
             self.check_task_response_status(
-                response, validation_string, "create_global_credentials_v2"
+                response, validation_string, "create_global_credentials"
             ).check_return_status()
         else:
             self.check_tasks_response_status(
-                response, "create_global_credentials_v2"
+                response, "create_global_credentials"
             ).check_return_status()
 
         self.log("Global credential created successfully", "INFO")
@@ -3400,19 +3404,19 @@ class DeviceCredential(CatalystCenterBase):
                 final_response.append(copy.deepcopy(credential_params_template))
                 response = self.catalystcenter._exec(
                     family="network_settings",
-                    function="assign_device_credential_to_site_v2",
+                    function="assign_device_credential_to_site",
                     op_modifies=True,
                     params=credential_params_template,
                 )
                 self.log(
-                    "Received API response for 'assign_device_credential_to_site_v2': {0}".format(
+                    "Received API response for 'assign_device_credential_to_site': {0}".format(
                         response
                     ),
                     "DEBUG",
                 )
                 validation_string = "desired common settings operation successful"
                 self.check_task_response_status(
-                    response, validation_string, "assign_device_credential_to_site_v2"
+                    response, validation_string, "assign_device_credential_to_site"
                 ).check_return_status()
             else:
                 credential_params = copy.deepcopy(
@@ -3876,12 +3880,12 @@ class DeviceCredential(CatalystCenterBase):
                 changed_status = True
                 response = self.catalystcenter._exec(
                     family="discovery",
-                    function="delete_global_credential_v2",
+                    function="delete_global_credential",
                     op_modifies=True,
                     params={"id": _id},
                 )
                 self.log(
-                    "Received API response for 'delete_global_credential_v2': {0}".format(
+                    "Received API response for 'delete_global_credential': {0}".format(
                         response
                     ),
                     "DEBUG",
@@ -4137,18 +4141,19 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

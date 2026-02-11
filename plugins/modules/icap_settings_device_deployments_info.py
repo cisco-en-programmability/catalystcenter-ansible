@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_device_deployments_info
-short_description: Information module for Icap Settings
-  Device Deployments
+short_description: Information module for Icap Settings Device Deployments
 description:
-  - Get all Icap Settings Device Deployments. - > Retrieves
-    ICAP configuration deployment statuss per device
-    based on filter criteria. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Get all Icap Settings Device Deployments. - > Retrieves ICAP configuration deployment statuss per device based on filter
+    criteria. For detailed information about the usage of the API, please refer to the Open API specification document - https
+    //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,44 +22,34 @@ options:
     type: dict
   deployActivityId:
     description:
-      - DeployActivityId query parameter. Activity from
-        the /deploy task response.
+      - DeployActivityId query parameter. Activity from the /deploy task response.
     type: str
   networkDeviceIds:
     description:
-      - NetworkDeviceIds query parameter. Device ids,
-        retrievable from the id attribute in intent/api/v1/network-device.
+      - NetworkDeviceIds query parameter. Device ids, retrievable from the id attribute in intent/api/v1/network-device.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page.
-    type: float
+      - Limit query parameter. The number of records to show for this page.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response.
+      - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      GetDeviceDeploymentStatus
-    description: Complete reference of the GetDeviceDeploymentStatus
-      API.
+  - name: Cisco DNA Center documentation for Sensors GetDeviceDeploymentStatus
+    description: Complete reference of the GetDeviceDeploymentStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status
 notes:
   - SDK Method used are
@@ -80,7 +66,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -94,7 +80,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
