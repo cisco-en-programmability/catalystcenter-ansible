@@ -19,34 +19,23 @@ options:
   headers:
     description: Additional headers.
     type: dict
-  invokeSource:
-    description:
-      - >
-        InvokeSource query parameter. The source that
-        invokes this API. The value of this query parameter
-        must be set to "external".
-    type: str
   authSource:
     description:
       - >
-        AuthSource query parameter. The source that
-        authenticates the user. The value of this query
-        parameter can be set to "internal" or "external".
-        If not provided, then all users will be returned
-        in the response.
+        AuthSource query parameter. The source that authenticates the user. The value of this query parameter
+        can be set to "internal" or "external". If not provided, then all users will be returned in the
+        response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and
-      Roles GetUsersAPI
-    description: Complete reference of the GetUsersAPI
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!get-users-api
+  - name: Cisco DNA Center documentation for User and Roles GetUsers
+    description: Complete reference of the GetUsers API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-users
 notes:
   - SDK Method used are
-    userand_roles.UserandRoles.get_users_api,
+    userand_roles.UserandRoles.get_users,
   - Paths used are
     get /dna/system/api/v1/user,
 """
@@ -59,17 +48,16 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
-    invokeSource: string
     authSource: string
   register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -85,7 +73,10 @@ dnac_response:
           ],
           "userId": "string",
           "email": "string",
-          "username": "string"
+          "username": "string",
+          "rds": [
+            "string"
+          ]
         }
       ]
     }

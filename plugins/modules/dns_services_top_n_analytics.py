@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: dns_services_top_n_analytics
-short_description: Resource module for Dnsservices Topnanalytics
+short_description: Resource module for Dns Services Top N Analytics
 description:
-  - Manage operation create of the resource Dnsservices
-    Topnanalytics. - > Gets the Top N analytics data
-    related to DNS Services based on given filters and
-    group by field. For detailed information about the
-    usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Dns Services Top N Analytics. - > Gets the Top N analytics data related to DNS
+    Services based on given filters and group by field. For detailed information about the usage of the API, please refer
+    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     DNSServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -57,7 +54,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Dns Services Top N Analytics's value.
         type: dict
     type: list
   groupBy:
@@ -77,8 +74,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Dns Services Top N Analytics's
-          sortBy.
+        description: Dns Services Top N Analytics's sortBy.
         elements: dict
         suboptions:
           function:
@@ -99,13 +95,11 @@ options:
     description: Top N.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetTopNAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters
-    description: Complete reference of the GetTopNAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices GetTopNAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters
+    description: Complete reference of the GetTopNAnalyticsDataOfDNSServicesForGivenSetOfComplexFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-top-n-analytics-data-of-dns-services-for-given-set-of-complex-filters
 notes:
   - SDK Method used are
@@ -117,12 +111,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.dnsServices_topNAnalytics:
+  cisco.catalystcenter.dns_services_top_n_analytics:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -153,7 +147,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,16 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: interfaces_query_count
-short_description: Resource module for Interfaces Query
-  Count
+short_description: Resource module for Interfaces Query Count
 description:
-  - Manage operation create of the resource Interfaces
-    Query Count. - > Gets the total number of interfaces
-    across the Network devices based on the provided
-    complex filters and aggregation functions. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
+  - Manage operation create of the resource Interfaces Query Count.
+  - Gets the total number of interfaces across the Network devices based on the provided complex filters and aggregation functions.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -58,7 +54,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Interfaces Query Count's value.
         type: dict
     type: list
   page:
@@ -90,13 +86,11 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      TheTotalInterfacesCountAcrossTheNetworkDevices
-    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevices
+    description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
   - SDK Method used are
@@ -113,7 +107,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -141,7 +135,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

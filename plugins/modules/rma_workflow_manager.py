@@ -139,7 +139,7 @@ options:
           Example: FCW2225C020
         type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.10
 notes:
   - SDK Method used is - devices.get_device_detail -
@@ -217,7 +217,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -239,7 +239,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -261,7 +261,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -283,7 +283,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -304,7 +304,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -325,7 +325,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -346,7 +346,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -424,7 +424,7 @@ response_4:
 
 import re
 import json
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     validate_str,
@@ -1616,18 +1616,19 @@ def main():
     # Basic Ansible type check and assigning defaults.
     device_replacement_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

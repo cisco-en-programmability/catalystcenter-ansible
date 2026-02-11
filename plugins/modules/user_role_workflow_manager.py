@@ -638,7 +638,7 @@ options:
                 default: "read"
                 type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9.19
 notes:
   - SDK Methods used - user_and_roles.UserandRoles.get_user_api
@@ -656,7 +656,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -680,7 +680,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -702,7 +702,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -721,7 +721,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -741,7 +741,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -759,7 +759,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -827,7 +827,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -847,7 +847,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -874,7 +874,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -896,7 +896,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_version: "{{ catalystcenter_version }}"
     catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
@@ -1046,7 +1046,7 @@ response_11:
 """
 
 import re
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     validate_list,
@@ -1832,7 +1832,7 @@ class UserandRole(CatalystCenterBase):
                 if self.want.get("password_update"):
                     if update_required_param.get("role_list"):
                         if (
-                            self.want["username"]
+                            self.want["username"].lower()
                             not in self.have["current_user_config"]["username"]
                         ):
                             task_response = {
@@ -1866,8 +1866,9 @@ class UserandRole(CatalystCenterBase):
                         return self
 
                     if update_required_param.get("role_list"):
+
                         if (
-                            self.want["username"]
+                            self.want["username"].lower()
                             not in self.have["current_user_config"]["username"]
                         ):
                             task_response = {
@@ -2009,9 +2010,19 @@ class UserandRole(CatalystCenterBase):
             roles = response_role.get("response", {}).get("roles", [])
 
             for user in users:
-                if user.get("username") == input_config.get("username"):
-                    current_user_configuration = user
-                    user_exists = True
+                if input_config.get("username") is not None:
+                    if (
+                        self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9")
+                        <= 0
+                    ):
+                        if user.get("username") == input_config.get("username").lower():
+                            current_user_configuration = user
+                            user_exists = True
+                    else:
+                        if user.get("username") == input_config.get("username"):
+                            current_user_configuration = user
+                            user_exists = True
+
                 elif input_config.get("email") is not None:
                     if user.get("email") == input_config.get("email"):
                         current_user_configuration = user
@@ -2110,7 +2121,7 @@ class UserandRole(CatalystCenterBase):
             self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
             if "[403]" in str(e):
                 error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create or update' a user via the API.".format(
-                    self.payload.get("dnac_username")
+                    self.payload.get("catalystcenter_username")
                 )
             else:
                 error_message = error_message = str(e).split('"')[9]
@@ -2154,7 +2165,7 @@ class UserandRole(CatalystCenterBase):
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to 'create a role' through the API.".format(
-                    self.payload.get("dnac_username")
+                    self.payload.get("catalystcenter_username")
                 )
                 return {"error_message": error_message}
 
@@ -2384,13 +2395,9 @@ class UserandRole(CatalystCenterBase):
                     "DEBUG",
                 )
 
-                if resource_name == "overall":
-                    unique_types[entry_types["type"]] = entry_types
-                else:
+                if resource_name == "overall" or resource_name == "data_access":
                     new_entry = {
-                        "type": "Network Analytics.{0}".format(
-                            resource_name.replace("_", " ").title()
-                        ),
+                        "type": "Network Analytics.Data Access",
                         "operations": operations,
                     }
                     unique_types[new_entry["type"]] = new_entry
@@ -2977,6 +2984,12 @@ class UserandRole(CatalystCenterBase):
                 "Role operation is 'create'. Adding default system entries.", "DEBUG"
             )
             self.add_entries(entry_types, ["gRead"], unique_types)
+            new_entry = {
+                "type": "System.Basic",
+                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"],
+            }
+            unique_types[new_entry["type"]] = new_entry
+            self.log("Added entry for resource basic: {0}".format(new_entry), "DEBUG")
         else:
             self.log(
                 "Role operation is not 'create'. Skipping default system entries.",
@@ -3491,7 +3504,7 @@ class UserandRole(CatalystCenterBase):
         Description:
             - This method sends a request to update a role in Cisco Catalyst Center using the provided
               role parameters. It first logs the role parameters at the "DEBUG" level. Then it calls the"_exec" method
-              of the "catalystcenter" object to perform the API request. The API request is specified with the "user_and_roles" family
+              of the "dnac" object to perform the API request. The API request is specified with the "user_and_roles" family
               and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """
@@ -3518,7 +3531,7 @@ class UserandRole(CatalystCenterBase):
             except Exception as e:
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 error_message = "The catalyst center user '{0}' does not have the necessary permissions to update role through the API.".format(
-                    self.payload.get("dnac_username")
+                    self.payload.get("catalystcenter_username")
                 )
                 return {"error_message": error_message}
 
@@ -4044,7 +4057,7 @@ class UserandRole(CatalystCenterBase):
                 self.log("Unexpected error occurred: {0}".format(str(e)), "ERROR")
                 if "[403]" in str(e):
                     error_message = "The Catalyst Center user '{0}' does not have the necessary permissions to delete the role through the API.".format(
-                        self.payload.get("dnac_username")
+                        self.payload.get("catalystcenter_username")
                     )
                 else:
                     error_message = "An error occurred while deleting the role. Check whether user(s) are assigned to the role '{0}'.".format(
@@ -4415,18 +4428,19 @@ def main():
     # Basic Ansible type check or assign default.
     user_role_details = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

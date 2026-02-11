@@ -17,7 +17,8 @@ The following table shows the supported versions.
 |-------------------------------|----------------------------------------|------------------------------------|
 | 2.3.7.6                       | 1.0.0                                  |  2.3.7.6.2                         |
 | 2.3.7.9                       | 2.1.4                                  |  2.3.7.9.5                         |
-| 3.1.3.0                       | ^2.2.2                                 |  ^3.1.3.0.0                        |
+| 3.1.3.0                       | 2.2.2                                  |  3.1.3.0.1                         |
+| 3.1.6.0                       | ^2.3.2                                 |  ^3.1.3.6.0                        |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -81,7 +82,7 @@ First, export the environment variables where you specify your CATALYST Center c
 
 ```bash
 export CATALYSTCENTER_HOST=<A.B.C.D>
-export CATALYSTCENTER_API_PORT=443 # optional, defaults to 443
+export CATALYSTCENTER_PORT=443 # optional, defaults to 443
 export CATALYSTCENTER_USERNAME=<username>
 export CATALYSTCENTER_PASSWORD=<password>
 export CATALYSTCENTER_VERSION=3.1.3.0 # optional, see the Compatibility matrix
@@ -123,7 +124,7 @@ First, define a `credentials.yml` ([example](https://github.com/cisco-en-program
 ```yaml
 ---
 catalystcenter_host: <A.B.C.D>
-catalystcenter_api_port: 443  # optional, defaults to 443
+catalystcenter_port: 443  # optional, defaults to 443
 catalystcenter_username: <username>
 catalystcenter_password: <password>
 catalystcenter_version: 3.1.3.0  # optional, see the Compatibility matrix
@@ -152,7 +153,7 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
       catalystcenter_username: "{{ catalystcenter_username }}"
       catalystcenter_password: "{{ catalystcenter_password }}"
       catalystcenter_verify: "{{ catalystcenter_verify }}"
-      catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+      catalystcenter_port: "{{ catalystcenter_port }}"
       catalystcenter_version: "{{ catalystcenter_version }}"
       catalystcenter_debug: "{{ catalystcenter_debug }}"
       state: present

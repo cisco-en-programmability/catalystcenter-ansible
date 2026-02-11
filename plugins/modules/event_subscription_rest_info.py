@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_rest_info
-short_description: Information module for Event Subscription
-  Rest
+short_description: Information module for Event Subscription Rest
 description:
   - Get all Event Subscription Rest.
-  - Gets the list of Rest/Webhook Subscriptions's based
-    on provided query params.
+  - Gets the list of Rest/Webhook Subscriptions's based on provided query params.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,22 +21,16 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. List of subscriptions
-        related to the respective eventIds (Comma separated
-        event ids).
+      - EventIds query parameter. List of subscriptions related to the respective eventIds (Comma separated event ids).
     type: str
   offset:
     description:
-      - Offset query parameter. The number of Subscriptions's
-        to offset in the resultset whose default value
-        0.
-    type: float
+      - Offset query parameter. The number of Subscriptions's to offset in the resultset whose default value 0.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of Subscriptions's
-        to limit in the resultset whose default value
-        10.
-    type: float
+      - Limit query parameter. The number of Subscriptions's to limit in the resultset whose default value 10.
+    type: int
   sortBy:
     description:
       - SortBy query parameter. SortBy field name.
@@ -49,37 +41,30 @@ options:
     type: str
   domain:
     description:
-      - Domain query parameter. List of subscriptions
-        related to the respective domain.
+      - Domain query parameter. List of subscriptions related to the respective domain.
     type: str
   subDomain:
     description:
-      - SubDomain query parameter. List of subscriptions
-        related to the respective sub-domain.
+      - SubDomain query parameter. List of subscriptions related to the respective sub-domain.
     type: str
   category:
     description:
-      - Category query parameter. List of subscriptions
-        related to the respective category.
+      - Category query parameter. List of subscriptions related to the respective category.
     type: str
   type:
     description:
-      - Type query parameter. List of subscriptions
-        related to the respective type.
+      - Type query parameter. List of subscriptions related to the respective type.
     type: str
   name:
     description:
-      - Name query parameter. List of subscriptions
-        related to the respective name.
+      - Name query parameter. List of subscriptions related to the respective name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetRestWebhookEventSubscriptions
-    description: Complete reference of the GetRestWebhookEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetRestWebhookEventSubscriptions
+    description: Complete reference of the GetRestWebhookEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-event-subscriptions
 notes:
   - SDK Method used are
@@ -96,7 +81,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -114,7 +99,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

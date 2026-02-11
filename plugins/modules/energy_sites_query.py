@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: energy_sites_query
-short_description: Resource module for Energy Sites
-  Query
+short_description: Resource module for Energy Sites Query
 description:
-  - Manage operation create of the resource Energy Sites
-    Query. - > Submits a request to retrieve a list
-    of sites along with their energy data for a specified
-    time range, based on the filters provided in the
-    request body. For detailed information about the
-    usage of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-
+  - Manage operation create of the resource Energy Sites Query. - > Submits a request to retrieve a list of sites along with
+    their energy data for a specified time range, based on the filters provided in the request body. For detailed information
+    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
     specs/blob/main/Assurance/CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -95,22 +90,19 @@ options:
     description: Start Time.
     type: int
   taskId:
-    description: TaskId query parameter. Used to retrieve
-      asynchronously processed & stored data. When this
-      parameter is used, the rest of the request params
-      will be ignored.
+    description: TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is used,
+      the rest of the request params will be ignored.
     type: str
   views:
     description: Views.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites SubmitRequestToQuerySitesEnergy
-    description: Complete reference of the SubmitRequestToQuerySitesEnergy
-      API.
+    description: Complete reference of the SubmitRequestToQuerySitesEnergy API.
     link: https://developer.cisco.com/docs/dna-center/#!submit-request-to-query-sites-energy
 notes:
   - SDK Method used are
@@ -127,7 +119,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -159,7 +151,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

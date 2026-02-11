@@ -59,15 +59,16 @@ options:
     required: true
     suboptions:
       fabric_sites:
-        description: A dictionary containing detailed
+        description: A list containing detailed
           configurations for managing REST Endpoints
           that will receive Audit log and Events from
-          the Cisco Catalyst Center Platform. This dictionary
+          the Cisco Catalyst Center Platform. This list
           is essential for specifying attributes and
           parameters required for the lifecycle management
           of fabric sites, zones, and associated authentication
           profiles.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name_hierarchy:
             description: This name uniquely identifies
@@ -107,12 +108,17 @@ options:
               for control nodes in the fabric site.
               This feature is relevant only when creating
               or updating fabric sites, not fabric zones.
-              When set to True, pub/sub facilitates
-              more efficient communication and control
-              within the site. The default is True for
-              fabric sites, and this setting is not
+              When set to 'true', pub/sub is enabled for
+              more efficient control plane communication
+              within the fabric site. The default is True
+              for fabric sites, and this setting is not
               applicable for fabric zones.
+              When set to 'false', the fabric site is
+              configured to use LISP/BGP for control plane
+              communication, which provides traditional
+              routing mechanisms.
             type: bool
+            default: true
           apply_pending_events:
             description: Modifying an IP address pool
               used in a fabric causes the fabric to
@@ -264,7 +270,7 @@ options:
                           in the Access Contract list.
                         type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.9.2
   - python >= 3.9
 notes:
   - To ensure the module operates correctly for scaled
@@ -312,10 +318,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -330,10 +336,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -347,10 +353,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -364,10 +370,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -382,10 +388,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -400,10 +406,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -438,10 +444,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -462,10 +468,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: deleted
     config:
@@ -478,10 +484,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: deleted
     config:
@@ -505,7 +511,7 @@ dnac_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -743,9 +749,8 @@ class FabricSitesZones(CatalystCenterBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -876,9 +881,8 @@ class FabricSitesZones(CatalystCenterBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -1049,9 +1053,8 @@ class FabricSitesZones(CatalystCenterBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2341,9 +2344,8 @@ class FabricSitesZones(CatalystCenterBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2664,9 +2666,8 @@ class FabricSitesZones(CatalystCenterBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2748,8 +2749,9 @@ class FabricSitesZones(CatalystCenterBase):
                 fabric_type = site.get("fabric_type", "fabric_site")
                 site_exists, site_id = self.get_site_id(site_name)
                 if not site_exists:
-                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
+                    self.msg = (
+                        f"The site '{site_name}' does not exist in the Catalyst Center. "
+                        "A site must be created first before it can be converted into a Fabric Site."
                     )
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR"
@@ -2841,9 +2843,8 @@ class FabricSitesZones(CatalystCenterBase):
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
                 self.msg = (
-                    "Given site '{0}' does not exist in the Catalyst Center.".format(
-                        site_name
-                    )
+                    f"The site '{site_name}' does not exist in the Catalyst Center. "
+                    "A site must be created first before it can be converted into a Fabric Site."
                 )
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR"
@@ -2882,17 +2883,18 @@ def main():
 
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

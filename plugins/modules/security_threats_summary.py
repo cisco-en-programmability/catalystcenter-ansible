@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_summary
-short_description: Resource module for Security Threats
-  Summary
+short_description: Resource module for Security Threats Summary
 description:
-  - Manage operation create of the resource Security
-    Threats Summary.
+  - Manage operation create of the resource Security Threats Summary.
   - The Threat Summary for the Rogues and aWIPS.
 version_added: '6.16.0'
 extends_documentation_fragment:
@@ -37,8 +35,8 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     devices.Devices.threat_summary,
@@ -54,7 +52,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     endTime: 0
@@ -68,7 +66,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

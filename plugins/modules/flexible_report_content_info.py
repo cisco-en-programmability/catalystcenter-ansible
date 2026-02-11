@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: flexible_report_content_info
-short_description: Information module for Flexible Report
-  Content
+short_description: Information module for Flexible Report Content
 description:
-  - Get Flexible Report Content by id. - > This is used
-    to download the flexible report. The API returns
-    report content. Save the response to a file by converting
-    the response data as a blob and setting the file
-    format available from content-disposition response
-    header.
+  - Get Flexible Report Content by id. - > This is used to download the flexible report. The API returns report content. Save
+    the response to a file by converting the response data as a blob and setting the file format available from content-disposition
+    response header.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -33,13 +29,11 @@ options:
       - ExecutionId path parameter. Id of execution.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      DownloadFlexibleReport
-    description: Complete reference of the DownloadFlexibleReport
-      API.
+  - name: Cisco DNA Center documentation for Reports DownloadFlexibleReport
+    description: Complete reference of the DownloadFlexibleReport API.
     link: https://developer.cisco.com/docs/dna-center/#!download-flexible-report
 notes:
   - SDK Method used are
@@ -56,7 +50,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -66,7 +60,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: str
   sample: >

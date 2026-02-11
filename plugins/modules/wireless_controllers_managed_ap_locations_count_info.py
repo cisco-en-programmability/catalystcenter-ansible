@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_managed_ap_locations_count_info
-short_description: Information module for Wireless Controllers
-  Managed Ap Locations Count
+short_description: Information module for Wireless Controllers Managed Ap Locations Count
 description:
-  - Get all Wireless Controllers Managed Ap Locations
-    Count. - > Retrieves the count of Managed AP locations,
-    including Primary Managed AP Locations, Secondary
-    Managed AP Locations, and Anchor Managed AP Locations,
-    associated with the specific Wireless Controller.
+  - Get all Wireless Controllers Managed Ap Locations Count. - > Retrieves the count of Managed AP locations, including Primary
+    Managed AP Locations, Secondary Managed AP Locations, and Anchor Managed AP Locations, associated with the specific Wireless
+    Controller.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,17 +23,15 @@ options:
   networkDeviceId:
     description:
       - >
-        NetworkDeviceId path parameter. Obtain the network
-        device ID value by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+        NetworkDeviceId path parameter. Obtain the network device ID value by using the API call GET
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetManagedAPLocationsCountForSpecificWirelessController
-    description: Complete reference of the GetManagedAPLocationsCountForSpecificWirelessController
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetManagedAPLocationsCountForSpecificWirelessController
+    description: Complete reference of the GetManagedAPLocationsCountForSpecificWirelessController API.
     link: https://developer.cisco.com/docs/dna-center/#!get-managed-ap-locations-count-for-specific-wireless-controller
 notes:
   - SDK Method used are
@@ -47,14 +42,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Managed Ap Locations
-    Count
+- name: Get all Wireless Controllers Managed Ap Locations Count
   cisco.catalystcenter.wireless_controllers_managed_ap_locations_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -63,15 +57,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "response": {
-        "primaryManagedApLocationsCount": 0,
-        "secondaryManagedApLocationsCount": 0,
-        "anchorManagedApLocationsCount": 0
+        "count": 0
       },
       "version": "string"
     }

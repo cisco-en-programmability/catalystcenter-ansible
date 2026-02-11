@@ -7,34 +7,27 @@
 DOCUMENTATION = r"""
 ---
 module: discovery_range_delete
-short_description: Resource module for Discovery Range
-  Delete
+short_description: Resource module for Discovery Range Delete
 description:
-  - Manage operation delete of the resource Discovery
-    Range Delete.
-  - Stops discovery for the given range and removes
-    them.
+  - Manage operation delete of the resource Discovery Range Delete.
+  - Stops discovery for the given range and removes them.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   recordsToDelete:
-    description: RecordsToDelete path parameter. Number
-      of records to delete from the starting index.
+    description: RecordsToDelete path parameter. Number of records to delete from the starting index.
     type: int
   startIndex:
-    description: StartIndex path parameter. Starting
-      index for the records.
+    description: StartIndex path parameter. Starting index for the records.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      DeleteDiscoveryBySpecifiedRange
-    description: Complete reference of the DeleteDiscoveryBySpecifiedRange
-      API.
+  - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRange
+    description: Complete reference of the DeleteDiscoveryBySpecifiedRange API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
 notes:
   - SDK Method used are
@@ -51,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     recordsToDelete: 0
@@ -59,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

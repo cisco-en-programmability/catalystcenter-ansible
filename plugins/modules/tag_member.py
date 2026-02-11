@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: tag_member
 short_description: Resource module for Tag Member
 description:
-  - Manage operations create and delete of the resource
-    Tag Member.
+  - Manage operations create and delete of the resource Tag Member.
   - Adds members to the tag specified by id.
   - Removes Tag member from the tag specified by id.
 version_added: '3.1.0'
@@ -22,8 +21,7 @@ options:
     description: Id path parameter. Tag ID.
     type: str
   memberId:
-    description: MemberId path parameter. TagMember
-      id to be removed from tag.
+    description: MemberId path parameter. TagMember id to be removed from tag.
     type: str
   memberType:
     description: Tag Member's memberType.
@@ -33,16 +31,14 @@ options:
     description: Map of member type and member ids.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag AddMembersToTheTag
-    description: Complete reference of the AddMembersToTheTag
-      API.
+    description: Complete reference of the AddMembersToTheTag API.
     link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
   - name: Cisco DNA Center documentation for Tag RemoveTagMember
-    description: Complete reference of the RemoveTagMember
-      API.
+    description: Complete reference of the RemoveTagMember API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
 notes:
   - SDK Method used are
@@ -61,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -77,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -86,14 +82,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "taskId": "string",
+        "taskId": {},
         "url": "string"
       }
     }

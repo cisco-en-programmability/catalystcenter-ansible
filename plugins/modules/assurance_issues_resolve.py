@@ -7,22 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: assurance_issues_resolve
-short_description: Resource module for Assurance Issues
-  Resolve
+short_description: Resource module for Assurance Issues Resolve
 description:
-  - Manage operation create of the resource Assurance
-    Issues Resolve. - > Resolves the given list of issues.
-    The response contains the list of issues which were
-    successfully resolved as well as the issues which
-    are failed to resolve. After this API returns success
-    response, it may take few seconds for the issue
-    status to be updated if the system is heavily loaded.
-    Please use `GET /dna/data/api/v1/assuranceIssues/{id}`
-    API to fetch the details of a particular issue and
-    verify `updatedTime`. For detailed information about
-    the usage of the API, please refer to the Open API
-    specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesLifecycle-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Assurance Issues Resolve. - > Resolves the given list of issues. The response
+    contains the list of issues which were successfully resolved as well as the issues which are failed to resolve. After
+    this API returns success response, it may take few seconds for the issue status to be updated if the system is heavily
+    loaded. Please use `GET /dna/data/api/v1/assuranceIssues/{id}` API to fetch the details of a particular issue and verify
+    `updatedTime`. For detailed information about the usage of the API, please refer to the Open API specification document
+    - https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesLifecycle-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -36,13 +28,11 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      ResolveTheGivenListsOfIssues
-    description: Complete reference of the ResolveTheGivenListsOfIssues
-      API.
+  - name: Cisco DNA Center documentation for Issues ResolveTheGivenListsOfIssues
+    description: Complete reference of the ResolveTheGivenListsOfIssues API.
     link: https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues
 notes:
   - SDK Method used are
@@ -59,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: '{{my_headers | from_json}}'
@@ -68,7 +58,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

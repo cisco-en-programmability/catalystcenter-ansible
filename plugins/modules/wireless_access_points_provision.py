@@ -7,58 +7,48 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_access_points_provision
-short_description: Resource module for Wireless Access
-  Points Provision
+short_description: Resource module for Wireless Access Points Provision
 description:
-  - Manage operation create of the resource Wireless
-    Access Points Provision. - > This API is used to
-    provision Access Points. Prerequisite Access Point
-    has to be assigned to the site using the API /dna/intent/api/v1/networkDevices/assignToSite/apply.
+  - Manage operation create of the resource Wireless Access Points Provision. - > This API is used to provision Access Points.
+    Prerequisite Access Point has to be assigned to the site using the API /dna/intent/api/v1/networkDevices/assignToSite/apply.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   apZoneName:
-    description: AP Zone Name. A custom AP Zone should
-      be passed if no rfProfileName is provided.
+    description: AP Zone Name. A custom AP Zone should be passed if no rfProfileName is provided.
     type: str
   networkDevices:
-    description: Wireless Access Points Provision's
-      networkDevices.
+    description: Wireless Access Points Provision's networkDevices.
     elements: dict
     suboptions:
       beamState:
-        description: Beam State (Applicable only for
-          CW9179F AP models).
+        description: Beam State (Applicable only for CW9179F AP models).
         type: str
       deviceId:
         description: Network device ID of access points.
         type: str
       meshRole:
-        description: Mesh Role (Applicable only when
-          AP is in Bridge Mode).
+        description: Mesh Role (Applicable only when AP is in Bridge Mode).
         type: str
     type: list
   rfProfileName:
-    description: RF Profile Name. RF Profile is not
-      allowed for custom AP Zones.
+    description: RF Profile Name. RF Profile is not allowed for custom AP Zones.
     type: str
   siteId:
     description: Site ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      APProvision
-    description: Complete reference of the APProvision
-      API.
-    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
+  - name: Cisco DNA Center documentation for Wireless APProvisionConnectivity
+    description: Complete reference of the APProvisionConnectivity API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision,
+    wireless.Wireless.ap_provision_connectivity,
   - Paths used are
     post /dna/intent/api/v1/wirelessAccessPoints/provision,
 """
@@ -71,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     apZoneName: string
@@ -84,7 +74,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

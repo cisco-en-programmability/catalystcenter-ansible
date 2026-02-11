@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_licenses_summary_info
-short_description: Information module for Network Device
-  Licenses Summary
+short_description: Information module for Network Device Licenses Summary
 description:
-  - Get all Network Device Licenses Summary. - > Retrieves
-    the summary of consumed network, DNA, and Cisco
-    Networking Subscription CNS licenses, along with
-    the counts of unregistered and out-of-compliance
-    network devices, and expired and expiring network
+  - Get all Network Device Licenses Summary. - > Retrieves the summary of consumed network, DNA, and Cisco Networking Subscription
+    CNS licenses, along with the counts of unregistered and out-of-compliance network devices, and expired and expiring network
     device licenses.
 version_added: '6.18.0'
 extends_documentation_fragment:
@@ -25,13 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicenses
-    description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicenses
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesSummaryOfNetworkDeviceLicenses
+    description: Complete reference of the RetrievesSummaryOfNetworkDeviceLicenses API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-of-network-device-licenses
 notes:
   - SDK Method used are
@@ -48,7 +42,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -56,7 +50,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

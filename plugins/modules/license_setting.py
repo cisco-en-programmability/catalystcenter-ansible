@@ -9,15 +9,10 @@ DOCUMENTATION = r"""
 module: license_setting
 short_description: Resource module for License Setting
 description:
-  - Manage operation update of the resource License
-    Setting. - > Update license setting - Configure
-    default smart account id and/or virtual account
-    id for auto registration of devices for smart license
-    flow. Virtual account should be part of default
-    smart account. Default smart account id cannot be
-    set to 'null'. Auto registration of devices for
-    smart license flow is applicable only for direct
-    or on-prem SSM connection mode.
+  - Manage operation update of the resource License Setting. - > Update license setting - Configure default smart account
+    id and/or virtual account id for auto registration of devices for smart license flow. Virtual account should be part of
+    default smart account. Default smart account id cannot be set to 'null'. Auto registration of devices for smart license
+    flow is applicable only for direct or on-prem SSM connection mode.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -30,13 +25,11 @@ options:
     description: Default smart account id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      UpdateLicenseSetting
-    description: Complete reference of the UpdateLicenseSetting
-      API.
+  - name: Cisco DNA Center documentation for Licenses UpdateLicenseSetting
+    description: Complete reference of the UpdateLicenseSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!update-license-setting
 notes:
   - SDK Method used are
@@ -53,7 +46,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -62,7 +55,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

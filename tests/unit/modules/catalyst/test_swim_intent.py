@@ -17,11 +17,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import swim_intent
-from .catalystcenter_module import TestCatalystcenterModule, set_module_args
+from ansible_collections.cisco.dnac.plugins.modules import swim_intent
+from .catalystcenter_module import TestDnacModule, set_module_args
 
 
-class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
+class TestDnacSwimIntent(TestDnacModule):
     def __init__(self):
         """
         Inheriting from the base class of catalystcenter_module
@@ -31,6 +31,7 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
+
         """
         Load fixtures for a specific device.
 
@@ -52,7 +53,7 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
                 self.test_data.get("task_info_response"),
                 self.test_data.get("image_distribution_successful_response"),
                 self.test_data.get("task_info_response"),
-                self.test_data.get("image_activation_successful_response"),
+                self.test_data.get("image_activation_successful_response")
             ]
         elif "swim_image_import" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -75,7 +76,7 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
         elif "incorrect_site_untag_golden_image" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("image_id_fetched_successfully_response"),
-                Exception(),
+                Exception()
             ]
         elif "image_doesnot_exist_response" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -108,6 +109,7 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
             ]
 
     def test_swim_full_flow(self):
+
         """
         Test case for a full Software Image Management (SWIM) flow.
 
@@ -116,74 +118,90 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.playbook_config,
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.playbook_config
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(result.get("msg"), "Image activated successfully")
+        self.assertEqual(
+            result.get('msg'),
+            "Image activated successfully"
+        )
 
     def test_swim_image_import(self):
+
         """
         Test case for SWIM image import when the image already exists.
 
-        This test case checks the behavior of SWIM when importing an image that already exists in the specified CATALYST.
+        This test case checks the behavior of SWIM when importing an image that already exists in the specified DNAC.
         """
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_image_import"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_image_import")
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertEqual(result.get("msg"), "Image already exists.")
+        self.assertEqual(
+            result.get('msg'),
+            "Image already exists."
+        )
 
     def test_swim_image_local_import(self):
+
         """
         Test case for SWIM local image import when the image already exists.
 
-        This test case checks the behavior of SWIM when importing a local image that already exists in the specified CATALYST.
+        This test case checks the behavior of SWIM when importing a local image that already exists in the specified DNAC.
         """
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_local_image_import"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_local_image_import")
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertEqual(result.get("msg"), "Image already exists.")
+        self.assertEqual(
+            result.get('msg'),
+            "Image already exists."
+        )
 
     def test_swim_untag_image(self):
+
         """
         Test case for SWIM untagging an image as Golden.
 
-        This test case checks the behavior of SWIM when untagging an image as a Golden image in the CATALYST.
+        This test case checks the behavior of SWIM when untagging an image as a Golden image in the DNAC.
         """
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.playbook_config_untag_image,
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.playbook_config_untag_image
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(result.get("msg"), "Un-tagging image as Golden.")
+        self.assertEqual(
+            result.get('msg'),
+            "Un-tagging image as Golden."
+        )
 
     def test_swim_missing_param_tag_golden_image(self):
+
         """
         Test case for SWIM with missing parameters for tagging a Golden image.
 
@@ -192,19 +210,21 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get(
-                    "playbook_config_tag_golden_image_missing_param"
-                ),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_tag_golden_image_missing_param")
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(result.get("msg"), "Image details for tagging not provided")
+        self.assertEqual(
+            result.get('msg'),
+            "Image details for tagging not provided"
+        )
 
     def test_swim_incorrect_site_untag_golden_image(self):
+
         """
         Test case for SWIM when trying to untag an image from a non-existing site.
 
@@ -213,36 +233,44 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.playbook_config_untag_image,
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.playbook_config_untag_image
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(result.get("msg"), "Site not found")
+        self.assertEqual(
+            result.get('msg'),
+            "Site not found"
+        )
 
     def test_swim_image_doesnot_exist_response(self):
+
         """
         Test case for SWIM when the image does not exist in the response.
 
-        This test case checks the behavior of SWIM when the requested image is not found in the CATALYST response.
+        This test case checks the behavior of SWIM when the requested image is not found in the DNAC response.
         """
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.playbook_config_untag_image,
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.playbook_config_untag_image
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(result.get("msg"), "Image not found")
+        self.assertEqual(
+            result.get('msg'),
+            "Image not found"
+        )
 
     def test_swim_only_image_distribution(self):
+
         """
         Test case for SWIM with only image distribution.
 
@@ -251,17 +279,21 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_distribution"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_distribution")
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(result.get("msg"), "Image Distributed Successfully")
+        self.assertEqual(
+            result.get('msg'),
+            "Image Distributed Successfully"
+        )
 
     def test_swim_image_distribution_missing_param(self):
+
         """
         Test case for SWIM image distribution with missing parameters.
 
@@ -270,19 +302,21 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_distribution_missing_param"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_distribution_missing_param")
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"), "Image details for distribution not provided"
+            result.get('msg'),
+            "Image details for distribution not provided"
         )
 
     def test_swim_only_image_activation(self):
+
         """
         Test case for SWIM with only image activation.
 
@@ -291,17 +325,21 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_activation"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_activation")
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(result.get("msg"), "Image activated successfully")
+        self.assertEqual(
+            result.get('msg'),
+            "Image activated successfully"
+        )
 
     def test_swim_image_activation_missing_param(self):
+
         """
         Test case for SWIM image activation with missing parameters.
 
@@ -310,17 +348,21 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_activation_missing_param"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_activation_missing_param")
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(result.get("msg"), "Image details for activation not provided")
+        self.assertEqual(
+            result.get('msg'),
+            "Image details for activation not provided"
+        )
 
     def test_swim_tag_golden_incorrect_family_name(self):
+
         """
         Test case for SWIM when tagging an image as Golden with an incorrect family name.
 
@@ -329,38 +371,44 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get(
-                    "playbook_config_tag_golden_image_incorrect_family_name"
-                ),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_tag_golden_image_incorrect_family_name")
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(result.get("msg"), "Family Device Name not found")
+        self.assertEqual(
+            result.get('msg'),
+            "Family Device Name not found"
+        )
 
     def test_swim_device_doesnot_exist(self):
+
         """
         Test case for SWIM when the device does not exist.
 
-        This test case checks the behavior of SWIM when the specified device is not found in the CATALYST.
+        This test case checks the behavior of SWIM when the specified device is not found in the DNAC.
         """
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get("playbook_config_activation"),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_activation")
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(result.get("msg"), "Device not found")
+        self.assertEqual(
+            result.get('msg'),
+            "Device not found"
+        )
 
     def test_swim_incorrect_image_import_parameter(self):
+
         """
         Test case for SWIM with incorrect image import parameters.
 
@@ -369,16 +417,15 @@ class TestCatalystcenterSwimIntent(TestCatalystcenterModule):
 
         set_module_args(
             dict(
-                host="1.1.1.1",
-                username="dummy",
-                password="dummy",
-                log=True,
-                config=self.test_data.get(
-                    "playbook_config_incorrect_image_import_parameter"
-                ),
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                config=self.test_data.get("playbook_config_incorrect_image_import_parameter")
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"), "Incorrect import type. Supported Values: local or url"
+            result.get('msg'),
+            "Incorrect import type. Supported Values: local or url"
         )

@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: clients_summary_analytics
-short_description: Resource module for Clients Summary
-  Analytics
+short_description: Resource module for Clients Summary Analytics
 description:
-  - Manage operation create of the resource Clients
-    Summary Analytics. - > Retrieves summary analytics
-    data related to clients while applying complex filtering,
-    aggregate functions, and grouping. This API facilitates
-    obtaining consolidated insights into the performance
-    and status of the clients. For detailed information
-    about the usage of the API, please refer to the
+  - Manage operation create of the resource Clients Summary Analytics. - > Retrieves summary analytics data related to clients
+    while applying complex filtering, aggregate functions, and grouping. This API facilitates obtaining consolidated insights
+    into the performance and status of the clients. For detailed information about the usage of the API, please refer to the
     Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
@@ -88,13 +83,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients
-      RetrievesSummaryAnalyticsDataRelatedToClients
-    description: Complete reference of the RetrievesSummaryAnalyticsDataRelatedToClients
-      API.
+  - name: Cisco DNA Center documentation for Clients RetrievesSummaryAnalyticsDataRelatedToClients
+    description: Complete reference of the RetrievesSummaryAnalyticsDataRelatedToClients API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-clients
 notes:
   - SDK Method used are
@@ -111,7 +104,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -137,7 +130,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

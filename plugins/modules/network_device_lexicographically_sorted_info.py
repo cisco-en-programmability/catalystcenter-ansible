@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_lexicographically_sorted_info
-short_description: Information module for Network Device
-  Lexicographically Sorted
+short_description: Information module for Network Device Lexicographically Sorted
 description:
   - Get all Network Device Lexicographically Sorted.
-  - Returns the list of values of the first given required
-    parameter.
+  - Returns the list of values of the first given required parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -107,17 +105,14 @@ options:
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
-    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute
+    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttribute API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
   - SDK Method used are
@@ -134,7 +129,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -164,7 +159,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

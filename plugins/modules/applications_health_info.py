@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: applications_health_info
-short_description: Information module for Applications
-  Health
+short_description: Information module for Applications Health
 description:
-  - Get all Applications Health. - > Intent API to get
-    a list of applications for a specific site, a device,
-    or a client device's MAC address. For a combination
-    of a specific application with site and/or device
-    the API gets list of issues/devices/endpoints.
+  - Get all Applications Health. - > Intent API to get a list of applications for a specific site, a device, or a client device's
+    MAC address. For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,66 +21,52 @@ options:
     type: dict
   siteId:
     description:
-      - SiteId query parameter. Assurance site UUID
-        value (Cannot be submitted together with deviceId
-        and clientMac).
+      - SiteId query parameter. Assurance site UUID value (Cannot be submitted together with deviceId and clientMac).
     type: str
   deviceId:
     description:
-      - DeviceId query parameter. Assurance device UUID
-        value (Cannot be submitted together with siteId
-        and clientMac).
+      - DeviceId query parameter. Assurance device UUID value (Cannot be submitted together with siteId and clientMac).
     type: str
   macAddress:
     description:
-      - MacAddress query parameter. Client device's
-        MAC address (Cannot be submitted together with
-        siteId and deviceId).
+      - MacAddress query parameter. Client device's MAC address (Cannot be submitted together with siteId and deviceId).
     type: str
   startTime:
     description:
-      - StartTime query parameter. Starting epoch time
-        in milliseconds of time window.
+      - StartTime query parameter. Starting epoch time in milliseconds of time window.
     type: float
   endTime:
     description:
-      - EndTime query parameter. Ending epoch time in
-        milliseconds of time window.
+      - EndTime query parameter. Ending epoch time in milliseconds of time window.
     type: float
   applicationHealth:
     description:
       - >
-        ApplicationHealth query parameter. Application
-        health category (POOR, FAIR, or GOOD. Optionally
-        use with siteId only).
+        ApplicationHealth query parameter. Application health category (POOR, FAIR, or GOOD. Optionally use with
+        siteId only).
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The offset of the first
-        application in the returned data (optionally
-        used with siteId only).
-    type: float
+        Offset query parameter. The offset of the first application in the returned data (optionally used with
+        siteId only).
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The max number of application
-        entries in returned data 1, 1000 (optionally
-        used with siteId only).
-    type: float
+        Limit query parameter. The max number of application entries in returned data 1, 1000 (optionally used
+        with siteId only).
+    type: int
   applicationName:
     description:
-      - ApplicationName query parameter. The name of
-        the application to get information on.
+      - ApplicationName query parameter. The name of the application to get information on.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Applications
-      Applications
-    description: Complete reference of the Applications
-      API.
+  - name: Cisco DNA Center documentation for Applications Applications
+    description: Complete reference of the Applications API.
     link: https://developer.cisco.com/docs/dna-center/#!applications-applications
 notes:
   - SDK Method used are
@@ -101,7 +83,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -118,7 +100,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

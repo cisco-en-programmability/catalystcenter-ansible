@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: wireless_rf_profile
 short_description: Resource module for Wireless Rf Profile
 description:
-  - Manage operations create and delete of the resource
-    Wireless Rf Profile.
+  - Manage operations create and delete of the resource Wireless Rf Profile.
   - Create or Update RF profile.
   - Delete RF profile.
 version_added: '3.1.0'
@@ -127,23 +126,17 @@ options:
         type: str
     type: dict
   rfProfileName:
-    description: RfProfileName path parameter. RF profile
-      name to be deleted(required) *non-custom RF profile
-      cannot be deleted.
+    description: RfProfileName path parameter. RF profile name to be deleted(required) *non-custom RF profile cannot be deleted.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      CreateOrUpdateRFProfile
-    description: Complete reference of the CreateOrUpdateRFProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile
+    description: Complete reference of the CreateOrUpdateRFProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteRFProfiles
-    description: Complete reference of the DeleteRFProfiles
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteRFProfiles
+    description: Complete reference of the DeleteRFProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles
 notes:
   - SDK Method used are
@@ -162,7 +155,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -207,7 +200,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -215,7 +208,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,14 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints
-short_description: Resource module for Endpoint Analytics
-  Endpoints
+short_description: Resource module for Endpoint Analytics Endpoints
 description:
-  - Manage operations create, update and delete of the
-    resource Endpoint Analytics Endpoints.
+  - Manage operations create, update and delete of the resource Endpoint Analytics Endpoints.
   - Register a new endpoint in the system.
-  - Deletes the endpoint for the given unique identifier
-    'epId'.
+  - Deletes the endpoint for the given unique identifier 'epId'.
   - Update attributes of a registered endpoint.
 version_added: '6.16.0'
 extends_documentation_fragment:
@@ -22,12 +19,10 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceType:
-    description: Type of the device represented by this
-      endpoint.
+    description: Type of the device represented by this endpoint.
     type: str
   epId:
-    description: EpId path parameter. Unique identifier
-      for the endpoint.
+    description: EpId path parameter. Unique identifier for the endpoint.
     type: str
   hardwareManufacturer:
     description: Hardware manufacturer for the endpoint.
@@ -39,23 +34,17 @@ options:
     description: MAC address of the endpoint.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics RegisterAnEndpoint
-    description: Complete reference of the RegisterAnEndpoint
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpoint
+    description: Complete reference of the RegisterAnEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics DeleteAnEndpoint
-    description: Complete reference of the DeleteAnEndpoint
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpoint
+    description: Complete reference of the DeleteAnEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics UpdateARegisteredEndpoint
-    description: Complete reference of the UpdateARegisteredEndpoint
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics UpdateARegisteredEndpoint
+    description: Complete reference of the UpdateARegisteredEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint
 notes:
   - SDK Method used are
@@ -76,7 +65,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -84,13 +73,24 @@ EXAMPLES = r"""
     hardwareManufacturer: string
     hardwareModel: string
     macAddress: string
+- name: Delete by id
+  cisco.catalystcenter.endpoint_analytics_endpoints:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    epId: string
 - name: Update by id
   cisco.catalystcenter.endpoint_analytics_endpoints:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -98,21 +98,10 @@ EXAMPLES = r"""
     epId: string
     hardwareManufacturer: string
     hardwareModel: string
-- name: Delete by id
-  cisco.catalystcenter.endpoint_analytics_endpoints:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    epId: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

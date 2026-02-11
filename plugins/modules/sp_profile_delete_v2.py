@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sp_profile_delete_v2
-short_description: Resource module for Sp Profile Delete
-  V2
+short_description: Resource module for Sp Profile Delete V2
 description:
-  - Manage operation delete of the resource Sp Profile
-    Delete V2.
+  - Manage operation delete of the resource Sp Profile Delete V2.
   - API to delete Service Provider Profile QoS .
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -19,17 +17,14 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   spProfileName:
-    description: SpProfileName path parameter. SP profile
-      name.
+    description: SpProfileName path parameter. SP profile name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings DeleteSPProfileV2
-    description: Complete reference of the DeleteSPProfileV2
-      API.
+  - name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV2
+    description: Complete reference of the DeleteSPProfileV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile-v-2
 notes:
   - SDK Method used are
@@ -41,19 +36,19 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Delete by name
-  cisco.catalystcenter.sp_profile_delete:
+  cisco.catalystcenter.sp_profile_delete_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     spProfileName: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

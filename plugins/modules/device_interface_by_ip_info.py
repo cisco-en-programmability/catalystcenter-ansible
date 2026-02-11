@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: device_interface_by_ip_info
-short_description: Information module for Device Interface
-  By Ip
+short_description: Information module for Device Interface By Ip
 description:
   - Get Device Interface By Ip by id.
-  - Returns list of interfaces for specified device
-    management IP address.
+  - Returns list of interfaces for specified device management IP address.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   ipAddress:
     description:
-      - IpAddress path parameter. IP address of the
-        interface.
+      - IpAddress path parameter. IP address of the interface.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetInterfaceByIP
-    description: Complete reference of the GetInterfaceByIP
-      API.
+  - name: Cisco DNA Center documentation for Devices GetInterfaceByIP
+    description: Complete reference of the GetInterfaceByIP API.
     link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-ip
 notes:
   - SDK Method used are
@@ -50,7 +45,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -59,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

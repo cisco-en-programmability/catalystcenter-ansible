@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignment_for_access_point_info
-short_description: Information module for Sda Port Assignment
-  For Access Point
+short_description: Information module for Sda Port Assignment For Access Point
 description:
   - Get all Sda Port Assignment For Access Point.
   - Get Port assignment for access point in SDA Fabric.
@@ -30,12 +29,11 @@ options:
       - InterfaceName query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabric
-    description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabric
-      API.
+    description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
@@ -52,7 +50,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -62,7 +60,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

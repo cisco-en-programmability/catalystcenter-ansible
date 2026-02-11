@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_top_n_analytics
-short_description: Resource module for Sitekpisummaries
-  Topnanalytics
+short_description: Resource module for Site Kpi Summaries Top N Analytics
 description:
-  - Manage operation create of the resource Sitekpisummaries
-    Topnanalytics. - > Gets the Top N entites related
-    based on site analytics for a given kpi type. For
-    detailed information about the usage of the API,
-    please refer to the Open API specification document
-    - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Site Kpi Summaries Top N Analytics. - > Gets the Top N entites related based on
+    site analytics for a given kpi type. For detailed information about the usage of the API, please refer to the Open API
+    specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -26,8 +22,7 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Site Kpi Summaries Top N Analytics's
-      filters.
+    description: Site Kpi Summaries Top N Analytics's filters.
     elements: dict
     suboptions:
       key:
@@ -44,6 +39,9 @@ options:
     description: Group By.
     elements: str
     type: list
+  headers:
+    description: Additional headers.
+    type: dict
   startTime:
     description: Start Time.
     type: int
@@ -51,12 +49,11 @@ options:
     description: Top N.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites SubmitRequestForTopNEntitiesRelatedToSiteAnalytics
-    description: Complete reference of the SubmitRequestForTopNEntitiesRelatedToSiteAnalytics
-      API.
+    description: Complete reference of the SubmitRequestForTopNEntitiesRelatedToSiteAnalytics API.
     link: https://developer.cisco.com/docs/dna-center/#!submit-request-for-top-n-entities-related-to-site-analytics
 notes:
   - SDK Method used are
@@ -68,12 +65,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.siteKpiSummaries_topNAnalytics:
+  cisco.catalystcenter.site_kpi_summaries_top_n_analytics:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -84,12 +81,13 @@ EXAMPLES = r"""
         value: string
     groupBy:
       - string
+    headers: '{{my_headers | from_json}}'
     startTime: 0
     topN: 0
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

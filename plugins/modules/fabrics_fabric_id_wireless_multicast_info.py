@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: fabrics_fabric_id_wireless_multicast_info
-short_description: Information module for Fabrics Fabric
-  Id Wireless Multicast
+short_description: Information module for Fabrics Fabric Id Wireless Multicast
 description:
-  - Get all Fabrics Fabric Id Wireless Multicast. -
-    > Retrieves the current Software-Defined Access
-    SDA Wireless Multicast setting for a specified fabric
-    site. The setting indicates whether multicast is
-    enabled true or disabled false. For optimal performance,
-    ensure wired multicast is also enabled.
+  - Get all Fabrics Fabric Id Wireless Multicast. - > Retrieves the current Software-Defined Access SDA Wireless Multicast
+    setting for a specified fabric site. The setting indicates whether multicast is enabled true or disabled false. For optimal
+    performance, ensure wired multicast is also enabled.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,20 +23,16 @@ options:
   fabricId:
     description:
       - >
-        FabricId path parameter. The unique identifier
-        of the fabric site for which the multicast setting
-        is being requested. The identifier should be
-        in the format of a UUID. The 'fabricId' can
-        be obtained using the api /dna/intent/api/v1/sda/fabricSites.
+        FabricId path parameter. The unique identifier of the fabric site for which the multicast setting is
+        being requested. The identifier should be in the format of a UUID. The 'fabricId' can be obtained using
+        the api /dna/intent/api/v1/sda/fabricSites.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless GetSDAWirelessMulticast
-    description: Complete reference of the GetSDAWirelessMulticast
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless GetSDAWirelessMulticast
+    description: Complete reference of the GetSDAWirelessMulticast API.
     link: https://developer.cisco.com/docs/dna-center/#!get-sda-wireless-multicast
 notes:
   - SDK Method used are
@@ -57,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -66,7 +58,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_id_readiness_checks
-short_description: Resource module for Network Device
-  Images Id Readiness Checks
+short_description: Resource module for Network Device Images Id Readiness Checks
 description:
-  - Manage operation create of the resource Network
-    Device Images Id Readiness Checks. - > Triggers
-    an on-demand network device update readiness check,
-    where system-defined pre-checks will be performed.
-    Upon task completion, the task API response's `resultLocation`
-    attribute will contain the URL for fetching the
-    validation result.
+  - Manage operation create of the resource Network Device Images Id Readiness Checks. - > Triggers an on-demand network device
+    update readiness check, where system-defined pre-checks will be performed. Upon task completion, the task API response's
+    `resultLocation` attribute will contain the URL for fetching the validation result.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,13 +21,11 @@ options:
     description: Id path parameter. Network device identifier.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) TriggerUpdateReadinessForNetworkDevice
-    description: Complete reference of the TriggerUpdateReadinessForNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerUpdateReadinessForNetworkDevice
+    description: Complete reference of the TriggerUpdateReadinessForNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!trigger-update-readiness-for-network-device
 notes:
   - SDK Method used are
@@ -49,14 +42,14 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     id: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

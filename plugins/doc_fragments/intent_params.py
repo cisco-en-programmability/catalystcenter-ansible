@@ -19,7 +19,7 @@ options:
           - The Cisco Catalyst Center hostname.
         type: str
         required: true
-    catalystcenter_api_port:
+    catalystcenter_port:
         description:
           - The Cisco Catalyst Center port.
         type: str

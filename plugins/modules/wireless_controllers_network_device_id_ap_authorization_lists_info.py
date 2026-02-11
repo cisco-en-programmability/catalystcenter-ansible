@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_network_device_id_ap_authorization_lists_info
-short_description: Information module for Wireless Controllers
-  Network Device Id Ap Authorization Lists
+short_description: Information module for Wireless Controllers Network Device Id Ap Authorization Lists
 description:
-  - Get all Wireless Controllers Network Device Id Ap
-    Authorization Lists. - > This API allows the user
-    to get an AP Authorization List details configured
-    for the given provisioned network device Id. Obtain
-    the network device ID value by using the API GET
-    call '/dna/intent/api/v1/network-device/ip- address/${ipAddress}'.
+  - Get all Wireless Controllers Network Device Id Ap Authorization Lists. - > This API allows the user to get an AP Authorization
+    List details configured for the given provisioned network device Id. Obtain the network device ID value by using the API
+    GET call '/dna/intent/api/v1/network-device/ip- address/${ipAddress}'.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,17 +22,14 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Network Device
-        ID.
+      - NetworkDeviceId path parameter. Network Device ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAPAuthorizationListByNetworkDeviceId
-    description: Complete reference of the GetAPAuthorizationListByNetworkDeviceId
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListByNetworkDeviceId
+    description: Complete reference of the GetAPAuthorizationListByNetworkDeviceId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-list-by-network-device-id
 notes:
   - SDK Method used are
@@ -47,14 +40,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Controllers Network Device
-    Id Ap Authorization Lists
+- name: Get all Wireless Controllers Network Device Id Ap Authorization Lists
   cisco.catalystcenter.wireless_controllers_network_device_id_ap_authorization_lists_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -63,7 +55,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

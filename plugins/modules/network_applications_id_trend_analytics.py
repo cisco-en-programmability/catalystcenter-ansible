@@ -7,33 +7,22 @@
 DOCUMENTATION = r"""
 ---
 module: network_applications_id_trend_analytics
-short_description: Resource module for Network Applications
-  Id Trend Analytics
+short_description: Resource module for Network Applications Id Trend Analytics
 description:
-  - Manage operation create of the resource Network
-    Applications Id Trend Analytics. - > Retrieves the
-    trend analytics of applications experience data
-    to specific network application for the specified
-    time range. The data will be grouped based on the
-    given trend time interval. This API facilitates
-    obtaining consolidated insights into the performance
-    and status of the network applications over the
-    specified start and end time. If startTime and endTime
-    are not provided, the API defaults to the last 24
-    hours.`siteId` and `trendInterval` are mandatory.
-    `siteId` must be a site UUID of a building.For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    NetworkApplications-1.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Applications Id Trend Analytics. - > Retrieves the trend analytics of
+    applications experience data to specific network application for the specified time range. The data will be grouped based
+    on the given trend time interval. This API facilitates obtaining consolidated insights into the performance and status
+    of the network applications over the specified start and end time. If startTime and endTime are not provided, the API
+    defaults to the last 24 hours.`siteId` and `trendInterval` are mandatory. `siteId` must be a site UUID of a building.For
+    detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- NetworkApplications-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Network Applications Id Trend Analytics's
-      aggregateAttributes.
+    description: Network Applications Id Trend Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -51,8 +40,7 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Network Applications Id Trend Analytics's
-      filters.
+    description: Network Applications Id Trend Analytics's filters.
     elements: dict
     suboptions:
       key:
@@ -69,12 +57,10 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Id is the network
-      application name.
+    description: Id path parameter. Id is the network application name.
     type: str
   page:
-    description: Network Applications Id Trend Analytics's
-      page.
+    description: Network Applications Id Trend Analytics's page.
     suboptions:
       cursor:
         description: Cursor.
@@ -97,13 +83,11 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Applications
-      RetrievesTheTrendAnalyticsRelatedToSpecificNetworkApplication
-    description: Complete reference of the RetrievesTheTrendAnalyticsRelatedToSpecificNetworkApplication
-      API.
+  - name: Cisco DNA Center documentation for Applications RetrievesTheTrendAnalyticsRelatedToSpecificNetworkApplication
+    description: Complete reference of the RetrievesTheTrendAnalyticsRelatedToSpecificNetworkApplication API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-related-to-specific-network-application
 notes:
   - SDK Method used are
@@ -120,7 +104,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -146,7 +130,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

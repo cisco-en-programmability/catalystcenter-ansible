@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: event_subscription_info
 short_description: Information module for Event Subscription
 description:
-  - Get all Event Subscription. - > Gets the list of
-    Subscriptions's based on provided offset and limit.
-    Deprecated since Guardian release. Alternative GET
-    /intent/api/v1/event/subscription/rest.
+  - Get all Event Subscription.
+  - Gets the list of Subscriptions's based on provided offset and limit.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,21 +21,16 @@ options:
     type: dict
   eventIds:
     description:
-      - EventIds query parameter. List of subscriptions
-        related to the respective eventIds.
+      - EventIds query parameter. List of subscriptions related to the respective eventIds.
     type: str
   offset:
     description:
-      - Offset query parameter. The number of Subscriptions's
-        to offset in the resultset whose default value
-        0.
-    type: float
+      - Offset query parameter. The number of Subscriptions's to offset in the resultset whose default value 0.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of Subscriptions's
-        to limit in the resultset whose default value
-        10.
-    type: float
+      - Limit query parameter. The number of Subscriptions's to limit in the resultset whose default value 10.
+    type: int
   sortBy:
     description:
       - SortBy query parameter. SortBy field name.
@@ -47,13 +40,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetEventSubscriptions
-    description: Complete reference of the GetEventSubscriptions
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetEventSubscriptions
+    description: Complete reference of the GetEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!get-event-subscriptions
 notes:
   - SDK Method used are
@@ -70,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -83,7 +74,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

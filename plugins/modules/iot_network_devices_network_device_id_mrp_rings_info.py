@@ -7,21 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: iot_network_devices_network_device_id_mrp_rings_info
-short_description: Information module for Iot Network
-  Devices  Network Device Id Mrp Rings
+short_description: Information module for Iot Network Devices  Network Device Id Mrp Rings
 description:
-  - Get all Iot Network Devices  Network Device Id Mrp
-    Rings. - > This API returns the list of all the
-    MRP rings configured on the Network device when
-    Ring ID is not specified and returns the details
-    of a single MRP ring when Ring ID is specified based
-    on the given fields - networkDeviceId Network device
-    ID of the MRP ring member. The networkDeviceId is
-    the instanceUuid attribute in the response of API
-    - /dna/intent/api/v1/networkDevices and id ID of
-    the MRP ring. The id of the configured MRP Ring
-    can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings
-    .
+  - Get all Iot Network Devices  Network Device Id Mrp Rings. - > This API returns the list of all the MRP rings configured
+    on the Network device when Ring ID is not specified and returns the details of a single MRP ring when Ring ID is specified
+    based on the given fields - networkDeviceId Network device ID of the MRP ring member. The networkDeviceId is the instanceUuid
+    attribute in the response of API - /dna/intent/api/v1/networkDevices and id ID of the MRP ring. The id of the configured
+    MRP Ring can be retrieved using the API /dna/intent/api/v1/iot/networkDevices/${networkDeviceId}/mrpRings .
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -32,8 +24,7 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Network device
-        ID of the MRP ring member.
+      - NetworkDeviceId path parameter. Network device ID of the MRP ring member.
     type: str
   id:
     description:
@@ -41,23 +32,18 @@ options:
     type: float
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page.
-    type: float
+      - Limit query parameter. The number of records to show for this page.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Industrial
-      Configuration RetrievesTheListOfMRPRings
-    description: Complete reference of the RetrievesTheListOfMRPRings
-      API.
+  - name: Cisco DNA Center documentation for Industrial Configuration RetrievesTheListOfMRPRings
+    description: Complete reference of the RetrievesTheListOfMRPRings API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-mrp-rings
 notes:
   - SDK Method used are
@@ -68,14 +54,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Iot Network Devices  Network Device
-    Id Mrp Rings
-  cisco.catalystcenter.iot_network_devices__network_device_id_mrp_rings_info:
+- name: Get all Iot Network Devices  Network Device Id Mrp Rings
+  cisco.catalystcenter.iot_network_devices_network_device_id_mrp_rings_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -87,7 +72,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

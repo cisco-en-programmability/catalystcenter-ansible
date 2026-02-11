@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_port_channels
 short_description: Resource module for Sda Port Channels
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Port Channels.
+  - Manage operations create, update and delete of the resource Sda Port Channels.
   - Adds port channels based on user input.
   - Deletes a port channel based on id.
   - Deletes port channels based on user input.
@@ -21,94 +20,74 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   connectedDeviceType:
-    description: ConnectedDeviceType query parameter.
-      Connected device type of the port channel. The
-      allowed values are TRUNK, EXTENDED_NODE.
+    description: ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are TRUNK,
+      EXTENDED_NODE.
     type: str
   fabricId:
-    description: FabricId query parameter. ID of the
-      fabric the device is assigned to.
+    description: FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   id:
     description: Id path parameter. ID of the port channel.
     type: str
   networkDeviceId:
-    description: NetworkDeviceId query parameter. ID
-      of the network device.
+    description: NetworkDeviceId query parameter. ID of the network device.
     type: str
   payload:
     description: Sda Port Channels's payload.
     elements: dict
     suboptions:
       allowedVlanRanges:
-        description: Allowed VLAN of the port channel,
-          this option is only applicable to TRUNK connectedDeviceType.
-          (VLAN must be between 1 and 4094 (Ex 100,200,300-400)
-          or 'all'. In cases value not set when connectedDeviceType
-          is TRUNK, default value will be 'all').
+        description: Allowed VLAN of the port channel, this option is only applicable to TRUNK connectedDeviceType. (VLAN
+          must be between 1 and 4094 (Ex 100,200,300-400) or 'all'. In cases value not set when connectedDeviceType is TRUNK,
+          default value will be 'all').
         type: str
       connectedDeviceType:
-        description: Connected device type of the port
-          channel.
+        description: Connected device type of the port channel.
         type: str
       description:
         description: Description of the port channel.
         type: str
       fabricId:
-        description: ID of the fabric the device is
-          assigned to.
+        description: ID of the fabric the device is assigned to.
         type: str
       interfaceNames:
-        description: Interface names for this port channel
-          (Maximum 16 ports for LACP protocol, Maximum
-          8 ports for PAGP and ON protocol).
+        description: Interface names for this port channel (Maximum 16 ports for LACP protocol, Maximum 8 ports for PAGP and
+          ON protocol).
         elements: str
         type: list
       nativeVlanId:
-        description: Native VLAN of the port channel,
-          this option is only applicable to TRUNK connectedDeviceType.
-          (VLAN must be between 1 and 4094. In cases
-          value not set when connectedDeviceType is
-          TRUNK, default value will be 1).
+        description: Native VLAN of the port channel, this option is only applicable to TRUNK connectedDeviceType. (VLAN must
+          be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNK, default value will be 1).
         type: int
       networkDeviceId:
         description: ID of the network device.
         type: str
       protocol:
-        description: Protocol of the port channel (only
-          PAGP is allowed if connectedDeviceType is
-          EXTENDED_NODE).
+        description: Protocol of the port channel (only PAGP is allowed if connectedDeviceType is EXTENDED_NODE).
         type: str
     type: list
   portChannelIds:
-    description: PortChannelIds query parameter. IDs
-      of the port channels to be selectively deleted(Maximum
-      number of IDs this parameter could consume is
-      10).
+    description: PortChannelIds query parameter. IDs of the port channels to be selectively deleted(Maximum number of IDs
+      this parameter could consume is 10).
     type: str
   portChannelName:
-    description: PortChannelName query parameter. Name
-      of the port channel.
+    description: PortChannelName query parameter. Name of the port channel.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddPortChannels
-    description: Complete reference of the AddPortChannels
-      API.
+    description: Complete reference of the AddPortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!add-port-channels
   - name: Cisco DNA Center documentation for SDA DeletePortChannelById
-    description: Complete reference of the DeletePortChannelById
-      API.
+    description: Complete reference of the DeletePortChannelById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id
   - name: Cisco DNA Center documentation for SDA DeletePortChannels
-    description: Complete reference of the DeletePortChannels
-      API.
+    description: Complete reference of the DeletePortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-channels
   - name: Cisco DNA Center documentation for SDA UpdatePortChannels
-    description: Complete reference of the UpdatePortChannels
-      API.
+    description: Complete reference of the UpdatePortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!update-port-channels
 notes:
   - SDK Method used are
@@ -118,20 +97,34 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/sda/portChannels,
     delete /dna/intent/api/v1/sda/portChannels,
-    delete
-    /dna/intent/api/v1/sda/portChannels/{id},
+    delete /dna/intent/api/v1/sda/portChannels/{id},
     put /dna/intent/api/v1/sda/portChannels,
 """
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.catalystcenter.sda_port_channels:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    connectedDeviceType: string
+    fabricId: string
+    networkDeviceId: string
+    portChannelIds: string
+    portChannelName: string
 - name: Create
   cisco.catalystcenter.sda_port_channels:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -151,7 +144,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -167,28 +160,13 @@ EXAMPLES = r"""
         networkDeviceId: string
         portChannelName: string
         protocol: string
-- name: Delete all
-  cisco.catalystcenter.sda_port_channels:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    connectedDeviceType: string
-    fabricId: string
-    networkDeviceId: string
-    portChannelIds: string
-    portChannelName: string
 - name: Delete by id
   cisco.catalystcenter.sda_port_channels:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -196,7 +174,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

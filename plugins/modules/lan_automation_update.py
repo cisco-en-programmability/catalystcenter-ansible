@@ -7,22 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_update
-short_description: Resource module for Lan Automation
-  Update
+short_description: Resource module for Lan Automation Update
 description:
-  - Manage operation update of the resource Lan Automation
-    Update.
-  - Invoke this API to stop LAN Automation and Update
-    Loopback0 IP Address of Devices, discovered in the
-    current session.
+  - Manage operation update of the resource Lan Automation Update.
+  - Invoke this API to stop LAN Automation and Update Loopback0 IP Address of Devices, discovered in the current session.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. LAN Automation id
-      can be obtained from /dna/intent/api/v1/lan-automation/status.
+    description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.
     type: str
   payload:
     description: Lan Automation Update's payload.
@@ -32,18 +27,15 @@ options:
         description: Device Management IP Address.
         type: str
       newLoopback0IPAddress:
-        description: New Loopback0 IP Address from LAN
-          pool of Device Discovery Site.
+        description: New Loopback0 IP Address from LAN pool of Device Discovery Site.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      LANAutomationStopAndUpdateDevices
-    description: Complete reference of the LANAutomationStopAndUpdateDevices
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevices
+    description: Complete reference of the LANAutomationStopAndUpdateDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
   - SDK Method used are
@@ -60,7 +52,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     id: string
@@ -70,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

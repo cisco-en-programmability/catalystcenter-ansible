@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules
-short_description: Resource module for Endpoint Analytics
-  Profiling-Rules
+short_description: Resource module for Endpoint Analytics Profiling-Rules
 description:
-  - Manage operations create, update and delete of the
-    resource Endpoint Analytics Profiling-Rules.
+  - Manage operations create, update and delete of the resource Endpoint Analytics Profiling-Rules.
   - Creates profiling rule from the request body.
   - Deletes the profiling rule for the given 'ruleId'.
   - Updates the profiling rule for the given 'ruleId'.
@@ -21,101 +19,77 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   clusterId:
-    description: Unique identifier for ML cluster. Only
-      applicable for 'ML Rule'.
+    description: Unique identifier for ML cluster. Only applicable for 'ML Rule'.
     type: str
   conditionGroups:
-    description: Endpoint Analytics Profiling Rules's
-      conditionGroups.
+    description: Endpoint Analytics Profiling Rules's conditionGroups.
     suboptions:
       condition:
-        description: Endpoint Analytics Profiling Rules's
-          condition.
+        description: Endpoint Analytics Profiling Rules's condition.
         suboptions:
           attribute:
-            description: Endpoint Analytics Profiling
-              Rules's attribute.
+            description: Endpoint Analytics Profiling Rules's attribute.
             type: str
           attributeDictionary:
-            description: Endpoint Analytics Profiling
-              Rules's attributeDictionary.
+            description: Endpoint Analytics Profiling Rules's attributeDictionary.
             type: str
           operator:
-            description: Endpoint Analytics Profiling
-              Rules's operator.
+            description: Endpoint Analytics Profiling Rules's operator.
             type: str
           value:
-            description: Endpoint Analytics Profiling
-              Rules's value.
+            description: Endpoint Analytics Profiling Rules's value.
             type: str
         type: dict
       conditionGroup:
-        description: Endpoint Analytics Profiling Rules's
-          conditionGroup.
-        elements: dict
+        description: Endpoint Analytics Profiling Rules's conditionGroup.
+        elements: str
         type: list
       operator:
-        description: Endpoint Analytics Profiling Rules's
-          operator.
+        description: Endpoint Analytics Profiling Rules's operator.
         type: str
       type:
-        description: Endpoint Analytics Profiling Rules's
-          type.
+        description: Endpoint Analytics Profiling Rules's type.
         type: str
     type: dict
   isDeleted:
-    description: Flag to indicate whether the rule was
-      deleted.
+    description: Flag to indicate whether the rule was deleted.
     type: bool
   lastModifiedBy:
-    description: User that last modified the rule. It
-      is read-only, and is ignored if provided as part
-      of input request.
+    description: User that last modified the rule. It is read-only, and is ignored if provided as part of input request.
     type: str
   lastModifiedOn:
-    description: Timestamp (in epoch milliseconds) of
-      last modification. It is read-only, and is ignored
-      if provided as part of input request.
+    description: Timestamp (in epoch milliseconds) of last modification. It is read-only, and is ignored if provided as part
+      of input request.
     type: int
   pluginId:
-    description: Plugin for the rule. Only applicable
-      for 'Cisco Default' rules.
+    description: Plugin for the rule. Only applicable for 'Cisco Default' rules.
     type: str
   rejected:
-    description: Flag to indicate whether rule has been
-      rejected by user or not. Only applicable for 'ML
-      Rule'.
+    description: Flag to indicate whether rule has been rejected by user or not. Only applicable for 'ML Rule'.
     type: bool
   result:
-    description: Endpoint Analytics Profiling Rules's
-      result.
+    description: Endpoint Analytics Profiling Rules's result.
     suboptions:
       deviceType:
-        description: List of device types determined
-          by the current rule.
+        description: List of device types determined by the current rule.
         elements: str
         type: list
       hardwareManufacturer:
-        description: List of hardware manufacturers
-          determined by the current rule.
+        description: List of hardware manufacturers determined by the current rule.
         elements: str
         type: list
       hardwareModel:
-        description: List of hardware models determined
-          by the current rule.
+        description: List of hardware models determined by the current rule.
         elements: str
         type: list
       operatingSystem:
-        description: List of operating systems determined
-          by the current rule.
+        description: List of operating systems determined by the current rule.
         elements: str
         type: list
     type: dict
   ruleId:
-    description: Unique identifier for the rule. This
-      is normally generated by the system, and client
-      does not need to provide it for rules that need
-      to be newly created.
+    description: Unique identifier for the rule. This is normally generated by the system, and client does not need to provide
+      it for rules that need to be newly created.
     type: str
   ruleName:
     description: Human readable name for the rule.
@@ -133,13 +107,12 @@ options:
     description: Source priority for the rule.
     type: int
   usedAttributes:
-    description: List of attributes used in the rule.
-      Only applicable for 'Cisco Default' rules.
+    description: List of attributes used in the rule. Only applicable for 'Cisco Default' rules.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AiEndpointAnalytics.create_a_profiling_rule,
@@ -154,12 +127,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.endpoint_analytics_profiling-rules:
+  cisco.catalystcenter.endpoint_analytics_profiling_rules:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -171,50 +144,7 @@ EXAMPLES = r"""
         operator: string
         value: string
       conditionGroup:
-        - {}
-      operator: string
-      type: string
-    isDeleted: true
-    lastModifiedBy: string
-    lastModifiedOn: 0
-    pluginId: string
-    rejected: true
-    result:
-      deviceType:
         - string
-      hardwareManufacturer:
-        - string
-      hardwareModel:
-        - string
-      operatingSystem:
-        - string
-    ruleId: string
-    ruleName: string
-    rulePriority: 0
-    ruleType: string
-    ruleVersion: 0
-    sourcePriority: 0
-    usedAttributes:
-      - string
-- name: Update by id
-  cisco.catalystcenter.endpoint_analytics_profiling-rules:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    clusterId: string
-    conditionGroups:
-      condition:
-        attribute: string
-        attributeDictionary: string
-        operator: string
-        value: string
-      conditionGroup:
-        - {}
       operator: string
       type: string
     isDeleted: true
@@ -240,20 +170,63 @@ EXAMPLES = r"""
     usedAttributes:
       - string
 - name: Delete by id
-  cisco.catalystcenter.endpoint_analytics_profiling-rules:
+  cisco.catalystcenter.endpoint_analytics_profiling_rules:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     ruleId: string
+- name: Update by id
+  cisco.catalystcenter.endpoint_analytics_profiling_rules:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    clusterId: string
+    conditionGroups:
+      condition:
+        attribute: string
+        attributeDictionary: string
+        operator: string
+        value: string
+      conditionGroup:
+        - string
+      operator: string
+      type: string
+    isDeleted: true
+    lastModifiedBy: string
+    lastModifiedOn: 0
+    pluginId: string
+    rejected: true
+    result:
+      deviceType:
+        - string
+      hardwareManufacturer:
+        - string
+      hardwareModel:
+        - string
+      operatingSystem:
+        - string
+    ruleId: string
+    ruleName: string
+    rulePriority: 0
+    ruleType: string
+    ruleVersion: 0
+    sourcePriority: 0
+    usedAttributes:
+      - string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

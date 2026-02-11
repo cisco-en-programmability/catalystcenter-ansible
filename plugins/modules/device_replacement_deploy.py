@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: device_replacement_deploy
-short_description: Resource module for Device Replacement
-  Deploy
+short_description: Resource module for Device Replacement Deploy
 description:
-  - Manage operation create of the resource Device Replacement
-    Deploy. - > API to trigger RMA workflow that will
-    replace faulty device with replacement device with
-    same configuration and images.
+  - Manage operation create of the resource Device Replacement Deploy. - > API to trigger RMA workflow that will replace faulty
+    device with replacement device with same configuration and images.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,13 +23,11 @@ options:
     description: Replacement device serial number.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Replacement DeployDeviceReplacementWorkflow
-    description: Complete reference of the DeployDeviceReplacementWorkflow
-      API.
+  - name: Cisco DNA Center documentation for Device Replacement DeployDeviceReplacementWorkflow
+    description: Complete reference of the DeployDeviceReplacementWorkflow API.
     link: https://developer.cisco.com/docs/dna-center/#!deploy-device-replacement-workflow
 notes:
   - SDK Method used are
@@ -49,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     faultyDeviceSerialNumber: string
@@ -57,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

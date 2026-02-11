@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_custom_prompt
-short_description: Resource module for Network Device
-  Custom Prompt
+short_description: Resource module for Network Device Custom Prompt
 description:
-  - Manage operation create of the resource Network
-    Device Custom Prompt. - > Save custom prompt added
-    by user in Catalyst Center. API will always override
-    the existing prompts. User should provide all the
-    custom prompt in case of any update.
+  - Manage operation create of the resource Network Device Custom Prompt. - > Save custom prompt added by user in Catalyst
+    Center. API will always override the existing prompts. User should provide all the custom prompt in case of any update.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -27,13 +23,11 @@ options:
     description: Username for Custom Prompt.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System
-      Settings CustomPromptPOSTAPI
-    description: Complete reference of the CustomPromptPOSTAPI
-      API.
+  - name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPI
+    description: Complete reference of the CustomPromptPOSTAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi
 notes:
   - SDK Method used are
@@ -50,15 +44,16 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
     passwordPrompt: string
     usernamePrompt: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

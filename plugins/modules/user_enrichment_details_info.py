@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: user_enrichment_details_info
-short_description: Information module for User Enrichment
-  Details
+short_description: Information module for User Enrichment Details
 description:
-  - Get all User Enrichment Details. - > Enriches a
-    given network End User context a network user-id
-    or end user's device Mac Address with details about
-    the user and devices that the user is connected
-    to.
+  - Get all User Enrichment Details. - > Enriches a given network End User context a network user-id or end user's device
+    Mac Address with details about the user and devices that the user is connected to.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,12 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Users GetUserEnrichmentDetails
-    description: Complete reference of the GetUserEnrichmentDetails
-      API.
+    description: Complete reference of the GetUserEnrichmentDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
   - SDK Method used are
@@ -46,7 +41,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -54,7 +49,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict
@@ -81,7 +76,7 @@ dnac_response:
           "hostMac": "string",
           "hostIpV4": "string",
           "hostIpV6": [
-            {}
+            "string"
           ],
           "authType": {},
           "vlanId": "string",
@@ -92,7 +87,7 @@ dnac_response:
           "location": {},
           "clientConnection": "string",
           "connectedDevice": [
-            {}
+            "string"
           ],
           "issueCount": 0,
           "rssi": {},

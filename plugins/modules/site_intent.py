@@ -173,7 +173,7 @@ options:
                   afterward.
                 type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk == 2.4.5
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -194,11 +194,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
-    catalystcenter_log: "{{log}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: "{{catalystcenter_log}}"
     state: merged
     config:
       - site:
@@ -212,11 +212,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
-    catalystcenter_log: "{{log}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: "{{catalystcenter_log}}"
     state: merged
     config:
       - site:
@@ -233,11 +233,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
-    catalystcenter_log: "{{log}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: "{{catalystcenter_log}}"
     state: merged
     config:
       - site:
@@ -256,11 +256,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
-    catalystcenter_log: "{{log}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: "{{catalystcenter_log}}"
     state: merged
     config:
       - site:
@@ -278,11 +278,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
-    catalystcenter_log: "{{log}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: "{{catalystcenter_log}}"
     state: deleted
     config:
       - site:
@@ -366,7 +366,7 @@ response_4:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -1136,7 +1136,7 @@ class DnacSite(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate catalystcenter config for merged state
+        # Code to validate dnac config for merged state
         site_exist = self.have.get("site_exists")
         site_name = self.want.get("site_name")
 
@@ -1186,7 +1186,7 @@ class DnacSite(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate catalystcenter config for delete state
+        # Code to validate dnac config for delete state
         site_exist = self.have.get("site_exists")
 
         if not site_exist:
@@ -1294,17 +1294,18 @@ def main():
 
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
         "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

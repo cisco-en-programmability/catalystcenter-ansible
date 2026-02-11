@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_count_info
-short_description: Information module for Network Profiles
-  For Sites Site Assignments Count
+short_description: Information module for Network Profiles For Sites Site Assignments Count
 description:
-  - Get all Network Profiles For Sites Site Assignments
-    Count.
-  - Retrieves the count of sites that the given network
-    profile for sites is assigned to.
+  - Get all Network Profiles For Sites Site Assignments Count.
+  - Retrieves the count of sites that the given network profile for sites is assigned to.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,17 +22,15 @@ options:
   profileId:
     description:
       - >
-        ProfileId path parameter. The `id` of the network
-        profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+        ProfileId path parameter. The `id` of the network profile, retrievable from `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo
-    description: Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo
-      API.
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo
+    description: Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedTo API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to
 notes:
   - SDK Method used are
@@ -46,14 +41,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Profiles For Sites Site Assignments
-    Count
+- name: Get all Network Profiles For Sites Site Assignments Count
   cisco.catalystcenter.network_profiles_for_sites_site_assignments_count_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -62,7 +56,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

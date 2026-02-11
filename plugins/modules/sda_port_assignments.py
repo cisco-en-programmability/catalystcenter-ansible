@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_port_assignments
 short_description: Resource module for Sda Port Assignments
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Port Assignments.
+  - Manage operations create, update and delete of the resource Sda Port Assignments.
   - Adds port assignments based on user input.
   - Deletes a port assignment based on id.
   - Deletes port assignments based on user input.
@@ -21,101 +20,80 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   dataVlanName:
-    description: DataVlanName query parameter. Data
-      VLAN name of the port assignment.
+    description: DataVlanName query parameter. Data VLAN name of the port assignment.
     type: str
   fabricId:
-    description: FabricId query parameter. ID of the
-      fabric the device is assigned to.
+    description: FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   id:
     description: Id path parameter. ID of the port assignment.
     type: str
   interfaceName:
-    description: InterfaceName query parameter. Interface
-      name of the port assignment.
+    description: InterfaceName query parameter. Interface name of the port assignment.
     type: str
   networkDeviceId:
-    description: NetworkDeviceId query parameter. Network
-      device ID of the port assignment.
+    description: NetworkDeviceId query parameter. Network device ID of the port assignment.
     type: str
   payload:
     description: Sda Port Assignments's payload.
     elements: dict
     suboptions:
       allowedVlanRanges:
-        description: Allowed VLAN of the port assignment,
-          this option is only applicable to TRUNKING_DEVICE
-          connectedDeviceType. (VLAN must be between
-          1 and 4094 (Ex 100,200,300-400) or 'all'.
-          In cases value not set when connectedDeviceType
-          is TRUNKING_DEVICE, default value will be
-          'all').
+        description: Allowed VLAN of the port assignment, this option is only applicable to TRUNKING_DEVICE connectedDeviceType.
+          (VLAN must be between 1 and 4094 (Ex 100,200,300-400) or 'all'. In cases value not set when connectedDeviceType
+          is TRUNKING_DEVICE, default value will be 'all').
         type: str
       authenticateTemplateName:
-        description: Authenticate template name of the
-          port assignment.
+        description: Authenticate template name of the port assignment.
         type: str
       connectedDeviceType:
-        description: Connected device type of the port
-          assignment.
+        description: Connected device type of the port assignment.
         type: str
       dataVlanName:
         description: Data VLAN name of the port assignment.
         type: str
       fabricId:
-        description: ID of the fabric the device is
-          assigned to.
+        description: ID of the fabric the device is assigned to.
         type: str
       interfaceDescription:
-        description: Interface description of the port
-          assignment.
+        description: Interface description of the port assignment.
         type: str
       interfaceName:
         description: Interface name of the port assignment.
         type: str
       nativeVlanId:
-        description: Integer example 1 Native VLAN of
-          the port assignment, this option is only applicable
-          to TRUNKING_DEVICE connectedDeviceType. (VLAN
-          must be between 1 and 4094. In cases value
-          not set when connectedDeviceType is TRUNKING_DEVICE,
+        description: Integer example 1 Native VLAN of the port assignment, this option is only applicable to TRUNKING_DEVICE
+          connectedDeviceType. (VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is TRUNKING_DEVICE,
           default value will be 1).
         type: int
       networkDeviceId:
         description: Network device ID of the port assignment.
         type: str
       securityGroupName:
-        description: Security group name of the port
-          assignment.
+        description: Security group name of the port assignment.
         type: str
       voiceVlanName:
         description: Voice VLAN name of the port assignment.
         type: str
     type: list
   voiceVlanName:
-    description: VoiceVlanName query parameter. Voice
-      VLAN name of the port assignment.
+    description: VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddPortAssignments
-    description: Complete reference of the AddPortAssignments
-      API.
+    description: Complete reference of the AddPortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!add-port-assignments
   - name: Cisco DNA Center documentation for SDA DeletePortAssignmentById
-    description: Complete reference of the DeletePortAssignmentById
-      API.
+    description: Complete reference of the DeletePortAssignmentById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id
   - name: Cisco DNA Center documentation for SDA DeletePortAssignments
-    description: Complete reference of the DeletePortAssignments
-      API.
+    description: Complete reference of the DeletePortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignments
   - name: Cisco DNA Center documentation for SDA UpdatePortAssignments
-    description: Complete reference of the UpdatePortAssignments
-      API.
+    description: Complete reference of the UpdatePortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!update-port-assignments
 notes:
   - SDK Method used are
@@ -125,21 +103,34 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/sda/portAssignments,
     delete /dna/intent/api/v1/sda/portAssignments,
-    delete
-    /dna/intent/api/v1/sda/portAssignments/{id},
-    put
-    /dna/intent/api/v1/sda/portAssignments,
+    delete /dna/intent/api/v1/sda/portAssignments/{id},
+    put /dna/intent/api/v1/sda/portAssignments,
 """
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.catalystcenter.sda_port_assignments:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    dataVlanName: string
+    fabricId: string
+    interfaceName: string
+    networkDeviceId: string
+    voiceVlanName: string
 - name: Create
   cisco.catalystcenter.sda_port_assignments:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -161,7 +152,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -178,28 +169,13 @@ EXAMPLES = r"""
         networkDeviceId: string
         scalableGroupName: string
         voiceVlanName: string
-- name: Delete all
-  cisco.catalystcenter.sda_port_assignments:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    dataVlanName: string
-    fabricId: string
-    interfaceName: string
-    networkDeviceId: string
-    voiceVlanName: string
 - name: Delete by id
   cisco.catalystcenter.sda_port_assignments:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -207,7 +183,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

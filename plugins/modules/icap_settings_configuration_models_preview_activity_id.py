@@ -7,34 +7,25 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_configuration_models_preview_activity_id
-short_description: Resource module for Icap Settings
-  Configuration Models Preview Activity Id
+short_description: Resource module for Icap Settings Configuration Models Preview Activity Id
 description:
-  - Manage operation delete of the resource Icap Settings
-    Configuration Models Preview Activity Id. - > Discard
-    the ICAP configuration intent by activity ID, which
-    was returned in TaskResponse's property "taskId"
-    at the beginning of the preview-approve workflow.
-    Discarding the intent can only be applied to intent
-    activities that have not been deployed.
+  - Manage operation delete of the resource Icap Settings Configuration Models Preview Activity Id. - > Discard the ICAP configuration
+    intent by activity ID, which was returned in TaskResponse's property "taskId" at the beginning of the preview-approve
+    workflow. Discarding the intent can only be applied to intent activities that have not been deployed.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   previewActivityId:
-    description: PreviewActivityId path parameter. Activity
-      from the POST /deviceConfigugrationModels task
-      response.
+    description: PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      DiscardsTheICAPConfigurationIntentByActivityID
-    description: Complete reference of the DiscardsTheICAPConfigurationIntentByActivityID
-      API.
+  - name: Cisco DNA Center documentation for Sensors DiscardsTheICAPConfigurationIntentByActivityID
+    description: Complete reference of the DiscardsTheICAPConfigurationIntentByActivityID API.
     link: https://developer.cisco.com/docs/dna-center/#!discards-the-icap-configuration-intent-by-activity-id
 notes:
   - SDK Method used are
@@ -51,14 +42,14 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     previewActivityId: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

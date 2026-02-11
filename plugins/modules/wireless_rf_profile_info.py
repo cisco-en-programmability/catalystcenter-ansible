@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_rf_profile_info
-short_description: Information module for Wireless Rf
-  Profile
+short_description: Information module for Wireless Rf Profile
 description:
   - Get all Wireless Rf Profile.
   - Retrieve all RF profiles.
@@ -22,17 +21,14 @@ options:
     type: dict
   rf_profile_name:
     description:
-      - Rf-profile-name query parameter. RF Profile
-        Name.
+      - Rf-profile-name query parameter. RF Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      RetrieveRFProfiles
-    description: Complete reference of the RetrieveRFProfiles
-      API.
+  - name: Cisco DNA Center documentation for Wireless RetrieveRFProfiles
+    description: Complete reference of the RetrieveRFProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are
@@ -49,7 +45,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -58,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_provision_device_update
-short_description: Resource module for Wireless Provision
-  Device Update
+short_description: Resource module for Wireless Provision Device Update
 description:
-  - Manage operation update of the resource Wireless
-    Provision Device Update.
+  - Manage operation update of the resource Wireless Provision Device Update.
   - Updates wireless provisioning.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -22,57 +20,46 @@ options:
     description: Additional headers.
     type: dict
   payload:
-    description: Wireless Provision Device Update's
-      payload.
+    description: Wireless Provision Device Update's payload.
     elements: dict
     suboptions:
       deviceName:
         description: Controller Name.
         type: str
       dynamicInterfaces:
-        description: Wireless Provision Device Update's
-          dynamicInterfaces.
+        description: Wireless Provision Device Update's dynamicInterfaces.
         elements: dict
         suboptions:
           interfaceGateway:
-            description: Interface Gateway. Required
-              for AireOS.
+            description: Interface Gateway. Required for AireOS.
             type: str
           interfaceIPAddress:
-            description: Interface IP Address. Required
-              for AireOS.
+            description: Interface IP Address. Required for AireOS.
             type: str
           interfaceName:
-            description: Interface Name. Required for
-              AireOS and EWLC.
+            description: Interface Name. Required for AireOS and EWLC.
             type: str
           interfaceNetmaskInCIDR:
-            description: Interface Netmask In CIDR.
-              Required for AireOS.
+            description: Interface Netmask In CIDR. Required for AireOS.
             type: int
           lagOrPortNumber:
-            description: Lag Or Port Number. Required
-              for AireOS.
+            description: Lag Or Port Number. Required for AireOS.
             type: int
           vlanId:
-            description: VLAN ID. Required for AireOS
-              and EWLC.
+            description: VLAN ID. Required for AireOS and EWLC.
             type: int
         type: list
       managedAPLocations:
-        description: List of managed AP locations (Site
-          Hierarchies).
+        description: List of managed AP locations (Site Hierarchies).
         elements: str
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      ProvisionUpdate
-    description: Complete reference of the ProvisionUpdate
-      API.
+  - name: Cisco DNA Center documentation for Wireless ProvisionUpdate
+    description: Complete reference of the ProvisionUpdate API.
     link: https://developer.cisco.com/docs/dna-center/#!provision-update
 notes:
   - SDK Method used are
@@ -89,7 +76,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: '{{my_headers | from_json}}'
@@ -107,7 +94,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: license_usage_details_info
-short_description: Information module for License Usage
-  Details
+short_description: Information module for License Usage Details
 description:
   - Get License Usage Details by name.
-  - Get count of purchased and in use Cisco DNA and
-    Network licenses.
+  - Get count of purchased and in use Cisco DNA and Network licenses.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,29 +21,24 @@ options:
     type: dict
   smart_account_id:
     description:
-      - Smart_account_id path parameter. Id of smart
-        account.
+      - Smart_account_id path parameter. Id of smart account.
     type: str
   virtual_account_name:
     description:
       - >
-        Virtual_account_name path parameter. Name of
-        virtual account. Putting "All" will give license
-        term detail for all virtual accounts.
+        Virtual_account_name path parameter. Name of virtual account. Putting "All" will give license term
+        detail for all virtual accounts.
     type: str
   device_type:
     description:
-      - Device_type query parameter. Type of device
-        like router, switch, wireless or ise.
+      - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses
-      LicenseUsageDetails
-    description: Complete reference of the LicenseUsageDetails
-      API.
+  - name: Cisco DNA Center documentation for Licenses LicenseUsageDetails
+    description: Complete reference of the LicenseUsageDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are
@@ -62,7 +55,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -73,7 +66,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

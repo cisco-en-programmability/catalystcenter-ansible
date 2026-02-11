@@ -10,9 +10,7 @@ module: site_info
 short_description: Information module for Site
 description:
   - Get all Site.
-  - Get sites by site-name-hierarchy or siteId or type.
-    List all sites if these parameters are not given
-    as an input.
+  - Get sites by site-name-hierarchy or siteId or type. List all sites if these parameters are not given as an input.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,8 +21,7 @@ options:
     type: dict
   name:
     description:
-      - Name query parameter. Site name hierarchy (E.g
-        Global/USA/CA).
+      - Name query parameter. Site name hierarchy (E.g Global/USA/CA).
     type: str
   siteId:
     description:
@@ -32,22 +29,19 @@ options:
     type: str
   type:
     description:
-      - Type query parameter. Site type (Ex area, building,
-        floor).
+      - Type query parameter. Site type (Ex area, building, floor).
     type: str
   offset:
     description:
-      - Offset query parameter. Offset/starting index
-        for pagination. Indexed from 1.
+      - Offset query parameter. Offset/starting index for pagination. Indexed from 1.
     type: int
   limit:
     description:
-      - Limit query parameter. Number of sites to be
-        listed.
+      - Limit query parameter. Number of sites to be listed.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSite
     description: Complete reference of the GetSite API.
@@ -67,7 +61,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -80,7 +74,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

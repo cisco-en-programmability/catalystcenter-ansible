@@ -9,8 +9,7 @@ DOCUMENTATION = r"""
 module: sda_multicast
 short_description: Resource module for Sda Multicast
 description:
-  - Manage operations create and delete of the resource
-    Sda Multicast.
+  - Manage operations create and delete of the resource Sda Multicast.
   - Add multicast in SDA fabric.
   - Delete multicast from SDA fabric.
 version_added: '3.1.0'
@@ -29,50 +28,42 @@ options:
     elements: dict
     suboptions:
       externalRpIpAddress:
-        description: ExternalRpIpAddress, required if
-          multicastType is asm_with_external_rp.
+        description: ExternalRpIpAddress, required if multicastType is asm_with_external_rp.
         type: str
       internalRpIpAddress:
-        description: InternalRpIpAddress, required if
-          multicastType is asm_with_internal_rp.
+        description: InternalRpIpAddress, required if multicastType is asm_with_internal_rp.
         elements: str
         type: list
       ipPoolName:
-        description: Ip Pool Name, that is reserved
-          to Fabric Site.
+        description: Ip Pool Name, that is reserved to Fabric Site.
         type: str
       ssmInfo:
         description: Sda Multicast's ssmInfo.
         elements: dict
         suboptions:
           ssmGroupRange:
-            description: Valid SSM group range ip address(e.g.,
-              230.0.0.0).
+            description: Valid SSM group range ip address(e.g., 230.0.0.0).
             type: str
           ssmWildcardMask:
-            description: Valid SSM Wildcard Mask ip
-              address(e.g.,0.255.255.255).
+            description: Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
             type: str
         type: list
       virtualNetworkName:
-        description: Virtual Network Name, that is associated
-          to Fabric Site.
+        description: Virtual Network Name, that is associated to Fabric Site.
         type: str
     type: list
   siteNameHierarchy:
-    description: Full path of sda Fabric Site.
+    description: SiteNameHierarchy query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddMulticastInSDAFabric
-    description: Complete reference of the AddMulticastInSDAFabric
-      API.
+    description: Complete reference of the AddMulticastInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-multicast-in-sda-fabric
   - name: Cisco DNA Center documentation for SDA DeleteMulticastFromSDAFabric
-    description: Complete reference of the DeleteMulticastFromSDAFabric
-      API.
+    description: Complete reference of the DeleteMulticastFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-from-sda-fabric
 notes:
   - SDK Method used are
@@ -85,13 +76,24 @@ notes:
 
 EXAMPLES = r"""
 ---
+- name: Delete all
+  cisco.catalystcenter.sda_multicast:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    siteNameHierarchy: string
 - name: Create
   cisco.catalystcenter.sda_multicast:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -107,21 +109,10 @@ EXAMPLES = r"""
             ssmWildcardMask: string
         virtualNetworkName: string
     siteNameHierarchy: string
-- name: Delete all
-  cisco.catalystcenter.sda_multicast:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    siteNameHierarchy: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
