@@ -2170,7 +2170,7 @@ class UserandRole(CatalystCenterBase):
                 return {"error_message": error_message}
 
         error_message = "The specified version '{0}' does not have the 'add_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version")
+            self.payload.get("catalystcenter_version")
         )
         return {"error_message": error_message}
 
@@ -3536,7 +3536,7 @@ class UserandRole(CatalystCenterBase):
                 return {"error_message": error_message}
 
         error_message = "The specified version '{0}' does not have the 'update_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version")
+            self.payload.get("catalystcenter_version")
         )
         return {"error_message": error_message}
 
@@ -4015,7 +4015,7 @@ class UserandRole(CatalystCenterBase):
 
         self.status = "failed"
         self.msg = "The specified version '{0}' does not have the 'delete_user_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version")
+            self.payload.get("catalystcenter_version")
         )
         self.log(self.msg, "ERROR")
         self.check_return_status()
@@ -4068,7 +4068,7 @@ class UserandRole(CatalystCenterBase):
 
         self.status = "failed"
         self.msg = "The specified version '{0}' does not have the 'delete_role_api' functionality. Supported version(s) from '2.3.7.6' onwards.".format(
-            self.payload.get("dnac_version")
+            self.payload.get("catalystcenter_version")
         )
         self.log(self.msg, "ERROR")
         self.check_return_status()
@@ -4436,7 +4436,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},

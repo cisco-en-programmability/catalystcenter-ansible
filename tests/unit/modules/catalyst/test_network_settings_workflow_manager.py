@@ -503,7 +503,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -528,7 +528,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -553,7 +553,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -579,7 +579,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -604,7 +604,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -629,7 +629,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -654,7 +654,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -679,7 +679,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -704,7 +704,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -729,7 +729,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -754,7 +754,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -779,7 +779,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -804,7 +804,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -829,7 +829,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -854,7 +854,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -879,7 +879,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -904,7 +904,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -929,7 +929,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -954,7 +954,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -978,7 +978,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -1003,7 +1003,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -1029,7 +1029,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -1056,7 +1056,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -1081,7 +1081,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -1132,7 +1132,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         """
         Test case for network settings workflow manager when creating a reserve subpool.
 
-        This test case checks the behavior of the network settings workflow manager when creating a new reserve subpool in the specified DNAC.
+        This test case checks the behavior of the network settings workflow manager when creating a new reserve subpool in the specified Catalyst Center.
         """
         set_module_args(
             dict(

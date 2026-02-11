@@ -3779,7 +3779,7 @@ class DeviceCredential(CatalystCenterBase):
             else:
                 self.msg = (
                     "Cisco Catalyst Center version '{0}' doesn't support apply credentials to site feature.".format(
-                        self.payload.get("dnac_version")
+                        self.payload.get("catalystcenter_version")
                     ),
                     "ERROR",
                 )
@@ -4149,7 +4149,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},

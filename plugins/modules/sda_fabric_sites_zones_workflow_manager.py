@@ -2156,7 +2156,7 @@ class FabricSitesZones(CatalystCenterBase):
         Returns:
             self (object): Returns the instance of the class to allow method chaining.
         Description:
-            This function applies a pending fabric event to a specific site within Cisco DNA Center. It constructs a payload
+            This function applies a pending fabric event to a specific site within Cisco Catalyst Center. It constructs a payload
             containing the `fabricId` and `eventId`, then initiates the API call to apply the event.
             The function logs the payload details and checks for the task ID to confirm the event application process
             initiation. If the task ID retrieval fails, it logs an error and marks the operation as failed. Upon successfully
@@ -2891,7 +2891,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},

@@ -2870,7 +2870,7 @@ class Provision(CatalystCenterBase):
 
     def get_device_type(self):
         """
-        Classifies devices as 'wired' or 'wireless' based on their family type from the Cisco DNA Center API.
+        Classifies devices as 'wired' or 'wireless' based on their family type from the Cisco Catalyst Center API.
 
         This function queries each device in `validated_config` to determine whether it is a wired or wireless device.
         The classification is stored in `self.device_dict`.
@@ -4745,7 +4745,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},

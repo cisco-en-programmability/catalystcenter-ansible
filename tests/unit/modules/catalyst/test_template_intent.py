@@ -83,7 +83,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         """
         Test case for template intent when creating a template.
 
-        This test case checks the behavior of the template intent when creating a new template in the specified DNAC.
+        This test case checks the behavior of the template intent when creating a new template in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -107,7 +107,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         """
         Test case for template intent when no update is needed.
 
-        This test case checks the behavior of the template intent when an update is not required for the specified template in the DNAC.
+        This test case checks the behavior of the template intent when an update is not required for the specified template in Catalyst Center.
         """
 
         set_module_args(
@@ -131,7 +131,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         """
         Test case for template intent when an update is needed.
 
-        This test case checks the behavior of the template intent when an update is required for the specified template in the DNAC.
+        This test case checks the behavior of the template intent when an update is required for the specified template in Catalyst Center.
         """
 
         set_module_args(
@@ -155,7 +155,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         """
         Test case for template intent when the project is not found.
 
-        This test case checks the behavior of the template intent when the specified project is not found in the DNAC.
+        This test case checks the behavior of the template intent when the specified project is not found in Catalyst Center.
         """
 
         set_module_args(
@@ -179,7 +179,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         """
         Test case for template intent when trying to delete a non-existing template.
 
-        This test case checks the behavior of the template intent when trying to delete a template that does not exist in the DNAC.
+        This test case checks the behavior of the template intent when trying to delete a template that does not exist in Catalyst Center.
         """
 
         set_module_args(
@@ -203,7 +203,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         """
         Test case for template intent when deleting a template.
 
-        This test case checks the behavior of the template intent when deleting an existing template in the DNAC.
+        This test case checks the behavior of the template intent when deleting an existing template in Catalyst Center.
         """
 
         set_module_args(

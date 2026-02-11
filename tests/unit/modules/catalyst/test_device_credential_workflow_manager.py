@@ -200,7 +200,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when creating a device credential.
 
-        This test case checks the behavior of the device credential workflow manager when creating a new device credentials in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when creating a new device credentials in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -224,7 +224,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when deleting a device credential.
 
-        This test case checks the behavior of the device credential workflow manager when deleting a device credentials in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when deleting a device credentials in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -249,7 +249,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when assigning a device credential to site in catalystcenter_version="2.3.7.6".
 
-        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -273,7 +273,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when assigning a device credential to site in catalystcenter_version="2.3.5.3".
 
-        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -299,7 +299,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
 
         This test case checks the behavior of the device credential workflow manager when applying a device credential to site devices
 
-        where sync is already applied in the specified DNAC.
+        where sync is already applied in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -323,7 +323,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when updating a device credential.
 
-        This test case checks the behavior of the device credential workflow manager when updating a new device credentials in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when updating a new device credentials in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -350,7 +350,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
 
         This test case checks the behavior of the device credential workflow manager when applying a device credential
 
-        to site devices in the specified DNAC.
+        to site devices in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -374,7 +374,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when state is invalid.
 
-        This test case checks the behavior of the device credential workflow manager when state is invalid for the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when state is invalid for the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -398,7 +398,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when exception occured during sync credential.
 
-        This test case checks the behavior of the device credential workflow manager, when exception occured during sync credential in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager, when exception occured during sync credential in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -422,7 +422,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when provided site is invalid.
 
-        This test case checks the behavior of the device credential workflow manager, when provided site is invalid in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager, when provided site is invalid in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -443,7 +443,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when provided cli is invalid.
 
-        This test case checks the behavior of the device credential workflow manager when when provided cli is invalid in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when when provided cli is invalid in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -467,7 +467,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when provided site response is invalid.
 
-        This test case checks the behavior of the device credential workflow manager when provided site response is invalid in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when provided site response is invalid in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -492,7 +492,7 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when provided site response is invalid.
 
-        This test case checks the behavior of the device credential workflow manager when provided site response is invalid in the specified DNAC.
+        This test case checks the behavior of the device credential workflow manager when provided site response is invalid in the specified Catalyst Center.
         """
         set_module_args(
             dict(

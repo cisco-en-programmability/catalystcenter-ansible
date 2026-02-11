@@ -157,7 +157,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_workflow_manager_updation(self):
         """
-        Test case for updating Assurance Issue Settings in Cisco DNA Center.
+        Test case for updating Assurance Issue Settings in Cisco Catalyst Center.
         Verifies that the workflow manager correctly updates user-defined issue settings
         when a new configuration is applied.
         """
@@ -184,7 +184,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_workflow_manager_creation(self):
         """
-        Test case for creating Assurance Issue Settings in Cisco DNA Center.
+        Test case for creating Assurance Issue Settings in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates user-defined issue settings
         when a new configuration is applied.
         """
@@ -211,7 +211,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_workflow_manager_deletion(self):
         """
-        Test case for deleting Assurance Issue Settings in Cisco DNA Center.
+        Test case for deleting Assurance Issue Settings in Cisco Catalyst Center.
         Verifies that the workflow manager correctly deletes user-defined issue settings
         when the specified configuration is applied.
         """
@@ -238,7 +238,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         """
         Test case for updating system issues in Assurance Issue Settings.
         Verifies that the workflow manager correctly updates system-defined issues
-        when the specified configuration is applied in Cisco DNA Center.
+        when the specified configuration is applied in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -263,7 +263,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         """
         Test case for executing commands in Assurance Issue Settings.
         Verifies that the workflow manager correctly processes and executes
-        commands related to assurance issues in Cisco DNA Center.
+        commands related to assurance issues in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -288,7 +288,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         """
         Test case for handling no data scenario in Assurance Issue Settings.
         Verifies that the workflow manager correctly identifies and reports
-        the absence of data when processing assurance issues in Cisco DNA Center.
+        the absence of data when processing assurance issues in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -313,7 +313,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         """
         Test case for verifying issue resolution in Assurance Issue Settings.
         Ensures that the workflow manager correctly processes and confirms
-        the resolution of a specified assurance issue in Cisco DNA Center.
+        the resolution of a specified assurance issue in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -338,7 +338,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         """
         Test case for ignoring an assurance issue in the workflow manager.
         Ensures that the specified assurance issue is correctly processed
-        and ignored in Cisco DNA Center.
+        and ignored in Cisco Catalyst Center.
         """
         set_module_args(
             dict(

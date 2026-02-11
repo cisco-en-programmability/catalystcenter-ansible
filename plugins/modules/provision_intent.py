@@ -465,14 +465,14 @@ class Dnacprovision(CatalystCenterBase):
         """
         Add to provision database
         Args:
-            self: An instance of a class used for interacting with Cisco DNA Center.
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
             object: An instance of the class with updated results and status
             based on the processing of differences.
         Description:
             The function processes the differences and, depending on the
             changes required, it may add, update,or resynchronize devices in
-            Cisco DNA Center. The updated results and status are stored in the
+            Cisco Catalyst Center. The updated results and status are stored in the
             class instance for further use.
         """
 
@@ -538,12 +538,12 @@ class Dnacprovision(CatalystCenterBase):
         """
         Delete from provision database
         Args:
-            self: An instance of a class used for interacting with Cisco DNA Center
+            self: An instance of a class used for interacting with Cisco Catalyst Center
         Returns:
             self: An instance of the class with updated results and status based on
             the deletion operation.
         Description:
-            This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
+            This function is responsible for removing devices from the Cisco Catalyst Center PnP GUI and
             raise Exception if any error occured.
         """
 
@@ -617,7 +617,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},

@@ -30,7 +30,7 @@ author:
 options:
   config_verify:
     description: |
-      Set to `true` to enable configuration verification on Cisco DNA Center after applying
+      Set to `true` to enable configuration verification on Cisco Catalyst Center after applying
       the playbook configuration. This ensures that the system validates the configuration
       state after the change is applied.
     type: bool
@@ -1685,7 +1685,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
