@@ -247,9 +247,12 @@ class TestDnacCredentialWorkflow(TestDnacModule):
 
     def test_device_credentials_workflow_manager_assign_cred_1(self):
         """
-        Test case for device credential workflow manager when assigning a device credential to site in catalystcenter_version="2.3.7.6".
+        Test case for device credential workflow manager when assigning a device
+        credential to site in catalystcenter_version="2.3.7.6".
 
-        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site in the specified Catalyst Center.
+        This test case checks the behavior of the device credential workflow
+        manager when assigning a device credential to site in the specified
+        Catalyst Center.
         """
         set_module_args(
             dict(
@@ -273,7 +276,9 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when assigning a device credential to site in catalystcenter_version="2.3.5.3".
 
-        This test case checks the behavior of the device credential workflow manager when assigning a device credential to site in the specified Catalyst Center.
+        This test case checks the behavior of the device credential workflow
+        manager when assigning a device credential to site in the specified
+        Catalyst Center.
         """
         set_module_args(
             dict(
@@ -398,7 +403,9 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         """
         Test case for device credential workflow manager when exception occured during sync credential.
 
-        This test case checks the behavior of the device credential workflow manager, when exception occured during sync credential in the specified Catalyst Center.
+        This test case checks the behavior of the device credential workflow manager,
+        when exception occured during sync credential in the specified
+        Catalyst Center.
         """
         set_module_args(
             dict(
