@@ -7,7 +7,7 @@ on:
 
 env:
   NAMESPACE: cisco
-  COLLECTION_NAME: dnac
+  COLLECTION_NAME: catalystcenter
 
 jobs:
   Unittests:
@@ -36,7 +36,7 @@ jobs:
           ansible-galaxy collection install -f ansible.netcommon -p $ANSIBLE_COLLECTIONS_PATH
 
           ansible-galaxy collection build
-          ansible-galaxy collection install -f cisco-dnac* -p $ANSIBLE_COLLECTIONS_PATH
+          ansible-galaxy collection install -f cisco-catalystcenter* -p $ANSIBLE_COLLECTIONS_PATH
 
       - name: Run tests
         shell: bash
@@ -58,7 +58,7 @@ jobs:
           failed=0
           failed_count=0
           while IFS= read -r -d $'\0' file; do
-            unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+            unittest_file="tests/unit/modules/catalyst/test_$(basename "$file")"
             echo "::group::$unittest_file"
             if [ -f "$unittest_file" ]; then
               echo "Running unittest for: $unittest_file"
