@@ -35,7 +35,7 @@ author:
 options:
   catalystcenter_api_task_timeout:
     description: The maximum time to wait for a task
-      to complete on Cisco DNA Center for LAN Automation.
+      to complete on Cisco Catalyst Center for LAN Automation.
     type: int
     default: 604800
   catalystcenter_task_poll_interval:
@@ -2193,7 +2193,7 @@ class LanAutomation(CatalystCenterBase):
 
             - Logs are generated at DEBUG level for every step.
             - If a device cannot be found using the provided identifier, the method calls `fail_and_exit`.
-            - Internally, it uses `get_device_ip_by_device_identifier` to query Cisco DNA Center.
+            - Internally, it uses `get_device_ip_by_device_identifier` to query Cisco Catalyst Center.
         """
         self.log(
             f"Starting device IP resolution for {device_type} device using available identifiers",
@@ -6826,7 +6826,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},

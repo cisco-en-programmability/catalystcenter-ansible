@@ -1418,7 +1418,7 @@ class Swim(CatalystCenterBase):
         Retrieve the unique image ID from Cisco.com based on the provided image name.
 
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco DNA Center.
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             cco_image_name (str): The name of the software image to search for on Cisco.com.
 
         Returns:
@@ -2262,7 +2262,7 @@ class Swim(CatalystCenterBase):
         else:
             self.status = "failed"
             self.msg = "This version : '{0}' has no 'get_device_family_identifiers' functionality ".format(
-                self.payload.get("dnac_version")
+                self.payload.get("catalystcenter_version")
             )
             self.result["response"] = self.msg
             self.log(self.msg, "ERROR")
@@ -4700,7 +4700,7 @@ class Swim(CatalystCenterBase):
         """
         Check the compliance status of a device's image.
         Parameters:
-            self (object): An instance of the class interacting with Cisco DNA Center.
+            self (object): An instance of the class interacting with Cisco Catalyst Center.
             device_uuid (str): The unique identifier of the device to check compliance for.
             image_name (str): The expected image name for compliance verification.
         Returns:
@@ -4708,7 +4708,7 @@ class Swim(CatalystCenterBase):
                 - device_ip (str or None): The IP address of the non-compliant device if it is not compliant, otherwise None.
                 - device_id (str or None): The device UUID if it is non-compliant, otherwise None.
         Description:
-            This function queries Cisco DNA Center for the compliance status of a given device's software image.
+            This function queries Cisco Catalyst Center for the compliance status of a given device's software image.
             If the device is found to be "NON_COMPLIANT," it retrieves the device's IP address and returns it along with the device UUID.
             If the device is compliant, a debug log is generated, and None is returned.
             In case of an exception, an error is logged, and the function updates the result status accordingly.
@@ -6382,7 +6382,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},

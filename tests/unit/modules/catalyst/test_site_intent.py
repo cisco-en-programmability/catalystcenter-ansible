@@ -87,7 +87,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when creating a site.
 
-        This test case checks the behavior of the site intent when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site intent when creating a new site in the specified Catalyst Center.
         """
 
         set_module_args(
@@ -111,7 +111,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when no update is needed.
 
-        This test case checks the behavior of the site intent when an update is not required for the specified site in the DNAC.
+        This test case checks the behavior of the site intent when an update is not required for the specified site in Catalyst Center.
         """
 
         set_module_args(
@@ -135,7 +135,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when an update is needed.
 
-        This test case checks the behavior of the site intent when an update is required for the specified site in the DNAC.
+        This test case checks the behavior of the site intent when an update is required for the specified site in Catalyst Center.
         """
 
         set_module_args(
@@ -159,7 +159,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when deleting an existing site.
 
-        This test case checks the behavior of the site intent when deleting an existing site in the DNAC.
+        This test case checks the behavior of the site intent when deleting an existing site in Catalyst Center.
         """
 
         set_module_args(
@@ -183,7 +183,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when attempting to delete a non-existing site.
 
-        This test case checks the behavior of the site intent when trying to delete a site that does not exist in the DNAC.
+        This test case checks the behavior of the site intent when trying to delete a site that does not exist in Catalyst Center.
         """
 
         set_module_args(
@@ -230,7 +230,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when an error occurs during site deletion.
 
-        This test case checks the behavior of the site intent when an error occurs while deleting a site in the DNAC.
+        This test case checks the behavior of the site intent when an error occurs while deleting a site in Catalyst Center.
         """
 
         set_module_args(
@@ -254,7 +254,7 @@ class TestDnacSiteIntent(TestDnacModule):
         """
         Test case for site intent when an error occurs during site creation.
 
-        This test case checks the behavior of the site intent when an error occurs while creating a site in the DNAC.
+        This test case checks the behavior of the site intent when an error occurs while creating a site in Catalyst Center.
         """
 
         set_module_args(

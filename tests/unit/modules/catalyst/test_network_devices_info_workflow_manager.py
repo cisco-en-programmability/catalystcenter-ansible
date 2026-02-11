@@ -11646,7 +11646,7 @@ class TestDnacNetworkDevicesInfoWorkflowManager(TestDnacModule):
     def test_network_devices_info_workflow_manager_playbook_negative_scenario11(self):
         """
         Test version compatibility for network device info workflow feature.
-        Validates error handling when using unsupported DNA Center version.
+        Validates error handling when using unsupported Catalyst Center version.
         """
         set_module_args(
             dict(

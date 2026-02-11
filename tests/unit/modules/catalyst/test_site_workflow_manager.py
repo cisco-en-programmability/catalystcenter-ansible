@@ -496,6 +496,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
+                catalystcenter_version="2.2.3.3",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
@@ -513,16 +514,17 @@ class TestDnacSiteWorkflow(TestDnacModule):
 
     def test_Site_workflow_manager_verify_diff_deleted_site(self):
         """
-        Test case to check error when deleting a site using an unsupported DNAC version.
+        Test case to check error when deleting a site using an unsupported Catalyst Center version.
 
         This test verifies that the site workflow manager returns an appropriate error message
-        if the DNAC version does not support site deletion operations.
+        if the Catalyst Center version does not support site deletion operations.
         """
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
+                catalystcenter_version="2.2.3.3",
                 catalystcenter_log=True,
                 state="deleted",
                 config_verify=True,

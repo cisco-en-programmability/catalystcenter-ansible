@@ -7213,7 +7213,7 @@ import re
 
 class WirelessDesign(CatalystCenterBase):
     """
-    A class for managing Wireless Design operations within the Cisco DNA Center using the SDA API.
+    A class for managing Wireless Design operations within the Cisco Catalyst Center using the SDA API.
     """
 
     def __init__(self, module):
@@ -11963,7 +11963,7 @@ class WirelessDesign(CatalystCenterBase):
             if ssid_id:
                 params["id"] = ssid_id
 
-            # Execute API call to DNA Center
+            # Execute API call to Catalyst Center
             response = self.execute_get_request(
                 "wireless", "get_advanced_ssid_configuration_feature_template", params
             )
@@ -28578,7 +28578,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},

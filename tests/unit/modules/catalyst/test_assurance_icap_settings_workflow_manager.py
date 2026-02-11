@@ -136,7 +136,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_discard_exception(self):
         """
-        Test case for exception in discard function while creating Assurance ICAP Settings in Cisco DNA Center.
+        Test case for exception in discard function while creating Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -158,7 +158,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_creation_exception(self):
         """
-        Test case for exception while creating Assurance ICAP Settings in Cisco DNA Center.
+        Test case for exception while creating Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -180,7 +180,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_creation(self):
         """
-        Test case for creating Assurance ICAP Settings in Cisco DNA Center.
+        Test case for creating Assurance ICAP Settings in Cisco Catalyst Center.
         Verifies that the workflow manager correctly creates ICAP settings
         when a new configuration is applied.
         """
@@ -205,7 +205,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_download(self):
         """
-        Test case for exception in download Assurance ICAP Settings in Cisco DNA Center.
+        Test case for exception in download Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -228,7 +228,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_playbook_onboarding_creation(self):
         """
-        Test case for creating Assurance ICAP Settings in Cisco DNA Center.
+        Test case for creating Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -251,7 +251,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_playbook_ota_creation(self):
         """
-        Test case for creating Assurance ICAP Settings in Cisco DNA Center.
+        Test case for creating Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -274,7 +274,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_deletion_icap(self):
         """
-            Test case for exception while deleting Assurance ICAP Settings in Cisco DNA Center.
+            Test case for exception while deleting Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -296,7 +296,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_icap_settings_workflow_manager_playbook_invalid_capture(self):
         """
-        Test case for invalid capture type ICAP Settings in Cisco DNA Center.
+        Test case for invalid capture type ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(

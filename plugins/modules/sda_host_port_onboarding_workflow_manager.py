@@ -1142,7 +1142,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
 
 class SDAHostPortOnboarding(CatalystCenterBase):
     """
-    A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
+    A class for managing Extranet Policies within the Cisco Catalyst Center using the SDA API.
     """
 
     def __init__(self, module):
@@ -4321,7 +4321,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
         Returns:
             list: A list of dictionaries containing details of VLANs and SSIDs mapped to VLANs within the specified fabric site.
         Description:
-            This method interacts with the DNA Center API to fetch information about VLANs and SSIDs mapped to VLANs within a given fabric site.
+            This method interacts with the Catalyst Center API to fetch information about VLANs and SSIDs mapped to VLANs within a given fabric site.
             It uses pagination to handle large datasets by iteratively updating the offset and limit parameters for the API call.
             If the response indicates that no more data is available, the loop exits.
             Logs detailed information about the process and handles any exceptions that may occur, ensuring that errors are logged and the process
@@ -4686,7 +4686,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             dict: The task ID of the API call for tracking the operation's progress and status.
         Description:
             This method logs the initiation of the operation to add, update, or delete VLAN and SSID mappings within a fabric site.
-            It calls an internal method to execute a POST API call to the DNA Center's 'fabric_wireless' family, specifically targeting the
+            It calls an internal method to execute a POST API call to the Catalyst Center's 'fabric_wireless' family, specifically targeting the
             'add_update_or_remove_ssid_mapping_to_a_vlan' function. The method is designed to handle modifications to VLAN and SSID mappings
             based on the given parameters, facilitating network configuration changes within the fabric.
         """
@@ -7736,7 +7736,7 @@ def main():
         },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},

@@ -42,7 +42,7 @@ options:
         description:
           - Informs the SDK which version of Cisco Catalyst Center to use.
         type: str
-        default: 2.2.3.3
+        default: 2.3.7.6
     catalystcenter_debug:
         description:
           - Flag for Cisco Catalyst Center SDK to enable debugging.
