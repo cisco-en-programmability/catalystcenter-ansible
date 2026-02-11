@@ -18,7 +18,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from ansible.errors import AnsibleActionFail
-from ansible_collections.cisco.dnac.plugins.modules import pnp_intent
+from ansible_collections.cisco.catalystcenter.plugins.modules import pnp_intent
 from .catalystcenter_module import TestDnacModule, set_module_args
 
 
