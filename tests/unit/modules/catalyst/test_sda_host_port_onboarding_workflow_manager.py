@@ -17,7 +17,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.dnac.plugins.modules import sda_host_port_onboarding_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import sda_host_port_onboarding_workflow_manager
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -31,16 +31,16 @@ class SDAHostPortOnboarding(TestDnacModule):
         super(SDAHostPortOnboarding, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
-        print(f"Mock for DNACSDK._exec: {self.run_catalystcenter_exec}")
+        print(f"Mock for CatalystCenterSDK._exec: {self.run_catalystcenter_exec}")
 
     def tearDown(self):
         super(SDAHostPortOnboarding, self).tearDown()

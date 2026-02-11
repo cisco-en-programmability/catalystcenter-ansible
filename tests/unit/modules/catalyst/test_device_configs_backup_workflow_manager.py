@@ -20,7 +20,7 @@ __metaclass__ = type
 from unittest.mock import patch, Mock, MagicMock
 import time
 import pathlib
-from ansible_collections.cisco.dnac.plugins.modules import device_configs_backup_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import device_configs_backup_workflow_manager
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -32,13 +32,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         super(TestDeviceConfigsBackup, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__"
         )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
 
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
@@ -46,7 +46,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
 
         # Patch the unzip_data method within the module
         self.mock_unzip_data = patch(
-            "ansible_collections.cisco.dnac.plugins.modules.device_configs_backup_workflow_manager.DeviceConfigsBackup.unzip_data"
+            "ansible_collections.cisco.catalystcenter.plugins.modules.device_configs_backup_workflow_manager.DeviceConfigsBackup.unzip_data"
         )
         self.run_unzip_data = self.mock_unzip_data.start()
         self.run_unzip_data.return_value = True  # Simulate successful unzipping
