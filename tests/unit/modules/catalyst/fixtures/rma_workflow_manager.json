@@ -88,7 +88,8 @@
             "serialNumber": "FJC2327U0S2",
             "managementIpAddress": "204.1.2.9",
             "hostname": "vRouter1.cisco.com",
-            "platformId": "C8000V"
+            "platformId": "C8000V",
+            "reachabilityStatus": "Unreachable"
             }
         ],
         "version": "1.0"
@@ -100,12 +101,17 @@
           "serialNumber": "FCW2225C020",
           "managementIpAddress": "204.1.2.10",
           "hostname": "Vrouter2",
-          "platformId": "C8000V"
+          "platformId": "C8000V",
+          "reachabilityStatus": "Reachable"
         }
       ],
       "version": "1.0"
     },
     "get_device_list_empty_response": {
+      "response": [],
+      "version": "1.0"
+    },
+    "get_replacement_devices_empty_response": {
       "response": [],
       "version": "1.0"
     },

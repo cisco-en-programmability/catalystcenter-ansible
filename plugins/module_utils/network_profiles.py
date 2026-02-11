@@ -218,7 +218,7 @@ class NetworkProfileFunctions(CatalystCenterBase):
         self.log("Fetching details for templates: {}".format(template_list), "INFO")
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 params={},

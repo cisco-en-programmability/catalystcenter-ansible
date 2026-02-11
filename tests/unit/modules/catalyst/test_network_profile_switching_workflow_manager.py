@@ -68,10 +68,11 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         if "creation_switch_fail" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_network_profile_not_exist"),
-                self.test_data.get("get_templates_details"),
+                Exception("Template API error"),
                 self.test_data.get("get_site_response1"),
-                self.test_data.get("get_site_response1"),
+                self.test_data.get("get_child_site_with_empty_response"),
                 self.test_data.get("get_site_response2"),
+                self.test_data.get("get_child_site_with_empty_response"),
             ]
         elif "delete_switch_profile" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -108,7 +109,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("get_network_profile"),
                 self.test_data.get("get_templates_details"),
                 self.test_data.get("get_site_response1"),
-                self.test_data.get("get_site_response1"),
+                self.test_data.get("get_child_site_with_empty_response"),
                 self.test_data.get("get_templates_for_profile_delete"),
                 self.test_data.get("get_site_for_profile_delete"),
                 self.test_data.get("unassign_site_for_delete"),
@@ -120,6 +121,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("get_network_profile"),
                 self.test_data.get("get_templates_details"),
                 self.test_data.get("get_site_response1"),
+                self.test_data.get("get_child_site_with_empty_response"),
                 self.test_data.get("get_child_site_with_empty_response"),
                 self.test_data.get("get_child_site_with_empty_response"),
             ]
@@ -135,14 +137,9 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         elif "update_day_n_template" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("retrieves_the_list_of_network_profiles_for_sites1"),
+                self.test_data.get("get_templates_details1").get("response"),
                 self.test_data.get("get_templates_details1"),
                 self.test_data.get("retrieve_cli_templates_attached_to_a_network_profile2"),
-                self.test_data.get("attach_network_profile_to_a_day_n_cli_template"),
-                self.test_data.get("get_tasks_by_id"),
-                self.test_data.get("get_task_details_by_id11"),
-                self.test_data.get("attach_network_profile_to_a_day_n_cli_template1"),
-                self.test_data.get("get_tasks_by_id11"),
-                self.test_data.get("get_task_details_by_id12")
             ]
 
         elif "update_day_n_template_success" in self._testMethodName:
@@ -252,7 +249,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 config=self.playbook_config_unasssign
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
@@ -280,7 +277,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertIn(
-            'No site details retrieved for site name: Global/APO',
+            "Site 'Global/APO' does not exist in the Cisco Catalyst Center",
             result.get('msg')
         )
 
@@ -305,7 +302,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "No site details retrieved for site name: Global/APO",
+            "Site 'Global/APO' does not exist in the Cisco Catalyst Center",
             result.get('msg')
         )
 

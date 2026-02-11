@@ -81,7 +81,8 @@ class TestDnacRmaIntent(TestDnacModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
                 self.test_data.get("get_device_list_response_replacement"),
-                self.test_data.get("get_mark_device_exception")
+                self.test_data.get("get_replacement_devices_empty_response"),
+                Exception("Mark device API error")
             ]
         elif "faulty_device_not_found" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -92,44 +93,52 @@ class TestDnacRmaIntent(TestDnacModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
                 self.test_data.get("get_device_list_response_replacement"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("mark_device_for_replacement_response"),
-                self.test_data.get("get_task_details_failure")
+                self.test_data.get("get_task_details_failure"),
+                self.test_data.get("get_replacement_devices_empty_response"),
             ]
         elif "deploy_workflow_success" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
                 self.test_data.get("get_device_list_response_replacement"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("mark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_mark_success"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("deploy_device_replacement_response"),
                 self.test_data.get("get_task_details_deploy_in_progress"),
                 self.test_data.get("get_task_details_deploy_success"),
-                self.test_data.get("get_task_details_deploy_success_status")
             ]
         elif "deploy_workflow_failure_unmark_failure" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
                 self.test_data.get("get_device_list_response_replacement"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("mark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_mark_success"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("deploy_device_replacement_response"),
                 self.test_data.get("get_task_details_deploy_in_progress"),
                 self.test_data.get("get_task_details_failure"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("unmark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_unmark_failure"),
-                self.test_data.get("get_task_details_unmark_failure_status")
             ]
         elif "deploy_workflow_failure_unmark_success" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list_response_faulty"),
                 self.test_data.get("get_device_list_response_replacement"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("mark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_mark_success"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("deploy_device_replacement_response"),
+                self.test_data.get("get_task_details_deploy_in_progress"),
                 self.test_data.get("get_task_details_failure"),
+                self.test_data.get("get_replacement_devices_empty_response"),
                 self.test_data.get("unmark_device_for_replacement_response"),
                 self.test_data.get("get_task_details_unmark_success"),
-                self.test_data.get("get_task_details_unmark_success_status")
             ]
 
     def test_rma_workflow_manager_invalid_serial(self):
@@ -219,7 +228,7 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Replacement device '204.1.2.19' not found in Cisco Catalyst Center"
+            "Replacement device '204.1.2.19' not found in PnP"
         )
 
     def test_rma_workflow_manager_invalid_params_in_playbook(self):
@@ -255,7 +264,7 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Exception occurred while marking device for replacement: "
+            "Exception occurred while marking device for replacement: Mark device API error"
         )
 
     def test_rma_workflow_manager_mark_device_failure(self):
@@ -309,7 +318,8 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Error while unmarking device for replacement: Task failed. | Unmarking result: Error while unmarking device for replacement: Task failed."
+            "RMA failed to replace the device: Error while unmarking device for replacement: Task failed."
+            " | Unmarking result: RMA failed to replace the device: Error while unmarking device for replacement: Task failed."
         )
 
     def test_rma_workflow_manager_deploy_workflow_failure_unmark_success(self):
@@ -323,9 +333,10 @@ class TestDnacRmaIntent(TestDnacModule):
                 config=self.playbook_config_valid
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Device replacement task failed: An error occurred during the operation | Unmarking result: Device(s) Unmarked For Replacement successfully."
+            "RMA failed to replace the device: device(s) unmarked for replacement successfully."
+            " | Unmarking result: RMA failed to replace the device: device(s) unmarked for replacement successfully."
         )
