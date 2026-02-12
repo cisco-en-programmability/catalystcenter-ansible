@@ -30,7 +30,7 @@ author:
 options:
   config_verify:
     description: |
-      Set to `true` to enable configuration verification on Cisco DNA Center after applying
+      Set to `true` to enable configuration verification on Cisco Catalyst Center after applying
       the playbook configuration. This ensures that the system validates the configuration
       state after the change is applied.
     type: bool
@@ -97,21 +97,14 @@ options:
         elements: str
         required: false
       periodic_refresh:
-        description: Boolean value to enable periodic
-          refresh for the path trace.
+        description: |
+          Boolean value to enable periodic refresh for the path trace.
         type: bool
         required: false
         default: true
-      control_path:
-        description: |
-          Boolean value to specify whether the path trace should include
-          the control path (optional).
-        type: bool
-        required: false
-        default: false
       get_last_pathtrace_result:
-        description: Boolean value to display the last
-          result again for the path trace.
+        description: |
+          Boolean value to display the last result again for the path trace.
         type: bool
         required: false
         default: true
@@ -124,15 +117,35 @@ options:
         default: true
       flow_analysis_id:
         description: |
-          The Flow Analysis ID for the path trace, used to delete an existing path trace
-          when in the 'deleted' state. If not provided, the module will search and delete
-          based on the following search parameters.
-          When create a path trace, it returns a flow_analysis_id (the "id" from the "request"
-          section), which should be shown in a register
+          The Flow Analysis ID uniquely identifies a specific path trace operation in
+          Cisco Catalyst Center. This UUID-format identifier serves multiple purposes
+          across different operational states.
+
+          **Creation Context:**
+          When creating a new path trace, the API returns a flow_analysis_id in the
+          response's "request.id" field. This identifier should be captured using
+          Ansible's register functionality for subsequent operations.
+
+          **Retrieval Operations:**
+          - If provided, retrieves the specific path trace associated with this ID
+          - If omitted, the module searches based on source_ip and dest_ip parameters
+          - Provides precise identification when multiple traces exist between the same endpoints
+
+          **Deletion Operations:**
+          - When state is 'deleted', this ID enables targeted removal of specific traces
+          - If not provided, the module searches for matching traces using source_ip/dest_ip
+          - Essential for scenarios where multiple path traces exist with identical endpoints
+
+          **Best Practices:**
+          - Always capture flow_analysis_id when creating path traces using register
+          - Use flow_analysis_id for precise trace management in automation workflows
+          - Preferred over source_ip/dest_ip combination for unique trace identification
+
+          **Format:** UUID string (For example, "99e067de-8776-40d2-9f6a-1e6ab2ef083c")
         type: str
         required: false
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.8.6
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -147,7 +160,7 @@ notes:
 
 EXAMPLES = r"""
 ---
-- hosts: dnac_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -157,7 +170,7 @@ EXAMPLES = r"""
         Catalyst Center
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -181,13 +194,11 @@ EXAMPLES = r"""
               - PERFORMANCE_STATS
               - ACL_TRACE
             periodic_refresh: false  # optional field
-            control_path: false  # optional field
             delete_on_completion: true  # optional field
-    - name: Delete path trace based on source and destination
-        IP
+    - name: Delete path trace based on source and destination IP
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -203,7 +214,7 @@ EXAMPLES = r"""
     - name: Retrieve last path trace
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -221,7 +232,7 @@ EXAMPLES = r"""
         id
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -242,7 +253,7 @@ EXAMPLES = r"""
         the required field
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -260,7 +271,7 @@ EXAMPLES = r"""
         analysis id
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -276,7 +287,7 @@ EXAMPLES = r"""
         id
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -295,7 +306,7 @@ EXAMPLES = r"""
         list.
       cisco.catalystcenter.path_trace_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -318,11 +329,9 @@ EXAMPLES = r"""
               - PERFORMANCE_STATS
               - ACL_TRACE
             periodic_refresh: false  # optional field
-            control_path: false  # optional field
             delete_on_completion: true  # optional field
           - source_ip: "204.1.1.2"  # required field
             dest_ip: "204.1.2.4"  # required field
-            control_path: false  # optional field
             get_last_pathtrace_result: true  # optional field
             delete_on_completion: true  # optional field
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
@@ -339,7 +348,7 @@ response_1:
     {
         "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3',
             'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP',
-            'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS',
+            'periodic_refresh': False, 'include_stats': ['DEVICE-STATS',
             'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],
             'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.",
         "response": [
@@ -513,7 +522,7 @@ response_3:
   sample: >
     {
         "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True,
+            'dest_ip': '204.1.2.4', 'get_last_pathtrace_result': True,
             'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.",
         "response": [
             {
@@ -621,9 +630,9 @@ response_4:
   sample: >
     {
         "msg": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+            'dest_ip': '204.1.2.4', 'get_last_pathtrace_result': True}]'.",
         "response":"Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+            'dest_ip': '204.1.2.4', 'get_last_pathtrace_result': True}]'.",
         "status": "success"
     }
 #Case 5: Delete path trace based on Source and Destination IP
@@ -644,7 +653,7 @@ response_5:
 import re
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -663,7 +672,6 @@ class PathTraceWorkflow(CatalystCenterBase):
             flow_analysis_id="id",
             source_ip="sourceIP",
             dest_ip="destIP",
-            control_path="controlPath",
             dest_port="destPort",
             source_port="sourcePort",
             periodic_refresh="periodicRefresh",
@@ -707,7 +715,6 @@ class PathTraceWorkflow(CatalystCenterBase):
             },
             "protocol": {"type": "str", "choices": ["TCP", "UDP"], "required": False},
             "periodic_refresh": {"type": "bool", "required": False},
-            "control_path": {"type": "bool", "required": False},
             "include_stats": {"type": "list", "elements": "str", "required": False},
             "get_last_pathtrace_result": {"type": "bool", "required": False},
             "flow_analysis_id": {"type": "str", "required": False},
@@ -843,14 +850,6 @@ class PathTraceWorkflow(CatalystCenterBase):
                     "periodic_refresh: Invalid periodic refresh "
                     + "'{0}' in playbook. Must be either true or false.".format(
                         periodic_refresh
-                    )
-                )
-
-            control_path = each_path.get("control_path")
-            if control_path is not None and control_path not in (True, False):
-                errormsg.append(
-                    "control_path: Invalid control path '{0}' in playbook. Must be either true or false.".format(
-                        control_path
                     )
                 )
 
@@ -1241,16 +1240,13 @@ class PathTraceWorkflow(CatalystCenterBase):
                 flow_id
             )
             self.not_processed.append(flow_id)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            return None
 
         except Exception as e:
             self.msg = "An error occurred during get path trace: {0}".format(str(e))
             self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.not_processed.append(flow_id)
+            return None
 
     def delete_path_trace(self, flow_id):
         """
@@ -1398,8 +1394,10 @@ class PathTraceWorkflow(CatalystCenterBase):
             # If path trace creation failed, log the error
             if not path_trace_created:
                 self.not_processed.append(each_path)
-                self.msg = "Unable to create path for flow analysis id: {0}".format(
-                    each_flow_id if each_flow_id else "N/A"
+                self.msg = (
+                    "Unable to find the path trace for flow analysis id: {0}".format(
+                        each_flow_id if each_flow_id else "N/A"
+                    )
                 )
 
         if self.create_path:
@@ -1562,6 +1560,19 @@ class PathTraceWorkflow(CatalystCenterBase):
                             "ERROR",
                         )
             else:
+                path_trace = self.get_path_trace_with_flow_id(
+                    each_path.get("flow_analysis_id")
+                )
+                if not path_trace:
+                    self.msg = "Path trace for flow_analysis_id '{0}' already deleted or not found: {1}".format(
+                        each_path.get("flow_analysis_id"), self.not_processed
+                    )
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", False, self.msg, "INFO"
+                    ).check_return_status()
+                    return self
+
                 delete_response = self.delete_path_trace(
                     each_path.get("flow_analysis_id")
                 )
@@ -1666,18 +1677,19 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

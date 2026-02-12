@@ -7,18 +7,15 @@
 DOCUMENTATION = r"""
 ---
 module: health_score_definitions_info
-short_description: Information module for Health Score
-  Definitions
+short_description: Information module for Health Score Definitions
 description:
   - Get all Health Score Definitions.
   - Get Health Score Definitions by id.
-  - Get all health score defintions. - > Get health
-    score defintion for the given id. Definition includes
-    all properties from HealthScoreDefinition schema
-    by default. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
+  - Get all health score defintions.
+  - Get health score defintion for the given id.
+  - Definition includes all properties from HealthScoreDefinition schema by default.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,62 +27,48 @@ options:
   deviceType:
     description:
       - >
-        DeviceType query parameter. These are the device
-        families supported for health score definitions.
-        If no input is made on device family, all device
-        families are considered.
+        DeviceType query parameter. These are the device families supported for health score definitions. If no
+        input is made on device family, all device families are considered.
     type: str
   id:
     description:
       - >
-        Id query parameter. The definition identifier.
-        Examples id=015d9cba-4f53-4087-8317-7e49e5ffef46
-        (single entity id request) id=015d9cba-4f53-4087-8317-7e49e5ffef46&id=015d9cba-4f53-4087-8317-7e49e5ffef47
+        Id query parameter. The definition identifier. Examples id=015d9cba-4f53-4087-8317-7e49e5ffef46 (single
+        entity id request) id=015d9cba-4f53-4087-8317-7e49e5ffef46&id=015d9cba-4f53-4087-8317-7e49e5ffef47
         (multiple ids in the query param).
     type: str
   includeForOverallHealth:
     description:
       - >
-        IncludeForOverallHealth query parameter. The
-        inclusion status of the issue definition, either
-        true or false. True indicates that particular
-        health metric is included in overall health
-        computation, otherwise false. By default it's
-        set to true.
+        IncludeForOverallHealth query parameter. The inclusion status of the issue definition, either true or
+        false. True indicates that particular health metric is included in overall health computation, otherwise
+        false. By default it's set to true.
     type: bool
   attribute:
     description:
       - >
-        Attribute query parameter. These are the attributes
-        supported in health score definitions response.
-        By default, all properties are sent in response.
+        Attribute query parameter. These are the attributes supported in health score definitions response. By
+        default, all properties are sent in response.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting
-        point within all records returned by the API.
-        It's one based offset. The starting value is
-        1.
-    type: float
+        Offset query parameter. Specifies the starting point within all records returned by the API. It's one
+        based offset. The starting value is 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. Maximum number of records
-        to return.
-    type: float
+      - Limit query parameter. Maximum number of records to return.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetAllHealthScoreDefinitionsForGivenFilters
-    description: Complete reference of the GetAllHealthScoreDefinitionsForGivenFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFilters
+    description: Complete reference of the GetAllHealthScoreDefinitionsForGivenFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-health-score-definitions-for-given-filters
-  - name: Cisco DNA Center documentation for Devices
-      GetHealthScoreDefinitionForTheGivenId
-    description: Complete reference of the GetHealthScoreDefinitionForTheGivenId
-      API.
+  - name: Cisco DNA Center documentation for Devices GetHealthScoreDefinitionForTheGivenId
+    description: Complete reference of the GetHealthScoreDefinitionForTheGivenId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-health-score-definition-for-the-given-id
 notes:
   - SDK Method used are
@@ -104,7 +87,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -121,7 +104,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -130,7 +113,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

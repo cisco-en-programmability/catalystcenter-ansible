@@ -18,6 +18,7 @@ description:
     provisioning
   - API to re-provision provisioned devices
   - API to un-provision provisioned devices
+  - Un-provisioning refers to removing a device from the inventory list
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
@@ -48,7 +49,7 @@ options:
         type: str
         required: true
       provisioning:
-        description:
+        description: |
           - Specifies whether the user intends to perform
             site assignment only or full provisioning
             for a wired device.
@@ -56,11 +57,12 @@ options:
             only.
           - Set to 'true' to proceed with provisioning
             to a site.
+          - only applicable for wired devices.
         type: bool
         required: false
         default: true
       force_provisioning:
-        description:
+        description: |
           - Determines whether to force reprovisioning
             of a device.
           - A device cannot be re-provisioned to a different
@@ -83,7 +85,7 @@ options:
         type: str
         required: true
       managed_ap_locations:
-        description:
+        description: |
           - Specifies the site locations allocated for
             Access Points (APs).
           - Renamed to 'primary_managed_ap_locations'
@@ -100,7 +102,7 @@ options:
         type: list
         elements: str
       primary_managed_ap_locations:
-        description:
+        description: |
           - Specifies the site locations assigned to
             primary managed Access Points (APs).
           - Introduced as the updated name for 'managed_ap_locations'
@@ -115,7 +117,7 @@ options:
         type: list
         elements: str
       secondary_managed_ap_locations:
-        description:
+        description: |
           - Specifies the site locations assigned to
             secondary managed Access Points (APs).
           - Introduced in Cisco Catalyst version 2.3.7.6
@@ -127,7 +129,7 @@ options:
         type: list
         elements: str
       dynamic_interfaces:
-        description:
+        description: |
           - A list of dynamic interfaces on the wireless
             controller.
           - Each entry represents an interface with
@@ -159,7 +161,7 @@ options:
               Aggregation Group) identifier.
             type: str
       skip_ap_provision:
-        description:
+        description: |
           - If set to 'true', Access Point (AP) provisioning
             will be skipped during the workflow.
           - Use this option when AP provisioning is
@@ -169,7 +171,7 @@ options:
         type: bool
         default: false
       rolling_ap_upgrade:
-        description:
+        description: |
           - Configuration options for performing a rolling
             upgrade of Access Points (APs) in phases.
           - Allows control over the gradual rebooting
@@ -179,7 +181,7 @@ options:
         type: dict
         suboptions:
           enable_rolling_ap_upgrade:
-            description:
+            description: |
               - Enable or disable the rolling AP upgrade
                 feature.
               - If set to 'true', APs will be upgraded
@@ -190,7 +192,7 @@ options:
             type: bool
             default: false
           ap_reboot_percentage:
-            description:
+            description: |
               - The percentage of APs to reboot simultaneously
                 during an upgrade.
               - Supported in Cisco Catalyst version
@@ -198,6 +200,93 @@ options:
               - Must be either 5, 15 or 25 representing
                 the proportion of APs to reboot at once.
             type: int
+      ap_authorization_list_name:
+        description: |
+          - The name of the Access Point (AP) authorization list to be used during WLC provisioning.
+          - This authorization list defines the security policies and access control rules that govern which APs can join the wireless network.
+          - The authorization list must exist in Cisco Catalyst Center before provisioning
+            and should contain the MAC addresses or certificate-based authentication rules
+            for APs.
+          - Used in conjunction with 'authorize_mesh_and_non_mesh_aps' for comprehensive AP management during wireless controller provisioning.
+          - If not specified, the default authorization behavior of the WLC will be applied.
+        type: str
+        required: false
+      authorize_mesh_and_non_mesh_aps:
+        description: |
+          - A flag that indicates whether to authorize both mesh and non-mesh Access Points (APs) during the WLC provisioning process.
+          - When set to true, all AP types (mesh and non-mesh) will be automatically authorized to join the wireless network.
+          - When set to false, only specifically configured APs matching the authorization criteria will be authorized.
+          - Mesh APs create wireless backhaul connections to extend network coverage, while non-mesh APs connect directly to the wired infrastructure.
+          - This setting works in conjunction with 'ap_authorization_list_name' for complete AP authorization workflow.
+          - Supported from Cisco Catalyst Center release version 2.3.7.6 onwards.
+        type: bool
+        default: false
+      feature_template:
+        description: |
+          - A dictionary containing feature template configuration for advanced wireless device provisioning.
+          - Feature templates provide standardized, reusable configuration patterns that ensure consistent deployment across multiple wireless controllers.
+          - Templates enable centralized configuration management, reduce manual errors, and enforce organizational policies.
+          - The specified template must exist in Cisco Catalyst Center before it can be applied during provisioning.
+          - Feature templates can include WLAN configurations, security policies, QoS settings, and other wireless controller parameters.
+          - Supported from Cisco Catalyst Center release version 3.1.3.0 onwards for wireless controller provisioning.
+        type: list
+        elements: dict
+        required: false
+        suboptions:
+          design_name:
+            description: |
+              - The name of the feature template design to be applied during wireless controller provisioning.
+              - This template name must match exactly with the template name defined in Cisco Catalyst Center.
+              - The template defines standardized configuration parameters, policies, and settings to be applied to the wireless controller.
+              - Template names are case-sensitive and should follow organizational naming conventions.
+            type: str
+            required: true
+          additional_identifiers:
+            description: |
+              - A list of additional context-specific identifiers that provide customization parameters for the feature template.
+              - These identifiers enable site-specific and WLAN-specific customization of the template during deployment.
+              - Each identifier contains key-value pairs that help adapt the template for specific deployment scenarios and locations.
+              - Multiple identifiers can be specified to support complex deployment requirements with different WLAN profiles and site contexts.
+            type: list
+            elements: dict
+            required: false
+            suboptions:
+              wlan_profile_name:
+                description: |
+                  - The WLAN profile name to be associated with the feature template during wireless controller provisioning.
+                  - This profile defines wireless network parameters including SSID, security settings, VLAN assignments, and QoS policies.
+                  - The WLAN profile must exist in Cisco Catalyst Center and be properly configured before template application.
+                  - Multiple WLAN profiles can be referenced by specifying multiple additional identifier entries.
+                type: str
+                required: false
+              site_name_hierarchy:
+                description: |
+                  - The site name hierarchy where the feature template should be applied during wireless controller provisioning.
+                  - Defines the specific site context for template deployment within the organizational hierarchy.
+                  - Must follow the format 'Global/Area/Building/Floor' as configured in Cisco Catalyst Center site topology.
+                  - The site hierarchy must exist in Cisco Catalyst Center before template application.
+                  - Used to apply site-specific configurations and policies defined in the feature template.
+                type: str
+                required: false
+          excluded_attributes:
+            description: |
+              - A list of specific template attributes to be excluded from the feature template application during wireless controller provisioning.
+              - Use this to selectively apply only certain parts of a template while excluding others that may not be applicable to the specific deployment.
+              - Attribute names must match the exact attribute names defined in the feature template configuration.
+              - This provides fine-grained control over which template configurations are applied, allowing for customized deployments.
+              - Useful for scenarios where most of the template is applicable but specific settings need to be omitted or handled separately.
+            type: list
+            elements: str
+            required: false
+            choices: ['["guest_ssid_settings", "bandwidth_limits"]',
+              '["dhcp_pool_configuration"]',
+              '["radius_server_config", "certificate_settings"]',
+              '["qos_policies", "traffic_shaping"]',
+              '["mesh_configuration", "ap_group_settings"]']
+      clean_config:
+        description: A flag that indicates whether to clean the configuration during un-provisioning a device.
+        type: bool
+        default: false
       application_telemetry:
         description: |
           - A list of settings for enabling or disabling application telemetry on a group of network devices.
@@ -211,11 +300,13 @@ options:
               telemetry should be enabled or disabled.
             type: list
             elements: str
+            required: true
           telemetry:
             description: |
               - Specifies whether to enable or disable application telemetry on the devices.
             type: str
             choices: ["enable", "disable"]
+            required: true
           wlan_mode:
             description: |
               - Defines the WLAN mode for the device.
@@ -229,7 +320,7 @@ options:
             type: bool
             default: false
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk == 2.4.5
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site,
@@ -240,8 +331,8 @@ notes:
     sda.Sda.provision_wired_device,
     wireless.Wireless.provision devices.Device.delete_network_device_with_configuration_cleanup,
     devices.Device.delete_a_network_device_without_configuration_cleanup,
-    application_policy.ApplicationPolicy.enable_application_telemetry_feature_on_multiple_network_devices,
-    application_policy.ApplicationPolicy.disable_application_telemetry_feature_on_multiple_network_devices
+    application_policy.ApplicationPolicy.enable_application_telemetry_feature_on_multiple_network_devices_v1,
+    application_policy.ApplicationPolicy.disable_application_telemetry_feature_on_multiple_network_devices_v1
   - Paths used are
     get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
     get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device
@@ -264,7 +355,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -286,7 +377,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -307,13 +398,16 @@ EXAMPLES = r"""
         rolling_ap_upgrade:
           enable_rolling_ap_upgrade: false
           ap_reboot_percentage: 5
+        ap_authorization_list_name: "AP-Auth-List"
+        authorize_mesh_and_non_mesh_aps: true
+
 - name: Provision a wired device to a site
   cisco.catalystcenter.provision_workflow_manager:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -327,7 +421,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -342,7 +436,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -357,7 +451,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -374,7 +468,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -388,7 +482,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -412,7 +506,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -442,7 +536,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -455,6 +549,33 @@ EXAMPLES = r"""
           - application_telemetry:
               - device_ips: ["204.1.1.2", "204.192.6.200"]
                 telemetry: disable
+
+- name: Provision a wireless device to a site with feature template
+  cisco.catalystcenter.provision_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    config_verify: false
+    catalystcenter_api_task_timeout: 1000
+    catalystcenter_task_poll_interval: 1
+    state: merged
+    config:
+      - site_name_hierarchy: Global/USA/SAN JOSE/BLD23
+        management_ip_address: 204.192.4.2
+        primary_managed_ap_locations:
+          - Global/USA/SAN JOSE/BLD23/FLOOR1_LEVEL2
+        feature_template:
+          - design_name: newtest
+            additional_identifiers:
+              wlan_profile_name: ARUBA_SSID_profile
+              site_name_hierarchy: Global/USA/SAN JOSE/BLD23
+            excluded_attributes: ["guest_ssid_settings", "bandwidth_limits"]
 """
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of provision
@@ -495,7 +616,7 @@ response_3:
 import time
 import re
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -509,6 +630,17 @@ class Provision(CatalystCenterBase):
     def __init__(self, module):
         super().__init__(module)
         self.device_type = None
+        self.device_deleted = []
+        self.already_provisioned_wired_device = []
+        self.already_provisioned_wireless_device = []
+        self.provisioned_wired_device = []
+        self.provisioned_wireless_device = []
+        self.re_provision_wired_device = []
+        self.re_provision_wireless_device = []
+        self.enable_application_telemetry = []
+        self.disable_application_telemetry = []
+        self.assigned_device_to_site = []
+        self.already_assigned_device_to_site = []
 
     def validate_input(self, state=None):
         """
@@ -560,6 +692,12 @@ class Provision(CatalystCenterBase):
             },
             "skip_ap_provision": {"type": "bool", "required": False},
             "rolling_ap_upgrade": {"type": "dict", "required": False},
+            "ap_authorization_list_name": {"type": "str", "required": False},
+            "authorize_mesh_and_non_mesh_aps": {
+                "type": "bool",
+                "required": False,
+                "default": False,
+            },
             "provisioning": {"type": "bool", "required": False, "default": True},
             "force_provisioning": {"type": "bool", "required": False, "default": False},
             "clean_config": {"type": "bool", "required": False, "default": False},
@@ -574,6 +712,20 @@ class Provision(CatalystCenterBase):
                         "type": "bool",
                         "required": False,
                         "default": False,
+                    },
+                },
+            },
+            "feature_template": {
+                "type": "list",
+                "elements": "dict",
+                "options": {
+                    "design_name": {"type": "str", "required": True},
+                    "attributes": {"type": "dict", "required": True},
+                    "additional_identifiers": {"type": "dict", "required": False},
+                    "excluded_attributes": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False,
                     },
                 },
             },
@@ -600,7 +752,7 @@ class Provision(CatalystCenterBase):
                                 "device_ips" not in telemetry_entry
                                 or not telemetry_entry["device_ips"]
                             ):
-                                missing_params.add("device_ips")
+                                missing_params.append("device_ips")
                                 self.log(
                                     "Missing or empty 'device_ips' in 'application_telemetry' at config item {}, telemetry entry {}.".format(
                                         index, entry_index
@@ -612,7 +764,7 @@ class Provision(CatalystCenterBase):
                                 "telemetry" not in telemetry_entry
                                 or telemetry_entry["telemetry"] is None
                             ):
-                                missing_params.add("telemetry")
+                                missing_params.append("telemetry")
                                 self.log(
                                     "Missing or empty 'telemetry' in 'application_telemetry' at config item {}, telemetry entry {}.".format(
                                         index, entry_index
@@ -641,8 +793,9 @@ class Provision(CatalystCenterBase):
                     if (
                         "site_name_hierarchy" not in config_item
                         or not config_item["site_name_hierarchy"]
+                        or not isinstance(config_item["site_name_hierarchy"], str)
                     ):
-                        missing_params.add("site_name_hierarchy")
+                        missing_params.append("site_name_hierarchy")
                         self.log(
                             "Missing or empty 'site_name_hierarchy' in config item at index {0}.".format(
                                 index
@@ -654,13 +807,27 @@ class Provision(CatalystCenterBase):
                         "management_ip_address" not in config_item
                         or not config_item["management_ip_address"]
                     ):
-                        missing_params.add("management_ip_address")
+                        missing_params.append("management_ip_address")
                         self.log(
                             "Missing or empty 'management_ip_address' in config item at index {0}.".format(
                                 index
                             ),
                             "ERROR",
                         )
+
+                    if "provisioning" in config_item:
+                        valid_bools = [True, False]
+                        provisioning_value = config_item["provisioning"]
+                        if provisioning_value not in valid_bools:
+                            self.msg = (
+                                "Invalid value '{0}' for 'provisioning' in config. "
+                                "Expected a boolean-compatible value.".format(
+                                    provisioning_value
+                                )
+                            )
+                            self.set_operation_result(
+                                "failed", False, self.msg, "ERROR"
+                            ).check_return_status()
 
                 if missing_params:
                     self.msg = "Missing or invalid required parameter(s): {0}".format(
@@ -673,6 +840,12 @@ class Provision(CatalystCenterBase):
             self.config, provision_spec
         )
         if invalid_params:
+            self.log(
+                "Invalid parameters found in the playbook configuration: {0}".format(
+                    "\n".join(invalid_params)
+                ),
+                "ERROR",
+            )
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
             )
@@ -796,6 +969,75 @@ class Provision(CatalystCenterBase):
             ).check_return_status()
 
         return device_id
+
+    def get_device_id_for_app_telemetry(self):
+        """
+        Fetches the UUID of the device added in the inventory for application telemetry
+        using its management IP address.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+            str: The UUID of the device as a string if found successfully.
+            None: If the device is not found in Cisco Catalyst Center or an error occurs.
+        Example:
+          After creating the validated input, this method retrieves the
+          UUID of the device.
+        """
+        self.log(
+            "Fetching device UUID for application telemetry for IP: {}".format(
+                self.validated_config.get("management_ip_address", "N/A")
+            ),
+            "DEBUG",
+        )
+        try:
+            dev_response = self.dnac_apply["exec"](
+                family="devices",
+                function="get_network_device_by_ip",
+                params={"ip_address": self.validated_config["management_ip_address"]},
+            )
+
+            self.log(
+                "The device response from 'get_network_device_by_ip' API is {0}".format(
+                    str(dev_response)
+                ),
+                "DEBUG",
+            )
+            dev_dict = dev_response.get("response")
+            if not dev_dict:
+                self.msg = "No device response found for IP address {0} from Cisco Catalyst Center.".format(
+                    self.validated_config.get("management_ip_address")
+                )
+                self.log(self.msg, "ERROR")
+                return None
+
+            device_id = dev_dict.get("id")
+
+            if not device_id:
+                self.msg = (
+                    "Device ID not found in the response for IP address {0}.".format(
+                        self.validated_config.get("management_ip_address")
+                    )
+                )
+                self.log(self.msg, "ERROR")
+                return None
+
+            self.log(
+                "Device ID of the device with IP address {0} is {1}".format(
+                    self.validated_config["management_ip_address"], device_id
+                ),
+                "INFO",
+            )
+            return device_id
+
+        except Exception as e:
+            self.msg = "Failed to retrieve device ID for {0}. Error: {1}".format(
+                self.validated_config.get("management_ip_address"), str(e)
+            )
+            self.log(self.msg, "ERROR")
+
+            return None
 
     def get_task_status(self, task_id=None):
         """
@@ -976,6 +1218,43 @@ class Provision(CatalystCenterBase):
                   to be validated.
           - uuid (str): The UUID of the device to check for site assignment.
         Returns:
+          - boolean:  True if the device is assigned to a site, False otherwise.
+
+        """
+
+        self.log(
+            "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
+        )
+        try:
+            site_response = self.dnac_apply["exec"](
+                family="devices",
+                function="get_device_detail",
+                params={"search_by": uuid, "identifier": "uuid"},
+            )
+            self.log(
+                "Response collected from the API 'get_device_detail' {0}".format(
+                    site_response
+                )
+            )
+            site_response = site_response.get("response")
+            if site_response.get("location"):
+                return True
+            else:
+                return False
+        except Exception as e:
+            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+    def is_device_assigned_to_site_v1(self, uuid):
+        """
+        Checks if a device, specified by its UUID, is assigned to any site.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - uuid (str): The UUID of the device to check for site assignment.
+        Returns:
           - tuple: (bool, Optional[str])
             - True and the site name if the device is assigned to a site.
             - False and None if not assigned or in case of an error..
@@ -1019,7 +1298,6 @@ class Provision(CatalystCenterBase):
             msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg)
-            return False, None
 
     def get_device_site_by_uuid(self, uuid):
         """
@@ -1269,6 +1547,14 @@ class Provision(CatalystCenterBase):
         if self.validated_config.get("rolling_ap_upgrade"):
             rolling_ap_upgrade = self.validated_config["rolling_ap_upgrade"]
             wireless_params[0]["rolling_ap_upgrade"] = rolling_ap_upgrade
+        if self.validated_config.get("ap_authorization_list_name"):
+            wireless_params[0]["ap_authorization_list_name"] = (
+                self.validated_config.get("ap_authorization_list_name")
+            )
+        if self.validated_config.get("authorize_mesh_and_non_mesh_aps") is not None:
+            wireless_params[0]["authorize_mesh_and_non_mesh_aps"] = (
+                self.validated_config.get("authorize_mesh_and_non_mesh_aps")
+            )
 
         response = self.dnac_apply["exec"](
             family="devices",
@@ -1290,7 +1576,378 @@ class Provision(CatalystCenterBase):
             ),
             "INFO",
         )
+
+        if self.validated_config.get("feature_template"):
+            self.log(
+                "Processing feature template configuration for wireless device provisioning",
+                "DEBUG",
+            )
+            feature_templates = self.validated_config.get("feature_template")
+            if not isinstance(feature_templates, list):
+                self.msg = "Feature template configuration must be a list. Received: {0}".format(
+                    type(feature_templates).__name__
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            if not feature_templates:
+                self.log("Empty feature template list provided", "WARNING")
+                return self
+
+            wireless_params[0]["feature_template"] = []
+            self.log("Processing feature template(s)", "INFO")
+
+            for template_index, template in enumerate(feature_templates):
+                self.log(
+                    "Processing feature template {0}".format(template_index + 1),
+                    "DEBUG",
+                )
+                design_name = template.get("design_name")
+
+                if not design_name:
+                    self.msg = "Feature template 'design_name' is required but not provided for template at index {0}".format(
+                        template_index
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+                self.log(
+                    "Processing feature template with design name: '{0}' at index {1}".format(
+                        design_name, template_index
+                    ),
+                    "DEBUG",
+                )
+
+                attributes = template.get("attributes", [])
+                cleaned_attributes = []
+
+                if attributes:
+                    self.log(
+                        "Processing template attributes for template '{0}'".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                    if isinstance(attributes, dict):
+                        for key, value in attributes.items():
+                            if value is not None:
+                                cleaned_attributes.append({"name": key, "value": value})
+                                self.log(
+                                    "Added template attribute for '{0}': '{1}' = '{2}'".format(
+                                        design_name, key, value
+                                    ),
+                                    "DEBUG",
+                                )
+                    elif isinstance(attributes, list):
+                        self.log(
+                            "Attributes provided as list for template '{0}', using directly".format(
+                                design_name
+                            ),
+                            "DEBUG",
+                        )
+                        cleaned_attributes = attributes
+                    else:
+                        self.log(
+                            "Invalid 'attributes' format for template '{0}'. Expected dict or list, got: {1}".format(
+                                design_name, type(attributes).__name__
+                            ),
+                            "WARNING",
+                        )
+                else:
+                    self.log(
+                        "No attributes provided for feature template '{0}'".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                excluded_attributes = template.get("excluded_attributes", [])
+                if excluded_attributes:
+                    self.log(
+                        "Processing {0} excluded attributes for template '{1}': {2}".format(
+                            len(excluded_attributes), design_name, excluded_attributes
+                        ),
+                        "DEBUG",
+                    )
+                    if not isinstance(excluded_attributes, list):
+                        self.log(
+                            "Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
+                                design_name, type(excluded_attributes).__name__
+                            ),
+                            "WARNING",
+                        )
+                        excluded_attributes = []
+                else:
+                    self.log(
+                        "No excluded attributes specified for feature template '{0}'".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                additional_identifiers = template.get("additional_identifiers", {})
+
+                if additional_identifiers:
+                    self.log(
+                        "Processing additional identifiers for template '{0}'".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+                    for idx, identifier in enumerate(additional_identifiers):
+                        if isinstance(identifier, dict):
+                            wlan_profile = identifier.get("wlan_profile_name")
+                            site_hierarchy = identifier.get("site_name_hierarchy")
+                            if wlan_profile:
+                                self.log(
+                                    "Template '{0}' - Additional identifier {1}: WLAN profile = '{2}'".format(
+                                        design_name, idx + 1, wlan_profile
+                                    ),
+                                    "DEBUG",
+                                )
+                            if site_hierarchy:
+                                self.log(
+                                    "Template '{0}' - Additional identifier {1}: Site hierarchy = '{2}'".format(
+                                        design_name, idx + 1, site_hierarchy
+                                    ),
+                                    "DEBUG",
+                                )
+                        else:
+                            self.log(
+                                "Invalid additional identifier format for template '{0}' at index {1}. Expected dict, got: {2}".format(
+                                    design_name, idx, type(identifier).__name__
+                                ),
+                                "WARNING",
+                            )
+
+                else:
+                    self.log(
+                        "No additional identifiers provided for feature template '{0}'".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                    if excluded_attributes:
+                        self.log(
+                            "Processing excluded attributes for template '{0}': {1}".format(
+                                design_name, excluded_attributes
+                            ),
+                            "DEBUG",
+                        )
+                        if not isinstance(excluded_attributes, list):
+                            self.log(
+                                "Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
+                                    design_name, type(excluded_attributes).__name__
+                                ),
+                                "WARNING",
+                            )
+                            excluded_attributes = []
+                    else:
+                        self.log(
+                            "No excluded attributes specified for feature template '{0}'".format(
+                                design_name
+                            ),
+                            "DEBUG",
+                        )
+
+                ft_entry = {
+                    "design_name": design_name,
+                }
+                if cleaned_attributes:
+                    ft_entry["attributes"] = cleaned_attributes
+                    self.log(
+                        "Added cleaned attributes to feature template '{0}' entry".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                if additional_identifiers:
+                    ft_entry["additional_identifiers"] = additional_identifiers
+                    self.log(
+                        "Added additional identifiers to feature template '{0}' entry".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                if excluded_attributes:
+                    ft_entry["excluded_attributes"] = excluded_attributes
+                    self.log(
+                        "Added excluded attributes to feature template '{0}' entry".format(
+                            design_name
+                        ),
+                        "DEBUG",
+                    )
+
+                wireless_params[0]["feature_template"].append(ft_entry)
+                self.log(
+                    "Successfully configured feature template '{0}' for wireless device provisioning".format(
+                        design_name
+                    ),
+                    "INFO",
+                )
+
+        self.log(
+            "Parameters collected for the provisioning of wireless device: {0}".format(
+                wireless_params
+            ),
+            "INFO",
+        )
         return wireless_params
+
+    def resolve_template_id(self, design_name):
+        """
+        Retrieves the feature template ID for a given design name.
+
+        Args:
+            design_name (str): Name of the feature template design to match.
+
+        Description:
+            This function queries Cisco Catalyst Center to resolve a feature template design name
+            to its corresponding template ID. It searches through template groups and instances,
+            filtering out system templates to find user-defined templates.
+
+        Returns:
+            str or None: The featureTemplateId if found, else None.
+        """
+        self.log(
+            "Initiating feature template ID resolution for design name: '{0}'".format(
+                design_name
+            ),
+            "DEBUG",
+        )
+
+        if not design_name:
+            self.log(
+                "Design name is empty or None - cannot resolve template ID", "ERROR"
+            )
+            return None
+
+        if not isinstance(design_name, str):
+            self.log(
+                "Design name must be a string, received: {0}".format(
+                    type(design_name).__name__
+                ),
+                "ERROR",
+            )
+            return None
+
+        self.log(
+            "Querying Cisco Catalyst Center for feature template with design name: '{0}'".format(
+                design_name
+            ),
+            "INFO",
+        )
+
+        try:
+            ft_response = self.dnac_apply["exec"](
+                family="wireless",
+                function="get_feature_template_summary",
+                params={"designName": design_name},
+            )
+
+            self.log(
+                "Received feature template API response from 'get_feature_template_summary': {0}".format(
+                    str(ft_response)
+                ),
+                "DEBUG",
+            )
+
+            template_groups = ft_response.get("response", [])
+            if not template_groups:
+                self.log("No template groups found in API response", "WARNING")
+                return None
+
+            self.log(
+                "Processing {0} template group(s) for design name: '{1}'".format(
+                    len(template_groups), design_name
+                ),
+                "DEBUG",
+            )
+
+            for group_index, template_group in enumerate(template_groups):
+                self.log(
+                    "Processing template group {0} of {1}".format(
+                        group_index + 1, len(template_groups)
+                    ),
+                    "DEBUG",
+                )
+
+                instances = template_group.get("instances", [])
+                if not instances:
+                    self.log(
+                        "No instances found in template group {0}".format(
+                            group_index + 1
+                        ),
+                        "DEBUG",
+                    )
+                    continue
+
+                self.log(
+                    "Found {0} template instance(s) in group {1}".format(
+                        len(instances), group_index + 1
+                    ),
+                    "DEBUG",
+                )
+
+                for instance_index, instance in enumerate(instances):
+                    instance_design_name = instance.get("designName")
+                    instance_id = instance.get("id")
+                    is_system_template = instance.get("systemTemplate", False)
+
+                    self.log(
+                        "Evaluating template instance {0}: design_name='{1}', id='{2}', system_template={3}".format(
+                            instance_index + 1,
+                            instance_design_name,
+                            instance_id,
+                            is_system_template,
+                        ),
+                        "DEBUG",
+                    )
+
+                    if instance_design_name == design_name and not is_system_template:
+                        self.log(
+                            "Successfully resolved feature template ID: '{0}' for design name: '{1}'".format(
+                                instance_id, design_name
+                            ),
+                            "INFO",
+                        )
+                        return instance_id
+
+                    if instance_design_name == design_name and is_system_template:
+                        self.log(
+                            "Found matching design name '{0}' but it's a system template - skipping".format(
+                                design_name
+                            ),
+                            "DEBUG",
+                        )
+
+                    if instance_design_name != design_name:
+                        self.log(
+                            "Design name mismatch: expected '{0}', found '{1}' - skipping".format(
+                                design_name, instance_design_name
+                            ),
+                            "DEBUG",
+                        )
+
+            self.log(
+                "Feature template with design name '{0}' not found after searching all template groups and instances".format(
+                    design_name
+                ),
+                "WARNING",
+            )
+            return None
+
+        except Exception as e:
+            msg = "Exception occurred while resolving feature template ID for design name '{0}': {1}".format(
+                design_name, str(e)
+            )
+            self.log(msg, "ERROR")
+            return None
 
     def get_want(self, config):
         """
@@ -1318,16 +1975,17 @@ class Provision(CatalystCenterBase):
 
         MIN_SUPPORTED_VERSION = "2.3.7.9"
         current_version = self.get_ccc_version()
-
-        if self.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
-            self.log(
-                "Current Catalyst Center version ({0}) supports application telemetry.".format(
-                    current_version
-                ),
-                "DEBUG",
-            )
-
-            if application_telemetry:
+        self.log(
+            "Current Catalyst Center version is {0}".format(current_version), "DEBUG"
+        )
+        if application_telemetry:
+            if self.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
+                self.log(
+                    "Current Catalyst Center version ({0}) supports application telemetry.".format(
+                        current_version
+                    ),
+                    "DEBUG",
+                )
                 self.log(
                     "Application telemetry configuration detected: {0}".format(
                         application_telemetry
@@ -1335,20 +1993,20 @@ class Provision(CatalystCenterBase):
                     "DEBUG",
                 )
                 self.want["application_telemetry"] = application_telemetry
-                return self
+
             else:
-                self.log(
-                    "No application telemetry configuration found in the validated config.",
-                    "DEBUG",
+                self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(
+                    MIN_SUPPORTED_VERSION, current_version
                 )
+                self.log(self.msg, "ERROR")
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
         else:
-            self.msg = "Application telemetry is available only in version {0} or higher. Current version: {1}".format(
-                MIN_SUPPORTED_VERSION, current_version
+            self.log(
+                "No application telemetry configuration found in the validated config.",
+                "DEBUG",
             )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
 
         self.want["device_type"] = self.get_dev_type()
 
@@ -1536,9 +2194,9 @@ class Provision(CatalystCenterBase):
         ccc_version = self.get_ccc_version()
         self.log("Fetched CCC version: {0}".format(ccc_version), "DEBUG")
 
-        # Check if provisioning should be handled based on CATALYST version:
-        # - If CATALYST version is ≤ 2.3.5.3, always proceed with provisioning logic.
-        # - If CATALYST version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
+        # Check if provisioning should be handled based on DNAC version:
+        # - If DNAC version is ≤ 2.3.5.3, always proceed with provisioning logic.
+        # - If DNAC version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
 
         if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0 or (
             self.compare_dnac_versions(ccc_version, "2.3.7.6") >= 0
@@ -1586,7 +2244,7 @@ class Provision(CatalystCenterBase):
                                 self.device_ip
                             )
                         )
-                        self.set_operation_result("success", False, self.msg, "INFO")
+                        self.already_provisioned_wireless_device.append(self.device_ip)
                         return self
 
                 self.log("Starting wireless device provisioning...", "INFO")
@@ -1643,20 +2301,13 @@ class Provision(CatalystCenterBase):
             - Handles and logs any exceptions that may occur during the API execution.
         """
 
-        self.log(
-            "Starting application_telemetry function: Enabling/disabling telemetry on network devices. "
-            "Received telemetry configuration: {0}".format(telemetry_config),
-            "INFO",
-        )
         application_telemetry_details = telemetry_config.get(
             "application_telemetry", []
         )
 
         if not application_telemetry_details:
-            self.log(
-                "No application telemetry details found in the configuration.", "DEBUG"
-            )
-            self.msg = "No valid application telemetry configuration provided."
+            self.msg = "No application telemetry configuration entries found in telemetry config."
+            self.log(self.msg, "WARNING")
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
@@ -1670,34 +2321,108 @@ class Provision(CatalystCenterBase):
             "disable": "disable_application_telemetry_feature_on_multiple_network_devices",
         }
 
+        self.log("Starting application telemetry configuration process", "DEBUG")
+        self.log(
+            "Received telemetry configuration: {0}".format(telemetry_config), "DEBUG"
+        )
+
+        application_telemetry_details = telemetry_config.get(
+            "application_telemetry", []
+        )
+        if not application_telemetry_details:
+            self.msg = "No application telemetry configuration entries found in telemetry config."
+            self.log(self.msg, "WARNING")
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR"
+            ).check_return_status()
+            return self
+
+        self.log(
+            "Processing {0} telemetry configuration entries".format(
+                len(application_telemetry_details)
+            ),
+            "INFO",
+        )
+
         for detail in application_telemetry_details:
             device_ips = detail.get("device_ips", [])
+            self.log("Processing device IPs: {0}".format(device_ips), "DEBUG")
+            if device_ips is None or len(device_ips) == 0:
+                self.msg = "No valid device IPs provided for application telemetry."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            all_empty = True
+            for ip in device_ips:
+                if ip.strip() != "":
+                    all_empty = False
+                    self.log("Valid device IP found: {0}".format(ip), "DEBUG")
+                    break
+
+            if all_empty:
+                self.msg = "No valid device IPs provided for application telemetry."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
             telemetry = detail.get("telemetry")  # "enable" or "disable"
+            if telemetry not in ["enable", "disable"]:
+                self.msg = "Invalid telemetry action '{0}'. Expected 'enable' or 'disable'.".format(
+                    telemetry
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
             wlan_mode = detail.get("wlan_mode")
             include_guest_ssid = detail.get("include_guest_ssid", False)
-
+            self.log(
+                "Telemetry action: {0}, WLAN mode: {1}, Include guest SSID: {2}".format(
+                    telemetry, wlan_mode, include_guest_ssid
+                ),
+                "DEBUG",
+            )
             for ip in device_ips:
                 self.validated_config["management_ip_address"] = ip
+                device_type, device_family = self.get_device_type_and_family(ip)
+                self.log(
+                    "Device type: {0}, Device family: {1} for IP: {2}".format(
+                        device_type, device_family, ip
+                    ),
+                    "DEBUG",
+                )
+
+                unsupported_devices = [
+                    "Cisco Catalyst 9500 Switch",
+                    "Cisco Catalyst 9600 Switch",
+                ]
+
+                if (device_type and device_type in unsupported_devices) or (
+                    device_family
+                    and device_family.lower()
+                    not in [
+                        "routers",
+                        "wireless lan controllers",
+                        "switches and hubs",
+                        "wireless controller",
+                    ]
+                ):
+                    self.msg = (
+                        "No telemetry-applicable interfaces/WLANs found. "
+                        "device : {0} Telemetry not supported for device type: {1}, family: {2}".format(
+                            ip, device_type, device_family
+                        )
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+                    return self
+
                 device_type = self.get_dev_type()
-                device_id = self.get_device_id()
 
-                if not device_ips:
-                    self.log(
-                        "No device IPs found in the telemetry configuration: {0}".format(
-                            detail
-                        ),
-                        "WARNING",
-                    )
-                    continue
-
-                if telemetry not in ["enable", "disable"]:
-                    self.log(
-                        "Invalid telemetry action '{0}' specified in the configuration. Skipping.".format(
-                            telemetry
-                        ),
-                        "WARNING",
-                    )
-                    continue
+                device_id = self.get_device_id_for_app_telemetry()
 
                 if not device_id:
                     self.log(
@@ -1705,41 +2430,180 @@ class Provision(CatalystCenterBase):
                     )
                     continue
 
+                is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
+                self.log(
+                    "Device with IP {0} is assigned to site: {1}".format(
+                        ip, is_device_assigned_to_site
+                    ),
+                    "DEBUG",
+                )
+                if not is_device_assigned_to_site:
+                    self.msg = "Device with IP {0} is not assigned to any site. Telemetry cannot be enabled/disabled.".format(
+                        ip
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+
                 if telemetry == "enable":
                     device_data = {"id": device_id}
                     if device_type != "wired":
                         if not wlan_mode:
-                            self.msg = "wlan_mode is mandatory for wireless devices. Skipping device {0}.".format(
-                                ip
-                            )
+                            self.msg = "wlan_mode is mandatory when the device type is wireless"
                             self.set_operation_result(
                                 "failed", False, self.msg, "ERROR"
                             ).check_return_status()
-                        else:
+                        if wlan_mode:
                             device_data["includeWlanModes"] = [wlan_mode]
-
                         if include_guest_ssid:
                             device_data["includeGuestSsids"] = include_guest_ssid
                     enable_payload.append(device_data)
                 else:
                     disable_ids.append(device_id)
-        self.log("Enable payload: {0}".format(enable_payload), "DEBUG")
+
         # Enable telemetry
         if enable_payload:
-            self.execute_api(
-                telemetry_api_map["enable"],
-                {"networkDevices": enable_payload},
-                "enabling",
-            )
+            api_function = telemetry_api_map["enable"]
+            payload = {"networkDevices": enable_payload}
+            self.log("Sending enable payload: {0}".format(payload))
 
+            try:
+                response = self.catalystcenter._exec(
+                    family="application_policy",
+                    function=api_function,
+                    op_modifies=True,
+                    params={"payload": payload},
+                )
+                self.log(
+                    "Received API response for enable: {0}".format(response), "DEBUG"
+                )
+                self.enable_application_telemetry.append(ip)
+                self.check_tasks_response_status(response, api_function)
+
+                if self.status not in ["failed", "exited"]:
+                    self.msg = (
+                        "Application telemetry enabled successfully for all devices."
+                    )
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                else:
+                    self.msg = "Enabling telemetry failed: {0}".format(self.msg)
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+
+            except Exception as e:
+                self.msg = "Exception while enabling telemetry: {0}".format(e)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+        # Disable telemetry
         if disable_ids:
-            self.execute_api(
-                telemetry_api_map["disable"],
-                {"networkDeviceIds": disable_ids},
-                "disabling",
-            )
+            api_function = telemetry_api_map["disable"]
+            disable_ids = list(set(disable_ids))  # Remove duplicates
+            payload = {"networkDeviceIds": disable_ids}
+            self.log("Sending disable payload: {0}".format(payload))
+
+            try:
+                response = self.catalystcenter._exec(
+                    family="application_policy",
+                    function=api_function,
+                    op_modifies=True,
+                    params={"payload": payload},
+                )
+                self.log(
+                    "Received API response for Disable: {0}".format(response), "DEBUG"
+                )
+                self.disable_application_telemetry.append(ip)
+                self.check_tasks_response_status(response, api_function)
+
+                if self.status not in ["failed", "exited"]:
+                    self.msg = (
+                        "Application telemetry disabled successfully for all devices."
+                    )
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                else:
+                    self.msg = "Disabling telemetry failed: {0}".format(self.msg)
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+
+            except Exception as e:
+                self.msg = "Exception while disabling telemetry: {0}".format(e)
+                self.result["response"] = self.msg
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
 
         return self
+
+    def get_device_type_and_family(self, device_ip):
+        """
+        Retrieves the type and family of a network device based on its IP address.
+
+        This method interacts with the Cisco Catalyst Center to fetch metadata about a device
+        using its IP address, specifically retrieving its 'type' and 'family' attributes.
+
+        Args:
+            device_ip (str): The IP address of the network device to query.
+
+        Returns:
+            Tuple[str, str]: A tuple containing the device's type and family.
+                            Returns (None, None) if the device is not found or an error occurs.
+
+        Description:
+            This method:
+            - Initiates an API call to retrieve device details from Catalyst Center using the given IP address.
+            - Parses the response to extract the device's 'type' and 'family'.
+            - Logs the retrieval process at various stages including request initiation, API response, and the final result.
+            - Handles scenarios where the device response is empty or an exception occurs during the API call.
+            - Ensures that all operations are logged with appropriate context for easier debugging and traceability.
+        """
+        self.log(
+            "Starting device type/family retrieval for IP: {0}".format(device_ip),
+            "INFO",
+        )
+
+        try:
+            dev_response = self.dnac_apply["exec"](
+                family="devices",
+                function="get_network_device_by_ip",
+                params={"ip_address": device_ip},
+            )
+
+            self.log(
+                "API response for device IP {0}: {1}".format(
+                    device_ip, str(dev_response)
+                ),
+                "DEBUG",
+            )
+
+            device = dev_response.get("response", {})
+            if not device:
+                self.log(
+                    "Device response empty or missing for IP: {0}".format(device_ip),
+                    "WARNING",
+                )
+                return None, None
+
+            device_type = device.get("type", "")
+            device_family = device.get("family", "")
+
+            self.log(
+                "Device type: '{0}', family: '{1}' for IP: {2}".format(
+                    device_type, device_family, device_ip
+                ),
+                "INFO",
+            )
+
+            return device_type, device_family
+
+        except Exception as e:
+            msg = "Failed to get device details for IP {0}: {1}".format(
+                device_ip, str(e)
+            )
+            self.log(msg, "ERROR")
+            return None, None
 
     def execute_api(self, api_function, payload, action):
         """
@@ -1826,6 +2690,7 @@ class Provision(CatalystCenterBase):
             self.provisioned_device,
             self.already_provisioned_devices,
         ) = ([], [], [])
+
         success_msg, provision_needed, reprovision_needed = [], [], []
         self.log("Starting bulk wired device provisioning process.", "INFO")
 
@@ -1843,7 +2708,18 @@ class Provision(CatalystCenterBase):
             site_id_tuple = self.get_site_id(site_name)
             site_id = site_id_tuple[1]
             self.device_ips.append(device_ip)
-
+            site_type = self.get_sites_type(site_name)
+            self.log(
+                "Site type for site '{0}': {1}".format(site_name, site_type), "DEBUG"
+            )
+            if site_type in ["area", "global"]:
+                self.msg = (
+                    "Site type '{0}' is not supported for provisioning. "
+                    "Please use a site type of 'building' or 'floor'.".format(site_type)
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
             network_device_id = self.get_device_ids_from_device_ips([device_ip]).get(
                 device_ip
             )
@@ -1868,6 +2744,25 @@ class Provision(CatalystCenterBase):
             to_provisioning = config.get("provisioning", False)
 
             if not to_provisioning and status != "success":
+                is_assigned, current_site = self.is_device_assigned_to_site_v1(
+                    network_device_id
+                )
+
+                if is_assigned and current_site == site_name:
+                    self.log(
+                        "Device '{0}' is already assigned to site '{1}'. No action required.".format(
+                            device_ip, site_name
+                        ),
+                        "INFO",
+                    )
+                    success_msg.append(
+                        "Wired Device '{0}' is already assigned to site '{1}'.".format(
+                            device_ip, site_name
+                        )
+                    )
+                    self.already_assigned_device_to_site.append(device_ip)
+                    continue
+
                 self.log(
                     "Provisioning not required; assigning device '{0}' to site '{1}' (site_id: {2}).".format(
                         device_ip, site_name, site_id
@@ -1880,12 +2775,13 @@ class Provision(CatalystCenterBase):
                             device_ip, site_name
                         )
                     )
+                    self.assigned_device_to_site.append(device_ip)
 
                 continue
 
             if status == "success":
                 if not to_force_provisioning:
-                    self.already_provisioned_devices.append(device_ip)
+                    self.already_provisioned_wired_device.append(device_ip)
                     success_msg.append(
                         "Wired Device '{0}' is already provisioned.".format(device_ip)
                     )
@@ -1944,6 +2840,7 @@ class Provision(CatalystCenterBase):
                 )
             )
             success_msg.append(re_prov_success_msg)
+            self.re_provision_wired_device.append(reprovision_needed)
 
         if provision_params:
             for i in range(0, len(provision_params), 100):
@@ -1973,7 +2870,7 @@ class Provision(CatalystCenterBase):
 
     def get_device_type(self):
         """
-        Classifies devices as 'wired' or 'wireless' based on their family type from the Cisco DNA Center API.
+        Classifies devices as 'wired' or 'wireless' based on their family type from the Cisco Catalyst Center API.
 
         This function queries each device in `validated_config` to determine whether it is a wired or wireless device.
         The classification is stored in `self.device_dict`.
@@ -2277,7 +3174,7 @@ class Provision(CatalystCenterBase):
                 )
 
                 is_device_assigned_to_a_site, device_site_name = (
-                    self.is_device_assigned_to_site(device_id)
+                    self.is_device_assigned_to_site_v1(device_id)
                 )
                 if is_device_assigned_to_a_site:
                     if device_site_name != self.site_name:
@@ -2414,6 +3311,7 @@ class Provision(CatalystCenterBase):
                     self.msg = "Wired Device '{0}' re-provisioning completed successfully.".format(
                         device_ips
                     )
+
                     self.set_operation_result("success", True, self.msg, "INFO")
 
                 if self.status in ["failed", "exited"]:
@@ -2476,6 +3374,9 @@ class Provision(CatalystCenterBase):
                         success_msg = "Provisioning of the device '{0}' completed successfully.".format(
                             self.device_ip
                         )
+                        self.provisioned_wired_device.append(
+                            self.validated_config["management_ip_address"]
+                        )
                         self.log(success_msg, "INFO")
                         self.result["changed"] = True
                         self.result["msg"] = success_msg
@@ -2517,6 +3418,7 @@ class Provision(CatalystCenterBase):
                         success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(
                             device_ips
                         )
+                        self.provisioned_wired_device.append(device_ips)
                         self.set_operation_result("success", True, self.msg, "INFO")
 
                     if self.status in ["failed", "exited"]:
@@ -2658,6 +3560,9 @@ class Provision(CatalystCenterBase):
                 self.get_execution_status_wireless(execution_id=execution_id)
                 self.result["changed"] = True
                 self.result["msg"] = "Wireless device provisioned successfully"
+                self.provisioned_wireless_device.append(
+                    self.validated_config["management_ip_address"]
+                )
                 self.result["diff"] = self.validated_config
                 self.result["response"] = execution_id
                 self.log(self.result["msg"], "INFO")
@@ -2677,7 +3582,7 @@ class Provision(CatalystCenterBase):
             )
             self.log("Checking if device is assigned to the site", "INFO")
             is_device_assigned_to_a_site, device_site_name = (
-                self.is_device_assigned_to_site(device_uid)
+                self.is_device_assigned_to_site_v1(device_uid)
             )
 
             if is_device_assigned_to_a_site is False:
@@ -2693,7 +3598,7 @@ class Provision(CatalystCenterBase):
             self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
 
             is_device_assigned_to_a_site, device_site_name = (
-                self.is_device_assigned_to_site(device_uid)
+                self.is_device_assigned_to_site_v1(device_uid)
             )
 
             if is_device_assigned_to_a_site is True:
@@ -2790,6 +3695,7 @@ class Provision(CatalystCenterBase):
                 "INFO",
             )
             prov_params = self.want.get("prov_params")[0]
+            self.log("Provisioning parameters: {0}".format(prov_params), "DEBUG")
             payload = {"device_id": prov_params.get("device_id"), "interfaces": []}
 
             self.log("Processing interfaces if they exist", "INFO")
@@ -2825,26 +3731,161 @@ class Provision(CatalystCenterBase):
                 self.log("'skip_ap_provision'  is not specified", "DEBUG")
 
             self.log("Processing rolling AP upgrade settings", "INFO")
+            allowed_ap_reboot_percentages = {5, 10, 25}
+
             if "rolling_ap_upgrade" in prov_params:
                 self.log(
                     "Found 'rolling_ap_upgrade' in provisioning parameters", "DEBUG"
                 )
-                rolling_ap_upgrade = {}
-                for k, v in prov_params["rolling_ap_upgrade"].items():
-                    if v is not None:
-                        rolling_ap_upgrade[k] = v
+
+                rolling_upgrade_config = {}
+                rolling_upgrade_data = prov_params["rolling_ap_upgrade"]
+
+                if "ap_reboot_percentage" in rolling_upgrade_data:
+                    reboot_percentage_value = rolling_upgrade_data[
+                        "ap_reboot_percentage"
+                    ]
+
+                    if (
+                        reboot_percentage_value is None
+                        or not str(reboot_percentage_value).isdigit()
+                    ):
+                        self.msg = (
+                            "Error: Invalid percentage value '{0}'. Must be an integer. "
+                            "Supported values are 5, 10, and 25.".format(
+                                reboot_percentage_value
+                            )
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+                    reboot_percentage_value = int(reboot_percentage_value)
+                    if reboot_percentage_value not in allowed_ap_reboot_percentages:
+                        self.msg = (
+                            "Error: Invalid percentage value '{0}'. "
+                            "Supported values are 5, 10, and 25.".format(
+                                reboot_percentage_value
+                            )
+                        )
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+                    rolling_upgrade_config["ap_reboot_percentage"] = (
+                        reboot_percentage_value
+                    )
+                    self.log(
+                        "Processed 'ap_reboot_percentage': {0}".format(
+                            reboot_percentage_value
+                        ),
+                        "DEBUG",
+                    )
+
+                # Process remaining keys in 'rolling_ap¿_upgrade'
+                for key, value in rolling_upgrade_data.items():
+                    if key == "ap_reboot_percentage":
                         self.log(
-                            "Processed 'rolling_ap_upgrade': {0}".format(
-                                rolling_ap_upgrade
+                            "Skipping already processed key 'ap_reboot_percentage'",
+                            "DEBUG",
+                        )
+                        continue
+
+                    if value is not None:
+                        rolling_upgrade_config[key] = value
+                        self.log(
+                            "Processed 'rolling_ap_upgrade' key '{0}': {1}".format(
+                                key, value
                             ),
                             "DEBUG",
                         )
                     else:
                         self.log(
-                            "No 'rolling_ap_upgrade' found in provisioning parameters",
+                            "No '{0}' found in rolling_ap_upgrade, skipping".format(
+                                key
+                            ),
                             "DEBUG",
                         )
-                payload["rollingApUpgrade"] = rolling_ap_upgrade
+
+                payload["rollingApUpgrade"] = rolling_upgrade_config
+
+            # Process AP authorization list configuration if provided
+            if "ap_authorization_list_name" in prov_params:
+                ap_auth_list = prov_params.get("ap_authorization_list_name")
+                self.log(
+                    "Adding AP authorization list name to payload: '{0}'".format(
+                        ap_auth_list
+                    ),
+                    "DEBUG",
+                )
+                payload["apAuthorizationListName"] = ap_auth_list
+            else:
+                self.log(
+                    "No AP authorization list name provided in provisioning parameters",
+                    "DEBUG",
+                )
+
+            # Process mesh and non-mesh AP authorization configuration if provided
+            if "authorize_mesh_and_non_mesh_aps" in prov_params:
+                authorize_aps = prov_params.get("authorize_mesh_and_non_mesh_aps")
+                self.log(
+                    "Adding mesh and non-mesh AP authorization flag to payload: '{0}'".format(
+                        authorize_aps
+                    ),
+                    "DEBUG",
+                )
+                payload["authorizeMeshAndNonMeshAPs"] = authorize_aps
+            else:
+                self.log(
+                    "No mesh and non-mesh AP authorization flag provided in provisioning parameters",
+                    "DEBUG",
+                )
+
+            current_version = self.get_ccc_version()
+            if self.compare_dnac_versions(current_version, "3.1.3.0") >= 0:
+                self.log(
+                    "Cisco Catalyst Center version '{0}' supports feature template functionality (>= 3.1.3.0)".format(
+                        current_version
+                    ),
+                    "INFO",
+                )
+                self.log(prov_params)
+                if "feature_template" in prov_params:
+                    self.log(
+                        "Processing feature template configuration from provisioning parameters",
+                        "INFO",
+                    )
+
+                    feature_templates = prov_params.get("feature_template", [])
+                    self.log(feature_templates)
+                    if not feature_templates:
+                        self.log(
+                            "Empty feature template list found in provisioning parameters",
+                            "WARNING",
+                        )
+                    else:
+                        self.log(
+                            "Found {0} feature template(s) to process".format(
+                                len(feature_templates)
+                            ),
+                            "DEBUG",
+                        )
+                        payload = self.process_feature_template_configuration(
+                            feature_templates, payload
+                        )
+
+                else:
+                    self.log(
+                        "No feature template configuration found in provisioning parameters",
+                        "DEBUG",
+                    )
+
+            import json
+
+            self.log(
+                "Final constructed payload:\n{0}".format(json.dumps(payload, indent=2)),
+                "INFO",
+            )
 
             try:
                 response = self.dnac_apply["exec"](
@@ -2870,6 +3911,9 @@ class Provision(CatalystCenterBase):
                                 self.device_ip
                             ),
                             "INFO",
+                        )
+                        self.provisioned_wireless_device.append(
+                            self.validated_config["management_ip_address"]
                         )
                         self.result["changed"] = True
                         self.result["msg"] = (
@@ -2899,6 +3943,297 @@ class Provision(CatalystCenterBase):
                 self.result["response"] = self.msg
                 self.check_return_status()
 
+    def process_feature_template_configuration(self, feature_templates, payload):
+        """
+        Processes feature template configuration for wireless device provisioning payload construction.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            feature_templates (list): List of feature template configurations to process.
+            payload (dict): The wireless provisioning payload to be updated with feature template data.
+        Returns:
+            dict: Updated payload containing feature template configuration.
+        Description:
+            This function validates and processes feature template configurations for wireless device
+            provisioning. It performs comprehensive validation of required fields including design name,
+            additional identifiers (WLAN profile and site hierarchy), and excluded attributes. The function
+            resolves template and site identifiers using Cisco Catalyst Center APIs, constructs the
+            appropriate payload structure for the provisioning API, and ensures all mandatory fields
+            are present and properly formatted before adding the template configuration to the payload.
+        """
+        self.log(
+            "Processing feature template configuration with {0} templates".format(
+                len(feature_templates) if feature_templates else 0
+            ),
+            "DEBUG",
+        )
+        self.log(
+            "Input feature_templates: {0}".format(self.pprint(feature_templates)),
+            "DEBUG",
+        )
+        self.log("Input payload structure: {0}".format(self.pprint(payload)), "DEBUG")
+
+        if not feature_templates:
+            self.log(
+                "No feature templates provided; returning original payload unchanged",
+                "DEBUG",
+            )
+            return payload
+
+        self.initialize_feature_template_payload_structure(payload)
+
+        processing_stats = {"processed": 0, "skipped": 0, "errors": 0}
+
+        for template_index, feature_template in enumerate(feature_templates):
+            self.log(
+                "Processing feature template #{0}: {1}".format(
+                    template_index + 1, self.pprint(feature_template)
+                ),
+                "DEBUG",
+            )
+
+            if not isinstance(feature_template, dict):
+                message = "Feature template entry #{0} must be a dictionary. Skipping invalid entry.".format(
+                    template_index + 1
+                )
+                self.log(message, "WARNING")
+                processing_stats["skipped"] += 1
+                continue
+
+            try:
+                template_entry = self.process_individual_feature_template(
+                    template_index, feature_template
+                )
+
+                if template_entry:
+                    payload["featureTemplatesOverridenAttributes"][
+                        "editFeatureTemplates"
+                    ].append(template_entry)
+                    processing_stats["processed"] += 1
+                    self.log(
+                        "Successfully added feature template entry for templateId '{0}'".format(
+                            template_entry.get("featureTemplateId")
+                        ),
+                        "INFO",
+                    )
+                else:
+                    processing_stats["skipped"] += 1
+
+            except Exception as exception:
+                processing_stats["errors"] += 1
+                error_message = "Failed to process feature template #{0}: {1}".format(
+                    template_index + 1, str(exception)
+                )
+                self.log(error_message, "ERROR")
+
+                if hasattr(self, "set_operation_result"):
+                    self.set_operation_result(
+                        "failed", False, error_message, "ERROR"
+                    ).check_return_status()
+                    return payload
+
+        self.log(
+            "Feature template processing completed - Processed: {0}, Skipped: {1}, Errors: {2}".format(
+                processing_stats["processed"],
+                processing_stats["skipped"],
+                processing_stats["errors"],
+            ),
+            "INFO",
+        )
+
+        self.log(
+            "Final payload with feature templates: {0}".format(
+                self.pprint(payload["featureTemplatesOverridenAttributes"])
+            ),
+            "DEBUG",
+        )
+
+        return payload
+
+    def initialize_feature_template_payload_structure(self, payload):
+        """
+        Initializes the feature template payload structure if not already present.
+        Args:
+            payload (dict): The wireless provisioning payload to be updated.
+        Returns:
+            None: The function modifies the payload in place.
+        """
+        self.log("Initializing feature template payload structure", "DEBUG")
+
+        if "featureTemplatesOverridenAttributes" not in payload:
+            payload["featureTemplatesOverridenAttributes"] = {
+                "editFeatureTemplates": []
+            }
+            self.log(
+                "Created new featureTemplatesOverridenAttributes structure", "DEBUG"
+            )
+            return
+
+        feature_template_attributes = payload["featureTemplatesOverridenAttributes"]
+        if "editFeatureTemplates" not in feature_template_attributes or not isinstance(
+            feature_template_attributes["editFeatureTemplates"], list
+        ):
+            feature_template_attributes["editFeatureTemplates"] = []
+            self.log("Initialized editFeatureTemplates as empty list", "DEBUG")
+
+        return
+
+    def process_individual_feature_template(self, template_index, feature_template):
+        """
+        Processes a single feature template entry and returns the formatted template entry.
+        Args:
+            template_index (int): Index of the template being processed
+            feature_template (dict): Individual feature template configuration
+        Returns:
+            dict or None: Formatted template entry for API payload, or None if skipped
+        """
+        self.log(
+            "Processing individual feature template at index {0}".format(
+                template_index
+            ),
+            "DEBUG",
+        )
+
+        normalized_params = self.normalize_feature_template_input(feature_template)
+        feature_template_id = normalized_params["feature_template_id"]
+        design_name = normalized_params["design_name"]
+
+        if not feature_template_id and not design_name:
+            message = "Feature template #{0} missing both 'featureTemplateId' and 'design_name'. Skipping entry.".format(
+                template_index + 1
+            )
+            self.log(message, "WARNING")
+            return None
+
+        # Resolve template ID if only design name provided
+        if not feature_template_id and design_name:
+            self.log(
+                "Resolving feature template ID for design name '{0}'".format(
+                    design_name
+                ),
+                "DEBUG",
+            )
+            try:
+                feature_template_id = self.resolve_template_id(design_name)
+                if not feature_template_id:
+                    message = "Failed to resolve template ID for design '{0}'. Skipping entry.".format(
+                        design_name
+                    )
+                    self.log(message, "WARNING")
+                    return None
+
+                self.log(
+                    "Resolved template ID '{0}' for design '{1}'".format(
+                        feature_template_id, design_name
+                    ),
+                    "DEBUG",
+                )
+
+            except Exception as exception:
+                error_message = (
+                    "Exception resolving template ID for design '{0}': {1}".format(
+                        design_name, str(exception)
+                    )
+                )
+                self.log(error_message, "ERROR")
+                raise
+
+        template_entry = {
+            "featureTemplateId": feature_template_id,
+            "attributes": (
+                normalized_params["attributes"]
+                if normalized_params["attributes"]
+                else {}
+            ),
+        }
+
+        # Only include additionalIdentifiers if user actually provided something
+        if normalized_params["additional_identifiers"]:
+            template_entry["additionalIdentifiers"] = normalized_params[
+                "additional_identifiers"
+            ]
+
+        # Include excludedAttributes if provided
+        if normalized_params["excluded_attributes"]:
+            template_entry["excludedAttributes"] = normalized_params[
+                "excluded_attributes"
+            ]
+
+        self.log(
+            "Built template entry: {0}".format(self.pprint(template_entry)), "DEBUG"
+        )
+        return template_entry
+
+    def normalize_feature_template_input(self, feature_template):
+        """
+        Normalizes feature template input to handle both camelCase and snake_case formats.
+        Args:
+            feature_template (dict): Raw feature template input
+        Returns:
+            dict: Normalized parameter dictionary
+        """
+        self.log("Normalizing feature template input parameters", "DEBUG")
+
+        # Extract template identifiers with fallbacks
+        feature_template_id = feature_template.get(
+            "featureTemplateId"
+        ) or feature_template.get("feature_template_id")
+
+        design_name = (
+            feature_template.get("design_name")
+            or feature_template.get("designName")
+            or feature_template.get("designname")
+        )
+
+        # Extract configuration parameters
+        attributes = (
+            feature_template.get("attributes") or feature_template.get("attrs") or {}
+        )
+        if attributes is None:
+            attributes = {}
+
+        excluded_attributes = (
+            feature_template.get("excludedAttributes")
+            or feature_template.get("excluded_attributes")
+            or []
+        )
+        if excluded_attributes is None:
+            excluded_attributes = []
+
+        # Process additional identifiers
+        additional_identifiers_input = (
+            feature_template.get("additionalIdentifiers")
+            or feature_template.get("additional_identifiers")
+            or {}
+        )
+
+        # Collect top-level identifier keys if not in nested structure
+        if not additional_identifiers_input:
+            additional_identifiers_input = {}
+            identifier_keys = [
+                "wlan_profile_name",
+                "wlanProfileName",
+                "site_name_hierarchy",
+                "siteHierarchy",
+                "siteUuid",
+                "site_uuid",
+            ]
+            for key in identifier_keys:
+                if key in feature_template:
+                    additional_identifiers_input[key] = feature_template[key]
+
+        normalized_result = {
+            "feature_template_id": feature_template_id,
+            "design_name": design_name,
+            "attributes": attributes,
+            "excluded_attributes": excluded_attributes,
+            "additional_identifiers": additional_identifiers_input,
+        }
+
+        self.log(
+            "Normalized parameters: {0}".format(self.pprint(normalized_result)), "DEBUG"
+        )
+        return normalized_result
+
     def get_diff_deleted(self):
         """
         Delete from provision database
@@ -2920,10 +4255,11 @@ class Provision(CatalystCenterBase):
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        if device_type != "wired":
-            self.result["msg"] = "APIs are not supported for the device"
-            self.log(self.result["msg"], "CRITICAL")
-            return self
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            if device_type != "wired":
+                self.result["msg"] = "APIs are not supported for the device"
+                self.log(self.result["msg"], "CRITICAL")
+                return self
 
         device_id = self.get_device_id()
         provision_id, status = self.get_device_provision_status(device_id)
@@ -2933,7 +4269,7 @@ class Provision(CatalystCenterBase):
                 "Device associated with the passed IP address is not provisioned"
             )
             self.log(self.result["msg"], "CRITICAL")
-            self.result["response"] = self.want["prov_params"]
+            self.result["response"] = self.result["msg"]
             return self
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
@@ -2974,6 +4310,7 @@ class Provision(CatalystCenterBase):
                 ).check_return_status()
 
         elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            self.log("Detected Catalyst Center version <= 2.3.7.6")
             try:
                 response = self.catalystcenter._exec(
                     family="sda",
@@ -3060,6 +4397,9 @@ class Provision(CatalystCenterBase):
                 self.check_tasks_response_status(response, api_name=device_id)
 
                 if self.status not in ["failed", "exited"]:
+                    self.device_deleted.append(
+                        self.validated_config["management_ip_address"]
+                    )
                     self.msg = (
                         "Deletion done Successfully for the device '{0}' ".format(
                             self.validated_config["management_ip_address"]
@@ -3266,6 +4606,129 @@ class Provision(CatalystCenterBase):
 
         return self
 
+    def update_device_provisioning_messages(self):
+        """
+        Aggregates and logs status messages related to device provisioning activities.
+        Description:
+            This method synthesizes a comprehensive summary message by checking the outcomes of various operations
+            (provision, re-provision, deletion, telemetry changes). It categorizes outcomes into those that changed the
+            system state and those that did not (e.g., device already provisioned). The final message and the 'changed'
+            status are set in the module's result.
+        Returns:
+            self: The instance of the class with updated `msg` and `result`.
+        """
+
+        self.log("Aggregating all final status messages for the module run.", "DEBUG")
+        self.result = self.result if hasattr(self, "result") else {}
+        self.result["changed"] = False
+        result_msg_list_changed = []
+        result_msg_list_not_changed = []
+
+        if self.provisioned_wired_device:
+            msg = "Wired device(s) '{0}' provisioned successfully.".format(
+                "', '".join(map(str, self.provisioned_wired_device))
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.provisioned_wireless_device:
+            msg = "Wireless device(s) '{0}' provisioned successfully.".format(
+                "', '".join(self.provisioned_wireless_device)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.already_provisioned_wired_device:
+            msg = "Wired device(s) '{0}' already provisioned.".format(
+                "', '".join(self.already_provisioned_wired_device)
+            )
+            result_msg_list_not_changed.append(msg)
+
+        if self.already_provisioned_wireless_device:
+            msg = "Wireless device(s) '{0}' already provisioned.".format(
+                "', '".join(self.already_provisioned_wireless_device)
+            )
+            result_msg_list_not_changed.append(msg)
+
+        if self.already_assigned_device_to_site:
+            msg = "Device(s) '{0}' already assigned to site.".format(
+                "', '".join(self.already_assigned_device_to_site)
+            )
+            result_msg_list_not_changed.append(msg)
+
+        if self.re_provision_wired_device:
+            msg = "Wired device(s) '{0}' re-provisioned successfully.".format(
+                "', '".join(map(str, self.re_provision_wired_device))
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.re_provision_wireless_device:
+            msg = "Wireless device(s) '{0}' re-provisioned successfully.".format(
+                "', '".join(self.re_provision_wireless_device)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.assigned_device_to_site:
+            msg = "Device(s) '{0}' assigned to site successfully.".format(
+                "', '".join(self.assigned_device_to_site)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.device_deleted:
+            msg = "Device(s) '{0}' deleted successfully.".format(
+                "', '".join(self.device_deleted)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.enable_application_telemetry:
+            msg = "Application telemetry enabled successfully for {0}".format(
+                "', '".join(self.enable_application_telemetry)
+            )
+            result_msg_list_changed.append(msg)
+
+        if self.disable_application_telemetry:
+            msg = "Application telemetry disabled successfully for {0}".format(
+                "', '".join(self.disable_application_telemetry)
+            )
+            result_msg_list_changed.append(msg)
+
+        # Combine messages and set result flags
+        if result_msg_list_not_changed and result_msg_list_changed:
+            self.result["changed"] = True
+            self.msg = "{0} {1}".format(
+                " ".join(result_msg_list_not_changed), " ".join(result_msg_list_changed)
+            )
+        elif result_msg_list_not_changed:
+            self.msg = " ".join(result_msg_list_not_changed)
+        elif result_msg_list_changed:
+            self.result["changed"] = True
+            self.msg = " ".join(result_msg_list_changed)
+        else:
+            # Get original config from params to extract IPs
+            original_config = self.params.get("config", [])
+            if isinstance(original_config, list):
+                ips = [
+                    item.get("management_ip_address")
+                    for item in original_config
+                    if isinstance(item, dict) and item.get("management_ip_address")
+                ]
+                ip_list_str = ", ".join(ips) if ips else "N/A"
+            else:
+                ip_list_str = "N/A"
+
+            self.msg = (
+                "No provisioning operations were executed for these IPs: {0}".format(
+                    ip_list_str
+                )
+            )
+            self.set_operation_result("success", False, self.msg, "INFO")
+
+        self.result["msg"] = self.msg
+        self.result["response"] = self.msg
+
+        self.log("Final aggregated message: '{0}'".format(self.msg), "INFO")
+        self.log("Final changed status: {0}".format(self.result["changed"]), "DEBUG")
+
+        return self
+
 
 def main():
     """
@@ -3274,18 +4737,19 @@ def main():
 
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -3297,6 +4761,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_provision = Provision(module)
     config_verify = ccc_provision.params.get("config_verify")
+    provision_performed = False
 
     if (
         ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
@@ -3347,6 +4812,7 @@ def main():
                 ccc_provision.device_type = "wired"
                 ccc_provision.log("Applying configuration for wired devices.", "INFO")
                 ccc_provision.get_diff_state_apply[state]().check_return_status()
+                provision_performed = True
                 if config_verify:
                     ccc_provision.log(
                         "Verifying configuration for wired devices.", "INFO"
@@ -3369,6 +4835,7 @@ def main():
                         ccc_provision.get_diff_state_apply[
                             state
                         ]().check_return_status()
+                        provision_performed = True
                         if config_verify:
                             ccc_provision.log(
                                 "Verifying configuration for wireless device: {0}".format(
@@ -3400,7 +4867,7 @@ def main():
                 ccc_provision.reset_values()
                 ccc_provision.get_want(config).check_return_status()
                 ccc_provision.get_diff_state_apply[state]().check_return_status()
-
+                provision_performed = True
                 if config_verify:
                     ccc_provision.log("Verifying telemetry configuration", "INFO")
                     ccc_provision.verify_diff_state_apply[state]().check_return_status()
@@ -3416,6 +4883,7 @@ def main():
             ccc_provision.reset_values()
             ccc_provision.get_want(config).check_return_status()
             ccc_provision.get_diff_state_apply[state]().check_return_status()
+            provision_performed = True
             if config_verify:
                 ccc_provision.log(
                     "Verifying configuration for device with management IP: {0}".format(
@@ -3424,6 +4892,8 @@ def main():
                     "INFO",
                 )
                 ccc_provision.verify_diff_state_apply[state]().check_return_status()
+
+    ccc_provision.update_device_provisioning_messages().check_return_status()
 
     module.exit_json(**ccc_provision.result)
 

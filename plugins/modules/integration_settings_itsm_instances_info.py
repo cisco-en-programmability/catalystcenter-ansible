@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: integration_settings_itsm_instances_info
-short_description: Information module for Integration
-  Settings Itsm Instances
+short_description: Information module for Integration Settings Itsm Instances
 description:
   - Get all Integration Settings Itsm Instances.
   - Fetches all ITSM Integration settings.
@@ -22,32 +21,26 @@ options:
     type: dict
   page_size:
     description:
-      - Page_size query parameter. Specifies the number
-        of records to display per page.
+      - Page_size query parameter. Specifies the number of records to display per page.
     type: float
   page:
     description:
-      - Page query parameter. Indicates the current
-        page number to display.
+      - Page query parameter. Indicates the current page number to display.
     type: float
   sortBy:
     description:
-      - SortBy query parameter. The field name used
-        to sort the records.
+      - SortBy query parameter. The field name used to sort the records.
     type: str
   order:
     description:
-      - Order query parameter. Specify the sorting order
-        - asc for ascending or desc for descending.
+      - Order query parameter. Specify the sorting order - asc for ascending or desc for descending.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for ITSM Integration
-      GetAllITSMIntegrationSettings
-    description: Complete reference of the GetAllITSMIntegrationSettings
-      API.
+  - name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettings
+    description: Complete reference of the GetAllITSMIntegrationSettings API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings
 notes:
   - SDK Method used are
@@ -64,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -76,7 +69,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -96,7 +89,7 @@ dnac_response:
           "name": "string",
           "schemaVersion": 0,
           "softwareVersionLog": [
-            {}
+            "string"
           ],
           "uniqueKey": "string",
           "updatedBy": "string",

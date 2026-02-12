@@ -7,67 +7,48 @@
 DOCUMENTATION = r"""
 ---
 module: sites_site_id_wireless_settings_flex_connect_aaa_override
-short_description: Resource module for Sites Site Id
-  Wireless Settings Flex Connect Aaa Override
+short_description: Resource module for Sites Site Id Wireless Settings Flex Connect Aaa Override
 description:
-  - Manage operations update and delete of the resource
-    Sites Site Id Wireless Settings Flex Connect Aaa
-    Override.
-  - This API allows the user to delete AAA Override
-    VLAN settings at the given site level.
-  - This API allows the user to update an existing AAA
-    Override VLAN setting at the given site level.
+  - Manage operations update and delete of the resource Sites Site Id Wireless Settings Flex Connect Aaa Override.
+  - This API allows the user to delete AAA Override VLAN settings at the given site level.
+  - This API allows the user to update an existing AAA Override VLAN setting at the given site level.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Sites Site Id Wireless Settings Flex
-      Connect Aaa Override's payload.
+    description: Sites Site Id Wireless Settings Flex Connect Aaa Override's payload.
     elements: dict
     suboptions:
       vlanId:
-        description: The VLAN ID is a identifier used
-          to uniquely distinguish a Virtual Local Area
-          Network (VLAN) within a network.Range is 1
-          to 4094.
+        description: The VLAN ID is a identifier used to uniquely distinguish a Virtual Local Area Network (VLAN) within a
+          network.Range is 1 to 4094.
         type: int
       vlanName:
-        description: The VLAN NAME is a label assigned
-          to a Virtual Local Area Network (VLAN) to
-          identify and differentiate it within a network.Max
-          allowed characters is 32.
+        description: The VLAN NAME is a label assigned to a Virtual Local Area Network (VLAN) to identify and differentiate
+          it within a network.Max allowed characters is 32.
         type: str
     type: list
   removeOverrideInHierarchy:
-    description: RemoveOverrideInHierarchy query parameter.
-      If the siteId pertains to a Global or non-Global
-      site (e.g., Global, Area, Building, or Floor)
-      and removeOverrideInHierarchy is set to true,
-      this API will remove the override from the specified
-      siteId and any child sites for the same AAA Override
-      VLAN. If removeOverrideInHierarchy is set to false,
-      the API will only remove the override from the
-      specified siteId only, leaving any overrides for
-      the AAA Override VLAN at child sites unaffected.
+    description: RemoveOverrideInHierarchy query parameter. If the siteId pertains to a Global or non-Global site (e.g., Global,
+      Area, Building, or Floor) and removeOverrideInHierarchy is set to true, this API will remove the override from the specified
+      siteId and any child sites for the same AAA Override VLAN. If removeOverrideInHierarchy is set to false, the API will
+      only remove the override from the specified siteId only, leaving any overrides for the AAA Override VLAN at child sites
+      unaffected.
     type: bool
   siteId:
     description: SiteId path parameter. Site Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteAAAOverrideVlanSettingsBySite
-    description: Complete reference of the DeleteAAAOverrideVlanSettingsBySite
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteAAAOverrideVlanSettingsBySite
+    description: Complete reference of the DeleteAAAOverrideVlanSettingsBySite API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-aaa-override-vlan-settings-by-site
-  - name: Cisco DNA Center documentation for Wireless
-      UpdateAAAOverrideVlanSettingsBySite
-    description: Complete reference of the UpdateAAAOverrideVlanSettingsBySite
-      API.
+  - name: Cisco DNA Center documentation for Wireless UpdateAAAOverrideVlanSettingsBySite
+    description: Complete reference of the UpdateAAAOverrideVlanSettingsBySite API.
     link: https://developer.cisco.com/docs/dna-center/#!update-aaa-override-vlan-settings-by-site
 notes:
   - SDK Method used are
@@ -86,7 +67,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -98,7 +79,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -109,7 +90,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

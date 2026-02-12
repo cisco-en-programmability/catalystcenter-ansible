@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_access_points_factory_reset_request_status_info
-short_description: Information module for Wireless Access
-  Points Factory Reset Request Status
+short_description: Information module for Wireless Access Points Factory Reset Request Status
 description:
-  - Get all Wireless Access Points Factory Reset Request
-    Status.
-  - This API returns each AP Factory Reset initiation
-    status.
+  - Get all Wireless Access Points Factory Reset Request Status.
+  - This API returns each AP Factory Reset initiation status.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,18 +21,14 @@ options:
     type: dict
   taskId:
     description:
-      - TaskId query parameter. Provide the task id
-        which is returned in the response of ap factory
-        reset post api.
+      - TaskId query parameter. Provide the task id which is returned in the response of ap factory reset post api.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointsFactoryResetStatus
-    description: Complete reference of the GetAccessPointsFactoryResetStatus
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatus
+    description: Complete reference of the GetAccessPointsFactoryResetStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
 notes:
   - SDK Method used are
@@ -46,14 +39,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Wireless Access Points Factory Reset
-    Request Status
+- name: Get all Wireless Access Points Factory Reset Request Status
   cisco.catalystcenter.wireless_access_points_factory_reset_request_status_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -62,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

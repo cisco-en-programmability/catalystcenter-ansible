@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_bugs_id_network_devices_info
-short_description: Information module for Network Bugs
-  Results Bugs Id Network Devices
+short_description: Information module for Network Bugs Results Bugs Id Network Devices
 description:
   - Get all Network Bugs Results Bugs Id Network Devices.
+  - Get Network Bugs Results Bugs Id Network Devices by id.
+  - Get network bug device for the bug by network device id.
   - Get network bug devices for the bug.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -26,77 +27,70 @@ options:
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Id of the network
-        device.
+      - NetworkDeviceId query parameter. Id of the network device.
     type: str
   scanMode:
     description:
       - >
-        ScanMode query parameter. Mode or the criteria
-        using which the network device was scanned.
-        Available values ESSENTIALS, ADVANTAGE, CX_CLOUD,
-        NOT_AVAILABLE.
+        ScanMode query parameter. Mode or the criteria using which the network device was scanned. Available
+        values ESSENTIALS, ADVANTAGE, CX_CLOUD, NOT_AVAILABLE.
     type: str
   scanStatus:
     description:
       - >
-        ScanStatus query parameter. Status of the scan
-        on the network device. Available values NOT_SCANNED,
+        ScanStatus query parameter. Status of the scan on the network device. Available values NOT_SCANNED,
         IN_PROGRESS, SUCCESS, FAILED, FALL_BACK.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Default value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. Default
+        value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Minimum value is 1. Maximum
-        value is 500. Default value is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
+        500. Default value is 500.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc. Default
-        value is asc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetNetworkBugDevicesForTheBug
-    description: Complete reference of the GetNetworkBugDevicesForTheBug
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetNetworkBugDeviceForTheBugByNetworkDeviceId
+    description: Complete reference of the GetNetworkBugDeviceForTheBugByNetworkDeviceId API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-device-for-the-bug-by-network-device-id
+  - name: Cisco DNA Center documentation for Compliance GetNetworkBugDevicesForTheBug
+    description: Complete reference of the GetNetworkBugDevicesForTheBug API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-devices-for-the-bug
 notes:
   - SDK Method used are
+    compliance.Compliance.get_network_bug_device_for_the_bug_by_network_device_id,
     compliance.Compliance.get_network_bug_devices_for_the_bug,
   - Paths used are
     get /dna/intent/api/v1/networkBugs/results/bugs/{id}/networkDevices,
+    get /dna/intent/api/v1/networkBugs/results/bugs/{id}/networkDevices/{networkDeviceId},
 """
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Bugs Results Bugs Id Network
-    Devices
+- name: Get all Network Bugs Results Bugs Id Network Devices
   cisco.catalystcenter.network_bugs_results_bugs_id_network_devices_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -109,24 +103,38 @@ EXAMPLES = r"""
     order: string
     id: string
   register: result
+- name: Get Network Bugs Results Bugs Id Network Devices by id
+  cisco.catalystcenter.network_bugs_results_bugs_id_network_devices_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+    networkDeviceId: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "response": [
-        {
+    [
+      {
+        "response": {
           "networkDeviceId": "string",
           "bugCount": 0,
           "scanMode": "string",
           "scanStatus": "string",
           "comments": "string",
           "lastScanTime": 0
-        }
-      ],
-      "version": "string"
-    }
+        },
+        "version": "string"
+      }
+    ]
 """

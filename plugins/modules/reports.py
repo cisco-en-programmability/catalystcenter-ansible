@@ -9,13 +9,10 @@ DOCUMENTATION = r"""
 module: reports
 short_description: Resource module for Reports
 description:
-  - Manage operations create and delete of the resource
-    Reports. - > Create/Schedule a report configuration.
-    Use "Get view details for a given view group & view"
-    API to get the metadata required to configure a
-    report.
-  - Delete a scheduled report configuration. Deletes
-    the report executions also.
+  - Manage operations create and delete of the resource Reports.
+  - Create/Schedule a report configuration.
+  - Use "Get view details for a given view group & view" API to get the metadata required to configure a report.
+  - Delete a scheduled report configuration. Deletes the report executions also.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -26,14 +23,13 @@ options:
     type: str
   deliveries:
     description: Array of available delivery channels.
-    elements: dict
+    elements: str
     type: list
   name:
     description: Report name.
     type: str
   reportId:
-    description: ReportId path parameter. ReportId of
-      report.
+    description: ReportId path parameter. ReportId of report.
     type: str
   schedule:
     description: Reports's schedule.
@@ -50,8 +46,7 @@ options:
         elements: dict
         suboptions:
           fieldGroupDisplayName:
-            description: Field group label/displayname
-              for user.
+            description: Field group label/displayname for user.
             type: str
           fieldGroupName:
             description: Field group name.
@@ -82,10 +77,8 @@ options:
             description: Filter type.
             type: str
           value:
-            description: Value of filter. Data type
-              is based on the filter type. Use the filter
-              definitions from the view to fetch the
-              options for a filter.
+            description: Value of filter. Data type is based on the filter type. Use the filter definitions from the view
+              to fetch the options for a filter.
             type: dict
         type: list
       format:
@@ -106,25 +99,20 @@ options:
         type: str
     type: dict
   viewGroupId:
-    description: ViewGroupId of the viewgroup for the
-      report.
+    description: ViewGroupId of the viewgroup for the report.
     type: str
   viewGroupVersion:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      CreateOrScheduleAReport
-    description: Complete reference of the CreateOrScheduleAReport
-      API.
+  - name: Cisco DNA Center documentation for Reports CreateOrScheduleAReport
+    description: Complete reference of the CreateOrScheduleAReport API.
     link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
-  - name: Cisco DNA Center documentation for Reports
-      DeleteAScheduledReport
-    description: Complete reference of the DeleteAScheduledReport
-      API.
+  - name: Cisco DNA Center documentation for Reports DeleteAScheduledReport
+    description: Complete reference of the DeleteAScheduledReport API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
 notes:
   - SDK Method used are
@@ -143,13 +131,13 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     dataCategory: string
     deliveries:
-      - {}
+      - string
     name: string
     schedule: {}
     tags:
@@ -179,7 +167,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -187,7 +175,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -197,7 +185,7 @@ dnac_response:
       ],
       "dataCategory": "string",
       "deliveries": [
-        {}
+        "string"
       ],
       "executionCount": 0,
       "executions": [

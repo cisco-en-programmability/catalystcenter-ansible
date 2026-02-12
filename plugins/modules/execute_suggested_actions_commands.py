@@ -7,36 +7,29 @@
 DOCUMENTATION = r"""
 ---
 module: execute_suggested_actions_commands
-short_description: Resource module for Execute Suggested
-  Actions Commands
+short_description: Resource module for Execute Suggested Actions Commands
 description:
-  - Manage operation create of the resource Execute
-    Suggested Actions Commands. - > This API fetches
-    the issue details and suggested actions for an issue,
-    given the Issue Id, executes the commands associated
-    with the suggested actions to remediate the issue.
+  - Manage operation create of the resource Execute Suggested Actions Commands. - > This API fetches the issue details and
+    suggested actions for an issue, given the Issue Id, executes the commands associated with the suggested actions to remediate
+    the issue.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   entity_type:
-    description: Commands provided as part of the suggested
-      actions for an issue can be executed based on
-      issue id. The value here must be issue_id.
+    description: Commands provided as part of the suggested actions for an issue can be executed based on issue id. The value
+      here must be issue_id.
     type: str
   entity_value:
-    description: Contains the actual value for the entity
-      type that has been defined.
+    description: Contains the actual value for the entity type that has been defined.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      ExecuteSuggestedActionsCommands
-    description: Complete reference of the ExecuteSuggestedActionsCommands
-      API.
+  - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommands
+    description: Complete reference of the ExecuteSuggestedActionsCommands API.
     link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
 notes:
   - SDK Method used are
@@ -53,7 +46,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     entity_type: string
@@ -61,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

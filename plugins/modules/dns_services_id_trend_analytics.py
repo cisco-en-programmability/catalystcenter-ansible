@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: dns_services_id_trend_analytics
-short_description: Resource module for Dns Services
-  Id Trend Analytics
+short_description: Resource module for Dns Services Id Trend Analytics
 description:
-  - Manage operation create of the resource Dns Services
-    Id Trend Analytics. - > Gets the trend analytics
-    data related to a particular DNS Service matching
-    the id. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+  - Manage operation create of the resource Dns Services Id Trend Analytics. - > Gets the trend analytics data related to
+    a particular DNS Service matching the id. For detailed information about the usage of the API, please refer to the Open
+    API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
     DNSServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -58,7 +54,7 @@ options:
         description: Operator.
         type: str
       value:
-        description: Value.
+        description: Dns Services Id Trend Analytics's value.
         type: dict
     type: list
   groupBy:
@@ -69,11 +65,8 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. Unique id of the
-      DNS Service. It is the combination of DNS Server
-      IP (`serverIp`) and Device UUID (`deviceId`) separated
-      by underscore (`_`). Example If `serverIp` is
-      `10.76.81.33` and `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`,
+    description: Id path parameter. Unique id of the DNS Service. It is the combination of DNS Server IP (`serverIp`) and
+      Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp` is `10.76.81.33` and `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`,
       then the `id` would be `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
     type: str
   page:
@@ -96,13 +89,11 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetTrendAnalyticsDataForAGivenDNSServiceMatchingTheIdOfTheService
-    description: Complete reference of the GetTrendAnalyticsDataForAGivenDNSServiceMatchingTheIdOfTheService
-      API.
+  - name: Cisco DNA Center documentation for Devices GetTrendAnalyticsDataForAGivenDNSServiceMatchingTheIdOfTheService
+    description: Complete reference of the GetTrendAnalyticsDataForAGivenDNSServiceMatchingTheIdOfTheService API.
     link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-for-a-given-dns-service-matching-the-id-of-the-service
 notes:
   - SDK Method used are
@@ -119,7 +110,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -148,7 +139,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

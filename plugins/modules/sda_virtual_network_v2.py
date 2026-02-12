@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_v2
-short_description: Resource module for Sda Virtual Network
-  V2
+short_description: Resource module for Sda Virtual Network V2
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Virtual Network V2.
-  - Add virtual network with scalable groups at global
-    level.
+  - Manage operations create, update and delete of the resource Sda Virtual Network V2.
+  - Add virtual network with scalable groups at global level.
   - Delete virtual network with scalable groups.
   - Update virtual network with scalable groups.
 version_added: '3.1.0'
@@ -22,36 +19,30 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   isGuestVirtualNetwork:
-    description: Guest Virtual Network enablement flag,
-      default value is False.
+    description: Guest Virtual Network enablement flag, default value is False.
     type: bool
   scalableGroupNames:
-    description: Scalable Group to be associated to
-      virtual network.
+    description: Scalable Group to be associated to virtual network.
     elements: str
     type: list
   vManageVpnId:
     description: VManage vpn id for SD-WAN.
     type: str
   virtualNetworkName:
-    description: Virtual Network Name to be assigned
-      at global level.
+    description: VirtualNetworkName query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroups
-    description: Complete reference of the AddVirtualNetworkWithScalableGroups
-      API.
+    description: Complete reference of the AddVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
   - name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroups
-    description: Complete reference of the DeleteVirtualNetworkWithScalableGroups
-      API.
+    description: Complete reference of the DeleteVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
   - name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroups
-    description: Complete reference of the UpdateVirtualNetworkWithScalableGroups
-      API.
+    description: Complete reference of the UpdateVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
@@ -66,13 +57,24 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Create
-  cisco.catalystcenter.sda_virtual_network:
+- name: Delete all
+  cisco.catalystcenter.sda_virtual_network_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    virtualNetworkName: string
+- name: Create
+  cisco.catalystcenter.sda_virtual_network_v2:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -81,24 +83,13 @@ EXAMPLES = r"""
       - string
     vManageVpnId: string
     virtualNetworkName: string
-- name: Delete all
-  cisco.catalystcenter.sda_virtual_network:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: absent
-    virtualNetworkName: string
 - name: Update all
-  cisco.catalystcenter.sda_virtual_network:
+  cisco.catalystcenter.sda_virtual_network_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -110,7 +101,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

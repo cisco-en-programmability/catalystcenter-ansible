@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_bugs_count_info
-short_description: Information module for Network Bugs
-  Results Bugs Count
+short_description: Information module for Network Bugs Results Bugs Count
 description:
   - Get all Network Bugs Results Bugs Count.
   - Get count of network bugs.
@@ -26,23 +25,18 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return network
-        bugs with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return network bugs with deviceCount greater than this deviceCount.
     type: float
   severity:
     description:
-      - Severity query parameter. Return network bugs
-        with this severity. Available values CATASTROPHIC,
-        SEVERE, MODERATE.
+      - Severity query parameter. Return network bugs with this severity. Available values CATASTROPHIC, SEVERE, MODERATE.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetCountOfNetworkBugs
-    description: Complete reference of the GetCountOfNetworkBugs
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetCountOfNetworkBugs
+    description: Complete reference of the GetCountOfNetworkBugs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-count-of-network-bugs
 notes:
   - SDK Method used are
@@ -59,7 +53,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -70,7 +64,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

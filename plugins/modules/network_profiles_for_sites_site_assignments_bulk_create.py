@@ -7,20 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_bulk_create
-short_description: Resource module for Network Profiles
-  For Sites Site Assignments Bulk Create
+short_description: Resource module for Network Profiles For Sites Site Assignments Bulk Create
 description:
-  - Manage operation create of the resource Network
-    Profiles For Sites Site Assignments Bulk Create.
-  - Assign a network profile for sites to a list of
-    sites. Also assigns the profile to child sites.
+  - Manage operation create of the resource Network Profiles For Sites Site Assignments Bulk Create.
+  - Assign a network profile for sites to a list of sites. Also assigns the profile to child sites.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   items:
-    description: Items.
+    description: Network Profiles For Sites Site Assignments Bulk Create's items.
     elements: dict
     suboptions:
       id:
@@ -28,18 +25,14 @@ options:
         type: str
     type: list
   profileId:
-    description: ProfileId path parameter. The `id`
-      of the network profile, retrievable from `GET
-      /intent/api/v1/networkProfilesForSites`.
+    description: ProfileId path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      AssignANetworkProfileForSitesToAListOfSites
-    description: Complete reference of the AssignANetworkProfileForSitesToAListOfSites
-      API.
+  - name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToAListOfSites
+    description: Complete reference of the AssignANetworkProfileForSitesToAListOfSites API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-a-list-of-sites
 notes:
   - SDK Method used are
@@ -56,24 +49,23 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     items:
-      - - id: string
+      - id: string
     profileId: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

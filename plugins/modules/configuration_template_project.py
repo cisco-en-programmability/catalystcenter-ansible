@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project
-short_description: Resource module for Configuration
-  Template Project
+short_description: Resource module for Configuration Template Project
 description:
-  - Manage operations create, update and delete of the
-    resource Configuration Template Project.
+  - Manage operations create, update and delete of the resource Configuration Template Project.
   - This API is used to create a new project.
   - Deletes the project by its id.
   - This API is used to update an existing project.
@@ -36,8 +34,7 @@ options:
     description: Name of project.
     type: str
   projectId:
-    description: ProjectId path parameter. ProjectId(UUID)
-      of project to be deleted.
+    description: ProjectId path parameter. ProjectId(UUID) of project to be deleted.
     type: str
   tags:
     description: Configuration Template Project's tags.
@@ -52,26 +49,20 @@ options:
     type: list
   templates:
     description: List of templates within the project.
-    elements: dict
+    elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates CreateProject
-    description: Complete reference of the CreateProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates CreateProject
+    description: Complete reference of the CreateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!create-project
-  - name: Cisco DNA Center documentation for Configuration
-      Templates DeletesTheProject
-    description: Complete reference of the DeletesTheProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates DeletesTheProject
+    description: Complete reference of the DeletesTheProject API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project
-  - name: Cisco DNA Center documentation for Configuration
-      Templates UpdateProject
-    description: Complete reference of the UpdateProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates UpdateProject
+    description: Complete reference of the UpdateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!update-project
 notes:
   - SDK Method used are
@@ -92,7 +83,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -105,14 +96,14 @@ EXAMPLES = r"""
       - id: string
         name: string
     templates:
-      - {}
+      - string
 - name: Update all
   cisco.catalystcenter.configuration_template_project:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -131,7 +122,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -139,7 +130,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

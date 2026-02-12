@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: device_health_info
 short_description: Information module for Device Health
 description:
-  - Get all Device Health. - > Intent API for accessing
-    DNA Assurance Device object for generating reports,
-    creating dashboards or creating additional value
-    added services.
+  - Get all Device Health. - > Intent API for accessing DNA Assurance Device object for generating reports, creating dashboards
+    or creating additional value added services.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,22 +21,19 @@ options:
     type: dict
   deviceRole:
     description:
-      - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION,
-        ROUTER, WLC, or AP (case insensitive).
+      - DeviceRole query parameter. CORE, ACCESS, DISTRIBUTION, ROUTER, WLC, or AP (case insensitive).
     type: str
   siteId:
     description:
-      - SiteId query parameter. CATALYST site UUID.
+      - SiteId query parameter. DNAC site UUID.
     type: str
   health:
     description:
-      - Health query parameter. CATALYST health catagory
-        POOR, FAIR, or GOOD (case insensitive).
+      - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:
-      - StartTime query parameter. UTC epoch time in
-        milliseconds.
+      - StartTime query parameter. UTC epoch time in milliseconds.
     type: float
   endTime:
     description:
@@ -46,22 +41,17 @@ options:
     type: float
   limit:
     description:
-      - Limit query parameter. Max number of device
-        entries in the response (default to 50. Max
-        at 500).
-    type: float
+      - Limit query parameter. Max number of device entries in the response (default to 50. Max at 500).
+    type: int
   offset:
     description:
-      - Offset query parameter. The offset of the first
-        device in the returned data (Mutiple of 'limit'
-        + 1).
-    type: float
+      - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      Devices
+  - name: Cisco DNA Center documentation for Devices Devices
     description: Complete reference of the Devices API.
     link: https://developer.cisco.com/docs/dna-center/#!api-devices-devices
 notes:
@@ -79,7 +69,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -94,7 +84,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,11 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_advisories_info
-short_description: Information module for Security Advisories
-  Results Advisories
+short_description: Information module for Security Advisories Results Advisories
 description:
   - Get all Security Advisories Results Advisories.
+  - Get Security Advisories Results Advisories by id.
   - Get security advisories affecting the network devices.
+  - Get security advisory affecting the network devices by Id.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,63 +27,57 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return advisories
-        with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return advisories with deviceCount greater than this deviceCount.
     type: float
   cvssBaseScore:
     description:
-      - CvssBaseScore query parameter. Return advisories
-        with cvssBaseScore greater than this cvssBaseScore.
-        E.g. 8.5.
+      - CvssBaseScore query parameter. Return advisories with cvssBaseScore greater than this cvssBaseScore. E.g. 8.5.
     type: str
   securityImpactRating:
     description:
       - >
-        SecurityImpactRating query parameter. Return
-        advisories with this securityImpactRating. Available
-        values CRITICAL, HIGH.
+        SecurityImpactRating query parameter. Return advisories with this securityImpactRating. Available values
+        CRITICAL, HIGH.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Default value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. Default
+        value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Minimum value is 1. Maximum
-        value is 500. Default value is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
+        500. Default value is 500.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc. Default
-        value is asc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetSecurityAdvisoriesAffectingTheNetworkDevices
-    description: Complete reference of the GetSecurityAdvisoriesAffectingTheNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoriesAffectingTheNetworkDevices
+    description: Complete reference of the GetSecurityAdvisoriesAffectingTheNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!get-security-advisories-affecting-the-network-devices
+  - name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoryAffectingTheNetworkDevicesById
+    description: Complete reference of the GetSecurityAdvisoryAffectingTheNetworkDevicesById API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-security-advisory-affecting-the-network-devices-by-id
 notes:
   - SDK Method used are
     compliance.Compliance.get_security_advisories_affecting_the_network_devices,
+    compliance.Compliance.get_security_advisory_affecting_the_network_devices_by_id,
   - Paths used are
     get /dna/intent/api/v1/securityAdvisories/results/advisories,
+    get /dna/intent/api/v1/securityAdvisories/results/advisories/{id},
 """
 
 EXAMPLES = r"""
@@ -93,7 +88,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -106,34 +101,44 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
+- name: Get Security Advisories Results Advisories by id
+  cisco.catalystcenter.security_advisories_results_advisories_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "deviceCount": 0,
-          "cveIds": [
-            "string"
-          ],
-          "publicationUrl": "string",
-          "cvssBaseScore": 0,
-          "securityImpactRating": "string",
-          "firstFixedVersionsList": [
-            {
-              "vulnerableVersion": "string",
-              "fixedVersions": [
-                "string"
-              ]
-            }
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "deviceCount": 0,
+        "cveIds": [
+          "string"
+        ],
+        "publicationUrl": "string",
+        "cvssBaseScore": 0,
+        "securityImpactRating": "string",
+        "firstFixedVersionsList": [
+          {
+            "vulnerableVersion": "string",
+            "fixedVersions": [
+              "string"
+            ]
+          }
+        ]
+      },
       "version": "string"
     }
 """

@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: fabrics_fabric_id_switch_wireless_setting_info
-short_description: Information module for Fabrics Fabric
-  Id Switch Wireless Setting
+short_description: Information module for Fabrics Fabric Id Switch Wireless Setting
 description:
-  - Get all Fabrics Fabric Id Switch Wireless Setting.
-    - > Get the SDA Wireless details from the switches
-    on the fabric site that have wireless capability
-    enabled. A maximum of two switches can have a wireless
-    role in a fabric site.
+  - Get all Fabrics Fabric Id Switch Wireless Setting. - > Get the SDA Wireless details from the switches on the fabric site
+    that have wireless capability enabled. A maximum of two switches can have a wireless role in a fabric site.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,19 +22,16 @@ options:
   fabricId:
     description:
       - >
-        FabricId path parameter. The 'fabricId' represents
-        the Fabric ID of a particular Fabric Site. The
-        'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
-        Example e290f1ee-6c54-4b01-90e6-d701748f0851.
+        FabricId path parameter. The 'fabricId' represents the Fabric ID of a particular Fabric Site. The
+        'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites. Example
+        e290f1ee-6c54-4b01-90e6-d701748f0851.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Fabric
-      Wireless GetSDAWirelessDetailsFromSwitches
-    description: Complete reference of the GetSDAWirelessDetailsFromSwitches
-      API.
+  - name: Cisco DNA Center documentation for Fabric Wireless GetSDAWirelessDetailsFromSwitches
+    description: Complete reference of the GetSDAWirelessDetailsFromSwitches API.
     link: https://developer.cisco.com/docs/dna-center/#!get-sda-wireless-details-from-switches
 notes:
   - SDK Method used are
@@ -55,7 +48,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -64,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

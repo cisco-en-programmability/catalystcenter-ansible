@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_anycast_gateways_info
-short_description: Information module for Sda Anycast
-  Gateways
+short_description: Information module for Sda Anycast Gateways
 description:
   - Get all Sda Anycast Gateways.
-  - Returns a list of anycast gateways that match the
-    provided query parameters.
+  - Returns a list of anycast gateways that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,52 +25,42 @@ options:
     type: str
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the
-        anycast gateway is assigned to.
+      - FabricId query parameter. ID of the fabric the anycast gateway is assigned to.
     type: str
   virtualNetworkName:
     description:
-      - VirtualNetworkName query parameter. Name of
-        the virtual network associated with the anycast
-        gateways.
+      - VirtualNetworkName query parameter. Name of the virtual network associated with the anycast gateways.
     type: str
   ipPoolName:
     description:
-      - IpPoolName query parameter. Name of the IP pool
-        associated with the anycast gateways.
+      - IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
     type: str
   vlanName:
     description:
-      - VlanName query parameter. VLAN name of the anycast
-        gateways.
+      - VlanName query parameter. VLAN name of the anycast gateways.
     type: str
   vlanId:
     description:
       - >
-        VlanId query parameter. VLAN ID of the anycast
-        gateways. The allowed range for vlanId is 2-4093
-        except for reserved VLANs 1002-1005, 2046, and
-        4094.
+        VlanId query parameter. VLAN ID of the anycast gateways. The allowed range for vlanId is 2-4093 except
+        for reserved VLANs 1002-1005, 2046, and 4094.
     type: float
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
-    type: float
+      - Offset query parameter. Starting record for pagination.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
-    type: float
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetAnycastGateways
-    description: Complete reference of the GetAnycastGateways
-      API.
+    description: Complete reference of the GetAnycastGateways API.
     link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways
 notes:
   - SDK Method used are
@@ -89,7 +77,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -105,7 +93,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

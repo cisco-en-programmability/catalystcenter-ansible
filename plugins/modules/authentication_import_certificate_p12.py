@@ -7,45 +7,35 @@
 DOCUMENTATION = r"""
 ---
 module: authentication_import_certificate_p12
-short_description: Resource module for Authentication
-  Import Certificate P12
+short_description: Resource module for Authentication Import Certificate P12
 description:
-  - Manage operation create of the resource Authentication
-    Import Certificate P12.
-  - This API enables a user to import a PKCS12 certificate
-    bundle for the controller and/or disaster recovery.
+  - Manage operation create of the resource Authentication Import Certificate P12.
+  - This API enables a user to import a PKCS12 certificate bundle for the controller and/or disaster recovery.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   listOfUsers:
-    description: ListOfUsers query parameter. Specify
-      whether the certificate will be used for controller
-      ("server"), disaster recovery ("ipsec") or both
-      ("server, ipsec"). If no value is provided, the
-      default value taken will be "server".
+    description: ListOfUsers query parameter. Specify whether the certificate will be used for controller ("server"), disaster
+      recovery ("ipsec") or both ("server, ipsec"). If no value is provided, the default value taken will be "server".
     elements: str
     type: list
   p12FilePath:
     description: P12 file absolute path.
     type: str
   p12Password:
-    description: P12Password query parameter. The password
-      for PKCS12 certificate bundle.
+    description: P12Password query parameter. The password for PKCS12 certificate bundle.
     type: str
   pkPassword:
-    description: PkPassword query parameter. Password
-      for encrypted private key.
+    description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Authentication
-      Management ImportCertificateP12
-    description: Complete reference of the ImportCertificateP12
-      API.
+  - name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12
+    description: Complete reference of the ImportCertificateP12 API.
     link: https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12
 notes:
   - SDK Method used are
@@ -62,7 +52,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     listOfUsers: []
@@ -72,7 +62,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

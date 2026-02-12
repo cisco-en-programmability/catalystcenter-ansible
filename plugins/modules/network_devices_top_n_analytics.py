@@ -7,18 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_top_n_analytics
-short_description: Resource module for Networkdevices
-  Topnanalytics
+short_description: Resource module for Network Devices Top N Analytics
 description:
-  - Manage operation create of the resource Networkdevices
-    Topnanalytics. - > Gets the Top N analytics data
-    related to network devices based on the provided
-    input data. This endpoint is valuable to obtain
-    the top-performing or most impacted network devices.
-    For detailed information about the usage of the
-    API, please refer to the Open API specification
-    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceNetworkDevices-2.0.1-resolved.yaml.
+  - Manage operation create of the resource Network Devices Top N Analytics.
+  - Gets the Top N analytics data related to network devices based on the provided input data.
+  - This endpoint is valuable to obtain the top-performing or most impacted network devices.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -37,7 +32,7 @@ options:
     type: list
   attributes:
     description: Attributes.
-    elements: dict
+    elements: str
     type: list
   endTime:
     description: End Time.
@@ -70,8 +65,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Network Devices Top N Analytics's
-          sortBy.
+        description: Network Devices Top N Analytics's sortBy.
         elements: dict
         suboptions:
           function:
@@ -92,13 +86,11 @@ options:
     description: Top N.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetsTheTopNAnalyticsDataRelatedToNetworkDevices
-    description: Complete reference of the GetsTheTopNAnalyticsDataRelatedToNetworkDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices GetsTheTopNAnalyticsDataRelatedToNetworkDevices
+    description: Complete reference of the GetsTheTopNAnalyticsDataRelatedToNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-top-n-analytics-data-related-to-network-devices
 notes:
   - SDK Method used are
@@ -110,19 +102,19 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.networkDevices_topNAnalytics:
+  cisco.catalystcenter.network_devices_top_n_analytics:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
       - function: string
         name: string
     attributes:
-      - {}
+      - string
     endTime: 0
     filters:
       - key: string
@@ -142,7 +134,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

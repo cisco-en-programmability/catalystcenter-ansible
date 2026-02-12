@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_accesspoint_configuration_summary_info
-short_description: Information module for Wireless Accesspoint
-  Configuration Summary
+short_description: Information module for Wireless Accesspoint Configuration Summary
 description:
-  - Get all Wireless Accesspoint Configuration Summary.
-    - > Users can query access point configuration information
-    for a specific device by using the Ethernet MAC
-    address as a 'key' filter. If no key is specified,
-    all access point details will be retrieved based
-    on the combination of filters provided.
+  - Get all Wireless Accesspoint Configuration Summary. - > Users can query access point configuration information for a specific
+    device by using the Ethernet MAC address as a 'key' filter. If no key is specified, all access point details will be retrieved
+    based on the combination of filters provided.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,8 +22,7 @@ options:
     type: dict
   key:
     description:
-      - Key query parameter. The ethernet MAC address
-        of Access point.
+      - Key query parameter. The ethernet MAC address of Access point.
     type: str
   wlcIpAddress:
     description:
@@ -36,9 +31,8 @@ options:
   apMode:
     description:
       - >
-        ApMode query parameter. AP Mode. Allowed values
-        are Local, Bridge, Monitor, FlexConnect, Sniffer,
-        Rogue Detector, SE-Connect, Flex+Bridge, Sensor.
+        ApMode query parameter. AP Mode. Allowed values are Local, Bridge, Monitor, FlexConnect, Sniffer, Rogue
+        Detector, SE-Connect, Flex+Bridge, Sensor.
     type: str
   apModel:
     description:
@@ -46,37 +40,28 @@ options:
     type: str
   meshRole:
     description:
-      - MeshRole query parameter. Mesh Role. Allowed
-        values are RAP or MAP.
+      - MeshRole query parameter. Mesh Role. Allowed values are RAP or MAP.
     type: str
   provisioned:
     description:
-      - Provisioned query parameter. Indicate whether
-        AP provisioned or not. Allowed values are True
-        or False.
+      - Provisioned query parameter. Indicate whether AP provisioned or not. Allowed values are True or False.
     type: str
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The default is 500 if
-        not specified. The maximum allowed limit is
-        500.
-    type: float
+        Limit query parameter. The number of records to show for this page. The default is 500 if not specified.
+        The maximum allowed limit is 500.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointConfiguration
-    description: Complete reference of the GetAccessPointConfiguration
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointConfiguration
+    description: Complete reference of the GetAccessPointConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration
 notes:
   - SDK Method used are
@@ -93,7 +78,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -109,7 +94,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -131,7 +116,7 @@ dnac_response:
       "tertiaryControllerName": "string",
       "tertiaryIpAddress": "string",
       "meshDTOs": [
-        {}
+        "string"
       ],
       "model": "string",
       "wlcIpAddress": "string",

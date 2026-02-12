@@ -7,14 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_images_validations_info
-short_description: Information module for Network Device
-  Images Validations
+short_description: Information module for Network Device Images Validations
 description:
-  - Get all Network Device Images Validations. - > Fetches
-    custom network device validations that run on the
-    network device as part of the update workflow. This
-    process verifies and assesses the configuration
-    of the network devices.
+  - Get all Network Device Images Validations.
+  - Get Network Device Images Validations by id. - > Fetches custom network device validations that run on the network device
+    as part of the update workflow. This process verifies and assesses the configuration of the network devices.
+  - This API fetches the details for the given network device validation.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -25,57 +23,57 @@ options:
     type: dict
   productSeriesOrdinal:
     description:
-      - ProductSeriesOrdinal query parameter. Unique
-        identifier of product series.
+      - ProductSeriesOrdinal query parameter. Unique identifier of product series.
     type: float
   operationType:
     description:
       - >
-        OperationType query parameter. The operation
-        type, as part of which this validation will
-        get triggered. Available values DISTRIBUTION,
-        ACTIVATION.
+        OperationType query parameter. The operation type, as part of which this validation will get triggered.
+        Available values DISTRIBUTION, ACTIVATION.
     type: str
   type:
     description:
-      - Type query parameter. Type of the validation.
-        Available values PRE_VALIDATION, POST_VALIDATION.
+      - Type query parameter. Type of the validation. Available values PRE_VALIDATION, POST_VALIDATION.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. The minimum value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. The
+        minimum value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 1 and 500, respectively.
-    type: float
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 1
+        and 500, respectively.
+    type: int
+  id:
+    description:
+      - Id path parameter. Unique identifier of network device validation.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) GetTheListOfCustomNetworkDeviceValidations
-    description: Complete reference of the GetTheListOfCustomNetworkDeviceValidations
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetCustomNetworkDeviceValidationDetails
+    description: Complete reference of the GetCustomNetworkDeviceValidationDetails API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-custom-network-device-validation-details
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetTheListOfCustomNetworkDeviceValidations
+    description: Complete reference of the GetTheListOfCustomNetworkDeviceValidations API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-list-of-custom-network-device-validations
 notes:
   - SDK Method used are
+    software_image_management_swim.SoftwareImageManagementSwim.get_custom_network_device_validation_details,
     software_image_management_swim.SoftwareImageManagementSwim.get_the_list_of_custom_network_device_validations,
   - Paths used are
     get /dna/intent/api/v1/networkDeviceImages/validations,
+    get /dna/intent/api/v1/networkDeviceImages/validations/{id},
 """
 
 EXAMPLES = r"""
@@ -86,7 +84,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -97,28 +95,38 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
+- name: Get Network Device Images Validations by id
+  cisco.catalystcenter.network_device_images_validations_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "type": "string",
-          "operationType": "string",
-          "description": "string",
-          "category": "string",
-          "cli": "string",
-          "productSeriesOrdinals": [
-            0
-          ]
-        }
-      ],
+      "response": {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "operationType": "string",
+        "description": "string",
+        "category": "string",
+        "cli": "string",
+        "productSeriesOrdinals": [
+          0
+        ]
+      },
       "version": "string"
     }
 """

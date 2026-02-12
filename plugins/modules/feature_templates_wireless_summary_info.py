@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: feature_templates_wireless_summary_info
-short_description: Information module for Feature Templates
-  Wireless Summary
+short_description: Information module for Feature Templates Wireless Summary
 description:
   - Get all Feature Templates Wireless Summary.
-  - This API allows users to retrieve the feature template
-    summary.
+  - This API allows users to retrieve the feature template summary.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,47 +22,37 @@ options:
   type:
     description:
       - >
-        Type query parameter. Feature template name.
-        Allowed values EVENT_DRIVEN_RRM_CONFIGURATION,
-        DOT11AX_CONFIGURATION, AAA_RADIUS_ATTRIBUTES_CONFIGURATION,
-        ADVANCED_SSID_CONFIGURATION, RRM_FRA_CONFIGURATION,
-        CLEANAIR_CONFIGURATION, DOT11BE_STATUS_CONFIGURATION,
-        FLEX_CONFIGURATION, MULTICAST_CONFIGURATION,
-        RRM_GENERAL_CONFIGURATION.
+        Type query parameter. Feature template name. Allowed values EVENT_DRIVEN_RRM_CONFIGURATION,
+        DOT11AX_CONFIGURATION, AAA_RADIUS_ATTRIBUTES_CONFIGURATION, ADVANCED_SSID_CONFIGURATION,
+        RRM_FRA_CONFIGURATION, CLEANAIR_CONFIGURATION, DOT11BE_STATUS_CONFIGURATION, FLEX_CONFIGURATION,
+        MULTICAST_CONFIGURATION, RRM_GENERAL_CONFIGURATION.
     type: str
   designName:
     description:
-      - DesignName query parameter. Feature template
-        design name.
+      - DesignName query parameter. Feature template design name.
     type: str
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Default is 25 if not
-        specified. Maximum allowed limit is 25.
-    type: float
+        Limit query parameter. The number of records to show for this page. Default is 25 if not specified.
+        Maximum allowed limit is 25.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page. The first record is numbered
-        1.
-    type: float
+      - Offset query parameter. The first record to show for this page. The first record is numbered 1.
+    type: int
   systemTemplate:
     description:
       - >
-        SystemTemplate query parameter. If 'True', it
-        signifies a system-generated template; if 'False',
-        it denotes a user-modifiable template.
+        SystemTemplate query parameter. If 'True', it signifies a system-generated template; if 'False', it
+        denotes a user-modifiable template.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetFeatureTemplateSummary
-    description: Complete reference of the GetFeatureTemplateSummary
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetFeatureTemplateSummary
+    description: Complete reference of the GetFeatureTemplateSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!get-feature-template-summary
 notes:
   - SDK Method used are
@@ -81,7 +69,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -94,7 +82,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

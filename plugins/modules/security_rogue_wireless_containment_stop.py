@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_wireless_containment_stop
-short_description: Resource module for Security Rogue
-  Wireless-Containment Stop
+short_description: Resource module for Security Rogue Wireless-Containment Stop
 description:
-  - Manage operation create of the resource Security
-    Rogue Wireless-Containment Stop. - > Intent API
-    to stop the wireless rogue access point containment.
-    This API will stop the containment through single
-    WLC. The response includes the details like WLC
-    and BSSID on which the stop containment has been
-    initiated.
+  - Manage operation create of the resource Security Rogue Wireless-Containment Stop. - > Intent API to stop the wireless
+    rogue access point containment. This API will stop the containment through single WLC. The response includes the details
+    like WLC and BSSID on which the stop containment has been initiated.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -32,13 +27,11 @@ options:
     description: Wlc Ip.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      StopWirelessRogueAPContainment
-    description: Complete reference of the StopWirelessRogueAPContainment
-      API.
+  - name: Cisco DNA Center documentation for Devices StopWirelessRogueAPContainment
+    description: Complete reference of the StopWirelessRogueAPContainment API.
     link: https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment
 notes:
   - SDK Method used are
@@ -50,12 +43,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.security_rogue_wireless-containment_stop:
+  cisco.catalystcenter.security_rogue_wireless_containment_stop:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     macAddress: string
@@ -64,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

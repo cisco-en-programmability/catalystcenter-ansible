@@ -11,11 +11,8 @@ short_description: Information module for Network Device
 description:
   - Get all Network Device.
   - Get Network Device by id.
-  - Returns list of network devices based on filter
-    criteria such as management IP address, mac address,
-    hostname, etc.
-  - Returns the network device details for the given
-    device ID.
+  - Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
+  - Returns the network device details for the given device ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -177,10 +174,8 @@ options:
   id:
     description:
       - >
-        Id query parameter. Accepts comma separated
-        ids and return list of network-devices for the
-        given ids. If invalid or not-found ids are provided,
-        null entry will be returned in the list.
+        Id query parameter. Accepts comma separated ids and return list of network-devices for the given ids. If
+        invalid or not-found ids are provided, null entry will be returned in the list.
     type: str
   deviceSupportLevel:
     description:
@@ -188,27 +183,21 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. Offset >= 1 X gives
-        results from Xth device onwards.
+      - Offset query parameter. Offset >= 1 X gives results from Xth device onwards.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceByID
-    description: Complete reference of the GetDeviceByID
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceByID
+    description: Complete reference of the GetDeviceByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
-  - name: Cisco DNA Center documentation for Devices
-      GetDeviceList
-    description: Complete reference of the GetDeviceList
-      API.
+  - name: Cisco DNA Center documentation for Devices GetDeviceList
+    description: Complete reference of the GetDeviceList API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
   - SDK Method used are
@@ -227,7 +216,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -272,7 +261,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -281,7 +270,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

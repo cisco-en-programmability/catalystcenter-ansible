@@ -104,7 +104,7 @@ options:
         type: list
         elements: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk == 2.7.0
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites
@@ -126,10 +126,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: true
     state: merged
     config:
@@ -142,10 +142,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: true
     state: merged
     config:
@@ -159,10 +159,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: true
     state: merged
     config:
@@ -176,10 +176,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: true
     state: merged
     config:
@@ -193,10 +193,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: true
     state: deleted
     config:
@@ -233,7 +233,7 @@ sample_response_3:
 
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -241,7 +241,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 
 class SDAExtranetPolicies(CatalystCenterBase):
     """
-    A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
+    A class for managing Extranet Policies within the Cisco Catalyst Center using the SDA API.
     """
 
     def __init__(self, module):
@@ -1241,17 +1241,18 @@ def main():
     # Define the specification for the module"s arguments
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

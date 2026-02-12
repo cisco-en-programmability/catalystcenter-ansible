@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: system_performance_historical_info
-short_description: Information module for System Performance
-  Historical
+short_description: Information module for System Performance Historical
 description:
-  - Get all System Performance Historical. - > Retrieves
-    the average values of cluster key performance indicators
-    KPIs , like CPU utilization, memory utilization
-    or network rates grouped by time intervals within
-    a specified time range. The data will be available
-    from the past 24 hours.
+  - Get all System Performance Historical. - > Retrieves hourly data of cluster key performance indicators KPIs , like CPU
+    utilization, memory utilization or network rates for the past 24 hours. Query parameters 'startTime' and 'endTime' are
+    no longer supported.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -26,31 +22,30 @@ options:
     type: dict
   kpi:
     description:
-      - Kpi query parameter. Fetch historical data for
-        this kpi. Valid values cpu,memory,network.
+      - Kpi query parameter. Fetch historical data for this kpi. Valid values cpu,memory,network.
     type: str
   startTime:
     description:
       - >
-        StartTime query parameter. This is the epoch
-        start time in milliseconds from which performance
-        indicator need to be fetched.
+        StartTime query parameter. In this release this field has been deprecated and no longer supported. This
+        is restricted to a 24-hour time range with hourly samples, regardless of the provided epoch time. For
+        example, if any epoch time is specified for this field, it will be ignored and 24 hours before the
+        current time will be considered.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. This is the epoch end
-        time in milliseconds upto which performance
-        indicator need to be fetched.
+        EndTime query parameter. In this release this field has been deprecated and no longer supported. This is
+        restricted to a 24-hour time range with hourly samples, regardless of the provided epoch time. For
+        example, if any epoch time is specified for this field, it will be ignored and the current time will be
+        considered.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Health
-      and Performance SystemPerformanceHistoricalAPI
-    description: Complete reference of the SystemPerformanceHistoricalAPI
-      API.
+  - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPI
+    description: Complete reference of the SystemPerformanceHistoricalAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api
 notes:
   - SDK Method used are
@@ -67,7 +62,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -78,7 +73,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -86,27 +81,22 @@ dnac_response:
       "hostName": "string",
       "version": "string",
       "kpis": {
-        "legends": {
-          "cpu": {
-            "units": "string"
-          },
-          "memory": {
-            "units": "string"
-          },
-          "network tx_rate": {
-            "units": "string"
-          },
-          "network rx_rate": {
-            "units": "string"
-          }
+        "cpu": {
+          "units": "string",
+          "utilization": "string"
         },
-        "data": {
-          "t1": [
-            "string"
-          ]
+        "memory": {
+          "units": "string",
+          "utilization": "string"
         },
-        "cpuAvg": "string",
-        "memoryAvg": "string"
+        "network tx_rate": {
+          "units": "string",
+          "utilization": "string"
+        },
+        "network rx_rate": {
+          "units": "string",
+          "utilization": "string"
+        }
       }
     }
 """

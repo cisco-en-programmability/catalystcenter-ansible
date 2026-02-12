@@ -4028,7 +4028,7 @@
                                 "extendedAttributes":{
                                     "path":"wlan",
                                     "attributeDisplayName":"WPA2 Encryption CCMP128",
-                                    "dataConverter":"com.cisco.catalystcenter.compliance.intent.util.EnableAndDisableModeforBoolean",
+                                    "dataConverter":"com.cisco.dnac.compliance.intent.util.EnableAndDisableModeforBoolean",
                                     "type":"Intent"
                                 },
                                 "ackStatus":"UNACKNOWLEDGED",

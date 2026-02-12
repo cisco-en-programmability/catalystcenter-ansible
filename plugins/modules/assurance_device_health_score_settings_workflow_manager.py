@@ -34,7 +34,7 @@ description:
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Megha Kandari (@kandarimegha) Madhan Sankaranarayanan
+author: Megha Kandari (@kandarimegha), Madhan Sankaranarayanan
   (@madhansansel)
 options:
   config_verify:
@@ -68,7 +68,8 @@ options:
           Configures the health score settings for network
           devices. Defines thresholds for KPIs like
           CPU UTILIZATION, MEMORY UTILIZATION, etc.
-        type: dict
+        type: list
+        elements: dict
         required: true
         suboptions:
           device_family:
@@ -283,7 +284,7 @@ options:
               thresholds.
             type: bool
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.8.6
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -296,16 +297,16 @@ notes:
 
 EXAMPLES = r"""
 ---
-- hosts: dnac_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.catalystcenter. assurance_device_health_score_settings_workflow_manager:
+      cisco.catalystcenter.assurance_device_health_score_settings_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -323,16 +324,16 @@ EXAMPLES = r"""
                 include_for_overall_health: true  # required field
                 threshold_value: 90
                 synchronize_to_issue_threshold: false
-- hosts: dnac_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.catalystcenter. assurance_device_health_score_settings_workflow_manager:
+      cisco.catalystcenter.assurance_device_health_score_settings_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -350,16 +351,16 @@ EXAMPLES = r"""
                 include_for_overall_health: true  # required field
                 threshold_value: 60
                 synchronize_to_issue_threshold: false
-- hosts: dnac_servers
+- hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.catalystcenter. assurance_device_health_score_settings_workflow_manager:
+      cisco.catalystcenter.assurance_device_health_score_settings_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -406,7 +407,7 @@ response_1:
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -447,7 +448,7 @@ class Healthscore(CatalystCenterBase):
             "device_health_score": {
                 "type": "list",
                 "elements": "dict",
-                "name": {"type": "str", "required": True},
+                "kpi_name": {"type": "str", "required": True},
                 "device_family": {"type": "str", "required": True},
                 "include_for_overall_health": {"type": "bool", "required": True},
                 "threshold_value": {"type": "int", "required": False},
@@ -1152,11 +1153,11 @@ class Healthscore(CatalystCenterBase):
                         )
 
                         if not response:
-                            error_message = "Failed to update health score definition: No response received from CATALYST."
+                            error_message = "Failed to update health score definition: No response received from DNAC."
                             self.log(error_message, "ERROR")
                             self.set_operation_result(
                                 "failed", False, error_message, "ERROR"
-                            )
+                            ).check_return_status()
 
                         response_data = response.get("response")
                         if response_data:
@@ -1183,11 +1184,14 @@ class Healthscore(CatalystCenterBase):
                             "success", True, self.msg, "INFO", self.result["response"]
                         )
                     except Exception as e:
+                        e = str(e).split('"')[9]
                         self.msg = "Exception occurred while updating the Health score settings '{0}':'{1}'".format(
                             str(name), str(e)
                         )
                         self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
 
         return self
 
@@ -1263,18 +1267,19 @@ def main():
     """main entry point for module execution"""
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

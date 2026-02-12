@@ -7,54 +7,43 @@
 DOCUMENTATION = r"""
 ---
 module: intent_network_devices_query_count
-short_description: Resource module for Intent Network
-  Devices Query Count
+short_description: Resource module for Intent Network Devices Query Count
 description:
-  - Manage operation create of the resource Intent Network
-    Devices Query Count.
-  - API to fetch the count of network devices for the
-    given filter query.
+  - Manage operation create of the resource Intent Network Devices Query Count.
+  - API to fetch the count of network devices for the given filter query.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   filter:
-    description: Intent Network Devices Query Count's
-      filter.
+    description: Intent Network Devices Query Count's filter.
     suboptions:
       filters:
-        description: Intent Network Devices Query Count's
-          filters.
+        description: Intent Network Devices Query Count's filters.
         elements: dict
         suboptions:
           key:
             description: The key to filter by.
             type: str
           operator:
-            description: The operator to use for filtering
-              the values.
+            description: The operator to use for filtering the values.
             type: str
           value:
-            description: Value to filter by. For `in`
-              operator, the value should be a list of
-              values.
+            description: Value to filter by. For `in` operator, the value should be a list of values.
             type: dict
         type: list
       logicalOperator:
-        description: The logical operator to use for
-          combining the filter criteria. If not provided,
-          the default value is AND.
+        description: The logical operator to use for combining the filter criteria. If not provided, the default value is
+          AND.
         type: str
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      CountTheNumberOfNetworkDevicesWithFilters
-    description: Complete reference of the CountTheNumberOfNetworkDevicesWithFilters
-      API.
+  - name: Cisco DNA Center documentation for Devices CountTheNumberOfNetworkDevicesWithFilters
+    description: Complete reference of the CountTheNumberOfNetworkDevicesWithFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-network-devices-with-filters
 notes:
   - SDK Method used are
@@ -71,7 +60,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     filter:
@@ -83,7 +72,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

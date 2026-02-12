@@ -7,17 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_user_defined_field
-short_description: Resource module for Network Device
-  User Defined Field
+short_description: Resource module for Network Device User Defined Field
 description:
-  - Manage operations create, update and delete of the
-    resource Network Device User Defined Field.
-  - Creates a new global User Defined Field, which can
-    be assigned to devices.
-  - Deletes an existing Global User-Defined-Field using
-    it's id.
-  - Updates an existing global User Defined Field, using
-    it's id.
+  - Manage operations create, update and delete of the resource Network Device User Defined Field.
+  - Creates a new global User Defined Field, which can be assigned to devices.
+  - Deletes an existing Global User-Defined-Field using it's id.
+  - Updates an existing global User Defined Field, using it's id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -33,23 +28,17 @@ options:
     description: Name of UDF.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      CreateUserDefinedField
-    description: Complete reference of the CreateUserDefinedField
-      API.
+  - name: Cisco DNA Center documentation for Devices CreateUserDefinedField
+    description: Complete reference of the CreateUserDefinedField API.
     link: https://developer.cisco.com/docs/dna-center/#!create-user-defined-field
-  - name: Cisco DNA Center documentation for Devices
-      DeleteUserDefinedField
-    description: Complete reference of the DeleteUserDefinedField
-      API.
+  - name: Cisco DNA Center documentation for Devices DeleteUserDefinedField
+    description: Complete reference of the DeleteUserDefinedField API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field
-  - name: Cisco DNA Center documentation for Devices
-      UpdateUserDefinedField
-    description: Complete reference of the UpdateUserDefinedField
-      API.
+  - name: Cisco DNA Center documentation for Devices UpdateUserDefinedField
+    description: Complete reference of the UpdateUserDefinedField API.
     link: https://developer.cisco.com/docs/dna-center/#!update-user-defined-field
 notes:
   - SDK Method used are
@@ -70,24 +59,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     description: string
-    name: string
-- name: Update by id
-  cisco.catalystcenter.network_device_user_defined_field:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    description: string
-    id: string
     name: string
 - name: Delete by id
   cisco.catalystcenter.network_device_user_defined_field:
@@ -95,15 +71,28 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
+- name: Update by id
+  cisco.catalystcenter.network_device_user_defined_field:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    id: string
+    name: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

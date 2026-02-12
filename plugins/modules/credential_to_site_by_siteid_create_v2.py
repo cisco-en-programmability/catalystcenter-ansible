@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: credential_to_site_by_siteid_create_v2
-short_description: Resource module for Credential To
-  Site By Siteid Create V2
+short_description: Resource module for Credential To Site By Siteid Create V2
 description:
-  - Manage operation create of the resource Credential
-    To Site By Siteid Create V2.
+  - Manage operation create of the resource Credential To Site By Siteid Create V2.
   - API to assign Device Credential to a site.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -28,8 +26,7 @@ options:
     description: HTTP(S) Write Credential Id.
     type: str
   siteId:
-    description: SiteId path parameter. Site Id to assign
-      credential.
+    description: SiteId path parameter. Site Id to assign credential.
     type: str
   snmpV2ReadId:
     description: SNMPv2c Read Credential Id.
@@ -41,13 +38,11 @@ options:
     description: SNMPv3 Credential Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings AssignDeviceCredentialToSiteV2
-    description: Complete reference of the AssignDeviceCredentialToSiteV2
-      API.
+  - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
 notes:
   - SDK Method used are
@@ -59,12 +54,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.credential_to_site_by_siteid_create:
+  cisco.catalystcenter.credential_to_site_by_siteid_create_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     cliId: string
@@ -77,7 +72,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

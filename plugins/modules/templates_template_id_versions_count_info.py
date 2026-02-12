@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: templates_template_id_versions_count_info
-short_description: Information module for Templates
-  Template Id Versions Count
+short_description: Information module for Templates Template Id Versions Count
 description:
   - Get all Templates Template Id Versions Count.
   - Get the count of a template's version information.
@@ -23,28 +22,23 @@ options:
   templateId:
     description:
       - >
-        TemplateId path parameter. The id of the template
-        to get versions of, retrieveable from `GET /dna/intent/api/v1/templates`.
+        TemplateId path parameter. The id of the template to get versions of, retrieveable from `GET
+        /dna/intent/api/v1/templates`.
     type: str
   versionNumber:
     description:
-      - VersionNumber query parameter. Filter response
-        to only get the template version that matches
-        this version number.
+      - VersionNumber query parameter. Filter response to only get the template version that matches this version number.
     type: int
   latestVersion:
     description:
-      - LatestVersion query parameter. Filter response
-        to only include the latest version of a template.
+      - LatestVersion query parameter. Filter response to only include the latest version of a template.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetTemplateVersionsCount
-    description: Complete reference of the GetTemplateVersionsCount
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateVersionsCount
+    description: Complete reference of the GetTemplateVersionsCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-template-versions-count
 notes:
   - SDK Method used are
@@ -61,7 +55,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -72,7 +66,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

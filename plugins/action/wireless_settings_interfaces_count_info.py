@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -80,7 +79,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(catalyst_response={}))
+        self._result.update(dict(dnac_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -89,6 +88,6 @@ class ActionModule(ActionBase):
             function="get_interfaces_count",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalyst_response=response))
+        self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -9,10 +9,8 @@ DOCUMENTATION = r"""
 module: pnp_workflow
 short_description: Resource module for Pnp Workflow
 description:
-  - Manage operations create, update and delete of the
-    resource Pnp Workflow.
-  - Adds a PnP Workflow along with the relevant tasks
-    in the workflow into the PnP database.
+  - Manage operations create, update and delete of the resource Pnp Workflow.
+  - Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
   - Deletes a workflow specified by id.
   - Updates an existing workflow.
 version_added: '3.1.0'
@@ -130,23 +128,17 @@ options:
     description: Pnp Workflow's version.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) AddAWorkflow
-    description: Complete reference of the AddAWorkflow
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflow
+    description: Complete reference of the AddAWorkflow API.
     link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) DeleteWorkflowById
-    description: Complete reference of the DeleteWorkflowById
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowById
+    description: Complete reference of the DeleteWorkflowById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) UpdateWorkflow
-    description: Complete reference of the UpdateWorkflow
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflow
+    description: Complete reference of the UpdateWorkflow API.
     link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
   - SDK Method used are
@@ -167,7 +159,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -211,7 +203,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -222,7 +214,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -264,7 +256,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

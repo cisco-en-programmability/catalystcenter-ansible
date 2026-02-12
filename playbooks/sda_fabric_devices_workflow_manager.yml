@@ -9,7 +9,7 @@
     - name: Add the SDA fabric device as BORDER and CONTROL node and do L2 and L3 handoff.
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -54,7 +54,7 @@
     - name: Delete the SDA fabric device's L2 and L3 handoff configurations
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -84,7 +84,7 @@
     - name: Delete the SDA fabric device
       cisco.catalystcenter.sda_fabric_devices_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"

@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_v2_info
-short_description: Information module for Sda Virtual
-  Network V2
+short_description: Information module for Sda Virtual Network V2
 description:
   - Get all Sda Virtual Network V2.
   - Get virtual network with scalable groups.
@@ -25,12 +24,11 @@ options:
       - VirtualNetworkName query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroups
-    description: Complete reference of the GetVirtualNetworkWithScalableGroups
-      API.
+    description: Complete reference of the GetVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
@@ -42,12 +40,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Sda Virtual Network V2
-  cisco.catalystcenter.sda_virtual_network_info:
+  cisco.catalystcenter.sda_virtual_network_v2_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -56,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

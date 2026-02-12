@@ -1,0 +1,1180 @@
+# Copyright (c) 2024 Cisco and/or its affiliates.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Make coding more python3-ish
+from __future__ import absolute_import, division, print_function
+
+__metaclass__ = type
+from unittest.mock import patch
+from ansible_collections.cisco.catalystcenter.plugins.modules import network_settings_workflow_manager
+from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+
+
+class TestDnacNetworkSettings(TestDnacModule):
+
+    module = network_settings_workflow_manager
+    test_data = loadPlaybookData("network_settings_workflow_manager")
+    playbook_config_network = test_data.get("playbook_config_network")
+    playbook_update_network = test_data.get("playbook_update_network")
+    playbook_config_update_not_req = test_data.get("playbook_config_update_not_req")
+    playbook_config_aaa_req = test_data.get("playbook_config_aaa_req")
+    playbook_global_pool_creation = test_data.get("playbook_global_pool_creation")
+    playbook_global_pool_updation = test_data.get("playbook_global_pool_updation")
+    playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
+    playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
+    playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
+    playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
+    playbook_reset_network = test_data.get("playbook_reset_network")
+    playbook_reserve_pool_creation = test_data.get("playbook_reserve_pool_creation")
+    playbook_reset_aaa = test_data.get("playbook_reset_aaa")
+
+    def setUp(self):
+        super(TestDnacNetworkSettings, self).setUp()
+
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+        )
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
+
+        self.load_fixtures()
+
+    def tearDown(self):
+        super(TestDnacNetworkSettings, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
+
+    def load_fixtures(self, response=None, device=""):
+        """
+        Load fixtures for user.
+        """
+        if "network_not_need_update" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_network"),
+                self.test_data.get("get_network_v2_2"),
+                self.test_data.get("get_network_v2"),
+            ]
+
+        if "null_network_params" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_network"),
+                self.test_data.get("get_network_v2_2"),
+                self.test_data.get("get_network_v2"),
+            ]
+
+        if "not_verified" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get"),
+                self.test_data.get("timeZone_get"),
+                self.test_data.get("banner_get"),
+                self.test_data.get("AAA_get"),
+            ]
+
+        if "network_update" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("get_dhcp"),
+                self.test_data.get("get_dns"),
+                self.test_data.get("get_telemetry"),
+                self.test_data.get("get_ntp"),
+                self.test_data.get("get_timezone"),
+                self.test_data.get("get_banner"),
+                self.test_data.get("get_AAA"),
+            ]
+
+        if "exception_update_dhcp" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+            ]
+
+        if "exception_update_ntp" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_update_timezone" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_update_dns" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_update_banner" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_update_aaa" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_site_not_exist" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_update_telemetry" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("AAA_get"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "exception_dns_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+            ]
+
+        if "exception_telemetry_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+            ]
+
+        if "exception_ntp_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+            ]
+
+        if "exception_timezone_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+            ]
+
+        if "exception_banner_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+            ]
+
+        if "exception_aaa_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+            ]
+
+        if "exception_dhcp_get" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+            ]
+
+        if "update_not_required" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("get_sites_test"),
+            ]
+
+        if "null_network_params" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_test"),
+                self.test_data.get("clear_catalystcenter_network"),
+            ]
+
+        if "global_pool_creation" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("global_pool_exist_ipv6"),
+                self.test_data.get("global_pool_exist_ipv4"),
+                self.test_data.get("global_pool_creation"),
+                self.test_data.get("global_pool_creation_task"),
+                self.test_data.get("global_pool_creation_task"),
+                self.test_data.get("global_pool_creation_task"),
+                self.test_data.get("global_pool_ipv6_exist2"),
+                self.test_data.get("global_pool_ipv4_exist2")
+            ]
+
+        if "global_pool_deletion" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("deletion_global_pool_exist"),
+                self.test_data.get("global_pool_deletion"),
+                self.test_data.get("global_pool_deletion_task"),
+                self.test_data.get("global_pool_deletion_task"),
+                self.test_data.get("global_pool_deletion_task"),
+                self.test_data.get("global_pool_exist_deletion"),
+                self.test_data.get("global_pool_exist_deletion2"),
+            ]
+
+        if "reserve_pool_deletion" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("site_reserve_deletion"),
+                self.test_data.get("get_reserved_ip_subpool_deletion"),
+                self.test_data.get("delete_reserve_pool"),
+                self.test_data.get("delete_reserve_pool_task"),
+                self.test_data.get("delete_reserve_pool_task"),
+                self.test_data.get("site_reserve_deletion_2"),
+                self.test_data.get("get_reserved_ip_subpool_deletion_2"),
+            ]
+
+        if "reserve_pool_creation" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("site_reserve_deletion"),
+                self.test_data.get("get_reserved_ip_subpool_deletion_2"),
+                self.test_data.get("site_reserve_deletion"),
+                self.test_data.get("create_reserve_pool"),
+                self.test_data.get("create_reserve_pool_task"),
+                self.test_data.get("site_reserve_deletion"),
+                self.test_data.get("get_reserve_pool_creation"),
+                self.test_data.get("get_reserve_pool_creation_2"),
+            ]
+
+        if "global_pool_Updation_not_req" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("Global_Pool1"),
+                self.test_data.get("Global_Pool2"),
+                self.test_data.get("update_global_pool"),
+                self.test_data.get("update_global_pool_task"),
+                self.test_data.get("Global_Pool_1"),
+                self.test_data.get("Global_Pool_2")
+            ]
+
+        if "device_controlability_updation" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_device_controlability"),
+                self.test_data.get("update_device_controlability"),
+                self.test_data.get("get_tasks_by_id_device_controlability"),
+            ]
+
+        if "resetting_server_configuration" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_resetting_server_configuration"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+        if "reserve_subpool_create" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("reserve_pool_exists"),
+                self.test_data.get("reserve_pool_exists"),
+                self.test_data.get("reserve_pool_exists"),
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("Global_TEST"),
+                self.test_data.get("Global_TEST_IPv6"),
+                self.test_data.get("reserve_pool_site_USA"),
+                self.test_data.get("reserve_create_subpool"),
+                self.test_data.get("created_subpool_task_details"),
+            ]
+
+        if "reset_aaa_configuration" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_sites_resetting_server_configuration"),
+                self.test_data.get("dhcp_get_response"),
+                self.test_data.get("dns_get_response"),
+                self.test_data.get("telemetry_get"),
+                self.test_data.get("ntp_get_response"),
+                self.test_data.get("timezone_get_response"),
+                self.test_data.get("banner_get_response"),
+                self.test_data.get("get_AAA"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+                self.test_data.get("update"),
+                self.test_data.get("task"),
+            ]
+
+    def test_Network_settings_workflow_manager_network_network_not_need_update(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                catalystcenter_version="2.3.5.3",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating the network settings of 'Global/Vietnam': 'list' object has no attribute 'get'"
+        )
+
+    def test_Network_settings_workflow_manager_not_verified(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=True, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Network Functions Config is not applied to the Cisco Catalyst Center"
+        )
+
+    def test_Network_settings_workflow_manager_network_update(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                catalystcenter_log_level="DEBUG",
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result['response'][2]['network']['msg'],
+            {'Global/Testing/test': 'Network Updated successfully'}
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_dhcp(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating DHCP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_ntp(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating NTP settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_timezone(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating time zone settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_dns(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating DNS settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_banner(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating banner settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_aaa(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_update_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating telemetry settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_update_telemetry(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_site_not_exist(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertIn(
+            "An exception occurred while retrieving Site details for Site 'Global/Vietnam' does not exist in the Cisco Catalyst Center.",
+            result.get('msg')
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_telemetry_get(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_dns_get(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result.get('msg'))
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting DNS settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_ntp_get(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting NTP server settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_timezone_get(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting time zone settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_dhcp_gett(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting DHCP settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_banner_get(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting banner settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_exception_aaa_get(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_network
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while getting AAA settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
+        )
+
+    def test_Network_settings_workflow_manager_network_update_not_required(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.7.10",
+                state="merged",
+                config=self.playbook_config_update_not_req
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result['response'][2]['network']['msg'],
+            {'Global/Testing/test': "Network doesn't require an update"}
+        )
+
+    def test_Network_settings_workflow_manager_network_null_network_params(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                catalystcenter_version="2.3.5.3",
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_update_not_req
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            "Exception occurred while updating the network settings of 'Global/Testing/test': "
+        )
+
+    def test_Network_settings_workflow_manager_global_pool_creation(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="2.3.5.3",
+                config=self.playbook_global_pool_creation
+            )
+        )
+        result = self.execute_module(changed=True, failed=True)
+        print(result["response"][0].get("globalPool").get("msg"))
+        self.assertEqual(
+            result["response"][0].get("globalPool").get("msg"),
+            {'Global_Pool2': 'Global Pool Created Successfully', 'Global_Pool3': 'Global Pool Created Successfully'}
+
+        )
+
+    def test_Network_settings_workflow_manager_global_pool_Updation_not_req(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="2.3.5.3",
+                config=self.playbook_global_pool_updation
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result["response"][0].get("globalPool").get("msg"))
+        # print(result)
+        self.assertEqual(
+            result["response"][0].get("globalPool").get("msg"),
+            {'Global_Pool2': "Global pool doesn't require an update", 'Global_Pool3': "Global pool doesn't require an update"}
+
+        )
+
+    def test_Network_settings_workflow_manager_global_pool_deletion(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                config_verify=True,
+                catalystcenter_version="2.3.5.3",
+                config=self.playbook_config_global_pool_deletion
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"])
+        self.assertEqual(
+            result["response"]["Global_Pool2"]["msg"],
+            "Global pool deleted successfully."
+        )
+
+    def test_Network_settings_workflow_manager_reserve_pool_deletion(self):
+        """
+        Test case for site workflow manager when creating a site.
+
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                config_verify=True,
+                catalystcenter_version="2.3.5.3",
+                config=self.playbook_config_reserve_pool_deletion
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result["response"])
+        self.assertIn(
+            "An exception occurred while retrieving Site details for Site 'Global/Abc2' does not exist in the Cisco Catalyst Center.",
+            result["response"]
+        )
+
+    def test_Network_settings_workflow_manager_resetting_server_configuration(self):
+        """
+        Test case for network settings workflow manager when resetting server configuration.
+
+        This test case checks the behavior of the network settings workflow manager when resetting server configuration.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="2.3.7.9",
+                config=self.playbook_reset_network
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][2]["network"]["msg"])
+        self.assertEqual(
+            {'Global/Testing/test': 'Network Updated successfully'},
+            result["response"][2]["network"]["msg"]
+        )
+
+    def test_Network_settings_workflow_manager_reserve_subpool_create(self):
+        """
+        Test case for network settings workflow manager when creating a reserve subpool.
+
+        This test case checks the behavior of the network settings workflow manager when creating a new reserve subpool in the specified Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                catalystcenter_version="2.3.7.9",
+                config=self.playbook_reserve_pool_creation
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][1]["reservePool"]["msg"])
+
+        self.assertEqual(
+            result["response"][1]["reservePool"]["msg"],
+            {'4G10_KPKT_BMDF': 'Ip Subpool Reservation Created Successfully'}
+        )
+
+    def test_Network_settings_workflow_manager_reset_aaa_configuration(self):
+        """
+        Test case for network settings workflow manager when resetting AAA configuration.
+
+        This test case checks the behavior of the network settings workflow manager when resetting AAA configuration.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=False,
+                catalystcenter_log_level="DEBUG",
+                catalystcenter_version="2.3.7.9",
+                config=self.playbook_reset_aaa
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["response"][2]["network"]["msg"])
+        self.assertEqual(
+            {'Global/Testing/test': 'Network Updated successfully'},
+            result["response"][2]["network"]["msg"]
+        )

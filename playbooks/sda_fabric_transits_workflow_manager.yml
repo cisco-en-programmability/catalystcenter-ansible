@@ -9,7 +9,7 @@
     - name: Create the SDA fabric transits with transit_type as IP_BASED_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -31,7 +31,7 @@
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -54,7 +54,7 @@
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -80,7 +80,7 @@
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -103,7 +103,7 @@
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -129,7 +129,7 @@
     - name: Delete the SDA fabric transits
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"

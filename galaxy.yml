@@ -1,14 +1,14 @@
 ---
 namespace: cisco
 name: catalystcenter
-version: 2.2.2
+version: 2.3.0
 readme: README.md
 authors:
-  - Rafael Campos <rcampos@altus.cr>
-  - William Astorga <wastorga@altus.cr>
-  - Jose Bogarin <jbogarin@altus.cr>
-  - Bryan Vargas <bvargas@altus.cr>
-  - Francisco Muñoz <fmunoz@altus.cr>
+  - Rafael Campos <rcampos@cloverhound.cr>
+  - William Astorga <wastorga@cloverhound.cr>
+  - Jose Bogarin <jbogarin@cloverhound.cr>
+  - Bryan Vargas <bvargas@cloverhound.cr>
+  - Francisco Muñoz <fmunoz@cloverhound.cr>
   - Madhan Sankaranarayanan <madsanka@cisco.com>
   - Rishita Chowdhary (@rishitachowdhary)
   - Muthu Rakesh Babu <mutbabu@cisco.com>

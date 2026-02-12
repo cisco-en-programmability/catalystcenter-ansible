@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: device_reboot_apreboot_info
-short_description: Information module for Device Reboot
-  Apreboot
+short_description: Information module for Device Reboot Apreboot
 description:
   - Get all Device Reboot Apreboot.
-  - Users can query the access point reboot status using
-    this intent API.
+  - Users can query the access point reboot status using this intent API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,17 +21,14 @@ options:
     type: dict
   parentTaskId:
     description:
-      - ParentTaskId query parameter. Task id of ap
-        reboot request.
+      - ParentTaskId query parameter. Task id of ap reboot request.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      GetAccessPointRebootTaskResult
-    description: Complete reference of the GetAccessPointRebootTaskResult
-      API.
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointRebootTaskResult
+    description: Complete reference of the GetAccessPointRebootTaskResult API.
     link: https://developer.cisco.com/docs/dna-center/#!get-access-point-reboot-task-result
 notes:
   - SDK Method used are
@@ -50,7 +45,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -59,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

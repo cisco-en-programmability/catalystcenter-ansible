@@ -7,20 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: global_credential_v2
-short_description: Resource module for Global Credential
-  V2
+short_description: Resource module for Global Credential V2
 description:
-  - Manage operations create, update and delete of the
-    resource Global Credential V2. - > API to create
-    new global credentials. Multiple credentials of
-    various types can be passed at once. Please refer
-    sample Request Body for more information.
-  - Delete a global credential. Only 'id' of the credential
-    has to be passed. - > API to update device credentials.
-    Multiple credentials can be passed at once, but
-    only a single credential of a given type can be
-    passed at once. Please refer sample Request Body
-    for more information.
+  - Manage operations create, update and delete of the resource Global Credential V2. - > API to create new global credentials.
+    Multiple credentials of various types can be passed at once. Please refer sample Request Body for more information.
+  - Delete a global credential. Only 'id' of the credential has to be passed. - > API to update device credentials. Multiple
+    credentials can be passed at once, but only a single credential of a given type can be passed at once. Please refer sample
+    Request Body for more information.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -28,6 +21,7 @@ author: Rafael Campos (@racampos)
 options:
   cliCredential:
     description: Global Credential V2's cliCredential.
+    elements: dict
     suboptions:
       description:
         description: Description for CLI credential.
@@ -35,26 +29,19 @@ options:
       enablePassword:
         description: CLI Enable Password.
         type: str
-      id:
-        description: Id of the CLI Credential in UUID
-          format.
-        type: str
       password:
         description: CLI Password.
         type: str
       username:
         description: CLI Username.
         type: str
-    type: dict
+    type: list
   httpsRead:
     description: Global Credential V2's httpsRead.
+    elements: dict
     suboptions:
       description:
         description: Description for HTTP(S) Read Credentials.
-        type: str
-      id:
-        description: Id of the HTTP(S) Read Credential
-          in UUID format.
         type: str
       password:
         description: HTTP(S) Read Password.
@@ -65,16 +52,13 @@ options:
       username:
         description: HTTP(S) Read Username.
         type: str
-    type: dict
+    type: list
   httpsWrite:
     description: Global Credential V2's httpsWrite.
+    elements: dict
     suboptions:
       description:
         description: Description for HTTP(S) Write Credentials.
-        type: str
-      id:
-        description: Id of the HTTP(S) Read Credential
-          in UUID format.
         type: str
       password:
         description: HTTP(S) Write Password.
@@ -85,54 +69,44 @@ options:
       username:
         description: HTTP(S) Write Username.
         type: str
-    type: dict
+    type: list
   id:
-    description: Id path parameter. Global Credential
-      id.
+    description: Id path parameter. Global Credential id.
     type: str
   snmpV2cRead:
     description: Global Credential V2's snmpV2cRead.
+    elements: dict
     suboptions:
       description:
         description: Description for Snmp RO community.
         type: str
-      id:
-        description: Id of the SNMP Read Credential
-          in UUID format.
-        type: str
       readCommunity:
         description: Snmp RO community.
         type: str
-    type: dict
+    type: list
   snmpV2cWrite:
     description: Global Credential V2's snmpV2cWrite.
+    elements: dict
     suboptions:
       description:
         description: Description for Snmp RW community.
         type: str
-      id:
-        description: Id of the SNMP Write Credential
-          in UUID format.
-        type: str
       writeCommunity:
         description: Snmp RW community.
         type: str
-    type: dict
+    type: list
   snmpV3:
     description: Global Credential V2's snmpV3.
+    elements: dict
     suboptions:
       authPassword:
-        description: Auth Password for SNMP V3.
+        description: Auth Password for SNMP.
         type: str
       authType:
         description: SNMP auth protocol. SHA' or 'MD5'.
         type: str
       description:
         description: Description for Snmp V3 Credential.
-        type: str
-      id:
-        description: Id of the SNMP V3 Credential in
-          UUID format.
         type: str
       privacyPassword:
         description: Privacy Password for SNMP privacy.
@@ -141,31 +115,24 @@ options:
         description: SNMP privacy protocol. 'AES128','AES192','AES256'.
         type: str
       snmpMode:
-        description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV'
-          or 'NOAUTHNOPRIV'.
+        description: Mode of SNMP. 'AUTHPRIV' or 'AUTHNOPRIV' or 'NOAUTHNOPRIV'.
         type: str
       username:
         description: SNMP V3 Username.
         type: str
-    type: dict
+    type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery
-      CreateGlobalCredentialsV2
-    description: Complete reference of the CreateGlobalCredentialsV2
-      API.
+  - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
+    description: Complete reference of the CreateGlobalCredentialsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-  - name: Cisco DNA Center documentation for Discovery
-      DeleteGlobalCredentialV2
-    description: Complete reference of the DeleteGlobalCredentialV2
-      API.
+  - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
+    description: Complete reference of the DeleteGlobalCredentialV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-  - name: Cisco DNA Center documentation for Discovery
-      UpdateGlobalCredentialsV2
-    description: Complete reference of the UpdateGlobalCredentialsV2
-      API.
+  - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
+    description: Complete reference of the UpdateGlobalCredentialsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
 notes:
   - SDK Method used are
@@ -180,13 +147,52 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Update all
-  cisco.catalystcenter.global_credential:
+- name: Create
+  cisco.catalystcenter.global_credential_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    cliCredential:
+      - description: string
+        enablePassword: string
+        password: string
+        username: string
+    httpsRead:
+      - description: string
+        password: string
+        port: 0
+        username: string
+    httpsWrite:
+      - description: string
+        password: string
+        port: 0
+        username: string
+    snmpV2cRead:
+      - description: string
+        readCommunity: string
+    snmpV2cWrite:
+      - description: string
+        writeCommunity: string
+    snmpV3:
+      - authPassword: string
+        authType: string
+        description: string
+        privacyPassword: string
+        privacyType: string
+        snmpMode: string
+        username: string
+- name: Update all
+  cisco.catalystcenter.global_credential_v2:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -225,52 +231,13 @@ EXAMPLES = r"""
       privacyType: string
       snmpMode: string
       username: string
-- name: Create
-  cisco.catalystcenter.global_credential:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    cliCredential:
-      - description: string
-        enablePassword: string
-        password: string
-        username: string
-    httpsRead:
-      - description: string
-        password: string
-        port: 0
-        username: string
-    httpsWrite:
-      - description: string
-        password: string
-        port: 0
-        username: string
-    snmpV2cRead:
-      - description: string
-        readCommunity: string
-    snmpV2cWrite:
-      - description: string
-        writeCommunity: string
-    snmpV3:
-      - authPassword: string
-        authType: string
-        description: string
-        privacyPassword: string
-        privacyType: string
-        snmpMode: string
-        username: string
 - name: Delete by id
-  cisco.catalystcenter.global_credential:
+  cisco.catalystcenter.global_credential_v2:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -278,7 +245,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: swim_trigger_distribution
-short_description: Resource module for Swim Trigger
-  Distribution
+short_description: Resource module for Swim Trigger Distribution
 description:
-  - Manage operation create of the resource Swim Trigger
-    Distribution. - > Distributes a software image on
-    a given device. Software image must be imported
-    successfully into DNA Center before it can be distributed.
+  - Manage operation create of the resource Swim Trigger Distribution. - > Distributes a software image on a given device.
+    Software image must be imported successfully into DNA Center before it can be distributed.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -31,13 +28,11 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software
-      Image Management (SWIM) TriggerSoftwareImageDistribution
-    description: Complete reference of the TriggerSoftwareImageDistribution
-      API.
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageDistribution
+    description: Complete reference of the TriggerSoftwareImageDistribution API.
     link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-distribution
 notes:
   - SDK Method used are
@@ -54,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     payload:
@@ -63,7 +58,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

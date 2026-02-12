@@ -11,11 +11,8 @@ short_description: Information module for Reports Executions
 description:
   - Get all Reports Executions.
   - Get Reports Executions by id.
-  - Get details of all executions for a given report.
-    - > Returns report content. Save the response to
-    a file by converting the response data as a blob
-    and setting the file format available from content-disposition
-    response header.
+  - Get details of all executions for a given report. - > Returns report content. Save the response to a file by converting
+    the response data as a blob and setting the file format available from content-disposition response header.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,36 +27,29 @@ options:
     type: str
   executionId:
     description:
-      - ExecutionId path parameter. ExecutionId of report
-        execution.
+      - ExecutionId path parameter. ExecutionId of report execution.
     type: str
   dirPath:
     description:
-      - Directory absolute path. Defaults to the current
-        working directory.
+      - Directory absolute path. Defaults to the current working directory.
     type: str
   saveFile:
     description:
-      - Enable or disable automatic file creation of
-        raw response.
+      - Enable or disable automatic file creation of raw response.
     type: bool
   filename:
     description:
       - The filename used to save the download file.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Reports
-      DownloadReportContent
-    description: Complete reference of the DownloadReportContent
-      API.
+  - name: Cisco DNA Center documentation for Reports DownloadReportContent
+    description: Complete reference of the DownloadReportContent API.
     link: https://developer.cisco.com/docs/dna-center/#!download-report-content
-  - name: Cisco DNA Center documentation for Reports
-      GetAllExecutionDetailsForAGivenReport
-    description: Complete reference of the GetAllExecutionDetailsForAGivenReport
-      API.
+  - name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport
+    description: Complete reference of the GetAllExecutionDetailsForAGivenReport API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
 notes:
   - SDK Method used are
@@ -78,7 +68,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -90,7 +80,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -100,7 +90,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

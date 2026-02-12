@@ -13,15 +13,8 @@ except ImportError:
     CATALYST_SDK_IS_INSTALLED = False
 else:
     CATALYST_SDK_IS_INSTALLED = True
+from ansible.module_utils.basic import env_fallback
 from ansible.module_utils._text import to_native
-
-try:
-    from ansible.module_utils.basic import env_fallback  # type: ignore
-except Exception:
-    # Fallback stub to satisfy local linters when Ansible runtime isn't present
-    def env_fallback(_names):  # type: ignore
-        return None
-
 
 try:
     import logging
@@ -154,42 +147,45 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 def catalystcenter_argument_spec():
     argument_spec = dict(
         catalystcenter_host=dict(
-            type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])
+            type="str", fallback=(env_fallback, ["CATALYSTCENTER_HOST"]), required=True
         ),
-        catalystcenter_api_port=dict(
+        catalystcenter_port=dict(
             type="int",
+            fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"]),
             required=False,
             default=443,
-            fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"]),
         ),
         catalystcenter_username=dict(
             type="str",
-            default="admin",
             fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
+            default="admin",
+            aliases=["user"],
         ),
         catalystcenter_password=dict(
             type="str",
-            no_log=True,
             fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"]),
+            no_log=True,
         ),
         catalystcenter_verify=dict(
             type="bool",
-            default=True,
             fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"]),
+            default=True,
         ),
         catalystcenter_version=dict(
             type="str",
-            default="3.1.3.0",
             fallback=(env_fallback, ["CATALYSTCENTER_VERSION"]),
+            default="3.1.6.0",
         ),
         catalystcenter_debug=dict(
             type="bool",
-            default=False,
             fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
+            default=False,
         ),
-        catalystcenter_api_task_timeout=dict(type="int", default=1200),
-        catalystcenter_task_poll_interval=dict(type="int", default=2),
-        validate_response_schema=dict(type="bool", default=True),
+        validate_response_schema=dict(
+            type="bool",
+            fallback=(env_fallback, ["VALIDATE_RESPONSE_SCHEMA"]),
+            default=True,
+        ),
     )
     return argument_spec
 
@@ -202,9 +198,9 @@ class CatalystCenterSDK(object):
             self.api = api.CatalystCenterAPI(
                 username=params.get("catalystcenter_username"),
                 password=params.get("catalystcenter_password"),
-                base_url="https://{host}:{api_port}".format(
-                    host=params.get("catalystcenter_host"),
-                    api_port=params.get("catalystcenter_api_port"),
+                base_url="https://{catalystcenter_host}:{catalystcenter_port}".format(
+                    catalystcenter_host=params.get("catalystcenter_host"),
+                    catalystcenter_port=params.get("catalystcenter_port"),
                 ),
                 version=params.get("catalystcenter_version"),
                 verify=params.get("catalystcenter_verify"),

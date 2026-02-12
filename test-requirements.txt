@@ -1,7 +1,10 @@
-catalystcentersdk >= 1.0.0
-Jinja2>=3.1.6
-PyYAML==6.0.1
-cryptography>=45.0.6
-paramiko==3.4.0
-pyzipper==0.3.6
-ansible>=11.8.0
+catalystcentersdk
+Jinja2
+PyYAML
+cryptography
+paramiko
+pyzipper
+ansible
+ansible-runner
+requests
+yamale

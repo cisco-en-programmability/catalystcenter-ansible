@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_profile_id_templates_info
-short_description: Information module for Network Profiles
-  For Sites Profile Id Templates
+short_description: Information module for Network Profiles For Sites Profile Id Templates
 description:
   - Get all Network Profiles For Sites Profile Id Templates.
-  - Retrieves a list of CLI templates attached to a
-    network profile based on the network profile ID.
+  - Retrieves a list of CLI templates attached to a network profile based on the network profile ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -24,17 +22,15 @@ options:
   profileId:
     description:
       - >
-        ProfileId path parameter. The `id` of the network
-        profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+        ProfileId path parameter. The `id` of the network profile, retrievable from `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings RetrieveCLITemplatesAttachedToANetworkProfile
-    description: Complete reference of the RetrieveCLITemplatesAttachedToANetworkProfile
-      API.
+  - name: Cisco DNA Center documentation for Network Settings RetrieveCLITemplatesAttachedToANetworkProfile
+    description: Complete reference of the RetrieveCLITemplatesAttachedToANetworkProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-cli-templates-attached-to-a-network-profile
 notes:
   - SDK Method used are
@@ -45,14 +41,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Profiles For Sites Profile Id
-    Templates
+- name: Get all Network Profiles For Sites Profile Id Templates
   cisco.catalystcenter.network_profiles_for_sites_profile_id_templates_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -61,7 +56,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

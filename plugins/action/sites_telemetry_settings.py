@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -22,7 +21,7 @@ from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcenter import (
     CatalystCenterSDK,
     catalystcenter_argument_spec,
-    catalystcenter_compare_equality,
+    catalystcenter_compare_equality2,
     get_dict_result,
 )
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
@@ -147,10 +146,10 @@ class SitesTelemetrySettings(object):
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update
         return any(
-            not catalystcenter_compare_equality(
-                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+            not catalystcenter_compare_equality2(
+                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
             )
-            for (dnac_param, ansible_param) in obj_params
+            for (catalystcenter_param, ansible_param) in obj_params
         )
 
     def update(self):
@@ -208,7 +207,7 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()

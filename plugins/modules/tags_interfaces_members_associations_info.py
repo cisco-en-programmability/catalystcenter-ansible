@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: tags_interfaces_members_associations_info
-short_description: Information module for Tags Interfaces
-  Members Associations
+short_description: Information module for Tags Interfaces Members Associations
 description:
-  - Get all Tags Interfaces Members Associations. -
-    > Fetches the tags associated with the interfaces.
-    Interfaces that don't have any tags associated will
-    not be included in the response. A tag is a user-defined
-    or system-defined construct to group resources.
-    When an interface is tagged, it is called a member
-    of the tag.
+  - Get all Tags Interfaces Members Associations. - > Fetches the tags associated with the interfaces. Interfaces that don't
+    have any tags associated will not be included in the response. A tag is a user-defined or system-defined construct to
+    group resources. When an interface is tagged, it is called a member of the tag.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,22 +22,18 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Minimum 1.
-    type: float
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1. Minimum 1.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page. Minimum 1, maximum 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page. Minimum 1, maximum 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithTheInterfaces
-    description: Complete reference of the RetrieveTagsAssociatedWithTheInterfaces
-      API.
+    description: Complete reference of the RetrieveTagsAssociatedWithTheInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-the-interfaces
 notes:
   - SDK Method used are
@@ -59,7 +50,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -69,7 +60,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

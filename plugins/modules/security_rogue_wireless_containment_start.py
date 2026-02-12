@@ -7,18 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_wireless_containment_start
-short_description: Resource module for Security Rogue
-  Wireless-Containment Start
+short_description: Resource module for Security Rogue Wireless-Containment Start
 description:
-  - Manage operation create of the resource Security
-    Rogue Wireless-Containment Start. - > Intent API
-    to start the wireless rogue access point containment.
-    This API will initiate the containment operation
-    on the strongest detecting WLC for the given Rogue
-    AP. This is a resource intensive operation which
-    has legal implications since the rogue access point
-    on whom it is triggered, might be a valid neighbor
-    access point.
+  - Manage operation create of the resource Security Rogue Wireless-Containment Start. - > Intent API to start the wireless
+    rogue access point containment. This API will initiate the containment operation on the strongest detecting WLC for the
+    given Rogue AP. This is a resource intensive operation which has legal implications since the rogue access point on whom
+    it is triggered, might be a valid neighbor access point.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -31,13 +25,11 @@ options:
     description: Type.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      StartWirelessRogueAPContainment
-    description: Complete reference of the StartWirelessRogueAPContainment
-      API.
+  - name: Cisco DNA Center documentation for Devices StartWirelessRogueAPContainment
+    description: Complete reference of the StartWirelessRogueAPContainment API.
     link: https://developer.cisco.com/docs/dna-center/#!start-wireless-rogue-ap-containment
 notes:
   - SDK Method used are
@@ -49,12 +41,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.security_rogue_wireless-containment_start:
+  cisco.catalystcenter.security_rogue_wireless_containment_start:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     macAddress: string
@@ -62,7 +54,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
