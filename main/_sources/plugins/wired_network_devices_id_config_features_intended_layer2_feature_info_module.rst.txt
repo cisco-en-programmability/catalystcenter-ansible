@@ -42,7 +42,7 @@ cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_fe
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Get Wired Network Devices Id Config Features Intended Layer2 Feature by id. - \> This API returns the configurations for an intended layer 2 feature on a wired device. Even after the intended configurations are deployed using the API /dna/intent/api/v1/networkDevices/{id}/configFeatures/intended/deploy, they continue to be a part of the intended features on the device.
+- Get Wired Network Devices Id Config Features Intended Layer2 Feature by id.
+- This API returns the configurations for an intended layer 2 feature on a wired device.
+- Even after the intended configurations are deployed using the deploy API, they continue to be a part of the intended features on the device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -106,44 +108,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -250,6 +214,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -367,7 +369,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -552,14 +554,13 @@ Examples
 
     
     ---
-    - name: Get Wired Network Devices Id Config Features
-        Intended Layer2 Feature by id
+    - name: Get Wired Network Devices Id Config Features Intended Layer2 Feature by id
       cisco.catalystcenter.wired_network_devices_id_config_features_intended_layer2_feature_info:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -616,7 +617,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -626,7 +627,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"cdpGlobalConfig": {"items": [[{"configType": "string", "holdTime": 0, "isAdvertiseV2Enabled": true, "isCdpEnabled": true, "isLogDuplexMismatchEnabled": true, "timer": 0}]]}, "cdpInterfaceConfig": {"items": [[{"configType": "string", "interfaceName": "string", "isCdpEnabled": true, "isLogDuplexMismatchEnabled": true}]]}, "dhcpSnoopingGlobalConfig": {"items": [[{"configType": "string", "databaseAgent": {"agentUrl": "string", "configType": "string", "timeout": 0, "writeDelay": 0}, "dhcpSnoopingVlans": "string", "isDhcpSnoopingEnabled": true, "isGleaningEnabled": true, "proxyBridgeVlans": "string"}]]}, "dhcpSnoopingInterfaceConfig": {"items": [[{"configType": "string", "interfaceName": "string", "isTrustedInterface": true, "messageRateLimit": 0}]]}, "dot1xGlobalConfig": {"items": [[{"authenticationConfigMode": "string", "configType": "string", "isDot1xEnabled": true}]]}, "dot1xInterfaceConfig": {"items": [[{"authenticationOrder": {"configType": "string", "items": ["string"]}, "configType": "string", "interfaceName": "string"}]]}, "igmpSnoopingGlobalConfig": {"items": [[{"configType": "string", "igmpSnoopingVlanSettings": {"configType": "string", "items": [{"configType": "string", "igmpSnoopingVlanMrouters": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string"}]}, "isIgmpSnoopingEnabled": true, "isImmediateLeaveEnabled": true, "isQuerierEnabled": true, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string", "vlanId": 0}]}, "isIgmpSnoopingEnabled": true, "isQuerierEnabled": true, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string"}]]}, "lldpGlobalConfig": {"items": [[{"configType": "string", "holdTime": 0, "isLldpEnabled": true, "reinitializationDelay": 0, "timer": 0}]]}, "lldpInterfaceConfig": {"items": [[{"adminStatus": "string", "configType": "string", "interfaceName": "string"}]]}, "mabInterfaceConfig": {"items": [[{"configType": "string", "interfaceName": "string", "isMabEnabled": true}]]}, "mldSnoopingGlobalConfig": {"items": [[{"configType": "string", "isMldSnoopingEnabled": true, "isQuerierEnabled": true, "isSuppressListenerMessagesEnabled": true, "mldSnoopingVlanSettings": {"configType": "string", "items": [{"configType": "string", "isImmediateLeaveEnabled": true, "isMldSnoopingEnabled": true, "isQuerierEnabled": true, "mldSnoopingVlanMrouters": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string"}]}, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string", "vlanId": 0}]}, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string"}]]}, "portChannelConfig": {"items": [[{"configType": "string", "isAutoEnabled": true, "lacpSystemPriority": 0, "loadBalancingMethod": "string", "portchannels": {"configType": "string", "items": [{"AnyOf": {"EtherchannelConfig": {"configType": "string", "memberPorts": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string", "mode": "string"}]}, "minLinks": 0, "name": "string"}, "LacpPortchannelConfig": {"configType": "string", "memberPorts": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string", "mode": "string", "portPriority": 0, "rate": 0}]}, "minLinks": 0, "name": "string"}, "PagpPortchannelConfig": {"configType": "string", "memberPorts": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string", "learnMethod": "string", "mode": "string", "portPriority": 0}]}, "minLinks": 0, "name": "string"}}}]}}]]}, "stpGlobalConfig": {"items": [[{"configType": "string", "isBackboneFastEnabled": true, "isBpduFilterEnabled": true, "isBpduGuardEnabled": true, "isEtherChannelGuardEnabled": true, "isExtendedSystemIdEnabled": true, "isLoggingEnabled": true, "isLoopGuardEnabled": true, "isUplinkFastEnabled": true, "portFastMode": "string", "stpInstances": {"configType": "string", "items": [{"configType": "string", "priority": 0, "timers": {"configType": "string", "forwardDelay": 0, "helloInterval": 0, "isStpEnabled": true, "maxAge": 0}, "vlanId": 0}]}, "stpMode": "string", "transmitHoldCount": 0, "uplinkFastMaxUpdateRate": 0}]]}, "stpInterfaceConfig": {"items": [{"bpduFilter": "string", "bpduGuard": "string", "configType": "string", "guardMode": "string", "interfaceName": "string", "pathCost": 0, "portFastMode": "string", "portVlanCostSettings": {"configType": "string", "items": [{"configType": "string", "cost": 0, "vlans": "string"}]}, "portVlanPrioritySettings": {"configType": "string", "items": [{"configType": "string", "priority": 0, "vlans": "string"}]}, "priority": 0}]}, "switchportInterfaceConfig": {"items": [[{"accessVlan": 0, "adminStatus": "string", "configType": "string", "description": "string", "interfaceName": "string", "mode": "string", "nativeVlan": 0, "trunkAllowedVlans": "string", "voiceVlan": 0}]]}, "trunkInterfaceConfig": {"items": [[{"configType": "string", "interfaceName": "string", "isDtpNegotiationEnabled": true, "isProtected": true, "pruneEligibleVlans": "string"}]]}, "vlanConfig": {"items": [[{"configType": "string", "isVlanEnabled": true, "name": "string", "vlanId": 0}]]}, "vtpGlobalConfig": {"items": [[{"configType": "string", "configurationFileName": "string", "domainName": "string", "isPruningEnabled": true, "mode": "string", "sourceInterface": "string", "version": "string"}]]}, "vtpInterfaceConfig": {"items": [[{"configType": "string", "interfaceName": "string", "isVtpEnabled": true}]]}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"cdpGlobalConfig": {"items": [{"configType": "string", "holdTime": 0, "isAdvertiseV2Enabled": true, "isCdpEnabled": true, "isLogDuplexMismatchEnabled": true, "timer": 0}]}, "cdpInterfaceConfig": {"items": [{"configType": "string", "interfaceName": "string", "isCdpEnabled": true, "isLogDuplexMismatchEnabled": true}]}, "dhcpSnoopingGlobalConfig": {"items": [{"configType": "string", "databaseAgent": {"agentUrl": "string", "configType": "string", "timeout": 0, "writeDelay": 0}, "dhcpSnoopingVlans": "string", "isDhcpSnoopingEnabled": true, "isGleaningEnabled": true, "proxyBridgeVlans": "string"}]}, "dhcpSnoopingInterfaceConfig": {"items": [{"configType": "string", "interfaceName": "string", "isTrustedInterface": true, "messageRateLimit": 0}]}, "dot1xGlobalConfig": {"items": [{"authenticationConfigMode": "string", "configType": "string", "isDot1xEnabled": true}]}, "dot1xInterfaceConfig": {"items": [{"authenticationOrder": {"configType": "string", "items": ["string"]}, "configType": "string", "interfaceName": "string"}]}, "igmpSnoopingGlobalConfig": {"items": [{"configType": "string", "igmpSnoopingVlanSettings": {"configType": "string", "items": [{"configType": "string", "igmpSnoopingVlanMrouters": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string"}]}, "isIgmpSnoopingEnabled": true, "isImmediateLeaveEnabled": true, "isQuerierEnabled": true, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string", "vlanId": 0}]}, "isIgmpSnoopingEnabled": true, "isQuerierEnabled": true, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string"}]}, "lldpGlobalConfig": {"items": [{"configType": "string", "holdTime": 0, "isLldpEnabled": true, "reinitializationDelay": 0, "timer": 0}]}, "lldpInterfaceConfig": {"items": [{"adminStatus": "string", "configType": "string", "interfaceName": "string"}]}, "mabInterfaceConfig": {"items": [{"configType": "string", "interfaceName": "string", "isMabEnabled": true}]}, "mldSnoopingGlobalConfig": {"items": [{"configType": "string", "isMldSnoopingEnabled": true, "isQuerierEnabled": true, "isSuppressListenerMessagesEnabled": true, "mldSnoopingVlanSettings": {"configType": "string", "items": [{"configType": "string", "isImmediateLeaveEnabled": true, "isMldSnoopingEnabled": true, "isQuerierEnabled": true, "mldSnoopingVlanMrouters": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string"}]}, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string", "vlanId": 0}]}, "querierAddress": "string", "querierQueryInterval": 0, "querierVersion": "string"}]}, "portChannelConfig": {"items": [{"configType": "string", "isAutoEnabled": true, "lacpSystemPriority": 0, "loadBalancingMethod": "string", "portchannels": {"configType": "string", "items": [{"AnyOf": {"EtherchannelConfig": {"configType": "string", "memberPorts": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string", "mode": "string"}]}, "minLinks": 0, "name": "string"}, "LacpPortchannelConfig": {"configType": "string", "memberPorts": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string", "mode": "string", "portPriority": 0, "rate": 0}]}, "minLinks": 0, "name": "string"}, "PagpPortchannelConfig": {"configType": "string", "memberPorts": {"configType": "string", "items": [{"configType": "string", "interfaceName": "string", "learnMethod": "string", "mode": "string", "portPriority": 0}]}, "minLinks": 0, "name": "string"}}}]}}]}, "stpGlobalConfig": {"items": [{"configType": "string", "isBackboneFastEnabled": true, "isBpduFilterEnabled": true, "isBpduGuardEnabled": true, "isEtherChannelGuardEnabled": true, "isExtendedSystemIdEnabled": true, "isLoggingEnabled": true, "isLoopGuardEnabled": true, "isUplinkFastEnabled": true, "portFastMode": "string", "stpInstances": {"configType": "string", "items": [{"configType": "string", "priority": 0, "timers": {"configType": "string", "forwardDelay": 0, "helloInterval": 0, "isStpEnabled": true, "maxAge": 0}, "vlanId": 0}]}, "stpMode": "string", "transmitHoldCount": 0, "uplinkFastMaxUpdateRate": 0}]}, "stpInterfaceConfig": {"items": {"bpduFilter": "string", "bpduGuard": "string", "configType": "string", "guardMode": "string", "interfaceName": "string", "pathCost": 0, "portFastMode": "string", "portVlanCostSettings": {"configType": "string", "items": [{"configType": "string", "cost": 0, "vlans": "string"}]}, "portVlanPrioritySettings": {"configType": "string", "items": [{"configType": "string", "priority": 0, "vlans": "string"}]}, "priority": 0}}, "switchportInterfaceConfig": {"items": [{"accessVlan": 0, "adminStatus": "string", "configType": "string", "description": "string", "interfaceName": "string", "mode": "string", "nativeVlan": 0, "trunkAllowedVlans": "string", "voiceVlan": 0}]}, "trunkInterfaceConfig": {"items": [{"configType": "string", "interfaceName": "string", "isDtpNegotiationEnabled": true, "isProtected": true, "pruneEligibleVlans": "string"}]}, "vlanConfig": {"items": [{"configType": "string", "isVlanEnabled": true, "name": "string", "vlanId": 0}]}, "vtpGlobalConfig": {"items": [{"configType": "string", "configurationFileName": "string", "domainName": "string", "isPruningEnabled": true, "mode": "string", "sourceInterface": "string", "version": "string"}]}, "vtpInterfaceConfig": {"items": [{"configType": "string", "interfaceName": "string", "isVtpEnabled": true}]}}`
 
 
       .. raw:: html

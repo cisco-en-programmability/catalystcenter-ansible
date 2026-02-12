@@ -42,7 +42,7 @@ cisco.catalystcenter.tags_workflow_manager module -- Create/ Update/ Delete Tag(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.10.3
 - python \>= 3.9
 
 
@@ -107,44 +107,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.tags_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -481,6 +443,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.tags_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.tags_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -520,8 +520,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.tags_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.tags_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -530,6 +532,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -1050,6 +1056,41 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The unique name identifying the tag for operations such as creation, update, or deletion. This parameter is mandatory for any tag management operation.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tag/new_name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.tags_workflow_manager_module__parameter-config/tag/new_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tag/new_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The new name for the tag when updating an existing tag.
           
 
 
@@ -2005,7 +2046,7 @@ Examples
     ---
     # For creating/updating a tag
     - name: Create a tag with description.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2014,7 +2055,7 @@ Examples
         - name: Create a tag with description.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2034,7 +2075,7 @@ Examples
     # For creating/updating a tag with device rules.
     - name: Create a tag for border devices in the 9300
         series.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2044,7 +2085,7 @@ Examples
             series.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2074,7 +2115,7 @@ Examples
     # For creating/updating a tag with port rules.
     - name: Create a tag for high-speed server-connected
         interfaces.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2084,7 +2125,7 @@ Examples
             interfaces.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2119,7 +2160,7 @@ Examples
     # For updating the scope description of a tag with port rules:
     - name: Update scope description for tagged server-connected
         interfaces.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2129,7 +2170,7 @@ Examples
             interfaces.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2156,7 +2197,7 @@ Examples
     # For updating rule descriptions of a tag with port rules:
     - name: Update port rule descriptions for server-connected
         interfaces.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2166,7 +2207,7 @@ Examples
             interfaces.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2195,7 +2236,7 @@ Examples
                         operation: ILIKE
     # To assign tags to devices/ports (Remove port_names list to assign tags to devices.)
     - name: Assign tags to devices or interfaces.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2204,7 +2245,7 @@ Examples
         - name: Assign tags to devices or interfaces.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2263,7 +2304,7 @@ Examples
     # To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)
     - name: Assign tags to devices or interfaces within
         a specific site.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2273,7 +2314,7 @@ Examples
             a specific site.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2303,7 +2344,7 @@ Examples
                         - Global/INDIA
     # Deleting a tag.
     - name: Delete a Tag.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2312,7 +2353,7 @@ Examples
         - name: Delete a Tag.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2330,7 +2371,7 @@ Examples
     # Force Deleting a tag.
     # It will remove all the dynamic and static members from the tag and delete the tag.
     - name: Force delete a Tag.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2339,7 +2380,7 @@ Examples
         - name: Force delete a Tag.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2358,7 +2399,7 @@ Examples
     # For deleting rule descriptions of a tag with device rules.
     - name: Delete rule description of a tag with device
         rules
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2368,7 +2409,7 @@ Examples
             rules
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2391,7 +2432,7 @@ Examples
                         operation: ILIKE
     # For deleting scope members of a tag with port rules.
     - name: Delete scope members of a tag with port rules
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2401,7 +2442,7 @@ Examples
             rules
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2426,7 +2467,7 @@ Examples
     # For deleting rule descriptions of a tag with port rules.
     - name: Delete rule descriptions of a tag with port
         rules
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2436,7 +2477,7 @@ Examples
             rules
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2465,7 +2506,7 @@ Examples
                         operation: ILIKE
     # For Deleting tags from devices/ports (Remove port_names to delete tags from devices)
     - name: Delete tags from members.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2474,7 +2515,7 @@ Examples
         - name: Delete tags from members.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2524,7 +2565,7 @@ Examples
                         - SAD04350EEU
     #  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)
     - name: Delete tags from members within a specific sites.
-      hosts: dnac_servers
+      hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2534,7 +2575,7 @@ Examples
             sites.
           cisco.catalystcenter.tags_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"

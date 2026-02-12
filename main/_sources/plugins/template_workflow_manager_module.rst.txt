@@ -42,7 +42,7 @@ cisco.catalystcenter.template_workflow_manager module -- Resource module for Tem
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.template_workflow_manager module -- Resource module for Tem
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.6.0
+New in cisco.catalystcenter 6.33.0
 
 .. contents::
    :local:
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.8.6
 - python \>= 3.9
 
 
@@ -109,44 +109,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -483,6 +445,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -522,8 +522,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -532,6 +534,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -630,7 +636,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -732,6 +738,50 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Creator of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/commit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/commit:
+
+      .. rst-class:: ansible-option-title
+
+      **commit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/commit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the template should be committed after configuration changes.
+
+      If set to 'false', the changes are not committed immediately, allowing for additional modifications before an explicit commit.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
 
 
       .. raw:: html
@@ -863,40 +913,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/description"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/description:
-
-      .. rst-class:: ansible-option-title
-
-      **description**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/description" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Provides a description of the template.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/device_types"></div>
 
       .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/device_types:
@@ -911,7 +927,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -945,7 +961,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1162,6 +1178,56 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/profile_names"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/profile_names:
+
+      .. rst-class:: ansible-option-title
+
+      **profile_names**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/profile_names" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      - List of profile names to be associated with the Configuration Template during creation or update operations.
+          - Enables assignment of one or more network profiles to CLI templates for enhanced device configuration management.
+          - Profile names must correspond to existing network profiles in Cisco Catalyst Center for the specified device types.
+          - Supports assignment of multiple profiles simultaneously for comprehensive device configuration coverage.
+          - Profiles are validated against the device types specified in the template configuration to ensure compatibility.
+          - When combined with existing profile assignments, new profiles are added while preserving existing assignments.
+          - Profile assignment operations are idempotent - re-assigning existing profiles will not cause errors or duplicate assignments.
+          - Requires Cisco Catalyst Center version 3.1.3.0 or later for profile assignment functionality.
+          - Profile names are case-sensitive and must match exactly as configured in Cisco Catalyst Center.
+          - Each profile in the list must be a valid string representing an existing network profile name.
+          - If no profiles are specified, the template will not be associated with any profiles by default.
+          - Profile names can be detached from the template based on deleted state operations.
+          - \ :literal:`examples`\ :
+          - ["Enterprise\_Security\_Profile", "QoS\_Voice\_Profile"]
+          - ["Campus\_Switching\_Profile"]
+          - ["WAN\_Edge\_Profile", "Security\_Baseline\_Profile", "Monitoring\_Profile"]
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/project_description"></div>
 
       .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/project_description:
@@ -1358,6 +1424,88 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/containing_templates/template_description"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/containing_templates/template_description:
+
+      .. rst-class:: ansible-option-title
+
+      **template_description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/containing_templates/template_description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provides a description of the template.
 
 
       .. raw:: html
@@ -2782,17 +2930,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/softwareversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/software_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/softwareversion:
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/software_version:
 
       .. rst-class:: ansible-option-title
 
-      **softwareversion**
+      **software_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/softwareversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/software_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2841,6 +2989,54 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/configuration_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
 
 
       .. raw:: html
@@ -4462,7 +4658,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The type of the resource param that is to be provisioned during template deployment - Specifies the type of the resource parameter to be provisioned during template deployment. - Possible enum values are - - MANAGED\_DEVICE\_UUID - Used when the parameter value is the UUID of the device. - MANAGED\_DEVICE\_IP - Used when the parameter value is the device's IP address. - MANAGED\_DEVICE\_HOSTNAME - Used when the parameter value is the device's hostname. - SITE\_UUID - Used when the parameter value is the UUID of a site. - MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of managed access points within the network. - SECONDARY\_MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points. - SSID\_NAME - Used when the parameter value is the name of a wireless network. - POLICY\_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users.
+      The type of the resource param that is to be provisioned during template deployment - Specifies the type of the resource parameter to be provisioned during template deployment. - Possible enum values are - - MANAGED\_DEVICE\_UUID - Used when the parameter value is the UUID of the device. - MANAGED\_DEVICE\_IP - Used when the parameter value is the device's IP address. - MANAGED\_DEVICE\_HOSTNAME - Used when the parameter value is the device's hostname. - SITE\_UUID - Used when the parameter value is the UUID of a site. - MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of managed access points within the network. - SECONDARY\_MANAGED\_AP\_LOCATIONS - Used when the parameter value is the locations of secondary or backup managed access points. - SSID\_NAME - Used when the parameter value is the name of a wireless network. - POLICY\_PROFILE - Used when the parameter value is a set of policies that can be applied to network devices or users. - From the above enum values, the following resource types support value provisioning at runtime - MANAGED\_DEVICE\_UUID - MANAGED\_DEVICE\_IP - MANAGED\_DEVICE\_HOSTNAME - SITE\_UUID - For all other resource types, the values must be provided at design time in the playbook.
 
 
       .. raw:: html
@@ -4811,6 +5007,40 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/deploy_template/version"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/deploy_template/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/deploy_template/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This is useful for targeting specific template versions, such as rolling back to a tested version.
+
+
+      .. raw:: html
+
+        </div>
 
 
   * - .. raw:: html
@@ -5946,6 +6176,54 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/containing_templates/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/import/template/payload/containing_templates/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/containing_templates/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
 
 
       .. raw:: html
@@ -7334,17 +7612,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/softwareversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/software_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/import/template/payload/softwareversion:
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/import/template/payload/software_version:
 
       .. rst-class:: ansible-option-title
 
-      **softwareversion**
+      **software_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/softwareversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/software_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -7393,6 +7671,54 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       The actual script or code constituting the body of the template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/template_content_file_path"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/import/template/payload/template_content_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **template_content_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/template_content_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Path to a local file containing the template content to be used during create or update operations.
+
+      Supported file extensions are '.j2' (Jinja) and '.txt'. Files with other extensions will be rejected.
+
+      When provided, this field takes precedence over 'template\_content'.
+
+      Supports absolute and relative paths. Relative paths are resolved from the playbook's working directory (typically the directory where \`ansible-playbook\` is executed).
+
+      For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided \`template\_params\` and runtime context.
+
+      For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without evaluation or interpolation.
+
+      Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
+
+      The resolved file path must exist and be readable; otherwise the module fails and reports the missing path.
 
 
       .. raw:: html
@@ -8588,6 +8914,148 @@ Parameters
 
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/projects:
+
+      .. rst-class:: ansible-option-title
+
+      **projects**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Create, update, or delete projects with associated details such as name,
+          and description.
+          
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/description"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/projects/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief description of the project.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/projects/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the project. This is used to identify the project for creation,
+          update, or deletion.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/projects/new_name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__parameter-config/projects/new_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/projects/new_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specify a new name for the project when updating an existing project.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -8616,7 +9084,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
+      If set to True, verifies the Cisco Catalyst Center
+          configuration after applying the playbook.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -8727,6 +9197,7 @@ Notes
 .. note::
    - SDK Method used are configuration\_templates.ConfigurationTemplates.create\_template, configuration\_templates.ConfigurationTemplates.deletes\_the\_template, configuration\_templates.ConfigurationTemplates.update\_template, configuration\_templates.ConfigurationTemplates.export\_projects, configuration\_templates.ConfigurationTemplates.export\_templates, configuration\_templates.ConfigurationTemplates.imports\_the\_projects\_provided, configuration\_templates.ConfigurationTemplates.imports\_the\_templates\_provided,
    - Paths used are post /dna/intent/api/v1/template-programmer/project/{projectId}/template, delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template, post /dna/intent/api/v1/template-programmer/project/name/exportprojects, post /dna/intent/api/v1/template-programmer/template/exporttemplates, post /dna/intent/api/v1/template-programmer/project/importprojects, post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+   - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at RUNTIME- MANAGED\_DEVICE\_UUID, MANAGED\_DEVICE\_IP, MANAGED\_DEVICE\_HOSTNAME, and SITE\_UUID. For all other resource types, the value must be provided at DESIGN time in the playbook.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -8744,23 +9215,23 @@ Examples
     ---
     - name: Create a new template.
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           - configuration_templates:
               author: string
               composite: true
               custom_params_order: true
-              description: string
+              template_description: string
               device_types:
                 - product_family: string
                   product_series: string
@@ -8771,32 +9242,35 @@ Examples
               template_name: string
               project_name: string
               project_description: string
+              profile_names:
+                - string
               software_type: string
-              softwareversion: string
+              software_version: string
               tags:
                 - id: string
                   name: string
               template_content: string
               version: string
+
     - name: Update a template.
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           - configuration_templates:
               author: string
               composite: true
               custom_params_order: true
-              description: string
+              template_description: string
               device_types:
                 - product_family: string
                   product_series: string
@@ -8808,44 +9282,47 @@ Examples
               new_template_name: string
               project_name: string
               project_description: string
+              profile_names:
+                - string
               software_type: string
-              softwareversion: string
+              software_version: string
               tags:
                 - id: string
                   name: string
               template_content: string
-              version: string
+
     - name: Export the projects.
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           export:
             project:
               - string
               - string
+
     - name: Export the templates.
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           export:
             template:
@@ -8853,19 +9330,20 @@ Examples
                 template_name: string
               - project_name: string
                 template_name: string
+
     - name: Import the Projects.
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           import:
             project:
@@ -8873,25 +9351,27 @@ Examples
               payload:
                 - name: string
                 - name: string
+
     - name: Import the Templates.
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           import:
             template:
               do_version: false
               project_name: string
               template_file: string
+
     - name: Creating a JINJA-based template to configure
         access VLAN and interfaces on Catalyst 9300
       cisco.catalystcenter.template_workflow_manager:
@@ -8899,11 +9379,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -8911,7 +9391,7 @@ Examples
               author: Test_User
               composite: false
               custom_params_order: true
-              description: Template to configure access
+              template_description: Template to configure access
                 VLAN and access interfaces
               device_types:
                 - product_family: Switches and Hubs
@@ -8934,6 +9414,7 @@ Examples
                 description {{ interface_description }}
                 {% endraw %}
               version: "1.0"
+
     - name: Creating a VELOCITY-based Fusion Router template
         for Catalyst 3850 switches
       cisco.catalystcenter.template_workflow_manager:
@@ -8941,17 +9422,17 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
           - configuration_templates:
               template_name: "Fusion Router Config"
-              description: "VELOCITY template to configure
+              template_description: "VELOCITY template to configure
                 L3 handoff and loopback on Catalyst 3850"
               project_name: "Network Configuration Templates"
               tags: []
@@ -8981,20 +9462,21 @@ Examples
                 ipv6 address $interfaceIPV6
                 ipv6 enable
                 ipv6 tcp adjust-mss 1400
+
     - name: Deploy the given template to the devices based
         on site specific details and other filtering mode
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           deploy_template:
             project_name: "Sample_Project"
@@ -9008,20 +9490,21 @@ Examples
             site_provisioning_details:
               - site_name: "Global/Bangalore/Building14/Floor1"
                 device_family: "Switches and Hubs"
+
     - name: Deploy the given template to the devices based
         on device specific details
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: merged
         config_verify: true
+        state: merged
         config:
           deploy_template:
             project_name: "Sample_Project"
@@ -9034,6 +9517,7 @@ Examples
                 param_value: "testvlan31"
             device_details:
               device_ips: ["10.1.2.1", "10.2.3.4"]
+
     - name: Deploy template to the devices using resource
         parameters and copying config
       cisco.catalystcenter.template_workflow_manager:
@@ -9041,11 +9525,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -9064,20 +9548,21 @@ Examples
             device_details:
               device_ips: ["10.1.2.1", "10.2.3.4"]
             copy_config: true
+
     - name: Delete the given project or template from the
         Cisco Catalyst Center
       cisco.catalystcenter.template_workflow_manager:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
-        state: deleted
         config_verify: true
+        state: deleted
         config:
           configuration_templates:
             project_name: "Sample_Project"
@@ -9086,6 +9571,251 @@ Examples
             software_type: "IOS-XE"
             device_types:
               - product_family: "Switches and Hubs"
+
+    - name: Create a New Project
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        catalystcenter_log: true
+        config_verify: true
+        state: merged
+        config:
+          - projects:
+              - name: Wireless_Controller
+                description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+    - name: Update project name and details.
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        catalystcenter_log: true
+        config_verify: true
+        state: merged
+        config:
+          - projects:
+              - name: Wireless_Controller
+                new_name: Wireless_Template_Management
+                description: Centralized repository for managing templates and configurations for wireless controllers (WLCs).
+
+    - name: Delete project based on the name.
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        catalystcenter_log: true
+        config_verify: true
+        state: deleted
+        config:
+          - projects:
+              - name: Wireless_Template_Management
+
+    - name: Creating complete configuration template with profiles
+        response in Case_9
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              author: Test_User
+              composite: false
+              custom_params_order: true
+              template_description: Template to configure access
+                VLAN and access interfaces
+              device_types:
+                - product_family: Switches and Hubs
+                  product_series: Cisco Catalyst 9300 Series
+                    Switches
+              failure_policy: ABORT_TARGET_ON_ERROR
+              language: JINJA
+              template_name: PnP-Upstream-SW1
+              profile_names:
+                - TestProfile
+                - PNP_Onboarding_Template
+              project_name: access_vlan_template_9300_switches
+              project_description: This project contains
+                all the templates for Access Switches
+              software_type: IOS-XE
+              template_content: |
+                {% raw %}
+                vlan {{ vlan }}
+                interface {{ interface }}
+                no shutdown
+                switchport access vlan {{ vlan }}
+                switchport mode access
+                description {{ interface_description }}
+                {% endraw %}
+              version: "1.0"
+
+    - name: Update configuration template with additional profile
+        response in Case_10
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        state: merged
+        config_verify: true
+        config:
+          - configuration_templates:
+              author: Test_User
+              composite: false
+              custom_params_order: true
+              template_description: Template to configure access
+                VLAN and access interfaces
+              device_types:
+                - product_family: Switches and Hubs
+                  product_series: Cisco Catalyst 9300 Series
+                    Switches
+              failure_policy: ABORT_TARGET_ON_ERROR
+              language: JINJA
+              template_name: PnP-Upstream-SW1
+              profile_names:
+                - TestProfile
+                - PNP_Onboarding_Template
+              project_name: access_vlan_template_9300_switches
+              project_description: This project contains
+                all the templates for Access Switches
+              software_type: IOS-XE
+              template_content: |
+                {% raw %}
+                vlan {{ vlan }}
+                interface {{ interface }}
+                no shutdown
+                switchport access vlan {{ vlan }}
+                switchport mode access
+                description {{ interface_description }}
+                {% endraw %}
+              version: "1.0"
+
+    - name: Detach a profile from the configuration template on deleted state
+        response in Case_11
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        catalystcenter_log: true
+        config_verify: true
+        state: deleted
+        config:
+          configuration_templates:
+            project_name: "access_vlan_template_9300_switches"
+            template_name: "AA_PnP-Upstream-SW1"
+            language: "JINJA"
+            software_type: "IOS-XE"
+            profile_names:
+              - TestProfile
+            device_types:
+              - product_family: "Switches and Hubs"
+
+    - name: Deleting configuration template no need to attach profiles
+        it will unassign profiles and delete the template without impacting profiles
+        response in Case_12
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        catalystcenter_log: true
+        config_verify: true
+        state: deleted
+        config:
+          configuration_templates:
+            project_name: "access_vlan_template_9300_switches"
+            template_name: "AA_PnP-Upstream-SW1"
+            language: "JINJA"
+            software_type: "IOS-XE"
+            device_types:
+              - product_family: "Switches and Hubs"
+
+    - name: Create L2VN anycast template in Catalyst Center where
+        template content is stored in a file and its path is set in a ENV variable.
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              project_name: "evpn_l2vn_anycast"
+              template_name: "evpn_l2vn_anycast_template"
+              template_content_file_path: "{{ lookup('env', 'BGPEVPN_L2VNANYCAST_TEMPDIR_PATH') | mandatory }}/evpn_anycast.j2"
+              version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+              language: JINJA
+              software_type: "IOS-XE"
+              device_types:
+                - product_family: Switches and Hubs
+
+    - name: Create L2VN anycast template in Catalyst Center where
+        template content is stored in a file and its relative path is provided.
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log_level: DEBUG
+        catalystcenter_log: true
+        config_verify: true
+        state: merged
+        config:
+          - configuration_templates:
+              project_name: "evpn_l2vn_anycast"
+              template_name: "evpn_l2vn_anycast_template"
+              template_content_file_path: "evpn_templates/evpn_anycast.j2"
+              version_description: "Raw Jinja BGP EVPN L2VN anycast template"
+              language: JINJA
+              software_type: "IOS-XE"
+              device_types:
+                - product_family: Switches and Hubs
 
 
 
@@ -9147,6 +9877,141 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-sample
 
       :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\": {\\n                    \\"endTime\\": 0,\\n                    \\"version\\": 0,\\n                    \\"data\\": String,\\n                    \\"startTime\\": 0,\\n                    \\"username\\": String,\\n                    \\"progress\\": String,\\n                    \\"serviceType\\": String, \\"rootId\\": String,\\n                    \\"isError\\": bool,\\n                    \\"instanceTenantId\\": String,\\n                    \\"id\\": String\\n                    \\"version\\": 0\\n              },\\n  \\"msg\\": String\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_10"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_10:
+
+      .. rst-class:: ansible-option-title
+
+      **response_10**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_10" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a configuration template is updated successfully with an additional profile.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Template '['AA\_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.\\n            Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n            Profile(s) '['PNP\_Onboarding\_Template']' assigned successfully to the template.\\n            Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.\\",\\n    \\"response\\": \\"Template '['AA\_PnP-Upstream-SW1']' updated successfully in the Cisco Catalyst Center.\\n                Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n                Profile(s) '['PNP\_Onboarding\_Template']' assigned successfully to the template.\\n                Profile(s) '['TestProfile']' already exist and cannot be assigned to the template.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_11"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_11:
+
+      .. rst-class:: ansible-option-title
+
+      **response_11**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_11" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a profile is detached from the configuration template on deleted state.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Profile(s) '['TestProfile']' detached successfully from the template.", "response": "Profile(s) '['TestProfile']' detached successfully from the template.", "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_12"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_12:
+
+      .. rst-class:: ansible-option-title
+
+      **response_12**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_12" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a configuration template is deleted without affecting profiles.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Task: deletes\_the\_template is successful for parameters:\\n            {'template\_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active\_validation': False}\\",\\n    \\"response\\": \\"Task: deletes\_the\_template is successful for parameters:\\n                {'template\_id': '9a68dfa3-86ac-442b-bc92-957bfbd76ca7', 'active\_validation': False}\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
 
 
       .. raw:: html
@@ -9334,6 +10199,186 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
         </div>
 
 
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_6"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_6:
+
+      .. rst-class:: ansible-option-title
+
+      **response_6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_6" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a project is created successfully
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "project Wireless\_Controller created succesfully", "response": "project Wireless\_Controller created succesfully", "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_7"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_7:
+
+      .. rst-class:: ansible-option-title
+
+      **response_7**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_7" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Provides details of the response when a project is successfully updated using the Cisco Catalyst Center Python SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Project 'Wireless\_Template\_Management' updated successfully.\\",\\n    \\"response\\": Project 'Wireless\_Template\_Management' updated successfully.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_8"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_8:
+
+      .. rst-class:: ansible-option-title
+
+      **response_8**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_8" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a project is Deleted successfully.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Project(s) are deleted and verified successfully. ['Wireless\_Template\_Management']", "response": [{"name": "Wireless\_Template\_Management"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_9"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_workflow_manager_module__return-response_9:
+
+      .. rst-class:: ansible-option-title
+
+      **response_9**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_9" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Response when a complete configuration template is created successfully with profiles.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n    \\"msg\\": \\"Template '['AA\_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.\\n            Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n            Profile(s) '['TestProfile', 'PNP\_Onboarding\_Template']' assigned successfully to the template.\\",\\n    \\"response\\": \\"Template '['AA\_PnP-Upstream-SW1']' created successfully in the Cisco Catalyst Center.\\n                Template '['AA\_PnP-Upstream-SW1']' committed successfully in the Cisco Catalyst Center.\\n                Profile(s) '['TestProfile', 'PNP\_Onboarding\_Template']' assigned successfully to the template.\\",\\n    \\"status\\": \\"success\\"\\n}\\n"`
+
+
+      .. raw:: html
+
+        </div>
+
+
 
 ..  Status (Presently only deprecated)
 
@@ -9343,7 +10388,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari (@abmahesh) Archit Soni (@koderchit)
+- Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary) Akash Bhaskaran (@akabhask) Muthu Rakesh (@MUTHU-RAKESH-27) Abhishek Maheshwari (@abmahesh) Archit Soni (@koderchit) A Mohamed Rafeek (@mabdulk2)
 
 
 

@@ -42,7 +42,7 @@ cisco.catalystcenter.inventory_intent module -- Resource module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.7.2
 - python \>= 3.9
 
 
@@ -107,44 +107,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -481,6 +443,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-catalystcenter_task_poll_interval:
@@ -520,8 +520,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -530,6 +532,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -628,7 +634,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -1010,17 +1016,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/enablepassword"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/enable_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/enablepassword:
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/enable_password:
 
       .. rst-class:: ansible-option-title
 
-      **enablepassword**
+      **enable_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/enablepassword" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/enable_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1363,6 +1369,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/http_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/http_password:
+
+      .. rst-class:: ansible-option-title
+
+      **http_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/http_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      HTTP password required for adding compute, Meraki, and Firepower Management Devices.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/http_port"></div>
 
       .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/http_port:
@@ -1439,51 +1479,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/httppassword"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/http_username"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/httppassword:
-
-      .. rst-class:: ansible-option-title
-
-      **httppassword**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/httppassword" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      HTTP password required for adding compute, Meraki, and Firepower Management Devices.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/httpusername"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/httpusername:
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/http_username:
 
       .. rst-class:: ansible-option-title
 
-      **httpusername**
+      **http_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/httpusername" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/http_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2335,17 +2341,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/snmpusername"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_username"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/snmpusername:
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/snmp_username:
 
       .. rst-class:: ansible-option-title
 
-      **snmpusername**
+      **snmp_username**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/snmpusername" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_username" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -2369,17 +2375,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/snmpversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/snmpversion:
+      .. _ansible_collections.cisco.catalystcenter.inventory_intent_module__parameter-config/snmp_version:
 
       .. rst-class:: ansible-option-title
 
-      **snmpversion**
+      **snmp_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/snmpversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -3038,20 +3044,20 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
           - cli_transport: ssh
             compute_device: false
             password: Test@123
-            enablepassword: Test@1234
+            enable_password: Test@1234
             extended_discovery_info: test
-            httpusername: "testuser"
-            httppassword: "test"
+            http_username: "testuser"
+            http_password: "test"
             http_port: "443"
             http_secure: false
             ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3063,8 +3069,8 @@ Examples
             snmp_priv_protocol: AES256
             snmp_retry: 3
             snmp_timeout: 5
-            snmpusername: v3Public
-            snmpversion: v3
+            snmp_username: v3Public
+            snmp_version: v3
             type: NETWORK_DEVICE
             username: cisco
     - name: Add new Compute device in Inventory with full credentials.Inputs needed
@@ -3074,16 +3080,16 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-            httpusername: "testuser"
-            httppassword: "test"
+            http_username: "testuser"
+            http_password: "test"
             http_port: "443"
             snmp_auth_passphrase: "Lablab@12"
             snmp_auth_protocol: SHA
@@ -3092,7 +3098,7 @@ Examples
             snmp_priv_protocol: AES256
             snmp_retry: 3
             snmp_timeout: 5
-            snmpusername: v3Public
+            snmp_username: v3Public
             compute_device: true
             username: cisco
             type: "COMPUTE_DEVICE"
@@ -3103,14 +3109,14 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
-          - httppassword: "test"
+          - http_password: "test"
             type: "MERAKI_DASHBOARD"
     - name: Add new Firepower Management device in Inventory with full credentials.Input
         needed to add Device.
@@ -3119,16 +3125,16 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-            httpusername: "testuser"
-            httppassword: "test"
+            http_username: "testuser"
+            http_password: "test"
             http_port: "443"
             type: "FIREPOWER_MANAGEMENT_SYSTEM"
     - name: Add new Third Party device in Inventory with full credentials.Input needed
@@ -3138,10 +3144,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3153,7 +3159,7 @@ Examples
             snmp_priv_protocol: AES256
             snmp_retry: 3
             snmp_timeout: 5
-            snmpusername: v3Public
+            snmp_username: v3Public
             type: "THIRD_PARTY_DEVICE"
     - name: Update device details or credentails in Inventory
       cisco.catalystcenter.inventory_intent:
@@ -3161,17 +3167,17 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
           - cli_transport: telnet
             compute_device: false
             password: newtest123
-            enablepassword: newtest1233
+            enable_password: newtest1233
             ip_address_list: ["1.1.1.1", "2.2.2.2"]
             type: NETWORK_DEVICE
             credential_update: true
@@ -3181,10 +3187,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3199,10 +3205,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3221,10 +3227,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3236,10 +3242,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3258,10 +3264,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3276,10 +3282,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3297,10 +3303,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3313,10 +3319,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -3328,11 +3334,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: false
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3343,10 +3349,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:

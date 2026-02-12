@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_controllers_provision module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -135,7 +135,11 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      AP Authorization List name. 'Obtain the AP Authorization List names by using the API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists. During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id using the API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev...
+      AP Authorization List name.
+
+      Obtain the names using API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
+
+      During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id.
 
 
       .. raw:: html
@@ -169,7 +173,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
+      true if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
 
 
       .. rst-class:: ansible-option-line
@@ -179,44 +183,6 @@ Parameters
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_provision_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -335,6 +301,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_provision_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
       .. _ansible_collections.cisco.catalystcenter.wireless_controllers_provision_module__parameter-catalystcenter_username:
@@ -444,7 +448,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -477,7 +481,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceId path parameter. Network Device ID. This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+      DeviceId path parameter. Network Device ID.
+
+      This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
 
 
       .. raw:: html
@@ -682,7 +688,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      This dynamic map should contain attribute name and overridden value of respective Feature Template whose \`featureTemplateId\`. List of attributes applicable to given \`featureTemplateId\` can be retrieved from its GET API call /dna/intent/api/v1/featureTemplates/wireless/\<featureTemplateName\>/featureTemplateId.
+      Wireless Controllers Provision's attributes.
 
 
       .. raw:: html
@@ -1001,6 +1007,74 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lscPercentage"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_provision_module__parameter-lscpercentage:
+
+      .. rst-class:: ansible-option-title
+
+      **lscPercentage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lscPercentage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Permissible values are 5, 15, and 25. This represents the percentage of access points that can be affected due to certificate renewal execution in the current iteration. This field is applicable only when the selected LSC profile is of staggered execution type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lscProfileName"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_controllers_provision_module__parameter-lscprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **lscProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lscProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Obtain the LSC profile names by using the API call GET /dna/intent/api/v1/wirelessSettings/lscRene...
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-rollingApUpgrade"></div>
 
       .. _ansible_collections.cisco.catalystcenter.wireless_controllers_provision_module__parameter-rollingapupgrade:
@@ -1093,7 +1167,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True if Rolling AP Upgrade is enabled, else False.
+      true if Rolling AP Upgrade is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1136,7 +1210,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if Skip AP Provision is enabled, else False.
+      true if Skip AP Provision is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1234,7 +1308,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         apAuthorizationListName: string
@@ -1256,6 +1330,8 @@ Examples
             interfaceNetmaskInCIDR: 0
             lagOrPortNumber: 0
             vlanId: 0
+        lscPercentage: 0
+        lscProfileName: string
         rollingApUpgrade:
           apRebootPercentage: 0
           enableRollingApUpgrade: true
@@ -1310,7 +1386,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line

@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_host_port_onboarding_workflow_manager module -- Manage 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -91,7 +91,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.9.2
 - python \>= 3.9
 
 
@@ -113,44 +113,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -487,6 +449,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -526,8 +526,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -536,6 +538,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -634,7 +640,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -755,7 +761,9 @@ Parameters
 
       When creating or updating port channels, port assignments, and wireless SSIDs simultaneously, ensure that the operation is performed within the same fabric site.
 
-      Example - "Global/USA/San Jose/BLDG23"
+      For Example - "Global/USA/San Jose/BLDG23"
+
+      If the device is provisioned in a fabric zone, provide the fabric zone's site hierarchy (For Example - "Global/USA/San Jose/BLDG23") as the"fabric\_site\_name\_hierarchy" for operations such as adding ports to an edge device in that zone.
 
       If only the "fabric\_site\_name\_hierarchy" is provided in the "merged" state, only Wireless SSID(s) will be added or updated for the specified fabric site.
 
@@ -901,6 +909,62 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_assignments/allowed_vlan_ranges"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_assignments/allowed_vlan_ranges:
+
+      .. rst-class:: ansible-option-title
+
+      **allowed_vlan_ranges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_assignments/allowed_vlan_ranges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the allowed VLAN ranges for trunk port traffic filtering.
+
+      Controls which VLANs are permitted to traverse the trunk link, providing security and traffic segmentation capabilities.
+
+      This parameter is applicable only when the connected\_device\_type is set to "TRUNKING\_DEVICE".
+
+      Accepts string containing comma-separated VLAN IDs, ranges, or 'all'.
+
+      VLAN IDs must be between 1 and 4094 per IEEE 802.1Q specification.
+
+      Ranges use hyphen notation (e.g., "100-200" includes VLANs 100-200).
+
+      The keyword 'all' permits all VLANs 1-4094 on the trunk link.
+
+      Restricting VLAN ranges improves security by limiting VLAN scope.
+
+      Examples - "100,200,300-400" - Specific VLANs and range - "1-100,200-300" - Multiple ranges - "all" - All VLANs (default, use with caution in production) - "10,20,30-40,100-200" - Mixed individual and range specifications
+
+      Native VLAN should NOT be included in allowed ranges to prevent VLAN hopping attacks. Native VLAN handles untagged traffic separately from tagged VLAN ranges.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"all"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/port_assignments/authentication_template_name"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_assignments/authentication_template_name:
@@ -915,7 +979,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string` / :ansible-option-required:`required`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1092,7 +1156,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1108,6 +1172,54 @@ Parameters
 
       For example - "GigabitEthernet2/1/1"
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_assignments/native_vlan_id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_assignments/native_vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **native_vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_assignments/native_vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the Native VLAN ID for the trunk port.
+
+      Native VLAN carries untagged traffic on trunk links between switches, access points, and other network devices.
+
+      This parameter is applicable only when the connected\_device\_type is set to "TRUNKING\_DEVICE".
+
+      Must be an integer between 1 and 4094, adhering to IEEE 802.1Q standard VLAN ID ranges.
+
+      If not set when connected\_device\_type is "TRUNKING\_DEVICE", the default value will be 1.
+
+      The native VLAN should match on both sides of the trunk link to prevent VLAN hopping security vulnerabilities.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1`
 
       .. raw:: html
 
@@ -1231,6 +1343,62 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channels/allowed_vlan_ranges"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_channels/allowed_vlan_ranges:
+
+      .. rst-class:: ansible-option-title
+
+      **allowed_vlan_ranges**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channels/allowed_vlan_ranges" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the allowed VLAN ranges for trunk port traffic filtering.
+
+      Controls which VLANs are permitted to traverse the trunk link, providing security and traffic segmentation capabilities.
+
+      This parameter is applicable only when the connected\_device\_type is set to "TRUNK".
+
+      Accepts string containing comma-separated VLAN IDs, ranges, or 'all'.
+
+      VLAN IDs must be between 1 and 4094 per IEEE 802.1Q specification.
+
+      Ranges use hyphen notation (e.g., "100-200" includes VLANs 100-200).
+
+      The keyword 'all' permits all VLANs 1-4094 on the trunk link.
+
+      Restricting VLAN ranges improves security by limiting VLAN scope.
+
+      Examples - "100,200,300-400" - Specific VLANs and range - "1-100,200-300" - Multiple ranges - "all" - All VLANs (default, use with caution in production) - "10,20,30-40,100-200" - Mixed individual and range specifications
+
+      Native VLAN should NOT be included in allowed ranges to prevent VLAN hopping attacks. Native VLAN handles untagged traffic separately from tagged VLAN ranges.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"all"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/port_channels/connected_device_type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_channels/connected_device_type:
@@ -1291,7 +1459,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1309,6 +1477,54 @@ Parameters
 
       In the "merged" state, the specified interfaces will be updated in the port channel - If all given interfaces are not already part of the port channel, they will be added. - If a subset of interfaces is provided, any missing interfaces will be removed to match the given list. - For example - interface\_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]\` ensures all three interfaces are part of the port channel. - Running interface\_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]\` will remove "TenGigabitEthernet1/0/40" from the port channel. - Running interface\_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]\` again will add "TenGigabitEthernet1/0/40" back to the port channel.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channels/native_vlan_id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_channels/native_vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **native_vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channels/native_vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the Native VLAN ID for the trunk port channel.
+
+      Native VLAN carries untagged traffic on trunk links between switches, access points, and other network devices.
+
+      This parameter is applicable only when the connected\_device\_type is set to "TRUNK".
+
+      Must be an integer between 1 and 4094, adhering to IEEE 802.1Q standard VLAN ID ranges.
+
+      If not set when connected\_device\_type is "TRUNK", the default value will be 1.
+
+      The native VLAN should match on both sides of the trunk link to prevent VLAN hopping security vulnerabilities.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1`
 
       .. raw:: html
 
@@ -1342,6 +1558,42 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       A description of the port channel.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/port_channels/port_channel_name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_channels/port_channel_name:
+
+      .. rst-class:: ansible-option-title
+
+      **port_channel_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/port_channels/port_channel_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the name of the port channel.
+
+      This parameter is used only for delete operations.
 
 
       .. raw:: html
@@ -1527,7 +1779,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1564,7 +1816,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -1624,6 +1876,55 @@ Parameters
       - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sda_fabric_port_channel_limit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_host_port_onboarding_workflow_manager_module__parameter-sda_fabric_port_channel_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **sda_fabric_port_channel_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sda_fabric_port_channel_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      - Maximum number of port channels processed in a single API batch
+            for add and update operations on SD-Access fabric devices.
+          - When total port channels exceed this limit, operations are split
+            into sequential batches of the specified size for processing.
+          - Each batch completes successfully before the next batch starts,
+            ensuring data consistency and better error isolation.
+          - Sequential processing prevents API timeouts, reduces system load,
+            and improves reliability for large port channel configurations.
+          - Module provides detailed logging and status reporting for each
+            batch, enabling progress tracking and issue identification.
+          - Lower values (1-10) provide granular control but slower processing. - Higher values (11-20) improve speed but may cause API timeouts.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
 
       .. raw:: html
 
@@ -1725,6 +2026,11 @@ Notes
 .. note::
    - SDK Methods used are - devices.Devices.get\_device\_list - sda.SDA.get\_device\_info - site\_design.SiteDesigns.get\_sites - sda.SDA.get\_fabric\_sites - sda.SDA.get\_port\_assignments - sda.SDA.get\_port\_channels - sda.SDA.add\_port\_assignments - sda.SDA.update\_port\_assignments - sda.SDA.delete\_port\_assignments - sda.SDA.add\_port\_channels - sda.SDA.update\_port\_channels - sda.SDA.update\_port\_channels - sda.SDA.add\_update\_or\_remove\_ssid\_mapping\_to\_a\_vlan - sda.SDA.retrieve\_the\_vlans\_and\_ssids\_mapped\_to\_the\_vlan\_within\_a\_fabric\_site
    - Paths used are - GET /dna/intent/api/v1/network-device - GET /dna/intent/api/v1/business/sda/device - GET /dna/intent/api/v1/sites - GET /dna/intent/api/v1/sda/fabricSites - GET /dna/intent/api/v1/sda/portAssignments - GET /dna/intent/api/v1/sda/portChannels - POST /dna/intent/api/v1/sda/portAssignments - PUT /dna/intent/api/v1/sda/portAssignments - DELETE /dna/intent/api/v1/sda/portAssignments - POST /dna/intent/api/v1/sda/portChannels - PUT /dna/intent/api/v1/sda/portChannels - DELETE /dna/intent/api/v1/sda/portChannels - PUT /dna/intent/api/v1/sda/fabrics/${fabricId}/vlanToSsids - GET /dna/intent/api/v1/sda/fabrics/${fabricId}/vlanToSsids
+   - Newly introduced parameters native\_vlan\_id and allowed\_vlan\_ranges in the port\_assignments and port\_channels suboptions provide enhanced VLAN configuration control for trunk ports connected to trunking devices.
+   - These VLAN configuration parameters (native\_vlan\_id and allowed\_vlan\_ranges) are supported starting from Cisco Catalyst Center version 3.1.3.0 onwards.
+   - The native\_vlan\_id parameter enables native VLAN specification for trunk ports, while allowed\_vlan\_ranges provides granular control over which VLANs are permitted on trunk links for improved network security and segmentation.
+   - When connected\_device\_type is set to "TRUNKING\_DEVICE", these parameters enable advanced trunk port configuration with security-focused VLAN filtering.
+   - Native VLAN should NOT be included in allowed ranges to prevent VLAN hopping attacks. Native VLAN handles untagged traffic separately from tagged VLAN ranges.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -1747,16 +2053,15 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
               # Create TRUNKING DEVICE
               - interface_name: "FortyGigabitEthernet1/1/1"
@@ -1817,6 +2122,7 @@ Examples
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
                     security_group_name: "Developers"
+
     - name: Update port assignments, port channels and wireless
         ssids for a specific fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -1824,16 +2130,15 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config:
           - hostname: "DC-T-9300.cisco.local"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
               # update - add interface_description
               - interface_name: "FortyGigabitEthernet1/1/1"
@@ -1892,6 +2197,149 @@ Examples
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
+
+    - name: Configure trunking device with native VLAN and allowed ranges
+      cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        state: merged
+        config:
+          - ip_address: "204.1.2.2"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            port_assignments:
+              # Trunking device with specific native VLAN and allowed ranges
+              - interface_name: "FortyGigabitEthernet1/1/1"
+                connected_device_type: "TRUNKING_DEVICE"
+                native_vlan_id: 100
+                allowed_vlan_ranges: "200,300-400"
+                authentication_template_name: "No Authentication"
+                interface_description: "Trunk port with VLAN restrictions"
+              # Trunking device with default native VLAN and specific ranges
+              - interface_name: "FortyGigabitEthernet1/1/2"
+                connected_device_type: "TRUNKING_DEVICE"
+                allowed_vlan_ranges: "5,10-20,100-200"
+                interface_description: "Trunk port with management and data VLANs"
+              # Trunking device with custom native VLAN and all VLANs allowed
+              - interface_name: "FortyGigabitEthernet1/1/3"
+                connected_device_type: "TRUNKING_DEVICE"
+                native_vlan_id: 999
+                allowed_vlan_ranges: "all"
+                interface_description: "Trunk port with isolated native VLAN"
+
+    - name: Configure port channels with native VLAN and allowed ranges
+      cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        state: merged
+        config:
+          - ip_address: "204.1.2.2"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            port_channels:
+              # Port channel for trunk with specific native VLAN and allowed ranges
+              - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38"]
+                connected_device_type: "TRUNK"
+                native_vlan_id: 100
+                allowed_vlan_ranges: "200-300,400-500"
+                protocol: "LACP"
+                port_channel_description: "Trunk port channel with VLAN filtering"
+              # Port channel with management with native VLAN and allowed ranges
+              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46"]
+                connected_device_type: "TRUNK"
+                native_vlan_id: 10
+                allowed_vlan_ranges: "100-200"
+                protocol: "LACP"
+                port_channel_description: "Management and data VLAN trunk"
+
+    - name: Configure port channels with port channel limit
+      cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        sda_fabric_port_channel_limit: 10
+        state: merged
+        config:
+          - ip_address: "204.1.2.2"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            port_channels:
+              - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38"]
+                connected_device_type: "TRUNK"
+                protocol: "LACP"
+                port_channel_description: "Trunk port channel with VLAN filtering"
+              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46"]
+                connected_device_type: "TRUNK"
+                protocol: "LACP"
+                port_channel_description: "Management and data VLAN trunk"
+
+    - name: Update existing trunk configuration with new VLAN settings
+      cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        state: merged
+        config:
+          - hostname: "DC-T-9300.cisco.local"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            port_assignments:
+              # Update existing trunk to restrict VLAN access
+              - interface_name: "FortyGigabitEthernet1/1/1"
+                connected_device_type: "TRUNKING_DEVICE"
+                native_vlan_id: 1
+                allowed_vlan_ranges: "100-110,200-210"
+                interface_description: "Updated trunk with security restrictions"
+
+    - name: Add or Update port channels
+        for a specific fabric site (IP/Hostname required)
+      cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        state: merged
+        config:
+          - ip_address: "204.1.2.8"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+            port_channels:
+              # Default protocol is ON for TRUNK
+              - interface_names: ["GigabitEthernet1/0/5", "GigabitEthernet1/0/6", "GigabitEthernet1/0/7"]
+                connected_device_type: "TRUNK"
+                native_vlan_id: 44
+
+              - interface_names: ["TenGigabitEthernet1/1/1", "TenGigabitEthernet1/1/2"]
+                connected_device_type: "TRUNK"
+                protocol: "ON"
+                allowed_vlan_ranges: "250-300"
+
     - name: Add or Update just wireless ssid mappings for
         a specific fabric site (IP/Hostname not required)
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -1899,15 +2347,14 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config:
-          - fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+          - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
@@ -1917,6 +2364,7 @@ Examples
                 ssid_details:
                   - ssid_name: "guest_ssid_1"
                     security_group_name: "Guests"
+
     - name: Delete ALL port assignments, port channels and
         wireless SSID mappings from a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -1924,16 +2372,16 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - hostname: "DC-T-9300.cisco.local"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
     - name: Delete ALL port assignments, port channels and
         wireless SSID mappings from a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -1941,16 +2389,16 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
     - name: Delete just ALL wireless SSIDs mappings from
         a fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -1958,15 +2406,15 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
-          - fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+          - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
     - name: Delete specific port assignments, port channels
         and wireless SSID mappings
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -1974,16 +2422,15 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
@@ -2002,6 +2449,7 @@ Examples
                 ssid_details:
                   - ssid_name: "open1-iac"
                     security_group_name: "Guests"
+
     - name: Delete specific port assignments, port channels
         and wireless SSID mappings
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -2009,16 +2457,15 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
               - interface_name: "FortyGigabitEthernet1/1/1"
               - interface_name: "FortyGigabitEthernet1/1/2"
@@ -2036,6 +2483,7 @@ Examples
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "ent_ssid_1_wpa3"
+
     - name: Delete all wireless SSIDs mapped to specific
         VLANs
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -2043,35 +2491,34 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
               - vlan_name: "IAC-VLAN-3"
+
     - name: Delete specific wireless SSIDs mapped to a VLAN
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San
-              Jose/BLDG23"
+            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
@@ -2080,6 +2527,7 @@ Examples
                 ssid_details:
                   - ssid_name: "guest_ssid_1"
                   - ssid_name: "ent-ssid-2-wpa2"
+
     - name: Skip collection status check when add/update port assignments, port channels and wireless ssids for a
         specific fabric site
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -2087,11 +2535,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config:
           - ip_address: "204.1.2.2"
@@ -2112,6 +2560,7 @@ Examples
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
                   - ssid_name: "open1-iac"
+
     - name: Skip device collection stat when Deleting specific port assignments, port channels
         and wireless SSID mappings
       cisco.catalystcenter.sda_host_port_onboarding_workflow_manager:
@@ -2119,15 +2568,15 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config:
           - ip_address: "204.1.2.2"
-            # Set device_collection_status_checkwq to false to skip the check
+            # Set device_collection_status_check to false to skip the check
             device_collection_status_check: false
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
@@ -2261,7 +2710,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel)
+- Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel) Abhishek Maheshwari (@abmahesh)
 
 
 

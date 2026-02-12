@@ -42,7 +42,7 @@ cisco.catalystcenter.discovery_intent module -- A resource module for handling d
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk == 2.6.10
 - python \>= 3.9
 
 
@@ -106,44 +106,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -480,6 +442,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-catalystcenter_task_poll_interval:
@@ -519,8 +519,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -529,6 +531,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -627,7 +633,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -852,17 +858,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/cli_credentials_list/enablepassword"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/cli_credentials_list/enable_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/cli_credentials_list/enablepassword:
+      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/cli_credentials_list/enable_password:
 
       .. rst-class:: ansible-option-title
 
-      **enablepassword**
+      **enable_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/cli_credentials_list/enablepassword" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/cli_credentials_list/enable_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1599,6 +1605,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v3_credential/auth_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/snmp_v3_credential/auth_password:
+
+      .. rst-class:: ansible-option-title
+
+      **auth_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v3_credential/auth_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication Password of the SNMP v3 protocol to be used.
+
+      Must be of length greater than 7 characters.
+
+      Not required for NOAUTHNOPRIV snmp\_mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v3_credential/auth_type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/snmp_v3_credential/auth_type:
@@ -1647,17 +1691,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v3_credential/authpassword"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v3_credential/privacy_password"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/snmp_v3_credential/authpassword:
+      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/snmp_v3_credential/privacy_password:
 
       .. rst-class:: ansible-option-title
 
-      **authpassword**
+      **privacy_password**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v3_credential/authpassword" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v3_credential/privacy_password" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1671,11 +1715,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Authentication Password of the SNMP v3 protocol to be used.
+      Privacy password of the SNMP v3 protocol to be used in AUTHPRIV SNMP mode
 
-      Must be of length greater than 7 characters.
-
-      Not required for NOAUTHNOPRIV snmp\_mode.
+      Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp\_mode.
 
 
       .. raw:: html
@@ -1721,42 +1763,6 @@ Parameters
       - :ansible-option-choices-entry:`"AES128"`
       - :ansible-option-choices-entry:`"AES192"`
       - :ansible-option-choices-entry:`"AES256"`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/discovery_specific_credentials/snmp_v3_credential/privacypassword"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.discovery_intent_module__parameter-config/discovery_specific_credentials/snmp_v3_credential/privacypassword:
-
-      .. rst-class:: ansible-option-title
-
-      **privacypassword**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/discovery_specific_credentials/snmp_v3_credential/privacypassword" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Privacy password of the SNMP v3 protocol to be used in AUTHPRIV SNMP mode
-
-      Not required for AUTHNOPRIV and NOAUTHNOPRIV snmp\_mode.
 
 
       .. raw:: html
@@ -3101,11 +3107,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -3120,7 +3126,7 @@ Examples
               cli_credentials_list:
                 - username: cisco
                   password: Cisco123
-                  enablepassword: Cisco123
+                  enable_password: Cisco123
               http_read_credential:
                 username: cisco
                 password: Cisco123
@@ -3141,9 +3147,9 @@ Examples
                 username: v3Public2
                 snmp_mode: AUTHPRIV
                 auth_type: SHA
-                authpassword: Lablab123
+                auth_password: Lablab123
                 privacy_type: AES256
-                privacypassword: Lablab123
+                privacy_password: Lablab123
               net_conf_port: 750
             global_credentials:
               cli_credentials_list:
@@ -3177,11 +3183,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -3193,7 +3199,7 @@ Examples
               cli_credentials_list:
                 - username: cisco
                   password: Cisco123
-                  enablepassword: Cisco123
+                  enable_password: Cisco123
               http_read_credential:
                 username: cisco
                 password: Cisco123
@@ -3214,9 +3220,9 @@ Examples
                 username: v3Public2
                 snmp_mode: AUTHPRIV
                 auth_type: SHA
-                authpassword: Lablab123
+                auth_password: Lablab123
                 privacy_type: AES256
-                privacypassword: Lablab123
+                privacy_password: Lablab123
               net_conf_port: 750
             use_global_credentials: false
             start_index: 1
@@ -3230,11 +3236,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -3275,11 +3281,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -3302,11 +3308,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: deleted
         config_verify: true
         config:

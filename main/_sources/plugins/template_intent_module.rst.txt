@@ -42,7 +42,7 @@ cisco.catalystcenter.template_intent module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -89,7 +89,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk == 2.4.5
 - python \>= 3.9
 
 
@@ -111,44 +111,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -485,6 +447,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-catalystcenter_task_poll_interval:
@@ -524,8 +524,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -534,6 +536,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -632,7 +638,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -4744,17 +4750,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/softwareversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/software_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/configuration_templates/softwareversion:
+      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/configuration_templates/software_version:
 
       .. rst-class:: ansible-option-title
 
-      **softwareversion**
+      **software_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/softwareversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/software_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -6030,17 +6036,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/validation_errors/templateversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/validation_errors/template_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/configuration_templates/validation_errors/templateversion:
+      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/configuration_templates/validation_errors/template_version:
 
       .. rst-class:: ansible-option-title
 
-      **templateversion**
+      **template_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/validation_errors/templateversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/validation_errors/template_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -10546,17 +10552,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/softwareversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/software_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/import/template/payload/softwareversion:
+      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/import/template/payload/software_version:
 
       .. rst-class:: ansible-option-title
 
-      **softwareversion**
+      **software_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/softwareversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/software_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -11764,17 +11770,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/validation_errors/templateversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/import/template/payload/validation_errors/template_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/import/template/payload/validation_errors/templateversion:
+      .. _ansible_collections.cisco.catalystcenter.template_intent_module__parameter-config/import/template/payload/validation_errors/template_version:
 
       .. rst-class:: ansible-option-title
 
-      **templateversion**
+      **template_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/validation_errors/templateversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/import/template/payload/validation_errors/template_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -11937,7 +11943,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of CATALYST after module completion.
+      The state of DNAC after module completion.
 
 
       .. rst-class:: ansible-option-line
@@ -12029,11 +12035,11 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         state: merged
         config_verify: true
         config:
@@ -12060,7 +12066,7 @@ Examples
               rollback_template_content: string
               software_type: string
               software_variant: string
-              softwareversion: string
+              software_version: string
               tags:
                 - id: string
                   name: string
@@ -12071,7 +12077,7 @@ Examples
                 template_errors:
                   - {}
                 template_id: string
-                templateversion: string
+                template_version: string
               version: string
             export:
               project:
@@ -12167,7 +12173,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary with versioning details of the template as returned by the CATALYST Python SDK
+      A dictionary with versioning details of the template as returned by the DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12212,7 +12218,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A list with the response returned by the Cisco CATALYST Python SDK
+      A list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12257,7 +12263,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary with the exisiting template deatails as returned by the Cisco CATALYST Python SDK
+      A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12302,7 +12308,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      Details of the templates in the list as returned by the Cisco CATALYST Python SDK
+      Details of the templates in the list as returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12347,7 +12353,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      Details of the projects in the list as returned by the Cisco CATALYST Python SDK
+      Details of the projects in the list as returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line

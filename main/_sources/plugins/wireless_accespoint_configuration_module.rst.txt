@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_accespoint_configuration module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Accespoint Configuration. - \> User can configure multiple access points with required options using this intent API. This API does not support configuration of CleanAir or SI for IOS-XE devices with version greater than or equal to 17.9.
+- Manage operation create of the resource Wireless Accespoint Configuration.
+- User can configure multiple access points with required options using this intent API.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -323,44 +324,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_accespoint_configuration_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
 
       .. _ansible_collections.cisco.catalystcenter.wireless_accespoint_configuration_module__parameter-catalystcenter_debug:
@@ -463,6 +426,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_accespoint_configuration_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -580,7 +581,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1486,40 +1487,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/cleanAirSI"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_accespoint_configuration_module__parameter-radioconfigurations/cleanairsi:
-
-      .. rst-class:: ansible-option-title
-
-      **cleanAirSI**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/cleanAirSI" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Configure CleanAir or Spectrum Intelligence on the specified radio for an access point. Set this parameter's value to "0" to disable the feature or "1" to enable it.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/configureAdminStatus"></div>
 
       .. _ansible_collections.cisco.catalystcenter.wireless_accespoint_configuration_module__parameter-radioconfigurations/configureadminstatus:
@@ -1713,48 +1680,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       To change the channel width on the specified radio for an access point, set this parameter's value to "true".
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-radioConfigurations/configureCleanAirSI"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_accespoint_configuration_module__parameter-radioconfigurations/configurecleanairsi:
-
-      .. rst-class:: ansible-option-title
-
-      **configureCleanAirSI**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-radioConfigurations/configureCleanAirSI" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      To enable or disable either CleanAir or Spectrum Intelligence on the specified radio for an access point, set this parameter's value to "true".
 
 
       .. rst-class:: ansible-option-line
@@ -2282,7 +2207,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.configure\_access\_points,
+   - SDK Method used are wireless.Wireless.configure\_access\_points\_v1,
    - Paths used are post /dna/intent/api/v1/wireless/accesspoint-configuration,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
@@ -2295,8 +2220,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless ConfigureAccessPoints <https://developer.cisco.com/docs/dna-center/#!configure-access-points>`_
-       Complete reference of the ConfigureAccessPoints API.
+   `Cisco DNA Center documentation for Wireless ConfigureAccessPointsV1 <https://developer.cisco.com/docs/dna-center/#!configure-access-points-v-1>`_
+       Complete reference of the ConfigureAccessPointsV1 API.
 
 .. Examples
 
@@ -2313,7 +2238,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         adminStatus: true
@@ -2346,13 +2271,11 @@ Examples
             channelAssignmentMode: 0
             channelNumber: 0
             channelWidth: 0
-            cleanAirSI: 0
             configureAdminStatus: true
             configureAntennaCable: true
             configureAntennaPatternName: true
             configureChannel: true
             configureChannelWidth: true
-            configureCleanAirSI: true
             configurePower: true
             configureRadioRoleAssignment: true
             powerAssignmentMode: 0
@@ -2416,7 +2339,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line

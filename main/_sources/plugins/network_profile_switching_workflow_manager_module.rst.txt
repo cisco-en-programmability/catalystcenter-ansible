@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.catalystcenter.network_profile_switching_workflow_manager module -- Resource module for managing switch profiles in Cisco Catalyst Center
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.catalystcenter.network_profile_switching_workflow_manager module -- Resource module for managing network switch profiles with template and site assignments in Cisco Catalyst Center
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,7 @@ Synopsis
 
 .. Description
 
-- This module allows the creation and deletion of network switch profiles in Cisco Catalyst Center. - Supports creating and deleting switch profiles. - Allows assignment of profiles to sites, onboarding templates, and Day-N templates.
+- This module facilitates comprehensive network switch profile management in Cisco Catalyst Center. - Supports creating, updating, and deleting switch profiles with Day-N template assignments. - Enables profile assignment to sites within the site hierarchy for network standardization. - Provides selective site and template unassignment capabilities for profile lifecycle management. - Supports bulk profile operations for enterprise-scale network infrastructure deployment. - Integrates with Cisco Catalyst Center's network profile framework for consistent switching configuration.
 
 
 
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.8.6
 - python \>= 3.9
 
 
@@ -105,44 +105,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -479,6 +441,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -518,8 +518,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -528,6 +530,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -626,7 +632,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -659,7 +665,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      A list containing the details for network switch profile creation.
+      A list containing the comprehensive details required for network switch profile creation, assignment, and lifecycle management. Each profile configuration supports template assignments, site associations, and operational state management for enterprise network infrastructure standardization and automation.
+          
 
 
       .. raw:: html
@@ -693,7 +700,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of Day-N template names assigned to the profile.
+      A list of Day-N template names assigned to the profile for ongoing device configuration. Day-N templates provide post-deployment configuration management including compliance, monitoring, and operational configuration updates for network devices. Templates must exist in Catalyst Center before assignment to profiles. Maximum length per template: 200 characters. Supports multiple template assignment for comprehensive device lifecycle management.
+          
 
 
       .. raw:: html
@@ -727,7 +735,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of onboarding template names assigned to the profile. Note: Onboarding templates are currently unavailable due to SDK/API constraints.
+      A list of onboarding template names to be assigned to the profile for device provisioning. Note: Onboarding templates are currently unavailable due to SDK/API upgrade constraints. This feature will be available in an upcoming release with enhanced template support. Reserved for future functionality - do not use in current implementations.
           
 
 
@@ -762,7 +770,8 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the switch profile to be created.
+      The unique name of the switch profile to be created or managed. Profile names must be unique within the Cisco Catalyst Center instance and should follow organizational naming conventions for network infrastructure. Maximum length: 255 characters.
+          
 
 
       .. raw:: html
@@ -796,7 +805,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site names must be specified in the full site hierarchy format for example 'Global/Country/City/Building'.
+      A list of site names specified in the full site hierarchy format for profile assignment. Sites must exist in the Catalyst Center site hierarchy before profile assignment. Format examples: 'Global/Country/City/Building' or 'Global/Region/Campus/Floor'. Maximum length per site: 200 characters. Supports bulk site assignment for scalable network profile deployment.
           
 
 
@@ -832,7 +841,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to \`True\` to enable configuration verification on Cisco Catalyst Center after applying the playbook configuration. This ensures that the system validates the configuration state after the change is applied.
+      Set to \`True\` to enable configuration verification on Cisco Catalyst Center after applying the playbook configuration. This ensures that the system validates the configuration state after the changes are applied.
           
 
 
@@ -875,7 +884,10 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Specifies the desired state for the configuration. If \`merged\`, the module will create or update the configuration, adding new settings or modifying existing ones. If \`deleted\`, it will remove the specified settings.
+      Specifies the desired operational state for switch profile configuration management. - merged: Creates new switch profiles or updates existing profiles by adding/modifying
+            template assignments and site associations. Supports incremental profile enhancement.
+          - deleted: Removes switch profiles, unassigns sites, or detaches templates based on
+            the configuration provided. Supports selective deletion for profile lifecycle management.
           
 
 
@@ -943,8 +955,8 @@ Notes
 -----
 
 .. note::
-   - This module uses the following SDK methods site\_design.retrieves\_the\_list\_of\_sites\_that\_the\_given\_network\_profile\_for\_sites\_is\_assigned\_to site\_design.assign\_sites site\_design.retrieves\_the\_list\_of\_network\_profiles\_for\_sites site\_design.assign\_a\_network\_profile\_for\_sites\_to\_the\_given\_site site\_design.unassigns\_a\_network\_profile\_for\_sites\_from\_multiple\_sites site\_design.deletes\_a\_network\_profile\_for\_sites configuration\_templates.gets\_the\_templates\_available network\_settings.retrieve\_cli\_templates\_attached\_to\_a\_network\_profile
-   - Paths used are GET /dna/intent/api/v1/networkProfilesForSites GET /dna/intent/api/v1/template-programmer/template GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk POST /api/v1/siteprofile
+   - This module utilizes the following SDK methods site\_design.retrieves\_the\_list\_of\_sites\_that\_the\_given\_network\_profile\_for\_sites\_is\_assigned\_to\_v1 site\_design.assign\_sites site\_design.retrieves\_the\_list\_of\_network\_profiles\_for\_sites\_v1 site\_design.assign\_a\_network\_profile\_for\_sites\_to\_the\_given\_site\_v1 site\_design.unassigns\_a\_network\_profile\_for\_sites\_from\_multiple\_sites\_v1 site\_design.deletes\_a\_network\_profile\_for\_sites\_v1 configuration\_templates.gets\_the\_templates\_available\_v1 network\_settings.retrieve\_cli\_templates\_attached\_to\_a\_network\_profile\_v1
+   - The following API paths are used GET /dna/intent/api/v1/networkProfilesForSites GET /dna/intent/api/v1/template-programmer/template GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk POST /api/v1/siteprofile
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -960,19 +972,20 @@ Examples
 
     
     ---
-    - hosts: dnac_servers
+    - hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
       connection: local
       tasks:
-        - name: Create network profile for switch
+        # Create a comprehensive switching profile with Day-N templates and site assignments
+        - name: Create enterprise switching profile for campus network infrastructure
           cisco.catalystcenter.network_profile_switching_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_version: "{{ catalystcenter_version }}"
             catalystcenter_debug: "{{ catalystcenter_debug }}"
             catalystcenter_log: true
@@ -986,15 +999,17 @@ Examples
                 day_n_templates:
                   - "Campus_Switch_Config_Update"
                 site_names:
-                  - "Global/Chennai"
-                  - "Global/Abc"
-        - name: Update network profile for switch
+                  - "Global/India/Chennai"
+                  - "Global/India/Mumbai"
+
+        # Update existing switching profile with additional templates and sites
+        - name: Update enterprise switching profile for multi-region deployment
           cisco.catalystcenter.network_profile_switching_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_version: "{{ catalystcenter_version }}"
             catalystcenter_debug: "{{ catalystcenter_debug }}"
             catalystcenter_log: true
@@ -1007,18 +1022,59 @@ Examples
               - profile_name: "Enterprise_Switching_Profile"
                 day_n_templates:
                   - "Periodic_Config_Audit"
+                  - "Security_Compliance_Check"
                 site_names:
                   - "Global/India/Chennai/Main_Office"
                   - "Global/India/Madurai/Branch_Office"
-                  - "Global/USA/San Francisco/Regional_HQ"
-        - name: Delete switching profile for devices from
-            specified sites
+                  - "Global/USA/San_Francisco/Regional_HQ"
+
+        # Demonstrate idempotent deletion of multiple switching profiles
+        - name: Remove obsolete switching profiles from network infrastructure
           cisco.catalystcenter.network_profile_switching_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
+            catalystcenter_version: "{{ catalystcenter_version }}"
+            catalystcenter_debug: "{{ catalystcenter_debug }}"
+            catalystcenter_log: true
+            catalystcenter_log_level: DEBUG
+            config_verify: true
+            catalystcenter_api_task_timeout: 1000
+            catalystcenter_task_poll_interval: 1
+            state: deleted
+            config:
+              - profile_name: "Legacy_Switching_Profile"
+              - profile_name: "Deprecated_Local_Profile"
+
+        # Complete profile removal including all associated configurations
+        - name: Delete switching profile and verify removal from network infrastructure
+          cisco.catalystcenter.network_profile_switching_workflow_manager:
+            catalystcenter_host: "{{ catalystcenter_host }}"
+            catalystcenter_username: "{{ catalystcenter_username }}"
+            catalystcenter_password: "{{ catalystcenter_password }}"
+            catalystcenter_verify: "{{ catalystcenter_verify }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
+            catalystcenter_version: "{{ catalystcenter_version }}"
+            catalystcenter_debug: "{{ catalystcenter_debug }}"
+            catalystcenter_log: true
+            catalystcenter_log_level: DEBUG
+            config_verify: true
+            catalystcenter_api_task_timeout: 1000
+            catalystcenter_task_poll_interval: 1
+            state: deleted
+            config:
+              - profile_name: "Enterprise_Switching_Profile"
+
+        # Selective site unassignment while preserving profile and templates
+        - name: Unassign specific sites from switching profile for network reorganization
+          cisco.catalystcenter.network_profile_switching_workflow_manager:
+            catalystcenter_host: "{{ catalystcenter_host }}"
+            catalystcenter_username: "{{ catalystcenter_username }}"
+            catalystcenter_password: "{{ catalystcenter_password }}"
+            catalystcenter_verify: "{{ catalystcenter_verify }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_version: "{{ catalystcenter_version }}"
             catalystcenter_debug: "{{ catalystcenter_debug }}"
             catalystcenter_log: true
@@ -1031,8 +1087,57 @@ Examples
               - profile_name: "Enterprise_Switching_Profile"
                 site_names:
                   - "Global/India/Chennai/Main_Office"
-                  - "Global/India/Madurai/Branch_Office"
-                  - "Global/USA/San Francisco/Regional_HQ"
+
+        # Selective template unassignment for configuration template management
+        - name: Remove specific templates from switching profile for template lifecycle management
+          cisco.catalystcenter.network_profile_switching_workflow_manager:
+            catalystcenter_host: "{{ catalystcenter_host }}"
+            catalystcenter_username: "{{ catalystcenter_username }}"
+            catalystcenter_password: "{{ catalystcenter_password }}"
+            catalystcenter_verify: "{{ catalystcenter_verify }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
+            catalystcenter_version: "{{ catalystcenter_version }}"
+            catalystcenter_debug: "{{ catalystcenter_debug }}"
+            catalystcenter_log: true
+            catalystcenter_log_level: DEBUG
+            config_verify: true
+            catalystcenter_api_task_timeout: 1000
+            catalystcenter_task_poll_interval: 1
+            state: deleted
+            config:
+              - profile_name: "Enterprise_Switching_Profile"
+                day_n_templates:
+                  - "Outdated_Config_Template"
+
+        # Bulk profile creation for large-scale network deployment
+        - name: Create multiple switching profiles for enterprise network standardization
+          cisco.catalystcenter.network_profile_switching_workflow_manager:
+            catalystcenter_host: "{{ catalystcenter_host }}"
+            catalystcenter_username: "{{ catalystcenter_username }}"
+            catalystcenter_password: "{{ catalystcenter_password }}"
+            catalystcenter_verify: "{{ catalystcenter_verify }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
+            catalystcenter_version: "{{ catalystcenter_version }}"
+            catalystcenter_debug: "{{ catalystcenter_debug }}"
+            catalystcenter_log: true
+            catalystcenter_log_level: DEBUG
+            config_verify: true
+            catalystcenter_api_task_timeout: 1000
+            catalystcenter_task_poll_interval: 1
+            state: merged
+            config:
+              - profile_name: "Campus_Core_Switching"
+                day_n_templates:
+                  - "Core_Switch_Config"
+                  - "OSPF_Configuration"
+                site_names:
+                  - "Global/Headquarters/Core_Network"
+              - profile_name: "Branch_Access_Switching"
+                day_n_templates:
+                  - "Access_Switch_Config"
+                  - "VLAN_Configuration"
+                site_names:
+                  - "Global/Branch_Offices/Remote_Sites"
 
 
 
@@ -1083,7 +1188,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a switch profile is successfully created. The response confirms the successful creation of the profile and provides details about the profile, including its name and status.
+
 
 
       .. rst-class:: ansible-option-line
@@ -1104,17 +1210,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-response_delete"></div>
+        <div class="ansibleOptionAnchor" id="return-response_delete_idempotent"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__return-response_delete:
+      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__return-response_delete_idempotent:
 
       .. rst-class:: ansible-option-title
 
-      **response_delete**
+      **response_delete_idempotent**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-response_delete" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-response_delete_idempotent" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1128,7 +1234,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK. This response is provided when attempting to delete switching profiles in an idempotent manner. If the profiles are already deleted, the response indicates that no changes were required.
+
 
 
       .. rst-class:: ansible-option-line
@@ -1138,7 +1245,145 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Switch Profile deleted successfully for '[{'profile\_name': 'Branch\_Site\_Switching',", "response": [{"profile\_name": "Branch\_Site\_Switching", "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"}], "status": "success"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "No changes required, profile(s) are already deleted.", "response": "No changes required, profile(s) are already deleted.", "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_delete_profile"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__return-response_delete_profile:
+
+      .. rst-class:: ansible-option-title
+
+      **response_delete_profile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_delete_profile" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a switch profile is successfully deleted or unassigned. The response confirms the deletion/unassignment and provides details of the profile and its associated operations.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Switch profile(s) deleted/unassigned and verified successfully for '['Enterprise\_Switching\_Profile']'.", "response": [{"profile\_name": "Enterprise\_Switching\_Profile", "site\_unassign\_status": "Site(s) are unassigned successfully.", "status": "Network profile [740ebd91-4f82-42ac-bbca-94393f0cc799] successfully deleted"}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_unassign_site"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__return-response_unassign_site:
+
+      .. rst-class:: ansible-option-title
+
+      **response_unassign_site**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_unassign_site" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a site is successfully unassigned from a switch profile. The response confirms the unassignment and provides details about the profile and site(s) affected.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Switch profile(s) deleted/unassigned and verified successfully for '['Enterprise\_Switching\_Profile']'.", "response": [{"profile\_name": "Enterprise\_Switching\_Profile", "site\_unassign\_status": "Site(s) '['Global/India/Chennai/Main\_Office']' unassigned successfully."}], "status": "success"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-response_unassign_template"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_profile_switching_workflow_manager_module__return-response_unassign_template:
+
+      .. rst-class:: ansible-option-title
+
+      **response_unassign_template**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-response_unassign_template" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a template is successfully unassigned from a switch profile. The response confirms the unassignment and provides details about the profile and the template(s) affected.
+
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"msg": "Switch profile(s) deleted/unassigned and verified successfully for '['Enterprise\_Switching\_Profile']'.", "response": [{"profile\_name": "Enterprise\_Switching\_Profile", "template\_unassign\_status": "Template(s) '['Periodic\_Config\_Audit']' unassigned successfully."}], "status": "success"}`
 
 
       .. raw:: html
@@ -1173,7 +1418,8 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+      A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK when a switch profile is successfully updated. The response confirms the successful update of the profile and provides details about the profile, including its name and status.
+
 
 
       .. rst-class:: ansible-option-line

@@ -42,7 +42,7 @@ cisco.catalystcenter.client_enrichment_details_info module -- Information module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -84,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -106,44 +106,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.client_enrichment_details_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -250,6 +212,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.client_enrichment_details_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -367,7 +367,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -490,7 +490,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -545,7 +545,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -555,7 +555,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"userDetails\\": {\\n      \\"id\\": \\"string\\",\\n      \\"connectionStatus\\": \\"string\\",\\n      \\"hostType\\": \\"string\\",\\n      \\"userId\\": \\"string\\",\\n      \\"hostName\\": {},\\n      \\"hostOs\\": {},\\n      \\"hostVersion\\": {},\\n      \\"subType\\": {},\\n      \\"lastUpdated\\": 0,\\n      \\"healthScore\\": [\\n        {\\n          \\"healthType\\": \\"string\\",\\n          \\"reason\\": \\"string\\",\\n          \\"score\\": 0\\n        }\\n      ],\\n      \\"hostMac\\": \\"string\\",\\n      \\"hostIpV4\\": \\"string\\",\\n      \\"hostIpV6\\": [\\n        {}\\n      ],\\n      \\"authType\\": {},\\n      \\"vlanId\\": \\"string\\",\\n      \\"ssid\\": {},\\n      \\"location\\": {},\\n      \\"clientConnection\\": \\"string\\",\\n      \\"connectedDevice\\": [\\n        {}\\n      ],\\n      \\"issueCount\\": 0,\\n      \\"rssi\\": {},\\n      \\"snr\\": {},\\n      \\"dataRate\\": {},\\n      \\"port\\": {}\\n    },\\n    \\"connectedDevice\\": [\\n      {\\n        \\"deviceDetails\\": {\\n          \\"family\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"location\\": {},\\n          \\"errorCode\\": \\"string\\",\\n          \\"macAddress\\": \\"string\\",\\n          \\"role\\": \\"string\\",\\n          \\"apManagerInterfaceIp\\": \\"string\\",\\n          \\"associatedWlcIp\\": \\"string\\",\\n          \\"bootDateTime\\": {},\\n          \\"collectionStatus\\": \\"string\\",\\n          \\"interfaceCount\\": {},\\n          \\"lineCardCount\\": {},\\n          \\"lineCardId\\": {},\\n          \\"managementIpAddress\\": \\"string\\",\\n          \\"memorySize\\": \\"string\\",\\n          \\"platformId\\": \\"string\\",\\n          \\"reachabilityFailureReason\\": \\"string\\",\\n          \\"reachabilityStatus\\": \\"string\\",\\n          \\"snmpContact\\": \\"string\\",\\n          \\"snmpLocation\\": \\"string\\",\\n          \\"tunnelUdpPort\\": \\"string\\",\\n          \\"waasDeviceMode\\": {},\\n          \\"series\\": \\"string\\",\\n          \\"inventoryStatusDetail\\": \\"string\\",\\n          \\"collectionInterval\\": \\"string\\",\\n          \\"serialNumber\\": \\"string\\",\\n          \\"softwareVersion\\": \\"string\\",\\n          \\"roleSource\\": \\"string\\",\\n          \\"hostname\\": \\"string\\",\\n          \\"upTime\\": \\"string\\",\\n          \\"lastUpdateTime\\": 0,\\n          \\"errorDescription\\": {},\\n          \\"locationName\\": {},\\n          \\"tagCount\\": \\"string\\",\\n          \\"lastUpdated\\": \\"string\\",\\n          \\"instanceUuid\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"neighborTopology\\": [\\n            {\\n              \\"nodes\\": [\\n                {\\n                  \\"role\\": \\"string\\",\\n                  \\"name\\": \\"string\\",\\n                  \\"id\\": \\"string\\",\\n                  \\"description\\": \\"string\\",\\n                  \\"deviceType\\": {},\\n                  \\"platformId\\": {},\\n                  \\"family\\": {},\\n                  \\"ip\\": {},\\n                  \\"softwareVersion\\": {},\\n                  \\"userId\\": {},\\n                  \\"nodeType\\": {},\\n                  \\"radioFrequency\\": {},\\n                  \\"clients\\": 0,\\n                  \\"count\\": {},\\n                  \\"healthScore\\": {},\\n                  \\"level\\": 0,\\n                  \\"fabricGroup\\": {}\\n                }\\n              ],\\n              \\"links\\": [\\n                {\\n                  \\"source\\": \\"string\\",\\n                  \\"linkStatus\\": \\"string\\",\\n                  \\"label\\": [\\n                    {}\\n                  ],\\n                  \\"target\\": \\"string\\",\\n                  \\"id\\": {},\\n                  \\"portUtilization\\": {}\\n                }\\n              ]\\n            }\\n          ],\\n          \\"cisco360view\\": \\"string\\"\\n        }\\n      }\\n    ],\\n    \\"issueDetails\\": {\\n      \\"issue\\": [\\n        {\\n          \\"issueId\\": \\"string\\",\\n          \\"issueSource\\": \\"string\\",\\n          \\"issueCategory\\": \\"string\\",\\n          \\"issueName\\": \\"string\\",\\n          \\"issueDescription\\": \\"string\\",\\n          \\"issueEntity\\": \\"string\\",\\n          \\"issueEntityValue\\": \\"string\\",\\n          \\"issueSeverity\\": \\"string\\",\\n          \\"issuePriority\\": \\"string\\",\\n          \\"issueSummary\\": \\"string\\",\\n          \\"issueTimestamp\\": 0,\\n          \\"suggestedActions\\": [\\n            {\\n              \\"message\\": \\"string\\",\\n              \\"steps\\": [\\n                {}\\n              ]\\n            }\\n          ],\\n          \\"impactedHosts\\": [\\n            {\\n              \\"hostType\\": \\"string\\",\\n              \\"hostName\\": \\"string\\",\\n              \\"hostOs\\": \\"string\\",\\n              \\"ssid\\": \\"string\\",\\n              \\"connectedInterface\\": \\"string\\",\\n              \\"macAddress\\": \\"string\\",\\n              \\"failedAttempts\\": 0,\\n              \\"location\\": {\\n                \\"siteId\\": \\"string\\",\\n                \\"siteType\\": \\"string\\",\\n                \\"area\\": \\"string\\",\\n                \\"building\\": \\"string\\",\\n                \\"floor\\": {},\\n                \\"apsImpacted\\": [\\n                  {}\\n                ]\\n              },\\n              \\"timestamp\\": 0\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"userDetails\\": {\\n      \\"id\\": \\"string\\",\\n      \\"connectionStatus\\": \\"string\\",\\n      \\"hostType\\": \\"string\\",\\n      \\"userId\\": \\"string\\",\\n      \\"hostName\\": {},\\n      \\"hostOs\\": {},\\n      \\"hostVersion\\": {},\\n      \\"subType\\": {},\\n      \\"lastUpdated\\": 0,\\n      \\"healthScore\\": [\\n        {\\n          \\"healthType\\": \\"string\\",\\n          \\"reason\\": \\"string\\",\\n          \\"score\\": 0\\n        }\\n      ],\\n      \\"hostMac\\": \\"string\\",\\n      \\"hostIpV4\\": \\"string\\",\\n      \\"hostIpV6\\": [\\n        \\"string\\"\\n      ],\\n      \\"authType\\": {},\\n      \\"vlanId\\": \\"string\\",\\n      \\"ssid\\": {},\\n      \\"location\\": {},\\n      \\"clientConnection\\": \\"string\\",\\n      \\"connectedDevice\\": [\\n        \\"string\\"\\n      ],\\n      \\"issueCount\\": 0,\\n      \\"rssi\\": {},\\n      \\"snr\\": {},\\n      \\"dataRate\\": {},\\n      \\"port\\": {}\\n    },\\n    \\"connectedDevice\\": [\\n      {\\n        \\"deviceDetails\\": {\\n          \\"family\\": \\"string\\",\\n          \\"type\\": \\"string\\",\\n          \\"location\\": {},\\n          \\"errorCode\\": \\"string\\",\\n          \\"macAddress\\": \\"string\\",\\n          \\"role\\": \\"string\\",\\n          \\"apManagerInterfaceIp\\": \\"string\\",\\n          \\"associatedWlcIp\\": \\"string\\",\\n          \\"bootDateTime\\": {},\\n          \\"collectionStatus\\": \\"string\\",\\n          \\"interfaceCount\\": {},\\n          \\"lineCardCount\\": {},\\n          \\"lineCardId\\": {},\\n          \\"managementIpAddress\\": \\"string\\",\\n          \\"memorySize\\": \\"string\\",\\n          \\"platformId\\": \\"string\\",\\n          \\"reachabilityFailureReason\\": \\"string\\",\\n          \\"reachabilityStatus\\": \\"string\\",\\n          \\"snmpContact\\": \\"string\\",\\n          \\"snmpLocation\\": \\"string\\",\\n          \\"tunnelUdpPort\\": \\"string\\",\\n          \\"waasDeviceMode\\": {},\\n          \\"series\\": \\"string\\",\\n          \\"inventoryStatusDetail\\": \\"string\\",\\n          \\"collectionInterval\\": \\"string\\",\\n          \\"serialNumber\\": \\"string\\",\\n          \\"softwareVersion\\": \\"string\\",\\n          \\"roleSource\\": \\"string\\",\\n          \\"hostname\\": \\"string\\",\\n          \\"upTime\\": \\"string\\",\\n          \\"lastUpdateTime\\": 0,\\n          \\"errorDescription\\": {},\\n          \\"locationName\\": {},\\n          \\"tagCount\\": \\"string\\",\\n          \\"lastUpdated\\": \\"string\\",\\n          \\"instanceUuid\\": \\"string\\",\\n          \\"id\\": \\"string\\",\\n          \\"neighborTopology\\": [\\n            {\\n              \\"nodes\\": [\\n                {\\n                  \\"role\\": \\"string\\",\\n                  \\"name\\": \\"string\\",\\n                  \\"id\\": \\"string\\",\\n                  \\"description\\": \\"string\\",\\n                  \\"deviceType\\": {},\\n                  \\"platformId\\": {},\\n                  \\"family\\": {},\\n                  \\"ip\\": {},\\n                  \\"softwareVersion\\": {},\\n                  \\"userId\\": {},\\n                  \\"nodeType\\": {},\\n                  \\"radioFrequency\\": {},\\n                  \\"clients\\": 0,\\n                  \\"count\\": {},\\n                  \\"healthScore\\": {},\\n                  \\"level\\": 0,\\n                  \\"fabricGroup\\": {}\\n                }\\n              ],\\n              \\"links\\": [\\n                {\\n                  \\"source\\": \\"string\\",\\n                  \\"linkStatus\\": \\"string\\",\\n                  \\"label\\": [\\n                    \\"string\\"\\n                  ],\\n                  \\"target\\": \\"string\\",\\n                  \\"id\\": {},\\n                  \\"portUtilization\\": {}\\n                }\\n              ]\\n            }\\n          ],\\n          \\"cisco360view\\": \\"string\\"\\n        }\\n      }\\n    ],\\n    \\"issueDetails\\": {\\n      \\"issue\\": [\\n        {\\n          \\"issueId\\": \\"string\\",\\n          \\"issueSource\\": \\"string\\",\\n          \\"issueCategory\\": \\"string\\",\\n          \\"issueName\\": \\"string\\",\\n          \\"issueDescription\\": \\"string\\",\\n          \\"issueEntity\\": \\"string\\",\\n          \\"issueEntityValue\\": \\"string\\",\\n          \\"issueSeverity\\": \\"string\\",\\n          \\"issuePriority\\": \\"string\\",\\n          \\"issueSummary\\": \\"string\\",\\n          \\"issueTimestamp\\": 0,\\n          \\"suggestedActions\\": [\\n            {\\n              \\"message\\": \\"string\\",\\n              \\"steps\\": [\\n                \\"string\\"\\n              ]\\n            }\\n          ],\\n          \\"impactedHosts\\": [\\n            {\\n              \\"hostType\\": \\"string\\",\\n              \\"hostName\\": \\"string\\",\\n              \\"hostOs\\": \\"string\\",\\n              \\"ssid\\": \\"string\\",\\n              \\"connectedInterface\\": \\"string\\",\\n              \\"macAddress\\": \\"string\\",\\n              \\"failedAttempts\\": 0,\\n              \\"location\\": {\\n                \\"siteId\\": \\"string\\",\\n                \\"siteType\\": \\"string\\",\\n                \\"area\\": \\"string\\",\\n                \\"building\\": \\"string\\",\\n                \\"floor\\": {},\\n                \\"apsImpacted\\": [\\n                  \\"string\\"\\n                ]\\n              },\\n              \\"timestamp\\": 0\\n            }\\n          ]\\n        }\\n      ]\\n    }\\n  }\\n]\\n"`
 
 
       .. raw:: html
