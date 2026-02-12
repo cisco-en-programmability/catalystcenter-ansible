@@ -42,7 +42,7 @@ cisco.catalystcenter.events_and_notifications_workflow_manager module -- Configu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -89,7 +89,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.7.2
 - python \>= 3.5
 
 
@@ -111,44 +111,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -485,6 +447,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -524,8 +524,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -534,6 +536,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -632,7 +638,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -2075,6 +2081,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/auth_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/auth_password:
+
+      .. rst-class:: ansible-option-title
+
+      **auth_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/auth_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password used for SNMP authentication.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/auth_type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/auth_type:
@@ -2100,40 +2140,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Type of SNMP authentication protocol to use, such as MD5 or SHA. SHA - Stands for Secure Hash Algorithm, a suite of cryptographic hash functions developed by the National Security Agency (NSA) offering enhanced security. MD5 - Refers to Message Digest Algorithm 5, a well-established cryptographic hash function generating a 128-bit hash value, employed in SNMPv3 for message authenticity and integrity verification.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/authpassword"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/authpassword:
-
-      .. rst-class:: ansible-option-title
-
-      **authpassword**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/authpassword" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Password used for SNMP authentication.
 
 
       .. raw:: html
@@ -2313,6 +2319,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/privacy_password"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/privacy_password:
+
+      .. rst-class:: ansible-option-title
+
+      **privacy_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/privacy_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password used for encryption in SNMP privacy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/privacy_type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/privacy_type:
@@ -2338,40 +2378,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Encryption algorithm used for SNMP privacy, such as AES128.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/privacypassword"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/privacypassword:
-
-      .. rst-class:: ansible-option-title
-
-      **privacypassword**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/privacypassword" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Password used for encryption in SNMP privacy.
 
 
       .. raw:: html
@@ -2415,17 +2421,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/snmpversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/snmp_destination/snmp_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/snmpversion:
+      .. _ansible_collections.cisco.catalystcenter.events_and_notifications_workflow_manager_module__parameter-config/snmp_destination/snmp_version:
 
       .. rst-class:: ansible-option-title
 
-      **snmpversion**
+      **snmp_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/snmpversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/snmp_destination/snmp_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -4144,8 +4150,8 @@ Notes
 
 .. note::
    - To ensure the module operates correctly with scaled sets—such as creating or updating multiple destinations and handling event subscription notifications—please ensure that valid input is provided in the playbook. If any failure occurs, the module will halt execution and will not proceed to subsequent operations.
-   - Configuring the webhook destination with headers now supports starting from catalystcentersdk version 2.3.7.6.2 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.6.
-   - Configuring the SNMP destination now supports starting from catalystcentersdk version 2.3.7.6.2 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.6.
+   - Configuring the webhook destination with headers now supports starting from catalystcentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
+   - Configuring the SNMP destination now supports starting from catalystcentersdk version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
    - SDK Method used are events.Events.get\_syslog\_destination, events.Events.create\_syslog\_destination, events.Events.update\_syslog\_destination, events.Events.get\_snmp\_destination, events.Events.create\_snmp\_destination, events.Events.update\_snmp\_destination, events.Events.get\_webhook\_destination, events.Events.create\_webhook\_destination, events.Events.update\_webhook\_destination, events.Events.get\_email\_destination, events.Events.create\_email\_destination, events.Events.get\_status\_api\_for\_events, events.Events.get\_all\_itsm\_integration\_settings, events.Events.get\_itsm\_integration\_setting\_by\_id, events.Events.create\_itsm\_integration\_setting, events.Events.update\_itsm\_integration\_setting, events.Events.delete\_itsm\_integration\_setting, events.Events.get\_eventartifacts, events.Events.get\_site, events.Events.get\_syslog\_event\_subscriptions, events.Events.get\_syslog\_subscription\_details, events.Events.create\_syslog\_event\_subscription, events.Events.update\_syslog\_event\_subscription, events.Events.get\_rest\_webhook\_event\_subscriptions, events.Events.get\_rest\_webhook\_subscription\_details, events.Events.create\_rest\_webhook\_event\_subscription, events.Events.update\_rest\_webhook\_event\_subscription, events.Events.get\_email\_event\_subscriptions, events.Events.get\_email\_subscription\_details, events.Events.create\_email\_event\_subscription, events.Events.update\_email\_event\_subscription, events.Events.delete\_event\_subscriptions
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
@@ -4168,10 +4174,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4188,10 +4194,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4204,10 +4210,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4225,10 +4231,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4242,10 +4248,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4261,10 +4267,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4277,10 +4283,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4290,23 +4296,23 @@ Examples
                 testing."
               server_address: "10.30.0.90"
               port: "25"
-              snmpversion: "V3"
+              snmp_version: "V3"
               username: cisco
               mode: AUTH_PRIVACY
               auth_type: SHA
-              authpassword: authpass123
+              auth_password: authpass123
               privacy_type: AES128
-              privacypassword: privacy123
+              privacy_password: privacy123
     - name: Update SNMP destination with given name.
       cisco.catalystcenter.events_and_notifications_workflow_manager:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4316,7 +4322,7 @@ Examples
                 snmp version v2."
               server_address: "10.30.0.23"
               port: "25"
-              snmpversion: "V2C"
+              snmp_version: "V2C"
               community: "public123"
     - name: Create ITSM Integration Setting with given name
         in the system.
@@ -4325,10 +4331,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4346,10 +4352,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4365,10 +4371,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4387,10 +4393,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4407,10 +4413,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4431,10 +4437,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4455,10 +4461,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4476,10 +4482,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -4496,10 +4502,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:
@@ -4512,10 +4518,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:
@@ -4528,10 +4534,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:
@@ -4544,10 +4550,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:

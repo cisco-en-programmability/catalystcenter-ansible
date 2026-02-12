@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_wireless_settings_ssids module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -86,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -400,44 +400,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sites_wireless_settings_ssids_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_wireless_settings_ssids_module__parameter-catalystcenter_debug:
@@ -540,6 +502,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sites_wireless_settings_ssids_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -657,7 +657,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1096,7 +1096,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if 6 GHz Policy Client Steering is enabled, else False.
+      true if 6 GHz Policy Client Steering is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1878,7 +1878,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if CCKM is enabled, else False.
+      true if CCKM is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -1962,7 +1962,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if FastLane is enabled, else False.
+      true if FastLane is enabled, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -2004,7 +2004,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      True if passphrase is in Hex format, else False.
+      true if passphrase is in Hex format, else False.
 
 
       .. rst-class:: ansible-option-line
@@ -2214,7 +2214,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      L3 Authentication Type. When \*wlanType\* is \*Enterprise\*, \*l3AuthType\* is optional and defaults to \*open\* if not specified. If \*wlanType\* is \*Guest\* then \*l3AuthType\* is mandatory.
+      L3 Authentication Type. When 'wlanType' is 'Enterprise', 'l3AuthType' is optional and defaults to 'open' if not specified. If 'wlanType' is 'Guest' then 'l3AuthType' is mandatory.
 
 
       .. raw:: html
@@ -3307,7 +3307,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
@@ -3333,92 +3333,6 @@ Examples
         fastTransitionOverTheDistributedSystemEnable: true
         ghz24Policy: string
         ghz6PolicyClientSteering: true
-        ingressQos: string
-        isApBeaconProtectionEnabled: true
-        isAuthKey8021x: true
-        isAuthKey8021xPlusFT: true
-        isAuthKey8021x_SHA256: true
-        isAuthKeyEasyPSK: true
-        isAuthKeyOWE: true
-        isAuthKeyPSK: true
-        isAuthKeyPSKPlusFT: true
-        isAuthKeyPSKSHA256: true
-        isAuthKeySae: true
-        isAuthKeySaeExt: true
-        isAuthKeySaeExtPlusFT: true
-        isAuthKeySaePlusFT: true
-        isAuthKeySuiteB1921x: true
-        isAuthKeySuiteB1x: true
-        isBroadcastSSID: true
-        isCckmEnabled: true
-        isEnabled: true
-        isFastLaneEnabled: true
-        isHex: true
-        isMacFilteringEnabled: true
-        isPosturingEnabled: true
-        isRadiusProfilingEnabled: true
-        isRandomMacFilterEnabled: true
-        l3AuthType: string
-        managementFrameProtectionClientprotection: string
-        multiPSKSettings:
-          - passphrase: string
-            passphraseType: string
-            priority: 0
-        nasOptions:
-          - string
-        neighborListEnable: true
-        openSsid: string
-        passphrase: string
-        policyProfileName: string
-        profileName: string
-        protectedManagementFrame: string
-        rsnCipherSuiteCcmp128: true
-        rsnCipherSuiteCcmp256: true
-        rsnCipherSuiteGcmp128: true
-        rsnCipherSuiteGcmp256: true
-        sessionTimeOut: 0
-        sessionTimeOutEnable: true
-        siteId: string
-        sleepingClientEnable: true
-        sleepingClientTimeout: 0
-        ssid: string
-        ssidRadioType: string
-        webPassthrough: true
-        wlanBandSelectEnable: true
-        wlanType: string
-    - name: Update by id
-      cisco.catalystcenter.sites_wireless_settings_ssids:
-        catalystcenter_host: "{{catalystcenter_host}}"
-        catalystcenter_username: "{{catalystcenter_username}}"
-        catalystcenter_password: "{{catalystcenter_password}}"
-        catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
-        catalystcenter_version: "{{catalystcenter_version}}"
-        catalystcenter_debug: "{{catalystcenter_debug}}"
-        state: present
-        aaaOverride: true
-        acctServers:
-          - string
-        aclName: string
-        authServer: string
-        authServers:
-          - string
-        authType: string
-        basicServiceSetClientIdleTimeout: 0
-        basicServiceSetMaxIdleEnable: true
-        cckmTsfTolerance: 0
-        clientExclusionEnable: true
-        clientExclusionTimeout: 0
-        clientRateLimit: 0
-        coverageHoleDetectionEnable: true
-        directedMulticastServiceEnable: true
-        egressQos: string
-        externalAuthIpAddress: string
-        fastTransition: string
-        fastTransitionOverTheDistributedSystemEnable: true
-        ghz24Policy: string
-        ghz6PolicyClientSteering: true
-        id: string
         ingressQos: string
         isApBeaconProtectionEnabled: true
         isAuthKey8021x: true
@@ -3478,13 +3392,99 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: absent
         id: string
         removeOverrideInHierarchy: true
         siteId: string
+    - name: Update by id
+      cisco.catalystcenter.sites_wireless_settings_ssids:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        aaaOverride: true
+        acctServers:
+          - string
+        aclName: string
+        authServer: string
+        authServers:
+          - string
+        authType: string
+        basicServiceSetClientIdleTimeout: 0
+        basicServiceSetMaxIdleEnable: true
+        cckmTsfTolerance: 0
+        clientExclusionEnable: true
+        clientExclusionTimeout: 0
+        clientRateLimit: 0
+        coverageHoleDetectionEnable: true
+        directedMulticastServiceEnable: true
+        egressQos: string
+        externalAuthIpAddress: string
+        fastTransition: string
+        fastTransitionOverTheDistributedSystemEnable: true
+        ghz24Policy: string
+        ghz6PolicyClientSteering: true
+        id: string
+        ingressQos: string
+        isApBeaconProtectionEnabled: true
+        isAuthKey8021x: true
+        isAuthKey8021xPlusFT: true
+        isAuthKey8021x_SHA256: true
+        isAuthKeyEasyPSK: true
+        isAuthKeyOWE: true
+        isAuthKeyPSK: true
+        isAuthKeyPSKPlusFT: true
+        isAuthKeyPSKSHA256: true
+        isAuthKeySae: true
+        isAuthKeySaeExt: true
+        isAuthKeySaeExtPlusFT: true
+        isAuthKeySaePlusFT: true
+        isAuthKeySuiteB1921x: true
+        isAuthKeySuiteB1x: true
+        isBroadcastSSID: true
+        isCckmEnabled: true
+        isEnabled: true
+        isFastLaneEnabled: true
+        isHex: true
+        isMacFilteringEnabled: true
+        isPosturingEnabled: true
+        isRadiusProfilingEnabled: true
+        isRandomMacFilterEnabled: true
+        l3AuthType: string
+        managementFrameProtectionClientprotection: string
+        multiPSKSettings:
+          - passphrase: string
+            passphraseType: string
+            priority: 0
+        nasOptions:
+          - string
+        neighborListEnable: true
+        openSsid: string
+        passphrase: string
+        policyProfileName: string
+        profileName: string
+        protectedManagementFrame: string
+        rsnCipherSuiteCcmp128: true
+        rsnCipherSuiteCcmp256: true
+        rsnCipherSuiteGcmp128: true
+        rsnCipherSuiteGcmp256: true
+        sessionTimeOut: 0
+        sessionTimeOutEnable: true
+        siteId: string
+        sleepingClientEnable: true
+        sleepingClientTimeout: 0
+        ssid: string
+        ssidRadioType: string
+        webPassthrough: true
+        wlanBandSelectEnable: true
+        wlanType: string
 
 
 
@@ -3535,7 +3535,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line

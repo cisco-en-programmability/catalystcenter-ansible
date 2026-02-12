@@ -42,7 +42,7 @@ cisco.catalystcenter.network_device_config_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.catalystcenter.network_device_config_info module -- Information module for
 
 .. rst-class:: ansible-version-added
 
-New in cisco.catalystcenter 6.14.0
+New in cisco.catalystcenter 3.1.0
 
 .. contents::
    :local:
@@ -68,7 +68,9 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Config . - \> Returns the historical device configurations running configuration , startup configuration , vlan if applicable by specified criteria.
+- Get all Network Device Config.
+- Get Network Device Config by id. - \> Returns the config for all devices. This API has been deprecated and will not be available in a Cisco Catalyst Center release after Nov 1st 2024 23 59 59 GMT.
+- Returns the device config by specified device ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -106,44 +108,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -250,6 +214,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -367,145 +369,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-createdBy"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-createdby:
-
-      .. rst-class:: ansible-option-title
-
-      **createdBy**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-createdBy" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      CreatedBy query parameter. Comma separated values for createdBy - SCHEDULED, USER, CONFIG\_CHANGE\_EVENT, SCHEDULED\_FIRST\_TIME, DR\_CALL\_BACK, PRE\_DEPLOY.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-createdTime"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-createdtime:
-
-      .. rst-class:: ansible-option-title
-
-      **createdTime**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-createdTime" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      CreatedTime query parameter. Supported with logical filters GT,GTE,LT,LTE & BT time in milliseconds (epoc format).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-deviceId"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-deviceid:
-
-      .. rst-class:: ansible-option-title
-
-      **deviceId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-deviceId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      DeviceId query parameter. Comma separated device id for example cf35b0a1-407f-412f-b2f4-f0c3156695f9,aaa38191-0c22-4158-befd-779a09d7cec1. If device id is not provided it will fetch for all devices.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-fileType"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-filetype:
-
-      .. rst-class:: ansible-option-title
-
-      **fileType**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-fileType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      FileType query parameter. Config File Type can be RUNNINGCONFIG or STARTUPCONFIG.
-
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -548,21 +412,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+        <div class="ansibleOptionAnchor" id="parameter-networkDeviceId"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-limit:
+      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-networkdeviceid:
 
       .. rst-class:: ansible-option-title
 
-      **limit**
+      **networkDeviceId**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-networkDeviceId" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -572,42 +436,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a maximum allowed limit of 500.
-          
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.network_device_config_info_module__parameter-offset:
-
-      .. rst-class:: ansible-option-title
-
-      **offset**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`float`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Offset query parameter.
+      NetworkDeviceId path parameter.
 
 
       .. raw:: html
@@ -666,8 +495,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_archive.ConfigurationArchive.get\_configuration\_archive\_details,
-   - Paths used are get /dna/intent/api/v1/network-device-config,
+   - SDK Method used are devices.Devices.get\_device\_config\_by\_id, devices.Devices.get\_device\_config\_for\_all\_devices,
+   - Paths used are get /dna/intent/api/v1/network-device/config, get /dna/intent/api/v1/network-device/{networkDeviceId}/config,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
@@ -679,8 +508,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Archive GetConfigurationArchiveDetails <https://developer.cisco.com/docs/dna-center/#!get-configuration-archive-details>`_
-       Complete reference of the GetConfigurationArchiveDetails API.
+   `Cisco DNA Center documentation for Devices GetDeviceConfigById <https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id>`_
+       Complete reference of the GetDeviceConfigById API.
+   `Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevices <https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices>`_
+       Complete reference of the GetDeviceConfigForAllDevices API.
 
 .. Examples
 
@@ -692,21 +523,27 @@ Examples
     
     ---
     - name: Get all Network Device Config
-      cisco.catalystcenter.network_device_config__info:
+      cisco.catalystcenter.network_device_config_info:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        deviceId: string
-        fileType: string
-        createdTime: string
-        createdBy: string
-        offset: 0
-        limit: 0
+      register: result
+    - name: Get Network Device Config by id
+      cisco.catalystcenter.network_device_config_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        networkDeviceId: string
       register: result
 
 
@@ -748,7 +585,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -758,7 +595,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -768,7 +605,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"ipAddress\\": \\"string\\",\\n    \\"deviceId\\": \\"string\\",\\n    \\"versions\\": [\\n      {\\n        \\"files\\": [\\n          {\\n            \\"fileType\\": \\"string\\",\\n            \\"fileId\\": \\"string\\",\\n            \\"downloadPath\\": \\"string\\"\\n          }\\n        ],\\n        \\"createdBy\\": \\"string\\",\\n        \\"configChangeType\\": \\"string\\",\\n        \\"syslogConfigEventDto\\": [\\n          {\\n            \\"userName\\": \\"string\\",\\n            \\"deviceUuid\\": \\"string\\",\\n            \\"outOfBand\\": true,\\n            \\"configMethod\\": \\"string\\",\\n            \\"terminalName\\": \\"string\\",\\n            \\"loginIpAddress\\": \\"string\\",\\n            \\"processName\\": \\"string\\",\\n            \\"syslogTime\\": 0\\n          }\\n        ],\\n        \\"createdTime\\": 0,\\n        \\"startupRunningStatus\\": \\"string\\",\\n        \\"id\\": \\"string\\",\\n        \\"tags\\": [\\n          \\"string\\"\\n        ],\\n        \\"lastUpdatedTime\\": 0\\n      }\\n    ],\\n    \\"deviceName\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": "string", "version": "string"}`
 
 
       .. raw:: html

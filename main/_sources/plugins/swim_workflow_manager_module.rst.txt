@@ -42,7 +42,7 @@ cisco.catalystcenter.swim_workflow_manager module -- Module to manage SWIM (Soft
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -74,6 +74,8 @@ Synopsis
 - Provides an API to fetch a software image from Cisco Connection Online (CCO) and upload it to Catalyst Center. Refer to https://software.cisco.com/download/home for suggested images in Cisco Catalyst Center. CCO functionality is available starting from Cisco Catalyst version 2.3.7.6.
 - Provides an API to tag or untag an image as golden for a given family of devices.
 - Provides an API to distribute a software image to a device. The software image must be imported into Catalyst Center before it can be distributed.
+- Provides an API to delete software images from Catalyst Center.
+- A golden tag is mandatory for a site, and the workflow cannot proceed without it
 
 
 .. Aliases
@@ -87,7 +89,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk == 2.7.3
 - python \>= 3.9
 
 
@@ -109,44 +111,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -483,6 +447,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -522,8 +524,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -532,6 +536,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -630,7 +638,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -716,17 +724,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/activate_lower_imageversion"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/activate_lower_image_version"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/activate_lower_imageversion:
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/activate_lower_image_version:
 
       .. rst-class:: ansible-option-title
 
-      **activate_lower_imageversion**
+      **activate_lower_image_version**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/activate_lower_imageversion" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/activate_lower_image_version" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -748,6 +756,173 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/compatible_features"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/compatible_features:
+
+      .. rst-class:: ansible-option-title
+
+      **compatible_features**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/compatible_features" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of compatible feature key-value pairs.
+
+      Applicable for v3.1.3.0 and later.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/compatible_features/key"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/compatible_features/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/compatible_features/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Feature name. (e.g., "ISSU", "Rommon update")
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/compatible_features/value"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/compatible_features/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/compatible_features/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Feature status (e.g., Enable or Disable)
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/convert_to_wlc"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/convert_to_wlc:
+
+      .. rst-class:: ansible-option-title
+
+      **convert_to_wlc**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/convert_to_wlc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to indicate device conversion to Wireless LAN Controller (WLC) during image activation.
+          
+          When set to True:
+          - Skips the device compliance check for image activation
+          - Treats the device as eligible for image activation regardless of current state
+          - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+          
+          When set to False (default):
+          - Performs normal device compliance validation before activation
+          - Only activates images on devices that are marked as NON\_COMPLIANT
+          - Follows standard SWIM workflow with full validation
+          
+          Use Cases:
+          - Converting access points or switches to operate as Wireless LAN Controllers
+          - Scenarios where compliance checks should be bypassed for specific device transformations
+          - Forced image activation for WLC conversion processes
+          
+          Security Note:
+          Use this parameter with caution as it bypasses standard compliance
+          checks. Ensure device compatibility before enabling this option.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`true`
 
 
@@ -999,6 +1174,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_tag"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **device_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/device_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device tag for filtering the target device(s)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/device_upgrade_mode"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/device_upgrade_mode:
@@ -1066,6 +1275,70 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_activation_details/image_activation_timeout"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_activation_details/image_activation_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **image_activation_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_activation_details/image_activation_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Timeout duration in seconds for image activation API operations.
+          Controls how long the system waits for image activation processes to complete
+          before timing out, including device reboot and startup verification.
+          
+          Operation phases covered by this timeout:
+          - Image validation and preparation for activation
+          - Device upgrade mode processing (install/bundle/currentlyExists)
+          - Device reboot and startup sequence (if required)
+          - Post-activation connectivity and status verification
+          - Golden image validation (if applicable)
+          
+          Default of 1800 seconds (30 minutes) accommodates:
+          - Device boot time variations (switches: 5-15 min, routers: 10-20 min)
+          - Image installation and verification processes
+          - Network convergence and connectivity restoration
+          - Multiple devices in concurrent activation scenarios
+          
+          Recommended timeout values by device type:
+          - Access switches: 1200-1800 seconds (20-30 minutes)
+          - Distribution/Core switches: 1800-2700 seconds (30-45 minutes)
+          - Routers and complex devices: 2700-3600 seconds (45-60 minutes)
+          
+          Warning: Setting timeout too low may cause premature failure reporting
+          for successful but slow activation processes.
+          
+          Note: This timeout is independent of the global 'catalystcenter\_api\_task\_timeout' parameter
+          
+          type: int
+          default: 1800
+          version\_added: 3.1.3.0
+          
 
 
       .. raw:: html
@@ -1260,6 +1533,68 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/convert_to_wlc"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/convert_to_wlc:
+
+      .. rst-class:: ansible-option-title
+
+      **convert_to_wlc**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/convert_to_wlc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Flag to indicate device conversion to Wireless LAN Controller (WLC) during image distribution.
+          
+          When set to True:
+          - Skips the device compliance check for image distribution
+          - Treats the device as eligible for image distribution regardless of current state
+          - Useful for scenarios where converting a device to WLC mode requires non-compliant image operations
+          
+          When set to False (default):
+          - Performs normal device compliance validation before distribution
+          - Only distributes images to devices that are marked as NON\_COMPLIANT
+          - Follows standard SWIM workflow with full validation
+          
+          Use Cases:
+          - Converting access points or switches to operate as Wireless LAN Controllers
+          - Scenarios where compliance checks should be bypassed for specific device transformations
+          - Forced image distribution for WLC conversion processes
+          
+          Security Note:
+          Use this parameter with caution as it bypasses standard compliance
+          checks. Ensure device compatibility before enabling this option.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -1504,6 +1839,101 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/device_tag"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/device_tag:
+
+      .. rst-class:: ansible-option-title
+
+      **device_tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/device_tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device tag for filtering the target device(s)
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_distribution_timeout"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/image_distribution_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **image_distribution_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_distribution_details/image_distribution_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Timeout duration in seconds for image distribution API operations.
+          Controls how long the system waits for image distribution tasks to complete,
+          including image transfer to target devices, network propagation, and distribution validation.
+          
+          Operation phases covered by this timeout:
+          - Image preparation and validation on Catalyst Center
+          - Network transfer to target devices
+          - Installation verification on target devices
+          - Distribution status confirmation
+          
+          Default of 1800 seconds (30 minutes) accounts for:
+          - Large image files (up to several GB)
+          - Multiple target devices in site-based operations
+          - Network latency and bandwidth constraints
+          - Device processing and storage capabilities
+          
+          Recommended timeout values:
+          - Small networks (1-10 devices): 900-1800 seconds
+          - Medium networks (10-50 devices): 1800-3600 seconds
+          - Large networks (50+ devices): 3600-7200 seconds
+          
+          Note: This timeout is independent of the global 'catalystcenter\_api\_task\_timeout' parameter
+          and specifically applies to distribution operations only.
+          
+          default: 1800
+          type: int
+          version\_added: 3.1.3.0
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/image_distribution_details/image_name"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_distribution_details/image_name:
@@ -1603,6 +2033,44 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/image_name"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/image_name:
+
+      .. rst-class:: ansible-option-title
+
+      **image_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/image_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of image names to be deleted.
+
+      This parameter is mandatory and exclusively used when the state is 'deleted'.
+
+      Applicable for v3.1.3.0 and later.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1768,7 +2236,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -2159,7 +2627,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -2314,6 +2782,50 @@ Parameters
         </div>
 
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/sync_cco"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/sync_cco:
+
+      .. rst-class:: ansible-option-title
+
+      **sync_cco**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/sync_cco" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to True to synchronize the image with Cisco Connection Online (CCO).
+
+      Applicable for v3.1.3.0 and later.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -2505,6 +3017,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/supervisor_product_name_ordinal"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/tagging_details/supervisor_product_name_ordinal:
+
+      .. rst-class:: ansible-option-title
+
+      **supervisor_product_name_ordinal**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/tagging_details/supervisor_product_name_ordinal" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Supervisor Product Name Ordinal value.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/tagging_details/tagging"></div>
 
       .. _ansible_collections.cisco.catalystcenter.swim_workflow_manager_module__parameter-config/tagging_details/tagging:
@@ -2623,6 +3169,7 @@ Parameters
       :ansible-option-choices:`Choices:`
 
       - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
 
 
       .. raw:: html
@@ -2681,8 +3228,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation,
-   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, - Added the parameter 'catalystcenter\_api\_task\_timeout', 'catalystcenter\_task\_poll\_interval' options in v6.13.2.
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_software\_image\_via\_url, software\_image\_management\_swim.SoftwareImageManagementSwim.tag\_as\_golden\_image, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_distribution, software\_image\_management\_swim.SoftwareImageManagementSwim.trigger\_software\_image\_activation, software\_image\_management\_swim.SoftwareImageManagementSwim.delete\_image\_v1,
+   - Paths used are post /dna/intent/api/v1/image/importation/source/url, post /dna/intent/api/v1/image/importation/golden, post /dna/intent/api/v1/image/distribution, post /dna/intent/api/v1/image/activation/device, delete /dna/intent/api/v1/images/{id},
+   - Added the parameter 'catalystcenter\_api\_task\_timeout', 'catalystcenter\_task\_poll\_interval' options in v6.13.2.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -2705,10 +3253,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - import_image_details:
@@ -2731,7 +3279,7 @@ Examples
             image_activation_details:
               image_name: cat9k_iosxe.17.12.01.SPA.bin
               schedule_validate: false
-              activate_lower_imageversion: false
+              activate_lower_image_version: false
               distribute_if_needed: true
               device_serial_number: FJC2327U0S2
     - name: Import an image from local, tag it as golden.
@@ -2740,10 +3288,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - import_image_details:
@@ -2764,10 +3312,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - import_image_details:
@@ -2784,10 +3332,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - import_image_details:
@@ -2802,10 +3350,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - import_image_details:
@@ -2818,10 +3366,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - import_image_details:
@@ -2838,10 +3386,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - tagging_details:
@@ -2859,10 +3407,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - tagging_details:
@@ -2884,10 +3432,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - tagging_details:
@@ -2904,10 +3452,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - tagging_details:
@@ -2924,10 +3472,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - image_distribution_details:
@@ -2937,17 +3485,38 @@ Examples
               device_family_name: Switches and Hubs
               device_series_name: Cisco Catalyst 9300 Series
                 Switches
-    - name: Activate the given image on devices associated
+
+    - name: Distribute the given image on devices associated with device tag
         to that site with specified role.
       cisco.catalystcenter.swim_workflow_manager:
         catalystcenter_host: "{{catalystcenter_host}}"
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_distribution_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              site_name: Global/a_swim/swim_test1
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+
+    - name: Activate the given image on devices associated with device tag
+        to that site with specified role.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: true
         config:
           - image_activation_details:
@@ -2955,11 +3524,172 @@ Examples
               site_name: Global/USA/San Francisco/BGL_18
               device_role: ALL
               device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series
-                Switches
-              scehdule_validate: false
-              activate_lower_imageversion: true
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              device_tag: AUTO_INV_EVENT_SYNC_DISABLED
+              schedule_validate: false
+              activate_lower_image_version: true
               distribute_if_needed: true
+
+    - name: Activate the given image on devices associated
+        to that site with specified role.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_activation_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              site_name: Global/USA/San Francisco/BGL_18
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              schedule_validate: false
+              activate_lower_image_version: true
+              distribute_if_needed: true
+
+    - name: Activate the golden image on devices associated
+        to that site with specified role.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_activation_details:
+              site_name: Global/USA/San Francisco/BGL_18
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              schedule_validate: false
+              activate_lower_image_version: true
+              distribute_if_needed: true
+
+    - name: distribute the golden image on devices associated
+        to that site with specified role with custom api timeout.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_activation_details:
+              site_name: Global/USA/San Francisco/BGL_18
+              image_activation_timeout: 2500
+              device_role: ALL
+              device_family_name: Switches and Hubs
+              device_series_name: Cisco Catalyst 9300 Series Switches
+              schedule_validate: false
+              activate_lower_image_version: true
+              distribute_if_needed: true
+
+    - name: Activate the given image on devices associated
+        to that site for v3.1.3.0.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_activation_details:
+              image_name: cat9k_iosxe.17.12.01.SPA.bin
+              site_name: Global/USA/San Francisco/BGL_18
+              compatible_features:
+                - key: "ISSU"
+                  value: Enable
+                - key: "Rommon update"
+                  value: Disable
+
+    - name: Sync cco images to Cisco Catalyst Center for v3.1.3.0.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - sync_cco: true
+
+    - name: Distribute WLC image with convert_to_wlc flag to skip compliance check
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_distribution_details:
+              sub_package_images:
+                - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+              convert_to_wlc: true
+              site_name: Global/a_swim
+
+    - name: Activate WLC image with convert_to_wlc flag to skip compliance check
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: true
+        config:
+          - image_activation_details:
+              sub_package_images:
+                - C9800-SW-iosxe-wlc.17.12.01.SPA.bin
+              convert_to_wlc: true
+              site_name: Global/a_swim
+              activate_lower_image_version: true
+              distribute_if_needed: true
+              schedule_validate: false
+
+    - name: Delete image from Cisco Catalyst Center for v3.1.3.0.
+      cisco.catalystcenter.swim_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        config_verify: true
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
+        state: deleted
+        config:
+          - image_name: [C9800-SW-iosxe-wlc.17.07.01.SPA.bin]
 
 
 

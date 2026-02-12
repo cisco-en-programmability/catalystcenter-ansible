@@ -42,7 +42,7 @@ cisco.catalystcenter.assurance_issue_workflow_manager module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.8.6
 - python \>= 3.9
 
 
@@ -107,44 +107,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_issue_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -481,6 +443,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_issue_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.assurance_issue_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -520,8 +520,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.assurance_issue_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.assurance_issue_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -530,6 +532,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -628,7 +634,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -769,6 +775,45 @@ Parameters
       A filter to select issues that ended at or before this date and time. The format is "YYYY-MM-DD HH:MM:SS".
           
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/assurance_issue/ignore_duration"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_issue_workflow_manager_module__parameter-config/assurance_issue/ignore_duration:
+
+      .. rst-class:: ansible-option-title
+
+      **ignore_duration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/assurance_issue/ignore_duration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies how long to ignore the issue. The value is a string with a numeric value followed by a time unit suffix. Supported units: - 'h' for hours (e.g., '1h' for 1 hour, '24h' for 24 hours). - 'd' for days (e.g., '3d' for 3 days, '30d' for 30 days). The range is from '1h' to '30d'. The default value is '24h'. This parameter is available from Cisco Catalyst Center version 2.3.7.10 onwards. Example valid values: '1h', '3d', '24h'. Example invalid values: '24', '3days', 'h3', '0h', '31d', '2.5h'.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"24h"`
 
       .. raw:: html
 
@@ -1318,7 +1363,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`boolean` / :ansible-option-required:`required`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -1361,7 +1406,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer` / :ansible-option-required:`required`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -2240,7 +2285,7 @@ Examples
 
     
     ---
-    - hosts: dnac_servers
+    - hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2249,7 +2294,7 @@ Examples
         - name: Create issue settings
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2278,7 +2323,7 @@ Examples
         - name: update issue settings
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2307,7 +2352,7 @@ Examples
         - name: Delete issue settings
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2320,7 +2365,7 @@ Examples
             config:
               - assurance_user_defined_issue_settings:
                   - name: High CPU Usage Alert
-    - hosts: dnac_servers
+    - hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2329,7 +2374,7 @@ Examples
         - name: Update System issue
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2350,7 +2395,7 @@ Examples
                     priority: P1
                     issue_enabled: false
                     threshold_value: -10
-    - hosts: dnac_servers
+    - hosts: catalystcenter_servers
       vars_files:
         - credentials.yml
       gather_facts: false
@@ -2359,7 +2404,7 @@ Examples
         - name: Resolving Issues
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2386,7 +2431,7 @@ Examples
         - name: Ignoring issues
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -2402,6 +2447,7 @@ Examples
                   - issue_name: Fabric BGP session status
                       is down with Peer Device  # required field
                     issue_process_type: ignore  # required field
+                    ignore_duration: 4h
                     start_datetime: "2024-12-11 16:00:00"  # optional field
                     end_datetime: "2024-12-11 18:30:00"  # optional field
                     site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
@@ -2413,7 +2459,7 @@ Examples
         - name: Execute suggested commands
           cisco.catalystcenter.assurance_issue_workflow_manager:
             catalystcenter_host: "{{ catalystcenter_host }}"
-            catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+            catalystcenter_port: "{{ catalystcenter_port }}"
             catalystcenter_username: "{{ catalystcenter_username }}"
             catalystcenter_password: "{{ catalystcenter_password }}"
             catalystcenter_verify: "{{ catalystcenter_verify }}"

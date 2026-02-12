@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager module -- Conf
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -84,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
+- catalystcentersdk \>= 2.9.2
 - python \>= 3.9
 
 
@@ -106,44 +106,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Specifies the port number associated with the Cisco Catalyst Center.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -480,6 +442,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_task_poll_interval"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_task_poll_interval:
@@ -519,8 +519,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -529,6 +531,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -627,7 +633,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
 
       .. raw:: html
 
@@ -891,6 +897,82 @@ Parameters
 
         </div>
 
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/flooding_address"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/flooding_address:
+
+      .. rst-class:: ansible-option-title
+
+      **flooding_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/flooding_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a custom multicast IP address for layer 2 flooding operations within the anycast gateway. This parameter defines the multicast address used when the fabric needs to flood traffic to all ports in the VLAN for unknown unicast, broadcast, or multicast frames. The IP address must be in the 239.0.0.0/8 multicast range (239.0.0.1 through 239.255.255.255) to ensure proper multicast behavior and compliance with RFC standards. This property is applicable only when the flooding\_address\_assignment is set to "CUSTOM". If flooding\_address\_assignment is "SHARED", this parameter will be ignored as the flooding address is inherited from the parent fabric configuration. The address should be unique within your network topology to avoid multicast conflicts and ensure proper traffic isolation between different VLANs or fabric segments. This field is not applicable to INFRA\_VN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/flooding_address_assignment"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/flooding_address_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **flooding_address_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/flooding_address_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls the source configuration for flooding addresses used in layer 2 flooding within the anycast gateway. This parameter determines whether the virtual network uses a 'SHARED' flooding address from the parent fabric or a 'CUSTOM' address specific to this virtual network. Two options are available - "SHARED" means that the layer 2 virtual network will inherit the flooding address from the parent fabric configuration, ensuring consistency across the fabric. "CUSTOM" allows the layer 2 virtual network to use a different flooding address for specific use cases or network segmentation requirements. When set to "CUSTOM", you must also provide a valid flooding\_address parameter. This field is not applicable to INFRA\_VN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"SHARED"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"CUSTOM"`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1215,6 +1297,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/resource_guard_enable"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/resource_guard_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_guard_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/resource_guard_enable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A security feature control for anycast gateways that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the anycast gateway by enforcing stricter access policies and monitoring capabilities. This field is not applicable to INFRA\_VN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/security_group_name"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/security_group_name:
@@ -1458,6 +1582,48 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/wireless_flooding_enable"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/wireless_flooding_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **wireless_flooding_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/wireless_flooding_enable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls wireless flooding behavior for the anycast gateway, which determines how BUM traffic (Broadcast, Unknown unicast, and Multicast) from wireless clients is handled within the fabric network. When enabled, BUM traffic from wireless clients is flooded across the fabric to ensure proper connectivity and service discovery. When disabled, BUM traffic flooding is suppressed, which can improve network efficiency but may impact certain network services that rely on broadcast or multicast communication. If there is an associated layer 3 virtual network, wireless flooding will default to false and can only be set to true when fabric-enabled wireless is also enabled. If there is no associated layer 3 virtual network, wireless flooding will match the fabric-enabled wireless setting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -1675,6 +1841,124 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/flooding_address"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/flooding_address:
+
+      .. rst-class:: ansible-option-title
+
+      **flooding_address**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/flooding_address" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies a custom multicast IP address for layer 2 flooding operations within the fabric VLAN. This parameter defines the multicast address used when the fabric needs to flood traffic to all ports in the VLAN for unknown unicast, broadcast, or multicast frames. The IP address must be in the 239.0.0.0/8 multicast range (239.0.0.1 through 239.255.255.255) to ensure proper multicast behavior and compliance with RFC standards. This property is applicable only when the flooding\_address\_assignment is set to "CUSTOM". If flooding\_address\_assignment is "SHARED", this parameter will be ignored as the flooding address is inherited from the parent fabric configuration. The address should be unique within your network topology to avoid multicast conflicts and ensure proper traffic isolation between different VLANs or fabric segments.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/flooding_address_assignment"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/flooding_address_assignment:
+
+      .. rst-class:: ansible-option-title
+
+      **flooding_address_assignment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/flooding_address_assignment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls the source configuration for flooding addresses used in layer 2 flooding within the fabric VLAN. This parameter determines whether the layer 2 virtual network uses a 'SHARED' flooding address from the parent fabric or a 'CUSTOM' address specific to this virtual network. Two options are available - "SHARED" means that the layer 2 virtual network will inherit the flooding address from the parent fabric configuration, ensuring consistency across the fabric. "CUSTOM" allows the layer 2 virtual network to use a different flooding address for specific use cases or network segmentation requirements. When set to "CUSTOM", you must also provide a valid flooding\_address parameter.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"SHARED"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"CUSTOM"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/resource_guard_enable"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/resource_guard_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **resource_guard_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/resource_guard_enable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A security feature control for fabric VLANs that enables or disables Resource Guard functionality. Resource Guard is a security mechanism that provides protection against unauthorized access to network resources by implementing additional security controls and access restrictions at the VLAN level within the fabric network. When enabled, it enhances the security posture of the fabric VLAN by enforcing stricter access policies and monitoring capabilities.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/traffic_type"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/traffic_type:
@@ -1768,6 +2052,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Name of the VLAN of the layer2 virtual network. Must contain only alphanumeric characters, underscores, and hyphens. Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/wireless_flooding_enable"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/wireless_flooding_enable:
+
+      .. rst-class:: ansible-option-title
+
+      **wireless_flooding_enable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/wireless_flooding_enable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Controls wireless flooding behavior for the fabric VLAN, which determines how BUM traffic (Broadcast, Unknown unicast, and Multicast) from wireless clients is handled within the fabric network. When enabled, BUM traffic from wireless clients is flooded across the fabric to ensure proper connectivity and service discovery. When disabled, BUM traffic flooding is suppressed, which can improve network efficiency but may impact certain network services that rely on broadcast or multicast communication. If there is an associated layer 3 virtual network, wireless flooding will default to false and can only be set to true when fabric-enabled wireless is also enabled. If there is no associated layer 3 virtual network, wireless flooding will match the fabric-enabled wireless setting.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -2093,12 +2419,12 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 50, as the GUI allows creating up to 50 fabric VLANs at a time.
+      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time.
 
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`50`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
 
       .. raw:: html
 
@@ -2205,6 +2531,7 @@ Notes
    - To create or update a fabric VLAN according to the module design, the vlan\_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.
    - If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the virtual network.
    - SDK Method used are ccc\_virtual\_network.sda.get\_site ccc\_virtual\_network.sda.get\_fabric\_sites ccc\_virtual\_network.sda.get\_fabric\_zones ccc\_virtual\_network.sda.get\_layer2\_virtual\_networks ccc\_virtual\_network.sda.add\_layer2\_virtual\_networks ccc\_virtual\_network.sda.update\_layer2\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer2\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_layer3\_virtual\_networks ccc\_virtual\_network.sda.add\_layer3\_virtual\_networks ccc\_virtual\_network.sda.update\_layer3\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer3\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_reserve\_ip\_subpool ccc\_virtual\_network.sda.get\_anycast\_gateways ccc\_virtual\_network.sda.add\_anycast\_gateways ccc\_virtual\_network.sda.update\_anycast\_gateways ccc\_virtual\_network.sda.delete\_anycast\_gateway\_by\_id
+   - New parameters added in the module are wireless\_flooding\_enable, resource\_guard\_enable, flooding\_address\_assignment, flooding\_address as part of fabric\_vlan and anycast\_gateways creation/updation will start supporting from Catalsyt Center with version 3.1.3.0 onwards.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
 
@@ -2227,10 +2554,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2251,6 +2578,58 @@ Examples
                 vlan_id: 1334
                 traffic_type: "VOICE"
                 fabric_enabled_wireless: false
+
+    - name: Create Layer2 Fabric VLAN with wireless flooding, resource guard, and custom
+        L2 flooding address for SDA in Cisco Catalyst Center.
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: false
+        state: merged
+        config:
+          - fabric_vlan:
+              - vlan_name: "vlan_added_params"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Bangalore"
+                    fabric_type: "fabric_site"
+                vlan_id: 1933
+                traffic_type: "VOICE"
+                fabric_enabled_wireless: true
+                wireless_flooding_enable: true
+                resource_guard_enable: true
+                flooding_address_assignment: CUSTOM
+                flooding_address: 239.0.0.1
+
+    - name: Update Layer 2 Voice VLAN in Bangalore site to use shared flooding address assignment.
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: false
+        state: merged
+        config:
+          - fabric_vlan:
+              - vlan_name: "vlan_added_params"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Bangalore"
+                    fabric_type: "fabric_site"
+                vlan_id: 1933
+                traffic_type: "VOICE"
+                fabric_enabled_wireless: true
+                resource_guard_enable: true
+                flooding_address_assignment: SHARED# Inherit flooding address from the fabric
+
     - name: Update Layer 2 Fabric VLAN for SDA in Cisco
         Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2258,10 +2637,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2275,6 +2654,7 @@ Examples
                 vlan_id: 1333
                 traffic_type: "VOICE"
                 fabric_enabled_wireless: true
+
     - name: Deleting Layer 2 Fabric VLAN from the Cisco
         Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2282,10 +2662,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:
@@ -2295,6 +2675,7 @@ Examples
                   - site_name_hierarchy: "Global/India/Chennai"
                     fabric_type: "fabric_zone"
                 vlan_id: 1333
+
     - name: Create layer3 Virtual Network and anchored the
         site to the VN as well.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2302,10 +2683,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2315,6 +2696,7 @@ Examples
                   - site_name_hierarchy: "Global/India"
                     fabric_type: "fabric_site"
                 anchored_site_name: "Global/India"
+
     - name: Create layer3 Virtual Network and extend it
         to multiple fabric sites.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2322,10 +2704,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2336,6 +2718,7 @@ Examples
                     fabric_type: "fabric_site"
                   - site_name_hierarchy: "Global/USA"
                     fabric_type: "fabric_site"
+
     - name: Update layer3 Virtual Network in the Cisco Catalyst
         Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2343,10 +2726,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2359,6 +2742,7 @@ Examples
                     fabric_type: "fabric_site"
                   - site_name_hierarchy: "Global/China"
                     fabric_type: "fabric_site"
+
     - name: Removing the fabric sites only from the given
         Virtual Network in the Cisco Catalyst Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2366,10 +2750,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:
@@ -2380,6 +2764,7 @@ Examples
                     fabric_type: "fabric_site"
                   - site_name_hierarchy: "Global/USA"
                     fabric_type: "fabric_site"
+
     - name: Deleting Virtual Network from the Cisco Catalyst
         Center and removing fabric sites if any.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2387,15 +2772,16 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:
           - virtual_networks:
               - vn_name: "vlan_test1"
+
     - name: Create the Anycast gateway(s) for SDA in Catalsyt
         Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2403,10 +2789,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2420,6 +2806,67 @@ Examples
                 traffic_type: "DATA"
                 is_critical_pool: false
                 auto_generate_vlan_name: true
+
+    - name: Create Anycast gateway in SDA fabric with new parameters
+        (wireless flooding, resource guard, custom flooding address)
+        in Cisco Catalyst Center
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: false
+        state: merged
+        config:
+          - anycast_gateways:
+              - vn_name: VN_Test
+                fabric_site_location:
+                  site_name_hierarchy: Global/India
+                  fabric_type: fabric_site
+                ip_pool_name: AB_Pool
+                tcp_mss_adjustment: 701
+                traffic_type: DATA
+                is_critical_pool: false
+                layer2_flooding_enabled: true
+                fabric_enabled_wireless: true
+                wireless_flooding_enable: true
+                resource_guard_enable: false
+                ip_directed_broadcast: false
+                intra_subnet_routing_enabled: false
+                multiple_ip_to_mac_addresses: false
+                supplicant_based_extended_node_onboarding: false
+                group_policy_enforcement_enabled: true
+                flooding_address_assignment: CUSTOM
+                flooding_address: 239.0.0.1
+                auto_generate_vlan_name: true
+
+    - name: Update Anycast gateway with shared flooding address
+        and resource guard enabled in Cisco Catalyst Center.
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: false
+        state: merged
+        config:
+          - anycast_gateways:
+              - vn_name: VN_Test
+                fabric_site_location:
+                  site_name_hierarchy: Global/India
+                  fabric_type: fabric_site
+                ip_pool_name: AB_Pool
+                flooding_address_assignment: SHARED
+                resource_guard_enable: true
+
     - name: Update the Anycast gateway(s) for SDA in Catalsyt
         Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2427,10 +2874,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: merged
         config:
@@ -2445,6 +2892,7 @@ Examples
                 is_critical_pool: false
                 layer2_flooding_enabled: false
                 multiple_ip_to_mac_addresses: false
+
     - name: Deleting Anycast Gateway from the Cisco Catalyst
         Center.
       cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
@@ -2452,10 +2900,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
-        catalystcenter_log_level: "{{log_level}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
         catalystcenter_log: false
         state: deleted
         config:

@@ -42,7 +42,7 @@ cisco.catalystcenter.user_info module -- Information module for User
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -85,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -138,44 +138,6 @@ Parameters
       AuthSource query parameter. The source that authenticates the user. The value of this query parameter can be set to "internal" or "external". If not provided, then all users will be returned in the response.
           
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.user_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -294,6 +256,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.user_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
       .. _ansible_collections.cisco.catalystcenter.user_info_module__parameter-catalystcenter_username:
@@ -403,7 +403,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -437,41 +437,6 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-invokeSource"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.user_info_module__parameter-invokesource:
-
-      .. rst-class:: ansible-option-title
-
-      **invokeSource**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-invokeSource" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      InvokeSource query parameter. The source that invokes this API. The value of this query parameter must be set to "external".
-          
 
 
       .. raw:: html
@@ -530,7 +495,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are userand\_roles.UserandRoles.get\_users\_api,
+   - SDK Method used are userand\_roles.UserandRoles.get\_users,
    - Paths used are get /dna/system/api/v1/user,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
@@ -543,8 +508,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for User and Roles GetUsersAPI <https://developer.cisco.com/docs/dna-center/#!get-users-api>`_
-       Complete reference of the GetUsersAPI API.
+   `Cisco DNA Center documentation for User and Roles GetUsers <https://developer.cisco.com/docs/dna-center/#!get-users>`_
+       Complete reference of the GetUsers API.
 
 .. Examples
 
@@ -561,11 +526,10 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
-        invokeSource: string
         authSource: string
       register: result
 
@@ -618,7 +582,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -628,7 +592,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"users": [{"authSource": "string", "email": "string", "firstName": "string", "lastName": "string", "passphraseUpdateTime": "string", "roleList": ["string"], "userId": "string", "username": "string"}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"users": [{"authSource": "string", "email": "string", "firstName": "string", "lastName": "string", "passphraseUpdateTime": "string", "rds": ["string"], "roleList": ["string"], "userId": "string", "username": "string"}]}`
 
 
       .. raw:: html

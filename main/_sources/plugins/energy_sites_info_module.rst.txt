@@ -42,7 +42,7 @@ cisco.catalystcenter.energy_sites_info module -- Information module for Energy S
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,12 @@ Synopsis
 
 .. Description
 
-- Get all Energy Sites. - \> Retrieves a list of sites with energy data based on the specified query parameters. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- sitesEnergy-1.0.1-resolved.yaml.
+- Get all Energy Sites.
+- Get Energy Sites by id.
+- Retrieve the energy summary data for a specific site based on the site ID.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-sitesEnergy-1.0.1-resolved.yaml.
+- Retrieves a list of sites with energy data based on the specified query parameters.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-sitesEnergy-1.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +89,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -137,44 +142,6 @@ Parameters
       Attribute query parameter. Supported Attributes id, siteHierarchy, siteHierarchyId, siteType, latitude, longitude, energyConsumed, estimatedCost, estimatedEmission, carbonIntensity, numberOfDevices If length of attribute list is too long, please use 'view' param instead. Examples attribute=siteHierarchy (single attribute requested) attribute=siteHierarchy&attribute=energyConsumed (multiple attributes requested).
           
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.energy_sites_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -293,6 +260,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.energy_sites_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
       .. _ansible_collections.cisco.catalystcenter.energy_sites_info_module__parameter-catalystcenter_username:
@@ -402,7 +407,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -515,6 +520,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.energy_sites_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The UUID of the Site. (Ex. "6bef213c-19ca-4170-8375-b694e251101c").
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.catalystcenter.energy_sites_info_module__parameter-limit:
@@ -529,7 +568,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -563,7 +602,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -981,8 +1020,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_sites\_energy,
-   - Paths used are get /dna/data/api/v1/energy/sites,
+   - SDK Method used are sites.Sites.get\_site\_energy\_by\_id, sites.Sites.get\_sites\_energy,
+   - Paths used are get /dna/data/api/v1/energy/sites, get /dna/data/api/v1/energy/sites/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
@@ -994,6 +1033,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Sites GetSiteEnergyByID <https://developer.cisco.com/docs/dna-center/#!get-site-energy-by-id>`_
+       Complete reference of the GetSiteEnergyByID API.
    `Cisco DNA Center documentation for Sites GetSitesEnergy <https://developer.cisco.com/docs/dna-center/#!get-sites-energy>`_
        Complete reference of the GetSitesEnergy API.
 
@@ -1012,7 +1053,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -1031,6 +1072,24 @@ Examples
         views: string
         attribute: string
         taskId: string
+      register: result
+    - name: Get Energy Sites by id
+      cisco.catalystcenter.energy_sites_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        startTime: 0
+        endTime: 0
+        views: string
+        attribute: string
+        deviceCategory: string
+        taskId: string
+        id: string
       register: result
 
 
@@ -1082,7 +1141,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -1092,7 +1151,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"carbonIntensity": 0, "deviceCategories": ["string"], "energyConsumed": 0, "estimatedCost": 0, "estimatedEmission": 0, "id": "string", "latitude": 0, "longitude": 0, "numberOfDevices": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "siteName": "string", "siteType": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"carbonIntensity": 0, "deviceCategories": ["string"], "energyConsumed": 0, "estimatedCost": 0, "estimatedEmission": 0, "id": "string", "latitude": 0, "longitude": 0, "numberOfDevices": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "siteName": "string", "siteType": "string"}, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.catalystcenter.templates_template_id_network_profiles_for_sites module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,9 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Templates Template Id Network Profiles For Sites.
+- Manage operations create and delete of the resource Templates Template Id Network Profiles For Sites.
 - Attaches a network profile to a Day-N CLI template by passing the profile ID and template ID.
+- Detach a network profile from a Day-N CLI template by the profile ID and template ID.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +86,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -107,44 +108,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.templates_template_id_network_profiles_for_sites_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -251,6 +214,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.templates_template_id_network_profiles_for_sites_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -368,7 +369,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -494,8 +495,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.attach\_network\_profile\_to\_a\_day\_n\_cli\_template,
-   - Paths used are post /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.attach\_network\_profile\_to\_a\_day\_n\_cli\_template, configuration\_templates.ConfigurationTemplates.detach\_a\_network\_profile\_from\_a\_day\_n\_cli\_template,
+   - Paths used are post /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites, delete /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites/{profileId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
@@ -509,6 +510,8 @@ See Also
 
    `Cisco DNA Center documentation for Configuration Templates AttachNetworkProfileToADayNCLITemplate <https://developer.cisco.com/docs/dna-center/#!attach-network-profile-to-a-day-ncli-template>`_
        Complete reference of the AttachNetworkProfileToADayNCLITemplate API.
+   `Cisco DNA Center documentation for Configuration Templates DetachANetworkProfileFromADayNCLITemplate <https://developer.cisco.com/docs/dna-center/#!detach-a-network-profile-from-a-day-ncli-template>`_
+       Complete reference of the DetachANetworkProfileFromADayNCLITemplate API.
 
 .. Examples
 
@@ -525,10 +528,22 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
+        profileId: string
+        templateId: string
+    - name: Delete by id
+      cisco.catalystcenter.templates_template_id_network_profiles_for_sites:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
         profileId: string
         templateId: string
 
@@ -581,7 +596,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -591,7 +606,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"count": 0}, "version": "string"}`
 
 
       .. raw:: html

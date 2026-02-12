@@ -42,7 +42,7 @@ cisco.catalystcenter.energy_network_devices_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,12 @@ Synopsis
 
 .. Description
 
-- Get all Energy Network Devices. - \> Retrieves a list of network devices with energy data based on the specified query parameters. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- deviceEnergy\_1.0-1.0.1-resolved.yaml.
+- Get all Energy Network Devices.
+- Get Energy Network Devices by id.
+- Retrieves a list of network devices with energy data based on the specified query parameters.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-deviceEnergy\_1.0-1.0.1-resolved.yaml.
+- Retrieves network device energy data for a specified time range based on the device ID.
+- For detailed information about the usage of the API, please refer to the Open API specification document https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/ CE\_Cat\_Center\_Org-deviceEnergy\_1.0-1.0.1-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +89,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -137,44 +142,6 @@ Parameters
       Attribute query parameter. List of attributes. Please refer to \`NetworkDeviceEnergyAttribute\` for supported list of attributes Examples \`attribute=id&attribute=energyConsumed\`.
           
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.energy_network_devices_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -293,6 +260,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.energy_network_devices_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
       .. _ansible_collections.cisco.catalystcenter.energy_network_devices_info_module__parameter-catalystcenter_username:
@@ -402,7 +407,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -634,7 +639,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -946,8 +951,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_devices\_energy,
-   - Paths used are get /dna/data/api/v1/energy/networkDevices,
+   - SDK Method used are devices.Devices.get\_device\_energy\_by\_id, devices.Devices.get\_devices\_energy,
+   - Paths used are get /dna/data/api/v1/energy/networkDevices, get /dna/data/api/v1/energy/networkDevices/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
@@ -959,6 +964,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Devices GetDeviceEnergyByID <https://developer.cisco.com/docs/dna-center/#!get-device-energy-by-id>`_
+       Complete reference of the GetDeviceEnergyByID API.
    `Cisco DNA Center documentation for Devices GetDevicesEnergy <https://developer.cisco.com/docs/dna-center/#!get-devices-energy>`_
        Complete reference of the GetDevicesEnergy API.
 
@@ -977,7 +984,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -995,6 +1002,22 @@ Examples
         deviceSubCategory: string
         view: string
         attribute: string
+      register: result
+    - name: Get Energy Network Devices by id
+      cisco.catalystcenter.energy_network_devices_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        startTime: 0
+        endTime: 0
+        view: string
+        attribute: string
+        id: string
       register: result
 
 
@@ -1046,7 +1069,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -1056,7 +1079,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "cursor": "string", "limit": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"carbonIntensity": 0, "deviceCategory": "string", "deviceName": "string", "deviceSubCategory": "string", "energyConsumed": 0, "estimatedCost": 0, "estimatedEmission": 0, "id": "string", "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"carbonIntensity": 0, "deviceCategory": "string", "deviceName": "string", "deviceSubCategory": "string", "energyConsumed": 0, "estimatedCost": 0, "estimatedEmission": 0, "id": "string", "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string"}, "version": "string"}`
 
 
       .. raw:: html

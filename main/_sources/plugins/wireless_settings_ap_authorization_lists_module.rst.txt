@@ -42,7 +42,7 @@ cisco.catalystcenter.wireless_settings_ap_authorization_lists module -- Resource
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,10 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Settings Ap Authorization Lists.
+- Manage operations create, update and delete of the resource Wireless Settings Ap Authorization Lists.
 - This API allows the user to create an AP Authorization List.
+- This API allows the user to delete an AP Authorization List.
+- This API allows the user to update an AP Authorization List.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +87,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -137,44 +139,6 @@ Parameters
 
       AP Authorization List Name. For a AP Authorization List to be created successfully, either Local Authorization or Remote Authorization is mandatory.
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_authorization_lists_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -293,6 +257,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_authorization_lists_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
       .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_authorization_lists_module__parameter-catalystcenter_username:
@@ -402,7 +404,41 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wireless_settings_ap_authorization_lists_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. AP Authorization List ID.
+
 
       .. raw:: html
 
@@ -572,7 +608,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of Authorization server IpAddresses. Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
+      List of Authorization server IpAddresses.
+
+      Obtain the AAA servers by using the API GET call '/dna/intent/api/v1/authentication-policy-servers'.
 
 
       .. raw:: html
@@ -606,7 +644,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
+      true if AP Authorization List should authorise APs With MAC addresses, else False. (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
 
 
       .. rst-class:: ansible-option-line
@@ -648,7 +686,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      True if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers, else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
+      true if server IpAddresses are added and AP Authorization List should authorise APs With Serial Numbers, else False (For Non-Mesh Access Points, either of Authorize AP With MAC Address or Serial Number is required to be set to true).
 
 
       .. rst-class:: ansible-option-line
@@ -716,8 +754,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_ap\_authorization\_list,
-   - Paths used are post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
+   - SDK Method used are wireless.Wireless.create\_ap\_authorization\_list, wireless.Wireless.delete\_ap\_authorization\_list, wireless.Wireless.update\_ap\_authorization\_list,
+   - Paths used are post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists, delete /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id}, put /dna/intent/api/v1/wirelessSettings/apAuthorizationLists/{id},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
@@ -731,6 +769,10 @@ See Also
 
    `Cisco DNA Center documentation for Wireless CreateAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list>`_
        Complete reference of the CreateAPAuthorizationList API.
+   `Cisco DNA Center documentation for Wireless DeleteAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list>`_
+       Complete reference of the DeleteAPAuthorizationList API.
+   `Cisco DNA Center documentation for Wireless UpdateAPAuthorizationList <https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list>`_
+       Complete reference of the UpdateAPAuthorizationList API.
 
 .. Examples
 
@@ -747,11 +789,44 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         state: present
         apAuthorizationListName: string
+        localAuthorization:
+          apMacEntries:
+            - string
+          apSerialNumberEntries:
+            - string
+        remoteAuthorization:
+          aaaServers:
+            - string
+          authorizeApWithMac: true
+          authorizeApWithSerialNumber: true
+    - name: Delete by id
+      cisco.catalystcenter.wireless_settings_ap_authorization_lists:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: absent
+        id: string
+    - name: Update by id
+      cisco.catalystcenter.wireless_settings_ap_authorization_lists:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: present
+        apAuthorizationListName: string
+        id: string
         localAuthorization:
           apMacEntries:
             - string
@@ -812,7 +887,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line

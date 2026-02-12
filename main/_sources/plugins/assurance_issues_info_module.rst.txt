@@ -42,7 +42,7 @@ cisco.catalystcenter.assurance_issues_info module -- Information module for Assu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,14 @@ Synopsis
 .. Description
 
 - Get all Assurance Issues.
-- Get Assurance Issues by id. - \> Returns all details of each issue along with suggested actions for given set of filters specified in query parameters. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. All string type query parameters support wildcard search using \*. For example siteHierarchy=Global/San Jose/\* returns issues under all sites whole siteHierarchy starts with "Global/San Jose/". Https //github.com/cisco-en-programmability/catalyst-center-api- specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml. - \> Returns all the details and suggested actions of an issue for the given issue id. Https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- IssuesList-1.0.0-resolved.yaml.
+- Get Assurance Issues by id.
+- Returns all details of each issue along with suggested actions for given set of filters specified in query parameters.
+- If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time.
+- All string type query parameters support wildcard search using \*.
+- For example siteHierarchy=Global/San Jose/\* returns issues under all sites whose siteHierarchy starts with "Global/San Jose/".
+- For detailed information, refer to https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
+- Returns all the details and suggested actions of an issue for the given issue id.
+- For detailed information, refer to https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +92,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -180,44 +187,6 @@ Parameters
       Attribute query parameter. List of attributes related to the issue. If these are provided, then only those attributes will be part of response along with the default attributes. Please refer to the \`IssuesResponseAttribute\` Model for supported attributes. Examples \`attribute=deviceType\` (single attribute requested) \`attribute=deviceType&attribute=updatedBy\` (multiple attributes requested).
           
 
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.assurance_issues_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -336,6 +305,44 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.assurance_issues_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
 
       .. _ansible_collections.cisco.catalystcenter.assurance_issues_info_module__parameter-catalystcenter_username:
@@ -445,7 +452,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -1062,7 +1069,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1236,7 +1243,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -1757,7 +1764,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -1802,7 +1809,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -1860,7 +1867,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -1870,7 +1877,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": [{}]}], "summary": "string", "updatedBy": "string", "updatedTime": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalAttributes": [{"key": "string", "value": "string"}], "category": "string", "description": "string", "deviceType": "string", "entityId": "string", "entityType": "string", "firstOccurredTime": 0, "isGlobal": true, "issueId": "string", "mostRecentOccurredTime": 0, "name": "string", "notes": {}, "priority": "string", "severity": "string", "siteHierarchy": {}, "siteHierarchyId": {}, "siteId": {}, "siteName": {}, "status": "string", "suggestedActions": [{"message": "string", "steps": ["string"]}], "summary": "string", "updatedBy": "string", "updatedTime": 0}, "version": "string"}`
 
 
       .. raw:: html

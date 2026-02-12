@@ -42,7 +42,7 @@ cisco.catalystcenter.wired_network_devices_network_device_id_config_features_int
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,15 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wired Network Devices Network Device Id Config Features Intended Configuration Models. - \> Create a configuration model for the intended configs for a wired device. This is a pre-requisite to preview the generated device config for the provisioning intent. This is mandatory if the provisioning settings require Preview or ITSM Approval before deploying configurations on network devices. The API /intent/api/v1/provisioningSettings can be used to get or update provisioning settings. This API is 'Step 1' in the following workflow - Step 1- Use 'POST /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels' to start the provision of intended features. The response has a taskId which is the previewActivityId in all subsequent APIs. The task must be successfully complete before proceeding to the next step. It is not recommended to proceed when there is any task failure in this step. The API 'DELETE /intent/api/v1/wired/networkDevices/{netw orkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}' can be used at any step to discard/cancel the provision of intended features. Step 2- Use 'POST /intent/api/v1/wired/networkDevices/{netw orkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/ config' to generate device CLIs for preview. The response has a task ID. The task must be successfully complete before using the GET API to view CLIs. It is not recommended to proceed when there is any task failures in this step. The API 'DELETE /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/in tended/configurationModels/{previewActivityId}' can be used at any step to discard/cancel the provision of intended features. Step 3- Use 'GET /intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/inten ded/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config' to view the CLIs that will be applied to the device. Step 4- Use 'POST /intent/api/v1/wired/networkDevices/{networkDeviceId}/configF eatures/intended/configurationModels/{previewActivityId}/deploy' to deploy the intent to the device.
+- Manage operation create of the resource Wired Network Devices Configuration Models.
+- Create a configuration model for the intended configs for a wired device.
+- This is a pre-requisite to preview the generated device config for the provisioning intent.
+- This is mandatory if the provisioning settings require Preview or ITSM Approval before deploying.
+- This API is 'Step 1' in the workflow.
+- Step 1 Use POST configurationModels to start provision, response has taskId as previewActivityId.
+- Step 2 Use POST config to generate device CLIs for preview.
+- Step 3 Use GET config to view the CLIs that will be applied to the device.
+- Step 4 Use POST deploy to deploy the intent to the device.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +92,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -106,44 +114,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -250,6 +220,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -367,7 +375,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -490,7 +498,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         networkDeviceId: string
@@ -544,7 +552,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line

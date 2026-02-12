@@ -42,7 +42,7 @@ cisco.catalystcenter.ipam_global_ip_address_pools_info module -- Information mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.2.2).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -68,7 +68,8 @@ Synopsis
 
 .. Description
 
-- Get all Ipam Global Ip Address Pools. - \> Retrieves global IP address pools. Global pools are not associated with any particular site, but may have portions of their address space reserved by site-specific subpools.
+- Get all Ipam Global Ip Address Pools.
+- Get Ipam Global Ip Address Pools by id. - \> Retrieves a global IP address pool. Global pools are not associated with any particular site, but may have portions of their address space reserved by site-specific subpools. - \> Retrieves global IP address pools. Global pools are not associated with any particular site, but may have portions of their address space reserved by site-specific subpools.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -84,8 +85,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.3.0.0
-- python \>= 3.5
+- catalystcentersdk \>= 3.1.6.0.0
+- python \>= 3.12
 
 
 
@@ -106,44 +107,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
-
-      .. _ansible_collections.cisco.catalystcenter.ipam_global_ip_address_pools_info_module__parameter-catalystcenter_api_port:
-
-      .. rst-class:: ansible-option-title
-
-      **catalystcenter_api_port**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-catalystcenter_api_port" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The Cisco Catalyst Center port.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -250,6 +213,44 @@ Parameters
 
       The Cisco Catalyst Center password to authenticate.
 
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.ipam_global_ip_address_pools_info_module__parameter-catalystcenter_port:
+
+      .. rst-class:: ansible-option-title
+
+      **catalystcenter_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco Catalyst Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
 
       .. raw:: html
 
@@ -367,7 +368,7 @@ Parameters
 
       .. rst-class:: ansible-option-line
 
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"3.1.6.0"`
 
       .. raw:: html
 
@@ -410,6 +411,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.ipam_global_ip_address_pools_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The \`id\` of the global IP address pool to retrieve.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.catalystcenter.ipam_global_ip_address_pools_info_module__parameter-limit:
@@ -424,7 +459,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -458,7 +493,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`float`
+      :ansible-option-type:`integer`
 
       .. raw:: html
 
@@ -595,8 +630,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.retrieves\_global\_ip\_address\_pools,
-   - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools,
+   - SDK Method used are network\_settings.NetworkSettings.retrieves\_a\_global\_ip\_address\_pool, network\_settings.NetworkSettings.retrieves\_global\_ip\_address\_pools,
+   - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools, get /dna/intent/api/v1/ipam/globalIpAddressPools/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins,
    - but instead uses the embedded connection manager from Cisco CATALYST SDK
@@ -608,6 +643,8 @@ See Also
 
 .. seealso::
 
+   `Cisco DNA Center documentation for Network Settings RetrievesAGlobalIPAddressPool <https://developer.cisco.com/docs/dna-center/#!retrieves-a-global-ip-address-pool>`_
+       Complete reference of the RetrievesAGlobalIPAddressPool API.
    `Cisco DNA Center documentation for Network Settings RetrievesGlobalIPAddressPools <https://developer.cisco.com/docs/dna-center/#!retrieves-global-ip-address-pools>`_
        Complete reference of the RetrievesGlobalIPAddressPools API.
 
@@ -626,7 +663,7 @@ Examples
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         headers: "{{my_headers | from_json}}"
@@ -634,6 +671,18 @@ Examples
         limit: 0
         sortBy: string
         order: string
+      register: result
+    - name: Get Ipam Global Ip Address Pools by id
+      cisco.catalystcenter.ipam_global_ip_address_pools_info:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -685,7 +734,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -695,7 +744,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"addressSpace": {"assignedAddresses": "string", "defaultAssignedAddresses": "string", "dhcpServers": ["string"], "dnsServers": ["string"], "gatewayIpAddress": "string", "prefixLength": 0, "subnet": "string", "totalAddresses": "string", "unassignableAddresses": "string"}, "id": "string", "name": "string", "poolType": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"addressSpace": {"assignedAddresses": "string", "defaultAssignedAddresses": "string", "dhcpServers": ["string"], "dnsServers": ["string"], "gatewayIpAddress": "string", "prefixLength": 0, "subnet": "string", "totalAddresses": "string", "unassignableAddresses": "string"}, "id": "string", "name": "string", "poolType": "string"}, "version": "string"}`
 
 
       .. raw:: html
