@@ -10,8 +10,9 @@ module: backups_info
 short_description: Information module for Backups
 description:
   - Get all Backups.
-  - This api is used to get all the backup available
-    in the configured storage.
+  - Get Backups by id.
+  - This api is used to get a specific backup based on the provided `backup id`.
+  - This api is used to get all the backup available in the configured storage.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,44 +23,47 @@ options:
     type: dict
   query:
     description:
-      - Query query parameter. Filter based on the provided
-        text on predefined fields.
+      - Query query parameter. Filter based on the provided text on predefined fields.
     type: str
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page.
+      - Offset query parameter. The first record to show for this page.
     type: int
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page.
+      - Limit query parameter. The number of records to show for this page.
     type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-      - Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response.
+      - >
+        Order query parameter. Whether ascending or descending order should be used to sort the response.Use
+        `asc` for ascending and `desc` for descending order .
+    type: str
+  id:
+    description:
+      - Id path parameter. The `id` of the backup to be retrieved.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup
-      GetAllBackup
-    description: Complete reference of the GetAllBackup
-      API.
+  - name: Cisco DNA Center documentation for Backup GetAllBackup
+    description: Complete reference of the GetAllBackup API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-backup
+  - name: Cisco DNA Center documentation for Backup GetBackupById
+    description: Complete reference of the GetBackupById API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-backup-by-id
 notes:
   - SDK Method used are
     backup.Backup.get_all_backup,
+    backup.Backup.get_backup_by_id,
   - Paths used are
     get /dna/system/api/v1/backups,
+    get /dna/system/api/v1/backups/{id},
 """
 
 EXAMPLES = r"""
@@ -70,7 +74,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -80,61 +84,79 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
+- name: Get Backups by id
+  cisco.catalystcenter.backups_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "filter": {},
-      "page": {},
-      "response": [
-        {
-          "compatibilityError": [
-            {
-              "endDate": "string",
-              "namespace": "string",
-              "response": {},
-              "serviceName": "string",
-              "startDate": "string"
-            }
-          ],
-          "context": {},
-          "createdBy": "string",
-          "createdDate": "string",
-          "duration": 0,
-          "endDate": "string",
-          "fipsEnabled": true,
+      "response": {
+        "compatibilityError": [
+          {
+            "endDate": "string",
+            "namespace": "string",
+            "response": {},
+            "serviceName": "string",
+            "startDate": "string"
+          }
+        ],
+        "context": {
+          "schedule": "string",
+          "type": "string"
+        },
+        "createdBy": "string",
+        "createdDate": "string",
+        "duration": 0,
+        "endDate": "string",
+        "fipsEnabled": true,
+        "id": "string",
+        "installedPackages": [
+          {
+            "displayName": "string",
+            "name": "string",
+            "version": "string"
+          }
+        ],
+        "internetProtocolVersion": "string",
+        "isBackupAvailable": true,
+        "isCompatible": true,
+        "name": "string",
+        "numberOfNodes": 0,
+        "productType": "string",
+        "productVersion": "string",
+        "releaseDisplayName": "string",
+        "releaseDisplayVersion": "string",
+        "releaseName": "string",
+        "releaseVersion": "string",
+        "scope": "string",
+        "size": 0,
+        "status": "string",
+        "storage": {
+          "host": "string",
           "id": "string",
-          "installedPackages": [
-            {
-              "displayName": "string",
-              "name": "string",
-              "version": "string"
-            }
-          ],
-          "internetProtocolVersion": "string",
-          "isBackupAvailable": true,
-          "isCompatible": true,
+          "mountPath": "string",
           "name": "string",
-          "numberOfNodes": 0,
-          "productType": "string",
-          "productVersion": "string",
-          "releaseDisplayName": "string",
-          "releaseDisplayVersion": "string",
-          "releaseName": "string",
-          "releaseVersion": "string",
-          "scope": "string",
-          "size": 0,
-          "status": "string",
-          "storage": {},
-          "versions": [
-            "string"
-          ]
-        }
-      ],
+          "serverPath": "string",
+          "type": "string"
+        },
+        "versions": [
+          "string"
+        ]
+      },
       "version": "string"
     }
 """

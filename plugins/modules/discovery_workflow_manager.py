@@ -133,7 +133,7 @@ options:
                 description: Password for CLI authentication,
                   mandatory when using CLI credential.
                 type: str
-              enablepassword:
+              enable_password:
                 description: Enable password for CLI
                   authentication, mandatory when using
                   CLI credential.
@@ -258,7 +258,7 @@ options:
                 type: str
                 choices: ['AUTHPRIV', 'AUTHNOPRIV',
                   'NOAUTHNOPRIV']
-              authpassword:
+              auth_password:
                 description:
                   - Authentication Password of the SNMP
                     v3 protocol to be used.
@@ -287,7 +287,7 @@ options:
                     NOAUTHNOPRIV snmp_mode.
                 type: str
                 choices: ['AES128', 'AES192', 'AES256']
-              privacypassword:
+              privacy_password:
                 description:
                   - Privacy password of the SNMP v3
                     protocol to be used in AUTHPRIV
@@ -474,11 +474,11 @@ options:
         type: bool
         default: false
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk == 2.6.10
   - python >= 3.9
 notes:
   - SDK Method used are
-    discovery.Discovery.get_all_global_credentials_v2,
+    discovery.Discovery.get_all_global_credentials,
     discovery.Discovery.start_discovery,
     task.Task.get_task_by_id,
     discovery.Discovery.get_discoveries_by_range,
@@ -503,11 +503,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     state: merged
     config_verify: true
     config:
@@ -523,7 +523,7 @@ EXAMPLES = r"""
           cli_credentials_list:
             - username: cisco
               password: Cisco123
-              enablepassword: Cisco123
+              enable_password: Cisco123
           http_read_credential:
             username: cisco
             password: Cisco123
@@ -544,9 +544,9 @@ EXAMPLES = r"""
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            authpassword: Lablab123
+            auth_password: Lablab123
             privacy_type: AES256
-            privacypassword: Lablab123
+            privacy_password: Lablab123
           net_conf_port: 750
         global_credentials:
           cli_credentials_list:
@@ -581,11 +581,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     state: merged
     config_verify: true
     config:
@@ -598,7 +598,7 @@ EXAMPLES = r"""
           cli_credentials_list:
             - username: cisco
               password: Cisco123
-              enablepassword: Cisco123
+              enable_password: Cisco123
           http_read_credential:
             username: cisco
             password: Cisco123
@@ -619,9 +619,9 @@ EXAMPLES = r"""
             username: v3Public2
             snmp_mode: AUTHPRIV
             auth_type: SHA
-            authpassword: Lablab123
+            auth_password: Lablab123
             privacy_type: AES256
-            privacypassword: Lablab123
+            privacy_password: Lablab123
           net_conf_port: 750
         use_global_credentials: false
         start_index: 1
@@ -636,11 +636,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     state: merged
     config_verify: true
     config:
@@ -683,11 +683,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     state: merged
     config_verify: true
     config:
@@ -710,11 +710,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     state: deleted
     config_verify: true
     config:
@@ -758,7 +758,7 @@ response_3:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -936,7 +936,7 @@ class Discovery(CatalystCenterBase):
         are passed as input.
 
         Parameters:
-            - response: The response collected from the get_all_global_credentials_v2 API
+            - response: The response collected from the get_all_global_credentials API
 
         Returns:
             - global_credentials_all  : The dictionary containing list of IDs of various types of
@@ -1160,7 +1160,7 @@ class Discovery(CatalystCenterBase):
     def get_ccc_global_credentials_v2_info(self):
         """
         Retrieve the global credentials information (version 2).
-        It applies the 'get_all_global_credentials_v2' function and extracts
+        It applies the 'get_all_global_credentials' function and extracts
         the IDs of the credentials. If no credentials are found, the
         function fails with a message.
 
@@ -1173,7 +1173,7 @@ class Discovery(CatalystCenterBase):
 
         response = self.dnac_apply["exec"](
             family="discovery",
-            function="get_all_global_credentials_v2",
+            function="get_all_global_credentials",
             params=self.validated_config[0].get("headers"),
             op_modifies=True,
         )
@@ -2207,18 +2207,19 @@ def main():
 
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},

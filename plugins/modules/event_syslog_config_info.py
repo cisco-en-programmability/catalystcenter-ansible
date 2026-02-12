@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: event_syslog_config_info
-short_description: Information module for Event Syslog
-  Config
+short_description: Information module for Event Syslog Config
 description:
   - Get all Event Syslog Config.
   - Get Syslog Destination.
@@ -22,8 +21,7 @@ options:
     type: dict
   configId:
     description:
-      - ConfigId query parameter. Config id of syslog
-        server.
+      - ConfigId query parameter. Config id of syslog server.
     type: str
   name:
     description:
@@ -31,21 +29,16 @@ options:
     type: str
   protocol:
     description:
-      - Protocol query parameter. Protocol of syslog
-        server.
+      - Protocol query parameter. Protocol of syslog server.
     type: str
   offset:
     description:
-      - Offset query parameter. The number of syslog
-        configuration's to offset in the resultset whose
-        default value 0.
-    type: float
+      - Offset query parameter. The number of syslog configuration's to offset in the resultset whose default value 0.
+    type: int
   limit:
     description:
-      - Limit query parameter. The number of syslog
-        configuration's to limit in the resultset whose
-        default value 10.
-    type: float
+      - Limit query parameter. The number of syslog configuration's to limit in the resultset whose default value 10.
+    type: int
   sortBy:
     description:
       - SortBy query parameter. SortBy field name.
@@ -55,13 +48,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetSyslogDestination
-    description: Complete reference of the GetSyslogDestination
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetSyslogDestination
+    description: Complete reference of the GetSyslogDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!get-syslog-destination
 notes:
   - SDK Method used are
@@ -78,7 +69,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -93,7 +84,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -108,12 +99,21 @@ dnac_response:
         {
           "version": "string",
           "tenantId": "string",
-          "configId": "string",
+          "webhookId": "string",
           "name": "string",
           "description": "string",
-          "host": "string",
-          "port": 0,
-          "protocol": "string"
+          "url": "string",
+          "method": "string",
+          "trustCert": true,
+          "headers": [
+            {
+              "name": "string",
+              "value": "string",
+              "defaultValue": "string",
+              "encrypt": true
+            }
+          ],
+          "isProxyRoute": true
         }
       ]
     }

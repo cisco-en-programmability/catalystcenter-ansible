@@ -21,32 +21,26 @@ options:
     type: dict
   siteType:
     description:
-      - SiteType query parameter. Site type AREA or
-        BUILDING (case insensitive).
+      - SiteType query parameter. Site type AREA or BUILDING (case insensitive).
     type: str
   offset:
     description:
-      - Offset query parameter. Offset of the first
-        returned data set entry (Multiple of 'limit'
-        + 1).
-    type: float
+      - Offset query parameter. Offset of the first returned data set entry (Multiple of 'limit' + 1).
+    type: int
   limit:
     description:
-      - Limit query parameter. Max number of data entries
-        in the returned data set 1,50. Default is 25.
-    type: float
+      - Limit query parameter. Max number of data entries in the returned data set 1,50. Default is 25.
+    type: int
   timestamp:
     description:
-      - Timestamp query parameter. Epoch time(in milliseconds)
-        when the Site Hierarchy data is required.
+      - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetSiteHealth
-    description: Complete reference of the GetSiteHealth
-      API.
+    description: Complete reference of the GetSiteHealth API.
     link: https://developer.cisco.com/docs/dna-center/#!get-site-health
 notes:
   - SDK Method used are
@@ -63,7 +57,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -75,7 +69,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

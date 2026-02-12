@@ -20,7 +20,7 @@ options:
           - The hostname of the Cisco Catalyst Center.
         type: str
         required: true
-    catalystcenter_api_port:
+    catalystcenter_port:
         description:
           - Specifies the port number associated with the Cisco Catalyst Center.
         type: str
@@ -30,6 +30,7 @@ options:
           - The username for authentication at the Cisco Catalyst Center.
         type: str
         default: admin
+        aliases: [ user ]
     catalystcenter_password:
         description:
           - The password for authentication at the Cisco Catalyst Center.
@@ -43,7 +44,7 @@ options:
         description:
           - Specifies the version of the Cisco Catalyst Center that the SDK should use.
         type: str
-        default: 2.2.3.3
+        default: 2.3.7.6
     catalystcenter_debug:
         description:
           - Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.

@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list_info
-short_description: Information module for Security Threats
-  Rogue Allowed-List
+short_description: Information module for Security Threats Rogue Allowed-List
 description:
   - Get all Security Threats Rogue Allowed-List.
-  - Intent API to fetch all the allowed mac addresses
-    in the system.
+  - Intent API to fetch all the allowed mac addresses in the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,25 +21,20 @@ options:
     type: dict
   offset:
     description:
-      - Offset query parameter. The offset of the first
-        item in the collection to return.
-    type: float
+      - Offset query parameter. The offset of the first item in the collection to return.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The maximum number of
-        entries to return. If the value exceeds the
-        total count, then the maximum entries will be
-        returned.
-    type: float
+        Limit query parameter. The maximum number of entries to return. If the value exceeds the total count,
+        then the maximum entries will be returned.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      GetAllowedMacAddress
-    description: Complete reference of the GetAllowedMacAddress
-      API.
+  - name: Cisco DNA Center documentation for Devices GetAllowedMacAddress
+    description: Complete reference of the GetAllowedMacAddress API.
     link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address
 notes:
   - SDK Method used are
@@ -53,12 +46,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Get all Security Threats Rogue Allowed-List
-  cisco.catalystcenter.security_threats_rogue_allowed-list_info:
+  cisco.catalystcenter.security_threats_rogue_allowed_list_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -68,7 +61,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

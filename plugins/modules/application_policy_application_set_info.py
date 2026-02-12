@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: application_policy_application_set_info
-short_description: Information module for Application
-  Policy Application Set
+short_description: Information module for Application Policy Application Set
 description:
   - Get all Application Policy Application Set.
   - Get application set/s by offset/limit or by name.
@@ -22,8 +21,7 @@ options:
     type: dict
   attributes:
     description:
-      - Attributes query parameter. Attributes to retrieve,
-        valid value applicationSet.
+      - Attributes query parameter. Attributes to retrieve, valid value applicationSet.
     type: str
   name:
     description:
@@ -31,25 +29,20 @@ options:
     type: str
   offset:
     description:
-      - Offset query parameter. The starting point or
-        index from where the paginated results should
-        begin.
-    type: float
+      - Offset query parameter. The starting point or index from where the paginated results should begin.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The limit which is the
-        maximum number of items to include in a single
-        page of results, max value 500.
-    type: float
+        Limit query parameter. The limit which is the maximum number of items to include in a single page of
+        results, max value 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application
-      Policy GetApplicationSetsV2
-    description: Complete reference of the GetApplicationSetsV2
-      API.
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationSetsV2
+    description: Complete reference of the GetApplicationSetsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-v-2
 notes:
   - SDK Method used are
@@ -66,7 +59,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -78,7 +71,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

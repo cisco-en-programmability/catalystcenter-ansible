@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: virtual_network_health_summaries_id_trend_analytics_info
-short_description: Information module for Virtual Network
-  Health Summaries Id Trend Analytics
+short_description: Information module for Virtual Network Health Summaries Id Trend Analytics
 description:
-  - Get all Virtual Network Health Summaries Id Trend
-    Analytics. - > Get health time series for a specific
-    Virtual Network by providing the unique Virtual
-    Network id in the url path. Layer 2 Virtual Networks
-    are only included in health reporting for EVPN protocol
-    deployments. The special Layer 3 VN called "INFRA_VN"
-    is also not included for user access through Assurance
+  - Get all Virtual Network Health Summaries Id Trend Analytics. - > Get health time series for a specific Virtual Network
+    by providing the unique Virtual Network id in the url path. Layer 2 Virtual Networks are only included in health reporting
+    for EVPN protocol deployments. The special Layer 3 VN called 'INFRA_VN' is also not included for user access through Assurance
     virtualNetworkHealthSummaries APIS.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -33,58 +28,45 @@ options:
   startTime:
     description:
       - >
-        StartTime query parameter. Start time from which
-        API queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        StartTime query parameter. Start time from which API queries the data set related to the resource. It
+        must be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
       - >
-        EndTime query parameter. End time to which API
-        queries the data set related to the resource.
-        It must be specified in UNIX epochtime in milliseconds.
-        Value is inclusive.
+        EndTime query parameter. End time to which API queries the data set related to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   trendInterval:
     description:
       - >
-        TrendInterval query parameter. The time window
-        to aggregate the metrics. Interval can be 5
-        minutes or 10 minutes or 1 hour or 1 day or
-        7 days.
+        TrendInterval query parameter. The time window to aggregate the metrics. Interval can be 5 minutes or 10
+        minutes or 1 hour or 1 day or 7 days.
     type: str
   limit:
     description:
-      - Limit query parameter. Maximum number of records
-        to return.
-    type: float
+      - Limit query parameter. Maximum number of records to return.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. Specifies the starting
-        point within all records returned by the API.
-        It's one based offset. The starting value is
-        1.
-    type: float
+        Offset query parameter. Specifies the starting point within all records returned by the API. It's one
+        based offset. The starting value is 1.
+    type: int
   order:
     description:
-      - Order query parameter. The sort order of the
-        field ascending or descending.
+      - Order query parameter. The sort order of the field ascending or descending.
     type: str
   attribute:
     description:
-      - Attribute query parameter. The interested fields
-        in the request. For valid attributes, verify
-        the documentation.
+      - Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRange
-    description: Complete reference of the TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRange
-      API.
+    description: Complete reference of the TheTrendAnalyticsDataForAVirtualNetworkInTheSpecifiedTimeRange API.
     link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-a-virtual-network-in-the-specified-time-range
 notes:
   - SDK Method used are
@@ -95,14 +77,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Virtual Network Health Summaries Id
-    Trend Analytics
+- name: Get all Virtual Network Health Summaries Id Trend Analytics
   cisco.catalystcenter.virtual_network_health_summaries_id_trend_analytics_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -118,7 +99,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

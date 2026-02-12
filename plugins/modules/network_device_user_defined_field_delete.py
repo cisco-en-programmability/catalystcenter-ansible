@@ -7,35 +7,27 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_user_defined_field_delete
-short_description: Resource module for Network Device
-  User Defined Field Delete
+short_description: Resource module for Network Device User Defined Field Delete
 description:
-  - Manage operation delete of the resource Network
-    Device User Defined Field Delete. - > Remove a User-Defined-Field
-    from device. Name of UDF has to be passed as the
-    query parameter. Please note that Global UDF will
-    not be deleted by this operation.
+  - Manage operation delete of the resource Network Device User Defined Field Delete. - > Remove a User-Defined-Field from
+    device. Name of UDF has to be passed as the query parameter. Please note that Global UDF will not be deleted by this operation.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: DeviceId path parameter. UUID of device
-      from which UDF has to be removed.
+    description: DeviceId path parameter. UUID of device from which UDF has to be removed.
     type: str
   name:
-    description: Name query parameter. Name of UDF to
-      be removed.
+    description: Name query parameter. Name of UDF to be removed.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      RemoveUserDefinedFieldFromDevice
-    description: Complete reference of the RemoveUserDefinedFieldFromDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices RemoveUserDefinedFieldFromDevice
+    description: Complete reference of the RemoveUserDefinedFieldFromDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-user-defined-field-from-device
 notes:
   - SDK Method used are
@@ -52,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     deviceId: string
@@ -60,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

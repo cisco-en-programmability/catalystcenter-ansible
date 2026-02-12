@@ -7,35 +7,27 @@
 DOCUMENTATION = r"""
 ---
 module: tags_interfaces_members_associations_query
-short_description: Resource module for Tags Interfaces
-  Members Associations Query
+short_description: Resource module for Tags Interfaces Members Associations Query
 description:
-  - Manage operation create of the resource Tags Interfaces
-    Members Associations Query. - > Fetches the tags
-    associated with the given interface `ids`. Interfaces
-    that don't have any tags associated will not be
-    included in the response. A tag is a user-defined
-    or system-defined construct to group resources.
-    When an interface is tagged, it is called a member
-    of the tag. `ids` can be fetched via `/dna/intent/api/v1/interface`
-    API.
+  - Manage operation create of the resource Tags Interfaces Members Associations Query. - > Fetches the tags associated with
+    the given interface `ids`. Interfaces that don't have any tags associated will not be included in the response. A tag
+    is a user-defined or system-defined construct to group resources. When an interface is tagged, it is called a member of
+    the tag. `ids` can be fetched via `/dna/intent/api/v1/interface` API.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   ids:
-    description: List of member ids (network device
-      or interface), maximum 500 ids can be passed.
+    description: List of member ids (network device or interface), maximum 500 ids can be passed.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag QueryTheTagsAssociatedWithInterfaces
-    description: Complete reference of the QueryTheTagsAssociatedWithInterfaces
-      API.
+    description: Complete reference of the QueryTheTagsAssociatedWithInterfaces API.
     link: https://developer.cisco.com/docs/dna-center/#!query-the-tags-associated-with-interfaces
 notes:
   - SDK Method used are
@@ -52,7 +44,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     ids:
@@ -60,7 +52,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

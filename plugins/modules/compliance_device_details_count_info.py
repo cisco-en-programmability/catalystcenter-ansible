@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: compliance_device_details_count_info
-short_description: Information module for Compliance
-  Device Details Count
+short_description: Information module for Compliance Device Details Count
 description:
   - Get all Compliance Device Details Count.
   - Return Compliance Count Detail.
@@ -23,29 +22,22 @@ options:
   complianceType:
     description:
       - >
-        ComplianceType query parameter. Specify "Compliance
-        type(s)" separated by commas. The Compliance
-        type can be 'APPLICATION_VISIBILITY', 'EOX',
-        'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS',
+        ComplianceType query parameter. Specify "Compliance type(s)" separated by commas. The Compliance type
+        can be 'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS',
         'PSIRT', 'RUNNING_CONFIG', 'WORKFLOW'.
     type: str
   complianceStatus:
     description:
       - >
-        ComplianceStatus query parameter. Specify "Compliance
-        status(es)" separated by commas. The Compliance
-        status can be 'COMPLIANT', 'NON_COMPLIANT',
-        'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
-        'ERROR'.
+        ComplianceStatus query parameter. Specify "Compliance status(es)" separated by commas. The Compliance
+        status can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetComplianceDetailCount
-    description: Complete reference of the GetComplianceDetailCount
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetComplianceDetailCount
+    description: Complete reference of the GetComplianceDetailCount API.
     link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail-count
 notes:
   - SDK Method used are
@@ -62,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -72,7 +64,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

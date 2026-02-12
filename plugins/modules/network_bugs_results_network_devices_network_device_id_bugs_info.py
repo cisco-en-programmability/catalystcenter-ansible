@@ -7,11 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_network_devices_network_device_id_bugs_info
-short_description: Information module for Network Bugs
-  Results Network Devices Network Device Id Bugs
+short_description: Information module for Network Bugs Results Network Devices Network Device Id Bugs
 description:
-  - Get all Network Bugs Results Network Devices Network
-    Device Id Bugs.
+  - Get all Network Bugs Results Network Devices Network Device Id Bugs.
+  - Get Network Bugs Results Network Devices Network Device Id Bugs by id.
+  - Get bug affecting the network device by device Id and bug id.
   - Get bugs affecting the network device.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -23,8 +23,7 @@ options:
     type: dict
   networkDeviceId:
     description:
-      - NetworkDeviceId path parameter. Id of the network
-        device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   id:
     description:
@@ -32,63 +31,58 @@ options:
     type: str
   severity:
     description:
-      - Severity query parameter. Return network bugs
-        with this severity. Available values CATASTROPHIC,
-        SEVERE, MODERATE.
+      - Severity query parameter. Return network bugs with this severity. Available values CATASTROPHIC, SEVERE, MODERATE.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Default value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. Default
+        value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Minimum value is 1. Maximum
-        value is 500. Default value is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
+        500. Default value is 500.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc. Default
-        value is asc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetBugsAffectingTheNetworkDevice
-    description: Complete reference of the GetBugsAffectingTheNetworkDevice
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetBugAffectingTheNetworkDeviceByDeviceIdAndBugId
+    description: Complete reference of the GetBugAffectingTheNetworkDeviceByDeviceIdAndBugId API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-bug-affecting-the-network-device-by-device-id-and-bug-id
+  - name: Cisco DNA Center documentation for Compliance GetBugsAffectingTheNetworkDevice
+    description: Complete reference of the GetBugsAffectingTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-bugs-affecting-the-network-device
 notes:
   - SDK Method used are
+    compliance.Compliance.get_bug_affecting_the_network_device_by_device_id_and_bug_id,
     compliance.Compliance.get_bugs_affecting_the_network_device,
   - Paths used are
     get /dna/intent/api/v1/networkBugs/results/networkDevices/{networkDeviceId}/bugs,
+    get /dna/intent/api/v1/networkBugs/results/networkDevices/{networkDeviceId}/bugs/{id},
 """
 
 EXAMPLES = r"""
 ---
-- name: Get all Network Bugs Results Network Devices
-    Network Device Id Bugs
+- name: Get all Network Bugs Results Network Devices Network Device Id Bugs
   cisco.catalystcenter.network_bugs_results_network_devices_network_device_id_bugs_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -100,31 +94,42 @@ EXAMPLES = r"""
     order: string
     networkDeviceId: string
   register: result
+- name: Get Network Bugs Results Network Devices Network Device Id Bugs by id
+  cisco.catalystcenter.network_bugs_results_network_devices_network_device_id_bugs_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    networkDeviceId: string
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "headline": "string",
-          "publicationUrl": "string",
-          "deviceCount": 0,
-          "severity": "string",
-          "hasWorkaround": true,
-          "workaround": "string",
-          "affectedVersions": [
-            "string"
-          ],
-          "integratedReleases": [
-            "string"
-          ]
-        }
-      ],
-      "version": "string"
+      "version": "string",
+      "response": {
+        "id": "string",
+        "headline": "string",
+        "publicationUrl": "string",
+        "deviceCount": 0,
+        "severity": "string",
+        "hasWorkaround": true,
+        "workaround": "string",
+        "affectedVersions": [
+          "string"
+        ],
+        "integratedReleases": [
+          "string"
+        ]
+      }
     }
 """

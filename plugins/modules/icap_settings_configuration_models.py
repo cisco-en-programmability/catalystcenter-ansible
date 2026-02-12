@@ -7,28 +7,23 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_configuration_models
-short_description: Resource module for Icap Settings
-  Configuration Models
+short_description: Resource module for Icap Settings Configuration Models
 description:
-  - Manage operation create of the resource Icap Settings
-    Configuration Models. - > This creates an ICAP configuration
-    intent for preview approval. The intent is not deployed
-    to the device until further preview-approve APIs
-    are applied. This API is the first step in the preview-approve
-    workflow, which consists of several APIs. Skipping
-    any API in the process is not recommended for a
-    complete preview-approve use case. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Icap Settings Configuration Models.
+  - This creates an ICAP configuration intent for preview approval.
+  - The intent is not deployed to the device until further preview-approve APIs are applied.
+  - This API is the first step in the preview-approve workflow, which consists of several APIs.
+  - Skipping any API in the process is not recommended for a complete preview-approve use case.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Icap Settings Configuration Models's
-      payload.
+    description: Icap Settings Configuration Models's payload.
     elements: dict
     suboptions:
       apId:
@@ -61,17 +56,14 @@ options:
         type: str
     type: list
   previewDescription:
-    description: PreviewDescription query parameter.
-      The ICAP intent's preview-deploy description string.
+    description: PreviewDescription query parameter. The ICAP intent's preview-deploy description string.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      CreatesAnICAPConfigurationIntentForPreviewApprove
-    description: Complete reference of the CreatesAnICAPConfigurationIntentForPreviewApprove
-      API.
+  - name: Cisco DNA Center documentation for Sensors CreatesAnICAPConfigurationIntentForPreviewApprove
+    description: Complete reference of the CreatesAnICAPConfigurationIntentForPreviewApprove API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-an-icap-configuration-intent-for-preview-approve
 notes:
   - SDK Method used are
@@ -88,7 +80,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     payload:
@@ -106,7 +98,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

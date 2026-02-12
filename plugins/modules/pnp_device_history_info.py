@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_device_history_info
-short_description: Information module for Pnp Device
-  History
+short_description: Information module for Pnp Device History
 description:
   - Get all Pnp Device History.
-  - Returns history for a specific device. Serial number
-    is a required parameter.
+  - Returns history for a specific device. Serial number is a required parameter.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,28 +21,23 @@ options:
     type: dict
   serialNumber:
     description:
-      - SerialNumber query parameter. Device Serial
-        Number.
+      - SerialNumber query parameter. Device Serial Number.
     type: str
   sort:
     description:
-      - Sort query parameter. Comma seperated list of
-        fields to sort on.
+      - Sort query parameter. Comma seperated list of fields to sort on.
     elements: str
     type: list
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetDeviceHistory
-    description: Complete reference of the GetDeviceHistory
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistory
+    description: Complete reference of the GetDeviceHistory API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-history
 notes:
   - SDK Method used are
@@ -61,7 +54,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -72,7 +65,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

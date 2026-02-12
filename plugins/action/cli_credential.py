@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -28,7 +27,6 @@ from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.catalystcente
 from ansible_collections.cisco.catalystcenter.plugins.plugin_utils.exceptions import (
     InconsistentParameters,
 )
-
 
 # Get common arguments specification
 argument_spec = catalystcenter_argument_spec()
@@ -56,7 +54,7 @@ mutually_exclusive = []
 required_together = []
 
 
-class CliCredentialV1(object):
+class CliCredential(object):
     def __init__(self, params, catalystcenter):
         self.catalystcenter = catalystcenter
         self.new_object = dict(
@@ -110,7 +108,7 @@ class CliCredentialV1(object):
             items = self.catalystcenter.exec(
                 family="discovery",
                 function="get_global_credentials",
-                params={"credential_sub_type": "None"},
+                params={"credential_sub_type": "CLI"},
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -128,7 +126,7 @@ class CliCredentialV1(object):
             items = self.catalystcenter.exec(
                 family="discovery",
                 function="get_global_credentials",
-                params={"credential_sub_type": "None"},
+                params={"credential_sub_type": "CLI"},
             )
             if isinstance(items, dict):
                 if "response" in items:
@@ -176,9 +174,9 @@ class CliCredentialV1(object):
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
-                current_obj.get(catalyst_param), requested_obj.get(ansible_param)
+                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
             )
-            for (catalyst_param, ansible_param) in obj_params
+            for (catalystcenter_param, ansible_param) in obj_params
         )
 
     def create(self):
@@ -239,13 +237,13 @@ class ActionModule(ActionBase):
         self._check_argspec()
 
         catalystcenter = CatalystCenterSDK(self._task.args)
-        obj = CliCredentialV1(self._task.args, catalystcenter)
+        obj = CliCredential(self._task.args, catalystcenter)
 
         state = self._task.args.get("state")
 
         response = None
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -257,6 +255,6 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 catalystcenter.object_created()
 
-        self._result.update(dict(catalyst_response=response))
+        self._result.update(dict(dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

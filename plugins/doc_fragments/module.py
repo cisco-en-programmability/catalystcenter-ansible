@@ -19,7 +19,7 @@ options:
           - The Cisco Catalyst Center hostname.
         type: str
         required: true
-    catalystcenter_api_port:
+    catalystcenter_port:
         description:
           - The Cisco Catalyst Center port.
         type: int
@@ -42,7 +42,7 @@ options:
         description:
           - Informs the SDK which version of Cisco Catalyst Center to use.
         type: str
-        default: 2.3.7.6
+        default: 3.1.6.0
     catalystcenter_debug:
         description:
           - Flag for Cisco Catalyst Center SDK to enable debugging.

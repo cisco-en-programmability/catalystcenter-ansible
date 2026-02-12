@@ -7,64 +7,47 @@
 DOCUMENTATION = r"""
 ---
 module: security_rogue_additional_details
-short_description: Resource module for Security Rogue
-  Additional Details
+short_description: Resource module for Security Rogue Additional Details
 description:
-  - Manage operation create of the resource Security
-    Rogue Additional Details. - > This API provides
-    additional information of the rogue threats with
-    details at BSSID level. The additional information
-    includes Switch Port details in case of Rogue on
-    Wire, first time when the rogue is seen in the network
-    etc.
+  - Manage operation create of the resource Security Rogue Additional Details. - > This API provides additional information
+    of the rogue threats with details at BSSID level. The additional information includes Switch Port details in case of Rogue
+    on Wire, first time when the rogue is seen in the network etc.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   endTime:
-    description: This is the epoch end time in milliseconds
-      upto which data need to be fetched. Default value
-      is current time.
+    description: This is the epoch end time in milliseconds upto which data need to be fetched. Default value is current time.
     type: float
   limit:
-    description: The maximum number of entries to return.
-      Default value is 1000.
+    description: The maximum number of entries to return. Default value is 1000.
     type: float
   offset:
-    description: The offset of the first item in the
-      collection to return. Default value is 1.
+    description: The offset of the first item in the collection to return. Default value is 1.
     type: float
   siteId:
-    description: Filter Rogues by location. Site IDs
-      information can be fetched from "Get Site" API.
+    description: Filter Rogues by location. Site IDs information can be fetched from "Get Site" API.
     elements: str
     type: list
   startTime:
-    description: This is the epoch start time in milliseconds
-      from which data need to be fetched. Default value
-      is 24 hours earlier to endTime.
+    description: This is the epoch start time in milliseconds from which data need to be fetched. Default value is 24 hours
+      earlier to endTime.
     type: float
   threatLevel:
-    description: Filter Rogues by Threat Level. Threat
-      Level information can be fetched from "Get Threat
-      Levels" API.
+    description: Filter Rogues by Threat Level. Threat Level information can be fetched from "Get Threat Levels" API.
     elements: str
     type: list
   threatType:
-    description: Filter Rogues by Threat Type. Threat
-      Type information can be fetched from "Get Threat
-      Types" API.
+    description: Filter Rogues by Threat Type. Threat Type information can be fetched from "Get Threat Types" API.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      RogueAdditionalDetails
-    description: Complete reference of the RogueAdditionalDetails
-      API.
+  - name: Cisco DNA Center documentation for Devices RogueAdditionalDetails
+    description: Complete reference of the RogueAdditionalDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details
 notes:
   - SDK Method used are
@@ -81,7 +64,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     endTime: 0
@@ -97,7 +80,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

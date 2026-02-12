@@ -7,12 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_port_channels_info
-short_description: Information module for Lan Automation
-  Port Channels
+short_description: Information module for Lan Automation Port Channels
 description:
   - Get all Lan Automation Port Channels.
-  - Returns a list of Port Channel between the LAN Automation
-    associated devices.
+  - Get Lan Automation Port Channels by id.
+  - Returns a list of Port Channel between the LAN Automation associated devices.
+  - This API retrieves Port Channel information using its ID.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,48 +23,49 @@ options:
     type: dict
   device1ManagementIPAddress:
     description:
-      - Device1ManagementIPAddress query parameter.
-        The management IP address of the device1.
+      - Device1ManagementIPAddress query parameter. The management IP address of the device1.
     type: str
   device1Uuid:
     description:
-      - Device1Uuid query parameter. Unique identifier
-        for the network device1.
+      - Device1Uuid query parameter. Unique identifier for the network device1.
     type: str
   device2ManagementIPAddress:
     description:
-      - Device2ManagementIPAddress query parameter.
-        The management IP address of the device2.
+      - Device2ManagementIPAddress query parameter. The management IP address of the device2.
     type: str
   device2Uuid:
     description:
-      - Device2Uuid query parameter. Unique identifier
-        for the network device2.
+      - Device2Uuid query parameter. Unique identifier for the network device2.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
-    type: str
+      - Offset query parameter. Starting record for pagination.
+    type: int
   limit:
     description:
-      - Limit query parameter. Maximum number of Port
-        Channel to return.
+      - Limit query parameter. Maximum number of Port Channel to return.
+    type: int
+  id:
+    description:
+      - Id path parameter. ID of the port channel.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      GetPortChannels
-    description: Complete reference of the GetPortChannels
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation GetPortChannelInformationById
+    description: Complete reference of the GetPortChannelInformationById API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-port-channel-information-by-id
+  - name: Cisco DNA Center documentation for LAN Automation GetPortChannels
+    description: Complete reference of the GetPortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-channels
 notes:
   - SDK Method used are
+    lan_automation.LanAutomation.get_port_channel_information_by_id,
     lan_automation.LanAutomation.get_port_channels,
   - Paths used are
     get /dna/intent/api/v1/lanAutomation/portChannels,
+    get /dna/intent/api/v1/lanAutomation/portChannels/{id},
 """
 
 EXAMPLES = r"""
@@ -75,7 +76,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -83,13 +84,25 @@ EXAMPLES = r"""
     device1Uuid: string
     device2ManagementIPAddress: string
     device2Uuid: string
-    offset: string
-    limit: string
+    offset: 0
+    limit: 0
+  register: result
+- name: Get Lan Automation Port Channels by id
+  cisco.catalystcenter.lan_automation_port_channels_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
   register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

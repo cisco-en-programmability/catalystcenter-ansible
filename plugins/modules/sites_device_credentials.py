@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: sites_device_credentials
-short_description: Resource module for Sites Device
-  Credentials
+short_description: Resource module for Sites Device Credentials
 description:
-  - Manage operation update of the resource Sites Device
-    Credentials. - > Updates device credential settings
-    for a site; `null` values indicate that the setting
-    will be inherited from the parent site; empty objects
-    `{}` indicate that the credential is unset, and
-    that no credential of that type will be used for
-    the site.
+  - Manage operation update of the resource Sites Device Credentials. - > Updates device credential settings for a site; `null`
+    values indicate that the setting will be inherited from the parent site; empty objects `{}` indicate that the credential
+    is unset, and that no credential of that type will be used for the site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -44,8 +39,7 @@ options:
         type: str
     type: dict
   id:
-    description: Id path parameter. Site Id, retrievable
-      from the `id` attribute in `/dna/intent/api/v1/sites`.
+    description: Id path parameter. Site Id, retrievable from the `id` attribute in `/dna/intent/api/v1/sites`.
     type: str
   snmpv2cReadCredentialsId:
     description: Sites Device Credentials's snmpv2cReadCredentialsId.
@@ -69,13 +63,11 @@ options:
         type: str
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings UpdateDeviceCredentialSettingsForASite
-    description: Complete reference of the UpdateDeviceCredentialSettingsForASite
-      API.
+  - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentialSettingsForASite
+    description: Complete reference of the UpdateDeviceCredentialSettingsForASite API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device-credential-settings-for-a-site
 notes:
   - SDK Method used are
@@ -92,7 +84,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -112,15 +104,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

@@ -26,46 +26,37 @@ options:
   memberType:
     description:
       - >
-        MemberType query parameter. Entity type of the
-        member. Possible values can be retrieved by
-        using /tag/member/type API.
+        MemberType query parameter. Entity type of the member. Possible values can be retrieved by using
+        /tag/member/type API.
     type: str
   offset:
     description:
-      - Offset query parameter. Used for pagination.
-        It indicates the starting row number out of
-        available member records.
-    type: float
+      - Offset query parameter. Used for pagination. It indicates the starting row number out of available member records.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of members
-        to be retrieved. If not specified, the default
-        is 500. The maximum allowed limit is 500.
-    type: float
+        Limit query parameter. The number of members to be retrieved. If not specified, the default is 500. The
+        maximum allowed limit is 500.
+    type: int
   memberAssociationType:
     description:
       - >
-        MemberAssociationType query parameter. Indicates
-        how the member is associated with the tag. Possible
-        values and description. 1) DYNAMIC The member
-        is associated to the tag through rules. 2) STATIC
-        – The member is associated to the tag manually.
-        3) MIXED – The member is associated manually
-        and also satisfies the rule defined for the
-        tag.
+        MemberAssociationType query parameter. Indicates how the member is associated with the tag. Possible
+        values and description. 1) DYNAMIC The member is associated to the tag through rules. 2) STATIC – The
+        member is associated to the tag manually. 3) MIXED – The member is associated manually and also
+        satisfies the rule defined for the tag.
     type: str
   level:
     description:
       - Level query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Tag GetTagMembersById
-    description: Complete reference of the GetTagMembersById
-      API.
+    description: Complete reference of the GetTagMembersById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tag-members-by-id
 notes:
   - SDK Method used are
@@ -82,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -96,7 +87,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

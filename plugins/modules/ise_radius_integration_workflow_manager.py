@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ["Muthu Rakesh, Madhan Sankaranarayanan"]
+__author__ = ["Muthu Rakesh, Madhan Sankaranarayanan, Archit Soni"]
 DOCUMENTATION = r"""
 ---
 module: ise_radius_integration_workflow_manager
@@ -24,7 +24,7 @@ version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan
-  (@madhansansel)
+  (@madhansansel) Archit Soni (@koderchit)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -265,7 +265,7 @@ options:
             default: 20
             type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -292,7 +292,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -319,7 +319,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -356,7 +356,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -376,7 +376,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -404,7 +404,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -460,11 +460,11 @@ response_3:
 import copy
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    catalystcenter_compare_equality,
+    dnac_compare_equality,
 )
 
 
@@ -595,7 +595,7 @@ class IseRadiusIntegration(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
         return any(
-            not catalystcenter_compare_equality(
+            not dnac_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params
@@ -1390,16 +1390,21 @@ class IseRadiusIntegration(CatalystCenterBase):
         self.status = "success"
         return self
 
-    def check_ise_server_integration_status(self, ip_address):
+    def wait_for_ise_integration_status(self, ip_address):
         """
-        Check whether the Cisco ISE server is ready for the accepting the user authentication certificate.
+        Wait for the Cisco ISE server to complete its integration with Cisco Catalyst Center.
+
+        This method continuously polls the Cisco ISE server integration status until it reaches
+        a terminal state (`WAITING_USER_INPUT` or `COMPLETE`). If the process exceeds the
+        allowed timeout period (30 seconds) or an exception occurs during status retrieval,
+        the method logs the failure and terminates execution using `fail_and_exit()`.
 
         Parameters:
-            ip_address (str) - The IP address of the Cisco ISE server.
-            self - The current object with updated desired Authentication Policy Server information.
+            ip_address (str): The IP address of the Cisco ISE server being integrated.
 
         Returns:
-            self - The current object with updated desired Authentication Policy Server information.
+            str: The final integration status of the Cisco ISE server (WAITING_USER_INPUT or COMPLETE).
+                The function does not return if it fails — it calls `fail_and_exit()` to fail and exit the module.
         """
 
         start_time = time.time()
@@ -1410,32 +1415,34 @@ class IseRadiusIntegration(CatalystCenterBase):
                     function="cisco_ise_server_integration_status",
                     op_modifies=True,
                 )
+                overall_status = cisco_ise_status.get("overallStatus")
             except Exception as msg:
-                self.msg = "Exception occurred while checking the status of the Cisco ISE server with IP address '{ip}'.".format(
-                    ip=ip_address
-                )
-
-            overall_status = cisco_ise_status.get("overallStatus")
-            statuses = ["WAITING_USER_INPUT", "COMPLETE"]
-            if overall_status in statuses:
-                self.log(
-                    "The status of the Cisco ISE server is '{status}'".format(
-                        status=overall_status
-                    )
-                )
-                break
-
-            if (time.time() - start_time) >= 10:
                 self.msg = (
-                    "The Cisco Catalyst Center took more than 10 seconds to accept "
-                    "the PxGrid certificate of the Cisco ISE server with ."
+                    f"Exception occurred while checking the status of the Cisco ISE server "
+                    f"with IP address '{ip_address}'. Error: {msg}"
                 )
-                self.status = "failed"
+                self.fail_and_exit(self.msg)
+
+            self.log(f"Current ISE server status: '{overall_status}'", "WARNING")
+
+            if overall_status in ["WAITING_USER_INPUT", "COMPLETE"]:
+                self.log(
+                    f"The Cisco ISE server status is '{overall_status}'. Breaking the loop.",
+                    "INFO",
+                )
                 break
+
+            if (time.time() - start_time) >= 30:
+                self.msg = (
+                    f"The Cisco Catalyst Center took more than 10 seconds to accept "
+                    f"the PxGrid certificate of the Cisco ISE server with IP '{ip_address}'."
+                )
+                self.fail_and_exit(self.msg)
 
             time.sleep(1)
 
-        return self
+        self.log(f"Final ISE server status: '{overall_status}'", "INFO")
+        return overall_status
 
     def accept_cisco_ise_server_certificate(self, ipAddress, trusted_server):
         """
@@ -1470,6 +1477,11 @@ class IseRadiusIntegration(CatalystCenterBase):
                 self.status = "failed"
                 return self
 
+            self.log(
+                "Calling 'accept_cisco_ise_server_certificate_for_cisco_ise_server_integration' API with payload - "
+                f"id: {cisco_ise_id}, isCertAcceptedByUser: {trusted_server}",
+                "INFO",
+            )
             response = self.catalystcenter._exec(
                 family="system_settings",
                 function="accept_cisco_ise_server_certificate_for_cisco_ise_server_integration",
@@ -1703,7 +1715,7 @@ class IseRadiusIntegration(CatalystCenterBase):
                 ]
                 self.log(
                     "Desired State for Authentication and Policy Server for the IP '{0}' (want): {1}".format(
-                        ip_address, auth_server_params
+                        ip_address, self.pprint(auth_server_params)
                     ),
                     "DEBUG",
                 )
@@ -1738,8 +1750,31 @@ class IseRadiusIntegration(CatalystCenterBase):
 
                 if is_ise_server:
                     trusted_server = self.want.get("trusted_server")
-                    self.check_ise_server_integration_status(ip_address)
-                    self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
+                    ise_radius_integration_status = (
+                        self.wait_for_ise_integration_status(ip_address)
+                    )
+                    if ise_radius_integration_status == "WAITING_USER_INPUT":
+                        self.log(
+                            "Cisco ISE server is waiting for user input to accept the certificate.",
+                            "INFO",
+                        )
+                        self.log(
+                            f"Calling API to accept Cisco ISE server certificate for IP '{ip_address}' with trusted_server={trusted_server}",
+                            "INFO",
+                        )
+                        self.accept_cisco_ise_server_certificate(
+                            ip_address, trusted_server
+                        )
+
+                    elif ise_radius_integration_status == "COMPLETE":
+                        self.log(
+                            "Cisco ISE server integration is already complete. No user certificate acceptance required.",
+                            "INFO",
+                        )
+                    else:
+                        self.msg = f"Unexpected Cisco ISE server integration status '{ise_radius_integration_status}' for IP '{ip_address}'."
+                        self.fail_and_exit(self.msg)
+
                     ise_integration_wait_time = self.want.get(
                         "ise_integration_wait_time"
                     )
@@ -1920,11 +1955,38 @@ class IseRadiusIntegration(CatalystCenterBase):
 
             trusted_server_msg = ""
             if is_ise_server_enabled:
+                self.log(
+                    "Cisco ISE server is enabled. Checking if it certificate acceptance processing.",
+                    "DEBUG",
+                )
                 trusted_server = self.want.get("trusted_server")
                 state = have_auth_server_details.get("state")
                 if state != "ACTIVE":
-                    self.check_ise_server_integration_status(ip_address)
-                    self.accept_cisco_ise_server_certificate(ip_address, trusted_server)
+                    ise_radius_integration_status = (
+                        self.wait_for_ise_integration_status(ip_address)
+                    )
+                    if ise_radius_integration_status == "WAITING_USER_INPUT":
+                        self.log(
+                            "Cisco ISE server is waiting for user input to accept the certificate.",
+                            "INFO",
+                        )
+                        self.log(
+                            f"Calling API to accept Cisco ISE server certificate for IP '{ip_address}' with trusted_server={trusted_server}",
+                            "INFO",
+                        )
+                        self.accept_cisco_ise_server_certificate(
+                            ip_address, trusted_server
+                        )
+
+                    elif ise_radius_integration_status == "COMPLETE":
+                        self.log(
+                            "Cisco ISE server integration is already complete. No user certificate acceptance required.",
+                            "INFO",
+                        )
+                    else:
+                        self.msg = f"Unexpected Cisco ISE server integration status '{ise_radius_integration_status}' for IP '{ip_address}'."
+                        self.fail_and_exit(self.msg)
+
                     ise_integration_wait_time = self.want.get(
                         "ise_integration_wait_time"
                     )
@@ -2256,18 +2318,19 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

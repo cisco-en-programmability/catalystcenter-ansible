@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim_to_site
-short_description: Resource module for Pnp Device Claim
-  To Site
+short_description: Resource module for Pnp Device Claim To Site
 description:
-  - Manage operation create of the resource Pnp Device
-    Claim To Site. - > Claim a device based on Catalyst
-    Center Site-based design process. Some required
-    parameters differ based on device platform.
+  - Manage operation create of the resource Pnp Device Claim To Site. - > Claim a device based on Catalyst Center Site-based
+    design process. Some required parameters differ based on device platform.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -89,13 +86,11 @@ options:
     type: str
     version_added: 6.4.0
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) ClaimADeviceToASite
-    description: Complete reference of the ClaimADeviceToASite
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASite
+    description: Complete reference of the ClaimADeviceToASite API.
     link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
 notes:
   - SDK Method used are
@@ -112,7 +107,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     configInfo:
@@ -137,7 +132,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

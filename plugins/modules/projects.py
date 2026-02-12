@@ -9,8 +9,10 @@ DOCUMENTATION = r"""
 module: projects
 short_description: Resource module for Projects
 description:
-  - Manage operation create of the resource Projects.
+  - Manage operations create, update and delete of the resource Projects.
   - Create a template project.
+  - Delete a template project by the project's ID.
+  - Update a template project by the project's ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -22,20 +24,31 @@ options:
   name:
     description: Name of the project.
     type: str
+  projectId:
+    description: ProjectId path parameter. The id of the project to delete, retrieveable from `GET /dna/intent/api/v1/projects`.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates CreateTemplateProject
-    description: Complete reference of the CreateTemplateProject
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates CreateTemplateProject
+    description: Complete reference of the CreateTemplateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!create-template-project
+  - name: Cisco DNA Center documentation for Configuration Templates DeleteTemplateProject
+    description: Complete reference of the DeleteTemplateProject API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-template-project
+  - name: Cisco DNA Center documentation for Configuration Templates UpdateTemplateProject
+    description: Complete reference of the UpdateTemplateProject API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-template-project
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_template_project,
+    configuration_templates.ConfigurationTemplates.delete_template_project,
+    configuration_templates.ConfigurationTemplates.update_template_project,
   - Paths used are
     post /dna/intent/api/v1/projects,
+    delete /dna/intent/api/v1/projects/{projectId},
+    put /dna/intent/api/v1/projects/{projectId},
 """
 
 EXAMPLES = r"""
@@ -46,24 +59,47 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     description: string
     name: string
+- name: Delete by id
+  cisco.catalystcenter.projects:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    projectId: string
+- name: Update by id
+  cisco.catalystcenter.projects:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    name: string
+    projectId: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

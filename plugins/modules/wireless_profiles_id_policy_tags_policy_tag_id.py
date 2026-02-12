@@ -7,27 +7,14 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_policy_tags_policy_tag_id
-short_description: Resource module for Wireless Profiles
-  Id Policy Tags Policy Tag Id
+short_description: Resource module for Wireless Profiles Id Policy Tags Policy Tag Id
 description:
-  - Manage operations update and delete of the resource
-    Wireless Profiles Id Policy Tags Policy Tag Id.
-    - > This endpoint allows for the deletion of a specific
-    `Policy Tag` associated with a given `Wireless Profile`.
-    This API requires the `id` of the `Wireless Profile`
-    and the `policyTagId` of the `Policy Tag` to be
-    provided as path parameters. - > This endpoint allows
-    updating the details of a specific `Policy Tag`
-    associated with a given `Wireless Profile`. The
-    `id` of the `Wireless Profile` and the `policyTagId`
-    of the Policy Tag must be provided as path parameters,
-    and the request body should contain the updated
-    details of the `Policy Tag`. The `policyTagName`
-    cannot be modified through this endpoint. Note When
-    updating a Policy Tag, if the same set of AP Zones
-    apZones is used for the same site or its parent
-    site, the existing Policy Tag will be overridden
-    by the new one.
+  - Manage operations update and delete of the resource Wireless Profiles Id Policy Tags Policy Tag Id. - > This endpoint
+    allows for the deletion of a specific `Policy Tag` associated with a given `Wireless Profile`. This API requires the `id`
+    of the `Wireless Profile` and the `policyTagId` of the `Policy Tag` to be provided as path parameters. - > This endpoint
+    allows updating the details of a specific `Policy Tag` associated with a given `Wireless Profile`. The `id` of the `Wireless
+    Profile` and the `policyTagId` of the Policy Tag must be provided as path parameters, and the request body should contain
+    the updated details of the `Policy Tag`. The `policyTagName` cannot be modified through this endpoint.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -38,12 +25,10 @@ options:
     elements: str
     type: list
   id:
-    description: Id path parameter. Wireless Profile
-      Id.
+    description: Id path parameter. Wireless Profile Id.
     type: str
   policyTagId:
-    description: PolicyTagId path parameter. Policy
-      Tag Id.
+    description: PolicyTagId path parameter. Policy Tag Id.
     type: str
   policyTagName:
     description: Policy Tag Name.
@@ -53,18 +38,14 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      DeleteASpecificPolicyTagFromAWirelessProfile
-    description: Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless DeleteASpecificPolicyTagFromAWirelessProfile
+    description: Complete reference of the DeleteASpecificPolicyTagFromAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy-tag-from-a-wireless-profile
-  - name: Cisco DNA Center documentation for Wireless
-      UpdateASpecificPolicyTagForAWirelessProfile
-    description: Complete reference of the UpdateASpecificPolicyTagForAWirelessProfile
-      API.
+  - name: Cisco DNA Center documentation for Wireless UpdateASpecificPolicyTagForAWirelessProfile
+    description: Complete reference of the UpdateASpecificPolicyTagForAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-a-specific-policy-tag-for-a-wireless-profile
 notes:
   - SDK Method used are
@@ -83,7 +64,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -95,7 +76,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -109,7 +90,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

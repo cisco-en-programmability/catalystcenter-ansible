@@ -7,31 +7,23 @@
 DOCUMENTATION = r"""
 ---
 module: security_threats_rogue_allowed_list
-short_description: Resource module for Security Threats
-  Rogue Allowed-List
+short_description: Resource module for Security Threats Rogue Allowed-List
 description:
-  - Manage operations create and delete of the resource
-    Security Threats Rogue Allowed-List.
-  - Intent API to add the threat mac address to allowed
-    list.
-  - Intent API to remove the threat mac address from
-    allowed list.
+  - Manage operations create and delete of the resource Security Threats Rogue Allowed-List.
+  - Intent API to add the threat mac address to allowed list.
+  - Intent API to remove the threat mac address from allowed list.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   macAddress:
-    description: MacAddress path parameter. Threat mac
-      address which needs to be removed from the allowed
-      list. Multiple mac addresses will be removed if
-      provided as comma separated values (example 00
-      2A 10 51 22 43,00 2A 10 51 22 44). Note In one
-      request, maximum 100 mac addresses can be removed.
+    description: MacAddress path parameter. Threat mac address which needs to be removed from the allowed list. Multiple mac
+      addresses will be removed if provided as comma separated values (example 00 2A 10 51 22 43,00 2A 10 51 22 44). Note
+      In one request, maximum 100 mac addresses can be removed.
     type: str
   payload:
-    description: Security Threats Rogue Allowed List's
-      payload.
+    description: Security Threats Rogue Allowed List's payload.
     elements: dict
     suboptions:
       category:
@@ -42,18 +34,14 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      AddAllowedMacAddress
-    description: Complete reference of the AddAllowedMacAddress
-      API.
+  - name: Cisco DNA Center documentation for Devices AddAllowedMacAddress
+    description: Complete reference of the AddAllowedMacAddress API.
     link: https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address
-  - name: Cisco DNA Center documentation for Devices
-      RemoveAllowedMacAddress
-    description: Complete reference of the RemoveAllowedMacAddress
-      API.
+  - name: Cisco DNA Center documentation for Devices RemoveAllowedMacAddress
+    description: Complete reference of the RemoveAllowedMacAddress API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address
 notes:
   - SDK Method used are
@@ -67,12 +55,12 @@ notes:
 EXAMPLES = r"""
 ---
 - name: Create
-  cisco.catalystcenter.security_threats_rogue_allowed-list:
+  cisco.catalystcenter.security_threats_rogue_allowed_list:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -80,12 +68,12 @@ EXAMPLES = r"""
       - category: 0
         macAddress: string
 - name: Delete by id
-  cisco.catalystcenter.security_threats_rogue_allowed-list:
+  cisco.catalystcenter.security_threats_rogue_allowed_list:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
@@ -93,7 +81,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

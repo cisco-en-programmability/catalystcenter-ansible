@@ -10,8 +10,7 @@ module: sda_port_channels_info
 short_description: Information module for Sda Port Channels
 description:
   - Get all Sda Port Channels.
-  - Returns a list of port channels that match the provided
-    query parameters.
+  - Returns a list of port channels that match the provided query parameters.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,54 +21,45 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the
-        device is assigned to.
+      - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. ID of the network
-        device.
+      - NetworkDeviceId query parameter. ID of the network device.
     type: str
   portChannelName:
     description:
-      - PortChannelName query parameter. Name of the
-        port channel.
+      - PortChannelName query parameter. Name of the port channel.
     type: str
   connectedDeviceType:
     description:
       - >
-        ConnectedDeviceType query parameter. Connected
-        device type of the port channel. The allowed
-        values are TRUNK, EXTENDED_NODE.
+        ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are
+        TRUNK, EXTENDED_NODE.
     type: str
   nativeVlanId:
     description:
       - >
-        NativeVlanId query parameter. Native VLAN of
-        the port channel, this option is only applicable
-        to TRUNK connectedDeviceType.(VLAN must be between
-        1 and 4094. In cases value not set when connectedDeviceType
-        is TRUNK, default value will be '1').
+        NativeVlanId query parameter. Native VLAN of the port channel, this option is only applicable to TRUNK
+        connectedDeviceType.(VLAN must be between 1 and 4094. In cases value not set when connectedDeviceType is
+        TRUNK, default value will be '1').
     type: float
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
-    type: float
+      - Offset query parameter. Starting record for pagination.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
-    type: float
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetPortChannelsConnectivity
-    description: Complete reference of the GetPortChannelsConnectivity
-      API.
+    description: Complete reference of the GetPortChannelsConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!get-port-channels-connectivity
 notes:
   - SDK Method used are
@@ -86,7 +76,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -101,7 +91,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,18 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: maps_import_status_info
-short_description: Information module for Maps Import
-  Status
+short_description: Information module for Maps Import Status
 description:
-  - Get all Maps Import Status. - > Gets the status
-    of a map archive import operation. For a map archive
-    import that has just been initiated, will provide
-    the result of validation of the archive and a pre-import
-    preview of what will be performed if the import
-    is performed. Once an import is requested to be
-    performed, this API will give the status of the
-    import and upon completion a post-import summary
-    of what was performed by the operation.
+  - Get all Maps Import Status. - > Gets the status of a map archive import operation. For a map archive import that has just
+    been initiated, will provide the result of validation of the archive and a pre-import preview of what will be performed
+    if the import is performed. Once an import is requested to be performed, this API will give the status of the import and
+    upon completion a post-import summary of what was performed by the operation.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,17 +24,15 @@ options:
   importContextUuid:
     description:
       - >
-        ImportContextUuid path parameter. The unique
-        import context UUID given by a previous and
-        recent call to maps/import/start API.
+        ImportContextUuid path parameter. The unique import context UUID given by a previous and recent call to
+        maps/import/start API.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites ImportMapArchiveImportStatus
-    description: Complete reference of the ImportMapArchiveImportStatus
-      API.
+    description: Complete reference of the ImportMapArchiveImportStatus API.
     link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status
 notes:
   - SDK Method used are
@@ -57,7 +49,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -66,14 +58,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "auditLog": {
         "children": [
-          {}
+          "string"
         ],
         "entitiesCount": [
           {

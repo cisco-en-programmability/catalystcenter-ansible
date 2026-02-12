@@ -7,21 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_cmdb_endpoints
-short_description: Resource module for Endpoint Analytics
-  Cmdb Endpoints
+short_description: Resource module for Endpoint Analytics Cmdb Endpoints
 description:
-  - Manage operation create of the resource Endpoint
-    Analytics Cmdb Endpoints.
-  - Processes incoming CMDB endpoints data and imports
-    the same in AI Endpoint Analytics.
+  - Manage operation create of the resource Endpoint Analytics Cmdb Endpoints.
+  - Processes incoming CMDB endpoints data and imports the same in AI Endpoint Analytics.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   payload:
-    description: Endpoint Analytics Cmdb Endpoints's
-      payload.
+    description: Endpoint Analytics Cmdb Endpoints's payload.
     elements: dict
     suboptions:
       assetTag:
@@ -34,8 +30,7 @@ options:
         description: Display name of the asset.
         type: str
       lastUpdateTimestamp:
-        description: Last update timestamp in epoch
-          milliseconds.
+        description: Last update timestamp in epoch milliseconds.
         type: int
       location:
         description: Location of the asset.
@@ -57,13 +52,11 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint
-      Analytics ProcessCMDBEndpoints
-    description: Complete reference of the ProcessCMDBEndpoints
-      API.
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpoints
+    description: Complete reference of the ProcessCMDBEndpoints API.
     link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
   - SDK Method used are
@@ -80,7 +73,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     payload:
@@ -97,7 +90,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -152,13 +151,13 @@ class Applications(object):
             ("applicationSet", "applicationSet"),
             ("id", "id"),
         ]
-        # Method 1. Params present in request (Ansible) obj are the same as the current (CATALYST) params
+        # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update
         return any(
             not catalystcenter_compare_equality(
-                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
             )
-            for (dnac_param, ansible_param) in obj_params
+            for (catalystcenter_param, ansible_param) in obj_params
         )
 
     def create(self):
@@ -243,7 +242,7 @@ class ActionModule(ActionBase):
         response = None
 
         if state == "present":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 if obj.requires_update(prev_obj):
                     response = obj.update()
@@ -256,7 +255,7 @@ class ActionModule(ActionBase):
                 catalystcenter.object_created()
 
         elif state == "absent":
-            (obj_exists, prev_obj) = obj.exists()
+            obj_exists, prev_obj = obj.exists()
             if obj_exists:
                 response = obj.delete()
                 catalystcenter.object_deleted()

@@ -11,6 +11,7 @@
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
         name: local-services
         # limit: 3
         # offset: 2

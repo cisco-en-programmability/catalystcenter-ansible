@@ -25,7 +25,7 @@ options:
     type: bool
     default: false
   state:
-    description: The state of CATALYST after module completion.
+    description: The state of DNAC after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -79,7 +79,7 @@ options:
               interface
             type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk == 2.4.5
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site,
@@ -104,7 +104,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -138,7 +138,7 @@ response_1:
     }
 # Case_2: Error while creating a provision
 response_2:
-  description: A list with the response returned by the Cisco CATALYST Python SDK
+  description: A list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   sample: >
@@ -148,7 +148,7 @@ response_2:
     }
 # Case_3: Already exists and requires no update
 response_3:
-  description: A dictionary with the exisiting details as returned by the Cisco CATALYST Python SDK
+  description: A dictionary with the exisiting details as returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -160,7 +160,7 @@ response_3:
 import time
 import re
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -465,14 +465,14 @@ class Dnacprovision(CatalystCenterBase):
         """
         Add to provision database
         Args:
-            self: An instance of a class used for interacting with Cisco DNA Center.
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
         Returns:
             object: An instance of the class with updated results and status
             based on the processing of differences.
         Description:
             The function processes the differences and, depending on the
             changes required, it may add, update,or resynchronize devices in
-            Cisco DNA Center. The updated results and status are stored in the
+            Cisco Catalyst Center. The updated results and status are stored in the
             class instance for further use.
         """
 
@@ -538,12 +538,12 @@ class Dnacprovision(CatalystCenterBase):
         """
         Delete from provision database
         Args:
-            self: An instance of a class used for interacting with Cisco DNA Center
+            self: An instance of a class used for interacting with Cisco Catalyst Center
         Returns:
             self: An instance of the class with updated results and status based on
             the deletion operation.
         Description:
-            This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
+            This function is responsible for removing devices from the Cisco Catalyst Center PnP GUI and
             raise Exception if any error occured.
         """
 
@@ -609,18 +609,19 @@ def main():
 
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

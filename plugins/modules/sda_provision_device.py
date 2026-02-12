@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: sda_provision_device
-short_description: Resource module for Sda Provision
-  Device
+short_description: Resource module for Sda Provision Device
 description:
-  - Manage operations create, update and delete of the
-    resource Sda Provision Device.
+  - Manage operations create, update and delete of the resource Sda Provision Device.
   - Provision Wired Device.
   - Delete provisioned Wired Device.
   - Re-Provision Wired Device.
@@ -21,29 +19,24 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceManagementIpAddress:
-    description: DeviceManagementIpAddress query parameter.
-      Valid IP address of the device currently provisioned
-      in a fabric site.
+    description: DeviceManagementIpAddress query parameter. Valid IP address of the device currently provisioned in a fabric
+      site.
     type: str
   siteNameHierarchy:
-    description: SiteNameHierarchy of the provisioned
-      device.
+    description: Site Name Hierarchy for device location(only building / floor level).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA ProvisionWiredDevice
-    description: Complete reference of the ProvisionWiredDevice
-      API.
+    description: Complete reference of the ProvisionWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device
   - name: Cisco DNA Center documentation for SDA DeleteProvisionedWiredDevice
-    description: Complete reference of the DeleteProvisionedWiredDevice
-      API.
+    description: Complete reference of the DeleteProvisionedWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
   - name: Cisco DNA Center documentation for SDA ReProvisionWiredDevice
-    description: Complete reference of the ReProvisionWiredDevice
-      API.
+    description: Complete reference of the ReProvisionWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device
 notes:
   - SDK Method used are
@@ -64,30 +57,30 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     deviceManagementIpAddress: string
-- name: Update all
-  cisco.catalystcenter.sda_provision_device:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    deviceManagementIpAddress: string
-    siteNameHierarchy: string
 - name: Create
   cisco.catalystcenter.sda_provision_device:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    deviceManagementIpAddress: string
+    siteNameHierarchy: string
+- name: Update all
+  cisco.catalystcenter.sda_provision_device:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -96,7 +89,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

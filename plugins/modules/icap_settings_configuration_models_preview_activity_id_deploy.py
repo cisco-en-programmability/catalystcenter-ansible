@@ -7,38 +7,26 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_configuration_models_preview_activity_id_deploy
-short_description: Resource module for Icap Settings
-  Configuration Models Preview Activity Id Deploy
+short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Deploy
 description:
-  - Manage operation create of the resource Icap Settings
-    Configuration Models Preview Activity Id Deploy.
-    - > Deploys the ICAP configuration intent by activity
-    ID, which was returned in property "taskId" of the
-    TaskResponse of the POST. POST'ing the intent prior
-    to generating the intent CLI for preview-approve
-    has the same effect as direct-deploy'ing the intent
+  - Manage operation create of the resource Icap Settings Configuration Models Preview Activity Id Deploy. - > Deploys the
+    ICAP configuration intent by activity ID, which was returned in property "taskId" of the TaskResponse of the POST. POST'ing
+    the intent prior to generating the intent CLI for preview-approve has the same effect as direct-deploy'ing the intent
     to the device.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
-  object:
-    description: Object.
-    type: str
   previewActivityId:
-    description: PreviewActivityId path parameter. Activity
-      from the POST /deviceConfigugrationModels task
-      response.
+    description: PreviewActivityId path parameter. Activity from the POST /deviceConfigugrationModels task response.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors
-      DeploysTheICAPConfigurationIntentByActivityID
-    description: Complete reference of the DeploysTheICAPConfigurationIntentByActivityID
-      API.
+  - name: Cisco DNA Center documentation for Sensors DeploysTheICAPConfigurationIntentByActivityID
+    description: Complete reference of the DeploysTheICAPConfigurationIntentByActivityID API.
     link: https://developer.cisco.com/docs/dna-center/#!deploys-the-icap-configuration-intent-by-activity-id
 notes:
   - SDK Method used are
@@ -55,15 +43,14 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    object: string
     previewActivityId: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

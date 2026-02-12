@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_control_plane_device_info
-short_description: Information module for Sda Fabric
-  Control Plane Device
+short_description: Information module for Sda Fabric Control Plane Device
 description:
   - Get all Sda Fabric Control Plane Device.
   - Get control plane device from SDA Fabric.
@@ -26,12 +25,11 @@ options:
       - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetControlPlaneDeviceFromSDAFabric
-    description: Complete reference of the GetControlPlaneDeviceFromSDAFabric
-      API.
+    description: Complete reference of the GetControlPlaneDeviceFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!get-control-plane-device-from-sda-fabric
 notes:
   - SDK Method used are
@@ -48,7 +46,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -57,7 +55,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

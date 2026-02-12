@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_layer2_handoffs_info
-short_description: Information module for Sda Fabricdevices
-  Layer2handoffs
+short_description: Information module for Sda Fabric Devices Layer2 Handoffs
 description:
-  - Get all Sda Fabricdevices Layer2handoffs.
-  - Returns a list of layer 2 handoffs of fabric devices
-    that match the provided query parameters.
+  - Get all Sda Fabric Devices Layer2 Handoffs.
+  - Returns a list of layer 2 handoffs of fabric devices that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,33 +21,28 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric this
-        device belongs to.
+      - FabricId query parameter. ID of the fabric this device belongs to.
     type: str
   networkDeviceId:
     description:
-      - NetworkDeviceId query parameter. Network device
-        ID of the fabric device.
+      - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
-    type: float
+      - Offset query parameter. Starting record for pagination.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
-    type: float
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer2Handoffs
-    description: Complete reference of the GetFabricDevicesLayer2Handoffs
-      API.
+    description: Complete reference of the GetFabricDevicesLayer2Handoffs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-2-handoffs
 notes:
   - SDK Method used are
@@ -60,13 +53,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Sda Fabricdevices Layer2handoffs
-  cisco.catalystcenter.sda_fabricDevices_layer2Handoffs_info:
+- name: Get all Sda Fabric Devices Layer2 Handoffs
+  cisco.catalystcenter.sda_fabric_devices_layer2_handoffs_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -78,7 +71,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -86,11 +79,19 @@ dnac_response:
       "response": [
         {
           "id": "string",
-          "networkDeviceId": "string",
-          "fabricId": "string",
-          "interfaceName": "string",
-          "internalVlanId": 0,
-          "externalVlanId": 0
+          "name": "string",
+          "siteId": "string",
+          "type": "string",
+          "ipTransitSettings": {
+            "routingProtocolName": "string",
+            "autonomousSystemNumber": "string"
+          },
+          "sdaTransitSettings": {
+            "isMulticastOverTransitEnabled": true,
+            "controlPlaneNetworkDeviceIds": [
+              "string"
+            ]
+          }
         }
       ],
       "version": "string"

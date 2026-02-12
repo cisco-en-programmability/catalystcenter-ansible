@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""Ansible module to perform operations on global pool, reserve pool and network in CATALYST."""
+"""Ansible module to perform operations on global pool, reserve pool and network in DNAC."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -155,7 +155,7 @@ options:
             description: Indicates the IPv4 subnet address,
               for example, "175.175.0.0".
             type: str
-          ipv4_totalhost:
+          ipv4_total_host:
             description: The total number of hosts for
               IPv4, required when the 'ipv4_prefix'
               is set to false.
@@ -205,7 +205,7 @@ options:
             description: IPv6 Subnet address, example
               2001 db8 85a3 0 100.
             type: str
-          ipv6_totalhost:
+          ipv6_total_host:
             description: The total number of hosts for
               IPv6 is required if the 'ipv6_prefix'
               is set to false.
@@ -399,7 +399,7 @@ options:
               sub-pool will be reserved.
             type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk == 2.4.5
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -428,7 +428,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -493,7 +493,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global pool
 response_1:
-  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -504,7 +504,7 @@ response_1:
     }
 # Case_2: Successful creation/updation/deletion of reserve pool
 response_2:
-  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -515,7 +515,7 @@ response_2:
     }
 # Case_3: Successful creation/updation of network
 response_3:
-  description: A dictionary or list with the response returned by the Cisco DNA Center Python SDK
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -528,11 +528,11 @@ response_3:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    catalystcenter_compare_equality,
+    dnac_compare_equality,
 )
 
 
@@ -704,15 +704,15 @@ class NetworkSettings(CatalystCenterBase):
         current information wih the requested information.
 
         This method compares the current global pool, reserve pool,
-        or network details from Cisco DNA Center with the user-provided details
+        or network details from Cisco Catalyst Center with the user-provided details
         from the playbook, using a specified schema for comparison.
 
         Parameters:
-            have (dict) - Current information from the Cisco DNA Center
+            have (dict) - Current information from the Cisco Catalyst Center
                           (global pool, reserve pool, network details)
             want (dict) - Users provided information from the playbook
             obj_params (list of tuples) - A list of parameter mappings specifying which
-                                          Cisco DNA Center parameters (dnac_param) correspond to
+                                          Cisco Catalyst Center parameters (dnac_param) correspond to
                                           the user-provided parameters (ansible_param).
 
         Returns:
@@ -728,7 +728,7 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
         return any(
-            not catalystcenter_compare_equality(
+            not dnac_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params
@@ -826,14 +826,14 @@ class NetworkSettings(CatalystCenterBase):
 
     def get_global_pool_params(self, pool_info):
         """
-        Process Global Pool params from playbook data for Global Pool config in Cisco DNA Center
+        Process Global Pool params from playbook data for Global Pool config in Cisco Catalyst Center
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
 
         Returns:
             dict or None - Processed Global Pool data in a format suitable
-            for Cisco DNA Center configuration, or None if pool_info is empty.
+            for Cisco Catalyst Center configuration, or None if pool_info is empty.
         """
 
         if not pool_info:
@@ -874,14 +874,14 @@ class NetworkSettings(CatalystCenterBase):
     def get_reserve_pool_params(self, pool_info):
         """
         Process Reserved Pool parameters from playbook data
-        for Reserved Pool configuration in Cisco DNA Center
+        for Reserved Pool configuration in Cisco Catalyst Center
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the reserved pool
 
         Returns:
             reserve_pool (dict) - Processed Reserved pool data
-            in the format suitable for the Cisco DNA Center config
+            in the format suitable for the Cisco Catalyst Center config
         """
 
         reserve_pool = {
@@ -975,14 +975,14 @@ class NetworkSettings(CatalystCenterBase):
     def get_network_params(self, site_id):
         """
         Process the Network parameters from the playbook
-        for Network configuration in Cisco DNA Center
+        for Network configuration in Cisco Catalyst Center
 
         Parameters:
             site_id (str) - The Site ID for which network parameters are requested
 
         Returns:
             dict or None: Processed Network data in a format
-            suitable for Cisco DNA Center configuration, or None
+            suitable for Cisco Catalyst Center configuration, or None
             if the response is not a dictionary or there was an error.
         """
 
@@ -1036,7 +1036,7 @@ class NetworkSettings(CatalystCenterBase):
             all_network_details, "key", "aaa.server.pan.endpoint"
         )
 
-        # Prepare the network details for Cisco DNA Center configuration
+        # Prepare the network details for Cisco Catalyst Center configuration
         network_details = {
             "settings": {
                 "snmpServer": {
@@ -1277,7 +1277,7 @@ class NetworkSettings(CatalystCenterBase):
     def get_have_global_pool(self, config):
         """
         Get the current Global Pool information from
-        Cisco DNA Center based on the provided playbook details.
+        Cisco Catalyst Center based on the provided playbook details.
         check this API using check_return_status.
 
         Parameters:
@@ -1323,13 +1323,13 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Global pool exists: {0}".format(global_pool.get("exists")), "DEBUG")
         self.log("Current Site: {0}".format(global_pool.get("details")), "DEBUG")
         self.have.update({"globalPool": global_pool})
-        self.msg = "Collecting the global pool details from the Cisco DNA Center"
+        self.msg = "Collecting the global pool details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
     def get_have_reserve_pool(self, config):
         """
-        Get the current Reserved Pool information from Cisco DNA Center
+        Get the current Reserved Pool information from Cisco Catalyst Center
         based on the provided playbook details.
         Check this API using check_return_status
 
@@ -1355,7 +1355,7 @@ class NetworkSettings(CatalystCenterBase):
             self.status = "failed"
             return self
 
-        # Check if the Reserved Pool exists in Cisco DNA Center
+        # Check if the Reserved Pool exists in Cisco Catalyst Center
         # based on the provided name and site name
         reserve_pool = self.reserve_pool_exists(name, site_name)
         if not reserve_pool.get("success"):
@@ -1370,7 +1370,7 @@ class NetworkSettings(CatalystCenterBase):
             if not reserve_pool.get("success"):
                 return self.check_return_status()
 
-            # If the previous name doesn't exist in Cisco DNA Center, return with error
+            # If the previous name doesn't exist in Cisco Catalyst Center, return with error
             if reserve_pool.get("exists") is False:
                 self.msg = "Prev name {0} doesn't exist in reserve_pool_details".format(
                     prev_name
@@ -1393,7 +1393,7 @@ class NetworkSettings(CatalystCenterBase):
 
         self.log("Reserved pool details: {0}".format(reserve_pool), "DEBUG")
         self.have.update({"reservePool": reserve_pool})
-        self.msg = "Collecting the reserve pool details from the Cisco DNA Center"
+        self.msg = "Collecting the reserve pool details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -1427,13 +1427,13 @@ class NetworkSettings(CatalystCenterBase):
             "Network details from the Catalyst Center: {0}".format(network), "DEBUG"
         )
         self.have.update({"network": network})
-        self.msg = "Collecting the network details from the Cisco DNA Center"
+        self.msg = "Collecting the network details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
     def get_have(self, config):
         """
-        Get the current Global Pool Reserved Pool and Network details from Cisco DNA Center
+        Get the current Global Pool Reserved Pool and Network details from Cisco Catalyst Center
 
         Parameters:
             config (dict) - Playbook details containing Global Pool,
@@ -1454,7 +1454,7 @@ class NetworkSettings(CatalystCenterBase):
             self.get_have_network(config).check_return_status()
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
-        self.msg = "Successfully retrieved the details from the Cisco DNA Center"
+        self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -1935,7 +1935,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def update_global_pool(self, config):
         """
-        Update/Create Global Pool in Cisco DNA Center with fields provided in playbook
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook
 
         Parameters:
             config (list of dict) - Playbook details
@@ -1984,7 +1984,7 @@ class NetworkSettings(CatalystCenterBase):
             self.log("Global pool '{0}' doesn't require an update".format(name), "INFO")
             result_global_pool.get("response").get(name).update(
                 {
-                    "Cisco DNA Center params": self.have.get("globalPool")
+                    "Cisco Catalyst Center params": self.have.get("globalPool")
                     .get("details")
                     .get("settings")
                     .get("ippool")[0]
@@ -2036,8 +2036,8 @@ class NetworkSettings(CatalystCenterBase):
 
     def update_reserve_pool(self, config):
         """
-        Update or Create a Reserve Pool in Cisco DNA Center based on the provided configuration.
-        This method checks if a reserve pool with the specified name exists in Cisco DNA Center.
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration.
+        This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
         Parameters:
@@ -2109,7 +2109,7 @@ class NetworkSettings(CatalystCenterBase):
                 "INFO",
             )
             result_reserve_pool.get("response").get(name).update(
-                {"Cisco DNA Center params": self.have.get("reservePool").get("details")}
+                {"Cisco Catalyst Center params": self.have.get("reservePool").get("details")}
             )
             result_reserve_pool.get("response").get(name).update(
                 {"Id": self.have.get("reservePool").get("id")}
@@ -2177,7 +2177,7 @@ class NetworkSettings(CatalystCenterBase):
             )
             result_network.get("response").get(site_name).update(
                 {
-                    "Cisco DNA Center params": self.have.get("network")
+                    "Cisco Catalyst Center params": self.have.get("network")
                     .get("net_details")
                     .get("settings")
                 }
@@ -2225,7 +2225,7 @@ class NetworkSettings(CatalystCenterBase):
     def get_diff_merged(self, config):
         """
         Update or create Global Pool, Reserve Pool, and
-        Network configurations in Cisco DNA Center based on the playbook details
+        Network configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
             config (list of dict) - Playbook details containing
@@ -2248,7 +2248,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def delete_reserve_pool(self, name):
         """
-        Delete a Reserve Pool by name in Cisco DNA Center
+        Delete a Reserve Pool by name in Cisco Catalyst Center
 
         Parameters:
             name (str) - The name of the Reserve Pool to be deleted.
@@ -2296,7 +2296,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def delete_global_pool(self, name):
         """
-        Delete a Global Pool by name in Cisco DNA Center
+        Delete a Global Pool by name in Cisco Catalyst Center
 
         Parameters:
             name (str) - The name of the Global Pool to be deleted.
@@ -2337,7 +2337,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete Reserve Pool and Global Pool in Cisco DNA Center based on playbook details.
+        Delete Reserve Pool and Global Pool in Cisco Catalyst Center based on playbook details.
 
         Parameters:
             config (list of dict) - Playbook details
@@ -2363,7 +2363,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the CATALYST configuration with the playbook details
+        Validating the DNAC configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2395,7 +2395,7 @@ class NetworkSettings(CatalystCenterBase):
                 self.want.get("wantGlobal"),
                 self.global_pool_obj_params,
             ):
-                self.msg = "Global Pool Config is not applied to the CATALYST"
+                self.msg = "Global Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
@@ -2430,7 +2430,7 @@ class NetworkSettings(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-                self.msg = "Reserved Pool Config is not applied to the CATALYST"
+                self.msg = "Reserved Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
@@ -2450,7 +2450,7 @@ class NetworkSettings(CatalystCenterBase):
                 self.want.get("wantNetwork"),
                 self.network_obj_params,
             ):
-                self.msg = "Network Functions Config is not applied to the CATALYST"
+                self.msg = "Network Functions Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
@@ -2471,7 +2471,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the CATALYST configuration with the playbook details
+        Validating the DNAC configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -2488,7 +2488,7 @@ class NetworkSettings(CatalystCenterBase):
         if config.get("global_pool_details") is not None:
             global_pool_exists = self.have.get("globalPool").get("exists")
             if global_pool_exists:
-                self.msg = "Global Pool Config is not applied to the CATALYST"
+                self.msg = "Global Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
@@ -2548,18 +2548,19 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

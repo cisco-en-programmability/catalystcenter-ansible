@@ -7,15 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: energy_sites_query_info
-short_description: Information module for Energy Sites
-  Query
+short_description: Information module for Energy Sites Query
 description:
-  - Get all Energy Sites Query. - > Gets query sites
-    energy task result for the given task ID. For detailed
-    information about the usage of the API, please refer
-    to the Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    sitesEnergy-1.0.1-resolved.yaml.
+  - Get all Energy Sites Query.
+  - Gets query sites energy task result for the given task ID.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/
+    CE_Cat_Center_Org-sitesEnergy-1.0.1-resolved.yaml.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,18 +25,15 @@ options:
   taskId:
     description:
       - >
-        TaskId query parameter. Used to retrieve asynchronously
-        processed & stored data. When this parameter
-        is used, the rest of the request params will
-        be ignored.
+        TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is
+        used, the rest of the request params will be ignored.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites QuerySitesEnergyForTheGivenTaskID
-    description: Complete reference of the QuerySitesEnergyForTheGivenTaskID
-      API.
+    description: Complete reference of the QuerySitesEnergyForTheGivenTaskID API.
     link: https://developer.cisco.com/docs/dna-center/#!query-sites-energy-for-the-given-task-id
 notes:
   - SDK Method used are
@@ -55,7 +50,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -64,7 +59,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

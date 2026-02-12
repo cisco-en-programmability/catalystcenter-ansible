@@ -9,14 +9,18 @@ DOCUMENTATION = r"""
 module: backup_nfs_configurations
 short_description: Resource module for Backup Nfs Configurations
 description:
-  - Manage operation create of the resource Backup Nfs
-    Configurations.
+  - Manage operations create and delete of the resource Backup Nfs Configurations.
   - This api is used to create NFS configuration.
+  - This api is used to delete the NFS configuration.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
+  id:
+    description: Id path parameter. The `id` of the NFS configuration to be deleted.Obtain the `id` from the id attribute
+      in the response of the `/dna/system/api/v1/backupNfsConfigurations` API.
+    type: str
   nfsPort:
     description: NFS Port.
     type: int
@@ -33,19 +37,22 @@ options:
     description: NFS server path.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup
-      CreateNFSConfiguration
-    description: Complete reference of the CreateNFSConfiguration
-      API.
+  - name: Cisco DNA Center documentation for Backup CreateNFSConfiguration
+    description: Complete reference of the CreateNFSConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!create-nfs-configuration
+  - name: Cisco DNA Center documentation for Backup DeleteNFSConfiguration
+    description: Complete reference of the DeleteNFSConfiguration API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-nfs-configuration
 notes:
   - SDK Method used are
     backup.Backup.create_n_f_s_configuration,
+    backup.Backup.delete_n_f_s_configuration,
   - Paths used are
     post /dna/system/api/v1/backupNfsConfigurations,
+    delete /dna/system/api/v1/backupNfsConfigurations/{id},
 """
 
 EXAMPLES = r"""
@@ -56,7 +63,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -65,12 +72,28 @@ EXAMPLES = r"""
     portMapperPort: 0
     server: string
     sourcePath: string
+- name: Delete by id
+  cisco.catalystcenter.backup_nfs_configurations:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
-    {}
+    {
+      "response": {
+        "message": "string"
+      },
+      "version": "string"
+    }
 """

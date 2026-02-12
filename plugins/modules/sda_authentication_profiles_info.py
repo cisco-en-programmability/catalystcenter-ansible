@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_authentication_profiles_info
-short_description: Information module for Sda Authentication
-  Profiles
+short_description: Information module for Sda Authentication Profiles
 description:
   - Get all Sda Authentication Profiles.
-  - Returns a list of authentication profiles that match
-    the provided query parameters.
+  - Returns a list of authentication profiles that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -23,44 +21,37 @@ options:
     type: dict
   fabricId:
     description:
-      - FabricId query parameter. ID of the fabric the
-        authentication profile is assigned to.
+      - FabricId query parameter. ID of the fabric the authentication profile is assigned to.
     type: str
   authenticationProfileName:
     description:
       - >
-        AuthenticationProfileName query parameter. Return
-        only the authentication profiles with this specified
-        name. Note that 'No Authentication' is not a
-        valid option for this parameter.
+        AuthenticationProfileName query parameter. Return only the authentication profiles with this specified
+        name. Note that 'No Authentication' is not a valid option for this parameter.
     type: str
   isGlobalAuthenticationProfile:
     description:
       - >
-        IsGlobalAuthenticationProfile query parameter.
-        Set to true to return only global authentication
-        profiles, or set to false to hide them. IsGlobalAuthenticationProfile
-        must not be true when fabricId is provided.
+        IsGlobalAuthenticationProfile query parameter. Set to true to return only global authentication
+        profiles, or set to false to hide them. IsGlobalAuthenticationProfile must not be true when fabricId is
+        provided.
     type: bool
   offset:
     description:
-      - Offset query parameter. Starting record for
-        pagination.
-    type: float
+      - Offset query parameter. Starting record for pagination.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. Maximum number of records
-        to return. The maximum number of objects supported
-        in a single request is 500.
-    type: float
+        Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+        single request is 500.
+    type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for SDA GetAuthenticationProfiles
-    description: Complete reference of the GetAuthenticationProfiles
-      API.
+    description: Complete reference of the GetAuthenticationProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles
 notes:
   - SDK Method used are
@@ -77,7 +68,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -90,7 +81,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

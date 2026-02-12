@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: templates_template_id_versions_info
-short_description: Information module for Templates
-  Template Id Versions
+short_description: Information module for Templates Template Id Versions
 description:
   - Get all Templates Template Id Versions.
+  - Get Templates Template Id Versions by id.
+  - Get a template's version by the version ID.
   - Get a template's version information.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -23,52 +24,52 @@ options:
   templateId:
     description:
       - >
-        TemplateId path parameter. The id of the template
-        to get versions of, retrieveable from `GET /dna/intent/api/v1/templates`.
+        TemplateId path parameter. The id of the template to get versions of, retrieveable from `GET
+        /dna/intent/api/v1/templates`.
     type: str
   versionNumber:
     description:
-      - VersionNumber query parameter. Filter response
-        to only get the template version that matches
-        this version number.
+      - VersionNumber query parameter. Filter response to only get the template version that matches this version number.
     type: int
   latestVersion:
     description:
-      - LatestVersion query parameter. Filter response
-        to only include the latest version of a template.
+      - LatestVersion query parameter. Filter response to only include the latest version of a template.
     type: bool
   order:
     description:
-      - Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response.
+      - Order query parameter. Whether ascending or descending order should be used to sort the response.
     type: str
   limit:
     description:
-      - Limit query parameter. The number of records
-        to show for this page;The minimum is 1, and
-        the maximum is 500.
-    type: float
+      - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: int
   offset:
     description:
-      - Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1.
+      - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: int
+  versionId:
+    description:
+      - >
+        VersionId path parameter. The id of the versioned template to get versions of, retrieveable from `GET
+        /dna/intent/api/v1/templates/{id}/versions`.
+    type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates GetTemplateVersions
-    description: Complete reference of the GetTemplateVersions
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateVersion
+    description: Complete reference of the GetTemplateVersion API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-version
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateVersions
+    description: Complete reference of the GetTemplateVersions API.
     link: https://developer.cisco.com/docs/dna-center/#!get-template-versions
 notes:
   - SDK Method used are
+    configuration_templates.ConfigurationTemplates.get_template_version,
     configuration_templates.ConfigurationTemplates.get_template_versions,
   - Paths used are
     get /dna/intent/api/v1/templates/{templateId}/versions,
+    get /dna/intent/api/v1/templates/{templateId}/versions/{versionId},
 """
 
 EXAMPLES = r"""
@@ -79,7 +80,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -90,58 +91,69 @@ EXAMPLES = r"""
     offset: 0
     templateId: string
   register: result
+- name: Get Templates Template Id Versions by id
+  cisco.catalystcenter.templates_template_id_versions_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    templateId: string
+    versionId: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
-      "response": [
-        {
-          "versionId": "string",
-          "version": 0,
-          "versionTime": 0,
-          "RegularTemplate": {
-            "templateId": "string",
-            "name": "string",
-            "projectId": "string",
-            "description": "string",
-            "softwareFamily": "string",
-            "author": "string",
-            "products": [
-              {
-                "productFamily": "string",
-                "productSeries": "string",
-                "productName": "string"
-              }
-            ],
-            "lastUpdateTime": 0,
-            "type": "string",
-            "language": "string",
-            "templateContent": "string"
-          },
-          "CompositeTemplate": {
-            "templateId": "string",
-            "name": "string",
-            "projectId": "string",
-            "description": "string",
-            "softwareFamily": "string",
-            "author": "string",
-            "products": [
-              {
-                "productFamily": "string",
-                "productSeries": "string",
-                "productName": "string"
-              }
-            ],
-            "lastUpdateTime": 0,
-            "type": "string",
-            "failurePolicy": "string"
-          }
+      "response": {
+        "versionId": "string",
+        "version": 0,
+        "versionTime": 0,
+        "RegularTemplate": {
+          "templateId": "string",
+          "name": "string",
+          "projectId": "string",
+          "description": "string",
+          "softwareFamily": "string",
+          "author": "string",
+          "products": [
+            {
+              "productFamily": "string",
+              "productSeries": "string",
+              "productName": "string"
+            }
+          ],
+          "lastUpdateTime": 0,
+          "type": "string",
+          "language": "string",
+          "templateContent": "string"
+        },
+        "CompositeTemplate": {
+          "templateId": "string",
+          "name": "string",
+          "projectId": "string",
+          "description": "string",
+          "softwareFamily": "string",
+          "author": "string",
+          "products": [
+            {
+              "productFamily": "string",
+              "productSeries": "string",
+              "productName": "string"
+            }
+          ],
+          "lastUpdateTime": 0,
+          "type": "string",
+          "failurePolicy": "string"
         }
-      ]
+      }
     }
 """

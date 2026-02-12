@@ -11,11 +11,8 @@ short_description: Information module for Pnp Workflow
 description:
   - Get all Pnp Workflow.
   - Get Pnp Workflow by id.
-  - Returns a workflow specified by id. - > Returns
-    the list of workflows based on filter criteria.
-    If a limit is not specified, it will default to
-    return 50 workflows. Pagination and sorting are
-    also supported by this endpoint.
+  - Returns a workflow specified by id. - > Returns the list of workflows based on filter criteria. If a limit is not specified,
+    it will default to return 50 workflows. Pagination and sorting are also supported by this endpoint.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,27 +24,23 @@ options:
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. The minimum and maximum
-        values are 0 and 500, respectively.
-    type: float
+        Limit query parameter. The number of records to show for this page. The minimum and maximum values are 0
+        and 500, respectively.
+    type: int
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        0. The Minimum value is 0.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 0. The
+        Minimum value is 0.
+    type: int
   sort:
     description:
-      - Sort query parameter. Comma seperated lost of
-        fields to sort on.
+      - Sort query parameter. Comma seperated lost of fields to sort on.
     elements: str
     type: list
   sortOrder:
     description:
-      - SortOrder query parameter. Sort Order Ascending
-        (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   type:
     description:
@@ -64,18 +57,14 @@ options:
       - Id path parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetWorkflowById
-    description: Complete reference of the GetWorkflowById
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById
+    description: Complete reference of the GetWorkflowById API.
     link: https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id
-  - name: Cisco DNA Center documentation for Device
-      Onboarding (PnP) GetWorkflows
-    description: Complete reference of the GetWorkflows
-      API.
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflows
+    description: Complete reference of the GetWorkflows API.
     link: https://developer.cisco.com/docs/dna-center/#!get-workflows
 notes:
   - SDK Method used are
@@ -94,7 +83,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -111,7 +100,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -120,7 +109,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

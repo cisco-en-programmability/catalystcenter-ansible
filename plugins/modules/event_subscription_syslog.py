@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_syslog
-short_description: Resource module for Event Subscription
-  Syslog
+short_description: Resource module for Event Subscription Syslog
 description:
-  - Manage operations create and update of the resource
-    Event Subscription Syslog.
-  - Create Syslog Subscription Endpoint for list of
-    registered events.
-  - Update Syslog Subscription Endpoint for list of
-    registered events.
+  - Manage operations create and update of the resource Event Subscription Syslog.
+  - Create Syslog Subscription Endpoint for list of registered events.
+  - Update Syslog Subscription Endpoint for list of registered events.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -36,8 +32,7 @@ options:
             elements: str
             type: list
           domainsSubdomains:
-            description: Event Subscription Syslog's
-              domainsSubdomains.
+            description: Event Subscription Syslog's domainsSubdomains.
             elements: dict
             suboptions:
               domain:
@@ -49,8 +44,7 @@ options:
                 type: list
             type: list
           eventIds:
-            description: Event Ids (Comma separated
-              event ids).
+            description: Event Ids (Comma separated event ids).
             elements: str
             type: list
           severities:
@@ -78,16 +72,13 @@ options:
         elements: dict
         suboptions:
           instanceId:
-            description: (From Get Syslog Subscription
-              Details --> pick instanceId).
+            description: (From Get Rest/Webhook Subscription Details --> pick instanceId).
             type: str
           subscriptionDetails:
-            description: Event Subscription Syslog's
-              subscriptionDetails.
+            description: Event Subscription Syslog's subscriptionDetails.
             suboptions:
               connectorType:
-                description: Connector Type (Must be
-                  SYSLOG).
+                description: Connector Type (Must be REST).
                 type: str
             type: dict
         type: list
@@ -99,18 +90,14 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      CreateSyslogEventSubscription
-    description: Complete reference of the CreateSyslogEventSubscription
-      API.
+  - name: Cisco DNA Center documentation for Event Management CreateSyslogEventSubscription
+    description: Complete reference of the CreateSyslogEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription
-  - name: Cisco DNA Center documentation for Event Management
-      UpdateSyslogEventSubscription
-    description: Complete reference of the UpdateSyslogEventSubscription
-      API.
+  - name: Cisco DNA Center documentation for Event Management UpdateSyslogEventSubscription
+    description: Complete reference of the UpdateSyslogEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription
 notes:
   - SDK Method used are
@@ -123,13 +110,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Update all
+- name: Create
   cisco.catalystcenter.event_subscription_syslog:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -159,13 +146,13 @@ EXAMPLES = r"""
               connectorType: string
         subscriptionId: string
         version: string
-- name: Create
+- name: Update all
   cisco.catalystcenter.event_subscription_syslog:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
@@ -198,7 +185,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

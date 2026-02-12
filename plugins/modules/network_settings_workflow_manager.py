@@ -72,6 +72,7 @@ options:
                       - Only letters, numbers and -_./
                         characters are allowed.
                     type: str
+                    required: true
                   pool_type:
                     description: >
                       Includes both the Generic Ip Pool
@@ -99,6 +100,7 @@ options:
                       systematic IP address distribution
                       within a network.
                     type: str
+                    required: true
                   gateway:
                     description: Serves as an entry
                       or exit point for data traffic
@@ -137,7 +139,8 @@ options:
       reserve_pool_details:
         description: Reserved IP subpool details from
           the global pool.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           site_name:
             description: >
@@ -155,6 +158,7 @@ options:
               - Only letters, numbers and -_./ characters
                 are allowed.
             type: str
+            required: true
           pool_type:
             description: Type of the reserve ip sub
               pool. Generic - Used for general purpose
@@ -189,11 +193,9 @@ options:
             type: bool
           ipv4_global_pool:
             description:
-              - IP v4 Global pool address with cidr,
-                example 175.175.0.0/16.
-              - If both 'ipv6_global_pool' and 'ipv4_global_pool_name'
-                are provided, the 'ipv4_global_pool'
-                will be given priority.
+              - Specifies the IPv4 global pool address in CIDR notation, for example, "175.175.0.0/16".
+              - When both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the value of 'ipv4_global_pool' takes precedence in version 2.3.5.3.
+              - However, in version 2.3.7.9, ipv4_global_pool_name takes precedence over ipv4_global_pool.
             type: str
           ipv4_global_pool_name:
             description:
@@ -205,21 +207,31 @@ options:
             type: str
             version_added: 6.14.0
           ipv4_subnet:
-            description: Indicates the IPv4 subnet address,
-              for example, "175.175.0.0".
+            description:
+              - Indicates the IPv4 subnet address, for example, "175.175.0.0".
+              - This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
             type: str
           ipv4_prefix:
-            description: ip4 prefix length is enabled
-              or ipv4 total Host input is enabled
+            description:
+              - Indicates whether the IPv4 prefix length input is enabled.
+              - If true, the IPv4 prefix length must be specified.
+              - Alternatively, the IPv4 total host input can be enabled instead.
             type: bool
           ipv4_prefix_length:
-            description: The ipv4 prefix length is required
-              when ipv4_prefix value is true.
+            description:
+              - Specifies the IPv4 prefix length.
+              - For IPv4, it must be between 8 and 30, inclusive.
+              - Required when 'ipv4_prefix' is true.
+              - For example, a prefix length of 24 corresponds to a subnet mask of 255.255.255.0.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv4_total_host' is not provided.
             type: int
-          ipv4_totalhost:
-            description: The total number of hosts for
-              IPv4, required when the 'ipv4_prefix'
-              is set to false.
+          ipv4_total_host:
+            description:
+              - Specifies the total number of IPv4 hosts.
+              - Must be a positive integer within the subnet capacity.
+              - For IPv4, the value must fit within a 32-bit address space.
+              - Required when 'ipv4_prefix' is false.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv4_prefix_length' is not provided.
             type: int
           ipv4_gateway:
             description: Provides the gateway's IPv4
@@ -273,29 +285,29 @@ options:
             type: str
             version_added: 6.14.0
           ipv6_subnet:
-            description: IPv6 Subnet address, example
-              2001:db8:85a3:0:100.
+            description:
+              - IPv6 Subnet address, example 2001:db8:85a3:0:100.
+              - This parameter is required starting from Cisco Catalyst Center version 2.3.7.9 and later.
             type: str
           ipv6_prefix:
-            description: >
-              Determines whether to enable the 'ipv6_prefix_length'
-              or 'ipv6_total_host' input field. If IPv6
-              prefix value is true, the IPv6 prefix
-              length input field is required, If it
-              is false ipv6 total Host input is required.
+            description:
+              - Determines whether to enable the 'ipv6_prefix_length' or 'ipv6_total_host' input field.
+              - If the IPv6 prefix value is true, the IPv6 prefix length input field is required.
+              - If it is false, the ipv6_total_host input is required.
             type: bool
           ipv6_prefix_length:
-            description: Specifies the IPv6 prefix length.
-              Required when 'ipv6_prefix' is set to
-              true.
+            description:
+              - Specifies the IPv6 prefix length.
+              - The valid range is from 0 to 128.
+              - Required when 'ipv6_prefix' is true.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv6_total_host' is not provided.
             type: int
-          ipv6_totalhost:
+          ipv6_total_host:
             description:
               - Specifies the total number of IPv6 hosts.
-                Required when 'ipv6_prefix' is set to
-                false.
-              - Must specify a number of IPv6 IP addresses
-                that is less than 256.
+              - Must be an integer less than 256.
+              - Required when 'ipv6_prefix' is false.
+              - Mandatory starting from Cisco Catalyst Center version 2.3.7.9 if 'ipv6_prefix_length' is not provided.
             type: int
           prev_name:
             description: The former name associated
@@ -307,6 +319,36 @@ options:
               their IP addresses autonomously, eliminating
               the need for manual setup.
             type: bool
+          ipv4_unassignable_addresses:
+            description: >
+              - Specifies the number of IPv4 addresses that cannot be assigned due to constraints or reservations.
+              - These addresses are excluded from allocation pools.
+            type: int
+          ipv4_assigned_addresses:
+            description: >
+              - Specifies the number of IPv4 addresses that have already been allocated.
+              - Reflects the count of addresses currently in use.
+            type: int
+          ipv4_default_assigned_addresses:
+            description: >
+              - Specifies the number of IPv4 addresses assigned by default during pool creation.
+              - Represents the initial allocation count when the pool is created.
+            type: int
+          ipv6_unassignable_addresses:
+            description: >
+              - Specifies the number of IPv6 addresses that cannot be assigned due to constraints or reservations.
+              - These addresses are excluded from allocation pools.
+            type: int
+          ipv6_assigned_addresses:
+            description: >
+              - Specifies the number of IPv6 addresses that have already been allocated.
+              - Reflects the count of addresses currently in use.
+            type: int
+          ipv6_default_assigned_addresses:
+            description: >
+              - Specifies the number of IPv6 addresses assigned by default during pool creation.
+              - Represents the initial allocation count when the pool is created.
+            type: int
           force_delete:
             description: >
               Forcefully delete all IP pools from the
@@ -549,8 +591,28 @@ options:
                     elements: str
                     type: list
                 type: dict
+      device_controllability_details:
+        description:
+            - Defines the default device controllability settings at the site level.
+            - Controls whether Catalyst Center can apply telemetry and configuration policies to devices.
+        type: dict
+        suboptions:
+          device_controllability:
+            description:
+                - Boolean flag to enable or disable device controllability at the site level.
+                - This is a required setting.
+                - When enabled, Catalyst Center manages telemetry and configuration policies on devices.
+            type: bool
+            required: true
+          autocorrect_telemetry_config:
+            description:
+                - Boolean flag to automatically correct telemetry configuration on devices if it deviates from the expected state.
+                - Optional setting; defaults to false.
+            type: bool
+            required: false
+            default: false
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -561,15 +623,35 @@ notes:
     network_settings.NetworkSettings.reserve_ip_subpool,
     network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
+    network_settings.NetworkSettings.retrieves_global_ip_address_pools,
+    network_settings.NetworkSettings.retrieves_ip_address_subpools,
+    network_settings.NetworkSettings.create_a_global_ip_address_pool,
+    network_settings.NetworkSettings.reserve_create_ip_address_subpools,
+    network_settings.NetworkSettings.delete_a_global_ip_address_pool,
+    network_settings.NetworkSettings.release_an_ip_address_subpool,
+    network_settings.NetworkSettings.updates_a_global_ip_address_pool,
+    network_settings.NetworkSettings.updates_an_ip_address_subpool,
+    network_settings.NetworkSettings.get_device_controllability_settings,
+    network_settings.NetworkSettings.update_device_controllability_settings
+
   - Paths used are
     post /dna/intent/api/v1/global-pool,
     delete /dna/intent/api/v1/global-pool/{id},
-    put
-    /dna/intent/api/v1/global-pool,
+    put /dna/intent/api/v1/global-pool,
     post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     delete /dna/intent/api/v1/reserve-ip-subpool/{id},
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v2/network/{siteId},
+    GET /intent/api/v1/ipam/globalIpAddressPools
+    GET /intent/api/v1/ipam/siteIpAddressPools
+    POST /intent/api/v1/ipam/globalIpAddressPools
+    POST /intent/api/v1/ipam/siteIpAddressPools
+    PUT /intent/api/v1/ipam/globalIpAddressPools/{id}
+    PUT /intent/api/v1/ipam/siteIpAddressPools/{id}
+    DELETE  /intent/api/v1/ipam/globalIpAddressPools/{id}
+    DELETE  /intent/api/v1/ipam/siteIpAddressPools/{id}
+    GET /networkDevices/deviceControllability/settings
+    PUT /dna/intent/api/v1/networkDevices/deviceControllability/settings
 """
 EXAMPLES = r"""
 ---
@@ -579,7 +661,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -603,7 +685,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -632,7 +714,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -660,7 +742,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -674,7 +756,7 @@ EXAMPLES = r"""
 - name: Delete Global Pool
   cisco.catalystcenter.network_settings_workflow_manager:
     catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
     catalystcenter_username: "{{ catalystcenter_username }}"
     catalystcenter_password: "{{ catalystcenter_password }}"
     catalystcenter_verify: "{{ catalystcenter_verify }}"
@@ -695,7 +777,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -732,7 +814,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: true
@@ -756,13 +838,13 @@ EXAMPLES = r"""
 - name: Adding the network_aaa and client_and_endpoint_aaa
     ISE server
   cisco.catalystcenter.network_settings_workflow_manager:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
     catalystcenter_log: true
     catalystcenter_log_level: "{{ catalystcenter_log_level }}"
     state: merged
@@ -781,7 +863,27 @@ EXAMPLES = r"""
                 pan_address: string
                 primary_server_address: string
                 protocol: string
+
+- name: Adding device_controllability details
+  cisco.catalystcenter.network_settings_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    state: merged
+    config_verify: true
+    config:
+      - device_controllability_details:
+          device_controllability: true
+          autocorrect_telemetry_config: true
 """
+
+
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global pool
 response_1:
@@ -817,16 +919,16 @@ response_3:
       "message": "string"
     }
 """
-
+import math
 import copy
 import re
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    catalystcenter_compare_equality,
+    dnac_compare_equality,
 )
 
 
@@ -835,14 +937,19 @@ class NetworkSettings(CatalystCenterBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
             {"globalPool": {"response": {}, "msg": {}}},
             {"reservePool": {"response": {}, "msg": {}}},
             {"network": {"response": {}, "msg": {}}},
+            {"device_controllability": {"response": {}, "msg": {}}},
         ]
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
+        self.device_controllability_obj_params = self.get_obj_params(
+            "device_controllability"
+        )
         self.all_reserved_pool_details = {}
         self.global_pool_response = {}
         self.reserve_pool_response = {}
@@ -886,7 +993,7 @@ class NetworkSettings(CatalystCenterBase):
                         "force_delete": {
                             "type": "bool",
                             "required": False,
-                            "default": True,
+                            "default": False,
                         },
                     },
                 },
@@ -919,7 +1026,13 @@ class NetworkSettings(CatalystCenterBase):
                     "type": "str",
                     "choices": ["Generic", "LAN", "Management", "Service", "WAN"],
                 },
-                "force_delete": {"type": "bool", "required": False, "default": True},
+                "force_delete": {"type": "bool", "required": False, "default": False},
+                "ipv4_unassignable_addresses": {"type": int, "required": False},
+                "ipv4_assigned_addresses": {"type": int, "required": False},
+                "ipv4_default_assigned_addresses": {"type": int, "required": False},
+                "ipv6_unassignable_addresses": {"type": int, "required": False},
+                "ipv6_assigned_addresses": {"type": int, "required": False},
+                "ipv6_default_assigned_addresses": {"type": int, "required": False},
             },
             "network_management_details": {
                 "type": "list",
@@ -985,6 +1098,17 @@ class NetworkSettings(CatalystCenterBase):
                     },
                 },
                 "site_name": {"type": "str"},
+            },
+            "device_controllability_details": {
+                "type": "dict",
+                "options": {
+                    "device_controllability": {"type": "bool", "required": True},
+                    "autocorrect_telemetry_config": {
+                        "type": "bool",
+                        "required": False,
+                        "default": False,
+                    },
+                },
             },
         }
 
@@ -1066,7 +1190,7 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
         return any(
-            not catalystcenter_compare_equality(
+            not dnac_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params
@@ -1090,7 +1214,9 @@ class NetworkSettings(CatalystCenterBase):
                     ("IpAddressSpace", "IpAddressSpace"),
                     ("dhcpServerIps", "dhcpServerIps"),
                     ("dnsServerIps", "dnsServerIps"),
-                    ("gateway", "gateway"),
+                    ("name", "name"),
+                    ("poolType", "poolType"),
+                    ("addressSpace", "addressSpace"),
                 ]
             elif get_object == "ReservePool":
                 obj_params = [
@@ -1105,9 +1231,16 @@ class NetworkSettings(CatalystCenterBase):
                     ("ipv6DnsServers", "ipv6DnsServers"),
                     ("ipv4TotalHost", "ipv4TotalHost"),
                     ("slaacSupport", "slaacSupport"),
+                    ("ipV6AddressSpace", "ipV6AddressSpace"),
+                    ("ipV4AddressSpace", "ipV4AddressSpace"),
                 ]
             elif get_object == "Network":
                 obj_params = [("settings", "settings"), ("site_name", "site_name")]
+            elif get_object == "device_controllability":
+                obj_params = [
+                    ("deviceControllability", "device_controllability"),
+                    ("autocorrectTelemetryConfig", "autocorrect_telemetry_config"),
+                ]
             else:
                 raise ValueError(
                     "Received an unexpected value for 'get_object': {0}".format(
@@ -1121,7 +1254,32 @@ class NetworkSettings(CatalystCenterBase):
 
     def get_global_pool_params(self, pool_info):
         """
-        Process Global Pool params from playbook data for Global Pool config in Cisco Catalyst Center
+        Determine the correct version of the global pool parameter processor to use
+        based on the Cisco Catalyst Center version.
+
+        Parameters:
+            pool_info (dict) - The input pool information.
+
+        Returns:
+            dict or None - Processed Global Pool data in a format suitable
+            for Cisco Catalyst Center configuration.
+        """
+        current_version = self.get_ccc_version()
+        self.log(
+            "Current Cisco Catalyst Center Version: {}".format(current_version), "DEBUG"
+        )
+
+        if self.compare_dnac_versions(current_version, "2.3.7.9") < 0:
+            self.log("Using get_global_pool_params_v1 based on version check", "DEBUG")
+            return self.get_global_pool_params_v1(pool_info)
+
+        self.log("Using get_global_pool_params_v2 based on version check", "DEBUG")
+        return self.get_global_pool_params_v2(pool_info)
+
+    def get_global_pool_params_v1(self, pool_info):
+        """
+        Process Global Pool parameters from playbook data for Global Pool configuration
+        in Cisco Catalyst Center version < 2.3.7.9.
 
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
@@ -1132,7 +1290,7 @@ class NetworkSettings(CatalystCenterBase):
         """
 
         if not pool_info:
-            self.log("Global Pool is empty", "INFO")
+            self.log("Global Pool data is empty or missing.", "INFO")
             return None
 
         self.log("Global Pool Details: {0}".format(pool_info), "DEBUG")
@@ -1144,7 +1302,6 @@ class NetworkSettings(CatalystCenterBase):
             "type": pool_info.get("ipPoolType").capitalize(),
         }
         self.log("Formated global pool details: {0}".format(global_pool), "DEBUG")
-        # global_ippool = global_pool.get("settings").get("ippool")[0]
         if pool_info.get("ipv6") is False:
             global_pool.update({"IpAddressSpace": "IPv4"})
         else:
@@ -1160,6 +1317,36 @@ class NetworkSettings(CatalystCenterBase):
 
         return global_pool
 
+    def get_global_pool_params_v2(self, pool_info):
+        """
+        Process Global Pool parameters from playbook data for Global Pool configuration in
+        Cisco Catalyst Center version <= 2.3.7.9.
+
+        Parameters:
+            pool_info (dict) - Playbook data containing information about the global pool
+
+        Returns:
+            dict or None - Processed Global Pool data in a format suitable
+            for Cisco Catalyst Center configuration, or None if pool_info is empty.
+        """
+
+        if not pool_info:
+            self.log("Global Pool data is empty or missing.", "INFO")
+            return None
+
+        self.log("Global Pool Details: {0}".format(self.pprint(pool_info)), "DEBUG")
+        address_space = pool_info.get("addressSpace")
+        if not address_space:
+            self.log("Missing or invalid 'addressSpace' in Global Pool data.", "ERROR")
+            return None
+        global_pool = pool_info
+        self.log(
+            "Formated global pool details: {0}".format(self.pprint(global_pool)),
+            "DEBUG",
+        )
+
+        return global_pool
+
     def get_reserve_pool_params(self, pool_info):
         """
         Process Reserved Pool parameters from playbook data
@@ -1172,6 +1359,12 @@ class NetworkSettings(CatalystCenterBase):
             reserve_pool (dict) - Processed Reserved pool data
             in the format suitable for the Cisco Catalyst Center config
         """
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            self.log(
+                "Using new Reserved Pool format for version 2.3.7.9 and above", "INFO"
+            )
+            return pool_info
 
         reserve_pool = {
             "name": pool_info.get("groupName"),
@@ -1280,7 +1473,7 @@ class NetworkSettings(CatalystCenterBase):
             # Extract DHCP details
             dhcp_details = dhcp_response.get("response", {}).get("dhcp")
 
-            if not dhcp_response:
+            if dhcp_response is None:
                 self.log(
                     "No DHCP settings found for site '{0}' (ID: {1})".format(
                         site_name, site_id
@@ -1295,6 +1488,10 @@ class NetworkSettings(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
+
+            if dhcp_details.get("servers") is None:
+                dhcp_details["servers"] = []
+
         except Exception as e:
             self.msg = "Exception occurred while getting DHCP settings for site '{0}' (ID: {1}): {2}".format(
                 site_name, site_id, str(e)
@@ -1443,7 +1640,7 @@ class NetworkSettings(CatalystCenterBase):
             # Extract NTP server details
             ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
 
-            if not ntpserver_details:
+            if ntpserver_details is None:
                 self.log(
                     "No NTP server settings found for site '{0}' (ID: {1})".format(
                         site_name, site_id
@@ -1658,14 +1855,18 @@ class NetworkSettings(CatalystCenterBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            return self.get_network_params(site_name, site_id)
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            self.log(
+                "Using get_network_params_v1 based on version check",
+                "DEBUG",
+            )
+            return self.get_network_params_v1(site_name, site_id)
 
         return self.get_network_params_v2(site_name, site_id)
 
-    def get_network_params(self, site_name, site_id):
+    def get_network_params_v1(self, site_name, site_id):
         """
-        Process Network parameters for Cisco Catalyst Center version <= 2.3.5.3.
+        Process Network parameters for Cisco Catalyst Center version < 2.3.7.9.
 
         Parameters:
             site_name (str) - The Site name
@@ -1964,7 +2165,7 @@ class NetworkSettings(CatalystCenterBase):
 
     def get_network_params_v2(self, site_name, site_id):
         """
-        Process Network parameters for Cisco Catalyst Center version >= 2.3.7.6.
+        Process Network parameters for Cisco Catalyst Center version >= 2.3.7.9.
 
         Parameters:
             site_name (str) - The Site name
@@ -2133,6 +2334,7 @@ class NetworkSettings(CatalystCenterBase):
         Retrieve all the reserved IP subpool details from the Cisco Catalyst Center.
 
         Parameters:
+            site_name (str): The name of the site for which reserved pool details are requested.
             site_id (str) - The Site ID for which reserved pool details are requested.
             self (object) - The current object details.
 
@@ -2145,12 +2347,20 @@ class NetworkSettings(CatalystCenterBase):
         start_time = time.time()
         while True:
             try:
-                response = self.catalystcenter._exec(
-                    family="network_settings",
-                    function="get_reserve_ip_subpool",
-                    op_modifies=True,
-                    params={"site_id": site_id, "offset": offset},
-                )
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="get_reserve_ip_subpool",
+                        op_modifies=True,
+                        params={"site_id": site_id, "offset": offset},
+                    )
+                else:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="retrieves_ip_address_subpools",
+                        op_modifies=True,
+                        params={"id": site_id, "offset": offset},
+                    )
             except Exception as msg:
                 self.msg = "Exception occurred while fetching reserved pool details for site '{0}': {1}".format(
                     site_name, site_id
@@ -2218,12 +2428,28 @@ class NetworkSettings(CatalystCenterBase):
         offset = 1
         global_pool_details = None
         response = None
+        current_version = self.get_ccc_version()
+        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.9") < 0
+        page_limit = 25 if is_old_version else 500
         while True:
             try:
-                response = self.catalystcenter._exec(
-                    family="network_settings",
-                    function="get_global_pool",
-                    params={"offset": offset},
+                if is_old_version:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="get_global_pool",
+                        params={"offset": offset},
+                    )
+                else:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="retrieves_global_ip_address_pools",
+                        params={"offset": offset, "limit": 500},
+                    )
+                self.log(
+                    "Received response for list of global pool details existing in Catalyst Center: {}".format(
+                        self.pprint(response)
+                    ),
+                    "DEBUG",
                 )
             except Exception as msg:
                 self.msg = "Exception occurred while getting the global pool details with name '{name}': {msg}".format(
@@ -2251,9 +2477,14 @@ class NetworkSettings(CatalystCenterBase):
             if name == "":
                 global_pool_details = all_global_pool_details
             else:
-                global_pool_details = get_dict_result(
-                    all_global_pool_details, "ipPoolName", name
-                )
+                if is_old_version:
+                    global_pool_details = get_dict_result(
+                        all_global_pool_details, "ipPoolName", name
+                    )
+                else:
+                    global_pool_details = get_dict_result(
+                        all_global_pool_details, "name", name
+                    )
 
             if global_pool_details and isinstance(global_pool_details, dict):
                 self.log(
@@ -2287,7 +2518,7 @@ class NetworkSettings(CatalystCenterBase):
                     }
                     all_global_pool.append(global_del_pool)
 
-            if len(all_global_pool_details) < 25:
+            if len(all_global_pool_details) < page_limit:
                 self.log(
                     "Found {0} record(s), No more record available for the next offset".format(
                         str(len(all_global_pool_details))
@@ -2304,7 +2535,7 @@ class NetworkSettings(CatalystCenterBase):
                     return all_global_pool
                 break
 
-            offset += 25
+            offset += page_limit
 
         self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
         return global_pool
@@ -2354,9 +2585,14 @@ class NetworkSettings(CatalystCenterBase):
         if name == "":
             reserve_pool_details = self.all_reserved_pool_details.get(site_id)
         else:
-            reserve_pool_details = get_dict_result(
-                self.all_reserved_pool_details.get(site_id), "groupName", name
-            )
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+                reserve_pool_details = get_dict_result(
+                    self.all_reserved_pool_details.get(site_id), "groupName", name
+                )
+            else:
+                reserve_pool_details = get_dict_result(
+                    self.all_reserved_pool_details.get(site_id), "name", name
+                )
 
         if not reserve_pool_details:
             self.log(
@@ -2532,6 +2768,57 @@ class NetworkSettings(CatalystCenterBase):
         self.have.update({"globalPool": global_pool})
         self.msg = "Collecting the global pool details from the Cisco Catalyst Center"
         self.status = "success"
+        return self
+
+    def get_have_device_controllability(self, config_details):
+        """
+        Get the current Device Controllability information from Cisco Catalyst Center
+        and store it directly in self.have.
+
+        Parameters:
+            config_details (list of dict) - Playbook details containing device controllability config.
+
+        Returns:
+            self - The current object with updated information.
+        """
+
+        self.log(
+            "Fetching device controllability details from Cisco Catalyst Center.",
+            "INFO",
+        )
+
+        try:
+            # Call the Catalyst Center API using family/function
+            response = self.catalystcenter._exec(
+                family="site_design",
+                function="get_device_controllability_settings",
+            )
+            response = response.get("response")
+
+            # Check if the API call was successful
+            if not response:
+                self.log(
+                    "Device controllability response is empty or invalid.", "ERROR"
+                )
+                return self.check_return_status()
+
+            # Store response in 'have'
+            self.have.update({"have_device_controllability": response})
+            self.msg = (
+                "Collected device controllability details from Cisco Catalyst Center"
+            )
+            self.status = "success"
+
+        except Exception as e:
+            # Handle any exceptions that occur during the API call
+            self.log(
+                f"Error occurred while fetching device controllability details: {str(e)}",
+                "ERROR",
+            )
+            self.status = "failed"
+            self.msg = f"Exception during device controllability retrieval: {str(e)}"
+            return self.check_return_status()
+
         return self
 
     def get_have_reserve_pool(self, reserve_pool_details):
@@ -2731,6 +3018,31 @@ class NetworkSettings(CatalystCenterBase):
         if network_details is not None:
             self.get_have_network(network_details).check_return_status()
 
+        # Retrieve device controllability details from the config
+        device_controllability_details = config.get("device_controllability_details")
+
+        if device_controllability_details:
+            # Check if the CCC version is 2.3.7.9 or later
+            current_version = self.get_ccc_version()
+            if self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+                self.log(
+                    f"Device controllability details found in config. Proceeding with version {current_version}.",
+                    "DEBUG",
+                )
+                self.get_have_device_controllability(
+                    device_controllability_details
+                ).check_return_status()
+            else:
+                self.log(
+                    f"Cisco Catalyst Center version {current_version} is lower than 2.3.7.9. Skipping device controllability retrieval.",
+                    "INFO",
+                )
+        else:
+            self.log(
+                "No device controllability details found in the provided config.",
+                "DEBUG",
+            )
+
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
         self.status = "success"
@@ -2738,32 +3050,56 @@ class NetworkSettings(CatalystCenterBase):
 
     def get_global_pool_cidr(self, global_pool_cidr, global_pool_name):
         """
-        Get the Ipv4 or Ipv6 global pool cidr from the global pool name.
+        Retrieve the Global Pool CIDR or ID from Cisco Catalyst Center based on the pool name.
+
+        This method returns the provided CIDR directly if available and compatible with the platform version.
+        Otherwise, it queries the Catalyst Center for the matching global pool using the pool name.
 
         Parameters:
-            global_pool_cidr (dict) - Global pool cidr value of the current item.
-            global_pool_name (dict) - Global pool name of the current item.
+            global_pool_cidr (str): CIDR value of the global pool if already known. Used directly for older versions.
+            global_pool_name (str): Name of the global pool to search for in Catalyst Center.
 
         Returns:
-            global_pool_cidr (str) - Global pool cidr value of the current item.
+            str: The global pool CIDR (for versions < 2.3.7.9) or the global pool ID (for later versions).
+                In case of error, the method sets internal status/message and returns from `check_return_status()`.
         """
+        self.log(
+            f"Starting retrieval of global pool. CIDR: {global_pool_cidr}, Name: {global_pool_name}",
+            "INFO",
+        )
+        current_version = self.get_ccc_version()
+        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.9") < 0
+        page_limit = 25 if is_old_version else 500
 
-        if global_pool_cidr:
+        # Direct return for older versions when CIDR is provided
+        if global_pool_cidr and is_old_version:
+            self.log(
+                f"Using provided CIDR '{global_pool_cidr}' directly for older platform versions.",
+                "INFO",
+            )
             return global_pool_cidr
 
-        if not global_pool_name:
+        if not global_pool_name and not global_pool_cidr:
             self.msg = "Missing parameter 'Global Pool CIDR' or 'Global Pool name' is required under reserve_pool_details."
             self.status = "failed"
             return self.check_return_status()
 
-        value = 1
+        offset = 1
         while True:
+            self.log(f"Querying global pool details with offset {offset}.", "DEBUG")
             try:
-                response = self.catalystcenter._exec(
-                    family="network_settings",
-                    function="get_global_pool",
-                    params={"offset": value},
-                )
+                if is_old_version:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="get_global_pool",
+                        params={"offset": offset},
+                    )
+                else:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="retrieves_global_ip_address_pools",
+                        params={"offset": offset},
+                    )
             except Exception as msg:
                 self.msg = "Exception occurred while getting the global pool details with name '{name}': {msg}".format(
                     name=global_pool_name, msg=msg
@@ -2772,7 +3108,12 @@ class NetworkSettings(CatalystCenterBase):
                 self.status = "failed"
                 return self
 
-            value += 25
+            self.log(
+                f"Global pool details retrieved successfully with offset {offset}.",
+                "DEBUG",
+            )
+
+            # Validate response type
             if not isinstance(response, dict):
                 self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
                 self.log(self.msg, "CRITICAL")
@@ -2782,41 +3123,129 @@ class NetworkSettings(CatalystCenterBase):
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
                 self.log(
-                    "Invalid global_pool_name '{0}' under reserve_pool_details".format(
-                        global_pool_name
-                    ),
-                    "ERROR",
+                    f"No global pool details returned for offset {offset}.", "WARNING"
                 )
-                self.msg = (
-                    "No information found for the global pool named '{0}'".format(
-                        global_pool_name
-                    )
-                )
+                self.msg = f"No information found for the global pool named '{global_pool_name}'"
                 self.status = "failed"
                 return self.check_return_status()
 
-            global_pool_details = get_dict_result(
-                all_global_pool_details, "ipPoolName", global_pool_name
-            )
-            if global_pool_details:
-                global_pool_cidr = global_pool_details.get("ipPoolCidr")
+            # Old Version (< 2.3.7.9)
+            if is_old_version:
                 self.log(
-                    "Global pool found with name '{0}': {1}".format(
-                        global_pool_name, global_pool_details
-                    ),
-                    "INFO",
+                    f"Looking for global pool '{global_pool_name}' in older version format.",
+                    "DEBUG",
                 )
-                break
+                global_pool_details = get_dict_result(
+                    all_global_pool_details, "ipPoolName", global_pool_name
+                )
+                if global_pool_details:
+                    global_pool_cidr = global_pool_details.get("ipPoolCidr")
+                    self.log(
+                        f"Global pool found with name '{global_pool_name}': {global_pool_details}",
+                        "INFO",
+                    )
+                    self.log(
+                        f"Global Pool '{global_pool_name}' CIDR: {global_pool_cidr}",
+                        "INFO",
+                    )
+                    return global_pool_cidr
 
-        self.log(
-            "Global Pool '{0}' cidr: {1}".format(global_pool_name, global_pool_cidr),
-            "INFO",
-        )
-        return global_pool_cidr
+                # Pagination end detection
+                if len(all_global_pool_details) < page_limit:
+                    self.log(
+                        f"Reached last page with {len(all_global_pool_details)} record(s). "
+                        f"Global pool '{global_pool_name}' not found.",
+                        "ERROR",
+                    )
+                    self.msg = f"No information found for the global pool named '{global_pool_name}'"
+                    self.status = "failed"
+                    return self.check_return_status()
 
-    def get_want_global_pool(self, global_ippool):
+                offset += page_limit
+                continue
+
+            # Process results for newer platform versions
+            self.log(
+                f"Looking for global pool with name '{global_pool_name}' in newer versions.",
+                "DEBUG",
+            )
+            global_pool_details = None
+            if global_pool_name:
+                # Search by name
+                self.log(
+                    f"Attempting to find global pool with name '{global_pool_name}' in the current batch.",
+                    "DEBUG",
+                )
+                global_pool_details = get_dict_result(
+                    all_global_pool_details, "name", global_pool_name
+                )
+                if global_pool_details:
+                    self.log(
+                        f"Global pool found with name '{global_pool_name}': {global_pool_details}",
+                        "INFO",
+                    )
+            else:
+                # Search by CIDR
+                self.log(
+                    f"Global pool name is not provided. Attempting to match by CIDR: {global_pool_cidr}",
+                    "DEBUG",
+                )
+                try:
+                    cidr = self.split_cidr(global_pool_cidr)
+                    subnet = cidr.get("network_prefix")
+                    self.log(
+                        f"Extracted subnet '{subnet}' from provided CIDR '{global_pool_cidr}'.",
+                        "DEBUG",
+                    )
+
+                except Exception as e:
+                    self.log(
+                        f"Error while splitting CIDR '{global_pool_cidr}': {e}", "ERROR"
+                    )
+                    self.msg = "Invalid CIDR format provided."
+                    self.status = "failed"
+                    return self.check_return_status()
+
+                # Search for the global pool by subnet in nested addressSpace
+                for item in all_global_pool_details:
+                    if not isinstance(item, dict):
+                        self.log(f"Skipping non-dictionary item: {item}", "DEBUG")
+                        continue
+
+                    address_space = item.get("addressSpace")
+                    if isinstance(address_space, dict):
+                        match = get_dict_result([address_space], "subnet", subnet)
+                        if match:
+                            global_pool_details = item
+                            self.log(
+                                f"Global pool matched by subnet '{subnet}': {global_pool_details}",
+                                "INFO",
+                            )
+                            break
+
+            if global_pool_details:
+                global_pool_id = global_pool_details.get("id")
+                self.log(f"Global pool found: {global_pool_details}", "INFO")
+                self.log(f"Global Pool ID: {global_pool_id}", "INFO")
+                return global_pool_id
+
+            # Pagination end detection for newer versions
+            if len(all_global_pool_details) < page_limit:
+                self.log(
+                    f"Reached last page with {len(all_global_pool_details)} record(s). "
+                    f"Global pool '{global_pool_name}' not found.",
+                    "ERROR",
+                )
+                self.msg = f"No information found for the global pool named '{global_pool_name}'"
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            offset += page_limit
+
+    def get_want_global_pool_v1(self, global_ippool):
         """
-        Get all the Global Pool information from playbook
+        Get all the Global Pool information from playbook for Catalyst Center version < 2.3.7.9.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -2863,7 +3292,12 @@ class NetworkSettings(CatalystCenterBase):
             pool_values.update({"IpAddressSpace": ip_address_space})
 
             # Converting to the required format based on the existing Global Pool
-            if not self.have.get("globalPool")[global_pool_index].get("exists"):
+            have_global_pool = self.have.get("globalPool")[global_pool_index]
+            if not have_global_pool.get("exists"):
+                self.log(
+                    f"Pool {pool_details.get('name')} does not exist. Applying defaults.",
+                    "DEBUG",
+                )
                 if pool_values.get("dhcpServerIps") is None:
                     pool_values.update({"dhcpServerIps": []})
                 if pool_values.get("dnsServerIps") is None:
@@ -2875,9 +3309,11 @@ class NetworkSettings(CatalystCenterBase):
                 if pool_values.get("type") is None:
                     pool_values.update({"type": "Generic"})
             else:
-                have_ippool = self.have.get("globalPool")[global_pool_index].get(
-                    "details"
+                self.log(
+                    f"Updating pool {pool_details.get('name')} with existing configuration.",
+                    "DEBUG",
                 )
+                have_ippool = have_global_pool.get("details", {})
 
                 # Copy existing Global Pool information if the desired configuration is not provided
                 pool_values.update(
@@ -2903,9 +3339,131 @@ class NetworkSettings(CatalystCenterBase):
         self.status = "success"
         return self
 
-    def get_want_reserve_pool(self, reserve_pool):
+    def get_want_global_pool_v2(self, global_ippool):
         """
-        Get all the Reserved Pool information from playbook
+        Get all the Global Pool information from playbook for Catalyst Center version >= 2.3.7.9.
+        Set the status and the msg before returning from the API
+        Check the return value of the API with check_return_status()
+
+        Parameters:
+            global_ippool (dict) - Playbook global pool details containing IpAddressSpace,
+            DHCP server IPs, DNS server IPs, IP pool name, IP pool CIDR, gateway, and type.
+
+        Returns:
+            self - The current object with updated desired Global Pool information.
+        """
+        self.log("Starting to process global pool details from the playbook.", "INFO")
+        # Initialize the desired Global Pool cwant_global = {
+        want_global = {"settings": {"ippool": []}}
+        want_ippool = want_global.get("settings").get("ippool")
+        global_pool_index = 0
+
+        # Valid pool types enforced by API
+        VALID_POOL_TYPES = ["Tunnel", "Generic"]
+
+        # Process each pool in the global_ippool
+        for pool_details in global_ippool:
+            cidr_value = pool_details.get("cidr")
+            if not cidr_value:
+                self.log(
+                    "Missing CIDR value in pool details. Skipping this pool.", "WARNING"
+                )
+                continue
+            cidr = self.split_cidr(cidr_value)
+            if not cidr:
+                self.log(
+                    f"Invalid CIDR value '{cidr_value}'. Skipping this pool.", "WARNING"
+                )
+                continue
+            subnet = cidr.get("network_prefix")
+            prefix_len = cidr.get("prefix_length")
+
+            # Normalize pool_type: first letter capitalized, rest lowercase
+            user_pool_type = pool_details.get("pool_type", "")
+            normalized_pool_type = (
+                user_pool_type.capitalize() if isinstance(user_pool_type, str) else ""
+            )
+
+            if normalized_pool_type not in VALID_POOL_TYPES:
+                self.log(
+                    f"Invalid or missing pool_type '{user_pool_type}'. "
+                    f"Valid options are {VALID_POOL_TYPES}.",
+                    "ERROR",
+                )
+                self.msg = f"Invalid or missing pool_type '{user_pool_type}'. Valid options are {VALID_POOL_TYPES}."
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            pool_values = {
+                "addressSpace": {
+                    "subnet": subnet,
+                    "prefixLength": prefix_len,
+                    "gatewayIpAddress": pool_details.get("gateway"),
+                    "dhcpServers": pool_details.get("dhcp_server_ips"),
+                    "dnsServers": pool_details.get("dns_server_ips"),
+                },
+                "name": pool_details.get("name"),
+                "poolType": normalized_pool_type,
+            }
+            self.log(f"Initial pool values: {pool_values}", "DEBUG")
+
+            # Converting to the required format based on the existing Global Pool
+            address_space = pool_values.get("addressSpace")
+            if not self.have.get("globalPool")[global_pool_index].get("exists"):
+                if address_space.get("dhcpServers") is None:
+                    address_space.update({"dhcpServers": []})
+                if address_space.get("dnsServers") is None:
+                    address_space.update({"dnsServers": []})
+                if address_space.get("gatewayIpAddress") is None:
+                    address_space.pop("gatewayIpAddress")
+                if pool_values.get("poolType") is None:
+                    pool_values.update({"poolType": "Generic"})
+            else:
+                have_ippool = self.have.get("globalPool")[global_pool_index].get(
+                    "details"
+                )
+                if pool_details.get("prev_name"):
+                    pool_values["prev_name"] = pool_details.get("prev_name")
+
+                # Copy existing Global Pool information if the desired configuration is not provided
+                pool_values["poolType"] = have_ippool.get("poolType")
+                pool_values["id"] = self.have.get("globalPool")[global_pool_index].get(
+                    "id"
+                )
+                address_space.update(
+                    {
+                        "subnet": have_ippool.get("addressSpace").get("subnet"),
+                        "prefixLength": have_ippool.get("addressSpace").get(
+                            "prefixLength"
+                        ),
+                    }
+                )
+                for key in ["dhcpServers", "dnsServers", "gatewayIpAddress"]:
+                    if (
+                        address_space.get(key) is None
+                        and have_ippool.get("addressSpace").get(key) is not None
+                    ):
+                        address_space[key] = have_ippool.get("addressSpace").get(key)
+
+            want_ippool.append(pool_values)
+            self.log(f"Processed pool values: {pool_values}", "DEBUG")
+            global_pool_index += 1
+
+        self.log(
+            "Final desired global pool configuration: {}".format(
+                self.pprint(want_global)
+            ),
+            "DEBUG",
+        )
+        self.want.update({"wantGlobal": want_global})
+        self.msg = "Successfully collected global pool details from the playbook."
+        self.status = "success"
+        return self
+
+    def get_want_reserve_pool_v1(self, reserve_pool):
+        """
+        Get all the Reserved Pool information from playbook for Catalyst Center version < 2.3.7.9.
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
 
@@ -2995,6 +3553,10 @@ class NetworkSettings(CatalystCenterBase):
 
             # If there are no existing Reserved Pool details, validate and set defaults
             if not self.have.get("reservePool")[reserve_pool_index].get("details"):
+                self.log(
+                    f"No existing details found for reserved pool at index {reserve_pool_index + 1}. Applying defaults.",
+                    "DEBUG",
+                )
                 if not pool_values.get("ipv4GlobalPool"):
                     self.msg = "missing parameter 'ipv4GlobalPool' in reserve_pool_details '{0}' element".format(
                         reserve_pool_index + 1
@@ -3067,6 +3629,353 @@ class NetworkSettings(CatalystCenterBase):
         self.status = "success"
         return self
 
+    def get_prefix_length_from_total_hosts(self, total_hosts, ip_version="IPv4"):
+        """
+        Calculates the IP prefix length from the total number of addresses in the pool
+        for both IPv4 and IPv6. Updates status and message on failure.
+
+        Args:
+            self: The object containing `msg` and `status`.
+            total_hosts (int or str): Total number of addresses in the pool.
+            ip_version (str): Either 'IPv4' or 'IPv6'. Default is 'IPv4'.
+
+        Returns:
+            int or self: Prefix length on success, or self on failure.
+        """
+        self.log(
+            f"Calculating prefix length for total_hosts={total_hosts}, ip_version={ip_version}.",
+            "INFO",
+        )
+
+        try:
+            total_hosts = int(total_hosts)
+            self.log(f"Parsed total_hosts as integer: {total_hosts}.", "DEBUG")
+        except (ValueError, TypeError):
+            self.msg = f"Invalid total_hosts '{total_hosts}' for {ip_version}. Total hosts must be a number."
+            self.log(self.msg, "WARNING")
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR", self.global_pool_response
+            ).check_return_status()
+
+        max_bits = 32 if ip_version == "IPv4" else 128
+        max_addresses = 2**max_bits
+        self.log(f"Max addresses for {ip_version}: {max_addresses}.", "DEBUG")
+
+        # Validate total_hosts
+        if total_hosts <= 0 or total_hosts > (
+            max_addresses - 2 if ip_version == "IPv4" else max_addresses
+        ):
+            self.msg = (
+                f"Invalid total_hosts '{total_hosts}' for {ip_version}. "
+                f"Total hosts must be greater than 0 and not exceed {max_addresses}."
+            )
+            self.log(self.msg, "WARNING")
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR", self.global_pool_response
+            ).check_return_status()
+
+        # Calculate host bits (add 2 for network + broadcast in IPv4)
+        adjustment = 2 if ip_version == "IPv4" else 0
+        host_bits = math.ceil(math.log2(total_hosts))
+        prefix_length = max_bits - host_bits
+
+        self.log(
+            f"Calculated prefix length for total_hosts={total_hosts}, ip_version={ip_version}: {prefix_length}.",
+            "INFO",
+        )
+        return prefix_length
+
+    def get_want_reserve_pool_v2(self, reserve_pool):
+        """
+        Get all the Reserved Pool information from playbook for Catalyst Center version >= 2.3.7.9.
+        Set the status and the msg before returning from the API
+        Check the return value of the API with check_return_status()
+
+        Parameters:
+            reserve_pool (dict) - Playbook reserved pool
+            details containing various properties.
+
+        Returns:
+            self - The current object with updated desired Reserved Pool information.
+        """
+        self.log("Starting to process reserved pool details from the playbook.", "INFO")
+
+        want_reserve = []
+        reserve_pool_index = 0
+
+        # Process each reserved pool
+        for item in reserve_pool:
+            self.log(
+                f"Processing reserved pool index {reserve_pool_index + 1}: {item}",
+                "DEBUG",
+            )
+
+            # Prepare the IPv4 address space dictionary
+            ipv4_dhcp_servers = item.get("ipv4_dhcp_servers")
+            ipv4_global_pool_id = self.get_global_pool_cidr(
+                item.get("ipv4_global_pool"), item.get("ipv4_global_pool_name")
+            )
+            ipv4_prefix_length = item.get("ipv4_prefix_length")
+            ipv4_total_addresses = item.get("ipv4_total_host")
+            ipv4_gateway = item.get("ipv4_gateway")
+            ipv4_dhcp_servers = item.get("ipv4_dhcp_servers")
+            ipv4_dns_servers = item.get("ipv4_dns_servers")
+            ipv4_subnet = item.get("ipv4_subnet")
+            slaac_support = item.get("slaac_support")
+            if ipv4_prefix_length is None and not ipv4_total_addresses:
+                self.msg = (
+                    "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(
+                        reserve_pool_index + 1
+                    )
+                    + "At least one of 'ipv4_prefix_length' or 'ipv4_total_host' must be provided."
+                )
+                self.status = "failed"
+                return self
+
+            if ipv4_prefix_length is None and ipv4_total_addresses:
+                self.log(
+                    f"Calculating prefix length for IPv4 total addresses: {ipv4_total_addresses}.",
+                    "DEBUG",
+                )
+                ipv4_prefix_length = self.get_prefix_length_from_total_hosts(
+                    ipv4_total_addresses, "IPv4"
+                )
+            ipv4_address_space = {
+                "subnet": ipv4_subnet,
+                "prefixLength": ipv4_prefix_length,
+                "globalPoolId": ipv4_global_pool_id,
+            }
+
+            missing_params = []
+            if not ipv4_subnet:
+                missing_params.append("ipv4_subnet")
+            if not ipv4_global_pool_id:
+                missing_params.append("ipv4_global_pool_id")
+            if not ipv4_prefix_length:
+                missing_params.append("ipv4_prefix_length")
+
+            if missing_params:
+                self.msg = (
+                    "Failed to add IPv4 in reserve_pool_details '{0}'. "
+                    "Missing or invalid required parameter(s): {1}. "
+                    "These parameters are mandatory for version {2} and above."
+                ).format(
+                    reserve_pool_index + 1, ", ".join(missing_params), self.dnac_version
+                )
+                self.status = "failed"
+                return self
+
+            # Conditionally add gateway and slaac_support
+            if ipv4_gateway is not None:
+                ipv4_address_space["gatewayIpAddress"] = ipv4_gateway
+
+            if slaac_support:
+                ipv4_address_space["slaacSupport"] = slaac_support
+
+            # Conditionally add DHCP  and dns servers
+            if ipv4_dhcp_servers:
+                ipv4_address_space["dhcpServers"] = ipv4_dhcp_servers
+
+            if ipv4_dhcp_servers:
+                ipv4_address_space["dnsServers"] = ipv4_dns_servers
+
+            # Conditionally add address statistics
+            ipv4_total_addresses = item.get("ipv4_total_addresses")
+            if ipv4_total_addresses is not None:
+                ipv4_address_space["totalAddresses"] = ipv4_total_addresses
+
+            ipv4_unassignable_addresses = item.get("ipv4_unassignable_addresses")
+            if ipv4_unassignable_addresses is not None:
+                ipv4_address_space["unassignableAddresses"] = (
+                    ipv4_unassignable_addresses
+                )
+
+            ipv4_assigned_addresses = item.get("ipv4_assigned_addresses")
+            if ipv4_assigned_addresses is not None:
+                ipv4_address_space["assignedAddresses"] = ipv4_assigned_addresses
+
+            ipv4_default_assigned_addresses = item.get(
+                "ipv4_default_assigned_addresses"
+            )
+            if ipv4_default_assigned_addresses is not None:
+                ipv4_address_space["defaultAssignedAddresses"] = (
+                    ipv4_default_assigned_addresses
+                )
+
+            pool_values = {
+                "ipV4AddressSpace": ipv4_address_space,
+                "name": item.get("name"),
+                "poolType": item.get("pool_type"),
+                "siteName": item.get("site_name"),
+            }
+            self.log(f"Processed IPv4 address space: {ipv4_address_space}", "DEBUG")
+
+            # Process IPv6 details if enabled
+            ipv6_address = item.get("ipv6_address_space")
+            if ipv6_address is not None and not isinstance(ipv6_address, bool):
+                self.msg = "Invalid value for 'ipv6_address_space' parameter: '{0}'. Expected boolean value (True or False), but received {1}.".format(
+                    ipv6_address, type(ipv6_address).__name__
+                )
+                self.log(
+                    "IPv6 address space validation failed: {0}".format(self.msg),
+                    "ERROR",
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+
+            # Check for missing required parameters in the playbook
+            if ipv6_address is True:
+                self.log(
+                    f"Processing IPv6 details for reserve pool index {reserve_pool_index + 1}.",
+                    "DEBUG",
+                )
+                ipv6_subnet = item.get("ipv6_subnet")
+                ipv6_prefix_length = item.get("ipv6_prefix_length")
+                ipv6_gateway = item.get("ipv6_gateway")
+                ipv6_dhcp_servers = item.get("ipv6_dhcp_servers")
+                ipv6_dns_servers = item.get("ipv6_dns_servers")
+                ipv6_total_addresses = item.get("ipv6_total_host")
+                ipv6_unassignable_addresses = item.get("ipv6_unassignable_addresses")
+                ipv6_assigned_addresses = item.get("ipv6_assigned_addresses")
+                ipv6_default_assigned_addresses = item.get(
+                    "ipv6_default_assigned_addresses"
+                )
+                ipv6_global_pool_id = self.get_global_pool_cidr(
+                    item.get("ipv6_global_pool"), item.get("ipv6_global_pool_name")
+                )
+                if ipv6_prefix_length is None and not ipv6_total_addresses:
+                    self.msg = (
+                        "Failed to add IPv6 in reserve_pool_details '{0}'. ".format(
+                            reserve_pool_index + 1
+                        )
+                        + "At least one of 'ipv6_prefix_length' or 'ipv6_total_host' must be provided."
+                    )
+                    self.status = "failed"
+                    return self
+
+                if ipv6_prefix_length is None and ipv6_total_addresses:
+                    self.log(
+                        f"Calculating prefix length for IPv6 total addresses: {ipv6_total_addresses}.",
+                        "DEBUG",
+                    )
+                    ipv6_prefix_length = self.get_prefix_length_from_total_hosts(
+                        ipv6_total_addresses, "IPv6"
+                    )
+
+                ipv6_address_space = {
+                    "subnet": ipv6_subnet,
+                    "prefixLength": ipv6_prefix_length,
+                    "globalPoolId": ipv6_global_pool_id,
+                }
+
+                if not (ipv6_prefix_length and ipv6_subnet and ipv6_global_pool_id):
+                    self.msg = (
+                        "Failed to add IPv6 in reserve_pool_details '{0}'. ".format(
+                            reserve_pool_index + 1
+                        )
+                        + "Required parameters 'ipv6_subnet' or 'ipv6_global_pool_id' or 'ipv6_prefix_length' are missing."
+                    )
+                    self.status = "failed"
+                    return self
+
+                if ipv6_gateway:
+                    ipv6_address_space["gatewayIpAddress"] = ipv6_gateway
+
+                if ipv6_dhcp_servers:
+                    ipv6_address_space["dhcpServers"] = ipv6_dhcp_servers
+
+                if ipv6_dns_servers:
+                    ipv6_address_space["dnsServers"] = ipv6_dns_servers
+
+                if ipv6_total_addresses:
+                    ipv6_address_space["totalAddresses"] = ipv6_total_addresses
+
+                if ipv6_unassignable_addresses:
+                    ipv6_address_space["unassignableAddresses"] = (
+                        ipv6_unassignable_addresses
+                    )
+
+                if ipv6_assigned_addresses:
+                    ipv6_address_space["assignedAddresses"] = ipv6_assigned_addresses
+
+                if ipv6_default_assigned_addresses:
+                    ipv6_address_space["defaultAssignedAddresses"] = (
+                        ipv6_default_assigned_addresses
+                    )
+
+                if slaac_support and ipv6_prefix_length == 64:
+                    ipv6_address_space["slaacSupport"] = slaac_support
+
+                if ipv6_address_space:
+                    pool_values["ipV6AddressSpace"] = ipv6_address_space
+
+            if not pool_values.get("name"):
+                self.msg = "Missing required parameter 'name' in reserve_pool_details '{0}' element".format(
+                    reserve_pool_index + 1
+                )
+                self.status = "failed"
+                return self
+
+            self.log(
+                "Reserved IP pool playbook details: {0}".format(
+                    self.pprint(pool_values)
+                ),
+                "DEBUG",
+            )
+
+            # If there are no existing Reserved Pool details, validate and set defaults
+            if not self.have.get("reservePool")[reserve_pool_index].get("details"):
+                if pool_values.get("poolType") is None:
+                    self.log(
+                        f"Setting default 'poolType' to 'Generic' for reserved pool at index {reserve_pool_index + 1}.",
+                        "DEBUG",
+                    )
+                    pool_values.update({"poolType": "Generic"})
+            else:
+                self.log(
+                    f"Existing details found for reserved pool at index {reserve_pool_index + 1}. Removing unnecessary fields.",
+                    "DEBUG",
+                )
+                keys_to_delete = [
+                    "totalAddresses",
+                    "unassignableAddresses",
+                    "assignedAddresses",
+                    "defaultAssignedAddresses",
+                ]
+
+                for ip_version in ["ipV4AddressSpace", "ipV6AddressSpace"]:
+                    if ip_version in pool_values:
+                        for key in keys_to_delete:
+                            if key in pool_values[ip_version]:
+                                self.log(
+                                    f"Removing key '{key}' from {ip_version} for reserved pool at index {reserve_pool_index + 1}.",
+                                    "DEBUG",
+                                )
+                                del pool_values[ip_version][key]
+
+                copy_pool_values = copy.deepcopy(pool_values)
+                for item in copy_pool_values:
+                    if pool_values.get(item) is None:
+                        self.log(
+                            f"Removing empty key '{item}' from reserved pool at index {reserve_pool_index + 1}.",
+                            "DEBUG",
+                        )
+                        del pool_values[item]
+
+            self.log(
+                f"Final processed pool values for index {reserve_pool_index + 1}: {pool_values}",
+                "DEBUG",
+            )
+            want_reserve.append(pool_values)
+            reserve_pool_index += 1
+
+        self.want.update({"wantReserve": want_reserve})
+        self.log(f"Final Reserved Pool details: {self.pprint(want_reserve)}", "INFO")
+        self.msg = "Successfully collected reserved pool details from the playbook."
+        self.status = "success"
+        return self
+
     def get_want_network(self, network_management_details):
         """
         Get all the Network related information from playbook
@@ -3105,7 +4014,7 @@ class NetworkSettings(CatalystCenterBase):
                 .get("net_details")
                 .get("settings")
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update(
                         {"dhcpServer": item.get("dhcp_server")}
@@ -3395,7 +4304,9 @@ class NetworkSettings(CatalystCenterBase):
                 all_network_management_details.append(want_network)
                 network_management_index += 1
             else:
-                if item.get("dhcp_server") is not None:
+                if item.get("dhcp_server") == {}:
+                    self.want.update({"settings": {"dhcpServer": {}}})
+                elif item.get("dhcp_server") is not None:
                     want_network_settings.update(
                         {"dhcpServer": {"servers": item.get("dhcp_server")}}
                     )
@@ -3428,6 +4339,8 @@ class NetworkSettings(CatalystCenterBase):
                         self.log(self.msg, "CRITICAL")
                         self.status = "failed"
                         return self.check_return_status()
+                elif ntp_servers == {}:
+                    want_network_settings["ntpServer"] = {}
                 else:
                     self.log(
                         "'ntp_server' not provided. Removing 'ntpServer' from 'want_network_settings'.",
@@ -3437,7 +4350,9 @@ class NetworkSettings(CatalystCenterBase):
                         "ntpServer", None
                     )  # Use pop to avoid KeyError if key doesn't exist
 
-                if item.get("timezone") is not None:
+                if item.get("timezone") == {}:
+                    want_network_settings["timezone"] = {}
+                elif item.get("timezone") is not None:
                     want_network_settings.update(
                         {"timezone": {"identifier": item.get("timezone")}}
                     )
@@ -3466,6 +4381,9 @@ class NetworkSettings(CatalystCenterBase):
                         )
                 else:
                     del want_network_settings["dnsServer"]
+
+                if item.get("dns_server") == {}:
+                    self.want.update({"settings": {"dnsServer": {}}})
 
                 snmp_server = item.get("snmp_server")
                 if snmp_server is not None:
@@ -3828,9 +4746,13 @@ class NetworkSettings(CatalystCenterBase):
                 else:
                     del want_network_settings["messageOfTheday"]
 
+                if message_of_the_day == {}:
+                    self.want.update({"settings": {"messageOfTheday": {}}})
+
                 server_types = ["AAA", "ISE"]
                 protocol_types = ["RADIUS", "TACACS"]
                 network_aaa = item.get("network_aaa")
+
                 if network_aaa:
                     server_type = network_aaa.get("server_type")
                     if server_type:
@@ -3909,6 +4831,9 @@ class NetworkSettings(CatalystCenterBase):
                         )
                 else:
                     del want_network_settings["network_aaa"]
+
+                if network_aaa == {}:
+                    want_network_settings["network_aaa"] = network_aaa
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -3990,6 +4915,11 @@ class NetworkSettings(CatalystCenterBase):
                 else:
                     del want_network_settings["client_and_endpoint_aaa"]
 
+                if client_and_endpoint_aaa == {}:
+                    want_network_settings["client_and_endpoint_aaa"] = (
+                        client_and_endpoint_aaa
+                    )
+
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get(
                     "client_and_endpoint_aaa"
@@ -4010,7 +4940,9 @@ class NetworkSettings(CatalystCenterBase):
                 network_management_index += 1
 
         self.log(
-            "Network playbook details: {0}".format(all_network_management_details),
+            "Network playbook details: {0}".format(
+                self.pprint(all_network_management_details)
+            ),
             "DEBUG",
         )
         self.want.update({"wantNetwork": all_network_management_details})
@@ -4018,30 +4950,163 @@ class NetworkSettings(CatalystCenterBase):
         self.status = "success"
         return self
 
-    def get_want(self, config):
+    def get_want_device_controllability(self, device_controllability_details):
         """
-        Get all the Global Pool Reserved Pool and Network related information from playbook
+        Extract and validate device controllability configuration from playbook.
+        Set appropriate status and message based on validation.
 
         Parameters:
-            config (list of dict) - Playbook details
+            device_controllability_details (dict): Playbook configuration containing device_controllability details.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+            self - The current object with updated device controllability information.
         """
+        self.log(
+            "Starting to process device controllability details from the playbook.",
+            "INFO",
+        )
+
+        try:
+            device_controllability = device_controllability_details.get(
+                "device_controllability"
+            )
+            autocorrect_telemetry = device_controllability_details.get(
+                "autocorrect_telemetry_config"
+            )
+            self.log(
+                f"Extracted 'device_controllability': {device_controllability}", "DEBUG"
+            )
+            self.log(
+                f"Extracted 'autocorrect_telemetry_config': {autocorrect_telemetry}",
+                "DEBUG",
+            )
+
+            # Basic validation
+            if device_controllability is None:
+                self.msg = "'device_controllability' must be defined in 'device_controllability_details'"
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            if autocorrect_telemetry and not device_controllability:
+                self.msg = "'autocorrect_telemetry_config' can only be enabled if 'device_controllability' is True"
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                return self
+
+            # Build desired configuration dictionary
+            want_device_config = {
+                "device_controllability": device_controllability,
+                "autocorrect_telemetry_config": autocorrect_telemetry,
+            }
+
+            self.want.update({"want_device_controllability": want_device_config})
+            self.msg = "Successfully collected the device controllability details from the playbook."
+            self.log(
+                f"Device Controllability details: {self.pprint(want_device_config)}",
+                "INFO",
+            )
+            self.status = "success"
+
+        except Exception as e:
+            self.msg = "Error processing device controllability details: {0}".format(
+                str(e)
+            )
+            self.status = "failed"
+
+        return self
+
+    def get_want(self, config):
+        """
+        Get all the Global Pool, Reserved Pool, and Network-related information from the playbook.
+
+        Parameters:
+            config (dict): Playbook details containing global_pool_details, reserve_pool_details, network_management_details,
+                   and device_controllability_details.
+
+        Returns:
+            self - The current object with Global Pool, Reserved Pool, Network Servers and Device Controllability information.
+        """
+        self.log(
+            "Starting to process the desired state (want) from the playbook.", "INFO"
+        )
+        ccc_version = self.get_ccc_version()
 
         if config.get("global_pool_details"):
+            self.log("Processing global pool details from the playbook.", "INFO")
             global_ippool = (
-                config.get("global_pool_details").get("settings").get("ip_pool")
+                config.get("global_pool_details", {}).get("settings", {}).get("ip_pool")
             )
-            self.get_want_global_pool(global_ippool).check_return_status()
+            if global_ippool:
+                if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+                    self.log(
+                        "Using Global Pool handling method: V1 (legacy) for Catalyst Center version < 2.3.7.9.",
+                        "DEBUG",
+                    )
+                    self.get_want_global_pool_v1(global_ippool).check_return_status()
+                else:
+                    self.log(
+                        "Using Global Pool handling method: V2 (latest) for Catalyst Center version >= 2.3.7.9.",
+                        "DEBUG",
+                    )
+                    self.get_want_global_pool_v2(global_ippool).check_return_status()
+            else:
+                self.log(
+                    "No valid global pool details found in the playbook.", "WARNING"
+                )
 
         if config.get("reserve_pool_details"):
+            self.log("Processing reserve pool details from the playbook.", "INFO")
             reserve_pool = config.get("reserve_pool_details")
-            self.get_want_reserve_pool(reserve_pool).check_return_status()
+            if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+                self.log(
+                    "Detected Catalyst Center version < 2.3.7.9: {}".format(
+                        ccc_version
+                    ),
+                    "DEBUG",
+                )
+                self.log("Using Reserve Pool handling method: V1 (legacy)", "DEBUG")
+                self.get_want_reserve_pool_v1(reserve_pool).check_return_status()
+            else:
+                self.log(
+                    "Detected Catalyst Center version >= 2.3.7.9: {}".format(
+                        ccc_version
+                    ),
+                    "DEBUG",
+                )
+                self.log("Using Reserve Pool handling method: V2 (latest)", "DEBUG")
+                self.get_want_reserve_pool_v2(reserve_pool).check_return_status()
+        else:
+            self.log("No reserve pool details provided in the playbook.", "INFO")
 
         if config.get("network_management_details"):
+            self.log("Processing network management details from the playbook.", "INFO")
             network_management_details = config.get("network_management_details")
             self.get_want_network(network_management_details).check_return_status()
+        else:
+            self.log("No network management details provided in the playbook.", "INFO")
+
+        # Process Device Controllability details (only for Catalyst Center version >= 2.3.7.9)
+        if config.get("device_controllability_details"):
+            self.log(
+                "Processing device controllability details from the playbook.", "INFO"
+            )
+            device_controllability_details = config.get(
+                "device_controllability_details"
+            )
+            if self.compare_dnac_versions(ccc_version, "2.3.7.9") >= 0:
+                self.log(
+                    "Using Device Controllability handling method for Catalyst Center version >= 2.3.7.9.",
+                    "DEBUG",
+                )
+                self.get_want_device_controllability(
+                    device_controllability_details
+                ).check_return_status()
+            else:
+                self.log(
+                    "Device Controllability is not supported for Catalyst Center versions < 2.3.7.9.",
+                    "WARNING",
+                )
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -4050,7 +5115,23 @@ class NetworkSettings(CatalystCenterBase):
 
     def update_global_pool(self, global_pool):
         """
-        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook
+        Dispatcher for updating/creating global pools based on the version.
+
+        Parameters:
+            global_pool (list of dict): Global Pool playbook details
+            version (int): Version of the update logic to use (1 or 2)
+
+        Returns:
+            self
+        """
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            return self.update_global_pool_v2(global_pool)
+
+        return self.update_global_pool_v1(global_pool)
+
+    def update_global_pool_v1(self, global_pool):
+        """
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version < 2.3.7.9.
 
         Parameters:
             global_pool (list of dict) - Global Pool playbook details
@@ -4064,7 +5145,10 @@ class NetworkSettings(CatalystCenterBase):
         global_pool_index = 0
         result_global_pool = self.result.get("response")[0].get("globalPool")
         want_global_pool = self.want.get("wantGlobal").get("settings").get("ippool")
-        self.log("Global pool playbook details: {0}".format(global_pool), "DEBUG")
+        self.log(
+            "Global pool playbook details: {0}".format(self.pprint(global_pool)),
+            "DEBUG",
+        )
 
         for item in self.have.get("globalPool"):
             result_global_pool.get("msg").update(
@@ -4245,9 +5329,215 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Global pool configuration operations completed successfully.", "INFO")
         return self
 
+    def update_global_pool_v2(self, global_pool):
+        """
+        Update/Create Global Pool in Cisco Catalyst Center with fields provided in playbook for Catalyst Center version >= 2.3.7.9.
+
+        Parameters:
+            global_pool (list of dict) - Global Pool playbook details
+
+        Returns:
+            self: The current object after completing the global pool operations.
+        """
+        self.log(
+            "Starting global pool update/create process for Catalyst Center version >= 2.3.7.9.",
+            "INFO",
+        )
+
+        create_global_pool = []
+        update_global_pool = []
+        global_pool_index = 0
+        result_global_pool = self.result.get("response")[0].get("globalPool")
+        want_global_pool = self.want.get("wantGlobal").get("settings").get("ippool")
+        self.log("Global pool playbook details: {0}".format(global_pool), "DEBUG")
+
+        # Classify global pools into create and update lists
+        for item in self.have.get("globalPool", []):
+            if global_pool_index >= len(want_global_pool):
+                self.log(
+                    f"Skipping further processing as global_pool_index ({global_pool_index})\
+                        exceeds the number of items in want_global_pool ({len(want_global_pool)}).",
+                    "WARNING",
+                )
+                break  # Avoid index errors if `want_global_pool` has fewer items
+
+            pool_name = want_global_pool[global_pool_index].get("name")
+            result_global_pool.setdefault("msg", {}).update({pool_name: {}})
+
+            if item.get("exists"):
+                self.log(
+                    f"Global pool '{pool_name}' exists. Adding to update list.", "DEBUG"
+                )
+                update_global_pool.append(want_global_pool[global_pool_index])
+            else:
+                self.log(
+                    f"Global pool '{pool_name}' does not exist. Adding to create list.",
+                    "DEBUG",
+                )
+                create_global_pool.append(want_global_pool[global_pool_index])
+
+            global_pool_index += 1
+
+        # Check create_global_pool; if yes, create the global pool
+        if create_global_pool:
+            self.log(
+                f"Global pool(s) to be created: {self.pprint(create_global_pool)}",
+                "INFO",
+            )
+            pool_params = {"settings": {"ippool": copy.deepcopy(create_global_pool)}}
+            creation_list = pool_params.get("settings").get("ippool")
+            for param in creation_list:
+                self.log(
+                    "Global pool details to be created: {0}".format(self.pprint(param)),
+                    "INFO",
+                )
+                try:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="create_a_global_ip_address_pool",
+                        op_modifies=True,
+                        params=param,
+                    )
+                    self.log("Received API response: {0}".format(response), "DEBUG")
+                except Exception as msg:
+                    self.msg = "Exception occurred while creating the global pools: {msg}".format(
+                        msg=msg
+                    )
+                    self.log(str(msg), "ERROR")
+                    self.status = "failed"
+                    return self
+
+                self.check_tasks_response_status(
+                    response, "create_a_global_ip_address_pool"
+                ).check_return_status()
+                name = param.get("name")
+                self.log("Global pool '{0}' created successfully.".format(name), "INFO")
+                result_global_pool.get("response").update({"created": creation_list})
+                result_global_pool.get("msg").update(
+                    {name: "Global Pool Created Successfully"}
+                )
+
+        if update_global_pool:
+            self.log("Checking for updates required for existing global pools.", "INFO")
+            final_update_global_pool = []
+            # Pool exists, check update is required
+            for item in update_global_pool:
+                name = item.get("name")
+                prev_name = item.get("prev_name")
+                self.log(
+                    f"Checking if global pool '{name}' (or previous name '{prev_name}') requires an update.",
+                    "DEBUG",
+                )
+                for pool_value in self.have.get("globalPool", []):
+                    if not pool_value.get("exists"):
+                        self.log(
+                            "Skipping global pool '{0}' as it does not exist".format(
+                                pool_name
+                            ),
+                            "DEBUG",
+                        )
+                        continue
+
+                    pool_exists = pool_value.get("exists")
+                    pool_name = pool_value.get("details", {}).get("name")
+                    self.log(
+                        f"Evaluating existing global pool: {pool_name}, exists: {pool_exists}",
+                        "DEBUG",
+                    )
+
+                    # Check if the pool exists and matches the current or previous name
+                    if pool_exists and (pool_name in [name, prev_name]):
+                        if not self.requires_update(
+                            pool_value.get("details"), item, self.global_pool_obj_params
+                        ):
+                            self.log(
+                                f"Global pool '{name}' does not require an update.",
+                                "INFO",
+                            )
+                            result_global_pool["msg"].update(
+                                {name: "Global Pool Does Not Require Update"}
+                            )
+                        elif item not in final_update_global_pool:
+                            self.log(
+                                f"Global pool '{name}' requires an update. Adding to the update list.",
+                                "DEBUG",
+                            )
+                            final_update_global_pool.append(item)
+
+            if final_update_global_pool:
+                self.log(
+                    f"Global pools requiring updates: {self.pprint(final_update_global_pool)}",
+                    "INFO",
+                )
+
+                updation_list = copy.deepcopy(final_update_global_pool)
+                for item in updation_list:
+                    if item.get("prev_name"):
+                        item.pop("prev_name")
+
+                self.log(
+                    "Desired global pool details (want): {0}".format(
+                        self.pprint(updation_list)
+                    ),
+                    "DEBUG",
+                )
+                for param in updation_list:
+                    self.log(
+                        "Global pool details to be updated: {0}".format(
+                            self.pprint(param)
+                        ),
+                        "INFO",
+                    )
+                    try:
+                        response = self.catalystcenter._exec(
+                            family="network_settings",
+                            function="updates_a_global_ip_address_pool",
+                            op_modifies=True,
+                            params=param,
+                        )
+                        self.log("Received API response: {0}".format(response), "DEBUG")
+                        self.check_tasks_response_status(
+                            response, "updates_a_global_ip_address_pool"
+                        ).check_return_status()
+                        self.log(
+                            "Successfully updated global pool successfully.", "INFO"
+                        )
+                    except Exception as msg:
+                        self.msg = "Exception occurred while updating the global pools: {msg}".format(
+                            msg=msg
+                        )
+                        self.log(str(msg), "ERROR")
+                        self.status = "failed"
+                        return self
+
+                for item in updation_list:
+                    name = item.get("name")
+                    self.log(
+                        "Global pool '{0}' Updated successfully.".format(name), "INFO"
+                    )
+                    result_global_pool.get("response").update(
+                        {"globalPool Details": updation_list}
+                    )
+                    result_global_pool.get("msg").update(
+                        {name: "Global Pool Updated Successfully"}
+                    )
+
+        self.log("Global pool configuration operations completed successfully.", "INFO")
+        return self
+
     def update_reserve_pool(self, reserve_pool):
         """
-        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration.
+        Dispatcher function that routes to the appropriate reserve pool update method
+        based on Catalyst Center version (v1 or v2).
+        """
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            return self.update_reserve_pool_v1(reserve_pool)
+        else:
+            return self.update_reserve_pool_v2(reserve_pool)
+
+    def update_reserve_pool_v1(self, reserve_pool):
+        """
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version < 2.3.7.9.
         This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
 
@@ -4307,7 +5597,7 @@ class NetworkSettings(CatalystCenterBase):
                     )
                 except Exception as msg:
                     self.msg = (
-                        "Exception occurred while reserving the global pool with the name '{name}' "
+                        "Exception occurred while reserving the ip pool with the name '{name}' "
                         "in site '{site}: {msg}".format(
                             name=name, site=site_name, msg=msg
                         )
@@ -4381,6 +5671,177 @@ class NetworkSettings(CatalystCenterBase):
 
             self.check_execution_response_status(
                 response, "update_reserve_ip_subpool"
+            ).check_return_status()
+            self.log(
+                "Reserved ip subpool '{0}' updated successfully.".format(name), "INFO"
+            )
+            result_reserve_pool.get("response").update({name: reserve_params})
+            result_reserve_pool.get("response").get(name).update(
+                {"Id": self.have.get("reservePool")[reserve_pool_index].get("id")}
+            )
+            result_reserve_pool.get("msg").update(
+                {name: "Reserved Ip Subpool updated successfully."}
+            )
+
+        self.log(
+            "Completed reserved pool update/create operations successfully.", "INFO"
+        )
+        return self
+
+    def update_reserve_pool_v2(self, reserve_pool):
+        """
+        Update or Create a Reserve Pool in Cisco Catalyst Center based on the provided configuration for Catalyst Center version >= 2.3.7.9.
+        This method checks if a reserve pool with the specified name exists in Cisco Catalyst Center.
+        If it exists and requires an update, it updates the pool. If not, it creates a new pool.
+
+        Parameters:
+            reserve_pool (list of dict) - Playbook details containing Reserve Pool information.
+
+        Returns:
+            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+        """
+        self.log(
+            "Starting the reserved pool update/create process for Catalyst Center version >= 2.3.7.9.",
+            "INFO",
+        )
+
+        reserve_pool_index = -1
+        for item in reserve_pool:
+            reserve_pool_index += 1
+            name = item.get("name")
+            result_reserve_pool = self.result.get("response")[1].get("reservePool")
+            self.log(
+                f"Processing reserved pool '{name}' at index {reserve_pool_index}.",
+                "INFO",
+            )
+            self.log(
+                "Current reserved pool '{0}' details in Catalyst Center: {1}".format(
+                    name,
+                    self.have.get("reservePool")[reserve_pool_index].get("details"),
+                ),
+                "DEBUG",
+            )
+            self.log(
+                "Desired reserved pool '{0}' details in Catalyst Center: {1}".format(
+                    name, self.want.get("wantReserve")[reserve_pool_index]
+                ),
+                "DEBUG",
+            )
+
+            # Check pool exist, if not create and return
+            self.log(
+                "IPv4 reserved pool '{0}': {1}".format(
+                    name,
+                    self.want.get("wantReserve")[reserve_pool_index].get(
+                        "ipV4AddressSpace"
+                    ),
+                ),
+                "DEBUG",
+            )
+            site_name = item.get("site_name")
+            reserve_params = self.want.get("wantReserve")[reserve_pool_index]
+            site_exist, site_id = self.get_site_id(site_name)
+            reserve_params.update({"siteId": site_id})
+            if not self.have.get("reservePool")[reserve_pool_index].get("exists"):
+                self.log(
+                    f"Reserved pool '{name}' does not exist. Creating a new subpool reservation.",
+                    "INFO",
+                )
+                self.log(
+                    f"Details for new reserved pool '{name}': {self.pprint(reserve_params)}",
+                    "DEBUG",
+                )
+                try:
+                    response = self.catalystcenter._exec(
+                        family="network_settings",
+                        function="reservecreate_ip_address_subpools",
+                        op_modifies=True,
+                        params=reserve_params,
+                    )
+                    self.log(
+                        f"Received API response for creating reserved pool '{name}': {self.pprint(response)}",
+                        "DEBUG",
+                    )
+                except Exception as msg:
+                    self.msg = (
+                        "Exception occurred while reserving the global pool with the name '{name}' "
+                        "in site '{site}: {msg}".format(
+                            name=name, site=site_name, msg=msg
+                        )
+                    )
+                    self.log(str(msg), "ERROR")
+                    self.status = "failed"
+                    return self
+
+                self.check_tasks_response_status(
+                    response, "reservecreate_ip_address_subpools"
+                ).check_return_status()
+                self.log(
+                    "Successfully created IP subpool reservation '{0}'.".format(name),
+                    "INFO",
+                )
+                result_reserve_pool.get("response").update(
+                    {name: self.want.get("wantReserve")[reserve_pool_index]}
+                )
+                result_reserve_pool.get("msg").update(
+                    {name: "Ip Subpool Reservation Created Successfully"}
+                )
+                continue
+
+            # Check update is required
+            if not self.requires_update(
+                self.have.get("reservePool")[reserve_pool_index].get("details"),
+                self.want.get("wantReserve")[reserve_pool_index],
+                self.reserve_pool_obj_params,
+            ):
+                self.log(
+                    "Reserved ip subpool '{0}' doesn't require an update".format(name),
+                    "INFO",
+                )
+                result_reserve_pool.get("msg").update(
+                    {name: "Reserved ip subpool doesn't require an update"}
+                )
+                continue
+
+            self.log("Reserved ip pool '{0}' requires an update".format(name), "DEBUG")
+
+            # Pool Exists
+            self.log(
+                "Current reserved ip pool '{0}' details in Catalyst Center: {1}".format(
+                    name, self.have.get("reservePool")
+                ),
+                "DEBUG",
+            )
+            self.log(
+                "Desired reserved ip pool '{0}' details: {1}".format(
+                    name, self.want.get("wantReserve")
+                ),
+                "DEBUG",
+            )
+            reserve_params.update(
+                {"id": self.have.get("reservePool")[reserve_pool_index].get("id")}
+            )
+            try:
+                response = self.catalystcenter._exec(
+                    family="network_settings",
+                    function="updates_an_ip_address_subpool",
+                    op_modifies=True,
+                    params=reserve_params,
+                )
+                self.log(
+                    f"Received API response for updating reserved pool '{name}': {self.pprint(response)}",
+                    "DEBUG",
+                )
+            except Exception as msg:
+                self.msg = "Exception occurred while updating the reserved pool with name '{name}': {msg}".format(
+                    name=name, msg=msg
+                )
+                self.log(str(msg), "ERROR")
+                self.status = "failed"
+                return self
+
+            self.check_tasks_response_status(
+                response, "updates_an_ip_address_subpool"
             ).check_return_status()
             self.log(
                 "Reserved ip subpool '{0}' updated successfully.".format(name), "INFO"
@@ -4503,12 +5964,17 @@ class NetworkSettings(CatalystCenterBase):
             "INFO",
         )
 
+        param = {"id": site_id, "timeZone": time_zone_settings}
+        if time_zone_settings == {}:
+            payload = {"settings": {"timeZone": {}}}
+            param = {"id": site_id, "payload": payload}
+
         try:
             response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_time_zone_for_a_site",
                 op_modifies=True,
-                params={"id": site_id, "timeZone": time_zone_settings},
+                params=param,
             )
             self.log(
                 "Time zone settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -4657,12 +6123,16 @@ class NetworkSettings(CatalystCenterBase):
             "INFO",
         )
 
+        param = {"id": site_id, "banner": banner_settings}
+        if banner_settings == {}:
+            payload = {"settings": {"messageOfTheday": {}}}
+            param = {"id": site_id, "payload": payload}
         try:
             response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_banner_settings_for_a_site",
                 op_modifies=True,
-                params={"id": site_id, "banner": banner_settings},
+                params=param,
             )
             self.log(
                 "Banner settings updated for site '{0}' (ID: {1}): {2}".format(
@@ -4716,10 +6186,14 @@ class NetworkSettings(CatalystCenterBase):
                 "aaaNetwork": network_aaa,
                 "aaaClient": client_and_endpoint_aaa,
             }
-        elif network_aaa:
+        elif network_aaa is not None:
             param = {"id": site_id, "aaaNetwork": network_aaa}
-        else:
+        elif client_and_endpoint_aaa is not None:
             param = {"id": site_id, "aaaClient": client_and_endpoint_aaa}
+
+        if network_aaa == {} and client_and_endpoint_aaa == {}:
+            payload = {"aaaNetwork": {}, "aaaClient": {}}
+            param = {"id": site_id, "payload": payload}
 
         try:
             response = self.catalystcenter._exec(
@@ -4772,15 +6246,37 @@ class NetworkSettings(CatalystCenterBase):
             )
 
             # Check update is required or not
-            if not (
-                (network_aaa and network_aaa.get("sharedSecret"))
-                or (
-                    client_and_endpoint_aaa
-                    and client_and_endpoint_aaa.get("sharedSecret")
+            skip_update = False
+
+            # Only apply extra checks for versions > 2.3.7.9
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                empty_settings = [
+                    network_aaa,
+                    client_and_endpoint_aaa,
+                    want_network_details.get("settings", {}).get("ntpServer"),
+                    want_network_details.get("settings", {}).get("timezone"),
+                    want_network_details.get("settings", {}).get("dnsServer"),
+                    want_network_details.get("settings", {}).get("dhcpServer"),
+                    want_network_details.get("settings", {}).get("messageOfTheday"),
+                ]
+                if any(setting == {} for setting in empty_settings):
+                    skip_update = True
+
+            # Check update is required or not
+            if (
+                not (
+                    (network_aaa and network_aaa.get("sharedSecret"))
+                    or (
+                        client_and_endpoint_aaa
+                        and client_and_endpoint_aaa.get("sharedSecret")
+                    )
+                    or self.requires_update(
+                        have_network_details,
+                        want_network_details,
+                        self.network_obj_params,
+                    )
                 )
-                or self.requires_update(
-                    have_network_details, want_network_details, self.network_obj_params
-                )
+                and not skip_update
             ):
 
                 self.log(
@@ -4829,7 +6325,7 @@ class NetworkSettings(CatalystCenterBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
@@ -4865,8 +6361,8 @@ class NetworkSettings(CatalystCenterBase):
                     "site_name"
                 )
 
-                if net_params.get("settings").get("dhcpServer"):
-                    dhcp_settings = net_params.get("settings").get("dhcpServer")
+                dhcp_settings = net_params.get("settings").get("dhcpServer")
+                if dhcp_settings is not None:
                     response = self.update_dhcp_settings_for_site(
                         site_name, site_id, dhcp_settings
                     )
@@ -4880,8 +6376,8 @@ class NetworkSettings(CatalystCenterBase):
                         response, "set_dhcp_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("ntpServer"):
-                    ntp_settings = net_params.get("settings").get("ntpServer")
+                ntp_settings = net_params.get("settings").get("ntpServer")
+                if ntp_settings is not None:
                     response = self.update_ntp_settings_for_site(
                         site_name, site_id, ntp_settings
                     )
@@ -4895,8 +6391,8 @@ class NetworkSettings(CatalystCenterBase):
                         response, "set_n_t_p_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("timezone"):
-                    time_zone_settings = net_params.get("settings").get("timezone")
+                time_zone_settings = net_params.get("settings").get("timezone")
+                if time_zone_settings is not None:
                     response = self.update_time_zone_settings_for_site(
                         site_name, site_id, time_zone_settings
                     )
@@ -4910,8 +6406,8 @@ class NetworkSettings(CatalystCenterBase):
                         response, "set_time_zone_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("dnsServer"):
-                    dns_settings = net_params.get("settings").get("dnsServer")
+                dns_settings = net_params.get("settings").get("dnsServer")
+                if dns_settings is not None:
                     response = self.update_dns_settings_for_site(
                         site_name, site_id, dns_settings
                     )
@@ -4925,8 +6421,8 @@ class NetworkSettings(CatalystCenterBase):
                         response, "set_d_n_s_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("messageOfTheday"):
-                    banner_settings = net_params.get("settings").get("messageOfTheday")
+                banner_settings = net_params.get("settings").get("messageOfTheday")
+                if banner_settings is not None:
                     response = self.update_banner_settings_for_site(
                         site_name, site_id, banner_settings
                     )
@@ -4975,13 +6471,11 @@ class NetworkSettings(CatalystCenterBase):
                         response, "set_telemetry_settings_for_a_site"
                     ).check_return_status()
 
-                if net_params.get("settings").get("network_aaa") or net_params.get(
-                    "settings"
-                ).get("client_and_endpoint_aaa"):
-                    network_aaa = net_params.get("settings").get("network_aaa")
-                    client_and_endpoint_aaa = net_params.get("settings").get(
-                        "client_and_endpoint_aaa"
-                    )
+                network_aaa = net_params.get("settings").get("network_aaa")
+                client_and_endpoint_aaa = net_params.get("settings").get(
+                    "client_and_endpoint_aaa"
+                )
+                if network_aaa is not None or client_and_endpoint_aaa is not None:
                     response = self.update_aaa_settings_for_site(
                         site_name, site_id, network_aaa, client_and_endpoint_aaa
                     )
@@ -5015,6 +6509,101 @@ class NetworkSettings(CatalystCenterBase):
 
         return self
 
+    def update_device_controllability(self, device_controllability_details):
+        """
+        Update the Device Controllability settings for a specified site in Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            device_controllability_details (dict): The device controllability settings to be applied. It should contain:
+                - device_controllability (bool): Whether device controllability is enabled.
+                - autocorrect_telemetry_config (bool): Whether autocorrect telemetry configuration is enabled.
+
+        Returns:
+            self: The current object after attempting to update device controllability settings.
+        """
+        self.log("Starting Device Controllability update process.", "INFO")
+        result_device_ctrl = self.result.get("response")[3].get(
+            "device_controllability"
+        )
+        want = self.want.get("want_device_controllability")
+        have = self.have.get("have_device_controllability", {})
+
+        self.log(
+            "Desired State for device controllability (want): {0}".format(want), "DEBUG"
+        )
+        self.log(
+            "Current State for device controllability (have): {0}".format(have), "DEBUG"
+        )
+
+        if not self.requires_update(have, want, self.device_controllability_obj_params):
+            self.msg = (
+                "Device Controllability configuration does not require an update."
+            )
+            result_device_ctrl.setdefault("msg", {}).update({"message": self.msg})
+            return self
+
+        device_controllability = device_controllability_details.get(
+            "device_controllability"
+        )
+        autocorrect_telemetry_config = device_controllability_details.get(
+            "autocorrect_telemetry_config"
+        )
+
+        if device_controllability is None:
+            self.msg = "'device_controllability' is required in the device_controllability_details."
+            self.status = "failed"
+            return self.check_return_status()
+
+        self.log(
+            "Attempting to update Device Controllability settings: autocorrectTelemetryConfig={0}, deviceControllability={1}".format(
+                autocorrect_telemetry_config, device_controllability
+            ),
+            "INFO",
+        )
+
+        payload = {
+            "autocorrectTelemetryConfig": autocorrect_telemetry_config,
+            "deviceControllability": device_controllability,
+        }
+
+        try:
+            response = self.catalystcenter._exec(
+                family="site_design",
+                function="update_device_controllability_settings",
+                op_modifies=True,
+                params=payload,
+            )
+            self.log(
+                "Received API response of 'update_device_controllability_settings': {0}".format(
+                    response
+                ),
+                "DEBUG",
+            )
+            self.check_tasks_response_status(
+                response, "update_device_controllability_settings"
+            ).check_return_status()
+
+            # Update the 'msg' field
+            self.log("Device Controllability settings updated successfully.", "INFO")
+            result_device_ctrl["msg"].update(
+                {"message": "Device controllability updated successfully"}
+            )
+
+            # Update the 'response' field with your payload
+            result_device_ctrl["response"].update(
+                {"Device Controllability Details": payload}
+            )
+
+        except Exception as e:
+            self.msg = "Exception occurred while updating Device Controllability settings: {0}".format(
+                str(e)
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+
+        return self
+
     def get_diff_merged(self, config):
         """
         Update or create Global Pool, Reserve Pool, and
@@ -5039,6 +6628,24 @@ class NetworkSettings(CatalystCenterBase):
         network_management = config.get("network_management_details")
         if network_management is not None:
             self.update_network(network_management).check_return_status()
+
+        device_controllability_detail = config.get("device_controllability_details")
+        if not device_controllability_detail:
+            self.log(
+                "No device controllability details provided in the playbook.", "INFO"
+            )
+            return self
+        if device_controllability_detail:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                self.update_device_controllability(
+                    device_controllability_detail
+                ).check_return_status()
+            else:
+                self.log(
+                    "Device controlability feature is available for only for version 2.3.7.9 onwards"
+                )
+                self.msg = "Device controlability feature is available for only for version 2.3.7.9 onwards"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
         return self
 
     def delete_ip_pool(self, name, pool_id, function_name, pool_type):
@@ -5068,34 +6675,36 @@ class NetworkSettings(CatalystCenterBase):
                 op_modifies=True,
                 params={"id": pool_id},
             )
-            self.check_execution_response_status(response, function_name)
-            self.log(
-                "Response received from delete {0} pool API: {1}".format(
-                    pool_type, self.pprint(response)
-                ),
-                "DEBUG",
-            )
-            execution_id = response.get("executionId")
-            success_msg, failed_msg = None, None
-
+            execution_id = None
+            task_id = None
             if pool_type == "Global":
                 success_msg = "Global pool deleted successfully."
                 failed_msg = "Unable to delete global pool reservation. "
             else:
                 success_msg = "Ip subpool reservation released successfully."
                 failed_msg = "Unable to release subpool reservation. "
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                self.check_tasks_response_status(response, function_name)
+                task_id = response["response"]["taskId"]
+            else:
+                self.check_execution_response_status(response, function_name)
+                execution_id = response.get("executionId")
+            self.log(
+                "Response received from delete {0} pool API: {1}".format(
+                    pool_type, self.pprint(response)
+                ),
+                "DEBUG",
+            )
 
-            if execution_id and self.status == "success":
+            if (execution_id or task_id) and self.status == "success":
                 return {
                     "name": name,
-                    "execution_id": execution_id,
                     "msg": success_msg,
                     "status": "success",
                 }
             self.log("No execution ID received for '{name}'".format(name=name), "ERROR")
             return {
                 "name": name,
-                "execution_id": execution_id,
                 "msg": failed_msg + self.msg,
                 "status": "failed",
             }
@@ -5179,9 +6788,25 @@ class NetworkSettings(CatalystCenterBase):
                             ),
                             "INFO",
                         )
-                        execution_details = self.delete_ip_pool(
-                            pool_name, pool_id, "release_reserve_ip_subpool", "Reserve"
-                        )
+                        if (
+                            self.compare_dnac_versions(
+                                self.get_ccc_version(), "2.3.7.9"
+                            )
+                            >= 0
+                        ):
+                            execution_details = self.delete_ip_pool(
+                                pool_name,
+                                pool_id,
+                                "release_an_ip_address_subpool",
+                                "Reserve",
+                            )
+                        else:
+                            execution_details = self.delete_ip_pool(
+                                pool_name,
+                                pool_id,
+                                "release_reserve_ip_subpool",
+                                "Reserve",
+                            )
                         result_reserve_pool["response"][site_name].append(
                             execution_details
                         )
@@ -5192,6 +6817,14 @@ class NetworkSettings(CatalystCenterBase):
                             "DEBUG",
                         )
                     self.reserve_pool_response = result_reserve_pool["response"]
+                    if execution_details["status"] == "failed":
+                        self.set_operation_result(
+                            "failed",
+                            False,
+                            self.msg,
+                            "ERROR",
+                            self.reserve_pool_response,
+                        ).check_return_status()
                 else:
                     result_reserve_pool["msg"].update(
                         {site_name: "No Reserve Pools available"}
@@ -5237,9 +6870,14 @@ class NetworkSettings(CatalystCenterBase):
                 self.log(
                     "Reserved pool '{0}' ID: {1}".format(pool_name, pool_id), "DEBUG"
                 )
-                execution_details = self.delete_ip_pool(
-                    pool_name, pool_id, "release_reserve_ip_subpool", "Reserve"
-                )
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                    execution_details = self.delete_ip_pool(
+                        pool_name, pool_id, "release_an_ip_address_subpool", "Reserve"
+                    )
+                else:
+                    execution_details = self.delete_ip_pool(
+                        pool_name, pool_id, "release_reserve_ip_subpool", "Reserve"
+                    )
                 self.log(
                     "Deletion completed for reserved pool '{0}' with ID '{1}'".format(
                         pool_name, pool_id
@@ -5248,6 +6886,10 @@ class NetworkSettings(CatalystCenterBase):
                 )
                 result_reserve_pool["response"].update({pool_name: execution_details})
                 self.reserve_pool_response = result_reserve_pool["response"]
+                if execution_details["status"] == "failed":
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR", self.reserve_pool_response
+                    ).check_return_status()
 
         self.msg = "Reserved pool(s) released successfully"
         self.status = "success"
@@ -5285,9 +6927,20 @@ class NetworkSettings(CatalystCenterBase):
 
                     execution_details = {}
                     pool_id = each_item.get("id")
-                    execution_details = self.delete_ip_pool(
-                        pool_name, pool_id, "delete_global_ip_pool", "Global"
-                    )
+                    if (
+                        self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9")
+                        >= 0
+                    ):
+                        execution_details = self.delete_ip_pool(
+                            pool_name,
+                            pool_id,
+                            "delete_a_global_ip_address_pool",
+                            "Global",
+                        )
+                    else:
+                        execution_details = self.delete_ip_pool(
+                            pool_name, pool_id, "delete_global_ip_pool", "Global"
+                        )
                     self.log(
                         "Deletion completed for global pool '{0}' execution details: '{1}'".format(
                             pool_name, self.pprint(execution_details)
@@ -5303,6 +6956,10 @@ class NetworkSettings(CatalystCenterBase):
                     "DEBUG",
                 )
                 self.global_pool_response = result_global_pool["response"]
+                if execution_details["status"] == "failed":
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR", self.global_pool_response
+                    ).check_return_status()
             else:
                 self.log("Processing global pool deletion for a single item", "INFO")
                 global_pool_exists = item.get("exists")
@@ -5331,13 +6988,22 @@ class NetworkSettings(CatalystCenterBase):
                     "INFO",
                 )
                 id = item.get("id")
-                execution_details = self.delete_ip_pool(
-                    pool_name, id, "delete_global_ip_pool", "Global"
-                )
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                    execution_details = self.delete_ip_pool(
+                        pool_name, id, "delete_a_global_ip_address_pool", "Global"
+                    )
+                else:
+                    execution_details = self.delete_ip_pool(
+                        pool_name, id, "delete_global_ip_pool", "Global"
+                    )
                 result_global_pool.get("response").update(
                     {pool_name: execution_details}
                 )
                 self.global_pool_response = result_global_pool.get("response")
+                if execution_details["status"] == "failed":
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR", self.global_pool_response
+                    ).check_return_status()
 
         self.msg = "Global pools deleted successfully"
         self.status = "success"
@@ -5480,6 +7146,30 @@ class NetworkSettings(CatalystCenterBase):
                     self.status = "failed"
                     return self
 
+                want_settings = self.want.get("wantNetwork")[
+                    network_management_index
+                ].get("settings", {})
+                network_aaa_provided = "network_aaa" in want_settings
+                want_network_aaa = want_settings.get("network_aaa")
+                have_net_details = self.have.get("network")[
+                    network_management_index
+                ].get("net_details")
+                have_aaa_primary_ip = (
+                    have_net_details.get("settings", {})
+                    .get("network_aaa", {})
+                    .get("primaryServerIp", "")
+                )
+
+                # RESET CASE (both empty)
+                if (
+                    network_aaa_provided
+                    and want_network_aaa == {}
+                    and have_aaa_primary_ip not in ("", None)
+                ):
+                    self.msg = "Network AAA Primary IP update not applied on Cisco Catalyst Center"
+                    self.status = "failed"
+                    return self
+
                 self.log(
                     "Successfully validated the network functions '{0}'.".format(
                         item.get("site_name")
@@ -5492,7 +7182,31 @@ class NetworkSettings(CatalystCenterBase):
                 {"Validation": "Success"}
             )
 
-        self.msg = "Successfully validated the Global Pool, Reserve Pool and the Network Functions."
+        device_ctrl_config = config.get("device_controllability_details")
+        if device_ctrl_config:
+            want = self.want.get("want_device_controllability")
+            have = self.have.get("have_device_controllability", {})
+
+            self.log(
+                "Desired State for device controllability (want): {0}".format(want),
+                "DEBUG",
+            )
+            self.log(
+                "Current State for device controllability (have): {0}".format(have),
+                "DEBUG",
+            )
+
+            if self.requires_update(have, want, self.device_controllability_obj_params):
+                self.msg = "Device Controllability Config is not applied to the Cisco Catalyst Center"
+                self.status = "failed"
+                return self
+
+            self.log("Successfully validated the device controllability config", "INFO")
+            self.result["response"][3]["device_controllability"][
+                "Validation"
+            ] = "Success"
+
+        self.msg = "Successfully validated the Global Pool, Reserve Pool, Network Functions and the Device Controlability."
         self.status = "success"
         return self
 
@@ -5695,18 +7409,19 @@ def main():
     # Define the specification for module arguments
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

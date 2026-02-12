@@ -7,33 +7,19 @@
 DOCUMENTATION = r"""
 ---
 module: custom_issue_definitions
-short_description: Resource module for Custom Issue
-  Definitions
+short_description: Resource module for Custom Issue Definitions
 description:
-  - Manage operations create, update and delete of the
-    resource Custom Issue Definitions. - > Create a
-    new custom issue definition using the provided input
-    request data. The unique identifier for this issue
-    definition is id. Please note that the issue names
-    cannot be duplicated. The definition is based on
-    the syslog. For detailed information about the usage
-    of the API, please refer to the Open API specification
-    document - https //github.com/cisco-en-programmability/catalyst-center-api-
-    specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-    - > Deletes an existing custom issue definition
-    based on the Id. Only the Global profile issue has
-    the access to delete the issue definition, so no
-    profile id is required. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
-    - > Updates an existing custom issue definition
-    based on the provided Id. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-
-    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
+  - Manage operations create, update and delete of the resource Custom Issue Definitions. - > Create a new custom issue definition
+    using the provided input request data. The unique identifier for this issue definition is id. Please note that the issue
+    names cannot be duplicated. The definition is based on the syslog. For detailed information about the usage of the API,
+    please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
+    specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - > Deletes an existing
+    custom issue definition based on the Id. Only the Global profile issue has the access to delete the issue definition,
+    so no profile id is required. For detailed information about the usage of the API, please refer to the Open API specification
+    document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml. - > Updates an existing custom issue definition based on the provided
+    Id. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org- AssuranceUserDefinedIssueAPIs-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -46,8 +32,7 @@ options:
     description: Additional headers.
     type: dict
   id:
-    description: Id path parameter. The custom issue
-      definition Identifier.
+    description: Id path parameter. The custom issue definition unique identifier.
     type: str
   isEnabled:
     description: Is Enabled.
@@ -85,23 +70,17 @@ options:
         type: int
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      CreatesANewUserDefinedIssueDefinitions
-    description: Complete reference of the CreatesANewUserDefinedIssueDefinitions
-      API.
+  - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitions
+    description: Complete reference of the CreatesANewUserDefinedIssueDefinitions API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
-  - name: Cisco DNA Center documentation for Issues
-      DeletesAnExistingCustomIssueDefinition
-    description: Complete reference of the DeletesAnExistingCustomIssueDefinition
-      API.
+  - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinition
+    description: Complete reference of the DeletesAnExistingCustomIssueDefinition API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
-  - name: Cisco DNA Center documentation for Issues
-      UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
-    description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
-      API.
+  - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
+    description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
   - SDK Method used are
@@ -122,35 +101,12 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     description: string
     headers: '{{my_headers | from_json}}'
-    isEnabled: true
-    isNotificationEnabled: true
-    name: string
-    priority: string
-    rules:
-      - durationInMinutes: 0
-        facility: string
-        mnemonic: string
-        occurrences: 0
-        pattern: string
-        severity: 0
-- name: Update by id
-  cisco.catalystcenter.custom_issue_definitions:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    description: string
-    id: string
     isEnabled: true
     isNotificationEnabled: true
     name: string
@@ -168,15 +124,40 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
+    headers: '{{my_headers | from_json}}'
     id: string
+- name: Update by id
+  cisco.catalystcenter.custom_issue_definitions:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    description: string
+    headers: '{{my_headers | from_json}}'
+    id: string
+    isEnabled: true
+    isNotificationEnabled: true
+    name: string
+    priority: string
+    rules:
+      - durationInMinutes: 0
+        facility: string
+        mnemonic: string
+        occurrences: 0
+        pattern: string
+        severity: 0
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

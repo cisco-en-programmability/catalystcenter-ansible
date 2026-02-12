@@ -5,10 +5,10 @@ device_details:
     # CLI Credentials
     username: "cisco"
     password: "Cisco#123"
-    enablepassword: "Cisco#123"
+    enable_password: "Cisco#123"
     # SNMP Credentials
-    snmpversion: v3
-    snmpusername: "v3Public2"
+    snmp_version: v3
+    snmp_username: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
     snmp_auth_passphrase: "Lablab#1234"
@@ -24,19 +24,19 @@ device_details:
 
   # - type: "NETWORK_DEVICE"
   #   ip_address_list: ["204.192.6.200"]
-  #   device_added: true
+  #   device_added: True
   #   # CLI Credentials
   #   username: "cisco"
   #   password: "Cisco#123"
-  #   enablepassword: "Cisco#123"
+  #   enable_password: "Cisco#123"
   #   # HTTP Credentials
-  #   httpusername: "wlcaccess"
-  #   httppassword: "Lablab#123"
+  #   http_username: "wlcaccess"
+  #   http_password: "Lablab#123"
   #   http_port: "443"
-  #   http_secure: false
+  #   http_secure: False
   #   # SNMP Credentials
-  #   snmpversion: v3
-  #   snmpusername: "v3Public2"
+  #   snmp_version: v3
+  #   snmp_username: "v3Public2"
   #   snmp_mode: "AUTHPRIV"
   #   snmp_auth_protocol: "SHA"
   #   snmp_auth_passphrase: "Lablab#1234"
@@ -54,7 +54,7 @@ device_credential_updates:
   # Update CLI password
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
+    credential_update: True
     # CLI Credentials
     password: "Cisco#1234"
 
@@ -62,7 +62,7 @@ device_credential_updates:
   # Update SNMP privacy type  
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
+    credential_update: True
     # SNMP Credentials
     snmp_priv_protocol: "AES192"
 
@@ -70,45 +70,45 @@ device_credential_updates:
   # Update SNMP username
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
+    credential_update: True
     # SNMP Credentials
-    snmpusername: "v3Public2-2"
+    snmp_username: "v3Public2-2"
 
 
   # Update SNMP mode
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
+    credential_update: True
     # SNMP Credentials
-    snmpversion: v3
+    snmp_version: v3
     snmp_mode: "NOAUTHNOPRIV"
 
   # Update cli_transport
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
+    credential_update: True
     #change cli_transport from ssh to telnet
     cli_transport: telnet
 
   # SNMPv2 credentials
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
-    snmpversion: v2
+    credential_update: True
+    snmp_version: v2
     snmp_ro_community: 'j5aj#0z%'
     snmp_rw_community: 'j5aj#0z%'
 
   # Reverse changes
   - type: "NETWORK_DEVICE"
     ip_address_list: ["204.1.2.5"]
-    credential_update: true
+    credential_update: True
     # CLI Credentials
     username: "cisco"
     password: "Cisco#123"
-    enablepassword: "Cisco#123"
+    enable_password: "Cisco#123"
     # SNMP Credentials
-    snmpversion: v3
-    snmpusername: "v3Public2"
+    snmp_version: v3
+    snmp_username: "v3Public2"
     snmp_mode: "AUTHPRIV"
     snmp_auth_protocol: "SHA"
     snmp_auth_passphrase: "Lablab#1234"
@@ -150,8 +150,8 @@ device_int_update_post_rolechange:
 device_resync:
   # Resync the device
   - ip_address_list: ["204.1.2.5"]
-    device_resync: true
-    force_sync: false
+    device_resync: True
+    force_sync: False
 
 
 create_assign_udf:
@@ -265,4 +265,4 @@ delete_sites:
 delete_devices:
   - ip_address_list: ["204.1.2.5"]
     #ip_address_list: ["204.1.2.5", "204.192.6.200"]
-    clean_config: false
+    clean_config: False

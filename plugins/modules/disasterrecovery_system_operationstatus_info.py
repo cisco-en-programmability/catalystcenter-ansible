@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: disasterrecovery_system_operationstatus_info
-short_description: Information module for Disasterrecovery
-  System Operationstatus
+short_description: Information module for Disasterrecovery System Operationstatus
 description:
   - Get all Disasterrecovery System Operationstatus.
-  - Returns the status of Disaster Recovery operation
-    performed on the system.
+  - Returns the status of Disaster Recovery operation performed on the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -22,8 +20,8 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 notes:
   - SDK Method used are
     disaster_recovery.DisasterRecovery.disaster_recovery_operational_status,
@@ -39,7 +37,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -47,7 +45,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

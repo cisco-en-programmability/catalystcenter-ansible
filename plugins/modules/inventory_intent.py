@@ -73,13 +73,13 @@ options:
           device export. Required for adding Network Device. Also needed for file
           encryption while exporting device in a csv file.
         type: str
-      enablepassword:
+      enable_password:
         description: Password required for enabling configurations on the device.
         type: str
       extended_discovery_info:
         description: Additional discovery information for the device.
         type: str
-      httppassword:
+      http_password:
         description: HTTP password required for adding compute, Meraki, and Firepower
           Management Devices.
         type: str
@@ -90,7 +90,7 @@ options:
       http_secure:
         description: Flag indicating HTTP security.
         type: bool
-      httpusername:
+      http_username:
         description: HTTP username required for adding compute and Firepower Management
           Devices.
         type: str
@@ -181,11 +181,11 @@ options:
         description: SNMP timeout duration.
         type: int
         default: 5
-      snmpusername:
+      snmp_username:
         description: SNMP username required for adding network, compute, and third-party
           devices.
         type: str
-      snmpversion:
+      snmp_version:
         description: It is a standard protocol used for managing and monitoring network
           devices. v2 - In this communication between the SNMP manager (such as Cisco
           Catalyst) and the managed devices (such as routers, switches, or access
@@ -389,7 +389,7 @@ options:
             default: 2
             version_added: 6.12.0
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center documentation for Devices AddDevice2
@@ -422,20 +422,20 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
       - cli_transport: ssh
         compute_device: false
         password: Test@123
-        enablepassword: Test@1234
+        enable_password: Test@1234
         extended_discovery_info: test
-        httpusername: "testuser"
-        httppassword: "test"
+        http_username: "testuser"
+        http_password: "test"
         http_port: "443"
         http_secure: false
         ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -447,8 +447,8 @@ EXAMPLES = r"""
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmpusername: v3Public
-        snmpversion: v3
+        snmp_username: v3Public
+        snmp_version: v3
         type: NETWORK_DEVICE
         username: cisco
 - name: Add new Compute device in Inventory with full credentials.Inputs needed
@@ -458,16 +458,16 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        httpusername: "testuser"
-        httppassword: "test"
+        http_username: "testuser"
+        http_password: "test"
         http_port: "443"
         snmp_auth_passphrase: "Lablab@12"
         snmp_auth_protocol: SHA
@@ -476,7 +476,7 @@ EXAMPLES = r"""
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmpusername: v3Public
+        snmp_username: v3Public
         compute_device: true
         username: cisco
         type: "COMPUTE_DEVICE"
@@ -487,14 +487,14 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
-      - httppassword: "test"
+      - http_password: "test"
         type: "MERAKI_DASHBOARD"
 - name: Add new Firepower Management device in Inventory with full credentials.Input
     needed to add Device.
@@ -503,16 +503,16 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-        httpusername: "testuser"
-        httppassword: "test"
+        http_username: "testuser"
+        http_password: "test"
         http_port: "443"
         type: "FIREPOWER_MANAGEMENT_SYSTEM"
 - name: Add new Third Party device in Inventory with full credentials.Input needed
@@ -522,10 +522,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -537,7 +537,7 @@ EXAMPLES = r"""
         snmp_priv_protocol: AES256
         snmp_retry: 3
         snmp_timeout: 5
-        snmpusername: v3Public
+        snmp_username: v3Public
         type: "THIRD_PARTY_DEVICE"
 - name: Update device details or credentails in Inventory
   cisco.catalystcenter.inventory_intent:
@@ -545,17 +545,17 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
       - cli_transport: telnet
         compute_device: false
         password: newtest123
-        enablepassword: newtest1233
+        enable_password: newtest1233
         ip_address_list: ["1.1.1.1", "2.2.2.2"]
         type: NETWORK_DEVICE
         credential_update: true
@@ -565,10 +565,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -583,10 +583,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -605,10 +605,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -620,10 +620,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -642,10 +642,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -660,10 +660,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -681,10 +681,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -697,10 +697,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: merged
     config:
@@ -712,11 +712,11 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     catalystcenter_log: false
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     state: deleted
     config:
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -727,10 +727,10 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
-    catalystcenter_log_level: "{{log_level}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
     catalystcenter_log: false
     state: deleted
     config:
@@ -767,7 +767,7 @@ import time
 from datetime import datetime
 from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -3644,7 +3644,7 @@ class DnacDevice(CatalystCenterBase):
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
 
-                # Check if the same role of device is present in catalystcenter then no need to change the state
+                # Check if the same role of device is present in dnac then no need to change the state
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_list",
@@ -4478,17 +4478,18 @@ def main():
             "type": "str",
             "required": True,
         },
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

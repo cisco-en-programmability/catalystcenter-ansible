@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_bugs_info
-short_description: Information module for Network Bugs
-  Results Bugs
+short_description: Information module for Network Bugs Results Bugs
 description:
   - Get all Network Bugs Results Bugs.
+  - Get Network Bugs Results Bugs by id.
+  - Get network bug by Id.
   - Get network bugs.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -26,56 +27,51 @@ options:
     type: str
   deviceCount:
     description:
-      - DeviceCount query parameter. Return network
-        bugs with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return network bugs with deviceCount greater than this deviceCount.
     type: float
   severity:
     description:
-      - Severity query parameter. Return network bugs
-        with this severity. Available values CATASTROPHIC,
-        SEVERE, MODERATE.
+      - Severity query parameter. Return network bugs with this severity. Available values CATASTROPHIC, SEVERE, MODERATE.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The first record to
-        show for this page; the first record is numbered
-        1. Default value is 1.
-    type: float
+        Offset query parameter. The first record to show for this page; the first record is numbered 1. Default
+        value is 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of records
-        to show for this page. Minimum value is 1. Maximum
-        value is 500. Default value is 500.
-    type: float
+        Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
+        500. Default value is 500.
+    type: int
   sortBy:
     description:
-      - SortBy query parameter. A property within the
-        response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
       - >
-        Order query parameter. Whether ascending or
-        descending order should be used to sort the
-        response. Available values asc, desc. Default
-        value is asc.
+        Order query parameter. Whether ascending or descending order should be used to sort the response.
+        Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance
-      GetNetworkBugs
-    description: Complete reference of the GetNetworkBugs
-      API.
+  - name: Cisco DNA Center documentation for Compliance GetNetworkBugById
+    description: Complete reference of the GetNetworkBugById API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-by-id
+  - name: Cisco DNA Center documentation for Compliance GetNetworkBugs
+    description: Complete reference of the GetNetworkBugs API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-bugs
 notes:
   - SDK Method used are
+    compliance.Compliance.get_network_bug_by_id,
     compliance.Compliance.get_network_bugs,
   - Paths used are
     get /dna/intent/api/v1/networkBugs/results/bugs,
+    get /dna/intent/api/v1/networkBugs/results/bugs/{id},
 """
 
 EXAMPLES = r"""
@@ -86,7 +82,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -98,31 +94,41 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
+- name: Get Network Bugs Results Bugs by id
+  cisco.catalystcenter.network_bugs_results_bugs_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "headline": "string",
-          "publicationUrl": "string",
-          "deviceCount": 0,
-          "severity": "string",
-          "hasWorkaround": true,
-          "workaround": "string",
-          "affectedVersions": [
-            "string"
-          ],
-          "integratedReleases": [
-            "string"
-          ]
-        }
-      ],
-      "version": "string"
+      "version": "string",
+      "response": {
+        "id": "string",
+        "headline": "string",
+        "publicationUrl": "string",
+        "deviceCount": 0,
+        "severity": "string",
+        "hasWorkaround": true,
+        "workaround": "string",
+        "affectedVersions": [
+          "string"
+        ],
+        "integratedReleases": [
+          "string"
+        ]
+      }
     }
 """

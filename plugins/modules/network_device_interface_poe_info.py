@@ -7,15 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_interface_poe_info
-short_description: Information module for Network Device
-  Interface Poe
+short_description: Information module for Network Device Interface Poe
 description:
-  - Get all Network Device Interface Poe. - > Returns
-    POE interface details for the device, where deviceuuid
-    is mandatory & accepts comma seperated interface
-    names which is optional and returns information
-    for that particular interfaces where operStatus
-    = operationalStatus .
+  - Get all Network Device Interface Poe. - > Returns POE interface details for the device, where deviceuuid is mandatory
+    & accepts comma seperated interface names which is optional and returns information for that particular interfaces where
+    operStatus = operationalStatus .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -30,17 +26,14 @@ options:
     type: str
   interfaceNameList:
     description:
-      - InterfaceNameList query parameter. Comma seperated
-        interface names.
+      - InterfaceNameList query parameter. Comma seperated interface names.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      ReturnsPOEInterfaceDetailsForTheDevice
-    description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDevice
-      API.
+  - name: Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDevice
+    description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device
 notes:
   - SDK Method used are
@@ -57,7 +50,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -67,7 +60,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,14 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: site_kpi_summaries_top_n_analytics_info
-short_description: Information module for Sitekpisummaries
-  Topnanalytics
+short_description: Information module for Site Kpi Summaries Top N Analytics
 description:
-  - Get all Sitekpisummaries Topnanalytics. - > Gets
-    the topN analytics data for a given taskId. For
-    detailed information about the usage of the API,
-    please refer to the Open API specification document
-    - https //github.com/cisco-en-programmability/catalyst-center-
+  - Get all Site Kpi Summaries Top N Analytics. - > Gets the topN analytics data for a given taskId. For detailed information
+    about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-
     api-specs/blob/main/Assurance/CE_Cat_Center_Org-SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
@@ -27,18 +23,15 @@ options:
   taskId:
     description:
       - >
-        TaskId query parameter. Used to retrieve asynchronously
-        processed & stored data. When this parameter
-        is used, the rest of the request params will
-        be ignored.
+        TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is
+        used, the rest of the request params will be ignored.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
   - name: Cisco DNA Center documentation for Sites GetTopNEntitiesRelatedToSiteAnalyticsForTheGivenTaskId
-    description: Complete reference of the GetTopNEntitiesRelatedToSiteAnalyticsForTheGivenTaskId
-      API.
+    description: Complete reference of the GetTopNEntitiesRelatedToSiteAnalyticsForTheGivenTaskId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-top-n-entities-related-to-site-analytics-for-the-given-task-id
 notes:
   - SDK Method used are
@@ -49,13 +42,13 @@ notes:
 
 EXAMPLES = r"""
 ---
-- name: Get all Sitekpisummaries Topnanalytics
-  cisco.catalystcenter.siteKpiSummaries_topNAnalytics_info:
+- name: Get all Site Kpi Summaries Top N Analytics
+  cisco.catalystcenter.site_kpi_summaries_top_n_analytics_info:
     catalystcenter_host: "{{catalystcenter_host}}"
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -64,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

@@ -7,46 +7,36 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_assign_managed_ap_locations
-short_description: Resource module for Wireless Controllers
-  Assign Managed Ap Locations
+short_description: Resource module for Wireless Controllers Assign Managed Ap Locations
 description:
-  - Manage operation create of the resource Wireless
-    Controllers Assign Managed Ap Locations. - > This
-    API allows user to assign Managed AP Locations for
-    IOS-XE Wireless supported devices by device ID.
-    The payload should always be a complete list. The
-    Managed AP Locations included in the payload will
-    be fully processed for both addition and deletion.
+  - Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations.
+  - This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID.
+  - The payload should always be a complete list.
+  - The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   deviceId:
-    description: DeviceId path parameter. Network Device
-      ID. This value can be obtained by using the API
-      call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+    description:
+      - DeviceId path parameter. Network Device ID.
+      - This value can be obtained by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
   primaryManagedAPLocationsSiteIds:
-    description: Site IDs of Primary Managed AP Locations.
-      These values can be obtained by using the API
-      call GET /dna/intent/api/v1/site.
+    description: Site IDs of Primary Managed AP Locations. These values can be obtained by using the API call GET /dna/intent/api/v1/site.
     elements: str
     type: list
   secondaryManagedAPLocationsSiteIds:
-    description: Site IDs of Secondary Managed AP Locations.
-      These values can be obtained by using the API
-      call GET /dna/intent/api/v1/site.
+    description: Site IDs of Secondary Managed AP Locations. These values can be obtained by using the API call GET /dna/intent/api/v1/site.
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless
-      AssignManagedAPLocationsForWLC
-    description: Complete reference of the AssignManagedAPLocationsForWLC
-      API.
+  - name: Cisco DNA Center documentation for Wireless AssignManagedAPLocationsForWLC
+    description: Complete reference of the AssignManagedAPLocationsForWLC API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc
 notes:
   - SDK Method used are
@@ -63,7 +53,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     deviceId: string
@@ -74,7 +64,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

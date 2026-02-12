@@ -9,12 +9,9 @@ DOCUMENTATION = r"""
 module: floors
 short_description: Resource module for Floors
 description:
-  - Manage operations create, update and delete of the
-    resource Floors.
+  - Manage operations create, update and delete of the resource Floors.
   - Create a floor in the network hierarchy under building.
-  - Deletes a floor from the network hierarchy. This
-    operations fails if there are any devices assigned
-    to this floor.
+  - Deletes a floor from the network hierarchy. This operations fails if there are any devices assigned to this floor.
   - Updates a floor in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
@@ -28,7 +25,7 @@ options:
     description: Floor height. Example 10.1.
     type: float
   id:
-    description: Id path parameter. Floor Id.
+    description: Id path parameter. Floor ID.
     type: str
   length:
     description: Floor length. Example 110.3.
@@ -49,23 +46,17 @@ options:
     description: Floor width. Example 100.5.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      CreatesAFloorV2
-    description: Complete reference of the CreatesAFloorV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
+    description: Complete reference of the CreatesAFloorV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor-v-2
-  - name: Cisco DNA Center documentation for Site Design
-      DeletesAFloorV2
-    description: Complete reference of the DeletesAFloorV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
+    description: Complete reference of the DeletesAFloorV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor-v-2
-  - name: Cisco DNA Center documentation for Site Design
-      UpdatesAFloorV2
-    description: Complete reference of the UpdatesAFloorV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
+    description: Complete reference of the UpdatesAFloorV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor-v-2
 notes:
   - SDK Method used are
@@ -74,8 +65,7 @@ notes:
     site_design.SiteDesign.updates_a_floor_v2,
   - Paths used are
     post /dna/intent/api/v2/floors,
-    delete
-    /dna/intent/api/v2/floors/{id},
+    delete /dna/intent/api/v2/floors/{id},
     put /dna/intent/api/v2/floors/{id},
 """
 
@@ -87,31 +77,12 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: present
     floorNumber: 0
     height: 0
-    length: 0
-    name: string
-    parentId: string
-    rfModel: string
-    unitsOfMeasure: string
-    width: 0
-- name: Update by id
-  cisco.catalystcenter.floors:
-    catalystcenter_host: "{{catalystcenter_host}}"
-    catalystcenter_username: "{{catalystcenter_username}}"
-    catalystcenter_password: "{{catalystcenter_password}}"
-    catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
-    catalystcenter_version: "{{catalystcenter_version}}"
-    catalystcenter_debug: "{{catalystcenter_debug}}"
-    state: present
-    floorNumber: 0
-    height: 0
-    id: string
     length: 0
     name: string
     parentId: string
@@ -124,23 +95,41 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     state: absent
     id: string
+- name: Update by id
+  cisco.catalystcenter.floors:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    floorNumber: 0
+    height: 0
+    id: string
+    length: 0
+    name: string
+    parentId: string
+    rfModel: string
+    unitsOfMeasure: string
+    width: 0
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

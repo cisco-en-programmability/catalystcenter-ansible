@@ -7,12 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: event_subscription_details_rest_info
-short_description: Information module for Event Subscription
-  Details Rest
+short_description: Information module for Event Subscription Details Rest
 description:
   - Get all Event Subscription Details Rest.
-  - Gets the list of subscription details for specified
-    connectorType.
+  - Gets the list of subscription details for specified connectorType.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module_info
@@ -27,23 +25,20 @@ options:
     type: str
   instanceId:
     description:
-      - InstanceId query parameter. Instance Id of the
-        specific configuration.
+      - InstanceId query parameter. Instance Id of the specific configuration.
     type: str
   offset:
     description:
       - >
-        Offset query parameter. The number of Rest/Webhook
-        Subscription detail's to offset in the resultset
+        Offset query parameter. The number of Rest/Webhook Subscription detail's to offset in the resultset
         whose default value 0.
-    type: float
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. The number of Rest/Webhook
-        Subscription detail's to limit in the resultset
-        whose default value 10.
-    type: float
+        Limit query parameter. The number of Rest/Webhook Subscription detail's to limit in the resultset whose
+        default value 10.
+    type: int
   sortBy:
     description:
       - SortBy query parameter. SortBy field name.
@@ -53,13 +48,11 @@ options:
       - Order query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management
-      GetRestWebhookSubscriptionDetails
-    description: Complete reference of the GetRestWebhookSubscriptionDetails
-      API.
+  - name: Cisco DNA Center documentation for Event Management GetRestWebhookSubscriptionDetails
+    description: Complete reference of the GetRestWebhookSubscriptionDetails API.
     link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-subscription-details
 notes:
   - SDK Method used are
@@ -76,7 +69,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -90,7 +83,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: list
   elements: dict

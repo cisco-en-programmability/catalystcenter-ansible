@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 
@@ -31,8 +30,8 @@ argument_spec.update(
     dict(
         networkDeviceId=dict(type="str"),
         id=dict(type="float"),
-        offset=dict(type="float"),
-        limit=dict(type="float"),
+        offset=dict(type="int"),
+        limit=dict(type="int"),
         headers=dict(type="dict"),
     )
 )
@@ -94,7 +93,7 @@ class ActionModule(ActionBase):
 
         response = catalystcenter.exec(
             family="industrial_configuration",
-            function="retrieves_the_list_of_m_r_p_rings",
+            function="retrieves_the_list_of_mrp_rings",
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

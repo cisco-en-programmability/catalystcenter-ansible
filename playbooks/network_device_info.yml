@@ -11,7 +11,7 @@
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
       register: network_devices_result
@@ -24,7 +24,7 @@
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab

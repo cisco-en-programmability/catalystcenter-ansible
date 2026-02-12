@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: lan_automation_port_channels_id_remove_link
-short_description: Resource module for Lan Automation
-  Port Channels Id Remove Link
+short_description: Resource module for Lan Automation Port Channels Id Remove Link
 description:
-  - Manage operation create of the resource Lan Automation
-    Port Channels Id Remove Link.
-  - This API removes a member link from an existing
-    Port Channel, reverting the link to a P2P L3 interface.
+  - Manage operation create of the resource Lan Automation Port Channels Id Remove Link.
+  - This API removes a member link from an existing Port Channel, reverting the link to a P2P L3 interface.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,35 +20,28 @@ options:
     description: Id path parameter. ID of the port channel.
     type: str
   portChannelMembers:
-    description: Lan Automation Port Channels Id Remove
-      Link's portChannelMembers.
+    description: Lan Automation Port Channels Id Remove Link's portChannelMembers.
     elements: dict
     suboptions:
       device1Interface:
-        description: Either device1InterfaceUuid or
-          device1InterfaceName is required.
+        description: Either device1InterfaceUuid or device1InterfaceName is required.
         type: str
       device1InterfaceUuid:
-        description: Either device1InterfaceUuid or
-          device1InterfaceName is required.
+        description: Either device1InterfaceUuid or device1InterfaceName is required.
         type: str
       device2Interface:
-        description: Either device2InterfaceUuid or
-          device1InterfaceName is required.
+        description: Either device2InterfaceUuid or device1InterfaceName is required.
         type: str
       device2InterfaceUuid:
-        description: Either device2InterfaceUuid or
-          device1InterfaceName is required.
+        description: Either device2InterfaceUuid or device1InterfaceName is required.
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation
-      RemoveALinkFromPortChannel
-    description: Complete reference of the RemoveALinkFromPortChannel
-      API.
+  - name: Cisco DNA Center documentation for LAN Automation RemoveALinkFromPortChannel
+    description: Complete reference of the RemoveALinkFromPortChannel API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-a-link-from-port-channel
 notes:
   - SDK Method used are
@@ -68,7 +58,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     id: string
@@ -80,7 +70,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

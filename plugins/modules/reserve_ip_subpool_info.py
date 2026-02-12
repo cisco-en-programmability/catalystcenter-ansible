@@ -7,8 +7,7 @@
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool_info
-short_description: Information module for Reserve Ip
-  Subpool
+short_description: Information module for Reserve Ip Subpool
 description:
   - Get all Reserve Ip Subpool.
   - API to get the ip subpool info.
@@ -23,48 +22,39 @@ options:
   siteId:
     description:
       - >
-        SiteId query parameter. Site id of site from
-        which to retrieve associated reserve pools.
-        Either siteId (per site queries) or ignoreInheritedGroups
-        must be used. They can also be used together.
+        SiteId query parameter. Site id of site from which to retrieve associated reserve pools. Either siteId
+        (per site queries) or ignoreInheritedGroups must be used. They can also be used together.
     type: str
   offset:
     description:
-      - Offset query parameter. Offset/starting row.
-        Indexed from 1.
-    type: float
+      - Offset query parameter. Offset/starting row. Indexed from 1.
+    type: int
   limit:
     description:
       - >
-        Limit query parameter. Number of reserve pools
-        to be retrieved. Default is 25 if not specified.
-        Maximum allowed limit is 500.
-    type: float
+        Limit query parameter. Number of reserve pools to be retrieved. Default is 25 if not specified. Maximum
+        allowed limit is 500.
+    type: int
   ignoreInheritedGroups:
     description:
       - >
-        IgnoreInheritedGroups query parameter. Ignores
-        pools inherited from parent site. Either siteId
-        or ignoreInheritedGroups must be passed. They
-        can also be used together.
+        IgnoreInheritedGroups query parameter. Ignores pools inherited from parent site. Either siteId or
+        ignoreInheritedGroups must be passed. They can also be used together.
     type: bool
   poolUsage:
     description:
-      - PoolUsage query parameter. Can take values empty,
-        partially-full or empty-partially-full.
+      - PoolUsage query parameter. Can take values empty, partially-full or empty-partially-full.
     type: str
   groupName:
     description:
       - GroupName query parameter. Name of the group.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network
-      Settings GetReserveIPSubpool
-    description: Complete reference of the GetReserveIPSubpool
-      API.
+  - name: Cisco DNA Center documentation for Network Settings GetReserveIPSubpool
+    description: Complete reference of the GetReserveIPSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool
 notes:
   - SDK Method used are
@@ -81,7 +71,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     headers: "{{my_headers | from_json}}"
@@ -95,7 +85,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
@@ -108,7 +98,7 @@ dnac_response:
             {
               "ipPoolName": "string",
               "dhcpServerIps": [
-                {}
+                "string"
               ],
               "gateways": [
                 "string"
@@ -126,7 +116,7 @@ dnac_response:
               "clientOptions": {},
               "groupUuid": "string",
               "dnsServerIps": [
-                {}
+                "string"
               ],
               "context": [
                 {

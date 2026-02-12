@@ -7,25 +7,20 @@
 DOCUMENTATION = r"""
 ---
 module: assurance_issues_summary_analytics
-short_description: Resource module for Assurance Issues
-  Summary Analytics
+short_description: Resource module for Assurance Issues Summary Analytics
 description:
-  - Manage operation create of the resource Assurance
-    Issues Summary Analytics. - > Gets the summary analytics
-    data related to issues based on given filters and
-    group by field. This data can be used to find issue
-    counts grouped by different keys. For detailed information
-    about the usage of the API, please refer to the
-    Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
+  - Manage operation create of the resource Assurance Issues Summary Analytics.
+  - Gets the summary analytics data related to issues based on given filters and group by field.
+  - This data can be used to find issue counts grouped by different keys.
+  - For detailed information about the usage of the API, please refer to the Open API specification document
+    https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
 author: Rafael Campos (@racampos)
 options:
   aggregateAttributes:
-    description: Assurance Issues Summary Analytics's
-      aggregateAttributes.
+    description: Assurance Issues Summary Analytics's aggregateAttributes.
     elements: dict
     suboptions:
       function:
@@ -43,13 +38,11 @@ options:
     description: End Time.
     type: int
   filters:
-    description: Assurance Issues Summary Analytics's
-      filters.
+    description: Assurance Issues Summary Analytics's filters.
     elements: dict
     suboptions:
       filters:
-        description: Assurance Issues Summary Analytics's
-          filters.
+        description: Assurance Issues Summary Analytics's filters.
         elements: dict
         suboptions:
           key:
@@ -83,8 +76,7 @@ options:
     description: Additional headers.
     type: dict
   page:
-    description: Assurance Issues Summary Analytics's
-      page.
+    description: Assurance Issues Summary Analytics's page.
     suboptions:
       limit:
         description: Limit.
@@ -93,8 +85,7 @@ options:
         description: Offset.
         type: int
       sortBy:
-        description: Assurance Issues Summary Analytics's
-          sortBy.
+        description: Assurance Issues Summary Analytics's sortBy.
         elements: dict
         suboptions:
           name:
@@ -109,13 +100,11 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues
-      GetSummaryAnalyticsDataOfIssues
-    description: Complete reference of the GetSummaryAnalyticsDataOfIssues
-      API.
+  - name: Cisco DNA Center documentation for Issues GetSummaryAnalyticsDataOfIssues
+    description: Complete reference of the GetSummaryAnalyticsDataOfIssues API.
     link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-issues
 notes:
   - SDK Method used are
@@ -132,7 +121,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     aggregateAttributes:
@@ -163,7 +152,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

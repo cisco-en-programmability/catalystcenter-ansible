@@ -7,11 +7,9 @@
 DOCUMENTATION = r"""
 ---
 module: configuration_template_clone
-short_description: Resource module for Configuration
-  Template Clone
+short_description: Resource module for Configuration Template Clone
 description:
-  - Manage operation create of the resource Configuration
-    Template Clone.
+  - Manage operation create of the resource Configuration Template Clone.
   - API to clone template.
 version_added: '3.1.0'
 extends_documentation_fragment:
@@ -19,27 +17,21 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   name:
-    description: Name path parameter. Template name
-      to clone template(Name should be different than
-      existing template name within same project).
+    description: Name path parameter. Template name to clone template(Name should be different than existing template name
+      within same project).
     type: str
   projectId:
-    description: ProjectId query parameter. UUID of
-      the project in which the template needs to be
-      created.
+    description: ProjectId path parameter.
     type: str
   templateId:
-    description: TemplateId path parameter. UUID of
-      the template to clone it.
+    description: TemplateId path parameter. UUID of the template to clone it.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration
-      Templates CreatesACloneOfTheGivenTemplate
-    description: Complete reference of the CreatesACloneOfTheGivenTemplate
-      API.
+  - name: Cisco DNA Center documentation for Configuration Templates CreatesACloneOfTheGivenTemplate
+    description: Complete reference of the CreatesACloneOfTheGivenTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-clone-of-the-given-template
 notes:
   - SDK Method used are
@@ -56,7 +48,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     name: string
@@ -65,7 +57,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >

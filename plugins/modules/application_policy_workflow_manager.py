@@ -234,145 +234,6 @@ options:
                   data transfers that can tolerate delays
                   or interruptions.
                 type: str
-      application_sets:
-        description:
-          - Defines a logical grouping of network applications
-            that share common policies and configuration
-            settings.
-          - Application sets enable network administrators
-            to manage and apply policies to multiple
-            applications simultaneously, streamlining
-            policy enforcement, monitoring, and optimization.
-        type: list
-        elements: dict
-        suboptions:
-          name:
-            description:
-              - Specifies the name of the application
-                set.
-              - Required for deleting an application
-                set.
-            type: str
-      application:
-        description:
-          - Defines individual applications within an
-            application set that share a common purpose
-            or function.
-          - Grouping similar applications into sets
-            allows administrators to apply uniform policies
-            efficiently.
-        type: list
-        elements: dict
-        suboptions:
-          name:
-            description:
-              - Specifies the name of the application.
-              - Required for create, update, and delete
-                operations.
-            type: str
-          description:
-            description: A brief description of the
-              application.
-            type: str
-          help_string:
-            description: Provides the purpose or intended
-              use of the application.
-            type: str
-          type:
-            description: |
-              - Specifies how the application is identified within the network.
-              - Permissible values:
-                - server_name: Custom application identified by server name.
-                - url: Custom application identified by URL.
-                - server_ip: Custom application identified by server IP address.
-            type: str
-          server_name:
-            description: Required if `type` is `server_name`;
-              specifies the server name for application
-              identification.
-            type: str
-          dscp:
-            description:
-              - Required if `type` is `server_ip`; specifies
-                DSCP value or `network_identity` details
-                for the application.
-              - DSCP value must be in the range 0 -
-                63.
-            type: int
-          network_identity:
-            description: Required if `type` is `server_ip`;
-              defines network-related parameters for
-              application identification.
-            type: dict
-            suboptions:
-              protocol:
-                description: Specifies the network protocol
-                  used by the application.
-                type: str
-              port:
-                description: Specifies the communication
-                  port number for the application.
-                type: str
-              ip_subnet:
-                description: List of IP addresses or
-                  subnets associated with the application.
-                type: list
-                elements: str
-              lower_port:
-                description: Specifies the lower range
-                  of ports for network communication.
-                type: str
-              upper_port:
-                description: Specifies the upper range
-                  of ports for network communication.
-                type: str
-          app_protocol:
-            description: |
-              - Required if `type` is `url` or `server_ip`; specifies the protocol used by the application.
-              - If `type` is `url`, `app_protocol` must be `TCP`.
-              - Permissible values:
-                - 'TCP': Transmission Control Protocol (reliable, connection-oriented).
-                - 'UDP': User Datagram Protocol (fast, connectionless, no guaranteed delivery).
-                - 'TCP_UDP': Supports both TCP and UDP communication.
-                - 'IP': Internet Protocol for network addressing and routing.
-            type: str
-          url:
-            description: Required if `type` is `url`;
-              specifies the URL for application identification.
-            type: str
-          traffic_class:
-            description: |
-              - Defines traffic prioritization based on network policies, ensuring critical applications receive the required bandwidth.
-              - Permissible values:
-                  - "BROADCAST_VIDEO": Video traffic broadcasted to multiple recipients.
-                  - "BULK_DATA": Large data transfers like file uploads or backups.
-                  - "MULTIMEDIA_CONFERENCING": Audio and video traffic for conferencing.
-                  - "MULTIMEDIA_STREAMING": Streaming video or audio content.
-                  - "NETWORK_CONTROL": Traffic for managing and controlling network infrastructure.
-                  - "OPS_ADMIN_MGMT": Traffic for network operational and administrative tasks.
-                  - "REAL_TIME_INTERACTIVE": Low-latency traffic for real-time interactive applications.
-                  - "SIGNALING": Control traffic for setting up and managing sessions (e.g., VoIP).
-                  - "TRANSACTIONAL_DATA": Data related to transactions, like financial or retail operations.
-                  - "VOIP_TELEPHONY": Voice traffic over IP networks.
-                  - "BEST_EFFORT": Non-critical traffic delivered on a best-effort basis.
-                  - "SCAVENGER": Low-priority traffic, often background tasks.
-            type: str
-          ignore_conflict:
-            description: Flag to indicate whether to
-              ignore conflicts during configuration.
-            type: bool
-          rank:
-            description: Specifies the priority ranking
-              of the application.
-            type: int
-          engine_id:
-            description: Identifier for the engine managing
-              the application.
-            type: int
-          application_set_name:
-            description: Specifies the application set
-              under which this application is created.
-            type: str
       application_policy:
         description: Defines how an application's traffic
           is managed and prioritized within a network.
@@ -447,33 +308,24 @@ options:
                     type: list
                     elements: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
+  - catalystcentersdk >= 2.9.3
   - python >= 3.9.19
 notes:
-  - SDK Methods used are - application_policy.ApplicationPolicy.get_application_policy
-    - application_policy.ApplicationPolicy.application_policy_intent
-    - application_policy.ApplicationPolicy.get_application_policy_queuing_profile
-    - application_policy.ApplicationPolicy.update_application_policy_queuing_profile
-    - application_policy.ApplicationPolicy.create_application_policy_queuing_profile
-    - application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
-    - application_policy.ApplicationPolicy.get_application_sets
-    - application_policy.ApplicationPolicy.create_application_set
-    - application_policy.ApplicationPolicy.delete_application_set
-    - application_policy.ApplicationPolicy.get_applications
-    - application_policy.ApplicationPolicy.create_application
-    - application_policy.ApplicationPolicy.update_application
-    - application_policy.ApplicationPolicy.delete_application
-  - Paths used are
-    - GET/dna/intent/api/v1/app-policy
-    - POST/dna/intent/api/v1/app-policy-intent - GET/dna/intent/api/v1/app-policy-queuing-profile
-    - POST/dna/intent/api/v1/app-policy-queuing-profile
-    - PUT/dna/intent/api/v1/app-policy-queuing-profile
-    - DELETE/dna/intent/api/v1/app-policy-queuing-profile/{id}
-    - GET/dna/intent/api/v1/application-policy-application-set
-    - POST//dna/intent/api/v1/application-policy-application-set
-    - DELETE/dna/intent/api/v2/application-policy-application-set/{id}
-    - GET/dna/intent/api/v2/applications - POST/dna/intent/api/v2/applications
-    - PUT/dna/intent/api/v1/applications - DELETE/dna/intent/api/v2/applications/{id}
+- SDK Methods used are
+  - application_policy.ApplicationPolicy.get_application_policy
+  - application_policy.ApplicationPolicy.application_policy_intent
+  - application_policy.ApplicationPolicy.get_application_policy_queuing_profile
+  - application_policy.ApplicationPolicy.update_application_policy_queuing_profile
+  - application_policy.ApplicationPolicy.create_application_policy_queuing_profile
+  - application_policy.ApplicationPolicy.delete_application_policy_queuing_profile
+
+- Paths used are
+  - GET/dna/intent/api/v1/app-policy
+  - POST/dna/intent/api/v1/app-policy-intent
+  - GET/dna/intent/api/v1/app-policy-queuing-profile
+  - POST/dna/intent/api/v1/app-policy-queuing-profile
+  - PUT/dna/intent/api/v1/app-policy-queuing-profile
+  - DELETE/dna/intent/api/v1/app-policy-queuing-profile/{id}
 """
 
 EXAMPLES = r"""
@@ -494,7 +346,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -553,7 +405,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -600,7 +452,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{catalystcenter_username}}"
         catalystcenter_password: "{{catalystcenter_password}}"
         catalystcenter_verify: "{{catalystcenter_verify}}"
-        catalystcenter_api_port: "{{catalystcenter_api_port}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
         catalystcenter_version: "{{catalystcenter_version}}"
         catalystcenter_debug: "{{catalystcenter_debug}}"
         catalystcenter_log: true
@@ -718,7 +570,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -808,7 +660,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -851,7 +703,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -913,7 +765,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -925,154 +777,6 @@ EXAMPLES = r"""
         config:
           - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
-# Playbook - create application - type server_name
-- name: Create application on Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Create Application with Server Name on Cisco
-        Catalyst Center
-      cisco.catalystcenter.application_policy_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
-        config_verify: true
-        catalystcenter_api_task_timeout: 1000
-        catalystcenter_task_poll_interval: 1
-        state: merged
-        config:
-          - application:
-              - name: "Security_Gateway_App"
-                help_string: "Application for network
-                  security and access control"
-                description: "Security Gateway Application"
-                type: "server_name"
-                server_name: "www.securitygateway.com"
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: "true"
-                rank: 23
-                engineId: 4
-                application_set_name: "local-services"
-# Playbook - create application - type server_ip
-- name: Create application on Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Create application with Server IP on Cisco
-        Catalyst Center
-      cisco.catalystcenter.application_policy_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
-        config_verify: true
-        catalystcenter_api_task_timeout: 1000
-        catalystcenter_task_poll_interval: 1
-        state: merged
-        config:
-          - application:
-              - name: "Security_Gateway_IP_App"
-                help_string: "Security Gateway Application
-                  based on IP"
-                description: "Defines security gateway
-                  policies using server IPs"
-                type: "server_ip"
-                network_identity_setting:
-                  protocol: "UDP"
-                  port: "2000"
-                  ip_subnet: ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
-                  lower_port: 10
-                  upper_port: 100
-                dscp: 2
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: "true"
-                rank: "23"
-                engine_id: "4"
-                application_set_name: "local-services"
-# Playbook - create application - type url
-- name: Define and Register Application in Cisco Catalyst
-    Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Create Application with URL Type in Cisco
-        Catalyst Center
-      cisco.catalystcenter.application_policy_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
-        config_verify: true
-        catalystcenter_api_task_timeout: 1000
-        catalystcenter_task_poll_interval: 1
-        state: merged
-        config:
-          - application:
-              - name: "video_streaming_app"
-                help_string: "Manages video streaming
-                  application traffic"
-                description: "Defines security gateway
-                  policies using server urls"
-                type: "url"
-                app_protocol: "TCP"
-                url: "www.videostreaming.com"
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: true
-                rank: "23"
-                engine_id: "4"
-                application_set_name: "local-services"
-# Playbook - delete application
-- name: Delete application from Cisco Catalyst Center
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  vars_files:
-    - "credentials.yml"
-  tasks:
-    - name: Delete Video Streaming Application from
-        Cisco Catalyst Center
-      cisco.catalystcenter.application_policy_workflow_manager:
-        catalystcenter_host: "{{ catalystcenter_host }}"
-        catalystcenter_username: "{{ catalystcenter_username }}"
-        catalystcenter_password: "{{ catalystcenter_password }}"
-        catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
-        catalystcenter_version: "{{ catalystcenter_version }}"
-        catalystcenter_debug: "{{ catalystcenter_debug }}"
-        catalystcenter_log: true
-        catalystcenter_log_level: DEBUG
-        config_verify: true
-        catalystcenter_api_task_timeout: 1000
-        catalystcenter_task_poll_interval: 1
-        state: deleted
-        config:
-          - application:
-              - name: "video_streaming_app"
 # Playbook - create application policy – wired
 - name: Create Wired Application Policy in Cisco Catalyst
     Center
@@ -1088,7 +792,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1128,7 +832,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1169,7 +873,7 @@ EXAMPLES = r"""
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        catalystcenter_api_port: "{{ catalystcenter_api_port }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
@@ -1185,7 +889,7 @@ EXAMPLES = r"""
 
 RETURN = r"""
 # Case 1: Successful creation of application queuing profile
-creation _of_application_queuing_profile_response_task_execution:
+creation_of_application_queuing_profile_response_task_execution:
   description: A dictionary with details for successful task execution.
   returned: always
   type: dict
@@ -1308,108 +1012,7 @@ application_queuing_profile_not_found_response_task_execution:
         "url": "str"
       }
     }
-# Case 9: Successful creation of application
-successful_creation_of_application_response_task_execution:
-  description: With task id get details for successful task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' created successfully.",
-      "response":
-      {
-        "taskId": "str",
-        "url": "str"
-      },
-      "status": "success"
-    }
-# Case 10: Successful update of application
-successful_update_of_application_response_task_execution:
-  description: With task id get details for successful task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' updated successfully.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-      "status": "success"
-    }
-# Case 11: Successful deletion of application
-deletion_of_application_response_task_execution:
-  description: With task id get details for successful task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' deleted successfully.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-      "status": "success"
-    }
-# Case 12: update not required for application
-update_not_required_for_application_response_task_execution:
-  description: With task id get details for task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'video_streaming_app' does not need any update. ",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-      "status": "success"
-    }
-# Case 13: Error during application create
-error_during_application_create_response_task_execution:
-  description: With task id get details for task execution
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Creation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-    }
-# Case 14: Error during application update
-error_during_application_update_response_task_execution:
-  description: With task id get details for task execution.
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "update of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-    }
-# Case 15: Application not found (during delete operation)
-application_not_found_response_task_execution:
-  description: With task id get details for task execution.
-  returned: always
-  type: dict
-  sample:
-    {
-      "msg": "Application 'Security_Gateway_IP_App' does not present in the cisco catalyst center or it's been already deleted",
-      "response":
-        {
-          "taskId": "str",
-          "url": "str"
-        },
-    }
+
 # Case 16: Successful creation of application policy
 successful_creation_of_application_policy_response_task_execution:
   description: With task id get details for successful task execution
@@ -1456,7 +1059,7 @@ successful_deletion_of_application_policy_response_task_execution:
       "status": "success"
     }
 # Case 19: update not required for application policy
-update_not_required_ for_application_policy_response_task_execution:
+update_not_required_for_application_policy_response_task_execution:
   description: With task id get details for successful task execution
   returned: always
   type: dict
@@ -1524,7 +1127,7 @@ application_policy_not_found_response_task_execution:
     }
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
     CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
@@ -1812,8 +1415,15 @@ class ApplicationPolicy(CatalystCenterBase):
         want = {}
         want["queuing_profile"] = config.get("queuing_profile")
         want["application_set_details"] = config.get("application_set_details")
-        want["application"] = config.get("application")
         want["application_policy"] = config.get("application_policy")
+
+        if config.get("application"):
+            self.msg = (
+                "The creation, updation and deletion of application are currently unavailable "
+                "due to an API issue and are expected to be resolved in a future release."
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
 
         required_params = ["queuing_profile", "application", "application_policy"]
         if not any(config.get(param) for param in required_params):
@@ -2503,8 +2113,12 @@ class ApplicationPolicy(CatalystCenterBase):
                 self.get_diff_application_set().check_return_status()
 
         if config.get("application"):
-            self.log("Processing application details...", "INFO")
-            self.get_diff_application().check_return_status()
+            self.msg = (
+                "The creation, updation and deletion of application are currently unavailable "
+                "due to an API issue and are expected to be resolved in a future release."
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
 
         if config.get("application_policy"):
             self.log("Processing application policy details...", "INFO")
@@ -2535,14 +2149,6 @@ class ApplicationPolicy(CatalystCenterBase):
 
         application_policy = self.have
         application_policy_name = self.want.get("application_policy", {}).get("name")
-
-        if application_policy.get("application_policy_exists") is False:
-            self.log(
-                "Application policy does not exist. Creating a new application policy.",
-                "INFO",
-            )
-            self.create_application_policy()
-            return self
 
         req_application_policy_details = self.config.get("application_policy")
 
@@ -2761,6 +2367,43 @@ class ApplicationPolicy(CatalystCenterBase):
                 )
                 return False
 
+            relevance_differences = {
+                "BUSINESS_RELEVANT": final_business_relevant_set_name,
+                "BUSINESS_IRRELEVANT": final_business_irrelevant_set_name,
+                "DEFAULT": final_default_set_name,
+            }
+
+            relevance_types_with_differences = []
+            for relevance_type, missing_app_sets in relevance_differences.items():
+                if missing_app_sets:
+                    relevance_types_with_differences.append(relevance_type)
+
+            if len(relevance_types_with_differences) == 0:
+                return False
+
+            if len(relevance_types_with_differences) == 1:
+                differing_type = relevance_types_with_differences[0]
+
+                if (
+                    (
+                        differing_type == "BUSINESS_RELEVANT"
+                        and not want_business_relevant_set_name
+                    )
+                    or (
+                        differing_type == "BUSINESS_IRRELEVANT"
+                        and not want_business_irrelevant_set_name
+                    )
+                    or (differing_type == "DEFAULT" and not want_default_set_name)
+                ):
+                    self.log(
+                        "No update required: Only '{0}' set is empty in config. Ignoring difference.".format(
+                            differing_type
+                        ),
+                        "INFO",
+                    )
+                    return False
+
+        self.log("Updates are required for the application policy.", "INFO")
         return True
 
     def get_diff_application_policy(self):
@@ -3114,7 +2757,6 @@ class ApplicationPolicy(CatalystCenterBase):
                 "INFO",
             )
 
-            # Mapping relevance type to expected sets
             relevant_set_names = {
                 "BUSINESS_RELEVANT": want_business_relevant_set_name,
                 "BUSINESS_IRRELEVANT": want_business_irrelevant_set_name,
@@ -3152,22 +2794,32 @@ class ApplicationPolicy(CatalystCenterBase):
 
                     elif current_relevance_type == "DEFAULT":
                         have_default_set_name.append(app_set_name)
+                        self.log("Have Default: {0}".format(app_set_name), "INFO")
 
                     total_current_app_set.append(app_set_name)
 
                     # Determine if update is required
                     update_not_required = False
-                    for set_name in expected_set_names:
 
-                        if set_name in full_name:
-                            update_not_required = True
-                            self.log(
-                                "No update required for application set: {0}".format(
-                                    app_set_name
-                                ),
-                                "INFO",
-                            )
-                            break  # Exit loop early
+                    if not expected_set_names:
+                        update_not_required = True
+                        self.log(
+                            "No update required (empty expected set list) for application set: {0}".format(
+                                app_set_name
+                            ),
+                            "INFO",
+                        )
+                    else:
+                        for set_name in expected_set_names:
+                            if set_name in full_name:
+                                update_not_required = True
+                                self.log(
+                                    "No update required for application set: {0}".format(
+                                        app_set_name
+                                    ),
+                                    "INFO",
+                                )
+                                break  # Exit loop early
 
             self.log(
                 "Total Current Application Sets: {0}".format(total_current_app_set),
@@ -3401,82 +3053,80 @@ class ApplicationPolicy(CatalystCenterBase):
                         site_ids if is_update_required_for_site else current_site_ids
                     )
 
-                    for app_set in (
-                        final_want_business_relevant
-                        + final_want_business_irrelevant
-                        + final_want_default
-                    ):
-                        if app_set in final_want_business_relevant:
-                            relevance_level = "BUSINESS_RELEVANT"
+                for app_set in (
+                    final_want_business_relevant
+                    + final_want_business_irrelevant
+                    + final_want_default
+                ):
+                    if app_set in final_want_business_relevant:
+                        relevance_level = "BUSINESS_RELEVANT"
 
-                        elif app_set in final_want_business_irrelevant:
-                            relevance_level = "BUSINESS_IRRELEVANT"
+                    elif app_set in final_want_business_irrelevant:
+                        relevance_level = "BUSINESS_IRRELEVANT"
 
-                        elif app_set in final_want_default:
-                            relevance_level = "DEFAULT"
+                    elif app_set in final_want_default:
+                        relevance_level = "DEFAULT"
 
-                        if relevance_level and app_set in application_sets.get("name"):
-                            app_set_payload = {
-                                "id": application_sets.get("id"),
-                                "name": "{}_{}".format(
-                                    application_sets.get("policyScope"), app_set
+                    if relevance_level and app_set in application_sets.get("name"):
+                        app_set_payload = {
+                            "id": application_sets.get("id"),
+                            "name": "{}_{}".format(
+                                application_sets.get("policyScope"), app_set
+                            ),
+                            "deletePolicyStatus": application_sets.get(
+                                "deletePolicyStatus"
+                            ),
+                            "policyScope": application_sets.get("policyScope"),
+                            "priority": application_sets.get("priority"),
+                            "advancedPolicyScope": {
+                                "id": application_sets.get("advancedPolicyScope").get(
+                                    "id"
                                 ),
-                                "deletePolicyStatus": application_sets.get(
-                                    "deletePolicyStatus"
+                                "name": application_sets.get("advancedPolicyScope").get(
+                                    "name"
                                 ),
-                                "policyScope": application_sets.get("policyScope"),
-                                "priority": application_sets.get("priority"),
-                                "advancedPolicyScope": {
-                                    "id": application_sets.get(
-                                        "advancedPolicyScope"
-                                    ).get("id"),
-                                    "name": application_sets.get(
-                                        "advancedPolicyScope"
-                                    ).get("name"),
-                                    "advancedPolicyScopeElement": [
-                                        {
-                                            "id": application_sets.get(
-                                                "advancedPolicyScope"
-                                            )
-                                            .get("advancedPolicyScopeElement")[0]
-                                            .get("id"),
-                                            "groupId": group_id,
-                                            "ssid": [],
-                                        }
-                                    ],
-                                },
-                                "exclusiveContract": {
-                                    "id": application_sets.get("exclusiveContract").get(
-                                        "id"
-                                    ),
-                                    "clause": [
-                                        {
-                                            "id": application_sets.get(
-                                                "exclusiveContract"
-                                            )
-                                            .get("clause")[0]
-                                            .get("id"),
-                                            "type": application_sets.get(
-                                                "exclusiveContract"
-                                            )
-                                            .get("clause")[0]
-                                            .get("type"),
-                                            "relevanceLevel": relevance_level,
-                                        }
-                                    ],
-                                },
-                                "producer": {
-                                    "id": application_sets.get("producer").get("id"),
-                                    "scalableGroup": [
-                                        {
-                                            "idRef": application_sets.get("producer")
-                                            .get("scalableGroup")[0]
-                                            .get("idRef")
-                                        }
-                                    ],
-                                },
-                            }
-                            final_app_set_payload.append(app_set_payload)
+                                "advancedPolicyScopeElement": [
+                                    {
+                                        "id": application_sets.get(
+                                            "advancedPolicyScope"
+                                        )
+                                        .get("advancedPolicyScopeElement")[0]
+                                        .get("id"),
+                                        "groupId": group_id,
+                                        "ssid": [],
+                                    }
+                                ],
+                            },
+                            "exclusiveContract": {
+                                "id": application_sets.get("exclusiveContract").get(
+                                    "id"
+                                ),
+                                "clause": [
+                                    {
+                                        "id": application_sets.get("exclusiveContract")
+                                        .get("clause")[0]
+                                        .get("id"),
+                                        "type": application_sets.get(
+                                            "exclusiveContract"
+                                        )
+                                        .get("clause")[0]
+                                        .get("type"),
+                                        "relevanceLevel": relevance_level,
+                                    }
+                                ],
+                            },
+                            "producer": {
+                                "id": application_sets.get("producer").get("id"),
+                                "scalableGroup": [
+                                    {
+                                        "idRef": application_sets.get("producer")
+                                        .get("scalableGroup")[0]
+                                        .get("idRef")
+                                    }
+                                ],
+                            },
+                        }
+                        final_app_set_payload.append(app_set_payload)
 
             self.log(
                 "Final app set payload:\n{0}".format(
@@ -6552,8 +6202,12 @@ class ApplicationPolicy(CatalystCenterBase):
             self.delete_application_queuing_profile().check_return_status()
 
         if config.get("application"):
-            self.log("Deleting application", "INFO")
-            self.delete_application().check_return_status()
+            self.msg = (
+                "The creation, updation and deletion of application are currently unavailable "
+                "due to an API issue and are expected to be resolved in a future release."
+            )
+            self.set_operation_result("success", False, self.msg, "Info")
+            return self
 
         if config.get("application_policy"):
             self.log("Deleting application policy", "INFO")
@@ -7433,17 +7087,18 @@ def main():
     """main entry point for module execution"""
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_api_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {
+            "type": "str",
+            "default": "admin",
+            "aliases": ["user"],
+        },
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -7,13 +7,10 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_id
-short_description: Resource module for Floors Floor
-  Id Planned Access Point Positions Id
+short_description: Resource module for Floors Floor Id Planned Access Point Positions
 description:
-  - Manage operation delete of the resource Floors Floor
-    Id Planned Access Point Positions Id.
-  - Delete specified Planned Access Points Position
-    designated for a specific floor.
+  - Manage operation delete of the resource Floors Floor Id Planned Access Point Positions.
+  - Delete specified Planned Access Points Position designated for a specific floor.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -23,17 +20,14 @@ options:
     description: FloorId path parameter. Floor Id.
     type: str
   id:
-    description: Id path parameter. Planned Access Point
-      Id.
+    description: Id path parameter. Planned Access Point Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design
-      DeletePlannedAccessPointsPositionV2
-    description: Complete reference of the DeletePlannedAccessPointsPositionV2
-      API.
+  - name: Cisco DNA Center documentation for Site Design DeletePlannedAccessPointsPositionV2
+    description: Complete reference of the DeletePlannedAccessPointsPositionV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-points-position-v-2
 notes:
   - SDK Method used are
@@ -50,23 +44,23 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
     floorId: string
     id: string
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
     {
       "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
+        "count": 0
       }
     }
 """

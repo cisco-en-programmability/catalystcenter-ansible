@@ -7,16 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_sync
-short_description: Resource module for Network Device
-  Sync
+short_description: Resource module for Network Device Sync
 description:
-  - Manage operation update of the resource Network
-    Device Sync. - > Synchronizes the devices. If forceSync
-    param is false default then the sync would run in
-    normal priority thread. If forceSync param is true
-    then the sync would run in high priority thread
-    if available, else the sync will fail. Result can
-    be seen in the child task of each device.
+  - Manage operation update of the resource Network Device Sync. - > Synchronizes the devices. If forceSync param is false
+    default then the sync would run in normal priority thread. If forceSync param is true then the sync would run in high
+    priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module
@@ -30,13 +25,11 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.3.0.0
-  - python >= 3.5
+  - catalystcentersdk >= 3.1.6.0.0
+  - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices
-      SyncDevices
-    description: Complete reference of the SyncDevices
-      API.
+  - name: Cisco DNA Center documentation for Devices SyncDevices
+    description: Complete reference of the SyncDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!sync-devices-2
 notes:
   - SDK Method used are
@@ -53,7 +46,7 @@ EXAMPLES = r"""
     catalystcenter_username: "{{catalystcenter_username}}"
     catalystcenter_password: "{{catalystcenter_password}}"
     catalystcenter_verify: "{{catalystcenter_verify}}"
-    catalystcenter_api_port: "{{catalystcenter_api_port}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
     catalystcenter_version: "{{catalystcenter_version}}"
     catalystcenter_debug: "{{catalystcenter_debug}}"
     forceSync: true
@@ -62,7 +55,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco CATALYST Python SDK
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
   type: dict
   sample: >
