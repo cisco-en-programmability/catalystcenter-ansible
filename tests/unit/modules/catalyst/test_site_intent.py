@@ -17,18 +17,33 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import site_intent
-from .catalystcenter_module import TestDnacModule, set_module_args
+from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacSiteIntent(TestDnacModule):
-    def __init__(self):
-        """
-        Inheriting from the base class of catalystcenter_module
-        """
 
-        module = site_intent
-        super().__init__(module)
+    module = site_intent
+    test_data = loadPlaybookData("site_intent")
+    playbook_config = test_data.get("playbook_config")
+
+    def setUp(self):
+        super(TestDnacSiteIntent, self).setUp()
+
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+        )
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
+
+    def tearDown(self):
+        super(TestDnacSiteIntent, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
 
