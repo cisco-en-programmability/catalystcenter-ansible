@@ -5,6 +5,7 @@
 
 """Ansible module to perform operations on create and delete wireless network profile details
 in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1158,7 +1159,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if (
             feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            < 0
         ):
             errormsg.append(
                 "The specified version '{0}' does not support for feature template."
@@ -1695,7 +1697,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         feature_template_designs = config.get("feature_template_designs")
         if (
             feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            >= 0
         ):
             self.log("Fetching feature template information.", "DEBUG")
             self.get_feature_template_info(feature_template_designs, profile_info)
@@ -2433,7 +2436,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if (
             feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            >= 0
         ):
             if not have_feature_templates:
                 self.log(
@@ -3561,7 +3565,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if (
             feature_template_designs
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            < 0
         ):
             del config["feature_template_designs"]
 
@@ -4961,7 +4966,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

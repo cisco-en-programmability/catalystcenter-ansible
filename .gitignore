@@ -22,4 +22,5 @@ playbooks/device_details.template
 .DS_Store
 test.yml
 test.yaml
+.yamlfmt
 .github/copilot-instructions.md

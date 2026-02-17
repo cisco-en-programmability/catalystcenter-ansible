@@ -459,9 +459,7 @@ class PnP(CatalystCenterBase):
         except Exception:
             self.log(
                 "Exception occurred as site \
-                '{0}' was not found".format(
-                    self.want.get("site_name")
-                ),
+                '{0}' was not found".format(self.want.get("site_name")),
                 "CRITICAL",
             )
             self.module.fail_json(msg="Site not found", response=[])
@@ -469,9 +467,7 @@ class PnP(CatalystCenterBase):
         if response:
             self.log(
                 "Received site details \
-                for '{0}': {1}".format(
-                    self.want.get("site_name"), str(response)
-                ),
+                for '{0}': {1}".format(self.want.get("site_name"), str(response)),
                 "DEBUG",
             )
             site = response.get("response")
@@ -513,9 +509,7 @@ class PnP(CatalystCenterBase):
         except Exception:
             self.log(
                 "Exception occurred as \
-                site '{0}' was not found".format(
-                    self.want.get("site_name")
-                ),
+                site '{0}' was not found".format(self.want.get("site_name")),
                 "CRITICAL",
             )
             self.module.fail_json(msg="Site not found", response=[])
@@ -523,9 +517,7 @@ class PnP(CatalystCenterBase):
         if response:
             self.log(
                 "Received site details\
-                for '{0}': {1}".format(
-                    self.want.get("site_name"), str(response)
-                ),
+                for '{0}': {1}".format(self.want.get("site_name"), str(response)),
                 "DEBUG",
             )
             site = response.get("response")
@@ -844,7 +836,7 @@ class PnP(CatalystCenterBase):
                     return self
 
                 site_name = self.want.get("site_name")
-                (site_exists, site_id) = self.get_site_details()
+                site_exists, site_id = self.get_site_details()
 
                 if site_exists:
                     have["site_id"] = site_id
@@ -1477,7 +1469,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},

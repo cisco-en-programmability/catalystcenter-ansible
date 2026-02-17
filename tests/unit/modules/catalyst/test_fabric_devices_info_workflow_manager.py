@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import fabric_devices_info_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    fabric_devices_info_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -49,14 +51,19 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
     playbook_negative_scenario_10 = test_data.get("playbook_negative_scenario_10")
     playbook_negative_scenario_11 = test_data.get("playbook_negative_scenario_11")
     playbook_negative_scenario_12 = test_data.get("playbook_negative_scenario_12")
-    playbook_ip_range_OR_logic_exception = test_data.get("playbook_ip_range_OR_logic_exception")
-    playbook_ip_range_AND_logic_exception = test_data.get("playbook_ip_range_AND_logic_exception")
+    playbook_ip_range_OR_logic_exception = test_data.get(
+        "playbook_ip_range_OR_logic_exception"
+    )
+    playbook_ip_range_AND_logic_exception = test_data.get(
+        "playbook_ip_range_AND_logic_exception"
+    )
 
     def setUp(self):
         super(TestDnacFabricDeviceInfoWorkflowManager, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -102,11 +109,17 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("get_device_list3"),
                 self.test_data.get("get_fabric_devices3"),
                 self.test_data.get("192.168.200.69_1"),
-                self.test_data.get("get_fabric_devices_layer3_handoffs_with_sda_transit"),
+                self.test_data.get(
+                    "get_fabric_devices_layer3_handoffs_with_sda_transit"
+                ),
                 self.test_data.get("192.168.200.69_1"),
-                self.test_data.get("get_fabric_devices_layer3_handoffs_with_sda_transit"),
+                self.test_data.get(
+                    "get_fabric_devices_layer3_handoffs_with_sda_transit"
+                ),
                 self.test_data.get("192.168.200.69_2"),
-                self.test_data.get("get_fabric_devices_layer3_handoffs_with_ip_transit"),
+                self.test_data.get(
+                    "get_fabric_devices_layer3_handoffs_with_ip_transit"
+                ),
                 self.test_data.get("192.168.200.69_3"),
                 self.test_data.get("get_fabric_devices_layer2_handoffs"),
             ]
@@ -128,7 +141,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("get_port_channels"),
                 self.test_data.get("192.168.200.69_5"),
                 self.test_data.get("get_network_device_by_ip"),
-                self.test_data.get("get_provisioned_wired_device")
+                self.test_data.get("get_provisioned_wired_device"),
             ]
 
         elif "playbook_health_info" in self._testMethodName:
@@ -244,7 +257,6 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 self.test_data.get("connected_device_info_68"),
                 self.test_data.get("connected_device_info_69"),
                 self.test_data.get("connected_device_info_70"),
-
             ]
 
         elif "playbook_negative_scenario_12" in self._testMethodName:
@@ -303,7 +315,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_fabric_info
+                config=self.playbook_fabric_info,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -319,19 +331,17 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                 "device_ip": "192.168.200.69",
                                 "fabric_details": [
                                     {
-                                        "deviceRoles": [
-                                            "EDGE_NODE"
-                                        ],
+                                        "deviceRoles": ["EDGE_NODE"],
                                         "fabricId": "34ef8d59-1860-4221-8124-2242a776b5e1",
                                         "id": "5f4092a2-fbc5-42df-8343-f6aeddf8aafc",
-                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
                                     }
-                                ]
+                                ],
                             }
                         ]
                     }
-                ]
-            ]
+                ],
+            ],
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_handoff_info(self):
@@ -351,7 +361,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_handoff_info
+                config=self.playbook_handoff_info,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -365,7 +375,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                         "fabric_devices_layer3_handoffs_sda_info": [
                             {
                                 "device_ip": "192.168.200.69",
-                                "handoff_layer3_sda_transit_info": []
+                                "handoff_layer3_sda_transit_info": [],
                             }
                         ]
                     }
@@ -375,7 +385,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                         "fabric_devices_layer3_handoffs_ip_info": [
                             {
                                 "device_ip": "192.168.200.69",
-                                "handoff_layer3_ip_transit_info": []
+                                "handoff_layer3_ip_transit_info": [],
                             }
                         ]
                     }
@@ -383,14 +393,11 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 [
                     {
                         "fabric_devices_layer2_handoffs_info": [
-                            {
-                                "device_ip": "192.168.200.69",
-                                "handoff_layer2_info": []
-                            }
+                            {"device_ip": "192.168.200.69", "handoff_layer2_info": []}
                         ]
                     }
-                ]
-            ]
+                ],
+            ],
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_onboarding_info(self):
@@ -410,7 +417,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_onboarding_info
+                config=self.playbook_onboarding_info,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -433,7 +440,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                         "id": "6aad42c9-3a71-4838-afa0-c0fd34509322",
                                         "interfaceDescription": "",
                                         "interfaceName": "GigabitEthernet1/0/3",
-                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
                                     },
                                     {
                                         "authenticateTemplateName": "No Authentication",
@@ -443,7 +450,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                         "id": "200187c1-b10f-40d3-a2f1-54bff6fa13be",
                                         "interfaceDescription": "",
                                         "interfaceName": "GigabitEthernet1/0/1",
-                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
+                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
                                     },
                                     {
                                         "authenticateTemplateName": "No Authentication",
@@ -453,9 +460,9 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                         "id": "029f671e-663b-4ab4-9ae1-e53bfcd707f8",
                                         "interfaceDescription": "",
                                         "interfaceName": "GigabitEthernet1/0/25",
-                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee"
-                                    }
-                                ]
+                                        "networkDeviceId": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
+                                    },
+                                ],
                             }
                         ]
                     }
@@ -463,10 +470,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 [
                     {
                         "port_channel_info": [
-                            {
-                                "device_ip": "192.168.200.69",
-                                "port_channel_details": []
-                            }
+                            {"device_ip": "192.168.200.69", "port_channel_details": []}
                         ]
                     }
                 ],
@@ -475,7 +479,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                         "ssid_info": [
                             {
                                 "device_ip": "192.168.200.69",
-                                "ssid_details": "The device is not wireless; therefore, SSID information retrieval is not applicable."
+                                "ssid_details": "The device is not wireless; therefore, SSID information retrieval is not applicable.",
                             }
                         ]
                     }
@@ -489,12 +493,12 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                     "description": "Wired Provisioned device detail retrieved successfully.",
                                     "deviceManagementIpAddress": "192.168.200.69",
                                     "siteNameHierarchy": "Global/rishipat_area/Fabric-area-1/RCDN-Fabric-5",
-                                    "status": "success"
-                                }
+                                    "status": "success",
+                                },
                             }
                         ]
                     }
-                ]
+                ],
             ],
         )
 
@@ -515,7 +519,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_health_info
+                config=self.playbook_health_info,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -562,12 +566,12 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                                     "utilizationHealth": {},
                                     "uuid": "199950bc-c0d6-42f6-b1f3-a3f5aed176ee",
                                     "wanLinkUtilization": -1.0,
-                                    "wqePoolsHealth": -1
-                                }
+                                    "wqePoolsHealth": -1,
+                                },
                             }
                         ]
                     }
-                ]
+                ],
             ],
         )
 
@@ -588,7 +592,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_issues_info
+                config=self.playbook_issues_info,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -600,13 +604,10 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 [
                     {
                         "device_issues_info": [
-                            {
-                                "device_ip": "192.168.200.69",
-                                "issue_details": []
-                            }
+                            {"device_ip": "192.168.200.69", "issue_details": []}
                         ]
                     }
-                ]
+                ],
             ],
         )
 
@@ -627,7 +628,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_connected_devices_info
+                config=self.playbook_connected_devices_info,
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -639,353 +640,153 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 [
                     {
                         "connected_device_info": [
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
-                                        "capabilities": [
-                                            "ROUTER",
-                                            "TB_BRIDGE"
-                                        ],
+                                        "capabilities": ["ROUTER", "TB_BRIDGE"],
                                         "neighborDevice": "AP687D.B402.1E98",
-                                        "neighborPort": "GigabitEthernet0"
+                                        "neighborPort": "GigabitEthernet0",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
                                         "capabilities": [
                                             "IGMP_CONDITIONAL_FILTERING",
                                             "ROUTER",
-                                            "SWITCH"
+                                            "SWITCH",
                                         ],
                                         "neighborDevice": "SJ-IM-1-9300.cisco.local",
-                                        "neighborPort": "TenGigabitEthernet1/1/8"
+                                        "neighborPort": "TenGigabitEthernet1/1/8",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
-                                        "capabilities": [
-                                            "ROUTER",
-                                            "TB_BRIDGE"
-                                        ],
+                                        "capabilities": ["ROUTER", "TB_BRIDGE"],
                                         "neighborDevice": "Cisco_9120AXE_IP4-02",
-                                        "neighborPort": "GigabitEthernet0"
+                                        "neighborPort": "GigabitEthernet0",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
-                                        "capabilities": [
-                                            "HOST"
-                                        ],
+                                        "capabilities": ["HOST"],
                                         "neighborDevice": "IAC2-TSIM-1",
-                                        "neighborPort": "TenGigabitEthernet0/0/1"
+                                        "neighborPort": "TenGigabitEthernet0/0/1",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
-                                        "capabilities": [
-                                            "ROUTER",
-                                            "TB_BRIDGE"
-                                        ],
+                                        "capabilities": ["ROUTER", "TB_BRIDGE"],
                                         "neighborDevice": "Cisco_9120AXE_IP4-01",
-                                        "neighborPort": "GigabitEthernet0"
+                                        "neighborPort": "GigabitEthernet0",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
                                         "capabilities": [
                                             "IGMP_CONDITIONAL_FILTERING",
-                                            "SWITCH"
+                                            "SWITCH",
                                         ],
                                         "neighborDevice": "IAC-MGMT-1",
-                                        "neighborPort": "GigabitEthernet1/0/2"
+                                        "neighborPort": "GigabitEthernet1/0/2",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                             {
                                 "connected_device_details": [
                                     {
                                         "capabilities": [
                                             "IGMP_CONDITIONAL_FILTERING",
                                             "ROUTER",
-                                            "SWITCH"
+                                            "SWITCH",
                                         ],
                                         "neighborDevice": "SJ-IM-1-9300.cisco.local",
-                                        "neighborPort": "TenGigabitEthernet1/1/7"
+                                        "neighborPort": "TenGigabitEthernet1/1/7",
                                     }
                                 ],
-                                "device_ip": "204.1.2.70"
+                                "device_ip": "204.1.2.70",
                             },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            },
-                            {
-                                "connected_device_details": [],
-                                "device_ip": "204.1.2.70"
-                            }
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
+                            {"connected_device_details": [], "device_ip": "204.1.2.70"},
                         ]
                     }
-                ]
+                ],
             ],
         )
 
@@ -1006,14 +807,14 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_1
+                config=self.playbook_negative_scenario_1,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "'fabric_devices' key is missing in the config block"
+            "'fabric_devices' key is missing in the config block",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_2(self):
@@ -1033,7 +834,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_2
+                config=self.playbook_negative_scenario_2,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -1043,7 +844,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             "'fabric_device_rolee' is not a valid key in fabric device entry. "
             "Allowed keys are: device_identifier, fabric_device_role, "
             "fabric_site_hierarchy, interval, output_file_info, requested_info, "
-            "retries, timeout"
+            "retries, timeout",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_3(self):
@@ -1063,14 +864,14 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_3
+                config=self.playbook_negative_scenario_3,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid or unrecognized key 'ip_addresss' found in device_identifier. Allowed keys are: hostname, ip_address, ip_address_range, serial_number"
+            "Invalid or unrecognized key 'ip_addresss' found in device_identifier. Allowed keys are: hostname, ip_address, ip_address_range, serial_number",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_4(self):
@@ -1090,7 +891,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_4
+                config=self.playbook_negative_scenario_4,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -1099,7 +900,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             result.get("response"),
             "'fabric_infoo' is not a valid return value. Allowed values are: "
             "['all', 'connected_devices_info', 'device_health_info', "
-            "'device_issues_info', 'fabric_info', 'handoff_info', 'onboarding_info']"
+            "'device_issues_info', 'fabric_info', 'handoff_info', 'onboarding_info']",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_5(self):
@@ -1119,14 +920,13 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_5
+                config=self.playbook_negative_scenario_5,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("response"),
-            "'timeout' must be a non-negative integer"
+            result.get("response"), "'timeout' must be a non-negative integer"
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_6(self):
@@ -1146,14 +946,14 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_6
+                config=self.playbook_negative_scenario_6,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "'fabric_device_role' must be one of: BORDER_NODE, CONTROL_PLANE_NODE, EDGE_NODE, EXTENDED_NODE, WIRELESS_CONTROLLER_NODE"
+            "'fabric_device_role' must be one of: BORDER_NODE, CONTROL_PLANE_NODE, EDGE_NODE, EXTENDED_NODE, WIRELESS_CONTROLLER_NODE",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_7(self):
@@ -1173,7 +973,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_7
+                config=self.playbook_negative_scenario_7,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -1185,7 +985,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             "parameters: ['fabric_site_hierarchy : Required parameter not found']\", "
             "'response': \"Fabric devices configuration validation failed with invalid "
             "parameters: ['fabric_site_hierarchy : Required parameter not found']\", "
-            "'failed': True}"
+            "'failed': True}",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_8(self):
@@ -1205,14 +1005,14 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_8
+                config=self.playbook_negative_scenario_8,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "'file_paths' is not a valid key in 'output_file_info'. Allowed keys are: ['file_format', 'file_mode', 'file_path', 'timestamp']"
+            "'file_paths' is not a valid key in 'output_file_info'. Allowed keys are: ['file_format', 'file_mode', 'file_path', 'timestamp']",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_9(self):
@@ -1232,15 +1032,12 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_9
+                config=self.playbook_negative_scenario_9,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertEqual(
-            result.get("msg"),
-            "'file_format' must be one of: json, yaml"
-        )
+        self.assertEqual(result.get("msg"), "'file_format' must be one of: json, yaml")
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_10(self):
         """
@@ -1259,15 +1056,12 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_10
+                config=self.playbook_negative_scenario_10,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertEqual(
-            result.get("msg"),
-            "'file_mode' must be one of: a, w"
-        )
+        self.assertEqual(result.get("msg"), "'file_mode' must be one of: a, w")
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_11(self):
         """
@@ -1286,14 +1080,14 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_11
+                config=self.playbook_negative_scenario_11,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Both 'ip_address' and 'ip_address_range' are specified across device_identifier entries. Please specify only one of them."
+            "Both 'ip_address' and 'ip_address_range' are specified across device_identifier entries. Please specify only one of them.",
         )
 
     def test_fabric_devices_info_workflow_manager_playbook_negative_scenario_12(self):
@@ -1313,17 +1107,19 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_negative_scenario_12
+                config=self.playbook_negative_scenario_12,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "The specified site hierarchy 'Global/USA/New York' is not a fabric site."
+            "The specified site hierarchy 'Global/USA/New York' is not a fabric site.",
         )
 
-    def test_fabric_devices_info_workflow_manager_playbook_ip_range_OR_logic_exception(self):
+    def test_fabric_devices_info_workflow_manager_playbook_ip_range_OR_logic_exception(
+        self,
+    ):
         """
         Test configuration validation when IP range is specified with OR logic.
 
@@ -1340,7 +1136,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_ip_range_OR_logic_exception
+                config=self.playbook_ip_range_OR_logic_exception,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -1353,10 +1149,12 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             "from Family: 'site_design'. Parameters: {'name_hierarchy': 'Global/rishipat_area/Fabric-area-1', "
             "'offset': 1, 'limit': 500}. Exception: .\", 'response': \"An error occurred while executing GET "
             "API call to Function: 'get_sites' from Family: 'site_design'. Parameters: {'name_hierarchy': "
-            "'Global/rishipat_area/Fabric-area-1', 'offset': 1, 'limit': 500}. Exception: .\", 'failed': True}"
+            "'Global/rishipat_area/Fabric-area-1', 'offset': 1, 'limit': 500}. Exception: .\", 'failed': True}",
         )
 
-    def test_fabric_devices_info_workflow_manager_playbook_ip_range_AND_logic_exception(self):
+    def test_fabric_devices_info_workflow_manager_playbook_ip_range_AND_logic_exception(
+        self,
+    ):
         """
         Test configuration validation when IP range is specified with AND logic.
 
@@ -1373,7 +1171,7 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
                 state="gathered",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_ip_range_AND_logic_exception
+                config=self.playbook_ip_range_AND_logic_exception,
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -1386,5 +1184,5 @@ class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
             "from Family: 'site_design'. Parameters: {'name_hierarchy': 'Global/rishipat_area/Fabric-area-1', "
             "'offset': 1, 'limit': 500}. Exception: .\", 'response': \"An error occurred while executing GET "
             "API call to Function: 'get_sites' from Family: 'site_design'. Parameters: {'name_hierarchy': "
-            "'Global/rishipat_area/Fabric-area-1', 'offset': 1, 'limit': 500}. Exception: .\", 'failed': True}"
+            "'Global/rishipat_area/Fabric-area-1', 'offset': 1, 'limit': 500}. Exception: .\", 'failed': True}",
         )

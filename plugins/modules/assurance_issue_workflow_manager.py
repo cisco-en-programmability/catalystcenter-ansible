@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on Assurance issue settings in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1747,9 +1748,9 @@ class AssuranceSettings(CatalystCenterBase):
                 return device_response[0]
 
         except Exception as e:
-            self.msg = "The provided device '{0}' is either invalid or not present in the \
-                     Cisco Catalyst Center.".format(
-                str(input_param)
+            self.msg = (
+                "The provided device '{0}' is either invalid or not present in the \
+                     Cisco Catalyst Center.".format(str(input_param))
             )
             self.log(self.msg + str(e), "WARNING")
             return None
@@ -4193,7 +4194,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4212,7 +4216,10 @@ def main():
     current_version = ccc_assurance.get_ccc_version()
     required_version = "2.3.7.6"
 
-    if ccc_assurance.compare_catalystcenter_versions(current_version, required_version) < 0:
+    if (
+        ccc_assurance.compare_catalystcenter_versions(current_version, required_version)
+        < 0
+    ):
         ccc_assurance.status = "failed"
         ccc_assurance.msg = (
             "The specified version '{0}' does not support the assurance issue settings workflow feature. "

@@ -3285,7 +3285,9 @@ class VirtualNetwork(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+        elif (
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0
+        ):
             self.log(
                 "CCC version is below 3.1.3, removing certain parameters from gateway mapping.",
                 "DEBUG",
@@ -3403,7 +3405,10 @@ class VirtualNetwork(CatalystCenterBase):
                     anycast_payload[value] = False
                     self.log("Setting '{0}' to False in payload.".format(key), "DEBUG")
 
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+                >= 0
+            ):
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for Anycast Gateway.",
                     "DEBUG",
@@ -3528,7 +3533,10 @@ class VirtualNetwork(CatalystCenterBase):
                 "'group_policy_enforcement_enabled'.",
                 "DEBUG",
             )
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+                >= 0
+            ):
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for non-INFRA_VN.",
                     "DEBUG",
@@ -3695,7 +3703,8 @@ class VirtualNetwork(CatalystCenterBase):
 
         if (
             vn_name != "INFRA_VN"
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            >= 0
         ):
             self.log(
                 "Catalyst version {0} supports new Anycast Gateway parameters; processing them.".format(
@@ -5998,7 +6007,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

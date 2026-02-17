@@ -3916,7 +3916,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -3935,7 +3938,9 @@ def main():
     min_supported_version = "3.1.3.0"
 
     if (
-        ccc_backup_restore.compare_catalystcenter_versions(current_version, min_supported_version)
+        ccc_backup_restore.compare_catalystcenter_versions(
+            current_version, min_supported_version
+        )
         < 0
     ):
         ccc_backup_restore.status = "failed"

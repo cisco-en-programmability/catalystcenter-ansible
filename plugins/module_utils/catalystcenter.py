@@ -22,7 +22,6 @@ else:
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
 
-
 try:
     from ansible.module_utils.basic import env_fallback  # type: ignore
 except Exception:
@@ -980,7 +979,7 @@ class CatalystCenterBase:
         mgmt_ip_to_instance_id_map = {}
         skipped_devices_list = []
 
-        (site_exists, site_id) = self.get_site_id(site_name)
+        site_exists, site_id = self.get_site_id(site_name)
         if not site_exists:
             self.msg = "Site '{0}' does not exist in the Cisco Catalyst Center, cannot proceed with device(s) retrieval.".format(
                 site_name

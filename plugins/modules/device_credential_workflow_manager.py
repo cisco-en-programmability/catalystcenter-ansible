@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -4153,7 +4154,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4170,7 +4174,12 @@ def main():
     MIN_SUPPORTED_VERSION = "2.3.5.3"
     current_version = ccc_credential.get_ccc_version()
 
-    if ccc_credential.compare_catalystcenter_versions(current_version, MIN_SUPPORTED_VERSION) < 0:
+    if (
+        ccc_credential.compare_catalystcenter_versions(
+            current_version, MIN_SUPPORTED_VERSION
+        )
+        < 0
+    ):
         ccc_credential.msg = """The specified version '{0}' does not support the device_credential_workflow features.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_credential.get_ccc_version()

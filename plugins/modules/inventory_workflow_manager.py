@@ -4002,7 +4002,10 @@ class Inventory(CatalystCenterBase):
 
         try:
             flag = 3
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6")
+                >= 0
+            ):
                 response = self.catalystcenter._exec(
                     family="sda",
                     function="get_provisioned_wired_device",
@@ -6937,7 +6940,10 @@ class Inventory(CatalystCenterBase):
                 self.handle_device_deletion(device_ip)
                 continue
 
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
+                <= 0
+            ):
                 self.delete_provisioned_device_v1(device_ip)
                 continue
             else:
@@ -6947,7 +6953,8 @@ class Inventory(CatalystCenterBase):
         devices_maintenance = self.config[0].get("devices_maintenance_schedule")
         if (
             devices_maintenance
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+            >= 0
         ):
             schedule_ids = []
             for schedule in devices_maintenance:
@@ -7019,7 +7026,8 @@ class Inventory(CatalystCenterBase):
                 )
         elif (
             devices_maintenance
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+            < 0
         ):
             self.log(
                 "Deleting the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
@@ -7238,7 +7246,10 @@ class Inventory(CatalystCenterBase):
                 "DEBUG",
             )
 
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
+                <= 0
+            ):
                 validation_string = "network device deleted successfully"
                 self.check_task_response_status(
                     response, validation_string, "deleted_device_by_id"
@@ -7833,7 +7844,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -7849,7 +7863,12 @@ def main():
     ccc_device = Inventory(module)
     state = ccc_device.params.get("state")
 
-    if ccc_device.compare_catalystcenter_versions(ccc_device.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_device.compare_catalystcenter_versions(
+            ccc_device.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
         ccc_device.msg = (
             "The specified version '{0}' does not support the inventory workflow feature. "
             "Supported versions start from '2.3.5.3' onwards.".format(

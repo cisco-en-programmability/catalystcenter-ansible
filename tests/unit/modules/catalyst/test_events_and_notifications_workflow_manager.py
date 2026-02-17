@@ -25,7 +25,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import events_and_notifications_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    events_and_notifications_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -33,43 +35,102 @@ class TestEventsWorkflow(TestDnacModule):
 
     module = events_and_notifications_workflow_manager
     test_data = loadPlaybookData("events_and_notifications_workflow_manager")
-    playbook_config_create_webhook_destination_with_verify = test_data.get("playbook_config_create_webhook_destination_with_verify")
-    playbook_config_no_webhook_destination_update = test_data.get("playbook_config_no_webhook_destination_update")
-    playbook_config_update_webhook_destination = test_data.get("playbook_config_update_webhook_destination")
-    playbook_config_update_email_destination = test_data.get("playbook_config_update_email_destination")
-    playbook_config_no_email_destination_update = test_data.get("playbook_config_no_email_destination_update")
-    playbook_config_create_syslog_destination_with_verify = test_data.get("playbook_config_create_syslog_destination_with_verify")
-    playbook_config_syslog_destination_no_update = test_data.get("playbook_config_syslog_destination_no_update")
-    playbook_config_update_syslog_destination = test_data.get("playbook_config_update_syslog_destination")
-    playbook_config_create_snmp_dest_with_verify = test_data.get("playbook_config_create_snmp_dest_with_verify")
-    playbook_config_snmp_dest_no_update = test_data.get("playbook_config_snmp_dest_no_update")
+    playbook_config_create_webhook_destination_with_verify = test_data.get(
+        "playbook_config_create_webhook_destination_with_verify"
+    )
+    playbook_config_no_webhook_destination_update = test_data.get(
+        "playbook_config_no_webhook_destination_update"
+    )
+    playbook_config_update_webhook_destination = test_data.get(
+        "playbook_config_update_webhook_destination"
+    )
+    playbook_config_update_email_destination = test_data.get(
+        "playbook_config_update_email_destination"
+    )
+    playbook_config_no_email_destination_update = test_data.get(
+        "playbook_config_no_email_destination_update"
+    )
+    playbook_config_create_syslog_destination_with_verify = test_data.get(
+        "playbook_config_create_syslog_destination_with_verify"
+    )
+    playbook_config_syslog_destination_no_update = test_data.get(
+        "playbook_config_syslog_destination_no_update"
+    )
+    playbook_config_update_syslog_destination = test_data.get(
+        "playbook_config_update_syslog_destination"
+    )
+    playbook_config_create_snmp_dest_with_verify = test_data.get(
+        "playbook_config_create_snmp_dest_with_verify"
+    )
+    playbook_config_snmp_dest_no_update = test_data.get(
+        "playbook_config_snmp_dest_no_update"
+    )
     playbook_config_update_snmp_dest = test_data.get("playbook_config_update_snmp_dest")
-    playbook_config_invalid_url_in_itsm = test_data.get("playbook_config_invalid_url_in_itsm")
-    playbook_config_create_itsm_with_verify = test_data.get("playbook_config_create_itsm_with_verify")
+    playbook_config_invalid_url_in_itsm = test_data.get(
+        "playbook_config_invalid_url_in_itsm"
+    )
+    playbook_config_create_itsm_with_verify = test_data.get(
+        "playbook_config_create_itsm_with_verify"
+    )
     playbook_config_no_itsm_update = test_data.get("playbook_config_no_itsm_update")
-    playbook_config_update_itsm_setting = test_data.get("playbook_config_update_itsm_setting")
-    playbook_config_delete_itsm_with_verfiy = test_data.get("playbook_config_delete_itsm_with_verfiy")
-    playbook_config_create_webhook_subscription_with_verify = test_data.get("playbook_config_create_webhook_subscription_with_verify")
-    playbook_config_no_update_need_webhook_subscription = test_data.get("playbook_config_no_update_need_webhook_subscription")
-    playbook_config_update_webhook_subscription = test_data.get("playbook_config_update_webhook_subscription")
-    playbook_config_delete_webhook_subscription_with_verify = test_data.get("playbook_config_delete_webhook_subscription_with_verify")
-    playbook_config_absent_webhook_subscription = test_data.get("playbook_config_absent_webhook_subscription")
-    playbook_config_create_email_subscription_with_verify = test_data.get("playbook_config_create_email_subscription_with_verify")
-    playbook_config_no_update_email_subscription = test_data.get("playbook_config_no_update_email_subscription")
-    playbook_config_update_email_subscription = test_data.get("playbook_config_update_email_subscription")
-    playbook_config_delete_email_subscription_with_verify = test_data.get("playbook_config_delete_email_subscription_with_verify")
-    playbook_config_delete_absent_email_subscription = test_data.get("playbook_config_delete_absent_email_subscription")
-    playbook_config_create_syslog_subscription_with_verify = test_data.get("playbook_config_create_syslog_subscription_with_verify")
-    playbook_config_no_update_syslog_subscription = test_data.get("playbook_config_no_update_syslog_subscription")
-    playbook_config_update_syslog_subscription = test_data.get("playbook_config_update_syslog_subscription")
-    playbook_config_delete_syslog_subscription_with_verify = test_data.get("playbook_config_delete_syslog_subscription_with_verify")
-    playbook_config_absent_syslog_subscription = test_data.get("playbook_config_absent_syslog_subscription")
+    playbook_config_update_itsm_setting = test_data.get(
+        "playbook_config_update_itsm_setting"
+    )
+    playbook_config_delete_itsm_with_verfiy = test_data.get(
+        "playbook_config_delete_itsm_with_verfiy"
+    )
+    playbook_config_create_webhook_subscription_with_verify = test_data.get(
+        "playbook_config_create_webhook_subscription_with_verify"
+    )
+    playbook_config_no_update_need_webhook_subscription = test_data.get(
+        "playbook_config_no_update_need_webhook_subscription"
+    )
+    playbook_config_update_webhook_subscription = test_data.get(
+        "playbook_config_update_webhook_subscription"
+    )
+    playbook_config_delete_webhook_subscription_with_verify = test_data.get(
+        "playbook_config_delete_webhook_subscription_with_verify"
+    )
+    playbook_config_absent_webhook_subscription = test_data.get(
+        "playbook_config_absent_webhook_subscription"
+    )
+    playbook_config_create_email_subscription_with_verify = test_data.get(
+        "playbook_config_create_email_subscription_with_verify"
+    )
+    playbook_config_no_update_email_subscription = test_data.get(
+        "playbook_config_no_update_email_subscription"
+    )
+    playbook_config_update_email_subscription = test_data.get(
+        "playbook_config_update_email_subscription"
+    )
+    playbook_config_delete_email_subscription_with_verify = test_data.get(
+        "playbook_config_delete_email_subscription_with_verify"
+    )
+    playbook_config_delete_absent_email_subscription = test_data.get(
+        "playbook_config_delete_absent_email_subscription"
+    )
+    playbook_config_create_syslog_subscription_with_verify = test_data.get(
+        "playbook_config_create_syslog_subscription_with_verify"
+    )
+    playbook_config_no_update_syslog_subscription = test_data.get(
+        "playbook_config_no_update_syslog_subscription"
+    )
+    playbook_config_update_syslog_subscription = test_data.get(
+        "playbook_config_update_syslog_subscription"
+    )
+    playbook_config_delete_syslog_subscription_with_verify = test_data.get(
+        "playbook_config_delete_syslog_subscription_with_verify"
+    )
+    playbook_config_absent_syslog_subscription = test_data.get(
+        "playbook_config_absent_syslog_subscription"
+    )
 
     def setUp(self):
         super(TestEventsWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -95,7 +156,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_api_execution_response"),
                 self.test_data.get("get_api_execution_response"),
                 self.test_data.get("get_webhook_destinations_response"),
-                Exception()
+                Exception(),
             ]
 
         elif "no_webhook_destination_update" in self._testMethodName:
@@ -106,14 +167,14 @@ class TestEventsWorkflow(TestDnacModule):
         elif "update_webhook_destination" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_webhook_destinations_response"),
-                self.test_data.get("get_update_webhook_destination_response")
+                self.test_data.get("get_update_webhook_destination_response"),
             ]
 
         elif "update_email_destination" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_email_destination_in_ccc"),
                 self.test_data.get("get_events_status_url"),
-                self.test_data.get("get_update_email_destination_response")
+                self.test_data.get("get_update_email_destination_response"),
             ]
 
         elif "no_email_destination_update" in self._testMethodName:
@@ -125,7 +186,7 @@ class TestEventsWorkflow(TestDnacModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_syslog_destination"),
                 self.test_data.get("create_syslog_destination_response"),
-                self.test_data.get("get_syslog_details")
+                self.test_data.get("get_syslog_details"),
             ]
 
         elif "syslog_destination_no_update" in self._testMethodName:
@@ -136,7 +197,7 @@ class TestEventsWorkflow(TestDnacModule):
         elif "update_syslog_destination" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_syslog_details"),
-                self.test_data.get("update_syslog_destination_response")
+                self.test_data.get("update_syslog_destination_response"),
             ]
 
         elif "create_snmp_dest_with_verify" in self._testMethodName:
@@ -144,7 +205,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_snmp_destinations"),
                 self.test_data.get("get_empty_snmp_destination"),
                 self.test_data.get("create_snmp_destination_response"),
-                self.test_data.get("get_all_snmp_destinations")
+                self.test_data.get("get_all_snmp_destinations"),
             ]
 
         elif "snmp_dest_no_update" in self._testMethodName:
@@ -155,7 +216,7 @@ class TestEventsWorkflow(TestDnacModule):
         elif "update_snmp_dest" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_snmp_destinations"),
-                self.test_data.get("update_snmp_destination_response")
+                self.test_data.get("update_snmp_destination_response"),
             ]
 
         elif "invalid_url_in_itsm" in self._testMethodName:
@@ -167,27 +228,27 @@ class TestEventsWorkflow(TestDnacModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_itsm_settings"),
                 self.test_data.get("create_itsm_setting"),
-                self.test_data.get("get_created_itsm_setting")
+                self.test_data.get("get_created_itsm_setting"),
             ]
 
         elif "no_itsm_update" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_created_itsm_setting"),
-                self.test_data.get("get_itsm_setting_by_id")
+                self.test_data.get("get_itsm_setting_by_id"),
             ]
 
         elif "update_itsm_setting" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_created_itsm_setting"),
                 self.test_data.get("get_itsm_setting_by_id"),
-                self.test_data.get("update_itsm_setting")
+                self.test_data.get("update_itsm_setting"),
             ]
 
         elif "delete_itsm_with_verfiy" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_updated_itsm_settings"),
                 self.test_data.get("deleted_itsm_response"),
-                self.test_data.get("get_empty_itsm_settings")
+                self.test_data.get("get_empty_itsm_settings"),
             ]
 
         elif "create_webhook_subscription_with_verify" in self._testMethodName:
@@ -200,7 +261,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_usa"),
                 self.test_data.get("create_webhook_status_url"),
                 self.test_data.get("get_status_api_for_webhook_subs"),
-                self.test_data.get("get_created_webhook_subscription")
+                self.test_data.get("get_created_webhook_subscription"),
             ]
 
         elif "no_update_need_webhook_subscription" in self._testMethodName:
@@ -210,7 +271,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_event_details_for_AP_Flap"),
                 self.test_data.get("get_event_details_for_AP_reboot"),
                 self.test_data.get("get_site_detail_india"),
-                self.test_data.get("get_site_detail_usa")
+                self.test_data.get("get_site_detail_usa"),
             ]
 
         elif "update_webhook_subscription" in self._testMethodName:
@@ -222,7 +283,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_india"),
                 self.test_data.get("get_site_detail_usa"),
                 self.test_data.get("create_webhook_status_url"),
-                self.test_data.get("get_status_api_update_detail_webhook_subs")
+                self.test_data.get("get_status_api_update_detail_webhook_subs"),
             ]
 
         elif "delete_webhook_subscription_with_verify" in self._testMethodName:
@@ -230,7 +291,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_updated_webhook_subs_details"),
                 self.test_data.get("create_webhook_status_url"),
                 self.test_data.get("delete_webhook_subscription"),
-                self.test_data.get("empty_event_subscription")
+                self.test_data.get("empty_event_subscription"),
             ]
 
         elif "absent_webhook_subscription" in self._testMethodName:
@@ -248,7 +309,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_usa"),
                 self.test_data.get("create_email_status_url"),
                 self.test_data.get("get_email_subscription_creation_details"),
-                self.test_data.get("created_email_subscription_details")
+                self.test_data.get("created_email_subscription_details"),
             ]
 
         elif "no_update_email_subscription" in self._testMethodName:
@@ -258,7 +319,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_event_details_for_AP_Flap"),
                 self.test_data.get("get_event_details_for_AP_reboot"),
                 self.test_data.get("get_site_detail_india"),
-                self.test_data.get("get_site_detail_usa")
+                self.test_data.get("get_site_detail_usa"),
             ]
 
         elif "update_email_subscription" in self._testMethodName:
@@ -270,7 +331,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_india"),
                 self.test_data.get("get_site_detail_usa"),
                 self.test_data.get("create_email_status_url"),
-                self.test_data.get("get_status_api_update_detail_email_subs")
+                self.test_data.get("get_status_api_update_detail_email_subs"),
             ]
 
         elif "delete_email_subscription_with_verify" in self._testMethodName:
@@ -278,7 +339,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_email_subscription_no_update_1"),
                 self.test_data.get("create_email_status_url"),
                 self.test_data.get("delete_email_subscription"),
-                self.test_data.get("empty_event_subscription")
+                self.test_data.get("empty_event_subscription"),
             ]
 
         elif "delete_absent_email_subscription" in self._testMethodName:
@@ -296,7 +357,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_usa"),
                 self.test_data.get("create_syslog_status_url"),
                 self.test_data.get("get_status_api_for_syslog_subs"),
-                self.test_data.get("get_created_syslog_subscription_details")
+                self.test_data.get("get_created_syslog_subscription_details"),
             ]
 
         elif "no_update_syslog_subscription" in self._testMethodName:
@@ -306,7 +367,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_event_details_for_AP_Flap"),
                 self.test_data.get("get_event_details_for_AP_reboot"),
                 self.test_data.get("get_site_detail_india"),
-                self.test_data.get("get_site_detail_usa")
+                self.test_data.get("get_site_detail_usa"),
             ]
 
         elif "update_syslog_subscription" in self._testMethodName:
@@ -318,7 +379,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_india"),
                 self.test_data.get("get_site_detail_usa"),
                 self.test_data.get("create_syslog_status_url"),
-                self.test_data.get("get_status_api_update_detail_syslog_subs")
+                self.test_data.get("get_status_api_update_detail_syslog_subs"),
             ]
 
         elif "delete_syslog_subscription_with_verify" in self._testMethodName:
@@ -326,7 +387,7 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("get_updated_syslog_subscription_details"),
                 self.test_data.get("create_syslog_status_url"),
                 self.test_data.get("get_delete_syslog_subscription_delete"),
-                self.test_data.get("empty_event_subscription")
+                self.test_data.get("empty_event_subscription"),
             ]
 
         elif "absent_syslog_subscription" in self._testMethodName:
@@ -334,7 +395,9 @@ class TestEventsWorkflow(TestDnacModule):
                 self.test_data.get("empty_event_subscription")
             ]
 
-    def test_events_and_notifications_workflow_manager_create_webhook_destination_with_verify(self):
+    def test_events_and_notifications_workflow_manager_create_webhook_destination_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when creating a webhook destination along with the verification.
 
@@ -351,17 +414,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_webhook_destination_with_verify
+                config=self.playbook_config_create_webhook_destination_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "added successfully",
-            result.get('msg')
-        )
+        self.assertIn("added successfully", result.get("msg"))
 
-    def test_events_and_notifications_workflow_manager_no_webhook_destination_update(self):
+    def test_events_and_notifications_workflow_manager_no_webhook_destination_update(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when a webhook destination needs no update.
 
@@ -378,15 +440,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_no_webhook_destination_update
+                config=self.playbook_config_no_webhook_destination_update,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_update_webhook_destination(self):
         """
@@ -405,15 +464,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_webhook_destination
+                config=self.playbook_config_update_webhook_destination,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('msg')
-        )
+        self.assertIn("updated successfully", result.get("msg"))
 
     def test_events_and_notifications_workflow_manager_update_email_destination(self):
         """
@@ -432,17 +488,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_email_destination
+                config=self.playbook_config_update_email_destination,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_no_email_destination_update(self):
+    def test_events_and_notifications_workflow_manager_no_email_destination_update(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when an email destination needs no update.
 
@@ -459,17 +514,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_no_email_destination_update
+                config=self.playbook_config_no_email_destination_update,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_create_syslog_destination_with_verify(self):
+    def test_events_and_notifications_workflow_manager_create_syslog_destination_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when creating a syslog destination along with the verification.
 
@@ -486,17 +540,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_syslog_destination_with_verify
+                config=self.playbook_config_create_syslog_destination_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "created successfully",
-            result.get('response')
-        )
+        self.assertIn("created successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_syslog_destination_no_update(self):
+    def test_events_and_notifications_workflow_manager_syslog_destination_no_update(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when a syslog destination needs no update.
 
@@ -513,15 +566,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_syslog_destination_no_update
+                config=self.playbook_config_syslog_destination_no_update,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_update_syslog_destination(self):
         """
@@ -540,17 +590,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_syslog_destination
+                config=self.playbook_config_update_syslog_destination,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_create_snmp_dest_with_verify(self):
+    def test_events_and_notifications_workflow_manager_create_snmp_dest_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when creating a snmp destination along with the verification.
 
@@ -567,15 +616,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_snmp_dest_with_verify
+                config=self.playbook_config_create_snmp_dest_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "created successfully",
-            result.get('response')
-        )
+        self.assertIn("created successfully", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_snmp_dest_no_update(self):
         """
@@ -594,15 +640,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_snmp_dest_no_update
+                config=self.playbook_config_snmp_dest_no_update,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_update_snmp_dest(self):
         """
@@ -621,15 +664,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_snmp_dest
+                config=self.playbook_config_update_snmp_dest,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_invalid_url_in_itsm(self):
         """
@@ -648,15 +688,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_invalid_url_in_itsm
+                config=self.playbook_config_invalid_url_in_itsm,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertIn(
-            "is invalid url for ITSM",
-            result.get('msg')
-        )
+        self.assertIn("is invalid url for ITSM", result.get("msg"))
 
     def test_events_and_notifications_workflow_manager_create_itsm_with_verify(self):
         """
@@ -675,15 +712,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_itsm_with_verify
+                config=self.playbook_config_create_itsm_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "created successfully",
-            result.get('response')
-        )
+        self.assertIn("created successfully", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_no_itsm_update(self):
         """
@@ -702,15 +736,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_no_itsm_update
+                config=self.playbook_config_no_itsm_update,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_update_itsm_setting(self):
         """
@@ -729,15 +760,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_itsm_setting
+                config=self.playbook_config_update_itsm_setting,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_delete_itsm_with_verfiy(self):
         """
@@ -756,17 +784,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_config_delete_itsm_with_verfiy
+                config=self.playbook_config_delete_itsm_with_verfiy,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "deleted successfully",
-            result.get('response')
-        )
+        self.assertIn("deleted successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_create_webhook_subscription_with_verify(self):
+    def test_events_and_notifications_workflow_manager_create_webhook_subscription_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when creating a webhook subscription along with the verification.
 
@@ -783,17 +810,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_webhook_subscription_with_verify
+                config=self.playbook_config_create_webhook_subscription_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "created successfully",
-            result.get('response')
-        )
+        self.assertIn("created successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_no_update_need_webhook_subscription(self):
+    def test_events_and_notifications_workflow_manager_no_update_need_webhook_subscription(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when the webhook subscription does not need any update.
 
@@ -810,17 +836,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_no_update_need_webhook_subscription
+                config=self.playbook_config_no_update_need_webhook_subscription,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_update_webhook_subscription(self):
+    def test_events_and_notifications_workflow_manager_update_webhook_subscription(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when updating a webhook subscription.
 
@@ -837,17 +862,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_webhook_subscription
+                config=self.playbook_config_update_webhook_subscription,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_delete_webhook_subscription_with_verify(self):
+    def test_events_and_notifications_workflow_manager_delete_webhook_subscription_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when deleting a webhook subscription along with the verification.
 
@@ -864,17 +888,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_config_delete_webhook_subscription_with_verify
+                config=self.playbook_config_delete_webhook_subscription_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "deleted successfully",
-            result.get('response')
-        )
+        self.assertIn("deleted successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_absent_webhook_subscription(self):
+    def test_events_and_notifications_workflow_manager_absent_webhook_subscription(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when the given webhook subscription is not present
         in the specified Catalyst Center..
@@ -892,17 +915,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="deleted",
-                config=self.playbook_config_absent_webhook_subscription
+                config=self.playbook_config_absent_webhook_subscription,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "Unable to delete",
-            result.get('response')
-        )
+        self.assertIn("Unable to delete", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_create_email_subscription_with_verify(self):
+    def test_events_and_notifications_workflow_manager_create_email_subscription_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when creating an email subscription along with the verification.
 
@@ -919,17 +941,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_email_subscription_with_verify
+                config=self.playbook_config_create_email_subscription_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "created successfully",
-            result.get('response')
-        )
+        self.assertIn("created successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_no_update_email_subscription(self):
+    def test_events_and_notifications_workflow_manager_no_update_email_subscription(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when an email subscription needs no update.
 
@@ -946,15 +967,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_no_update_email_subscription
+                config=self.playbook_config_no_update_email_subscription,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_update_email_subscription(self):
         """
@@ -973,17 +991,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_email_subscription
+                config=self.playbook_config_update_email_subscription,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_delete_email_subscription_with_verify(self):
+    def test_events_and_notifications_workflow_manager_delete_email_subscription_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when deleting an email subscription along with the verification.
 
@@ -1000,17 +1017,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_config_delete_email_subscription_with_verify
+                config=self.playbook_config_delete_email_subscription_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "deleted successfully",
-            result.get('response')
-        )
+        self.assertIn("deleted successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_delete_absent_email_subscription(self):
+    def test_events_and_notifications_workflow_manager_delete_absent_email_subscription(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when the given email subscription is not present
         in the specified Catalyst Center.
@@ -1028,17 +1044,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="deleted",
-                config=self.playbook_config_delete_absent_email_subscription
+                config=self.playbook_config_delete_absent_email_subscription,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "Unable to delete",
-            result.get('response')
-        )
+        self.assertIn("Unable to delete", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_create_syslog_subscription_with_verify(self):
+    def test_events_and_notifications_workflow_manager_create_syslog_subscription_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when creating a syslog subscription along with the verification.
 
@@ -1055,17 +1070,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_syslog_subscription_with_verify
+                config=self.playbook_config_create_syslog_subscription_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "created successfully",
-            result.get('response')
-        )
+        self.assertIn("created successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_no_update_syslog_subscription(self):
+    def test_events_and_notifications_workflow_manager_no_update_syslog_subscription(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when a syslog subscription needs no update.
 
@@ -1082,15 +1096,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_no_update_syslog_subscription
+                config=self.playbook_config_no_update_syslog_subscription,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "need no update",
-            result.get('response')
-        )
+        self.assertIn("need no update", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_update_syslog_subscription(self):
         """
@@ -1109,17 +1120,16 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_syslog_subscription
+                config=self.playbook_config_update_syslog_subscription,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "updated successfully",
-            result.get('response')
-        )
+        self.assertIn("updated successfully", result.get("response"))
 
-    def test_events_and_notifications_workflow_manager_delete_syslog_subscription_with_verify(self):
+    def test_events_and_notifications_workflow_manager_delete_syslog_subscription_with_verify(
+        self,
+    ):
         """
         Test case for events and notifications workflow manager when deleting a syslog subscription along with the verification.
 
@@ -1136,15 +1146,12 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_config_delete_syslog_subscription_with_verify
+                config=self.playbook_config_delete_syslog_subscription_with_verify,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
-        self.assertIn(
-            "deleted successfully",
-            result.get('response')
-        )
+        self.assertIn("deleted successfully", result.get("response"))
 
     def test_events_and_notifications_workflow_manager_absent_syslog_subscription(self):
         """
@@ -1164,12 +1171,9 @@ class TestEventsWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="deleted",
-                config=self.playbook_config_absent_syslog_subscription
+                config=self.playbook_config_absent_syslog_subscription,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertIn(
-            "Unable to delete",
-            result.get('response')
-        )
+        self.assertIn("Unable to delete", result.get("response"))

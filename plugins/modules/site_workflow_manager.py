@@ -1400,7 +1400,10 @@ class Site(CatalystCenterBase):
         have = {}
 
         try:
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6")
+                >= 0
+            ):
                 self.handle_config["create_site"] = []
                 self.handle_config["have"] = []
                 self.handle_config["area"] = []
@@ -1541,7 +1544,10 @@ class Site(CatalystCenterBase):
             information is stored in the 'want' attribute for later reference.
         """
         try:
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6")
+                >= 0
+            ):
                 self.keymap = self.map_config_key_to_api_param({}, config)
                 self.keymap.update(
                     {
@@ -1672,7 +1678,12 @@ class Site(CatalystCenterBase):
                             "Invalid longitude. Valid range is -180 to +180."
                         )
 
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.7.6"
+                    )
+                    >= 0
+                ):
                     if not (latitude and longitude or address):
                         errormsg.append(
                             "Either latitude/longitude or address is required."
@@ -1705,7 +1716,12 @@ class Site(CatalystCenterBase):
             if site_type == "floor":
                 self.log("Performing floor-specific validations.", "DEBUG")
                 floor_number = site.get(site_type, {}).get("floor_number")
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.7.6"
+                    )
+                    >= 0
+                ):
                     if floor_number or floor_number == 0:
                         self.log(
                             "Validating 'floor_number': " + str(floor_number), "DEBUG"
@@ -1796,7 +1812,12 @@ class Site(CatalystCenterBase):
                 else:
                     errormsg.append("height should not be None or empty")
 
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.7.6"
+                    )
+                    >= 0
+                ):
                     units_of_measure = site.get(site_type, {}).get("units_of_measure")
                     if units_of_measure:
                         if units_of_measure not in ("feet", "meters"):
@@ -1831,7 +1852,12 @@ class Site(CatalystCenterBase):
                 elif upload_floor_image_path == "":
                     errormsg.append("upload_floor_image_path should not be whitespace")
 
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.5.3"
+                    )
+                    <= 0
+                ):
                     if upload_floor_image_path:
                         errormsg.append(
                             "upload_floor_image_path parameter not supported for 2.3.5.3 Catalyst Center and only applicable from "
@@ -3210,7 +3236,9 @@ class Site(CatalystCenterBase):
                 "INFO",
             )
 
-        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        elif (
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0
+        ):
             final_deletion_list = []
             for each_type in ("floor", "building", "area"):
                 if self.handle_config[each_type]:
@@ -3399,7 +3427,10 @@ class Site(CatalystCenterBase):
             site exists in the Catalyst Center configuration.
         """
         try:
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6")
+                >= 0
+            ):
                 self.get_have(config)
                 config_count = len(config)
                 site_exist_list = [
@@ -3787,7 +3818,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -3803,7 +3837,10 @@ def main():
     ccc_site = Site(module)
     state = ccc_site.params.get("state")
 
-    if ccc_site.compare_catalystcenter_versions(ccc_site.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_site.compare_catalystcenter_versions(ccc_site.get_ccc_version(), "2.3.5.3")
+        < 0
+    ):
         ccc_site.msg = (
             "The specified version '{0}' does not support the site workflow feature. Supported versions start from '2.3.5.3' onwards. "
             "Version '2.3.5.3' introduces APIs for creating, updating, and deleting sites. "
@@ -3826,7 +3863,10 @@ def main():
         ccc_site.validated_config, state
     ).check_return_status()
 
-    if ccc_site.compare_catalystcenter_versions(ccc_site.get_ccc_version(), "2.3.7.6") >= 0:
+    if (
+        ccc_site.compare_catalystcenter_versions(ccc_site.get_ccc_version(), "2.3.7.6")
+        >= 0
+    ):
         ccc_site.reset_values()
         ccc_site.get_want(ccc_site.validated_config).check_return_status()
         ccc_site.get_have(ccc_site.validated_config).check_return_status()

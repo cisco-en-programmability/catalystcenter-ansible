@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on SDA fabric devices in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1648,7 +1649,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            (site_exists, site_id) = self.get_site_id(fabric_name)
+            site_exists, site_id = self.get_site_id(fabric_name)
             self.log(
                 "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
                     site_name=fabric_name, site_exists=site_exists
@@ -2707,7 +2708,7 @@ class FabricDevices(CatalystCenterBase):
             ),
             "INFO",
         )
-        (site_exists, site_id) = self.get_site_id(fabric_name)
+        site_exists, site_id = self.get_site_id(fabric_name)
         self.log(
             "Retrieved site ID: {site_id}. Site exists: {site_exists}.".format(
                 site_id=site_id, site_exists=site_exists
@@ -4139,7 +4140,7 @@ class FabricDevices(CatalystCenterBase):
                 internal_vlan_id, external_vlan_id, device_ip
             )
             if error:
-                (self.msg, self.status) = error
+                self.msg, self.status = error
                 self.log(
                     "Validation error for device IP {ip}: {msg}".format(
                         ip=device_ip, msg=self.msg
@@ -8245,7 +8246,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
