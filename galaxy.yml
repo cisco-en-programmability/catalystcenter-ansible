@@ -44,7 +44,7 @@ build_ignore:
   - .pytest_cache
 
   - .ansible-lint
-  - .yamllint
+  - .yamlfmt
   - .yamllint.yml
 
   - Dockerfile.ansible-test
