@@ -188,7 +188,6 @@ class CatalystCenterBase:
         # Versions are equal
         return 0
 
-
     def get_safe_log_config(self, config_dict):
         """
         Convert the password plain text field to masked field.
