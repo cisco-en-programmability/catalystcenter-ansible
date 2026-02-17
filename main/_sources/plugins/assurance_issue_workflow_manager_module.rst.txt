@@ -42,7 +42,7 @@ cisco.catalystcenter.assurance_issue_workflow_manager module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -2287,7 +2287,7 @@ Examples
     ---
     - hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2367,7 +2367,7 @@ Examples
                   - name: High CPU Usage Alert
     - hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2397,7 +2397,7 @@ Examples
                     threshold_value: -10
     - hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:

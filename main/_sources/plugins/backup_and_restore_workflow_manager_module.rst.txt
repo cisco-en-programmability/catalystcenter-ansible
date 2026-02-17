@@ -43,7 +43,7 @@ cisco.catalystcenter.backup_and_restore_workflow_manager module -- Resource modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1961,7 +1961,7 @@ Examples
     - name: Configure NFS backup server for enterprise data protection
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
         - "backup_secrets.yml"
       connection: local
       gather_facts: false
@@ -1993,7 +1993,7 @@ Examples
     - name: Configure backup target for automated data protection workflow
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
         - "backup_secrets.yml"
       connection: local
       gather_facts: false
@@ -2029,7 +2029,7 @@ Examples
     - name: Create backup for automated network infrastructure backup
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2057,7 +2057,7 @@ Examples
     - name: Restore backup for disaster recovery and data restoration
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
         - "backup_secrets.yml"
       connection: local
       gather_facts: false
@@ -2086,7 +2086,7 @@ Examples
     - name: Remove NFS configuration from backup infrastructure
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2114,7 +2114,7 @@ Examples
     - name: Remove backup from automated backup operations
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2141,7 +2141,7 @@ Examples
     - name: Remove old backups using retention-based cleanup with name filtering
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2169,7 +2169,7 @@ Examples
     - name: Remove all old backups using retention policy
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2196,7 +2196,7 @@ Examples
     - name: Remove all backups from Cisco Catalyst Center
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2223,7 +2223,7 @@ Examples
     - name: Complete backup and restore workflow for enterprise infrastructure
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2267,7 +2267,7 @@ Examples
     - name: Configure multiple NFS servers for backup redundancy
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2303,7 +2303,7 @@ Examples
     - name: Create automated backup with timestamp for unique identification
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:

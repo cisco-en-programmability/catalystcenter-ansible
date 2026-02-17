@@ -42,7 +42,7 @@ cisco.catalystcenter.network_devices_info_workflow_manager module -- Gather fact
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1777,7 +1777,7 @@ Examples
       hosts: localhost
       connection: local
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Gather detailed facts for specific network devices
           cisco.catalystcenter.network_devices_info_workflow_manager:
@@ -1836,7 +1836,7 @@ Examples
       hosts: localhost
       connection: local
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Gather detailed facts for all network devices
           cisco.catalystcenter.network_devices_info_workflow_manager:

@@ -43,7 +43,7 @@ cisco.catalystcenter.application_policy_workflow_manager module -- Resource modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -2488,7 +2488,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Create Enterprise QoS Profile for Optimized
             Network Performance
@@ -2547,7 +2547,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Configure Enterprise QoS Profile for Consistent
             Traffic Prioritization
@@ -2592,7 +2592,7 @@ Examples
         Catalyst Center
       hosts: localhost
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       connection: local
       gather_facts: false
       tasks:
@@ -2712,7 +2712,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Create an Application Queueing Profile for
             Traffic Prioritization
@@ -2802,7 +2802,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Create an Application Queuing Profile with
             DSCP Settings
@@ -2845,7 +2845,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Update Application Queuing Profile in Cisco
             Catalyst Center
@@ -2907,7 +2907,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Delete application queuing profile from
             Cisco Catalyst Center
@@ -2935,7 +2935,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Define and Deploy Wired Application Policy
           cisco.catalystcenter.application_policy_workflow_manager:
@@ -2975,7 +2975,7 @@ Examples
       connection: local
       gather_facts: false
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Define and Deploy Wireless Application Policy
           cisco.catalystcenter.application_policy_workflow_manager:
@@ -3015,7 +3015,7 @@ Examples
       hosts: localhost
       connection: local
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Delete application policy from Cisco Catalyst
             Center

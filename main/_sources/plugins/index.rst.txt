@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.3.0
+Collection version 2.3.1
 
 .. contents::
    :local:
@@ -19,11 +19,11 @@ Ansible Modules for Cisco CATALYST Center
 
 **Authors:**
 
-* Rafael Campos <rcampos@cloverhound.cr>
-* William Astorga <wastorga@cloverhound.cr>
-* Jose Bogarin <jbogarin@cloverhound.cr>
-* Bryan Vargas <bvargas@cloverhound.cr>
-* Francisco Muñoz <fmunoz@cloverhound.cr>
+* Rafael Campos <rcampos@cloverhound.com>
+* William Astorga <wastorga@cloverhound.com>
+* Jose Bogarin <jbogarin@cloverhound.com>
+* Bryan Vargas <bvargas@cloverhound.com>
+* Francisco Muñoz <fmunoz@cloverhound.com>
 * Madhan Sankaranarayanan <madsanka@cisco.com>
 * Rishita Chowdhary (@rishitachowdhary)
 * Muthu Rakesh Babu <mutbabu@cisco.com>

@@ -42,7 +42,7 @@ cisco.catalystcenter.tags_workflow_manager module -- Create/ Update/ Delete Tag(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -2048,7 +2048,7 @@ Examples
     - name: Create a tag with description.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2077,7 +2077,7 @@ Examples
         series.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2117,7 +2117,7 @@ Examples
         interfaces.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2162,7 +2162,7 @@ Examples
         interfaces.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2199,7 +2199,7 @@ Examples
         interfaces.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2238,7 +2238,7 @@ Examples
     - name: Assign tags to devices or interfaces.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2306,7 +2306,7 @@ Examples
         a specific site.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2346,7 +2346,7 @@ Examples
     - name: Delete a Tag.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2373,7 +2373,7 @@ Examples
     - name: Force delete a Tag.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2401,7 +2401,7 @@ Examples
         rules
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2434,7 +2434,7 @@ Examples
     - name: Delete scope members of a tag with port rules
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2469,7 +2469,7 @@ Examples
         rules
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2508,7 +2508,7 @@ Examples
     - name: Delete tags from members.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
@@ -2567,7 +2567,7 @@ Examples
     - name: Delete tags from members within a specific sites.
       hosts: catalystcenter_servers
       vars_files:
-        - credentials.yml
+        - vars/credentials.yml
       gather_facts: false
       connection: local
       tasks:
