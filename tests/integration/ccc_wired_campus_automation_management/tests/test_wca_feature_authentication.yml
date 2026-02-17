@@ -86,16 +86,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_authentication.yml"
 #         name: authentication_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: DEBUG
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: DEBUG
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -106,7 +106,7 @@
 
 #     - name: Cleanup - Reset authentication to default configuration
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_reset_empty }}"
@@ -123,7 +123,7 @@
 
 #     - name: Test authentication enable validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_enable_string }}"
@@ -142,7 +142,7 @@
 
 #     - name: Test authentication enable validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_enable_integer }}"
@@ -161,7 +161,7 @@
 
 #     - name: Test authentication enable validation - list value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_enable_list }}"
@@ -184,7 +184,7 @@
 
 #     - name: Test authentication config mode validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_config_mode_integer }}"
@@ -203,7 +203,7 @@
 
 #     - name: Test authentication config mode validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_config_mode_boolean }}"
@@ -222,7 +222,7 @@
 
 #     - name: Test authentication config mode validation - list value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_config_mode_list }}"
@@ -241,7 +241,7 @@
 
 #     - name: Test authentication config mode validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_config_mode_invalid_choice }}"
@@ -260,7 +260,7 @@
 
 #     - name: Test authentication config mode validation - partial match should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_config_mode_partial }}"
@@ -283,7 +283,7 @@
 
 #     - name: Test authentication structure validation - string instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_invalid_dict_type }}"
@@ -302,7 +302,7 @@
 
 #     - name: Test authentication structure validation - list instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_invalid_list_type }}"
@@ -321,7 +321,7 @@
 
 #     - name: Test authentication structure validation - integer instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_invalid_integer_type }}"
@@ -348,7 +348,7 @@
 
 #     - name: Test authentication configuration with enable only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_create_enable_only }}"
@@ -372,7 +372,7 @@
 
 #     - name: Test authentication configuration with disable only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_create_disable_only }}"
@@ -397,7 +397,7 @@
 #     # IMPORTANT: Reset authentication to test NEW_STYLE mode independently
 #     - name: Reset authentication before NEW_STYLE mode test
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_reset_empty }}"
@@ -415,7 +415,7 @@
 
 #     - name: Test authentication update - enable authentication (preserving existing mode)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_update_enable }}"
@@ -439,7 +439,7 @@
 
 #     - name: Test authentication update - disable authentication (preserving existing mode)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_update_disable }}"
@@ -467,7 +467,7 @@
 
 #     - name: Test authentication reset - empty configuration (deleted state resets to defaults)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_reset_empty }}"
@@ -491,7 +491,7 @@
 
 #     - name: Test authentication reset - with existing parameters (deleted state resets to defaults)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ authentication_vars_map.test_authentication_reset_with_params }}"

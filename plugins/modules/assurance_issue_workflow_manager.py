@@ -660,7 +660,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -740,7 +740,7 @@ EXAMPLES = r"""
               - name: High CPU Usage Alert
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -770,7 +770,7 @@ EXAMPLES = r"""
                 threshold_value: -10
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -996,7 +996,7 @@ import re
 import time
 from datetime import datetime
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -3460,7 +3460,7 @@ class AssuranceSettings(CatalystCenterBase):
                     if issue_ids:
                         response = None
                         if (
-                            self.compare_dnac_versions(
+                            self.compare_catalystcenter_versions(
                                 self.get_ccc_version(), "2.3.7.10"
                             )
                             < 0
@@ -4212,7 +4212,7 @@ def main():
     current_version = ccc_assurance.get_ccc_version()
     required_version = "2.3.7.6"
 
-    if ccc_assurance.compare_dnac_versions(current_version, required_version) < 0:
+    if ccc_assurance.compare_catalystcenter_versions(current_version, required_version) < 0:
         ccc_assurance.status = "failed"
         ccc_assurance.msg = (
             "The specified version '{0}' does not support the assurance issue settings workflow feature. "

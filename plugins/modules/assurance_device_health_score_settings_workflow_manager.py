@@ -299,7 +299,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -326,7 +326,7 @@ EXAMPLES = r"""
                 synchronize_to_issue_threshold: false
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -353,7 +353,7 @@ EXAMPLES = r"""
                 synchronize_to_issue_threshold: false
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -407,7 +407,7 @@ response_1:
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1301,7 +1301,7 @@ def main():
         ccc_assurance.check_return_status()
 
     ccc_version = ccc_assurance.get_ccc_version()
-    if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_assurance.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_assurance.msg = (
             "The specified version '{0}' does not support the Assurance Health Score features. "
             "Supported versions start from '2.3.7.9' onwards.".format(ccc_version)

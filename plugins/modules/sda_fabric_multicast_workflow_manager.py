@@ -593,7 +593,7 @@ response_4:
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from collections import defaultdict
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -5439,7 +5439,7 @@ def main():
     ccc_version = ccc_sda_multicast.get_ccc_version()
     minimum_supported_version = "2.3.7.6"
     if (
-        ccc_sda_multicast.compare_dnac_versions(ccc_version, minimum_supported_version)
+        ccc_sda_multicast.compare_catalystcenter_versions(ccc_version, minimum_supported_version)
         < 0
     ):
         ccc_sda_multicast.msg = (

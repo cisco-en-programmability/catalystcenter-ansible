@@ -385,7 +385,7 @@ response_3:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -653,7 +653,7 @@ class PnP(CatalystCenterBase):
                 site = response.get("response")
                 site_type = None
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                     site_additional_info = site[0].get("additionalInfo")
                     for item in site_additional_info:
                         if item["nameSpace"] == "Location":
@@ -907,7 +907,7 @@ class PnP(CatalystCenterBase):
 
         authorize_payload = {"deviceIdList": [device_id]}
         try:
-            authorize_response = self.dnac_apply["exec"](
+            authorize_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="authorize_device",
                 params=authorize_payload,
@@ -1004,7 +1004,7 @@ class PnP(CatalystCenterBase):
         )
 
         try:
-            bulk_params = self.dnac_apply["exec"](
+            bulk_params = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="import_devices_in_bulk",
                 params={"payload": add_devices},
@@ -1035,7 +1035,7 @@ class PnP(CatalystCenterBase):
 
             # Check for authorization support and process if applicable
             current_version = self.get_ccc_version()
-            if self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+            if self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0:
                 self.log(
                     "Cisco Catalyst Center version {0} supports device authorization. Checking for authorization requirements.".format(
                         current_version
@@ -1401,7 +1401,7 @@ class PnP(CatalystCenterBase):
         )
 
         try:
-            update_response = self.dnac_apply["exec"](
+            update_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="update_device",
                 params={"id": device_id, "payload": update_payload},
@@ -1456,7 +1456,7 @@ class PnP(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            reset_response = self.dnac_apply["exec"](
+            reset_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="reset_device",
                 params={"payload": reset_parameters},
@@ -1534,7 +1534,7 @@ class PnP(CatalystCenterBase):
 
             if self.params.get("state") == "merged":
                 # check if given image exists, if exists store image_id
-                image_response = self.dnac_apply["exec"](
+                image_response = self.catalystcenter_apply["exec"](
                     family="software_image_management_swim",
                     function="get_software_image_details",
                     params=self.want.get("image_params"),
@@ -1548,7 +1548,7 @@ class PnP(CatalystCenterBase):
                 )
 
                 # check if project has templates or not
-                template_list = self.dnac_apply["exec"](
+                template_list = self.catalystcenter_apply["exec"](
                     family="configuration_templates",
                     function="gets_the_templates_available",
                     params={"project_names": self.want.get("project_name")},
@@ -1844,7 +1844,7 @@ class PnP(CatalystCenterBase):
                         current_version = self.get_ccc_version()
                         if (
                             authorize_flag
-                            and self.compare_dnac_versions(current_version, "2.3.7.9")
+                            and self.compare_catalystcenter_versions(current_version, "2.3.7.9")
                             >= 0
                             and claim_stat == "Pending Authorization"
                         ):
@@ -2069,7 +2069,7 @@ class PnP(CatalystCenterBase):
                     # Check authorization requirements
                     if (
                         device_state == "Pending Authorization"
-                        and self.compare_dnac_versions(current_version, "2.3.7.9") >= 0
+                        and self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0
                     ):
 
                         self.log(
@@ -2188,7 +2188,7 @@ class PnP(CatalystCenterBase):
                 # Process device authorization if conditions are met
                 if (
                     device_state == "Pending Authorization"
-                    and self.compare_dnac_versions(current_version, "2.3.7.9") >= 0
+                    and self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0
                 ):
 
                     self.log(
@@ -2437,7 +2437,7 @@ class PnP(CatalystCenterBase):
             if multi_device_response:
                 device_id = multi_device_response.get("id")
 
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="delete_device_by_id_from_pnp",
                     op_modifies=True,
@@ -2568,7 +2568,7 @@ class PnP(CatalystCenterBase):
           passing device details and getting pnp device details response
         """
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params={"serial_number": serial_number},
@@ -2618,7 +2618,7 @@ class PnP(CatalystCenterBase):
             "INFO",
         )
         try:
-            device_details_response = self.dnac_apply["exec"](
+            device_details_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_by_id",
                 params={"id": device_id},
@@ -2671,7 +2671,7 @@ class PnP(CatalystCenterBase):
             "INFO",
         )
         try:
-            device_add_response = self.dnac_apply["exec"](
+            device_add_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="add_device",
                 params=pnp_params,
@@ -2728,7 +2728,7 @@ class PnP(CatalystCenterBase):
             "INFO",
         )
         try:
-            prov_dev_response = self.dnac_apply["exec"](
+            prov_dev_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_count",
                 params=pnp_params,
@@ -2781,7 +2781,7 @@ class PnP(CatalystCenterBase):
             "INFO",
         )
         try:
-            claim_response = self.dnac_apply["exec"](
+            claim_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="claim_a_device_to_a_site",
                 op_modifies=True,
@@ -2846,7 +2846,7 @@ def main():
     ccc_pnp = PnP(module)
     state = ccc_pnp.params.get("state")
 
-    if ccc_pnp.compare_dnac_versions(ccc_pnp.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_pnp.compare_catalystcenter_versions(ccc_pnp.get_ccc_version(), "2.3.5.3") < 0:
         ccc_pnp.status = "failed"
         ccc_pnp.msg = (
             "The specified version '{0}' does not support the PNP workflow feature."

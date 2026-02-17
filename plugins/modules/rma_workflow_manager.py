@@ -424,7 +424,7 @@ response_4:
 
 import re
 import json
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     validate_str,
@@ -1649,7 +1649,7 @@ def main():
     state = ccc_device_replacement.params.get("state")
 
     if (
-        ccc_device_replacement.compare_dnac_versions(
+        ccc_device_replacement.compare_catalystcenter_versions(
             ccc_device_replacement.get_ccc_version(), "2.3.5.3"
         )
         < 0

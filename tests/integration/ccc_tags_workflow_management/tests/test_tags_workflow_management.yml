@@ -10,16 +10,16 @@
       file: "{{ role_path }}/vars/vars_tags_workflow_management.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      catalyst_login: &catalyst_login
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
 
 #############################################
@@ -28,7 +28,7 @@
 
   - name: Remove existing tags before test execution
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -41,7 +41,7 @@
 
   - name: Create new tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -68,7 +68,7 @@
 
   - name: Remove descriptions from existing tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -95,7 +95,7 @@
 
   - name: Remove all device and port rules from tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -122,7 +122,7 @@
 
   - name: Add new device rules to tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -149,7 +149,7 @@
 
   - name: Merge additional device rules into existing tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -176,7 +176,7 @@
 
   - name: Remove specific device rules from tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -204,7 +204,7 @@
 
   - name: Add port rules to an existing tag
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -231,7 +231,7 @@
 
   - name: Merge additional poort rules into existing tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -260,7 +260,7 @@
 
   - name: Remove specific port rules from tags
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -288,7 +288,7 @@
 
   - name: Changing scope description (Both category and members) in port rules of an existing tag
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -315,7 +315,7 @@
 
   - name: Add scope members in port rules for an existing tag
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -342,7 +342,7 @@
 
   - name: Remove scope members in port rules for an existing tag
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -370,7 +370,7 @@
 
   - name: Assigning tags to devices
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -391,7 +391,7 @@
 
   - name: Removing tags from devices
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -412,7 +412,7 @@
 
   - name: Updating tag to change tag name
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -440,7 +440,7 @@
 
   - name: Remove existing tags after test execution
     cisco.dnac.tags_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"

@@ -1364,7 +1364,7 @@ import time
 from datetime import datetime
 from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -2593,7 +2593,7 @@ class Inventory(CatalystCenterBase):
         device_ip_list = []
         self.provision_count, self.already_provisioned_count = 0, 0
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
             for device_info in provision_wired_list:
                 device_ip = device_info["device_ip"]
@@ -3012,7 +3012,7 @@ class Inventory(CatalystCenterBase):
             "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
         )
         try:
-            site_api_response = self.dnac_apply["exec"](
+            site_api_response = self.catalystcenter_apply["exec"](
                 family="site_design",
                 function="get_site_assigned_network_device",
                 params={"id": uuid},
@@ -3069,7 +3069,7 @@ class Inventory(CatalystCenterBase):
             if the device is currently provisioned and returns the appropriate
             status.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 prov_response = self.catalystcenter._exec(
                     family="sda",
@@ -3249,7 +3249,7 @@ class Inventory(CatalystCenterBase):
                 }
                 wireless_param[0]["dynamicInterfaces"].append(interface_dict)
 
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": device_ip_address},
@@ -3362,7 +3362,7 @@ class Inventory(CatalystCenterBase):
                     continue
 
                 # Now we have provisioning_param so we can do wireless provisioning
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="wireless",
                     function="provision",
                     op_modifies=True,
@@ -4002,7 +4002,7 @@ class Inventory(CatalystCenterBase):
 
         try:
             flag = 3
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 response = self.catalystcenter._exec(
                     family="sda",
                     function="get_provisioned_wired_device",
@@ -6651,7 +6651,7 @@ class Inventory(CatalystCenterBase):
             self.log("No device maintenance schedule provided in the playbook.", "INFO")
             return self
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
             self.log(
                 "Creating/Updating the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
                 "the Cisco Catalyst Center to '2.3.7.9' in order to leverage the device maintenance schedule feature.",
@@ -6909,7 +6909,7 @@ class Inventory(CatalystCenterBase):
 
         # Loop over devices to delete them
         latest_testbed = (
-            self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         )
         for device_ip in device_to_delete:
             if device_ip not in self.have.get("device_in_ccc"):
@@ -6937,7 +6937,7 @@ class Inventory(CatalystCenterBase):
                 self.handle_device_deletion(device_ip)
                 continue
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.delete_provisioned_device_v1(device_ip)
                 continue
             else:
@@ -6947,7 +6947,7 @@ class Inventory(CatalystCenterBase):
         devices_maintenance = self.config[0].get("devices_maintenance_schedule")
         if (
             devices_maintenance
-            and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
             schedule_ids = []
             for schedule in devices_maintenance:
@@ -7019,7 +7019,7 @@ class Inventory(CatalystCenterBase):
                 )
         elif (
             devices_maintenance
-            and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0
         ):
             self.log(
                 "Deleting the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
@@ -7238,7 +7238,7 @@ class Inventory(CatalystCenterBase):
                 "DEBUG",
             )
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 validation_string = "network device deleted successfully"
                 self.check_task_response_status(
                     response, validation_string, "deleted_device_by_id"
@@ -7849,7 +7849,7 @@ def main():
     ccc_device = Inventory(module)
     state = ccc_device.params.get("state")
 
-    if ccc_device.compare_dnac_versions(ccc_device.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_device.compare_catalystcenter_versions(ccc_device.get_ccc_version(), "2.3.5.3") < 0:
         ccc_device.msg = (
             "The specified version '{0}' does not support the inventory workflow feature. "
             "Supported versions start from '2.3.5.3' onwards.".format(

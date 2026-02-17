@@ -964,7 +964,7 @@ dnac_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1645,7 +1645,7 @@ class VirtualNetwork(CatalystCenterBase):
             ),
         }
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN creation in Cisco Catalyst Center.",
                 "DEBUG",
@@ -1820,7 +1820,7 @@ class VirtualNetwork(CatalystCenterBase):
             )
             return True
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN configuration in Cisco Catalyst Center.",
                 "DEBUG",
@@ -1957,7 +1957,7 @@ class VirtualNetwork(CatalystCenterBase):
                 "DEBUG",
             )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN update in Cisco Catalyst Center.",
                 "DEBUG",
@@ -3198,7 +3198,7 @@ class VirtualNetwork(CatalystCenterBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, validating additional parameters for Anycast Gateway.",
                 "DEBUG",
@@ -3285,7 +3285,7 @@ class VirtualNetwork(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-        elif self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             self.log(
                 "CCC version is below 3.1.3, removing certain parameters from gateway mapping.",
                 "DEBUG",
@@ -3403,7 +3403,7 @@ class VirtualNetwork(CatalystCenterBase):
                     anycast_payload[value] = False
                     self.log("Setting '{0}' to False in payload.".format(key), "DEBUG")
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for Anycast Gateway.",
                     "DEBUG",
@@ -3482,7 +3482,7 @@ class VirtualNetwork(CatalystCenterBase):
             "group_policy_enforcement_enabled",
         ]
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, adding additional parameters for Anycast Gateway update checks.",
                 "DEBUG",
@@ -3528,7 +3528,7 @@ class VirtualNetwork(CatalystCenterBase):
                 "'group_policy_enforcement_enabled'.",
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for non-INFRA_VN.",
                     "DEBUG",
@@ -3695,7 +3695,7 @@ class VirtualNetwork(CatalystCenterBase):
 
         if (
             vn_name != "INFRA_VN"
-            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0
         ):
             self.log(
                 "Catalyst version {0} supports new Anycast Gateway parameters; processing them.".format(
@@ -6016,7 +6016,7 @@ def main():
     # Initialize the Virtual Network object
     ccc_virtual_network = VirtualNetwork(module)
     if (
-        ccc_virtual_network.compare_dnac_versions(
+        ccc_virtual_network.compare_catalystcenter_versions(
             ccc_virtual_network.get_ccc_version(), "2.3.7.6"
         )
         < 0

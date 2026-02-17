@@ -317,7 +317,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Gather detailed facts for specific network devices
       cisco.catalystcenter.network_devices_info_workflow_manager:
@@ -376,7 +376,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Gather detailed facts for all network devices
       cisco.catalystcenter.network_devices_info_workflow_manager:
@@ -883,7 +883,7 @@ response_network_device_by_ip:
 """
 
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
@@ -5096,7 +5096,7 @@ def main():
     min_supported_version = "2.3.7.9"
 
     if (
-        ccc_device_info.compare_dnac_versions(current_version, min_supported_version)
+        ccc_device_info.compare_catalystcenter_versions(current_version, min_supported_version)
         < 0
     ):
         ccc_device_info.status = "failed"

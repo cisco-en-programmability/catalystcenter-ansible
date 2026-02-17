@@ -2,7 +2,7 @@
 - name: Play
   hosts: localhost
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   vars:
     catalystcenter_login: &catalystcenter_login
       catalystcenter_host: "{{ catalystcenter_host }}"

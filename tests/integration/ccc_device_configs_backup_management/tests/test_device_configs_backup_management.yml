@@ -8,16 +8,16 @@
         file: "{{ role_path }}/vars/vars_device_configs_backup_management.yml"
         name: vars_map
       vars:
-        dnac_login: &dnac_login
-          dnac_host: "{{ dnac_host }}"
-          dnac_username: "{{ dnac_username }}"
-          dnac_password: "{{ dnac_password }}"
-          dnac_verify: "{{ dnac_verify }}"
-          dnac_port: "{{ dnac_port }}"
-          dnac_version: "{{ dnac_version }}"
-          dnac_debug: "{{ dnac_debug }}"
-          dnac_log: true
-          dnac_log_level: DEBUG
+        catalyst_login: &catalyst_login
+          catalystcenter_host: "{{ catalystcenter_host }}"
+          catalystcenter_username: "{{ catalystcenter_username }}"
+          catalystcenter_password: "{{ catalystcenter_password }}"
+          catalystcenter_verify: "{{ catalystcenter_verify }}"
+          catalystcenter_port: "{{ catalystcenter_port }}"
+          catalystcenter_version: "{{ catalystcenter_version }}"
+          catalystcenter_debug: "{{ catalystcenter_debug }}"
+          catalystcenter_log: true
+          catalystcenter_log_level: DEBUG
           dnac_log_append: false
           config_verify: true
 
@@ -27,7 +27,7 @@
 
     - name: Take device configuration backup
       cisco.dnac.device_configs_backup_workflow_manager:
-        <<: *dnac_login
+        <<: *catalyst_login
         state: merged
         config:
           - "{{ item }}"

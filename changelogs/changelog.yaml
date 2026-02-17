@@ -180,3 +180,12 @@ releases:
         - wireless_settings_certificate_renewal_profiles - new module to manage wireless certificate renewal profiles
         - wireless_settings_certificate_renewal_profiles_info - new module to retrieve wireless certificate renewal profiles information
         - wireless_settings_certificate_renewal_profiles_count_info - new module to retrieve wireless certificate renewal profiles count
+  2.3.1:
+    release_date: "2026-02-17"
+    changes:
+      release_summary: Red Hat compliance and cleanup
+      minor_changes:
+        - Removed dnac.py and all legacy dnacenter references
+        - Cleaned up imports and backward-compatibility code
+        - Updated README for Red Hat requirements and support section
+        - Added build_ignore to galaxy.yml for smaller tarball

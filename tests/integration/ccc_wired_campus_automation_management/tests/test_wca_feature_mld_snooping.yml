@@ -87,16 +87,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_mld_snooping.yml"
 #         name: mld_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: DEBUG
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: DEBUG
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -110,7 +110,7 @@
 
 #     - name: Test MLD global enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_enabled_string }}"
@@ -129,7 +129,7 @@
 
 #     - name: Test MLD global enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_enabled_integer }}"
@@ -148,7 +148,7 @@
 
 #     - name: Test MLD global querier enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_querier_enabled_string }}"
@@ -167,7 +167,7 @@
 
 #     - name: Test MLD global querier enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_querier_enabled_integer }}"
@@ -186,7 +186,7 @@
 
 #     - name: Test MLD global querier address validation - IPv4 instead of IPv6 should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_querier_address_invalid }}"
@@ -205,7 +205,7 @@
 
 #     - name: Test MLD global querier version validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_querier_version_invalid }}"
@@ -224,7 +224,7 @@
 
 #     - name: Test MLD global querier version validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_querier_version_integer }}"
@@ -243,7 +243,7 @@
 
 #     - name: Test MLD global listener validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_listener_string }}"
@@ -262,7 +262,7 @@
 
 #     - name: Test MLD global listener validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_listener_integer }}"
@@ -281,7 +281,7 @@
 
 #     - name: Test MLD global query interval validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_query_interval_string }}"
@@ -300,7 +300,7 @@
 
 #     - name: Test MLD global query interval validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_query_interval_boolean }}"
@@ -319,7 +319,7 @@
 
 #     - name: Test MLD global query interval validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_query_interval_min }}"
@@ -338,7 +338,7 @@
 
 #     - name: Test MLD global query interval validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_global_query_interval_max }}"
@@ -361,7 +361,7 @@
 
 #     - name: Test MLD VLAN ID validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_id_string }}"
@@ -380,7 +380,7 @@
 
 #     - name: Test MLD VLAN ID validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_id_negative }}"
@@ -399,7 +399,7 @@
 
 #     - name: Test MLD VLAN ID validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_id_max }}"
@@ -418,7 +418,7 @@
 
 #     - name: Test MLD VLAN ID validation - zero value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_id_zero }}"
@@ -437,7 +437,7 @@
 
 #     - name: Test missing required MLD VLAN ID
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_id_missing }}"
@@ -456,7 +456,7 @@
 
 #     - name: Test MLD VLAN enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_enabled_string }}"
@@ -475,7 +475,7 @@
 
 #     - name: Test MLD VLAN enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_enabled_integer }}"
@@ -494,7 +494,7 @@
 
 #     - name: Test MLD VLAN immediate leave validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_immediate_leave_string }}"
@@ -513,7 +513,7 @@
 
 #     - name: Test MLD VLAN immediate leave validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_immediate_leave_integer }}"
@@ -532,7 +532,7 @@
 
 #     - name: Test MLD VLAN querier enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_querier_enabled_string }}"
@@ -551,7 +551,7 @@
 
 #     - name: Test MLD VLAN querier enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_querier_enabled_integer }}"
@@ -570,7 +570,7 @@
 
 #     - name: Test MLD VLAN querier address validation - IPv4 instead of IPv6 should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_querier_address_ipv4 }}"
@@ -589,7 +589,7 @@
 
 #     - name: Test MLD VLAN querier version validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_querier_version_invalid }}"
@@ -608,7 +608,7 @@
 
 #     - name: Test MLD VLAN querier version validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_querier_version_integer }}"
@@ -627,7 +627,7 @@
 
 #     - name: Test MLD VLAN query interval validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_query_interval_string }}"
@@ -646,7 +646,7 @@
 
 #     - name: Test MLD VLAN query interval validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_query_interval_min }}"
@@ -665,7 +665,7 @@
 
 #     - name: Test MLD VLAN query interval validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_query_interval_max }}"
@@ -684,7 +684,7 @@
 
 #     - name: Test MLD VLAN mrouter port list validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_mrouter_port_list_string }}"
@@ -707,7 +707,7 @@
 
 #     - name: Test MLD configuration validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_invalid_dict_type }}"
@@ -726,7 +726,7 @@
 
 #     - name: Test MLD configuration validation - list instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_invalid_list_type }}"
@@ -745,7 +745,7 @@
 
 #     - name: Test MLD VLANs validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlans_invalid_string }}"
@@ -764,7 +764,7 @@
 
 #     - name: Test MLD VLANs validation - dictionary instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlans_invalid_dict }}"
@@ -783,7 +783,7 @@
 
 #     - name: Test MLD VLAN item validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_vlan_invalid_dict_type }}"
@@ -809,7 +809,7 @@
 
 #     - name: Create MLD snooping configuration with global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_create_global_only }}"
@@ -832,7 +832,7 @@
 
 #     - name: Create MLD snooping configuration with VLANs only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_create_vlans_only }}"
@@ -855,7 +855,7 @@
 
 #     - name: Create MLD snooping configuration with single VLAN
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_create_single_vlan }}"
@@ -878,7 +878,7 @@
 
 #     - name: Create MLD snooping configuration with global and VLANs
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_create_global_and_vlans }}"
@@ -901,7 +901,7 @@
 
 #     - name: Create MLD snooping configuration with minimal VLAN parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_create_minimal_vlan }}"
@@ -924,7 +924,7 @@
 
 #     - name: Create MLD snooping configuration with multiple VLANs - different settings
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_create_multiple_vlans_different_settings }}"
@@ -951,7 +951,7 @@
 
 #     - name: Update MLD snooping global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_update_global_only }}"
@@ -974,7 +974,7 @@
 
 #     - name: Update MLD snooping by modifying existing VLANs
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_update_modify_vlans }}"
@@ -997,7 +997,7 @@
 
 #     - name: Update MLD snooping global and VLANs together
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_update_global_and_vlans }}"
@@ -1020,7 +1020,7 @@
 
 #     - name: Update MLD snooping single VLAN
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ mld_vars_map.test_mld_update_single_vlan }}"

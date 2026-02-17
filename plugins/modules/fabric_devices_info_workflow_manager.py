@@ -287,7 +287,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Gather detailed facts for specific fabric devices
       cisco.catalystcenter.fabric_devices_info_workflow_manager:
@@ -325,7 +325,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Gather detailed facts for specific fabric devices
       cisco.catalystcenter.fabric_devices_info_workflow_manager:
@@ -370,7 +370,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Gather detailed facts for specific fabric devices
       cisco.catalystcenter.fabric_devices_info_workflow_manager:
@@ -1402,7 +1402,7 @@ response_info:
   }
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
@@ -4275,7 +4275,7 @@ class FabricDevicesInfo(CatalystCenterBase):
         )
 
         try:
-            dev_response = self.dnac_apply["exec"](
+            dev_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": ip_address},
@@ -5287,7 +5287,7 @@ def main():
     min_supported_version = "2.3.7.9"
 
     if (
-        ccc_fabric_device_info.compare_dnac_versions(
+        ccc_fabric_device_info.compare_catalystcenter_versions(
             current_version, min_supported_version
         )
         < 0

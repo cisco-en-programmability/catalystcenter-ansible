@@ -1046,7 +1046,7 @@ response_11:
 """
 
 import re
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     validate_list,
@@ -2012,7 +2012,7 @@ class UserandRole(CatalystCenterBase):
             for user in users:
                 if input_config.get("username") is not None:
                     if (
-                        self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9")
+                        self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
                         <= 0
                     ):
                         if user.get("username") == input_config.get("username").lower():
@@ -2143,7 +2143,7 @@ class UserandRole(CatalystCenterBase):
             - Returns the API response from the "create_role" function.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log(
                     "Create role with role_info_params: {0}".format(str(role_params)),
@@ -3509,7 +3509,7 @@ class UserandRole(CatalystCenterBase):
               finally returns the response.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log(
                     "Updating role with role_info_params: {0}".format(str(role_params)),
@@ -3960,7 +3960,7 @@ class UserandRole(CatalystCenterBase):
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             username = self.have.get("username")
             self.log(
                 "Attempting to delete user with user_params: {0}".format(
@@ -4034,7 +4034,7 @@ class UserandRole(CatalystCenterBase):
             - The function uses the "user_and_roles" family and the "delete_role_api" function from the Cisco Catalyst Center API.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log(
                     "delete role with role_params: {0}".format(str(role_params)),
@@ -4456,7 +4456,7 @@ def main():
     state = ccc_user_role.params.get("state")
 
     if (
-        ccc_user_role.compare_dnac_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
+        ccc_user_role.compare_catalystcenter_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
         < 0
     ):
         ccc_user_role.msg = (

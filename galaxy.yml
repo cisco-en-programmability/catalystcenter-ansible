@@ -1,14 +1,14 @@
 ---
 namespace: cisco
 name: catalystcenter
-version: 2.3.0
+version: 2.3.1
 readme: README.md
 authors:
-  - Rafael Campos <rcampos@cloverhound.cr>
-  - William Astorga <wastorga@cloverhound.cr>
-  - Jose Bogarin <jbogarin@cloverhound.cr>
-  - Bryan Vargas <bvargas@cloverhound.cr>
-  - Francisco Muñoz <fmunoz@cloverhound.cr>
+  - Rafael Campos <rcampos@cloverhound.com>
+  - William Astorga <wastorga@cloverhound.com>
+  - Jose Bogarin <jbogarin@cloverhound.com>
+  - Bryan Vargas <bvargas@cloverhound.com>
+  - Francisco Muñoz <fmunoz@cloverhound.com>
   - Madhan Sankaranarayanan <madsanka@cisco.com>
   - Rishita Chowdhary (@rishitachowdhary)
   - Muthu Rakesh Babu <mutbabu@cisco.com>
@@ -35,3 +35,23 @@ repository: https://github.com/cisco-en-programmability/catalystcenter-ansible
 documentation: https://cisco-en-programmability.github.io/catalystcenter-ansible/
 homepage: https://github.com/cisco-en-programmability/catalystcenter-ansible
 issues: https://github.com/cisco-en-programmability/catalystcenter-ansible/issues
+build_ignore:
+  - .git
+  - .gitignore
+  - .github
+  - .circleci
+  - .vscode
+  - .pytest_cache
+
+  - .ansible-lint
+  - .yamllint.yml
+
+  - Dockerfile.ansible-test
+  - Makefile
+  - run_tests.sh
+
+  - Pipfile
+  - requirements.txt
+  - test-requirements.txt
+
+  - cisco-catalystcenter-*.tar.gz

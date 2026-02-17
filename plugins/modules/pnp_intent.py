@@ -349,7 +349,7 @@ response_3:
     }
 """
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -450,7 +450,7 @@ class PnP(CatalystCenterBase):
         response = None
 
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": self.want.get("site_name")},
@@ -504,7 +504,7 @@ class PnP(CatalystCenterBase):
         """
 
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": self.want.get("site_name")},
@@ -752,7 +752,7 @@ class PnP(CatalystCenterBase):
         # Claiming is only allowed for single addition of devices
         if len(self.want.get("pnp_params")) == 1:
             # check if given device exists in pnp inventory, store device Id
-            device_response = self.dnac_apply["exec"](
+            device_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params={"serial_number": self.want.get("serial_number")},
@@ -785,7 +785,7 @@ class PnP(CatalystCenterBase):
 
             if self.params.get("state") == "merged":
                 # check if given image exists, if exists store image_id
-                image_response = self.dnac_apply["exec"](
+                image_response = self.catalystcenter_apply["exec"](
                     family="software_image_management_swim",
                     function="get_software_image_details",
                     params=self.want.get("image_params"),
@@ -800,7 +800,7 @@ class PnP(CatalystCenterBase):
                 )
 
                 # check if project has templates or not
-                template_list = self.dnac_apply["exec"](
+                template_list = self.catalystcenter_apply["exec"](
                     family="configuration_templates",
                     function="gets_the_templates_available",
                     params={"project_names": self.want.get("project_name")},
@@ -813,7 +813,7 @@ class PnP(CatalystCenterBase):
                     "DEBUG",
                 )
 
-                dev_details_response = self.dnac_apply["exec"](
+                dev_details_response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="get_device_by_id",
                     params={"id": device_response[0].get("id")},
@@ -1011,7 +1011,7 @@ class PnP(CatalystCenterBase):
         if len(self.want.get("pnp_params")) > 1:
             devices_added = []
             for device in self.want.get("pnp_params"):
-                multi_device_response = self.dnac_apply["exec"](
+                multi_device_response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="get_device_list",
                     params={"serial_number": device["deviceInfo"]["serialNumber"]},
@@ -1040,7 +1040,7 @@ class PnP(CatalystCenterBase):
                 for device in self.want.get("pnp_params")
                 if device not in devices_added
             ]
-            bulk_params = self.dnac_apply["exec"](
+            bulk_params = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="import_devices_in_bulk",
                 params={"payload": bulk_list},
@@ -1088,7 +1088,7 @@ class PnP(CatalystCenterBase):
 
             if not self.want["site_name"]:
                 self.log("Adding device to pnp database", "INFO")
-                dev_add_response = self.dnac_apply["exec"](
+                dev_add_response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="add_device",
                     params=self.want.get("pnp_params")[0],
@@ -1118,7 +1118,7 @@ class PnP(CatalystCenterBase):
 
             else:
                 self.log("Adding device to pnp database")
-                dev_add_response = self.dnac_apply["exec"](
+                dev_add_response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="add_device",
                     params=self.want.get("pnp_params")[0],
@@ -1134,7 +1134,7 @@ class PnP(CatalystCenterBase):
                 )
                 claim_params = self.get_claim_params()
                 claim_params["deviceId"] = dev_add_response.get("id")
-                claim_response = self.dnac_apply["exec"](
+                claim_response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="claim_a_device_to_a_site",
                     op_modifies=True,
@@ -1164,7 +1164,7 @@ class PnP(CatalystCenterBase):
 
                 return self
 
-        prov_dev_response = self.dnac_apply["exec"](
+        prov_dev_response = self.catalystcenter_apply["exec"](
             family="device_onboarding_pnp",
             function="get_device_count",
             op_modifies=True,
@@ -1177,7 +1177,7 @@ class PnP(CatalystCenterBase):
             "DEBUG",
         )
 
-        plan_dev_response = self.dnac_apply["exec"](
+        plan_dev_response = self.catalystcenter_apply["exec"](
             family="device_onboarding_pnp",
             function="get_device_count",
             op_modifies=True,
@@ -1190,7 +1190,7 @@ class PnP(CatalystCenterBase):
             "DEBUG",
         )
 
-        dev_details_response = self.dnac_apply["exec"](
+        dev_details_response = self.catalystcenter_apply["exec"](
             family="device_onboarding_pnp",
             function="get_device_by_id",
             params={"id": self.have["device_id"]},
@@ -1226,7 +1226,7 @@ class PnP(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        update_response = self.dnac_apply["exec"](
+        update_response = self.catalystcenter_apply["exec"](
             family="device_onboarding_pnp",
             function="update_device",
             params={"id": self.have["device_id"], "payload": update_payload},
@@ -1241,7 +1241,7 @@ class PnP(CatalystCenterBase):
 
         if pnp_state == "Error":
             reset_paramters = self.get_reset_params()
-            reset_response = self.dnac_apply["exec"](
+            reset_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="reset_device",
                 params={"payload": reset_paramters},
@@ -1278,7 +1278,7 @@ class PnP(CatalystCenterBase):
             "Parameters for claiming the device: {0}".format(str(claim_params)), "DEBUG"
         )
 
-        claim_response = self.dnac_apply["exec"](
+        claim_response = self.catalystcenter_apply["exec"](
             family="device_onboarding_pnp",
             function="claim_a_device_to_a_site",
             op_modifies=True,
@@ -1318,7 +1318,7 @@ class PnP(CatalystCenterBase):
         devices_deleted = []
         devices_to_delete = self.want.get("pnp_params")[:]
         for device in devices_to_delete:
-            multi_device_response = self.dnac_apply["exec"](
+            multi_device_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params={"serial_number": device["deviceInfo"]["serialNumber"]},
@@ -1333,7 +1333,7 @@ class PnP(CatalystCenterBase):
             if multi_device_response and len(multi_device_response) == 1:
                 device_id = multi_device_response[0].get("id")
 
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="device_onboarding_pnp",
                     function="delete_device_by_id_from_pnp",
                     op_modifies=True,
@@ -1388,7 +1388,7 @@ class PnP(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate Cisco Catalyst Center config for merged state
         for device in self.want.get("pnp_params"):
-            device_response = self.dnac_apply["exec"](
+            device_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params={"serial_number": device["deviceInfo"]["serialNumber"]},
@@ -1431,7 +1431,7 @@ class PnP(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate Cisco Catalyst Center config for deleted state
         for device in self.want.get("pnp_params"):
-            device_response = self.dnac_apply["exec"](
+            device_response = self.catalystcenter_apply["exec"](
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params={"serial_number": device["deviceInfo"]["serialNumber"]},

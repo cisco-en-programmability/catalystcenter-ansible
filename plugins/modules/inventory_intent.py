@@ -767,7 +767,7 @@ import time
 from datetime import datetime
 from io import BytesIO, StringIO
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -2049,7 +2049,7 @@ class DnacDevice(CatalystCenterBase):
                 }
                 wireless_param[0]["dynamicInterfaces"].append(interface_dict)
 
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": device_ip_address},
@@ -2098,7 +2098,7 @@ class DnacDevice(CatalystCenterBase):
 
         try:
             site_type = None
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": site_name},
@@ -2212,7 +2212,7 @@ class DnacDevice(CatalystCenterBase):
                     continue
 
                 # Now we have provisioning_param so we can do wireless provisioning
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="wireless",
                     function="provision",
                     op_modifies=True,
