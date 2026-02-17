@@ -43,7 +43,7 @@ cisco.catalystcenter.fabric_devices_info_workflow_manager module -- Comprehensiv
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1618,7 +1618,7 @@ Examples
       hosts: localhost
       connection: local
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Gather detailed facts for specific fabric devices
           cisco.catalystcenter.fabric_devices_info_workflow_manager:
@@ -1656,7 +1656,7 @@ Examples
       hosts: localhost
       connection: local
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Gather detailed facts for specific fabric devices
           cisco.catalystcenter.fabric_devices_info_workflow_manager:
@@ -1701,7 +1701,7 @@ Examples
       hosts: localhost
       connection: local
       vars_files:
-        - "credentials.yml"
+        - vars/credentials.yml
       tasks:
         - name: Gather detailed facts for specific fabric devices
           cisco.catalystcenter.fabric_devices_info_workflow_manager:
