@@ -562,11 +562,11 @@ response_3:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
 )
 
 
@@ -693,7 +693,7 @@ class FabricTransit(CatalystCenterBase):
         )
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params
@@ -1546,7 +1546,7 @@ class FabricTransit(CatalystCenterBase):
                     "DEBUG",
                 )
                 current_version = self.get_ccc_version()
-                if self.compare_dnac_versions(current_version, "3.1.3.0") >= 0:
+                if self.compare_catalystcenter_versions(current_version, "3.1.3.0") >= 0:
                     transit_site_hierarchy = item.get("transit_site_hierarchy")
                     if transit_site_hierarchy:
                         self.log(
@@ -1621,7 +1621,7 @@ class FabricTransit(CatalystCenterBase):
             site_id = None
             if not transit_need_update:
                 current_version = self.get_ccc_version()
-                if self.compare_dnac_versions(current_version, "3.1.3.0") >= 0:
+                if self.compare_catalystcenter_versions(current_version, "3.1.3.0") >= 0:
                     self.log(
                         "Evaluating site hierarchy changes for fabric transit '{0}' (version {1} supports"
                         " site hierarchy)".format(name, current_version),
@@ -2054,7 +2054,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_sda_transit = FabricTransit(module)
     if (
-        ccc_sda_transit.compare_dnac_versions(
+        ccc_sda_transit.compare_catalystcenter_versions(
             ccc_sda_transit.get_ccc_version(), "2.3.7.6"
         )
         < 0

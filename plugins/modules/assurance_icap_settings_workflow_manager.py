@@ -202,7 +202,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -265,7 +265,7 @@ EXAMPLES = r"""
 
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -2201,7 +2201,7 @@ def main():
     state = ccc_assurance.params.get("state")
     ccc_version = ccc_assurance.get_ccc_version()
 
-    if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_assurance.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_assurance.msg = """The specified version '{0}' does not support the Assurance Intelligent Capture
         Settings feature. Supported versions start from '2.3.7.9' onwards.""".format(
             ccc_assurance.get_ccc_version()

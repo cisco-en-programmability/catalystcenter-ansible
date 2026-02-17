@@ -162,7 +162,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -653,7 +653,7 @@ response_5:
 import re
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1705,7 +1705,7 @@ def main():
     state = ccc_path_trace.params.get("state")
 
     if (
-        ccc_path_trace.compare_dnac_versions(
+        ccc_path_trace.compare_catalystcenter_versions(
             ccc_path_trace.get_ccc_version(), "2.3.7.6"
         )
         < 0

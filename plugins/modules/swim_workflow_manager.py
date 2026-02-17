@@ -1185,7 +1185,7 @@ response:
     }
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -1733,7 +1733,7 @@ class Swim(CatalystCenterBase):
         device_id_list, site_response_list = [], []
         if not site_name:
             current_version = self.get_ccc_version()
-            if self.compare_dnac_versions(current_version, "2.3.5.3") <= 0:
+            if self.compare_catalystcenter_versions(current_version, "2.3.5.3") <= 0:
                 site_name = "Global/.*"
                 self.log(
                     "Catalyst Center version {0} (≤2.3.5.3) detected - using wildcard pattern 'Global/.*' "
@@ -1776,7 +1776,7 @@ class Swim(CatalystCenterBase):
             else:
                 device_series_name = ".*" + device_series_name + ".*"
 
-        if self.dnac_version <= self.version_2_3_5_3:
+        if self.catalystcenter_version <= self.version_2_3_5_3:
             site_params = {"site_id": site_id, "device_family": device_family}
 
             try:
@@ -2247,7 +2247,7 @@ class Swim(CatalystCenterBase):
         """
 
         have = {}
-        if self.dnac_version >= self.version_2_2_3_3:
+        if self.catalystcenter_version >= self.version_2_2_3_3:
             response = self.catalystcenter._exec(
                 family="software_image_management_swim",
                 function="get_device_family_identifiers",
@@ -2268,7 +2268,7 @@ class Swim(CatalystCenterBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             if not family_name:
                 self.msg = "Device family name is required for Catalyst Center version 3.1.3.0 or higher"
                 self.set_operation_result(
@@ -2560,7 +2560,7 @@ class Swim(CatalystCenterBase):
             want["import_image"] = True
             want["import_type"] = import_image_details.get("type").lower()
             import_type = want["import_type"]
-            if self.dnac_version < self.version_2_3_7_6:
+            if self.catalystcenter_version < self.version_2_3_7_6:
                 if import_type == "remote":
                     want["url_import_details"] = import_image_details.get("url_details")
                 elif import_type == "local":
@@ -3170,7 +3170,7 @@ class Swim(CatalystCenterBase):
                 self.check_return_status()
 
         # old version API call structure
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             self.log("Checking golden tag status for each role...", "DEBUG")
             for role in device_role.split(","):
                 image_params = {
@@ -4204,7 +4204,7 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
                 success_distribution_list = []
                 failed_distribution_list = []
 
@@ -4403,7 +4403,7 @@ class Swim(CatalystCenterBase):
         device_ip_for_not_elg_list = []
         bulk_payload = []
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             # -------- OLD VERSION (Sequential Distribution) -------- #
             self.log(
                 "Using old version of SWIM API for image distribution (before 2.3.7.9)"
@@ -4914,7 +4914,7 @@ class Swim(CatalystCenterBase):
             activation_payload_list = []
 
             # OLD FLOW (for DNAC < 2.3.7.9)
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
                 for image_name, image_id in image_ids.items():
                     payload = [
                         {
@@ -5137,7 +5137,7 @@ class Swim(CatalystCenterBase):
         device_ip_for_not_elg_list = []
 
         # OLD FLOW (for DNAC <= 2.3.7.9)
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             self.log(
                 "Using old version of SWIM API for image activation (<= 2.3.7.9)",
                 "INFO",
@@ -6401,7 +6401,7 @@ def main():
     ccc_swims = Swim(module)
     state = ccc_swims.params.get("state")
 
-    if ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_swims.compare_catalystcenter_versions(ccc_swims.get_ccc_version(), "2.3.5.3") < 0:
         ccc_swims.msg = """The specified version '{0}' does not support the 'swim_workflow_manager' feature.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_swims.get_ccc_version()
@@ -6409,7 +6409,7 @@ def main():
         ccc_swims.status = "failed"
         ccc_swims.check_return_status()
     if (
-        ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0
+        ccc_swims.compare_catalystcenter_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0
         and state == "deleted"
     ):
         ccc_swims.msg = (

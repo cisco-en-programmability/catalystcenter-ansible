@@ -8,16 +8,16 @@
       file: "{{ role_path }}/vars/vars_fabric_devices_info_workflow_manager.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
-        dnac_host: "10.31.102.124"
-        dnac_username: "admin"
-        dnac_password: "Ciscu!123"
-        dnac_verify: "false"
-        dnac_port: "443"
-        dnac_version: "3.1.3.0"
-        dnac_debug: "false"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      catalyst_login: &catalyst_login
+        catalystcenter_host: "10.31.102.124"
+        catalystcenter_username: "admin"
+        catalystcenter_password: "Ciscu!123"
+        catalystcenter_verify: "false"
+        catalystcenter_port: "443"
+        catalystcenter_version: "3.1.3.0"
+        catalystcenter_debug: "false"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
 
 ####################################################
 #                FABRIC DEVICE INFO                #
@@ -25,7 +25,7 @@
 
   - name: Fabric Devices Info
     cisco.dnac.fabric_devices_info_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: gathered
       config:
           - "{{ item }}"

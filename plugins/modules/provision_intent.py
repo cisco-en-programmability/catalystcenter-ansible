@@ -160,7 +160,7 @@ response_3:
 import time
 import re
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -246,7 +246,7 @@ class Dnacprovision(CatalystCenterBase):
           type of the device.
         """
 
-        dev_response = self.dnac_apply["exec"](
+        dev_response = self.catalystcenter_apply["exec"](
             family="devices",
             function="get_network_device_by_ip",
             params={"ip_address": self.validated_config[0]["management_ip_address"]},
@@ -282,7 +282,7 @@ class Dnacprovision(CatalystCenterBase):
         result = False
         params = {"task_id": task_id}
         while True:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="task",
                 function="get_task_by_id",
                 params=params,
@@ -325,7 +325,7 @@ class Dnacprovision(CatalystCenterBase):
         """
 
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": site_name},
@@ -415,7 +415,7 @@ class Dnacprovision(CatalystCenterBase):
                 "interfaceName": interface.get("interface_name"),
             }
             wireless_params[0]["dynamicInterfaces"].append(interface_dict)
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="devices",
             function="get_network_device_by_ip",
             params={
@@ -479,7 +479,7 @@ class Dnacprovision(CatalystCenterBase):
         device_type = self.want.get("device_type")
         if device_type == "wired":
             try:
-                status_response = self.dnac_apply["exec"](
+                status_response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="get_provisioned_wired_device",
                     op_modifies=True,
@@ -498,14 +498,14 @@ class Dnacprovision(CatalystCenterBase):
             status = status_response.get("status")
 
             if status == "success":
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="re_provision_wired_device",
                     op_modifies=True,
                     params=self.want["prov_params"],
                 )
             else:
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="provision_wired_device",
                     op_modifies=True,
@@ -513,7 +513,7 @@ class Dnacprovision(CatalystCenterBase):
                 )
 
         elif device_type == "wireless":
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="wireless",
                 function="provision",
                 op_modifies=True,
@@ -554,7 +554,7 @@ class Dnacprovision(CatalystCenterBase):
             return self
 
         try:
-            status_response = self.dnac_apply["exec"](
+            status_response = self.catalystcenter_apply["exec"](
                 family="sda",
                 function="get_provisioned_wired_device",
                 op_modifies=True,
@@ -578,7 +578,7 @@ class Dnacprovision(CatalystCenterBase):
             self.result["response"] = self.want["prov_params"]
             return self
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="sda",
             function="delete_provisioned_wired_device",
             op_modifies=True,

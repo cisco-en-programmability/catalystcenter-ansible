@@ -8,16 +8,16 @@
       file: "{{ role_path }}/vars/vars_assurance_issue_management.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      catalyst_login: &catalyst_login
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
 
 #############################################
@@ -26,7 +26,7 @@
 
   - name: Clean up before test
     cisco.dnac.assurance_issue_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -38,7 +38,7 @@
 
   - name: Create user defined issue
     cisco.dnac.assurance_issue_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -65,7 +65,7 @@
 
   - name: Update user defined issue
     cisco.dnac.assurance_issue_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -91,7 +91,7 @@
 ####################################################
   - name: update system issue
     cisco.dnac.assurance_issue_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -118,7 +118,7 @@
 ####################################################
   - name: update system issue
     cisco.dnac.assurance_issue_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -146,7 +146,7 @@
 
   - name: Delete issue 
     cisco.dnac.assurance_issue_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"

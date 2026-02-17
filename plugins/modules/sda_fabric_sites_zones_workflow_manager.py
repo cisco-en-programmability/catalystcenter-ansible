@@ -511,7 +511,7 @@ dnac_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1217,7 +1217,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.log(msg, "ERROR")
 
         if (
-            self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
             and auth_profile == "Low Impact"
         ):
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
@@ -1421,7 +1421,7 @@ class FabricSitesZones(CatalystCenterBase):
 
         if (
             profile_name == "Low Impact"
-            and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
             acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
@@ -1534,7 +1534,7 @@ class FabricSitesZones(CatalystCenterBase):
 
         if (
             profile_name == "Low Impact"
-            and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
             acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
@@ -2246,7 +2246,7 @@ class FabricSitesZones(CatalystCenterBase):
 
         try:
             current_version = self.get_ccc_version()
-            if not self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+            if not self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0:
                 self.log(
                     "Reconfiguring fabric pending events is supported only from Cisco Catalyst Center version 2.3.7.9 onwards."
                     " Current version: {0}".format(current_version),
@@ -2909,7 +2909,7 @@ def main():
 
     ccc_fabric_sites = FabricSitesZones(module)
     if (
-        ccc_fabric_sites.compare_dnac_versions(
+        ccc_fabric_sites.compare_catalystcenter_versions(
             ccc_fabric_sites.get_ccc_version(), "2.3.7.6"
         )
         < 0

@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Get site info and updating site details
       cisco.catalystcenter.site_intent:

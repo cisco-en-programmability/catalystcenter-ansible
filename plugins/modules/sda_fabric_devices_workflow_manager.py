@@ -1252,7 +1252,7 @@ response_13:
 import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -3245,7 +3245,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
                 "Minimum required version is 2.3.7.9. Returning None.",
@@ -5139,7 +5139,7 @@ class FabricDevices(CatalystCenterBase):
             return None
 
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.msg = (
                 f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
                 "Minimum required version is 2.3.7.9."
@@ -8259,7 +8259,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_sda_devices = FabricDevices(module)
     if (
-        ccc_sda_devices.compare_dnac_versions(
+        ccc_sda_devices.compare_catalystcenter_versions(
             ccc_sda_devices.get_ccc_version(), "2.3.7.6"
         )
         < 0

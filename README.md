@@ -1,24 +1,23 @@
-# Ansible Collection - cisco.catalystcenter
 
-## Ansible Modules for CATALYST Center
+# Ansible Collection: cisco.catalystcenter
 
-The catalystenter-ansible project provides an Ansible collection for managing and automating your Cisco CATALYST Center environment. It consists of a set of modules and roles for performing tasks related to CATALYST Center.
+## Overview
 
-This collection has been tested and supports Cisco CATALYST Center 2.3.7.6.
+The cisco.catalystcenter Ansible Collection enables enterprise automation and management of Cisco CATALYST Center environments. It provides modules that interact with Cisco CATALYST Center APIs to automate provisioning, configuration, and operational workflows.
+
+This collection is available on both [Ansible Galaxy](https://galaxy.ansible.com/cisco/catalystcenter) and [Red Hat Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/cisco/catalystcenter/).
 
 
-Other versions of this collection have support for previous Cisco CATALYST Center versions. The recommended versions are listed below on the [Compatibility matrix](https://github.com/cisco-en-programmability/catalystcenter-ansible#compatibility-matrix).
-
-## Compatibility matrix
+## Compatibility Matrix
 
 The following table shows the supported versions.
 
 | Cisco CATALYST Center version | Ansible "cisco.catalystcenter" version | Python "catalystcentersdk" version |
 |-------------------------------|----------------------------------------|------------------------------------|
-| 2.3.7.6                       | 1.0.0                                  |  2.3.7.6.2                         |
-| 2.3.7.9                       | 2.1.4                                  |  2.3.7.9.5                         |
-| 3.1.3.0                       | 2.2.2                                  |  3.1.3.0.1                         |
-| 3.1.6.0                       | ^2.3.2                                 |  ^3.1.3.6.0                        |
+|2.3.7.6|1.0.0|2.3.7.6.2|
+|2.3.7.9|2.1.4|2.3.7.9.5|
+|3.1.3.0|2.2.2|3.1.3.0.1|
+|3.1.6.0|2.3.x|3.1.3.6.x|
 
 If your Ansible collection is older please consider updating it first.
 
@@ -27,54 +26,43 @@ Notes:
 1. The "Python 'catalystcentersdk' version" column has the minimum recommended version used when testing the Ansible collection. This means you could use later versions of the Python "catalystcentersdk" than those listed.
 2. The "Cisco CATALYST Center version" column has the value of the `version` you should use for the Ansible collection.
 
-## Installing according to Compatibility Matrix
-
-For example, for Cisco CATALYST Center 2.3.7.6, it is recommended to use Ansible "cisco.catalystcenter" v2.3.7.6 and Python "catalystcentersdk" v2.3.7.6.
-
-To get the Python CATALYST Center SDK v2.3.7.9 in a fresh development environment:
-
-```bash
-sudo pip install catalystcentersdk==2.3.7.9
-```
-
-To get the Ansible collection v1.0.0 in a fresh development environment:
-
-```bash
-ansible-galaxy collection install cisco.catalystcenter:1.0.0
-```
 
 ## Requirements
 
-- Ansible >= 2.15
-- [Python CATALYST Center SDK](https://github.com/cisco-en-programmability/catalystcentersdk) v1.0.0 or newer
-- Python >= 3.9, as the CATALYST Center SDK doesn't support Python version 2.x
+- Python >= 3.9
+- [catalystcentersdk](https://github.com/cisco-en-programmability/catalystcentersdk) (see Compatibility Matrix for tested versions)
+- ansible-core >= 2.15
 
-## Install
+> **Note:** ansible-core is provided through Red Hat Ansible Automation Platform Execution Environments or can be installed via standard enterprise channels. Manual installation is not required for certified environments.
 
-Ansible must be installed ([Install guide](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html))
 
-```bash
-sudo pip install ansible
-```
 
-Python CATALYST Center SDK must be installed
+## Installation
 
-```bash
-sudo pip install catalystcentersdk
-```
-
-Install the collection ([Galaxy link](https://galaxy.ansible.com/cisco/catalystcenter))
+Install the collection from Ansible Galaxy or Automation Hub:
 
 ```bash
 ansible-galaxy collection install cisco.catalystcenter
 ```
 
-## Using this collection
+To upgrade to the latest version:
 
-There are three ways to use it:
+```bash
+ansible-galaxy collection install cisco.catalystcenter --upgrade
+```
 
-- Using environment variables
-- Using vars_files
+
+Install the Python SDK:
+
+```bash
+pip install catalystcentersdk
+```
+
+
+
+## Using this Collection
+
+Connection details can be provided via environment variables or Ansible variable files. See the [examples directory](https://github.com/cisco-en-programmability/catalystcenter-ansible/tree/main/playbooks) for sample playbooks and variable files.
 
 ### Using environment variables
 
@@ -127,7 +115,7 @@ catalystcenter_host: <A.B.C.D>
 catalystcenter_port: 443  # optional, defaults to 443
 catalystcenter_username: <username>
 catalystcenter_password: <password>
-catalystcenter_version: 3.1.3.0  # optional, see the Compatibility matrix
+catalystcenter_version: 3.1.6.0  # optional, see the Compatibility matrix
 catalystcenter_verify: False  # optional, defaults to True
 catalystcenter_debug: False  # optional, defaults to False
 ```
@@ -144,7 +132,7 @@ Then, create a playbook `myplaybook.yml` ([example](https://github.com/cisco-en-
 ```yaml
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
   - name: Create tag with name "MyNewTag"
@@ -170,60 +158,35 @@ ansible-playbook -i hosts myplaybook.yml
 
 In the `playbooks` [directory](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks) you can find more examples and use cases.
 
-## Update
 
-Getting the latest/nightly collection build
+## Use Cases
 
-Clone the catalystcenter-ansible repository.
 
-```bash
-git clone https://github.com/cisco-en-programmability/catalystcenter-ansible.git
-```
+This collection supports automation scenarios such as:
 
-Go to the catalystcenter-ansible directory
+- Automating device and site configuration through Cisco CATALYST Center APIs.
+- Managing tags, sites, templates, and policies programmatically.
+- Querying inventory and operational data for reporting and validation workflows.
+- Integrating Cisco CATALYST Center operations into CI/CD or ITSM workflows.
+- Standardizing repeatable infrastructure changes using playbooks.
 
-```bash
-cd catalystcenter-ansible
-```
 
-Pull the latest master from the repo
+## Testing
 
-```bash
-git pull origin master
-```
+This collection is validated against the following environments:
 
-Build and install a collection from source
+- Cisco CATALYST Center: 2.3.7.6, 2.3.7.9, 3.1.3.0, 3.1.6.0
+- ansible-core: >= 2.15
+- Python: >= 3.9
 
-```bash
-ansible-galaxy collection build --force
-ansible-galaxy collection install cisco-catalystcenter-* --force
-```
+Known limitations and compatibility notes are documented in the [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml). For platform-specific issues, consult the official documentation or open a support case as appropriate.
 
-### See Also
 
-- [Ansible Using collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html) for more details.
 
-## Attention macOS users
+## Contributing
 
-If you're using macOS you may receive this error when running your playbook:
+Contributions are welcome. Please open issues or pull requests via the [Cisco CATALYST Center Ansible collection repository](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues). All contributors must adhere to the project's Code of Conduct.
 
-```text
-objc[34120]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called.
-objc[34120]: +[__NSCFConstantString initialize] may have been in progress in another thread when fork() was called. We cannot safely call it or ignore it in the fork() child process. Crashing instead. Set a breakpoint on objc_initializeAfterForkError to debug.
-ERROR! A worker was found in a dead state
-```
-
-If that's the case try setting this environment variable:
-
-```bash
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-```
-
-## Contributing to this collection
-
-Ongoing development efforts and contributions to this collection are tracked as issues in this repository.
-
-We welcome community contributions to this collection. If you find problems, need an enhancement or need a new module, please open an issue or create a PR against the [Cisco CATALYST Center Ansible collection repository](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues).
 
 ## Code of Conduct
 
@@ -231,8 +194,46 @@ This collection follows the Ansible project's
 [Code of Conduct](https://docs.ansible.com/ansible/devel/community/code_of_conduct.html).
 Please read and familiarize yourself with this document.
 
-## Releasing, Versioning and Deprecation
 
-This collection follows [Semantic Versioning](https://semver.org/). More details on versioning can be found [in the Ansible docs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections.html#collection-versions).
+## Support
 
-New minor and major releases as well as deprecations will follow new releases and deprecations of the Cisco CATALYST Center product, its REST API and the corresponding Python SDK, which this project relies on.
+This collection is available on both Ansible Galaxy and Red Hat Automation Hub.
+
+For certified content obtained from Red Hat Automation Hub, support is provided through Red Hat Ansible Automation Platform according to your subscription agreement.
+
+For content obtained from Ansible Galaxy, community support may be available via:
+- https://forum.ansible.com/
+- https://github.com/cisco-en-programmability/catalystcenter-ansible/issues
+
+Please consult your platform documentation for support eligibility and procedures.
+
+---
+
+
+## Release Notes and Roadmap
+
+Release notes are maintained in the public changelog:
+https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml
+
+This collection follows [Semantic Versioning](https://semver.org/). For roadmap information, refer to the repository or contact Cisco for enterprise roadmap details.
+
+---
+
+
+## Related Information
+
+- https://github.com/cisco-en-programmability/catalystcentersdk
+- https://docs.ansible.com/ansible/latest/user_guide/collections_using.html
+- https://github.com/cisco-en-programmability/catalystcenter-ansible
+
+---
+
+
+## License
+
+This collection is licensed under the Cisco Sample Code License.
+
+The full license text is available at:
+https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE
+
+The license is included in the distributed collection artifact.

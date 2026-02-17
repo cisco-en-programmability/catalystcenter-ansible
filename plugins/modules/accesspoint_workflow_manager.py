@@ -1406,7 +1406,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false  # This space must be "no." It was set to false due to formatting errors.
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:
@@ -1974,7 +1974,7 @@ response_5:
 
 import time
 import re
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     validate_str,
@@ -3725,7 +3725,7 @@ class Accesspoint(CatalystCenterBase):
                 self.payload["wlc_provision_status"] = provision_status
                 self.log("WLC provision status: {0}".format(provision_status), "INFO")
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                     if current_eth_configuration.get("provisioning_status"):
                         self.payload["ap_provision_status"] = "Provisioned"
                     else:
@@ -3842,7 +3842,7 @@ class Accesspoint(CatalystCenterBase):
                     site = response["response"][0]
                     self.log("Site response: {0}".format(self.pprint(site)), "INFO")
 
-                    if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
+                    if self.catalystcenter_version <= self.catalystcenter_versions["2.3.5.3"]:
                         location = get_dict_result(
                             site.get("additionalInfo"), "nameSpace", "Location"
                         )
@@ -4176,7 +4176,7 @@ class Accesspoint(CatalystCenterBase):
         site_id = self.have.get("site_id")
 
         try:
-            if self.dnac_version <= self.dnac_versions["2.3.5.3"]:
+            if self.catalystcenter_version <= self.catalystcenter_versions["2.3.5.3"]:
                 response = self.access_point_provision_old(
                     rf_profile, hostname, type_name, site_name_hierarchy
                 )
@@ -5854,7 +5854,7 @@ def main():
         ccc_network.msg = "State {0} is invalid".format(state)
         ccc_network.check_return_status()
 
-    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_network.compare_catalystcenter_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
         ccc_network.status = "failed"
         ccc_network.msg = (
             "The specified version '{0}' does not support the access point workflow feature."

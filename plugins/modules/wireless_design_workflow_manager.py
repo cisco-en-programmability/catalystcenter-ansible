@@ -7204,7 +7204,7 @@ response_2:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -25097,7 +25097,7 @@ class WirelessDesign(CatalystCenterBase):
             "INFO",
         )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             self.log("Using 'execute_get_request' for version <= 2.3.7.9", "DEBUG")
             # Execute the GET request to retrieve anchor groups
             api_response = self.execute_get_request(
@@ -28598,7 +28598,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_wireless_design = WirelessDesign(module)
     if (
-        ccc_wireless_design.compare_dnac_versions(
+        ccc_wireless_design.compare_catalystcenter_versions(
             ccc_wireless_design.get_ccc_version(), "2.3.7.9"
         )
         < 0

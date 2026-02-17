@@ -33,11 +33,11 @@ class TestDnacTemplateIntent(TestDnacModule):
         super(TestDnacTemplateIntent, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 

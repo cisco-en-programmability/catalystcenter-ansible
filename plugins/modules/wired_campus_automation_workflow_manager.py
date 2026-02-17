@@ -2300,7 +2300,7 @@ response_2:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -14638,7 +14638,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_wired_campus_automation = WiredCampusAutomation(module)
     if (
-        ccc_wired_campus_automation.compare_dnac_versions(
+        ccc_wired_campus_automation.compare_catalystcenter_versions(
             ccc_wired_campus_automation.get_ccc_version(), "3.1.3.0"
         )
         < 0

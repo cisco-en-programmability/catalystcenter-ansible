@@ -528,11 +528,11 @@ response_3:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
 )
 
 
@@ -728,7 +728,7 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params

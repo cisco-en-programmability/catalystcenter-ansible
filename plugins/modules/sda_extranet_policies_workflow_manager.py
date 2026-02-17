@@ -233,7 +233,7 @@ sample_response_3:
 
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1270,7 +1270,7 @@ def main():
     ccc_sda_extranet_policies = SDAExtranetPolicies(module)
 
     if (
-        ccc_sda_extranet_policies.compare_dnac_versions(
+        ccc_sda_extranet_policies.compare_catalystcenter_versions(
             ccc_sda_extranet_policies.get_ccc_version(), "2.3.7.6"
         )
         < 0

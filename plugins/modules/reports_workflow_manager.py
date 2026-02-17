@@ -1978,7 +1978,7 @@ from datetime import datetime
 import time
 import os
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
@@ -8953,7 +8953,7 @@ def main():
         ccc_report.check_return_status()
 
     ccc_version = ccc_report.get_ccc_version()
-    if ccc_report.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_report.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_report.msg = (
             "The specified version '{0}' does not support the Flexible Report features. "
             "Supported versions start from '2.3.7.9' onwards.".format(ccc_version)

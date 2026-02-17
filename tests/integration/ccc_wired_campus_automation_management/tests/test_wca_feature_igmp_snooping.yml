@@ -94,16 +94,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_igmp_snooping.yml"
 #         name: igmp_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: DEBUG
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: DEBUG
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -117,7 +117,7 @@
 
 #     - name: Test IGMP global enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_enabled_string }}"
@@ -136,7 +136,7 @@
 
 #     - name: Test IGMP global enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_enabled_integer }}"
@@ -155,7 +155,7 @@
 
 #     - name: Test IGMP global querier enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_querier_enabled_string }}"
@@ -174,7 +174,7 @@
 
 #     - name: Test IGMP global querier enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_querier_enabled_integer }}"
@@ -193,7 +193,7 @@
 
 #     - name: Test IGMP global querier address validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_querier_address_integer }}"
@@ -212,7 +212,7 @@
 
 #     - name: Test IGMP global querier version validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_querier_version_invalid }}"
@@ -231,7 +231,7 @@
 
 #     - name: Test IGMP global querier version validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_querier_version_integer }}"
@@ -250,7 +250,7 @@
 
 #     - name: Test IGMP global query interval validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_query_interval_string }}"
@@ -269,7 +269,7 @@
 
 #     - name: Test IGMP global query interval validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_query_interval_boolean }}"
@@ -288,7 +288,7 @@
 
 #     - name: Test IGMP global query interval validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_query_interval_min }}"
@@ -307,7 +307,7 @@
 
 #     - name: Test IGMP global query interval validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_global_query_interval_max }}"
@@ -330,7 +330,7 @@
 
 #     - name: Test IGMP VLAN ID validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_id_string }}"
@@ -349,7 +349,7 @@
 
 #     - name: Test IGMP VLAN ID validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_id_negative }}"
@@ -368,7 +368,7 @@
 
 #     - name: Test IGMP VLAN ID validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_id_max }}"
@@ -387,7 +387,7 @@
 
 #     - name: Test IGMP VLAN ID validation - zero value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_id_zero }}"
@@ -406,7 +406,7 @@
 
 #     - name: Test missing required IGMP VLAN ID
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_id_missing }}"
@@ -425,7 +425,7 @@
 
 #     - name: Test IGMP VLAN enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_enabled_string }}"
@@ -444,7 +444,7 @@
 
 #     - name: Test IGMP VLAN enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_enabled_integer }}"
@@ -463,7 +463,7 @@
 
 #     - name: Test IGMP VLAN querier enabled validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_querier_enabled_string }}"
@@ -482,7 +482,7 @@
 
 #     - name: Test IGMP VLAN querier enabled validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_querier_enabled_integer }}"
@@ -501,7 +501,7 @@
 
 #     - name: Test IGMP VLAN querier address validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_querier_address_integer }}"
@@ -520,7 +520,7 @@
 
 #     - name: Test IGMP VLAN querier version validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_querier_version_invalid }}"
@@ -539,7 +539,7 @@
 
 #     - name: Test IGMP VLAN query interval validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_query_interval_string }}"
@@ -558,7 +558,7 @@
 
 #     - name: Test IGMP VLAN query interval validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_query_interval_min }}"
@@ -577,7 +577,7 @@
 
 #     - name: Test IGMP VLAN query interval validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_query_interval_max }}"
@@ -596,7 +596,7 @@
 
 #     - name: Test IGMP VLAN mrouter port list validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_mrouter_port_list_string }}"
@@ -619,7 +619,7 @@
 
 #     - name: Test IGMP configuration validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_invalid_dict_type }}"
@@ -638,7 +638,7 @@
 
 #     - name: Test IGMP configuration validation - list instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_invalid_list_type }}"
@@ -657,7 +657,7 @@
 
 #     - name: Test IGMP VLANs validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlans_invalid_string }}"
@@ -676,7 +676,7 @@
 
 #     - name: Test IGMP VLANs validation - dictionary instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlans_invalid_dict }}"
@@ -695,7 +695,7 @@
 
 #     - name: Test IGMP VLAN item validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_vlan_invalid_dict_type }}"
@@ -721,7 +721,7 @@
 
 #     - name: Create IGMP snooping configuration with global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_create_global_only }}"
@@ -744,7 +744,7 @@
 
 #     - name: Create IGMP snooping configuration with VLANs only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_create_vlans_only }}"
@@ -767,7 +767,7 @@
 
 #     - name: Create IGMP snooping configuration with single VLAN
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_create_single_vlan }}"
@@ -790,7 +790,7 @@
 
 #     - name: Create IGMP snooping configuration with global and VLANs
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_create_global_and_vlans }}"
@@ -813,7 +813,7 @@
 
 #     - name: Create IGMP snooping configuration with minimal VLAN parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_create_minimal_vlan }}"
@@ -836,7 +836,7 @@
 
 #     - name: Create IGMP snooping configuration with multiple VLANs - different settings
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_create_multiple_vlans_different_settings }}"
@@ -863,7 +863,7 @@
 
 #     - name: Update IGMP snooping global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_update_global_only }}"
@@ -886,7 +886,7 @@
 
 #     - name: Update IGMP snooping by modifying existing VLANs
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_update_modify_vlans }}"
@@ -909,7 +909,7 @@
 
 #     - name: Update IGMP snooping global and VLANs together
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_update_global_and_vlans }}"
@@ -932,7 +932,7 @@
 
 #     - name: Update IGMP snooping single VLAN
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ igmp_vars_map.test_igmp_update_single_vlan }}"

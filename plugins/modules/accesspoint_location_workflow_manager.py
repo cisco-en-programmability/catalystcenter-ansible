@@ -210,7 +210,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -631,7 +631,7 @@ response_unassign_real_position:
 """
 
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_str,
 )
@@ -3957,7 +3957,7 @@ def main():
     state = ccc_ap_location.params.get("state")
 
     if (
-        ccc_ap_location.compare_dnac_versions(
+        ccc_ap_location.compare_catalystcenter_versions(
             ccc_ap_location.get_ccc_version(), "3.1.3.0"
         )
         < 0

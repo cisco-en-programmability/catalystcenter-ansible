@@ -1134,7 +1134,7 @@ response_2:
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1570,7 +1570,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             "authentication_template_name",
             "interface_description",
         }
-        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
             valid_params.add("allowed_vlan_ranges")
             valid_params.add("native_vlan_id")
 
@@ -2514,7 +2514,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         interface_name, connected_device_type
                     )
                     self.validate_device_specific_params(interface)
-                    if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+                    if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
                         self.log("Validating native VLAN and ranges.", "DEBUG")
                         self.validate_native_vlan_and_ranges_for_port_assignment(
                             interface
@@ -2533,7 +2533,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     self.validate_port_channel_connected_device_type(port_channel)
                     self.validate_port_channel_protocol(port_channel)
                     self.validate_port_channel_interfaces(port_channel)
-                    if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+                    if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
                         self.log("Validating native VLAN and ranges.", "DEBUG")
                         self.validate_native_vlan_and_ranges_for_port_channel(
                             port_channel
@@ -3110,7 +3110,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             ("interfaceDescription", "interface_description"),
             ("securityGroupName", "security_group_name"),
         ]
-        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
             new_fields = [
                 ("nativeVlanId", "native_vlan_id"),
                 ("allowedVlanRanges", "allowed_vlan_ranges"),
@@ -3474,7 +3474,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
             device_type = interface.get("connected_device_type")
             if (
-                self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
                 and device_type == "TRUNKING_DEVICE"
             ):
                 interface_params["nativeVlanId"] = interface.get("native_vlan_id", 1)
@@ -3558,7 +3558,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
             device_type = interface.get("connected_device_type")
             if (
-                self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
                 and device_type == "TRUNKING_DEVICE"
             ):
                 interface_params["nativeVlanId"] = interface.get(
@@ -3725,7 +3725,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
             ("protocol", "protocol"),
             ("description", "port_channel_description"),
         ]
-        if self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
             new_fields = [
                 ("nativeVlanId", "native_vlan_id"),
                 ("allowedVlanRanges", "allowed_vlan_ranges"),
@@ -4068,7 +4068,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 port_channel_params["description"] = port_channel_description
 
             if (
-                self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
                 and connected_device_type.upper() == "TRUNK"
             ):
                 port_channel_params["nativeVlanId"] = port_channel.get(
@@ -4140,7 +4140,7 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 port_channel_params["description"] = port_channel_description
 
             if (
-                self.compare_dnac_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
                 and connected_device_type.upper() == "TRUNK"
             ):
                 port_channel_params["nativeVlanId"] = port_channel.get(
@@ -7760,7 +7760,7 @@ def main():
         ccc_sda_host_port_onboarding.get_ccc_version()
     )
     if (
-        ccc_sda_host_port_onboarding.compare_dnac_versions(
+        ccc_sda_host_port_onboarding.compare_catalystcenter_versions(
             ccc_sda_host_port_onboarding.current_version, "2.3.7.6"
         )
         < 0

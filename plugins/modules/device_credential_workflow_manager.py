@@ -3326,7 +3326,7 @@ class DeviceCredential(CatalystCenterBase):
         )
 
         site_ids = self.want.get("site_id")
-        if self.compare_dnac_versions(current_version, "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(current_version, "2.3.7.6") >= 0:
 
             site_exists, global_site_id = self.get_site_id("Global")
             if global_site_id in site_ids:
@@ -3399,7 +3399,7 @@ class DeviceCredential(CatalystCenterBase):
                 "Processing credential assignment for site ID: {0}".format(site_id),
                 "INFO",
             )
-            if self.compare_dnac_versions(current_version, "2.3.5.3") <= 0:
+            if self.compare_catalystcenter_versions(current_version, "2.3.5.3") <= 0:
                 credential_params_template.update({"site_id": site_id})
                 final_response.append(copy.deepcopy(credential_params_template))
                 response = self.catalystcenter._exec(
@@ -4170,7 +4170,7 @@ def main():
     MIN_SUPPORTED_VERSION = "2.3.5.3"
     current_version = ccc_credential.get_ccc_version()
 
-    if ccc_credential.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) < 0:
+    if ccc_credential.compare_catalystcenter_versions(current_version, MIN_SUPPORTED_VERSION) < 0:
         ccc_credential.msg = """The specified version '{0}' does not support the device_credential_workflow features.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_credential.get_ccc_version()

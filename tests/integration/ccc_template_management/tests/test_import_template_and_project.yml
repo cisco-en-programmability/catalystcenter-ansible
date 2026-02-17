@@ -8,16 +8,16 @@
       file: "{{ role_path }}/vars/vars_import_template_and_project.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      catalyst_login: &catalyst_login
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
         config_verify: true
 
   # - debug:
@@ -38,7 +38,7 @@
 
   - name: Clean up template before test
     cisco.dnac.template_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -46,7 +46,7 @@
 
   # - name: Clean up project before test
   #   cisco.dnac.template_workflow_manager:
-  #     <<: *dnac_login
+  #     <<: *catalyst_login
   #     state: deleted
   #     config:
   #         - "{{ item }}"
@@ -58,7 +58,7 @@
 
 #   - name: Import project from import_project_details
 #     cisco.dnac.template_workflow_manager:
-#       <<: *dnac_login
+#       <<: *catalyst_login
 #       state: merged
 #       config:
 #           - "{{ item }}"
@@ -86,7 +86,7 @@
 
   - name: Import template from import_template_details
     cisco.dnac.template_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -114,7 +114,7 @@
 
   - name: Clean up template before test
     cisco.dnac.template_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -122,7 +122,7 @@
 
   # - name: Clean up project before test
   #   cisco.dnac.template_workflow_manager:
-  #     <<: *dnac_login
+  #     <<: *catalyst_login
   #     state: deleted
   #     config:
   #         - "{{ item }}"
