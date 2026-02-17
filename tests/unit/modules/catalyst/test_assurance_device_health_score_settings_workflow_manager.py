@@ -17,23 +17,28 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_device_health_score_settings_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    assurance_device_health_score_settings_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacHealthscoreWorkflow(TestDnacModule):
     module = assurance_device_health_score_settings_workflow_manager
-    test_data = loadPlaybookData("assurance_device_health_score_settings_workflow_manager")
+    test_data = loadPlaybookData(
+        "assurance_device_health_score_settings_workflow_manager"
+    )
     playbook_config_updation = test_data.get("playbook_config_updation")
 
     def setUp(self):
         super(TestDnacHealthscoreWorkflow, self).setUp()
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
@@ -104,17 +109,19 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_config_updation
+                config=self.playbook_config_updation,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        print(result['response'][0]['device_health_score_settings']['msg'])
+        print(result["response"][0]["device_health_score_settings"]["msg"])
         self.assertEqual(
-            result['response'][0]['device_health_score_settings']['msg'],
-            {'linkDiscardThreshold': 'Health score settings do not require an update'}
+            result["response"][0]["device_health_score_settings"]["msg"],
+            {"linkDiscardThreshold": "Health score settings do not require an update"},
         )
 
-    def test_device_health_score_settings_workflow_manager_error_fetching_KPI_detail(self):
+    def test_device_health_score_settings_workflow_manager_error_fetching_KPI_detail(
+        self,
+    ):
         """
         Test case for Device health score settings workflow manager when an error occurs during fetching KPI detail.
 
@@ -131,14 +138,14 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config_verify=True,
-                config=self.playbook_config_updation
+                config=self.playbook_config_updation,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result['response'])
+        print(result["response"])
         self.assertEqual(
-            result['response'],
-            "No matching KPI details found for device family 'ROUTER'"
+            result["response"],
+            "No matching KPI details found for device family 'ROUTER'",
         )
 
     def test_device_health_score_settings_workflow_manager_updation(self):
@@ -158,14 +165,14 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config_verify=True,
-                config=self.playbook_config_updation
+                config=self.playbook_config_updation,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result['response'][0]['device_health_score_settings']['msg'])
+        print(result["response"][0]["device_health_score_settings"]["msg"])
         self.assertEqual(
-            result['response'][0]['device_health_score_settings']['msg'],
-            {'linkDiscardThreshold': 'Health score settings updated Successfully'}
+            result["response"][0]["device_health_score_settings"]["msg"],
+            {"linkDiscardThreshold": "Health score settings updated Successfully"},
         )
 
     def test_device_health_score_settings_workflow_manager_verification_failure(self):
@@ -185,17 +192,19 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_config_updation
+                config=self.playbook_config_updation,
             )
         )
         result = self.execute_module(changed=True, failed=True)
-        print(result['response'])
+        print(result["response"])
         self.assertEqual(
-            result['response'],
-            "Assurance Health score Config is not applied to the Cisco Catalyst Center"
+            result["response"],
+            "Assurance Health score Config is not applied to the Cisco Catalyst Center",
         )
 
-    def test_device_health_score_settings_workflow_manager_catalystcenter_version_check(self):
+    def test_device_health_score_settings_workflow_manager_catalystcenter_version_check(
+        self,
+    ):
         """
         Test case for Device health score settings workflow manager when an error with dnac version before 2.3.7.9.
 
@@ -212,12 +221,12 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 state="merged",
                 catalystcenter_version="2.3.7.6",
                 config_verify=True,
-                config=self.playbook_config_updation
+                config=self.playbook_config_updation,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["msg"])
         self.assertEqual(
             result["msg"],
-            "The specified version '2.3.7.6' does not support the Assurance Health Score features. Supported versions start from '2.3.7.9' onwards."
+            "The specified version '2.3.7.6' does not support the Assurance Health Score features. Supported versions start from '2.3.7.9' onwards.",
         )

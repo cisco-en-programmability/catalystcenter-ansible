@@ -3,6 +3,7 @@
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -689,7 +690,7 @@ dnac_response2:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -1307,8 +1308,10 @@ class DnacCredential(CatalystCenterBase):
                             and item.get("username") == httpsReadOldUsername
                         ):
                             if httpsReadDetail:
-                                self.msg = "More than one httpsRead credential with same \
+                                self.msg = (
+                                    "More than one httpsRead credential with same \
                                             old_description and old_username. Pass ID."
+                                )
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1326,8 +1329,10 @@ class DnacCredential(CatalystCenterBase):
                             and item.get("username") == httpsReadUsername
                         ):
                             if httpsReadDetail:
-                                self.msg = "More than one httpsRead credential with same \
+                                self.msg = (
+                                    "More than one httpsRead credential with same \
                                             description and username. Pass ID."
+                                )
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1380,8 +1385,10 @@ class DnacCredential(CatalystCenterBase):
                             and item.get("username") == httpsWriteOldUsername
                         ):
                             if httpsWriteDetail:
-                                self.msg = "More than one httpsWrite credential with same \
+                                self.msg = (
+                                    "More than one httpsWrite credential with same \
                                             old_description and old_username. Pass ID"
+                                )
                                 self.status = "failed"
                                 return self
                             httpsWriteDetail = item
@@ -1512,9 +1519,7 @@ class DnacCredential(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        self.msg = (
-            "Collected the Global Device Credential Details from the Cisco Catalyst Center"
-        )
+        self.msg = "Collected the Global Device Credential Details from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -1575,12 +1580,8 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = (
-                                values[i]
-                                + " is mandatory for creating \
-                                       cliCredential "
-                                + str(have_cli_ptr)
-                            )
+                            self.msg = values[i] + " is mandatory for creating \
+                                       cliCredential " + str(have_cli_ptr)
                             self.status = "failed"
                             return self
 
@@ -1599,11 +1600,8 @@ class DnacCredential(CatalystCenterBase):
                             {"password": item.get("password")}
                         )
                     else:
-                        self.msg = (
-                            "password is mandatory for udpating \
-                                   cliCredential "
-                            + str(have_cli_ptr)
-                        )
+                        self.msg = "password is mandatory for udpating \
+                                   cliCredential " + str(have_cli_ptr)
                         self.status = "failed"
                         return self
 
@@ -1651,12 +1649,8 @@ class DnacCredential(CatalystCenterBase):
                                 {keys[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = (
-                                values[i]
-                                + " is mandatory for creating \
-                                       snmpV2cRead "
-                                + str(have_snmpv2cread_ptr)
-                            )
+                            self.msg = values[i] + " is mandatory for creating \
+                                       snmpV2cRead " + str(have_snmpv2cread_ptr)
                             self.status = "failed"
                             return self
                     create_snmpv2cread_ptr = create_snmpv2cread_ptr + 1
@@ -1670,11 +1664,8 @@ class DnacCredential(CatalystCenterBase):
                             {"readCommunity": item.get("read_community")}
                         )
                     else:
-                        self.msg = (
-                            "read_community is mandatory for updating \
-                                   snmpV2cRead "
-                            + str(have_snmpv2cread_ptr)
-                        )
+                        self.msg = "read_community is mandatory for updating \
+                                   snmpV2cRead " + str(have_snmpv2cread_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
@@ -1716,12 +1707,8 @@ class DnacCredential(CatalystCenterBase):
                                 {keys[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = (
-                                values[i]
-                                + " is mandatory for creating \
-                                       snmpV2cWrite "
-                                + str(have_snmpv2cwrite_ptr)
-                            )
+                            self.msg = values[i] + " is mandatory for creating \
+                                       snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
                             self.status = "failed"
                             return self
                     create_snmpv2cwrite_ptr = create_snmpv2cwrite_ptr + 1
@@ -1735,11 +1722,8 @@ class DnacCredential(CatalystCenterBase):
                             {"writeCommunity": item.get("write_community")}
                         )
                     else:
-                        self.msg = (
-                            "write_community is mandatory for updating \
-                                   snmpV2cWrite "
-                            + str(have_snmpv2cwrite_ptr)
-                        )
+                        self.msg = "write_community is mandatory for updating \
+                                   snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
@@ -1783,12 +1767,8 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = (
-                                values[i]
-                                + " is mandatory for creating \
-                                       httpsRead "
-                                + str(have_httpsread_ptr)
-                            )
+                            self.msg = values[i] + " is mandatory for creating \
+                                       httpsRead " + str(have_httpsread_ptr)
                             self.status = "failed"
                             return self
                     if item.get("port"):
@@ -1808,11 +1788,8 @@ class DnacCredential(CatalystCenterBase):
                             {"password": item.get("password")}
                         )
                     else:
-                        self.msg = (
-                            "password is mandatory for updating \
-                                   httpsRead "
-                            + str(have_httpsread_ptr)
-                        )
+                        self.msg = "password is mandatory for updating \
+                                   httpsRead " + str(have_httpsread_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1850,12 +1827,8 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = (
-                                values[i]
-                                + " is mandatory for creating \
-                                       httpsWrite "
-                                + str(have_httpswrite_ptr)
-                            )
+                            self.msg = values[i] + " is mandatory for creating \
+                                       httpsWrite " + str(have_httpswrite_ptr)
                             self.status = "failed"
                             return self
                     if item.get("port"):
@@ -1875,11 +1848,8 @@ class DnacCredential(CatalystCenterBase):
                             {"password": item.get("password")}
                         )
                     else:
-                        self.msg = (
-                            "password is mandatory for updating \
-                                   httpsRead "
-                            + str(have_httpswrite_ptr)
-                        )
+                        self.msg = "password is mandatory for updating \
+                                   httpsRead " + str(have_httpswrite_ptr)
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1917,12 +1887,8 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = (
-                                values[i]
-                                + " is mandatory for creating \
-                                       snmpV3 "
-                                + str(have_snmpv3_ptr)
-                            )
+                            self.msg = values[i] + " is mandatory for creating \
+                                       snmpV3 " + str(have_snmpv3_ptr)
                             self.status = "failed"
                             return self
                     if item.get("snmp_mode"):
@@ -1950,12 +1916,8 @@ class DnacCredential(CatalystCenterBase):
                                     {keys[auth]: item.get(auth)}
                                 )
                             else:
-                                self.msg = (
-                                    auth
-                                    + " is mandatory for creating \
-                                           snmpV3 "
-                                    + str(have_snmpv3_ptr)
-                                )
+                                self.msg = auth + " is mandatory for creating \
+                                           snmpV3 " + str(have_snmpv3_ptr)
                                 self.status = "failed"
                                 return self
                         if len(item.get("auth_password")) < 8:
@@ -1983,12 +1945,8 @@ class DnacCredential(CatalystCenterBase):
                                     {key[priv]: item.get(priv)}
                                 )
                             else:
-                                self.msg = (
-                                    priv
-                                    + " is mandatory for creating \
-                                           snmpV3 "
-                                    + str(have_snmpv3_ptr)
-                                )
+                                self.msg = priv + " is mandatory for creating \
+                                           snmpV3 " + str(have_snmpv3_ptr)
                                 self.status = "failed"
                                 return self
                         if len(item.get("privacy_password")) < 8:
@@ -2353,9 +2311,7 @@ class DnacCredential(CatalystCenterBase):
                 )
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
-        self.msg = (
-            "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
-        )
+        self.msg = "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
         self.status = "success"
         return self
 
@@ -2914,7 +2870,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

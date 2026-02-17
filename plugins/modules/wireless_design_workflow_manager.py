@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage wireless design operations in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -7204,7 +7205,7 @@ response_2:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -25097,7 +25098,7 @@ class WirelessDesign(CatalystCenterBase):
             "INFO",
         )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             self.log("Using 'execute_get_request' for version <= 2.3.7.9", "DEBUG")
             # Execute the GET request to retrieve anchor groups
             api_response = self.execute_get_request(
@@ -28581,7 +28582,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -28598,7 +28602,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_wireless_design = WirelessDesign(module)
     if (
-        ccc_wireless_design.compare_dnac_versions(
+        ccc_wireless_design.compare_catalystcenter_versions(
             ccc_wireless_design.get_ccc_version(), "2.3.7.9"
         )
         < 0

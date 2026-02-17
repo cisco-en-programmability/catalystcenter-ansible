@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Updating Access Point Site / Configuration details
       cisco.catalystcenter.accesspoint_workflow_manager:

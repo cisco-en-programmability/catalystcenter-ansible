@@ -2247,10 +2247,10 @@ import json
 import time
 import re
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
     validate_str,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.network_profiles import (
@@ -2529,7 +2529,7 @@ class Template(NetworkProfileFunctions):
             )
 
             if profile_names and isinstance(profile_names, list):
-                if self.compare_dnac_versions(ccc_version, "3.1.3.0") < 0:
+                if self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") < 0:
                     msg = (
                         "Profile assignment feature is not supported in Cisco Catalyst Center version '{0}'. "
                         "Supported versions start from '3.1.3.0' onwards. Current configuration includes "
@@ -2887,7 +2887,7 @@ class Template(NetworkProfileFunctions):
         )
         template_details = None
         try:
-            items = self.dnac_apply["exec"](
+            items = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="get_templates_details",
                 op_modifies=True,
@@ -3238,7 +3238,7 @@ class Template(NetworkProfileFunctions):
         """
 
         result = None
-        items = self.dnac_apply["exec"](
+        items = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="get_template_details",
             op_modifies=True,
@@ -3279,7 +3279,7 @@ class Template(NetworkProfileFunctions):
         )
         template_id = None
         try:
-            template_list = self.dnac_apply["exec"](
+            template_list = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
@@ -3472,7 +3472,7 @@ class Template(NetworkProfileFunctions):
         have_template["id"] = template_details.get("id")
         project_name = config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
-        template_list = self.dnac_apply["exec"](
+        template_list = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
@@ -4014,7 +4014,7 @@ class Template(NetworkProfileFunctions):
         )
         ccc_version = self.get_ccc_version()
 
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 "Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(
                     project_name
@@ -4022,7 +4022,7 @@ class Template(NetworkProfileFunctions):
                 "DEBUG",
             )
 
-            items = self.dnac_apply["exec"](
+            items = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="get_projects",
                 op_modifies=True,
@@ -4042,7 +4042,7 @@ class Template(NetworkProfileFunctions):
                 ),
                 "DEBUG",
             )
-            items = self.dnac_apply["exec"](
+            items = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="get_projects_details",
                 op_modifies=True,
@@ -4094,7 +4094,7 @@ class Template(NetworkProfileFunctions):
                 self.update_mandatory_parameters(template_params)
 
             ccc_version = self.get_ccc_version()
-            if self.compare_dnac_versions(
+            if self.compare_catalystcenter_versions(
                 ccc_version, "3.1.3.0"
             ) >= 0 and configuration_templates.get("profile_names"):
                 want["profile_names"] = configuration_templates.get("profile_names")
@@ -4523,7 +4523,7 @@ class Template(NetworkProfileFunctions):
             validation_string = "Successfully created template"
             creation_value = "create_template"
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function=creation_value,
             op_modifies=True,
@@ -4609,7 +4609,7 @@ class Template(NetworkProfileFunctions):
         Determines if an update is required for 'containingTemplates' based on 'name' and 'projectName' fields.
 
         Returns True if any requested containing template is missing from the current list,
-        or if any present template differs in any field (using dnac_compare_equality).
+        or if any present template differs in any field (using catalystcenter_compare_equality).
 
         Args:
             current_obj (dict): The current template object (should contain 'containingTemplates' key).
@@ -4655,7 +4655,7 @@ class Template(NetworkProfileFunctions):
                 )
                 return True
 
-            if not dnac_compare_equality(current_dict[req_key], req):
+            if not catalystcenter_compare_equality(current_dict[req_key], req):
                 self.log(
                     "Containing template '{0}' in project '{1}' differs. Current: {2} | Requested: {3}".format(
                         req_name, req_project, current_dict[req_key], req
@@ -4713,7 +4713,7 @@ class Template(NetworkProfileFunctions):
         ]
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param, default) in obj_params
@@ -4898,7 +4898,7 @@ class Template(NetworkProfileFunctions):
                 ),
                 "DEBUG",
             )
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="version_template",
                 op_modifies=True,
@@ -5013,7 +5013,7 @@ class Template(NetworkProfileFunctions):
         )
         is_template_uncommitted = True
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
@@ -5895,7 +5895,7 @@ class Template(NetworkProfileFunctions):
         )
         site_uuid = None
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="site_design",
                 function="get_site_assigned_network_device",
                 params={"id": device_id},
@@ -7073,14 +7073,14 @@ class Template(NetworkProfileFunctions):
             deletion_value = "deletes_the_template"
             name = "templateName: {0}".format(template_params.get("name"))
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.5.3") <= 0:
             self.log(
                 "Deleting '{0}' using function '{1}' with parameters: {2} on Catalyst version: {3} (≤ 2.3.5.3)".format(
                     name, deletion_value, params_key, ccc_version
                 ),
                 "DEBUG",
             )
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function=deletion_value,
                 op_modifies=True,
@@ -7150,7 +7150,7 @@ class Template(NetworkProfileFunctions):
             current_profiles = self.have.get("current_profile", [])
             if (
                 current_profiles
-                and self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0
+                and self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") >= 0
             ):
                 template_name = self.want.get("template_params").get("name")
                 self.log("Detaching profile from template", "DEBUG")
@@ -7522,7 +7522,7 @@ class Template(NetworkProfileFunctions):
         if config.get("configuration_templates") is not None:
             self.log("Current State (have): {0}".format(self.have), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            template_list = self.dnac_apply["exec"](
+            template_list = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=True,
@@ -7624,7 +7624,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
@@ -7637,7 +7640,7 @@ def main():
     ccc_template = Template(module)
 
     ccc_version = ccc_template.get_ccc_version()
-    if ccc_template.compare_dnac_versions(ccc_version, "2.3.7.6") < 0:
+    if ccc_template.compare_catalystcenter_versions(ccc_version, "2.3.7.6") < 0:
         ccc_template.msg = (
             "Template module is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
             "from '2.3.7.6' onwards.".format(ccc_version)

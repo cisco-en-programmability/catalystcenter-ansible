@@ -343,7 +343,7 @@ EXAMPLES = r"""
 - name: Configure NFS backup server for enterprise data protection
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
     - "backup_secrets.yml"
   connection: local
   gather_facts: false
@@ -375,7 +375,7 @@ EXAMPLES = r"""
 - name: Configure backup target for automated data protection workflow
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
     - "backup_secrets.yml"
   connection: local
   gather_facts: false
@@ -411,7 +411,7 @@ EXAMPLES = r"""
 - name: Create backup for automated network infrastructure backup
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -439,7 +439,7 @@ EXAMPLES = r"""
 - name: Restore backup for disaster recovery and data restoration
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
     - "backup_secrets.yml"
   connection: local
   gather_facts: false
@@ -468,7 +468,7 @@ EXAMPLES = r"""
 - name: Remove NFS configuration from backup infrastructure
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -496,7 +496,7 @@ EXAMPLES = r"""
 - name: Remove backup from automated backup operations
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -523,7 +523,7 @@ EXAMPLES = r"""
 - name: Remove old backups using retention-based cleanup with name filtering
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -551,7 +551,7 @@ EXAMPLES = r"""
 - name: Remove all old backups using retention policy
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -578,7 +578,7 @@ EXAMPLES = r"""
 - name: Remove all backups from Cisco Catalyst Center
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -605,7 +605,7 @@ EXAMPLES = r"""
 - name: Complete backup and restore workflow for enterprise infrastructure
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -649,7 +649,7 @@ EXAMPLES = r"""
 - name: Configure multiple NFS servers for backup redundancy
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -685,7 +685,7 @@ EXAMPLES = r"""
 - name: Create automated backup with timestamp for unique identification
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -844,7 +844,7 @@ response_operation_failed:
 
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
@@ -3916,7 +3916,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -3935,7 +3938,9 @@ def main():
     min_supported_version = "3.1.3.0"
 
     if (
-        ccc_backup_restore.compare_dnac_versions(current_version, min_supported_version)
+        ccc_backup_restore.compare_catalystcenter_versions(
+            current_version, min_supported_version
+        )
         < 0
     ):
         ccc_backup_restore.status = "failed"

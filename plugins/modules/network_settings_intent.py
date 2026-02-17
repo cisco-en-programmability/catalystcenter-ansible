@@ -3,6 +3,7 @@
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on global pool, reserve pool and network in DNAC."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -528,11 +529,11 @@ response_3:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
 )
 
 
@@ -728,7 +729,7 @@ class NetworkSettings(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param) in obj_params
@@ -2109,7 +2110,11 @@ class NetworkSettings(CatalystCenterBase):
                 "INFO",
             )
             result_reserve_pool.get("response").get(name).update(
-                {"Cisco Catalyst Center params": self.have.get("reservePool").get("details")}
+                {
+                    "Cisco Catalyst Center params": self.have.get("reservePool").get(
+                        "details"
+                    )
+                }
             )
             result_reserve_pool.get("response").get(name).update(
                 {"Id": self.have.get("reservePool").get("id")}
@@ -2560,7 +2565,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

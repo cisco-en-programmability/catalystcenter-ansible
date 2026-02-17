@@ -3,6 +3,7 @@
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on project and templates in DNAC."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1453,11 +1454,11 @@ response_5:
 
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
-    dnac_compare_equality,
+    catalystcenter_compare_equality,
 )
 
 
@@ -2067,7 +2068,7 @@ class DnacTemplate(CatalystCenterBase):
         """
 
         result = None
-        items = self.dnac_apply["exec"](
+        items = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="get_template_details",
             op_modifies=True,
@@ -2167,7 +2168,7 @@ class DnacTemplate(CatalystCenterBase):
         config["templateId"] = template_details.get("id")
         have_template["id"] = template_details.get("id")
         # Get available templates which are committed under the project
-        template_list = self.dnac_apply["exec"](
+        template_list = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
@@ -2241,7 +2242,7 @@ class DnacTemplate(CatalystCenterBase):
             items (dict) - Project details with given project name.
         """
 
-        items = self.dnac_apply["exec"](
+        items = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="get_projects",
             op_modifies=True,
@@ -2312,7 +2313,7 @@ class DnacTemplate(CatalystCenterBase):
             validation_string = "Successfully created template"
             creation_value = "create_template"
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function=creation_value,
             op_modifies=True,
@@ -2447,7 +2448,7 @@ class DnacTemplate(CatalystCenterBase):
         ]
 
         return any(
-            not dnac_compare_equality(
+            not catalystcenter_compare_equality(
                 current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
             )
             for (dnac_param, ansible_param, default) in obj_params
@@ -2626,7 +2627,7 @@ class DnacTemplate(CatalystCenterBase):
                         "Current State (have): {0}".format(self.have_template), "INFO"
                     )
                     self.log("Desired State (want): {0}".format(self.want), "INFO")
-                    response = self.dnac_apply["exec"](
+                    response = self.catalystcenter_apply["exec"](
                         family="configuration_templates",
                         function="update_template",
                         op_modifies=True,
@@ -2663,7 +2664,7 @@ class DnacTemplate(CatalystCenterBase):
                     "comments": self.want.get("comments"),
                     "templateId": template_id,
                 }
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="configuration_templates",
                     function="version_template",
                     op_modifies=True,
@@ -2885,7 +2886,7 @@ class DnacTemplate(CatalystCenterBase):
             deletion_value = "deletes_the_template"
             name = "templateName: {0}".format(template_params.get("templateName"))
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function=deletion_value,
             op_modifies=True,
@@ -3035,7 +3036,7 @@ class DnacTemplate(CatalystCenterBase):
         if config.get("configuration_templates") is not None:
             self.log("Current State (have): {0}".format(self.have), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            template_list = self.dnac_apply["exec"](
+            template_list = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=True,
@@ -3096,7 +3097,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},

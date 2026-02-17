@@ -497,7 +497,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Enable application telemetry on specified
         network devices
@@ -527,7 +527,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Disable application telemetry on specified
         network devices
@@ -616,7 +616,7 @@ response_3:
 import time
 import re
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -877,7 +877,7 @@ class Provision(CatalystCenterBase):
           type of the device.
         """
         try:
-            dev_response = self.dnac_apply["exec"](
+            dev_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": self.validated_config["management_ip_address"]},
@@ -936,7 +936,7 @@ class Provision(CatalystCenterBase):
           UUID of the device.
         """
         try:
-            dev_response = self.dnac_apply["exec"](
+            dev_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": self.validated_config["management_ip_address"]},
@@ -992,7 +992,7 @@ class Provision(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            dev_response = self.dnac_apply["exec"](
+            dev_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": self.validated_config["management_ip_address"]},
@@ -1058,7 +1058,7 @@ class Provision(CatalystCenterBase):
         result = False
         params = {"task_id": task_id}
         while True:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="task", function="get_task_by_id", params=params
             )
             self.log(
@@ -1116,7 +1116,7 @@ class Provision(CatalystCenterBase):
         result = False
         params = {"execution_id": execution_id}
         while True:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="task",
                 function="get_business_api_execution_details",
                 params=params,
@@ -1172,7 +1172,7 @@ class Provision(CatalystCenterBase):
         """
 
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": site_name_hierarchy},
@@ -1180,9 +1180,7 @@ class Provision(CatalystCenterBase):
         except Exception:
             self.log(
                 "Exception occurred as \
-                site '{0}' was not found".format(
-                    site_name_hierarchy
-                ),
+                site '{0}' was not found".format(site_name_hierarchy),
                 "CRITICAL",
             )
             self.module.fail_json(msg="Site not found", response=[])
@@ -1190,9 +1188,7 @@ class Provision(CatalystCenterBase):
         if response:
             self.log(
                 "Received site details\
-                for '{0}': {1}".format(
-                    site_name_hierarchy, str(response)
-                ),
+                for '{0}': {1}".format(site_name_hierarchy, str(response)),
                 "DEBUG",
             )
             site = response.get("response")
@@ -1226,7 +1222,7 @@ class Provision(CatalystCenterBase):
             "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
         )
         try:
-            site_response = self.dnac_apply["exec"](
+            site_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_device_detail",
                 params={"search_by": uuid, "identifier": "uuid"},
@@ -1265,7 +1261,7 @@ class Provision(CatalystCenterBase):
             "Checking site assignment for device with UUID: {0}".format(uuid), "INFO"
         )
         try:
-            site_api_response = self.dnac_apply["exec"](
+            site_api_response = self.catalystcenter_apply["exec"](
                 family="site_design",
                 function="get_site_assigned_network_device",
                 params={"id": uuid},
@@ -1317,7 +1313,7 @@ class Provision(CatalystCenterBase):
         )
 
         try:
-            site_response = self.dnac_apply["exec"](
+            site_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_device_detail",
                 params={"search_by": uuid, "identifier": "uuid"},
@@ -1366,7 +1362,7 @@ class Provision(CatalystCenterBase):
 
         site_name = self.validated_config.get("site_name_hierarchy")
 
-        (site_exits, site_id) = self.get_site_id(site_name)
+        site_exits, site_id = self.get_site_id(site_name)
 
         if site_exits is False:
             msg = "Site {0} doesn't exist".format(site_name)
@@ -1440,7 +1436,7 @@ class Provision(CatalystCenterBase):
 
         self.floor_names = []
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             for ap_loc in ap_locations:
                 self.log("Processing AP location: {0}".format(ap_loc), "DEBUG")
                 site_type = self.get_site_type(site_name_hierarchy=ap_loc)
@@ -1556,7 +1552,7 @@ class Provision(CatalystCenterBase):
                 self.validated_config.get("authorize_mesh_and_non_mesh_aps")
             )
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="devices",
             function="get_network_device_by_ip",
             params={"ip_address": self.validated_config["management_ip_address"]},
@@ -1844,7 +1840,7 @@ class Provision(CatalystCenterBase):
         )
 
         try:
-            ft_response = self.dnac_apply["exec"](
+            ft_response = self.catalystcenter_apply["exec"](
                 family="wireless",
                 function="get_feature_template_summary",
                 params={"designName": design_name},
@@ -1979,7 +1975,12 @@ class Provision(CatalystCenterBase):
             "Current Catalyst Center version is {0}".format(current_version), "DEBUG"
         )
         if application_telemetry:
-            if self.compare_dnac_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
+            if (
+                self.compare_catalystcenter_versions(
+                    current_version, MIN_SUPPORTED_VERSION
+                )
+                >= 0
+            ):
                 self.log(
                     "Current Catalyst Center version ({0}) supports application telemetry.".format(
                         current_version
@@ -2069,7 +2070,7 @@ class Provision(CatalystCenterBase):
 
         try:
             headers_payload = {"__persistbapioutput": "true"}
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="wireless",
                 function="provision_update",
                 op_modifies=True,
@@ -2123,7 +2124,7 @@ class Provision(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            status_response = self.dnac_apply["exec"](
+            status_response = self.catalystcenter_apply["exec"](
                 family="sda",
                 function="get_provisioned_wired_device",
                 params={"device_management_ip_address": device_management_ip},
@@ -2183,7 +2184,7 @@ class Provision(CatalystCenterBase):
                     - Checks the current provisioning status.
                     - If already provisioned and `force_provisioning` is not enabled, logs a message and exits.
                     - Otherwise, it proceeds with provisioning using `provision_wireless_device()`.
-            - Applies version-based checks using `compare_dnac_versions()`:
+            - Applies version-based checks using `compare_catalystcenter_versions()`:
                 - Devices running ≤ 2.3.5.3 always follow this provisioning logic.
                 - Wireless devices running ≥ 2.3.7.6 also follow this logic.
             - If these conditions are not met, bulk provisioning for wired devices is handled via `provision_bulk_wired_device()`.
@@ -2198,8 +2199,8 @@ class Provision(CatalystCenterBase):
         # - If DNAC version is ≤ 2.3.5.3, always proceed with provisioning logic.
         # - If DNAC version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
 
-        if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0 or (
-            self.compare_dnac_versions(ccc_version, "2.3.7.6") >= 0
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.5.3") <= 0 or (
+            self.compare_catalystcenter_versions(ccc_version, "2.3.7.6") >= 0
             and self.device_type == "wireless"
         ):
             # Fetch device details from validated config
@@ -2565,7 +2566,7 @@ class Provision(CatalystCenterBase):
         )
 
         try:
-            dev_response = self.dnac_apply["exec"](
+            dev_response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_network_device_by_ip",
                 params={"ip_address": device_ip},
@@ -2892,7 +2893,7 @@ class Provision(CatalystCenterBase):
             self.log("Fetching device details for IP: {0}".format(ip_address), "INFO")
 
             try:
-                dev_response = self.dnac_apply["exec"](
+                dev_response = self.catalystcenter_apply["exec"](
                     family="devices",
                     function="get_network_device_by_ip",
                     params={"ip_address": ip_address},
@@ -2981,13 +2982,13 @@ class Provision(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log(
                 "Using 'get_provisioned_wired_device' API for Catalyst Center version <= 2.3.5.3",
                 "DEBUG",
             )
             try:
-                status_response = self.dnac_apply["exec"](
+                status_response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="get_provisioned_wired_device",
                     params={"device_management_ip_address": device_management_ip},
@@ -3159,7 +3160,10 @@ class Provision(CatalystCenterBase):
             )
             self.assign_device_to_site([device_id], self.site_name, site_id)
         else:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
+                <= 0
+            ):
                 self.log(
                     "Catalyst Center Version is 2.3.5.3 or earlier; directly initializing provisioning with parameters.",
                     "INFO",
@@ -3222,13 +3226,13 @@ class Provision(CatalystCenterBase):
             with the reprovisioning status, task ID, and other relevant details. If an error occurs during
             the reprovisioning process, it logs the error and adjusts the status accordingly.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log(
                 "Starting reprovisioning of wired device using 're_provision_wired_device' API.",
                 "DEBUG",
             )
             try:
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="re_provision_wired_device",
                     op_modifies=True,
@@ -3285,7 +3289,7 @@ class Provision(CatalystCenterBase):
                     "Starting reprovisioning of wired device using 're_provision_devices' API.",
                     "DEBUG",
                 )
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="re_provision_devices",
                     op_modifies=True,
@@ -3351,13 +3355,13 @@ class Provision(CatalystCenterBase):
             provisioning, it logs the error and updates the status accordingly.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             try:
                 self.log(
                     "Starting wired device provisioning with 'provision_wired_device' API.",
                     "DEBUG",
                 )
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="provision_wired_device",
                     op_modifies=True,
@@ -3496,7 +3500,7 @@ class Provision(CatalystCenterBase):
         self.log("Primary AP location: {0}".format(primary_ap_location), "DEBUG")
         self.log("Secondary AP location: {0}".format(secondary_ap_location), "DEBUG")
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             primary_ap_location_site_id_list = []
             secondary_ap_location_site_id_list = []
 
@@ -3530,7 +3534,7 @@ class Provision(CatalystCenterBase):
                         secondary_ap_location_site_id
                     )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
 
             param = [
                 {
@@ -3546,7 +3550,7 @@ class Provision(CatalystCenterBase):
                 "INFO",
             )
             try:
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="wireless",
                     function="provision",
                     op_modifies=True,
@@ -3623,7 +3627,7 @@ class Provision(CatalystCenterBase):
                 )
                 try:
                     self.log("Assigning managed AP locations for the WLC", "INFO")
-                    response = self.dnac_apply["exec"](
+                    response = self.catalystcenter_apply["exec"](
                         family="wireless",
                         function="assign_managed_ap_locations_for_w_l_c",
                         op_modifies=True,
@@ -3842,7 +3846,7 @@ class Provision(CatalystCenterBase):
                 )
 
             current_version = self.get_ccc_version()
-            if self.compare_dnac_versions(current_version, "3.1.3.0") >= 0:
+            if self.compare_catalystcenter_versions(current_version, "3.1.3.0") >= 0:
                 self.log(
                     "Cisco Catalyst Center version '{0}' supports feature template functionality (>= 3.1.3.0)".format(
                         current_version
@@ -3888,7 +3892,7 @@ class Provision(CatalystCenterBase):
             )
 
             try:
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="wireless",
                     function="wireless_controller_provision",
                     op_modifies=True,
@@ -4255,7 +4259,7 @@ class Provision(CatalystCenterBase):
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             if device_type != "wired":
                 self.result["msg"] = "APIs are not supported for the device"
                 self.log(self.result["msg"], "CRITICAL")
@@ -4272,10 +4276,10 @@ class Provision(CatalystCenterBase):
             self.result["response"] = self.result["msg"]
             return self
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
 
             try:
-                response = self.dnac_apply["exec"](
+                response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="delete_provisioned_wired_device",
                     op_modifies=True,
@@ -4309,7 +4313,9 @@ class Provision(CatalystCenterBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-        elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        elif (
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0
+        ):
             self.log("Detected Catalyst Center version <= 2.3.7.6")
             try:
                 response = self.catalystcenter._exec(
@@ -4447,8 +4453,10 @@ class Provision(CatalystCenterBase):
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's Inventory Database in the provisioned state.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0 or (
-            self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0
+        if self.compare_catalystcenter_versions(
+            self.get_ccc_version(), "2.3.5.3"
+        ) <= 0 or (
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0
             and self.device_type == "wireless"
         ):
             self.log("validate Cisco Catalyst Center config for merged state", "INFO")
@@ -4477,7 +4485,7 @@ class Provision(CatalystCenterBase):
 
             if device_type == "wired":
                 try:
-                    status_response = self.dnac_apply["exec"](
+                    status_response = self.catalystcenter_apply["exec"](
                         family="sda",
                         function="get_provisioned_wired_device",
                         params={
@@ -4566,7 +4574,7 @@ class Provision(CatalystCenterBase):
         device_type = self.want.get("device_type")
         if device_type == "wired":
             try:
-                status_response = self.dnac_apply["exec"](
+                status_response = self.catalystcenter_apply["exec"](
                     family="sda",
                     function="get_provisioned_wired_device",
                     params={
@@ -4749,7 +4757,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4764,7 +4775,9 @@ def main():
     provision_performed = False
 
     if (
-        ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
+        ccc_provision.compare_catalystcenter_versions(
+            ccc_provision.get_ccc_version(), "2.3.5.3"
+        )
         < 0
     ):
         ccc_provision.msg = """The specified version '{0}' does not support the 'provision_workflow_manager' feature.
@@ -4783,7 +4796,9 @@ def main():
     ccc_provision.validate_input(state=state).check_return_status()
 
     is_version_valid = (
-        ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.7.6")
+        ccc_provision.compare_catalystcenter_versions(
+            ccc_provision.get_ccc_version(), "2.3.7.6"
+        )
         >= 0
     )
 

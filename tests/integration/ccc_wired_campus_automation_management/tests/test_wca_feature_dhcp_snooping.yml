@@ -107,16 +107,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_dhcp_snooping.yml"
 #         name: dhcp_snooping_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: "DEBUG"
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: "DEBUG"
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -131,7 +131,7 @@
 
 #     - name: Test DHCP admin status validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_admin_status_string }}"
@@ -150,7 +150,7 @@
 
 #     - name: Test DHCP admin status validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_admin_status_integer }}"
@@ -173,7 +173,7 @@
 
 #     - name: Test DHCP snooping VLANs validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_string }}"
@@ -192,7 +192,7 @@
 
 #     - name: Test DHCP snooping VLANs validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_integer }}"
@@ -211,7 +211,7 @@
 
 #     - name: Test DHCP snooping VLANs validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_boolean }}"
@@ -230,7 +230,7 @@
 
 #     - name: Test DHCP snooping VLANs validation - VLAN ID out of range (too low) should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_range_low }}"
@@ -249,7 +249,7 @@
 
 #     - name: Test DHCP snooping VLANs validation - VLAN ID out of range (too high) should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_range_high }}"
@@ -268,7 +268,7 @@
 
 #     - name: Test DHCP snooping VLANs validation - string elements should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_string_elements }}"
@@ -287,7 +287,7 @@
 
 #     - name: Test DHCP snooping VLANs - empty list (check for API bug)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_vlans_empty_list }}"
@@ -310,7 +310,7 @@
 
 #     - name: Test DHCP snooping glean validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_glean_string }}"
@@ -329,7 +329,7 @@
 
 #     - name: Test DHCP snooping glean validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_glean_integer }}"
@@ -352,7 +352,7 @@
 
 #     - name: Test DHCP database agent URL validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_agent_url_integer }}"
@@ -371,7 +371,7 @@
 
 #     - name: Test DHCP database agent URL validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_agent_url_boolean }}"
@@ -390,7 +390,7 @@
 
 #     - name: Test DHCP database agent URL validation - exceeds maximum length should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_agent_url_max_length }}"
@@ -413,7 +413,7 @@
 
 #     - name: Test DHCP database timeout validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_string }}"
@@ -432,7 +432,7 @@
 
 #     - name: Test DHCP database timeout validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_boolean }}"
@@ -451,7 +451,7 @@
 
 #     - name: Test DHCP database timeout validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_negative }}"
@@ -470,7 +470,7 @@
 
 #     - name: Test DHCP database timeout validation - exceeds maximum value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_timeout_max }}"
@@ -493,7 +493,7 @@
 
 #     - name: Test DHCP database write delay validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_string }}"
@@ -512,7 +512,7 @@
 
 #     - name: Test DHCP database write delay validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_boolean }}"
@@ -531,7 +531,7 @@
 
 #     - name: Test DHCP database write delay validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_min }}"
@@ -550,7 +550,7 @@
 
 #     - name: Test DHCP database write delay validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_database_write_delay_max }}"
@@ -573,7 +573,7 @@
 
 #     - name: Test DHCP proxy bridge VLANs validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_string }}"
@@ -592,7 +592,7 @@
 
 #     - name: Test DHCP proxy bridge VLANs validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_integer }}"
@@ -611,7 +611,7 @@
 
 #     - name: Test DHCP proxy bridge VLANs validation - VLAN ID out of range (too low) should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_range_low }}"
@@ -630,7 +630,7 @@
 
 #     - name: Test DHCP proxy bridge VLANs validation - VLAN ID out of range (too high) should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_range_high }}"
@@ -649,7 +649,7 @@
 
 #     - name: Test DHCP proxy bridge VLANs - empty list (check for API bug)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_proxy_bridge_vlans_empty_list }}"
@@ -674,7 +674,7 @@
 
 #     - name: Test DHCP snooping structure validation - string instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_invalid_dict_type }}"
@@ -693,7 +693,7 @@
 
 #     - name: Test DHCP snooping structure validation - list instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_invalid_list_type }}"
@@ -725,7 +725,7 @@
 
 #     - name: Test DHCP snooping configuration with admin status only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_admin_status_only }}"
@@ -749,7 +749,7 @@
 
 #     - name: Test DHCP snooping configuration with VLANs only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_vlans_only }}"
@@ -773,7 +773,7 @@
 
 #     - name: Test DHCP snooping configuration with glean only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_glean_only }}"
@@ -797,7 +797,7 @@
 
 #     - name: Test DHCP snooping configuration with database agent URL only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_database_url_only }}"
@@ -821,7 +821,7 @@
 
 #     - name: Test DHCP snooping configuration with database timeout only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_database_timeout_only }}"
@@ -845,7 +845,7 @@
 
 #     - name: Test DHCP snooping configuration with database write delay only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_database_write_delay_only }}"
@@ -869,7 +869,7 @@
 
 #     - name: Test DHCP snooping configuration with proxy bridge VLANs only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_proxy_bridge_vlans_only }}"
@@ -893,7 +893,7 @@
 
 #     - name: Test DHCP snooping configuration with all parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_create_all_params }}"
@@ -921,7 +921,7 @@
 
 #     - name: Test DHCP snooping update - disable admin status
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_disable_admin }}"
@@ -945,7 +945,7 @@
 
 #     - name: Test DHCP snooping update - update VLANs list
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_vlans }}"
@@ -970,7 +970,7 @@
 
 #     - name: Test DHCP snooping update - disable glean
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_disable_glean }}"
@@ -994,7 +994,7 @@
 
 #     - name: Test DHCP snooping update - update database agent URL
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_database_url }}"
@@ -1018,7 +1018,7 @@
 
 #     - name: Test DHCP snooping update - update database timeout
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_database_timeout }}"
@@ -1042,7 +1042,7 @@
 
 #     - name: Test DHCP snooping update - update database write delay
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_database_write_delay }}"
@@ -1066,7 +1066,7 @@
 
 #     - name: Test DHCP snooping update - update proxy bridge VLANs
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_proxy_bridge_vlans }}"
@@ -1090,7 +1090,7 @@
 
 #     - name: Test DHCP snooping update - comprehensive update
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_update_comprehensive }}"
@@ -1118,7 +1118,7 @@
 
 #     - name: Test DHCP snooping reset - empty configuration (deleted state resets to defaults)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_reset_empty }}"
@@ -1142,7 +1142,7 @@
 
 #     - name: Test DHCP snooping reset - with existing parameters (deleted state resets to defaults)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_reset_with_params }}"
@@ -1170,7 +1170,7 @@
 
 #     - name: Test DHCP snooping with  url set to empty string should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_special_url_empty_string }}"
@@ -1195,7 +1195,7 @@
 
 #     - name: Test DHCP snooping with VLANs empty list (check for API bug)
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_special_vlan_empty_list }}"
@@ -1219,7 +1219,7 @@
 
 #     - name: Cleanup - Reset DHCP snooping to default configuration
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ dhcp_snooping_vars_map.test_dhcp_snooping_reset_empty }}"

@@ -9,7 +9,9 @@ __metaclass__ = type
 __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 
 import time
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import CatalystCenterBase
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
+    CatalystCenterBase,
+)
 
 
 class NetworkProfileFunctions(CatalystCenterBase):

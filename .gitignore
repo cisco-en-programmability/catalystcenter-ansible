@@ -17,9 +17,10 @@ venv/
 docs/plugins/
 docs/_build/
 changelogs/.plugin-cache.yaml
-playbooks/credentials.yml
+playbooks/vars/credentials.yml
 playbooks/device_details.template
 .DS_Store
 test.yml
 test.yaml
+.yamlfmt
 .github/copilot-instructions.md

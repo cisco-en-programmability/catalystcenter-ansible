@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import accesspoint_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    accesspoint_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -27,26 +29,35 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     test_data = loadPlaybookData("accesspoint_workflow_manager")
     reboot_accesspoint = test_data.get("reboot_accesspoint")
-    playbook_config_provision_old_version = test_data.get("playbook_config_provision_old_version")
+    playbook_config_provision_old_version = test_data.get(
+        "playbook_config_provision_old_version"
+    )
     playbook_config = test_data.get("playbook_config")
     playbook_config_provision = test_data.get("playbook_config_provision")
     playbook_config_complete = test_data.get("playbook_config_complete")
     get_membership_empty = test_data.get("get_membership_empty")
     get_device_detail_all_data = test_data.get("get_device_detail_all_data")
-    playbook_config_update_some_missing_data = test_data.get("playbook_config_update_some_missing_data")
-    playbook_config_update_some_error_data = test_data.get("playbook_config_update_some_error_data")
+    playbook_config_update_some_missing_data = test_data.get(
+        "playbook_config_update_some_missing_data"
+    )
+    playbook_config_update_some_error_data = test_data.get(
+        "playbook_config_update_some_error_data"
+    )
     playbook_invalid_config_complete = test_data.get("playbook_invalid_config_complete")
-    playbook_config_provision_new_positive = test_data.get("playbook_config_provision_new_positive")
+    playbook_config_provision_new_positive = test_data.get(
+        "playbook_config_provision_new_positive"
+    )
 
     def setUp(self):
         super(TestDnacAccesspointWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
@@ -73,14 +84,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("assign_site_for_task_execution"),
                 self.test_data.get("assign_device_to_site_for_provision"),
                 self.test_data.get("provision_site_for_task_execution"),
-                self.test_data.get("task_details_for_provision")
+                self.test_data.get("task_details_for_provision"),
             ]
         elif "invalid_mac_address" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = []
         elif "invalid_wlc_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_detail"),
-                self.test_data.get("get_site_exist_response")
+                self.test_data.get("get_site_exist_response"),
             ]
         elif "some_error_data_update_accesspoint" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -92,14 +103,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("get_site_exist_response"),
                 self.test_data.get("get_device_detail"),
                 self.test_data.get("verify_get_device_info"),
-                self.test_data.get("get_accesspoint_config")
+                self.test_data.get("get_accesspoint_config"),
             ]
         elif "reboot_accesspoint" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_detail_reboot"),
                 self.test_data.get("ap_reboot_response"),
                 self.test_data.get("ap_reboot_task_response"),
-                self.test_data.get("ap_reboot_status")
+                self.test_data.get("ap_reboot_status"),
             ]
         elif "provision_old_version" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -113,14 +124,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 self.test_data.get("get_device_detail"),
                 self.test_data.get("get_site_exist_response"),
                 self.test_data.get("get_device_detail"),
-                self.test_data.get("verify_get_device_info")
+                self.test_data.get("verify_get_device_info"),
             ]
         elif "task_error_update_accesspoint" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_detail_all_data"),
                 self.test_data.get("get_accesspoint_config"),
                 self.test_data.get("ap_update_response"),
-                self.test_data.get("ap_task_error_status")
+                self.test_data.get("ap_task_error_status"),
             ]
 
     def test_accesspoint_workflow_manager_provision_device(self):
@@ -138,14 +149,11 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.playbook_config_provision_new_positive
+                config=self.playbook_config_provision_new_positive,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn(
-            "Provided device is not Access Point",
-            result.get('msg', '')
-        )
+        self.assertIn("Provided device is not Access Point", result.get("msg", ""))
 
     def test_accesspoint_workflow_manager_some_error_data_update_accesspoint(self):
         """
@@ -162,15 +170,12 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_config_update_some_error_data
+                config=self.playbook_config_update_some_error_data,
             )
         )
         result = self.execute_module(changed=True, failed=True)
         self.maxDiff = None
-        self.assertIn(
-            'get_sites',
-            result.get('msg')
-        )
+        self.assertIn("get_sites", result.get("msg"))
 
     def test_accesspoint_workflow_manager_negative_config_input(self):
         """
@@ -187,15 +192,12 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_config_update_some_missing_data
+                config=self.playbook_config_update_some_missing_data,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
-        self.assertIn(
-            "Invalid parameters in playbook config:",
-            result.get('msg')
-        )
+        self.assertIn("Invalid parameters in playbook config:", result.get("msg"))
 
     def test_accesspoint_workflow_manager_reboot_accesspoint(self):
         """
@@ -211,14 +213,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.7.6",
-                config=self.reboot_accesspoint
+                config=self.reboot_accesspoint,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
-            result.get('response').get("accesspoints_updates").get("ap_reboot_status"),
-            "APs ['34:b8:83:15:7c:6c'] rebooted successfully"
+            result.get("response").get("accesspoints_updates").get("ap_reboot_status"),
+            "APs ['34:b8:83:15:7c:6c'] rebooted successfully",
         )
 
     def test_accesspoint_workflow_manager_task_error_update_accesspoint(self):
@@ -236,13 +238,13 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while executing API call to Function: 'get_task_details_by_id'",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_invalid_site_exists(self):
@@ -259,18 +261,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_config_provision
+                config=self.playbook_config_provision,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
-        self.assertEqual(
-            result.get('msg'),
-            "Provided device is not Access Point."
-        )
+        self.assertEqual(result.get("msg"), "Provided device is not Access Point.")
 
     def test_accesspoint_workflow_invalid_state(self):
-
         """
         Test case for access point workflow with an invalid 'state' parameter.
 
@@ -285,14 +283,11 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="deleted",
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "State deleted is invalid"
-        )
+        self.assertEqual(result.get("msg"), "State deleted is invalid")
 
     def test_invalid_get_site_device(self):
         """
@@ -308,14 +303,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_invalid_config_complete
+                config=self.playbook_invalid_config_complete,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('response'),
-            "Required param of mac_address,ip_address or hostname is not in playbook config"
+            result.get("response"),
+            "Required param of mac_address,ip_address or hostname is not in playbook config",
         )
 
     def test_accesspoint_workflow_manager_invalid_mac_address(self):
@@ -324,15 +319,14 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
         This test case checks validation of MAC address format.
         """
-        invalid_config = [{
-            "mac_address": "invalid-mac",
-            "site": {
-                "floor": {
-                    "name": "FLOOR1",
-                    "parent_name": "Global/Chennai/LTTS"
-                }
+        invalid_config = [
+            {
+                "mac_address": "invalid-mac",
+                "site": {
+                    "floor": {"name": "FLOOR1", "parent_name": "Global/Chennai/LTTS"}
+                },
             }
-        }]
+        ]
 
         set_module_args(
             dict(
@@ -342,11 +336,8 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.7.6",
-                config=invalid_config
+                config=invalid_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn(
-            "mac",
-            result.get('msg', '').lower()
-        )
+        self.assertIn("mac", result.get("msg", "").lower())

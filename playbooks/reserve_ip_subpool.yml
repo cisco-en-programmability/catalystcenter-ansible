@@ -2,7 +2,7 @@
 - name: Play
   hosts: localhost
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   vars:
     site: bb25cdaf-3f5a-45b9-bdd6-0f63fdf6c83e

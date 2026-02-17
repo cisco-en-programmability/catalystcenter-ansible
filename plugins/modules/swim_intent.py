@@ -723,7 +723,7 @@ response:
     }
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -1020,7 +1020,7 @@ class DnacSwims(CatalystCenterBase):
                 "INFO",
             )
 
-        (site_exists, site_id) = self.site_exists(site_name)
+        site_exists, site_id = self.site_exists(site_name)
         if not site_exists:
             self.log(
                 """Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
@@ -1263,7 +1263,7 @@ class DnacSwims(CatalystCenterBase):
             site_name = tagging_details.get("site_name")
             if site_name and site_name != "Global":
                 site_exists = False
-                (site_exists, site_id) = self.site_exists(site_name)
+                site_exists, site_id = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -1288,7 +1288,7 @@ class DnacSwims(CatalystCenterBase):
             site_name = distribution_details.get("site_name")
             if site_name:
                 site_exists = False
-                (site_exists, site_id) = self.site_exists(site_name)
+                site_exists, site_id = self.site_exists(site_name)
 
                 if site_exists:
                     have["site_id"] = site_id
@@ -1355,7 +1355,7 @@ class DnacSwims(CatalystCenterBase):
             site_name = activation_details.get("site_name")
             if site_name:
                 site_exists = False
-                (site_exists, site_id) = self.site_exists(site_name)
+                site_exists, site_id = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -2516,7 +2516,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -5,6 +5,7 @@
 
 """Ansible module to perform operations on create and delete wireless network profile details
 in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -239,7 +240,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -623,7 +624,7 @@ response_verification_failed:
 import re
 import copy
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     validate_list_of_dicts,
     validate_str,
 )
@@ -1158,7 +1159,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if (
             feature_template_designs
-            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            < 0
         ):
             errormsg.append(
                 "The specified version '{0}' does not support for feature template."
@@ -1695,7 +1697,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         feature_template_designs = config.get("feature_template_designs")
         if (
             feature_template_designs
-            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            >= 0
         ):
             self.log("Fetching feature template information.", "DEBUG")
             self.get_feature_template_info(feature_template_designs, profile_info)
@@ -2433,7 +2436,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if (
             feature_template_designs
-            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            >= 0
         ):
             if not have_feature_templates:
                 self.log(
@@ -2836,7 +2840,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     elif (
                         key == "feature_template_designs"
                         and isinstance(value, list)
-                        and self.compare_dnac_versions(
+                        and self.compare_catalystcenter_versions(
                             self.get_ccc_version(), "3.1.3.0"
                         )
                         >= 0
@@ -3561,7 +3565,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if (
             feature_template_designs
-            and self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0")
+            < 0
         ):
             del config["feature_template_designs"]
 
@@ -4961,7 +4966,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4977,7 +4985,7 @@ def main():
     state = ccc_wireless_profile.params.get("state")
 
     if (
-        ccc_wireless_profile.compare_dnac_versions(
+        ccc_wireless_profile.compare_catalystcenter_versions(
             ccc_wireless_profile.get_ccc_version(), "2.3.7.9"
         )
         < 0

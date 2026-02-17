@@ -2,7 +2,7 @@
 - name: Play
   hosts: localhost
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   tasks:
     - name: Create an configuration_template_project

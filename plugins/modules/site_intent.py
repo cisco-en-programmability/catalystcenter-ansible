@@ -366,7 +366,7 @@ response_4:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -819,7 +819,7 @@ class DnacSite(CatalystCenterBase):
         have = {}
 
         # check if given site exits, if exists store current site info
-        (site_exists, current_site) = self.site_exists()
+        site_exists, current_site = self.site_exists()
 
         self.log("Current Site details (have): {0}".format(str(current_site)), "DEBUG")
 
@@ -964,7 +964,7 @@ class DnacSite(CatalystCenterBase):
                     )
                 else:
                     # Get the site id of the newly created site.
-                    (site_exists, current_site) = self.site_exists()
+                    site_exists, current_site = self.site_exists()
 
                     if site_exists:
                         self.created_site_list.append(site_name)
@@ -1305,7 +1305,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

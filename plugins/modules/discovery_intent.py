@@ -656,7 +656,7 @@ response_3:
 
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1068,7 +1068,7 @@ class Discovery(CatalystCenterBase):
           - self.result: A dictionary that is updated with the credentials IDs.
         """
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="discovery",
             function="get_all_global_credentials_v2",
             params=self.validated_config[0].get("headers"),
@@ -1533,7 +1533,7 @@ class Discovery(CatalystCenterBase):
           - task_id: The ID of the task created for the discovery process.
         """
 
-        result = self.dnac_apply["exec"](
+        result = self.catalystcenter_apply["exec"](
             family="discovery",
             function="start_discovery",
             params=self.create_params(ip_address_list=ip_address_list),
@@ -1573,7 +1573,7 @@ class Discovery(CatalystCenterBase):
         result = False
         params = dict(task_id=task_id)
         while True:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="task",
                 function="get_task_by_id",
                 params=params,
@@ -1635,7 +1635,7 @@ class Discovery(CatalystCenterBase):
         result = False
         params = dict(task_id=task_id)
         while True:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="task",
                 function="get_task_by_id",
                 params=params,
@@ -1702,7 +1702,7 @@ class Discovery(CatalystCenterBase):
                     records_to_return=500,
                     headers=self.validated_config[0].get("headers"),
                 )
-                response_part = self.dnac_apply["exec"](
+                response_part = self.catalystcenter_apply["exec"](
                     family="discovery",
                     function="get_discoveries_by_range",
                     params=params,
@@ -1716,7 +1716,7 @@ class Discovery(CatalystCenterBase):
                 headers=self.validated_config[0].get("headers"),
             )
 
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="discovery",
                 function="get_discoveries_by_range",
                 params=params,
@@ -1813,7 +1813,7 @@ class Discovery(CatalystCenterBase):
         result = False
         count = 0
         while True:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="discovery",
                 function="get_discovered_network_devices_by_discovery_id",
                 params=params,
@@ -1897,7 +1897,7 @@ class Discovery(CatalystCenterBase):
           - task_id: The ID of the task created for the delete operation.
         """
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="discovery",
             function="delete_discovery_by_id",
             params=params,
@@ -1965,7 +1965,7 @@ class Discovery(CatalystCenterBase):
         """
 
         if self.validated_config[0].get("delete_all"):
-            count_discoveries = self.dnac_apply["exec"](
+            count_discoveries = self.catalystcenter_apply["exec"](
                 family="discovery",
                 function="get_count_of_all_discovery_jobs",
             )
@@ -1976,7 +1976,7 @@ class Discovery(CatalystCenterBase):
                 self.result["response"] = self.validated_config[0]
                 return self
 
-            delete_all_response = self.dnac_apply["exec"](
+            delete_all_response = self.catalystcenter_apply["exec"](
                 family="discovery",
                 function="delete_all_discovery",
             )
@@ -2026,7 +2026,7 @@ class Discovery(CatalystCenterBase):
         discovery_task_info = self.get_discoveries_by_range_until_success()
         discovery_id = discovery_task_info.get("id")
         params = dict(id=discovery_id)
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="discovery",
             function="get_discovery_by_id",
             params=params,
@@ -2068,7 +2068,7 @@ class Discovery(CatalystCenterBase):
         self.log("Desired State (want): {0}".format(str(config)), "INFO")
         # Code to validate Cisco Catalyst Center config for deleted state
         if config.get("delete_all") is True:
-            count_discoveries = self.dnac_apply["exec"](
+            count_discoveries = self.catalystcenter_apply["exec"](
                 family="discovery",
                 function="get_count_of_all_discovery_jobs",
             )
@@ -2116,7 +2116,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},

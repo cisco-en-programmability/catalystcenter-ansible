@@ -972,7 +972,7 @@ dnac_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
@@ -1283,7 +1283,7 @@ class LanAutomation(CatalystCenterBase):
         active_lan_automation = False
         lan_automation_session_ids = []
 
-        (active_lan_automation, lan_automation_session_ids) = (
+        active_lan_automation, lan_automation_session_ids = (
             self.active_lan_automation_sessions()
         )
 
@@ -1417,7 +1417,7 @@ class LanAutomation(CatalystCenterBase):
                 f"Calling 'get_port_channels' API with payload: {self.pprint(payload)}",
                 "DEBUG",
             )
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="lan_automation", function="get_port_channels", params=payload
             )
 
@@ -1904,7 +1904,7 @@ class LanAutomation(CatalystCenterBase):
 
         ip_exists = False
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": management_ip_address},
@@ -1956,7 +1956,7 @@ class LanAutomation(CatalystCenterBase):
 
         hostname = None
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": management_ip_address},
@@ -2013,7 +2013,7 @@ class LanAutomation(CatalystCenterBase):
 
         site_exists = False
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": site_name_hierarchy},
@@ -3590,7 +3590,7 @@ class LanAutomation(CatalystCenterBase):
         """
 
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": device_ip},
@@ -3639,7 +3639,7 @@ class LanAutomation(CatalystCenterBase):
             return False
 
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="devices",
                 function="get_interface_details",
                 params={"device_id": device_id, "name": interface_name},
@@ -5344,7 +5344,7 @@ class LanAutomation(CatalystCenterBase):
             params = {"feature": feature, payload_key: payload}
 
             self.log("Ready for API call with params: {}".format(params))
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="lan_automation",
                 function="lan_automation_device_update",
                 params=params,
@@ -5809,7 +5809,7 @@ class LanAutomation(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="lan_automation",
                 function="lan_automation_start_v2",
                 params={"payload": lan_auto_params_list},
@@ -5932,7 +5932,7 @@ class LanAutomation(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="lan_automation",
                 function="lan_automation_stop",
                 params={"id": session_id},
@@ -6200,7 +6200,7 @@ class LanAutomation(CatalystCenterBase):
                 f"Calling 'get_port_channel_information_by_id' API with ID: '{port_channel_id}'",
                 "DEBUG",
             )
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="lan_automation",
                 function="get_port_channel_information_by_id",
                 params={"id": port_channel_id},
@@ -6829,7 +6829,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -6846,7 +6849,7 @@ def main():
     state = ccc_lan_automation.params.get("state")
 
     if (
-        ccc_lan_automation.compare_dnac_versions(
+        ccc_lan_automation.compare_catalystcenter_versions(
             ccc_lan_automation.get_ccc_version(), "2.3.7.6"
         )
         < 0

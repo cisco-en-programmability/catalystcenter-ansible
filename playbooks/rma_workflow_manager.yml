@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: RMA workflow for faulty device replacement
       cisco.catalystcenter.rma_workflow_manager:

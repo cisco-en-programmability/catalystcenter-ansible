@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform Network Compliance Operations on devices in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -374,7 +375,7 @@ sample_response_3:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1390,7 +1391,7 @@ class NetworkCompliance(CatalystCenterBase):
             )
 
             # Get task status for the current batch
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.catalystcenter_version <= self.version_2_3_5_3:
                 failure_msg = "{0} Task with Task ID: '{1}' Failed for batch number: '{2}' with {3} devices: {4}.".format(
                     task_name, task_id, idx, len(device_ids), device_ids
                 )
@@ -1897,7 +1898,7 @@ class NetworkCompliance(CatalystCenterBase):
         # Sync Device Configuration Parameters
         if sync_device_config:
             self.log("Sync Device Configuration is requested.", "DEBUG")
-            if self.dnac_version > self.version_2_3_5_3:
+            if self.catalystcenter_version > self.version_2_3_5_3:
                 compliance_detail_params_sync = {
                     "deviceUuids": list(mgmt_ip_to_instance_id_map.values()),
                     "categories": ["RUNNING_CONFIG"],
@@ -2154,7 +2155,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -2172,7 +2176,7 @@ def main():
     ccc_network_compliance = NetworkCompliance(module)
 
     if (
-        ccc_network_compliance.compare_dnac_versions(
+        ccc_network_compliance.compare_catalystcenter_versions(
             ccc_network_compliance.get_ccc_version(), "2.3.7.6"
         )
         < 0

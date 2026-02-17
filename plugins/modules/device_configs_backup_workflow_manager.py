@@ -483,7 +483,7 @@ except ImportError:
     pathlib = None
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -1212,7 +1212,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         success_msg = "{0} Task with task ID {1} completed successfully. Exiting the loop.".format(
             task_name, task_id
         )
-        if self.dnac_version <= self.version_2_3_5_3:
+        if self.catalystcenter_version <= self.version_2_3_5_3:
             progress_validation = (
                 "Device configuration Successfully exported as password protected ZIP"
             )
@@ -1236,7 +1236,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            if self.dnac_version <= self.version_2_3_5_3:
+            if self.catalystcenter_version <= self.version_2_3_5_3:
                 response = self.get_task_details(task_id)
                 additional_status_url = response.get("additionalStatusURL")
             else:
@@ -1848,7 +1848,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         if file_types:
             current_version = self.get_ccc_version()
             self.log(f"Current Catalyst Center Version: {current_version}", "DEBUG")
-            if self.compare_dnac_versions(current_version, "2.3.7.9") < 0:
+            if self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0:
                 self.fail_and_exit(
                     "The 'config_file_types' parameter is not supported for Catalyst Center version 2.3.7.6. "
                     "It is supported from version 2.3.7.9 onwards."
@@ -1936,7 +1936,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         """
         self.log("Executing the get_diff_merged function", "DEBUG")
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             action_map = {
                 "export_device_configurations_params": (
                     self.export_device_configurations,
@@ -2034,7 +2034,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -2051,7 +2054,7 @@ def main():
     ccc_device_configs_backup = DeviceConfigsBackup(module)
 
     if (
-        ccc_device_configs_backup.compare_dnac_versions(
+        ccc_device_configs_backup.compare_catalystcenter_versions(
             ccc_device_configs_backup.get_ccc_version(), "2.3.7.6"
         )
         < 0

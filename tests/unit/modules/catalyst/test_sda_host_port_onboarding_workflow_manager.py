@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import sda_host_port_onboarding_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    sda_host_port_onboarding_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -31,11 +33,12 @@ class SDAHostPortOnboarding(TestDnacModule):
         super(SDAHostPortOnboarding, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
@@ -62,7 +65,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_port_assignments"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
-                self.test_data.get("response_get_port_assignments_2")
+                self.test_data.get("response_get_port_assignments_2"),
             ]
 
         # Update Port Assignments
@@ -76,7 +79,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_port_assignments_3"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
-                self.test_data.get("response_get_port_assignments_4")
+                self.test_data.get("response_get_port_assignments_4"),
             ]
 
         # Delete Port Assignments
@@ -93,7 +96,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
-                self.test_data.get("response_get_port_assignments")
+                self.test_data.get("response_get_port_assignments"),
             ]
 
         # Add Port Channels
@@ -108,7 +111,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
                 self.test_data.get("response_get_port_channels_2"),
-                self.test_data.get("response_get_port_channels_2")
+                self.test_data.get("response_get_port_channels_2"),
             ]
 
         # Update Port Channels
@@ -157,7 +160,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_wireless_ssids"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
-                self.test_data.get("response_get_wireless_ssids_2")
+                self.test_data.get("response_get_wireless_ssids_2"),
             ]
 
         # Update SSIDs
@@ -202,7 +205,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id"),
                 self.test_data.get("response_get_port_assignments_2"),
                 self.test_data.get("response_get_port_channels_2"),
-                self.test_data.get("response_get_wireless_ssids_2")
+                self.test_data.get("response_get_wireless_ssids_2"),
             ]
 
         # Update SSIDs
@@ -262,11 +265,15 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_wireless_ssids_4"),
             ]
 
-# SUCCESS TESTCASES ########################################################################################
+    # SUCCESS TESTCASES ########################################################################################
 
     # Add Port Assignments
     def test_add_port_assignments(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_add_port_assignments")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_add_port_assignments")
+            )
+        )
 
         set_module_args(
             dict(
@@ -279,18 +286,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_add_port_assignments")
+                config=self.test_data.get("playbook_config_add_port_assignments"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Add Port Assignment(s) Task Succeeded for following interface(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Update Port Assignments
     def test_update_port_assignments(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_update_port_assignments")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_update_port_assignments")
+            )
+        )
 
         set_module_args(
             dict(
@@ -303,18 +314,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_port_assignments")
+                config=self.test_data.get("playbook_config_update_port_assignments"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Port Assignment(s) Task Succeeded for following interface(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Delete Port Assignments
     def test_delete_port_assignments(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_port_assignments")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_delete_port_assignments")
+            )
+        )
 
         set_module_args(
             dict(
@@ -327,18 +342,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_port_assignments")
+                config=self.test_data.get("playbook_config_delete_port_assignments"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Port Assignment(s) Task Succeeded for following interface(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Add Port Channels
     def test_add_port_channels(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_add_port_channels")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_add_port_channels")
+            )
+        )
 
         set_module_args(
             dict(
@@ -352,18 +371,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 catalystcenter_log_append=False,
                 catalystcenter_log_file_path="catalystcenter.log",
                 state="merged",
-                config=self.test_data.get("playbook_config_add_port_channels")
+                config=self.test_data.get("playbook_config_add_port_channels"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Add Port Channel(s) Task Succeeded for following port channel(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Update Port Channels
     def test_update_port_channels(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_update_port_channels")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_update_port_channels")
+            )
+        )
 
         set_module_args(
             dict(
@@ -377,18 +400,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 catalystcenter_log_append=False,
                 catalystcenter_log_file_path="catalystcenter.log",
                 state="merged",
-                config=self.test_data.get("playbook_config_update_port_channels")
+                config=self.test_data.get("playbook_config_update_port_channels"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Port Channel(s) Task Succeeded for following port channel(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Delete Port Channels
     def test_delete_port_channels(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_port_channels")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_delete_port_channels")
+            )
+        )
 
         set_module_args(
             dict(
@@ -401,18 +428,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_port_channels")
+                config=self.test_data.get("playbook_config_delete_port_channels"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Port Channel(s) Task Succeeded for following port channel(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Add SSIDs
     def test_add_ssids(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_add_ssids")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_add_ssids")
+            )
+        )
 
         set_module_args(
             dict(
@@ -425,18 +456,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_add_ssids")
+                config=self.test_data.get("playbook_config_add_ssids"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create VLANs and SSIDs Mapped to VLANs Task Succeeded for following VLAN(s) and SSID(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Update SSIDs
     def test_update_ssids(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_update_ssids")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_update_ssids")
+            )
+        )
 
         set_module_args(
             dict(
@@ -449,18 +484,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_ssids")
+                config=self.test_data.get("playbook_config_update_ssids"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update VLANs and SSIDs Mapped to VLANs Task Succeeded for following VLAN(s) and SSID(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Delete SSIDs
     def test_delete_ssids(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_ssids")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_delete_ssids")
+            )
+        )
 
         set_module_args(
             dict(
@@ -473,18 +512,22 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_ssids")
+                config=self.test_data.get("playbook_config_delete_ssids"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete VLAN(s) and SSID(s) Mapped to VLAN(s) Task Succeeded for following VLAN(s) and SSID(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     # Add ALL
     def test_add_all_hosts(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_add_all_hosts")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_add_all_hosts")
+            )
+        )
 
         set_module_args(
             dict(
@@ -497,7 +540,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_add_all_hosts")
+                config=self.test_data.get("playbook_config_add_all_hosts"),
             )
         )
         expected_messages = [
@@ -508,7 +551,7 @@ class SDAHostPortOnboarding(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         for expected_message in expected_messages:
             with self.subTest(expected_message=expected_message):
-                self.assertIn(expected_message, result.get('msg'))
+                self.assertIn(expected_message, result.get("msg"))
 
     # # Update ALL
     # def test_update_all_hosts(self):
@@ -540,7 +583,11 @@ class SDAHostPortOnboarding(TestDnacModule):
 
     # Delete ALL
     def test_delete_all_hosts(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_all_hosts")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_delete_all_hosts")
+            )
+        )
 
         set_module_args(
             dict(
@@ -553,16 +600,16 @@ class SDAHostPortOnboarding(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_all_hosts")
+                config=self.test_data.get("playbook_config_delete_all_hosts"),
             )
         )
 
         expected_messages = [
             "Delete Port Assignment(s) Task Succeeded for following interface(s)",
             "Delete Port Channel(s) Task Succeeded for following port channel(s)",
-            "Delete VLAN(s) and SSID(s) Mapped to VLAN(s) Task Succeeded for following VLAN(s) and SSID(s)"
+            "Delete VLAN(s) and SSID(s) Mapped to VLAN(s) Task Succeeded for following VLAN(s) and SSID(s)",
         ]
         result = self.execute_module(changed=True, failed=False)
         for expected_message in expected_messages:
             with self.subTest(expected_message=expected_message):
-                self.assertIn(expected_message, result.get('msg'))
+                self.assertIn(expected_message, result.get("msg"))
