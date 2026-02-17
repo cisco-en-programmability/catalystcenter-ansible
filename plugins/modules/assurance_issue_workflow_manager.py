@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on Assurance issue settings in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -660,7 +661,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -740,7 +741,7 @@ EXAMPLES = r"""
               - name: High CPU Usage Alert
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -770,7 +771,7 @@ EXAMPLES = r"""
                 threshold_value: -10
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -996,7 +997,7 @@ import re
 import time
 from datetime import datetime
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
@@ -1747,9 +1748,9 @@ class AssuranceSettings(CatalystCenterBase):
                 return device_response[0]
 
         except Exception as e:
-            self.msg = "The provided device '{0}' is either invalid or not present in the \
-                     Cisco Catalyst Center.".format(
-                str(input_param)
+            self.msg = (
+                "The provided device '{0}' is either invalid or not present in the \
+                     Cisco Catalyst Center.".format(str(input_param))
             )
             self.log(self.msg + str(e), "WARNING")
             return None
@@ -3460,7 +3461,7 @@ class AssuranceSettings(CatalystCenterBase):
                     if issue_ids:
                         response = None
                         if (
-                            self.compare_dnac_versions(
+                            self.compare_catalystcenter_versions(
                                 self.get_ccc_version(), "2.3.7.10"
                             )
                             < 0
@@ -4193,7 +4194,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4212,7 +4216,10 @@ def main():
     current_version = ccc_assurance.get_ccc_version()
     required_version = "2.3.7.6"
 
-    if ccc_assurance.compare_dnac_versions(current_version, required_version) < 0:
+    if (
+        ccc_assurance.compare_catalystcenter_versions(current_version, required_version)
+        < 0
+    ):
         ccc_assurance.status = "failed"
         ccc_assurance.msg = (
             "The specified version '{0}' does not support the assurance issue settings workflow feature. "

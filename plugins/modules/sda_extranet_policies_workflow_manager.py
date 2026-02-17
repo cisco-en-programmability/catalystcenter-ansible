@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to manage Extranet Policy Operations in SD-Access Fabric in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -233,7 +234,7 @@ sample_response_3:
 
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -871,7 +872,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
 
         extranet_policy_name = config.get("extranet_policy_name")
         # check if given extranet policy exits, if exists store current extranet policy info
-        (extranet_policy_exists, extranet_policy_id, extranet_policy_details) = (
+        extranet_policy_exists, extranet_policy_id, extranet_policy_details = (
             self.validate_extranet_policy_exists(extranet_policy_name)
         )
 
@@ -1252,7 +1253,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -1270,7 +1274,7 @@ def main():
     ccc_sda_extranet_policies = SDAExtranetPolicies(module)
 
     if (
-        ccc_sda_extranet_policies.compare_dnac_versions(
+        ccc_sda_extranet_policies.compare_catalystcenter_versions(
             ccc_sda_extranet_policies.get_ccc_version(), "2.3.7.6"
         )
         < 0

@@ -65,16 +65,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_cdp.yml"
 #         name: cdp_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: "DEBUG"
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: "DEBUG"
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -89,7 +89,7 @@
 
 #     - name: Test CDP admin status validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_admin_status_string }}"
@@ -108,7 +108,7 @@
 
 #     - name: Test CDP admin status validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_admin_status_integer }}"
@@ -131,7 +131,7 @@
 
 #     - name: Test CDP hold time validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_hold_time_below_min }}"
@@ -150,7 +150,7 @@
 
 #     - name: Test CDP hold time validation - above maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_hold_time_above_max }}"
@@ -169,7 +169,7 @@
 
 #     - name: Test CDP hold time validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_hold_time_string }}"
@@ -188,7 +188,7 @@
 
 #     - name: Test CDP hold time validation - float value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_hold_time_float }}"
@@ -207,7 +207,7 @@
 
 #     - name: Test CDP hold time validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_hold_time_negative }}"
@@ -230,7 +230,7 @@
 
 #     - name: Test CDP timer validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_timer_below_min }}"
@@ -249,7 +249,7 @@
 
 #     - name: Test CDP timer validation - above maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_timer_above_max }}"
@@ -268,7 +268,7 @@
 
 #     - name: Test CDP timer validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_timer_string }}"
@@ -287,7 +287,7 @@
 
 #     - name: Test CDP timer validation - float value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_timer_float }}"
@@ -306,7 +306,7 @@
 
 #     - name: Test CDP timer validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_timer_negative }}"
@@ -329,7 +329,7 @@
 
 #     - name: Test CDP advertise v2 validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_advertise_v2_string }}"
@@ -348,7 +348,7 @@
 
 #     - name: Test CDP advertise v2 validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_advertise_v2_integer }}"
@@ -371,7 +371,7 @@
 
 #     - name: Test CDP log duplex mismatch validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_log_duplex_mismatch_string }}"
@@ -390,7 +390,7 @@
 
 #     - name: Test CDP log duplex mismatch validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_log_duplex_mismatch_integer }}"
@@ -413,7 +413,7 @@
 
 #     - name: Test CDP structure validation - string instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_invalid_dict_type }}"
@@ -432,7 +432,7 @@
 
 #     - name: Test CDP structure validation - list instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_invalid_list_type }}"
@@ -464,7 +464,7 @@
 
 #     - name: Test CDP configuration with admin status only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_create_admin_status_only }}"
@@ -488,7 +488,7 @@
 
 #     - name: Test CDP configuration with all parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_create_all_params }}"
@@ -512,7 +512,7 @@
 
 #     - name: Test CDP configuration with custom timers
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_create_custom_timers }}"
@@ -536,7 +536,7 @@
 
 #     - name: Test CDP disabled configuration
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_create_disabled }}"
@@ -568,7 +568,7 @@
 
 #     - name: Test CDP update - enable CDP
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_update_enable }}"
@@ -592,7 +592,7 @@
 
 #     - name: Test CDP update - modify timers
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_update_timers }}"
@@ -616,7 +616,7 @@
 
 #     - name: Test CDP update - disable features
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_update_disable_features }}"
@@ -640,7 +640,7 @@
 
 #     - name: Test CDP update - all parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_update_all_params }}"
@@ -672,7 +672,7 @@
 
 #     - name: Test CDP deletion/reset - empty configuration
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_delete_empty }}"
@@ -696,7 +696,7 @@
 
 #     - name: Test CDP update - all parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_update_all_params }}"
@@ -720,7 +720,7 @@
 
 #     - name: Test CDP deletion/reset - with existing parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_delete_with_params }}"
@@ -752,7 +752,7 @@
 
 #     - name: Test CDP with minimum valid values
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_boundary_min_values }}"
@@ -776,7 +776,7 @@
 
 #     - name: Test CDP with maximum valid values
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_boundary_max_values }}"
@@ -800,7 +800,7 @@
 
 #     - name: Test CDP with recommended values
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_recommended_values }}"
@@ -832,7 +832,7 @@
 
 #     - name: Test CDP Idempotency - Configure same CDP settings twice
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_create_all_params }}"
@@ -847,7 +847,7 @@
 #     # should be idempotent
 #     - name: Test CDP Idempotency - Configure same CDP settings again
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ cdp_vars_map.test_cdp_create_all_params }}"
@@ -869,7 +869,7 @@
 
 #     - name: Cleanup - Reset CDP to default configuration
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: deleted
 #         config:
 #           - ip_address: "204.1.2.3"

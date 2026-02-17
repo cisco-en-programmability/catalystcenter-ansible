@@ -8,16 +8,16 @@
       file: "{{ role_path }}/vars/vars_backup_and_restore_workflow_manager.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
-        dnac_host: "172.23.9.219"
-        dnac_username: "admin"
-        dnac_password: "P@ssword9"
-        dnac_verify: "false"
-        dnac_port: "443"
-        dnac_version: "3.1.3.0"
-        dnac_debug: "false"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      catalyst_login: &catalyst_login
+        catalystcenter_host: "172.23.9.219"
+        catalystcenter_username: "admin"
+        catalystcenter_password: "P@ssword9"
+        catalystcenter_verify: "false"
+        catalystcenter_port: "443"
+        catalystcenter_version: "3.1.3.0"
+        catalystcenter_debug: "false"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
 
   # - debug:
   #     msg: "{{ vars_map. }}"
@@ -32,7 +32,7 @@
 
   - name: Create NFS Configuration
     cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -59,7 +59,7 @@
 
   - name: Update Backup Configuration
     cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -86,7 +86,7 @@
 
   - name: Create Backup
     cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
           - "{{ item }}"
@@ -113,7 +113,7 @@
 
   - name: Delete NFS Configuration
     cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"
@@ -140,7 +140,7 @@
 
   - name: Delete Backup
     cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
           - "{{ item }}"

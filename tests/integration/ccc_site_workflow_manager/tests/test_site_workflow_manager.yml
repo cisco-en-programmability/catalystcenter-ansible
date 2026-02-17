@@ -8,16 +8,16 @@
       file: "{{ role_path }}/vars/vars_site_workflow_manager.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
-        dnac_host: "{{ dnac_host }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: true
-        dnac_log_level: DEBUG
+      catalyst_login: &catalyst_login
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
 
   # - debug:
   #     msg: "{{ vars_map. }}"
@@ -32,7 +32,7 @@
 
   - name: Create site
     cisco.dnac.site_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
         site_details:
@@ -61,7 +61,7 @@
 
   - name: Create bulk site
     cisco.dnac.site_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
         role_details:
@@ -89,7 +89,7 @@
 
   - name: Update site
     cisco.dnac.site_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
         update_details:
@@ -117,7 +117,7 @@
 
   - name: Update a site
     cisco.dnac.site_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: merged
       config:
         update_a_details:
@@ -145,7 +145,7 @@
 
   - name: Delete site
     cisco.dnac.site_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
         delete_details:
@@ -173,7 +173,7 @@
 
   - name: Delete a site
     cisco.dnac.site_workflow_manager:
-      <<: *dnac_login
+      <<: *catalyst_login
       state: deleted
       config:
         delete_a_details:

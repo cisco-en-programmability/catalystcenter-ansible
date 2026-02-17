@@ -91,16 +91,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_logical_ports.yml"
 #         name: logical_ports_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: DEBUG
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: DEBUG
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -114,7 +114,7 @@
 
 #     - name: Test logical ports configuration validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_invalid_dict_type }}"
@@ -133,7 +133,7 @@
 
 #     - name: Test logical ports configuration validation - list instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_invalid_list_type }}"
@@ -152,7 +152,7 @@
 
 #     - name: Test port channel auto validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_auto_integer }}"
@@ -171,7 +171,7 @@
 
 #     - name: Test port channel LACP system priority validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_string }}"
@@ -190,7 +190,7 @@
 
 #     - name: Test port channel LACP system priority validation - boolean value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_boolean }}"
@@ -209,7 +209,7 @@
 
 #     - name: Test port channel LACP system priority validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_negative }}"
@@ -228,7 +228,7 @@
 
 #     - name: Test port channel LACP system priority validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_lacp_system_priority_max }}"
@@ -247,7 +247,7 @@
 
 #     - name: Test port channel load balancing method validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_load_balancing_method_invalid }}"
@@ -266,7 +266,7 @@
 
 #     - name: Test port channel load balancing method validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_load_balancing_method_integer }}"
@@ -285,7 +285,7 @@
 
 #     - name: Test port channels validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channels_invalid_list_type }}"
@@ -304,7 +304,7 @@
 
 #     - name: Test port channels validation - dictionary instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channels_invalid_dict_type }}"
@@ -327,7 +327,7 @@
 
 #     - name: Test port channel item validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_item_invalid_dict_type }}"
@@ -346,7 +346,7 @@
 
 #     - name: Test missing required port channel protocol
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_protocol_missing }}"
@@ -365,7 +365,7 @@
 
 #     - name: Test port channel protocol validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_protocol_invalid }}"
@@ -384,7 +384,7 @@
 
 #     - name: Test port channel protocol validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_protocol_integer }}"
@@ -403,7 +403,7 @@
 
 #     - name: Test missing required port channel name
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_name_missing }}"
@@ -422,7 +422,7 @@
 
 #     - name: Test port channel name validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_name_integer }}"
@@ -441,7 +441,7 @@
 
 #     - name: Test port channel name validation - too short should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_name_too_short }}"
@@ -460,7 +460,7 @@
 
 #     - name: Test port channel name validation - too long should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_name_too_long }}"
@@ -479,7 +479,7 @@
 
 #     - name: Test port channel name validation - empty string should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_name_empty }}"
@@ -498,7 +498,7 @@
 
 #     - name: Test port channel min links validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_min_links_string }}"
@@ -517,7 +517,7 @@
 
 #     - name: Test port channel min links validation - negative value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_min_links_negative }}"
@@ -536,7 +536,7 @@
 
 #     - name: Test port channel min links validation - zero value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_min_links_zero }}"
@@ -555,7 +555,7 @@
 
 #     - name: Test port channel min links validation - exceeds maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_min_links_max }}"
@@ -574,7 +574,7 @@
 
 #     - name: Test missing required port channel members
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_members_missing }}"
@@ -593,7 +593,7 @@
 
 #     - name: Test port channel members validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_members_invalid_list_type }}"
@@ -612,7 +612,7 @@
 
 #     - name: Test port channel members validation - dictionary instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_members_invalid_dict_type }}"
@@ -631,7 +631,7 @@
 
 #     - name: Test port channel members validation - empty list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_members_empty_list }}"
@@ -654,7 +654,7 @@
 
 #     - name: Test port channel member item validation - string instead of dictionary should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_member_invalid_dict_type }}"
@@ -673,7 +673,7 @@
 
 #     - name: Test missing required port channel interface name
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_interface_name_missing }}"
@@ -692,7 +692,7 @@
 
 #     - name: Test port channel interface name validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_interface_name_integer }}"
@@ -711,7 +711,7 @@
 
 #     - name: Test port channel mode validation - invalid choice for LACP should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_mode_invalid_lacp }}"
@@ -730,7 +730,7 @@
 
 #     - name: Test port channel mode validation - invalid choice for PAGP should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_mode_invalid_pagp }}"
@@ -749,7 +749,7 @@
 
 #     - name: Test port channel mode validation - invalid choice for NONE should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_mode_invalid_none }}"
@@ -768,7 +768,7 @@
 
 #     - name: Test port channel mode validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_mode_integer }}"
@@ -787,7 +787,7 @@
 
 #     - name: Test port channel port priority validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_port_priority_string }}"
@@ -806,7 +806,7 @@
 
 #     - name: Test port channel port priority validation - negative value for LACP should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_port_priority_negative_lacp }}"
@@ -825,7 +825,7 @@
 
 #     - name: Test port channel port priority validation - exceeds maximum for LACP should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_port_priority_max_lacp }}"
@@ -844,7 +844,7 @@
 
 #     - name: Test port channel port priority validation - exceeds maximum for PAGP should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_port_priority_max_pagp }}"
@@ -863,7 +863,7 @@
 
 #     - name: Test port channel rate validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_rate_string }}"
@@ -882,7 +882,7 @@
 
 #     - name: Test port channel rate validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_rate_invalid }}"
@@ -901,7 +901,7 @@
 
 #     - name: Test port channel learn method validation - invalid choice should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_learn_method_invalid }}"
@@ -920,7 +920,7 @@
 
 #     - name: Test port channel learn method validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_learn_method_integer }}"
@@ -939,7 +939,7 @@
 
 #     - name: Test port channel learn method on non-PAGP protocol should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_port_channel_learn_method_non_pagp }}"
@@ -966,7 +966,7 @@
 
 #     - name: Create logical ports configuration with global parameters only - auto enabled
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_global_auto_enabled }}"
@@ -989,7 +989,7 @@
 
 #     - name: Create logical ports configuration with global parameters only - auto disabled
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_global_auto_disabled }}"
@@ -1012,7 +1012,7 @@
 
 #     - name: Create logical ports configuration with single LACP port channel - minimal
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_single_lacp_minimal }}"
@@ -1035,7 +1035,7 @@
 
 #     - name: Create logical ports configuration with single LACP port channel - comprehensive
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_single_lacp_comprehensive }}"
@@ -1058,7 +1058,7 @@
 
 #     - name: Create logical ports configuration with single PAGP port channel - minimal
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_single_pagp_minimal }}"
@@ -1081,7 +1081,7 @@
 
 #     - name: Create logical ports configuration with single PAGP port channel - comprehensive
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_single_pagp_comprehensive }}"
@@ -1104,7 +1104,7 @@
 
 #     - name: Create logical ports configuration with single static port channel - minimal
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_single_static_minimal }}"
@@ -1127,7 +1127,7 @@
 
 #     - name: Create logical ports configuration with single static port channel - comprehensive
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_single_static_comprehensive }}"
@@ -1150,7 +1150,7 @@
 
 #     - name: Create logical ports configuration with multiple port channels - different protocols
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_multiple_different_protocols }}"
@@ -1173,7 +1173,7 @@
 
 #     - name: Create logical ports configuration with multiple LACP port channels
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_multiple_lacp }}"
@@ -1196,7 +1196,7 @@
 
 #     - name: Create logical ports configuration with all load balancing methods
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_all_load_balancing_methods }}"
@@ -1219,7 +1219,7 @@
 
 #     - name: Create logical ports configuration with boundary values - minimum
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_boundary_minimum_values }}"
@@ -1242,7 +1242,7 @@
 
 #     - name: Create logical ports configuration with boundary values - maximum
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_boundary_maximum_values }}"
@@ -1265,7 +1265,7 @@
 
 #     - name: Create logical ports configuration with PAGP boundary values
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_pagp_boundary_values }}"
@@ -1288,7 +1288,7 @@
 
 #     - name: Create logical ports configuration with all LACP modes
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_create_all_lacp_modes }}"
@@ -1315,7 +1315,7 @@
 
 #     - name: Update logical ports configuration - global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_update_global_only }}"
@@ -1338,7 +1338,7 @@
 
 #     - name: Update logical ports configuration - change LACP system priority only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_update_lacp_priority_only }}"
@@ -1361,7 +1361,7 @@
 
 #     - name: Update logical ports configuration - modify multiple port channels simultaneously
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ logical_ports_vars_map.test_logical_ports_update_multiple_port_channels }}"

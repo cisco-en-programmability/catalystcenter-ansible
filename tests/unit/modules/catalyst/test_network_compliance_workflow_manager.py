@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import network_compliance_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    network_compliance_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -31,11 +33,12 @@ class TestNetworkCompliance(TestDnacModule):
         super(TestNetworkCompliance, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
@@ -111,7 +114,7 @@ class TestNetworkCompliance(TestDnacModule):
                 self.test_data.get("response_get_compliance_details_of_device_17"),
                 self.test_data.get("response_get_compliance_details_of_device_18"),
                 self.test_data.get("response_get_compliance_details_of_device_19"),
-                self.test_data.get("response_get_compliance_details_of_device_20")
+                self.test_data.get("response_get_compliance_details_of_device_20"),
             ]
 
         # Run full compliance using site with categories
@@ -130,7 +133,7 @@ class TestNetworkCompliance(TestDnacModule):
                 self.test_data.get("response_get_compliance_details_of_device_17"),
                 self.test_data.get("response_get_compliance_details_of_device_18"),
                 self.test_data.get("response_get_compliance_details_of_device_19"),
-                self.test_data.get("response_get_compliance_details_of_device_20")
+                self.test_data.get("response_get_compliance_details_of_device_20"),
             ]
 
         # Run Sync Device Config
@@ -138,20 +141,30 @@ class TestNetworkCompliance(TestDnacModule):
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_device_list"),
                 self.test_data.get("response_compliance_details_sync_device_config"),
-                self.test_data.get("response_get_compliance_details_sync_device_config_2"),
+                self.test_data.get(
+                    "response_get_compliance_details_sync_device_config_2"
+                ),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id"),
-                self.test_data.get("response_get_compliance_details_sync_device_config_3"),
+                self.test_data.get(
+                    "response_get_compliance_details_sync_device_config_3"
+                ),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id"),
-                self.test_data.get("response_get_compliance_details_sync_device_config_4")
+                self.test_data.get(
+                    "response_get_compliance_details_sync_device_config_4"
+                ),
             ]
 
-# SUCCESS TESTCASES ########################################################################################
+    # SUCCESS TESTCASES ########################################################################################
 
-# Run full compliance using an IP Address list
+    # Run full compliance using an IP Address list
     def test_run_compliance_with_iplist(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_run_compliance_iplist")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_run_compliance_iplist")
+            )
+        )
 
         set_module_args(
             dict(
@@ -164,18 +177,21 @@ class TestNetworkCompliance(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_run_compliance_iplist")
+                config=self.test_data.get("playbook_config_run_compliance_iplist"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Run Compliance Check Succeeded for following device(s)",
-            result.get('msg')
+            "Run Compliance Check Succeeded for following device(s)", result.get("msg")
         )
 
-# Run full compliance using site name
+    # Run full compliance using site name
     def test_run_compliance_with_site(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_run_compliance_site")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_run_compliance_site")
+            )
+        )
 
         set_module_args(
             dict(
@@ -188,18 +204,23 @@ class TestNetworkCompliance(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_run_compliance_site")
+                config=self.test_data.get("playbook_config_run_compliance_site"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Run Compliance Check Succeeded for following device(s)",
-            result.get('msg')
+            "Run Compliance Check Succeeded for following device(s)", result.get("msg")
         )
 
-# Run full compliance using categories
+    # Run full compliance using categories
     def test_run_compliance_with_categories(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_run_compliance_with_categories")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_run_compliance_with_categories"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -212,18 +233,25 @@ class TestNetworkCompliance(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_run_compliance_with_categories")
+                config=self.test_data.get(
+                    "playbook_config_run_compliance_with_categories"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Run Compliance Check Succeeded for following device(s)",
-            result.get('msg')
+            "Run Compliance Check Succeeded for following device(s)", result.get("msg")
         )
 
-# Run full compliance using categories
+    # Run full compliance using categories
     def test_run_compliance_with_site_categories(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_run_compliance_with_site_categories")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_run_compliance_with_site_categories"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -236,18 +264,23 @@ class TestNetworkCompliance(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_run_compliance_with_site_categories")
+                config=self.test_data.get(
+                    "playbook_config_run_compliance_with_site_categories"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Run Compliance Check Succeeded for following device(s)",
-            result.get('msg')
+            "Run Compliance Check Succeeded for following device(s)", result.get("msg")
         )
 
-# Run sync device config
+    # Run sync device config
     def test_run_sync_device_config(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_sync_device_config")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get("playbook_config_sync_device_config")
+            )
+        )
 
         set_module_args(
             dict(
@@ -260,11 +293,11 @@ class TestNetworkCompliance(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_sync_device_config")
+                config=self.test_data.get("playbook_config_sync_device_config"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Sync Device Configuration Succeeded for following device(s)",
-            result.get('msg')
+            result.get("msg"),
         )

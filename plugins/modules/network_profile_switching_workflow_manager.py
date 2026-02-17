@@ -5,6 +5,7 @@
 
 """Ansible module to create, update, or delete network switch profiles
 in Cisco Catalyst Center, and manage associated sites and CLI templates."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -120,7 +121,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -416,7 +417,7 @@ except ImportError:
 import re
 import time
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     validate_list_of_dicts,
     validate_str,
 )
@@ -1804,7 +1805,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -1820,7 +1824,7 @@ def main():
     state = ccc_network_profile.params.get("state")
 
     if (
-        ccc_network_profile.compare_dnac_versions(
+        ccc_network_profile.compare_catalystcenter_versions(
             ccc_network_profile.get_ccc_version(), "2.3.7.9"
         )
         < 0

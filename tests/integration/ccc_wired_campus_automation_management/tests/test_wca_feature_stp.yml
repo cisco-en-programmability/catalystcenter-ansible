@@ -92,16 +92,16 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_stp.yml"
 #         name: stp_vars_map
 #       vars:
-#         dnac_login: &dnac_login
-#           dnac_host: "{{ dnac_host }}"
-#           dnac_username: "{{ dnac_username }}"
-#           dnac_password: "{{ dnac_password }}"
-#           dnac_verify: "{{ dnac_verify }}"
-#           dnac_port: "{{ dnac_port }}"
-#           dnac_version: "{{ dnac_version }}"
-#           dnac_debug: "{{ dnac_debug }}"
-#           dnac_log: true
-#           dnac_log_level: "DEBUG"
+#         catalyst_login: &catalyst_login
+#           catalystcenter_host: "{{ catalystcenter_host }}"
+#           catalystcenter_username: "{{ catalystcenter_username }}"
+#           catalystcenter_password: "{{ catalystcenter_password }}"
+#           catalystcenter_verify: "{{ catalystcenter_verify }}"
+#           catalystcenter_port: "{{ catalystcenter_port }}"
+#           catalystcenter_version: "{{ catalystcenter_version }}"
+#           catalystcenter_debug: "{{ catalystcenter_debug }}"
+#           catalystcenter_log: true
+#           catalystcenter_log_level: "DEBUG"
 #           config_verify: true
 #           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
 #           dnac_log_append: false
@@ -116,7 +116,7 @@
 
 #     - name: Test STP mode validation - invalid string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_global_mode_invalid_string }}"
@@ -135,7 +135,7 @@
 
 #     - name: Test STP mode validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_global_mode_invalid_integer }}"
@@ -158,7 +158,7 @@
 
 #     - name: Test STP portfast mode validation - invalid string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_portfast_mode_invalid_string }}"
@@ -177,7 +177,7 @@
 
 #     - name: Test STP portfast mode validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_portfast_mode_invalid_integer }}"
@@ -200,7 +200,7 @@
 
 #     - name: Test STP BPDU guard validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_bpdu_guard_invalid_string }}"
@@ -219,7 +219,7 @@
 
 #     - name: Test STP BPDU guard validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_bpdu_guard_invalid_integer }}"
@@ -238,7 +238,7 @@
 
 #     - name: Test STP BPDU filter validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_bpdu_filter_invalid_string }}"
@@ -257,7 +257,7 @@
 
 #     - name: Test STP BPDU filter validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_bpdu_filter_invalid_integer }}"
@@ -276,7 +276,7 @@
 
 #     - name: Test STP backbonefast validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_backbonefast_invalid_string }}"
@@ -295,7 +295,7 @@
 
 #     - name: Test STP backbonefast validation - integer value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_backbonefast_invalid_integer }}"
@@ -318,7 +318,7 @@
 
 #     - name: Test STP transmit hold count validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_transmit_hold_count_invalid_string }}"
@@ -337,7 +337,7 @@
 
 #     - name: Test STP transmit hold count validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_transmit_hold_count_below_min }}"
@@ -356,7 +356,7 @@
 
 #     - name: Test STP transmit hold count validation - above maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_transmit_hold_count_above_max }}"
@@ -375,7 +375,7 @@
 
 #     - name: Test STP uplinkfast max update rate validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_uplinkfast_max_update_rate_invalid_string }}"
@@ -394,7 +394,7 @@
 
 #     - name: Test STP uplinkfast max update rate validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_uplinkfast_max_update_rate_below_min }}"
@@ -413,7 +413,7 @@
 
 #     - name: Test STP uplinkfast max update rate validation - above maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_uplinkfast_max_update_rate_above_max }}"
@@ -436,7 +436,7 @@
 
 #     - name: Test STP instance VLAN ID validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_vlan_id_invalid_string }}"
@@ -455,7 +455,7 @@
 
 #     - name: Test STP instance VLAN ID validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_vlan_id_below_min }}"
@@ -474,7 +474,7 @@
 
 #     - name: Test STP instance VLAN ID validation - above maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_vlan_id_above_max }}"
@@ -493,7 +493,7 @@
 
 #     - name: Test STP instance VLAN ID validation - missing required should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_vlan_id_missing }}"
@@ -512,7 +512,7 @@
 
 #     - name: Test STP instance priority validation - string value should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_priority_invalid_string }}"
@@ -531,7 +531,7 @@
 
 #     - name: Test STP instance priority validation - below minimum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_priority_below_min }}"
@@ -550,7 +550,7 @@
 
 #     - name: Test STP instance priority validation - above maximum should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_priority_above_max }}"
@@ -569,7 +569,7 @@
 
 #     - name: Test STP instance priority validation - not multiple of 4096 should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_priority_not_multiple }}"
@@ -592,7 +592,7 @@
 
 #     - name: Test STP structure validation - string instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_invalid_dict_type }}"
@@ -611,7 +611,7 @@
 
 #     - name: Test STP instances structure validation - string instead of list should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instances_invalid_string }}"
@@ -630,7 +630,7 @@
 
 #     - name: Test STP instance item structure validation - string instead of dict should fail
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_instance_invalid_dict_type }}"
@@ -657,7 +657,7 @@
 
 #     - name: Test STP configuration with global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_create_global_only }}"
@@ -681,7 +681,7 @@
 
 #     - name: Test STP configuration with instances only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_create_instances_only }}"
@@ -705,7 +705,7 @@
 
 #     - name: Test STP configuration with single instance
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_create_single_instance }}"
@@ -729,7 +729,7 @@
 
 #     - name: Test STP configuration with global and instances
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
@@ -753,7 +753,7 @@
 
 #     - name: Test STP configuration with minimal global parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_create_minimal_global }}"
@@ -777,7 +777,7 @@
 
 #     - name: Test STP configuration with minimal instance parameters
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_create_minimal_instance }}"
@@ -809,7 +809,7 @@
 
 #     - name: Test STP update - global parameters only
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_update_global_only }}"
@@ -833,7 +833,7 @@
 
 #     - name: Test STP update - add new instances
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_update_add_instances }}"
@@ -857,7 +857,7 @@
 
 #     - name: Test STP update - modify existing instances
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_update_modify_instances }}"
@@ -881,7 +881,7 @@
 
 #     - name: Test STP update - global and instances together
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_update_global_and_instances }}"
@@ -905,7 +905,7 @@
 
 #     - name: Test STP update - change STP mode
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_update_change_mode }}"
@@ -929,7 +929,7 @@
 
 #     - name: Test STP update - modify single instance
 #       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *dnac_login
+#         <<: *catalyst_login
 #         state: merged
 #         config:
 #           - "{{ stp_vars_map.test_stp_update_single_instance }}"
@@ -961,7 +961,7 @@
 
 #     # - name: Test STP delete - instances only (Type 3 - deletes specified instances, preserves global)
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_delete_instances_only }}"
@@ -984,7 +984,7 @@
 
 #     # - name: Test STP delete - global and instances (Type 3 - deletes instances only, preserves global)
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_delete_global_and_instances }}"
@@ -1008,7 +1008,7 @@
 
 #     # - name: Test STP delete - global only (Type 3 - resets global + deletes instances)
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_delete_global_only }}"
@@ -1032,7 +1032,7 @@
 
 #     # - name: Test STP delete - empty configuration (Type 3 - resets global + deletes all instances)
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_delete_empty }}"
@@ -1057,7 +1057,7 @@
 #     # # Setup configuration for deletion tests
 #     # - name: Setup STP configuration for deletion tests
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: merged
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
@@ -1072,7 +1072,7 @@
 #     # # Setup configuration again for instances-only deletion test
 #     # - name: Setup STP configuration for instances deletion test
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: merged
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
@@ -1088,7 +1088,7 @@
 
 #     # - name: Test STP delete - single instance
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_delete_single_instance }}"
@@ -1113,7 +1113,7 @@
 #     # # Setup configuration again for global+instances deletion test
 #     # - name: Setup STP configuration for global+instances deletion test
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: merged
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
@@ -1127,7 +1127,7 @@
 
 #     # - name: Test STP delete - multiple specific instances
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_delete_multiple_instances }}"
@@ -1159,7 +1159,7 @@
 
 #     # - name: Test STP Idempotency - Configure same STP settings twice
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: merged
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
@@ -1173,7 +1173,7 @@
 
 #     # - name: Test STP Idempotency - Configure same STP settings again (should be idempotent)
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: merged
 #     #     config:
 #     #       - "{{ stp_vars_map.test_stp_create_global_and_instances }}"
@@ -1195,7 +1195,7 @@
 
 #     # - name: Cleanup - Reset STP to default configuration
 #     #   cisco.dnac.wired_campus_automation_workflow_manager:
-#     #     <<: *dnac_login
+#     #     <<: *catalyst_login
 #     #     state: deleted
 #     #     config:
 #     #       - ip_address: "204.1.2.3"

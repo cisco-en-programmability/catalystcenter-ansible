@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on SDA fabric multicast in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -593,7 +594,7 @@ response_4:
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from collections import defaultdict
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -820,7 +821,7 @@ class FabricMulticast(CatalystCenterBase):
             return False
 
         try:
-            (site_exists, site_id) = self.get_site_id(fabric_name)
+            site_exists, site_id = self.get_site_id(fabric_name)
             self.log(
                 f"Site lookup for '{fabric_name}' completed. Exists: {site_exists}, Site ID: {site_id}.",
                 "DEBUG",
@@ -1467,7 +1468,7 @@ class FabricMulticast(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            (site_exists, site_id) = self.get_site_id(fabric_name)
+            site_exists, site_id = self.get_site_id(fabric_name)
             self.log(
                 "Retrieved site ID: {site_id}. Site exists: {site_exists}.".format(
                     site_id=site_id, site_exists=site_exists
@@ -1743,7 +1744,7 @@ class FabricMulticast(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            (site_exists, site_id) = self.get_site_id(fabric_name)
+            site_exists, site_id = self.get_site_id(fabric_name)
             self.log(
                 "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
                     site_name=fabric_name, site_exists=site_exists
@@ -5423,7 +5424,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -5439,7 +5443,9 @@ def main():
     ccc_version = ccc_sda_multicast.get_ccc_version()
     minimum_supported_version = "2.3.7.6"
     if (
-        ccc_sda_multicast.compare_dnac_versions(ccc_version, minimum_supported_version)
+        ccc_sda_multicast.compare_catalystcenter_versions(
+            ccc_version, minimum_supported_version
+        )
         < 0
     ):
         ccc_sda_multicast.msg = (

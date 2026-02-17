@@ -33,11 +33,12 @@ class TestDnacTemplateIntent(TestDnacModule):
         super(TestDnacTemplateIntent, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
@@ -47,7 +48,6 @@ class TestDnacTemplateIntent(TestDnacModule):
         self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
-
         """
         Load fixtures for a specific device.
 
@@ -63,7 +63,7 @@ class TestDnacTemplateIntent(TestDnacModule):
                 self.test_data.get("create_template_response"),
                 self.test_data.get("create_template_task_details_for_create"),
                 self.test_data.get("create_template_version_template_response"),
-                self.test_data.get("create_template_task_details_for_versioning")
+                self.test_data.get("create_template_task_details_for_versioning"),
             ]
         elif "update_not_needed" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -76,7 +76,7 @@ class TestDnacTemplateIntent(TestDnacModule):
                 self.test_data.get("update_template_existing_template_needs_update"),
                 self.test_data.get("update_template_response"),
                 self.test_data.get("update_template_version_template_response"),
-                self.test_data.get("update_template_task_details_for_versioning")
+                self.test_data.get("update_template_task_details_for_versioning"),
             ]
         elif "project_not_found" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -95,7 +95,6 @@ class TestDnacTemplateIntent(TestDnacModule):
             ]
 
     def test_template_intent_create_template(self):
-
         """
         Test case for template intent when creating a template.
 
@@ -109,17 +108,16 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('response').get('progress'),
-            "Successfully committed template ANSIBLE-TEST to version 1"
+            result.get("response").get("progress"),
+            "Successfully committed template ANSIBLE-TEST to version 1",
         )
 
     def test_template_intent_update_not_needed(self):
-
         """
         Test case for template intent when no update is needed.
 
@@ -133,17 +131,13 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            "Template does not need update"
-        )
+        self.assertEqual(result.get("msg"), "Template does not need update")
 
     def test_template_intent_update_needed(self):
-
         """
         Test case for template intent when an update is needed.
 
@@ -157,17 +151,16 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('response').get('progress'),
-            "Successfully committed template ANSIBLE-TEST to version 2"
+            result.get("response").get("progress"),
+            "Successfully committed template ANSIBLE-TEST to version 2",
         )
 
     def test_template_intent_project_not_found(self):
-
         """
         Test case for template intent when the project is not found.
 
@@ -181,17 +174,13 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Project Not Found"
-        )
+        self.assertEqual(result.get("msg"), "Project Not Found")
 
     def test_template_intent_delete_non_existing_template(self):
-
         """
         Test case for template intent when trying to delete a non-existing template.
 
@@ -205,17 +194,13 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'),
-            "Template not found"
-        )
+        self.assertEqual(result.get("msg"), "Template not found")
 
     def test_template_intent_delete_template(self):
-
         """
         Test case for template intent when deleting a template.
 
@@ -229,17 +214,16 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="deleted",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get('response').get('progress'),
-            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"
+            result.get("response").get("progress"),
+            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
         )
 
     def test_template_intent_missing_param(self):
-
         """
         Test case for template intent with missing parameters in the playbook.
 
@@ -253,17 +237,16 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_missing_param
+                config=self.playbook_config_missing_param,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "missing required arguments: language or deviceTypes or softwareType"
+            result.get("msg"),
+            "missing required arguments: language or deviceTypes or softwareType",
         )
 
     def test_template_intent_invalid_state(self):
-
         """
         Test case for template intent with an invalid 'state' parameter.
 
@@ -277,17 +260,16 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merge",
-                config=self.playbook_config
+                config=self.playbook_config,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "value of state must be one of: merged, deleted, got: merge"
+            result.get("msg"),
+            "value of state must be one of: merged, deleted, got: merge",
         )
 
     def test_template_intent_invalid_param(self):
-
         """
         Test case for template intent with invalid parameters in the playbook.
 
@@ -301,11 +283,11 @@ class TestDnacTemplateIntent(TestDnacModule):
                 catalystcenter_password="dummy",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.test_data.get("playbook_config_invalid_param")
+                config=self.test_data.get("playbook_config_invalid_param"),
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Invalid parameters in playbook: velocty : Invalid choice provided"
+            result.get("msg"),
+            "Invalid parameters in playbook: velocty : Invalid choice provided",
         )

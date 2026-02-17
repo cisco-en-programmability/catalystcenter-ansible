@@ -386,7 +386,7 @@ EXAMPLES = r"""
 - name: Create a tag with description.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -415,7 +415,7 @@ EXAMPLES = r"""
     series.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -455,7 +455,7 @@ EXAMPLES = r"""
     interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -500,7 +500,7 @@ EXAMPLES = r"""
     interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -537,7 +537,7 @@ EXAMPLES = r"""
     interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -576,7 +576,7 @@ EXAMPLES = r"""
 - name: Assign tags to devices or interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -644,7 +644,7 @@ EXAMPLES = r"""
     a specific site.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -684,7 +684,7 @@ EXAMPLES = r"""
 - name: Delete a Tag.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -711,7 +711,7 @@ EXAMPLES = r"""
 - name: Force delete a Tag.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -739,7 +739,7 @@ EXAMPLES = r"""
     rules
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -772,7 +772,7 @@ EXAMPLES = r"""
 - name: Delete scope members of a tag with port rules
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -807,7 +807,7 @@ EXAMPLES = r"""
     rules
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -846,7 +846,7 @@ EXAMPLES = r"""
 - name: Delete tags from members.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -905,7 +905,7 @@ EXAMPLES = r"""
 - name: Delete tags from members within a specific sites.
   hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -960,7 +960,7 @@ dnac_response:
 
 from collections import defaultdict
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
@@ -5898,7 +5898,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.9"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -5913,7 +5916,7 @@ def main():
 
     ccc_tags = Tags(module)
     ccc_version = ccc_tags.get_ccc_version()
-    if ccc_tags.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_tags.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_tags.msg = (
             "Tagging feature is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
             "from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for creating, updating and deleting the "

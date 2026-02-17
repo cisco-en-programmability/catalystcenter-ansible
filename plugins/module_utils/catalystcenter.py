@@ -22,7 +22,6 @@ else:
 from ansible.module_utils._text import to_native
 from ansible.module_utils.common import validation
 
-
 try:
     from ansible.module_utils.basic import env_fallback  # type: ignore
 except Exception:
@@ -119,11 +118,6 @@ class CatalystCenterBase:
         for version_key, version_value in self.catalystcenter_versions.items():
             setattr(self, "version_" + version_key.replace(".", "_"), version_value)
 
-        # Backward-compatibility aliases (dnac -> catalystcenter)
-        self.dnac_apply = self.catalystcenter_apply
-        self.dnac_version = self.catalystcenter_version
-        self.dnac_versions = self.catalystcenter_versions
-
         if self.catalystcenter_log and not CatalystCenterBase.__is_log_init:
             self.catalystcenter_log_level = (
                 catalystcenter_params.get("catalystcenter_log_level") or "WARNING"
@@ -192,9 +186,6 @@ class CatalystCenterBase:
 
         # Versions are equal
         return 0
-
-    # Backward-compatibility alias
-    compare_dnac_versions = compare_catalystcenter_versions
 
     def get_safe_log_config(self, config_dict):
         """
@@ -988,7 +979,7 @@ class CatalystCenterBase:
         mgmt_ip_to_instance_id_map = {}
         skipped_devices_list = []
 
-        (site_exists, site_id) = self.get_site_id(site_name)
+        site_exists, site_id = self.get_site_id(site_name)
         if not site_exists:
             self.msg = "Site '{0}' does not exist in the Cisco Catalyst Center, cannot proceed with device(s) retrieval.".format(
                 site_name
@@ -3363,10 +3354,6 @@ def catalystcenter_compare_equality(current_value, requested_value):
 
 def simple_cmp(obj1, obj2):
     return obj1 == obj2
-
-
-# Backward-compatibility alias
-dnac_compare_equality = catalystcenter_compare_equality
 
 
 def get_dict_result(result, key, value, cmp_fn=simple_cmp):

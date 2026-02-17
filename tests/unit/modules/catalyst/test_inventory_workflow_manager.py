@@ -20,7 +20,9 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import inventory_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    inventory_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -34,33 +36,52 @@ class TestDnacInventoryWorkflow(TestDnacModule):
     playbook_delete_a_device = test_data.get("playbook_delete_a_device")
     playbook_add_existing_devices = test_data.get("playbook_add_existing_devices")
     playbook_add_udf = test_data.get("playbook_add_udf")
-    playbook_provision_failed_for_site = test_data.get("playbook_provision_failed_for_site")
-    playbook_delete_provisioned_device = test_data.get("playbook_delete_provisioned_device")
-    playbook_update_interface_details = test_data.get("playbook_update_interface_details")
+    playbook_provision_failed_for_site = test_data.get(
+        "playbook_provision_failed_for_site"
+    )
+    playbook_delete_provisioned_device = test_data.get(
+        "playbook_delete_provisioned_device"
+    )
+    playbook_update_interface_details = test_data.get(
+        "playbook_update_interface_details"
+    )
     playbook_update_role = test_data.get("playbook_update_role")
     playbook_delete_device_udf = test_data.get("playbook_delete_device_udf")
     playbook_missing_mand_params = test_data.get("playbook_missing_mand_params")
     playbook_update_mgmt_ip = test_data.get("playbook_update_mgmt_ip")
     playbook_provision_device = test_data.get("playbook_provision_device")
-    playbook_del_provisioned_device_2353 = test_data.get("playbook_del_provisioned_device_2353")
+    playbook_del_provisioned_device_2353 = test_data.get(
+        "playbook_del_provisioned_device_2353"
+    )
     playbook_prov_device_2353 = test_data.get("playbook_prov_device_2353")
     playbook_already_provisioned = test_data.get("playbook_already_provisioned")
     playbook_delete_provision_device = test_data.get("playbook_delete_provision_device")
-    playbook_config_create_device_maintenance_schedule = test_data.get("playbook_config_create_device_maintenance_schedule")
-    playbook_config_no_device_maintenance_schedule_update = test_data.get("playbook_config_no_device_maintenance_schedule_update")
-    playbook_config_failed_update_device_maintenance_schedule = test_data.get("playbook_config_failed_update_device_maintenance_schedule")
-    playbook_config_delete_device_maintenance_schedule = test_data.get("playbook_config_delete_device_maintenance_schedule")
-    playbook_config_update_device_maintenance_schedule = test_data.get("playbook_config_update_device_maintenance_schedule")
+    playbook_config_create_device_maintenance_schedule = test_data.get(
+        "playbook_config_create_device_maintenance_schedule"
+    )
+    playbook_config_no_device_maintenance_schedule_update = test_data.get(
+        "playbook_config_no_device_maintenance_schedule_update"
+    )
+    playbook_config_failed_update_device_maintenance_schedule = test_data.get(
+        "playbook_config_failed_update_device_maintenance_schedule"
+    )
+    playbook_config_delete_device_maintenance_schedule = test_data.get(
+        "playbook_config_delete_device_maintenance_schedule"
+    )
+    playbook_config_update_device_maintenance_schedule = test_data.get(
+        "playbook_config_update_device_maintenance_schedule"
+    )
 
     def setUp(self):
         super(TestDnacInventoryWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
@@ -82,7 +103,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("TaskDetails_add_device_end"),
                 self.test_data.get("get_device_list_add_device_3"),
                 self.test_data.get("get_device_list_add_device_5"),
-                self.test_data.get("add_device_response"), ]
+                self.test_data.get("add_device_response"),
+            ]
 
         elif "playbook_delete_a_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -96,7 +118,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details2"),
                 self.test_data.get("get_device_list5"),
                 self.test_data.get("get_device_list6"),
-                self.test_data.get("delete_device_response1"),]
+                self.test_data.get("delete_device_response1"),
+            ]
 
         elif "playbook_add_existing_devices" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -104,7 +127,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list2_existing_devices"),
                 self.test_data.get("get_device_list3_existing_devices"),
                 self.test_data.get("get_device_list4_existing_devices"),
-                self.test_data.get("add_existing_devices_response"),]
+                self.test_data.get("add_existing_devices_response"),
+            ]
         elif "playbook_add_udf" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_add_udf"),
@@ -118,12 +142,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list5_add_udf"),
                 self.test_data.get("get_device_list6_add_udf"),
                 self.test_data.get("get_all_user_defined_fields2"),
-                self.test_data.get("add_udf_response"),]
+                self.test_data.get("add_udf_response"),
+            ]
         elif "playbook_provision_failed_for_site" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_provision_failed_for_site"),
                 self.test_data.get("get_device_list2_provision_failed_for_site"),
-                self.test_data.get("povisioning_failed_response"),]
+                self.test_data.get("povisioning_failed_response"),
+            ]
         elif "playbook_delete_provisioned_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_delete_provisioned_device"),
@@ -135,7 +161,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details2_delete_provisioned_device"),
                 self.test_data.get("get_device_list4_delete_provisioned_device"),
                 self.test_data.get("get_device_list5_delete_provisioned_device"),
-                self.test_data.get("delete_provisioned_response"),]
+                self.test_data.get("delete_provisioned_response"),
+            ]
         elif "playbook_update_interface_details" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_update_interface"),
@@ -150,7 +177,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list6_update_interface"),
                 self.test_data.get("get_device_list7_update_interface"),
                 self.test_data.get("get_interface_details2_update_interface"),
-                self.test_data.get("update_interface_details_response"),]
+                self.test_data.get("update_interface_details_response"),
+            ]
         elif "playbook_update_role" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_update_role"),
@@ -162,12 +190,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list5_update_role"),
                 self.test_data.get("get_device_list6_update_role"),
                 self.test_data.get("get_device_list7_update_role"),
-                self.test_data.get("update_role_response"),]
+                self.test_data.get("update_role_response"),
+            ]
         elif "playbook_missing_mand_params" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_missing_mand_params"),
                 self.test_data.get("get_device_list2_missing_mand_params"),
-                self.test_data.get("response_missing_uname_pwd_in_adding_device"),]
+                self.test_data.get("response_missing_uname_pwd_in_adding_device"),
+            ]
         elif "playbook_delete_device_udf" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_delete_device_udf"),
@@ -180,7 +210,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details2_delete_device_udf"),
                 self.test_data.get("get_device_list5_delete_device_udf"),
                 self.test_data.get("get_device_list6_delete_device_udf"),
-                self.test_data.get("delete_device_udf_response"),]
+                self.test_data.get("delete_device_udf_response"),
+            ]
         elif "playbook_update_mgmt_ip" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list1_update_mgmt_ip"),
@@ -199,7 +230,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details3_update_mgmt_ip"),
                 self.test_data.get("Task_Details4_update_mgmt_ip"),
                 self.test_data.get("download_a_file_by_fileid2_update_mgmt_ip"),
-                self.test_data.get("response_update_mgmt_ipaddress"),]
+                self.test_data.get("response_update_mgmt_ipaddress"),
+            ]
 
         elif "playbook_provision_device" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -237,7 +269,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_site_assigned_network_device_1"),
                 self.test_data.get("get_provisioned_wired_device_1"),
                 self.test_data.get("get_provisioned_wired_devices_2"),
-                self.test_data.get("already_provisioned_response")
+                self.test_data.get("already_provisioned_response"),
             ]
 
         elif "playbook_delete_provision_device" in self._testMethodName:
@@ -252,7 +284,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details_11"),
                 self.test_data.get("get_device_list_14"),
                 self.test_data.get("get_device_list_15"),
-                self.test_data.get("delete_response")
+                self.test_data.get("delete_response"),
             ]
 
         elif "playbook_del_provisioned_device_2353" in self._testMethodName:
@@ -264,7 +296,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_execution_details_device_del_prov_dev2353"),
                 self.test_data.get("get_device_list3_del_prov_dev2353"),
                 self.test_data.get("get_device_list4_del_prov_dev2353"),
-                self.test_data.get("response_del_provisioned_device_2353"),]
+                self.test_data.get("response_del_provisioned_device_2353"),
+            ]
 
         elif "playbook_prov_device_2353" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -277,7 +310,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list4_prov_device_2353"),
                 self.test_data.get("get_device_list5_prov_device_2353"),
                 self.test_data.get("get_provisioned_wired_devices_prov_device_2353"),
-                self.test_data.get("prov_device_2353_response"),]
+                self.test_data.get("prov_device_2353_response"),
+            ]
 
         elif "create_device_maintenance_schedule" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -290,7 +324,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_empty_schedule_details"),
                 self.test_data.get("get_empty_schedule_details"),
                 self.test_data.get("get_task_id_post_response"),
-                self.test_data.get("get_task_status_by_id")
+                self.test_data.get("get_task_status_by_id"),
             ]
 
         elif "no_device_maintenance_schedule_update" in self._testMethodName:
@@ -304,7 +338,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_maintenance_schedule_details"),
                 self.test_data.get("get_device_maintenance_schedule_details"),
                 self.test_data.get("get_device_maintenance_schedule_details"),
-                self.test_data.get("get_device_maintenance_schedule_details")
+                self.test_data.get("get_device_maintenance_schedule_details"),
             ]
 
         elif "failed_update_device_maintenance_schedule" in self._testMethodName:
@@ -317,7 +351,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_2_id_response"),
                 self.test_data.get("get_complete_schedule_maintenance_status_details"),
                 self.test_data.get("get_complete_schedule_maintenance_status_details"),
-                self.test_data.get("get_complete_schedule_maintenance_status_details")
+                self.test_data.get("get_complete_schedule_maintenance_status_details"),
             ]
 
         elif "update_device_maintenance_schedule" in self._testMethodName:
@@ -333,7 +367,9 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_schedule_maintenance_status_details"),
                 self.test_data.get("get_task_id_post_response"),
                 self.test_data.get("get_task_status_by_id"),
-                self.test_data.get("get_scheduled_maintenance_windows_for_network_devices")
+                self.test_data.get(
+                    "get_scheduled_maintenance_windows_for_network_devices"
+                ),
             ]
 
         elif "delete_device_maintenance_schedule" in self._testMethodName:
@@ -345,7 +381,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list_for_schedule_device_2"),
                 self.test_data.get("get_complete_schedule_maintenance_status_details"),
                 self.test_data.get("get_task_id_post_response"),
-                self.test_data.get("get_task_status_by_id")
+                self.test_data.get("get_task_status_by_id"),
             ]
 
     def test_inventory_workflow_manager_playbook_add_device(self):
@@ -363,14 +399,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_add_device
+                config=self.playbook_add_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "device(s) '60.1.1.1', '50.1.1.1' added successfully in Cisco Catalyst Center."
+            result.get("msg"),
+            "device(s) '60.1.1.1', '50.1.1.1' added successfully in Cisco Catalyst Center.",
         )
 
     def test_inventory_workflow_manager_playbook_add_existing_devices(self):
@@ -388,14 +424,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_add_existing_devices
+                config=self.playbook_add_existing_devices,
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "device(s) '70.2.2.2, 80.2.2.2' already present in the cisco catalyst center"
+            result.get("msg"),
+            "device(s) '70.2.2.2, 80.2.2.2' already present in the cisco catalyst center",
         )
 
     def test_inventory_workflow_manager_playbook_add_udf(self):
@@ -413,14 +449,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_add_udf
+                config=self.playbook_add_udf,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Global User Defined Field(UDF) named 'Test123' has been successfully added to the device."
+            result.get("msg"),
+            "Global User Defined Field(UDF) named 'Test123' has been successfully added to the device.",
         )
 
     def test_inventory_workflow_manager_playbook_provision_failed_for_site(self):
@@ -438,17 +474,17 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_provision_failed_for_site
+                config=self.playbook_provision_failed_for_site,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('msg'),
+            result.get("msg"),
             (
                 "An exception occurred while retrieving Site details for Site 'Global/Chennai/LTTS/FLOOR1' does not exist "
                 "in the Cisco Catalyst Center. Error: object of type 'NoneType' has no len()"
-            )
+            ),
         )
 
     def test_inventory_workflow_manager_playbook_update_interface_details(self):
@@ -466,14 +502,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_interface_details
+                config=self.playbook_update_interface_details,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Successfully updated the Interface Details for device '204.1.2.4'."
+            result.get("msg"),
+            "Successfully updated the Interface Details for device '204.1.2.4'.",
         )
 
     def test_inventory_workflow_manager_playbook_update_role(self):
@@ -491,14 +527,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_role
+                config=self.playbook_update_role,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Device(s) '['2.2.2.2']' role updated successfully to '['ACCESS']'"
+            result.get("msg"),
+            "Device(s) '['2.2.2.2']' role updated successfully to '['ACCESS']'",
         )
 
     def test_inventory_workflow_manager_playbook_missing_mand_params(self):
@@ -516,14 +552,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_missing_mand_params
+                config=self.playbook_missing_mand_params,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Required parameters ['password', 'username'] for adding devices '['70.2.2.2', '80.2.2.2']' are not present"
+            result.get("msg"),
+            "Required parameters ['password', 'username'] for adding devices '['70.2.2.2', '80.2.2.2']' are not present",
         )
 
     def test_inventory_workflow_manager_playbook_delete_a_device(self):
@@ -541,14 +577,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="deleted",
                 config_verify=True,
-                config=self.playbook_delete_a_device
+                config=self.playbook_delete_a_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "provisioned device(s) '12.12.12.12' successfully deleted in Cisco Catalyst Center."
+            result.get("msg"),
+            "provisioned device(s) '12.12.12.12' successfully deleted in Cisco Catalyst Center.",
         )
 
     def test_inventory_workflow_manager_playbook_provision_device(self):
@@ -566,14 +602,13 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_provision_device
+                config=self.playbook_provision_device,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('response'),
-            "Wired Device Provisioning failed for all devices"
+            result.get("response"), "Wired Device Provisioning failed for all devices"
         )
 
     def test_inventory_workflow_manager_playbook_already_provisioned(self):
@@ -591,14 +626,13 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_already_provisioned
+                config=self.playbook_already_provisioned,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get('response'),
-            "Wired Device Provisioning failed for all devices"
+            result.get("response"), "Wired Device Provisioning failed for all devices"
         )
 
     def test_inventory_workflow_manager_playbook_delete_provision_device(self):
@@ -616,14 +650,14 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.6",
                 state="deleted",
                 config_verify=True,
-                config=self.playbook_delete_provision_device
+                config=self.playbook_delete_provision_device,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response'),
-            "provisioned device(s) '204.192.3.40' successfully deleted in Cisco Catalyst Center."
+            result.get("response"),
+            "provisioned device(s) '204.192.3.40' successfully deleted in Cisco Catalyst Center.",
         )
 
     # def test_inventory_workflow_manager_playbook_config_create_device_maintenance_schedule(self):
@@ -726,7 +760,9 @@ class TestDnacInventoryWorkflow(TestDnacModule):
     #         result.get('msg')
     #     )
 
-    def test_inventory_workflow_manager_playbook_config_delete_device_maintenance_schedule(self):
+    def test_inventory_workflow_manager_playbook_config_delete_device_maintenance_schedule(
+        self,
+    ):
         """
         Test case for deletion of maintenance schedule for the network devices.
 
@@ -742,11 +778,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 state="deleted",
                 config_verify=False,
-                config=self.playbook_config_delete_device_maintenance_schedule
+                config=self.playbook_config_delete_device_maintenance_schedule,
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn(
-            "deleted successfully",
-            result.get('msg')
-        )
+        self.assertIn("deleted successfully", result.get("msg"))

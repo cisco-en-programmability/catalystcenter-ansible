@@ -337,7 +337,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Create Enterprise QoS Profile for Optimized
         Network Performance
@@ -396,7 +396,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Configure Enterprise QoS Profile for Consistent
         Traffic Prioritization
@@ -441,7 +441,7 @@ EXAMPLES = r"""
     Catalyst Center
   hosts: localhost
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   connection: local
   gather_facts: false
   tasks:
@@ -561,7 +561,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Create an Application Queueing Profile for
         Traffic Prioritization
@@ -651,7 +651,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Create an Application Queuing Profile with
         DSCP Settings
@@ -694,7 +694,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Update Application Queuing Profile in Cisco
         Catalyst Center
@@ -756,7 +756,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Delete application queuing profile from
         Cisco Catalyst Center
@@ -784,7 +784,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Define and Deploy Wired Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
@@ -824,7 +824,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Define and Deploy Wireless Application Policy
       cisco.catalystcenter.application_policy_workflow_manager:
@@ -864,7 +864,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - "credentials.yml"
+    - vars/credentials.yml
   tasks:
     - name: Delete application policy from Cisco Catalyst
         Center
@@ -1127,7 +1127,7 @@ application_policy_not_found_response_task_execution:
     }
 """
 
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
@@ -7098,7 +7098,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -7117,7 +7120,9 @@ def main():
     min_supported_version = "2.3.7.6"
 
     if (
-        ccc_application.compare_dnac_versions(current_version, min_supported_version)
+        ccc_application.compare_catalystcenter_versions(
+            current_version, min_supported_version
+        )
         < 0
     ):
         ccc_application.status = "failed"

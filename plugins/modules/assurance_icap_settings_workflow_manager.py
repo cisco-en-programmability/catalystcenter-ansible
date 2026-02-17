@@ -10,6 +10,7 @@ ICAP allows network administrators to collect and analyze packet captures from n
 connectivity and performance issues. This module enables automation of ICAP configurations, making it easier
 to manage assurance settings programmatically.
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -202,7 +203,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -265,7 +266,7 @@ EXAMPLES = r"""
 
 - hosts: catalystcenter_servers
   vars_files:
-    - credentials.yml
+    - vars/credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -318,7 +319,7 @@ except ImportError:
     HAS_PATHLIB = False
     pathlib = None
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
     validate_list_of_dicts,
 )
@@ -2185,7 +2186,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -2201,7 +2205,7 @@ def main():
     state = ccc_assurance.params.get("state")
     ccc_version = ccc_assurance.get_ccc_version()
 
-    if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_assurance.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_assurance.msg = """The specified version '{0}' does not support the Assurance Intelligent Capture
         Settings feature. Supported versions start from '2.3.7.9' onwards.""".format(
             ccc_assurance.get_ccc_version()

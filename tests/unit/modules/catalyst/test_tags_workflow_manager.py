@@ -29,7 +29,9 @@ __email__ = "soni.archit03@gmail.com"
 __version__ = "1.0.0"
 
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import tags_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    tags_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -83,12 +85,12 @@ class TestDnacTagsWorkflow(TestDnacModule):
         super(TestDnacTagsWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
@@ -337,7 +339,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "name : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_rule_description_not_provided_properly_in_device_rules_case_7(self):
@@ -362,7 +364,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             "rule_name : Required parameter not found\n"
             "search_pattern : Required parameter not found\n"
             "value : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_rule_description_not_provided_properly_in_port_rules_case_8(self):
@@ -387,7 +389,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             "rule_name : Required parameter not found\n"
             "search_pattern : Required parameter not found\n"
             "value : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_scope_category_not_provided_case_9(self):
@@ -410,7 +412,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "scope_category : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_not_enough_details_provided_in_device_details_in_tag_memberships_case_10(
@@ -456,7 +458,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "tags : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_site_names_not_provided_in_tag_memberships_case_12(self):
@@ -479,7 +481,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             result.get("msg"),
             "The playbook contains invalid parameters: \n"
             "site_names : Required parameter not found"
-            "\nRefer to the documentation for more details on the expected input type."
+            "\nRefer to the documentation for more details on the expected input type.",
         )
 
     def test_updating_only_port_rules_description_when_no_port_rules_are_present_case_13(

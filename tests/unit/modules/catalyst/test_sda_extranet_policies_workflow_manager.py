@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import sda_extranet_policies_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    sda_extranet_policies_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -31,11 +33,12 @@ class SDAExtranetPolicies(TestDnacModule):
         super(SDAExtranetPolicies, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.CatalystCenterSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         print(f"Mock for CatalystCenterSDK._exec: {self.run_catalystcenter_exec}")
@@ -87,14 +90,14 @@ class SDAExtranetPolicies(TestDnacModule):
         if "create_sda_extranet_policies_failure_2" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "create_sda_extranet_policies_failure_3" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "create_sda_extranet_policies_failure_4" in self._testMethodName:
@@ -102,7 +105,7 @@ class SDAExtranetPolicies(TestDnacModule):
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "create_sda_extranet_policies_failure_5" in self._testMethodName:
@@ -111,7 +114,7 @@ class SDAExtranetPolicies(TestDnacModule):
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
                 self.test_data.get("response_get_task_id"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "create_sda_extranet_policies_failure_6" in self._testMethodName:
@@ -121,7 +124,7 @@ class SDAExtranetPolicies(TestDnacModule):
                 self.test_data.get("response_get_fabric_sites"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "update_sda_extranet_policies_failure_1" in self._testMethodName:
@@ -129,7 +132,7 @@ class SDAExtranetPolicies(TestDnacModule):
                 self.test_data.get("response_get_extranet_policies_2"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "delete_sda_extranet_policies_failure_1" in self._testMethodName:
@@ -140,14 +143,14 @@ class SDAExtranetPolicies(TestDnacModule):
         if "delete_sda_extranet_policies_failure_2" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_3"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "delete_sda_extranet_policies_failure_3" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_3"),
                 self.test_data.get("response_get_task_id"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "delete_sda_extranet_policies_failure_4" in self._testMethodName:
@@ -155,13 +158,19 @@ class SDAExtranetPolicies(TestDnacModule):
                 self.test_data.get("response_get_extranet_policies_3"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
-# SUCCESS TESTCASES ########################################################################################
+    # SUCCESS TESTCASES ########################################################################################
 
     def test_create_sda_extranet_policies(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -174,7 +183,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -184,7 +195,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_update_sda_extranet_policies(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_update_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_update_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -197,7 +214,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_update_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -207,7 +226,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_delete_sda_extranet_policies(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -220,7 +245,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -229,10 +256,16 @@ class SDAExtranetPolicies(TestDnacModule):
             result.get("msg"),
         )
 
-# FAILURE TESTCASES ########################################################################################
+    # FAILURE TESTCASES ########################################################################################
 
     def test_create_sda_extranet_policies_failure_1(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -245,7 +278,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -255,7 +290,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_create_sda_extranet_policies_failure_2(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -268,7 +309,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -278,7 +321,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_create_sda_extranet_policies_failure_3(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -291,7 +340,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -301,7 +352,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_create_sda_extranet_policies_failure_4(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -314,7 +371,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -324,7 +383,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_create_sda_extranet_policies_failure_5(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -337,7 +402,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -347,7 +414,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_create_sda_extranet_policies_failure_6(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -360,7 +433,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_create_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -370,7 +445,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_update_sda_extranet_policies_failure_1(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_update_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_update_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -383,7 +464,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_update_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -393,7 +476,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_delete_sda_extranet_policies_failure_1(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -406,7 +495,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_delete_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -416,7 +507,13 @@ class SDAExtranetPolicies(TestDnacModule):
         )
 
     def test_delete_sda_extranet_policies_failure_2(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -429,13 +526,21 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_delete_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                ),
             )
         )
         self.execute_module(changed=False, failed=True)
 
     def test_delete_sda_extranet_policies_failure_3(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -448,13 +553,21 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_delete_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                ),
             )
         )
         self.execute_module(changed=False, failed=True)
 
     def test_delete_sda_extranet_policies_failure_4(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_delete_sda_extranet_policies")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -467,7 +580,9 @@ class SDAExtranetPolicies(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_delete_sda_extranet_policies"),
+                config=self.test_data.get(
+                    "playbook_config_delete_sda_extranet_policies"
+                ),
             )
         )
         self.execute_module(changed=False, failed=True)

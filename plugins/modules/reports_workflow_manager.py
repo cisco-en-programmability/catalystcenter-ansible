@@ -4,6 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage Report configurations in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1978,7 +1979,7 @@ from datetime import datetime
 import time
 import os
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac import (
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
     CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
@@ -8930,7 +8931,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -8953,7 +8957,7 @@ def main():
         ccc_report.check_return_status()
 
     ccc_version = ccc_report.get_ccc_version()
-    if ccc_report.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_report.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_report.msg = (
             "The specified version '{0}' does not support the Flexible Report features. "
             "Supported versions start from '2.3.7.9' onwards.".format(ccc_version)
