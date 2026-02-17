@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to operate the Authentication and Policy Servers in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1460,9 +1461,9 @@ class IseRadiusIntegration(CatalystCenterBase):
         try:
             AuthServer = self.auth_server_exists(ipAddress)
             if not AuthServer:
-                self.msg = "Error while retrieving the Authentication and Policy Server {0} \
-                            details.".format(
-                    ipAddress
+                self.msg = (
+                    "Error while retrieving the Authentication and Policy Server {0} \
+                            details.".format(ipAddress)
                 )
                 self.log(str(self.msg, "CRITICAL"))
                 self.status = "failed"
@@ -2330,7 +2331,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

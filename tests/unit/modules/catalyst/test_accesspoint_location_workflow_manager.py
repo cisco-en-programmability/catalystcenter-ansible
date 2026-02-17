@@ -24,7 +24,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import accesspoint_location_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    accesspoint_location_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -36,7 +38,9 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
     playbook_config_create_ap_location = test_data.get("create_ap_location")
     playbook_config_update_ap_location = test_data.get("update_ap_location")
     playbook_config_delete_ap_location = test_data.get("delete_ap_location")
-    playbook_config_create_assign_ap_location = test_data.get("create_assign_ap_location")
+    playbook_config_create_assign_ap_location = test_data.get(
+        "create_assign_ap_location"
+    )
 
     def setUp(self):
         super(TestDnacAccessPointLocationWorkflow, self).setUp()
@@ -70,7 +74,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
                 self.test_data.get("get_planned_location_not_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
-                self.test_data.get("create_planned_location_task_stats")
+                self.test_data.get("create_planned_location_task_stats"),
             ]
         elif "test_update_ap_location" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -81,7 +85,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
                 self.test_data.get("get_planned_location_exist"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
-                self.test_data.get("create_planned_location_task_stats")
+                self.test_data.get("create_planned_location_task_stats"),
             ]
         elif "test_delete_ap_location" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -89,7 +93,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("create_planned_location_task_id"),
                 self.test_data.get("create_planned_location_task_details"),
-                self.test_data.get("delete_ap_location_task_status")
+                self.test_data.get("delete_ap_location_task_status"),
             ]
         elif "test_create_assign_ap_location" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -97,7 +101,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
                 self.test_data.get("get_site_floor_response"),
                 self.test_data.get("get_ap_device_details"),
                 self.test_data.get("get_planned_location_not_exist"),
-                self.test_data.get("get_planned_location_not_exist")
+                self.test_data.get("get_planned_location_not_exist"),
             ]
 
     def test_create_ap_location(self):
@@ -115,8 +119,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access point positions processed successfully.",
-            result.get('msg')
+            "Access point positions processed successfully.", result.get("msg")
         )
 
     def test_update_ap_location(self):
@@ -134,8 +137,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Access point positions processed successfully.",
-            result.get('msg')
+            "Access point positions processed successfully.", result.get("msg")
         )
 
     def test_delete_ap_location(self):
@@ -155,7 +157,7 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertIn(
             "Access point positions deleted and verified successfully.",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_create_assign_ap_location(self):
@@ -174,5 +176,5 @@ class TestDnacAccessPointLocationWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Given accesspoint name not available in planned positions",
-            result.get('msg')
+            result.get("msg"),
         )

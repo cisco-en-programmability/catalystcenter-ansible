@@ -1752,7 +1752,7 @@ class Swim(CatalystCenterBase):
                     "INFO",
                 )
 
-        (site_exists, site_id) = self.site_exists(site_name)
+        site_exists, site_id = self.site_exists(site_name)
         if not site_exists:
             self.log(
                 """Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
@@ -2371,7 +2371,7 @@ class Swim(CatalystCenterBase):
             site_name = tagging_details.get("site_name")
             if site_name and site_name != "Global":
                 site_exists = False
-                (site_exists, site_id) = self.site_exists(site_name)
+                site_exists, site_id = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -2396,7 +2396,7 @@ class Swim(CatalystCenterBase):
             site_name = distribution_details.get("site_name")
             if site_name:
                 site_exists = False
-                (site_exists, site_id) = self.site_exists(site_name)
+                site_exists, site_id = self.site_exists(site_name)
 
                 if site_exists:
                     have["site_id"] = site_id
@@ -2479,7 +2479,7 @@ class Swim(CatalystCenterBase):
             site_name = activation_details.get("site_name")
             if site_name:
                 site_exists = False
-                (site_exists, site_id) = self.site_exists(site_name)
+                site_exists, site_id = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -4204,7 +4204,10 @@ class Swim(CatalystCenterBase):
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                <= 0
+            ):
                 success_distribution_list = []
                 failed_distribution_list = []
 
@@ -4914,7 +4917,10 @@ class Swim(CatalystCenterBase):
             activation_payload_list = []
 
             # OLD FLOW (for DNAC < 2.3.7.9)
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                <= 0
+            ):
                 for image_name, image_id in image_ids.items():
                     payload = [
                         {
@@ -6385,7 +6391,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -6401,7 +6410,12 @@ def main():
     ccc_swims = Swim(module)
     state = ccc_swims.params.get("state")
 
-    if ccc_swims.compare_catalystcenter_versions(ccc_swims.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_swims.compare_catalystcenter_versions(
+            ccc_swims.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
         ccc_swims.msg = """The specified version '{0}' does not support the 'swim_workflow_manager' feature.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_swims.get_ccc_version()
@@ -6409,7 +6423,10 @@ def main():
         ccc_swims.status = "failed"
         ccc_swims.check_return_status()
     if (
-        ccc_swims.compare_catalystcenter_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0
+        ccc_swims.compare_catalystcenter_versions(
+            ccc_swims.get_ccc_version(), "2.3.7.6"
+        )
+        <= 0
         and state == "deleted"
     ):
         ccc_swims.msg = (

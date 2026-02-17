@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to manage SD-Access Host Onboarding operations in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -2514,7 +2515,12 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                         interface_name, connected_device_type
                     )
                     self.validate_device_specific_params(interface)
-                    if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
+                    if (
+                        self.compare_catalystcenter_versions(
+                            self.current_version, "3.1.3.0"
+                        )
+                        >= 0
+                    ):
                         self.log("Validating native VLAN and ranges.", "DEBUG")
                         self.validate_native_vlan_and_ranges_for_port_assignment(
                             interface
@@ -2533,7 +2539,12 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                     self.validate_port_channel_connected_device_type(port_channel)
                     self.validate_port_channel_protocol(port_channel)
                     self.validate_port_channel_interfaces(port_channel)
-                    if self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0:
+                    if (
+                        self.compare_catalystcenter_versions(
+                            self.current_version, "3.1.3.0"
+                        )
+                        >= 0
+                    ):
                         self.log("Validating native VLAN and ranges.", "DEBUG")
                         self.validate_native_vlan_and_ranges_for_port_channel(
                             port_channel
@@ -3474,7 +3485,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
             device_type = interface.get("connected_device_type")
             if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
+                >= 0
                 and device_type == "TRUNKING_DEVICE"
             ):
                 interface_params["nativeVlanId"] = interface.get("native_vlan_id", 1)
@@ -3558,7 +3570,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
 
             device_type = interface.get("connected_device_type")
             if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
+                >= 0
                 and device_type == "TRUNKING_DEVICE"
             ):
                 interface_params["nativeVlanId"] = interface.get(
@@ -4068,7 +4081,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 port_channel_params["description"] = port_channel_description
 
             if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
+                >= 0
                 and connected_device_type.upper() == "TRUNK"
             ):
                 port_channel_params["nativeVlanId"] = port_channel.get(
@@ -4140,7 +4154,8 @@ class SDAHostPortOnboarding(CatalystCenterBase):
                 port_channel_params["description"] = port_channel_description
 
             if (
-                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(self.current_version, "3.1.3.0")
+                >= 0
                 and connected_device_type.upper() == "TRUNK"
             ):
                 port_channel_params["nativeVlanId"] = port_channel.get(
@@ -7739,7 +7754,10 @@ def main():
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -2347,7 +2348,12 @@ class NetworkSettings(CatalystCenterBase):
         start_time = time.time()
         while True:
             try:
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.7.9"
+                    )
+                    < 0
+                ):
                     response = self.catalystcenter._exec(
                         family="network_settings",
                         function="get_reserve_ip_subpool",
@@ -2429,7 +2435,9 @@ class NetworkSettings(CatalystCenterBase):
         global_pool_details = None
         response = None
         current_version = self.get_ccc_version()
-        is_old_version = self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0
+        is_old_version = (
+            self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0
+        )
         page_limit = 25 if is_old_version else 500
         while True:
             try:
@@ -2585,7 +2593,10 @@ class NetworkSettings(CatalystCenterBase):
         if name == "":
             reserve_pool_details = self.all_reserved_pool_details.get(site_id)
         else:
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                < 0
+            ):
                 reserve_pool_details = get_dict_result(
                     self.all_reserved_pool_details.get(site_id), "groupName", name
                 )
@@ -3068,7 +3079,9 @@ class NetworkSettings(CatalystCenterBase):
             "INFO",
         )
         current_version = self.get_ccc_version()
-        is_old_version = self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0
+        is_old_version = (
+            self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0
+        )
         page_limit = 25 if is_old_version else 500
 
         # Direct return for older versions when CIDR is provided
@@ -3760,7 +3773,9 @@ class NetworkSettings(CatalystCenterBase):
                     "Missing or invalid required parameter(s): {1}. "
                     "These parameters are mandatory for version {2} and above."
                 ).format(
-                    reserve_pool_index + 1, ", ".join(missing_params), self.catalystcenter_version
+                    reserve_pool_index + 1,
+                    ", ".join(missing_params),
+                    self.catalystcenter_version,
                 )
                 self.status = "failed"
                 return self
@@ -4014,7 +4029,10 @@ class NetworkSettings(CatalystCenterBase):
                 .get("net_details")
                 .get("settings")
             )
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                < 0
+            ):
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update(
                         {"dhcpServer": item.get("dhcp_server")}
@@ -6249,7 +6267,10 @@ class NetworkSettings(CatalystCenterBase):
             skip_update = False
 
             # Only apply extra checks for versions > 2.3.7.9
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                >= 0
+            ):
                 empty_settings = [
                     network_aaa,
                     client_and_endpoint_aaa,
@@ -6325,7 +6346,10 @@ class NetworkSettings(CatalystCenterBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                < 0
+            ):
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
@@ -6636,7 +6660,10 @@ class NetworkSettings(CatalystCenterBase):
             )
             return self
         if device_controllability_detail:
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                >= 0
+            ):
                 self.update_device_controllability(
                     device_controllability_detail
                 ).check_return_status()
@@ -6683,7 +6710,10 @@ class NetworkSettings(CatalystCenterBase):
             else:
                 success_msg = "Ip subpool reservation released successfully."
                 failed_msg = "Unable to release subpool reservation. "
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                >= 0
+            ):
                 self.check_tasks_response_status(response, function_name)
                 task_id = response["response"]["taskId"]
             else:
@@ -6870,7 +6900,12 @@ class NetworkSettings(CatalystCenterBase):
                 self.log(
                     "Reserved pool '{0}' ID: {1}".format(pool_name, pool_id), "DEBUG"
                 )
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.7.9"
+                    )
+                    >= 0
+                ):
                     execution_details = self.delete_ip_pool(
                         pool_name, pool_id, "release_an_ip_address_subpool", "Reserve"
                     )
@@ -6928,7 +6963,9 @@ class NetworkSettings(CatalystCenterBase):
                     execution_details = {}
                     pool_id = each_item.get("id")
                     if (
-                        self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                        self.compare_catalystcenter_versions(
+                            self.get_ccc_version(), "2.3.7.9"
+                        )
                         >= 0
                     ):
                         execution_details = self.delete_ip_pool(
@@ -6988,7 +7025,12 @@ class NetworkSettings(CatalystCenterBase):
                     "INFO",
                 )
                 id = item.get("id")
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.7.9"
+                    )
+                    >= 0
+                ):
                     execution_details = self.delete_ip_pool(
                         pool_name, id, "delete_a_global_ip_address_pool", "Global"
                     )
@@ -7421,7 +7463,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -7436,7 +7481,12 @@ def main():
     ccc_network = NetworkSettings(module)
     state = ccc_network.params.get("state")
 
-    if ccc_network.compare_catalystcenter_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_network.compare_catalystcenter_versions(
+            ccc_network.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
         ccc_network.msg = """The specified version '{0}' does not support the Network_settings_workflow features.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_network.get_ccc_version()

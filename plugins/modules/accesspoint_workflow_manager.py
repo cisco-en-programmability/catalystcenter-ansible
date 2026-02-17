@@ -2239,7 +2239,7 @@ class Accesspoint(CatalystCenterBase):
         """
         ap_exists = False
         current_ap_config = None
-        (ap_exists, current_ap_config) = self.get_current_config(input_config)
+        ap_exists, current_ap_config = self.get_current_config(input_config)
 
         self.log(
             "Current AP config details (have): {0}".format(
@@ -2872,12 +2872,8 @@ class Accesspoint(CatalystCenterBase):
             not self.is_valid_ipv4(management_ip_address)
             and not self.is_valid_ipv6(management_ip_address)
         ):
-            errormsg.append(
-                "management_ip_address: Invalid Management IP Address '{0}'\
-                            in playbook.".format(
-                    management_ip_address
-                )
-            )
+            errormsg.append("management_ip_address: Invalid Management IP Address '{0}'\
+                            in playbook.".format(management_ip_address))
 
         rf_profile = ap_config.get("rf_profile")
         if rf_profile:
@@ -3586,16 +3582,16 @@ class Accesspoint(CatalystCenterBase):
                     )
 
         except Exception as e:
-            self.msg = "The provided device '{0}' is either invalid or not present in the \
-                     Cisco Catalyst Center.".format(
-                str(input_param)
+            self.msg = (
+                "The provided device '{0}' is either invalid or not present in the \
+                     Cisco Catalyst Center.".format(str(input_param))
             )
             self.log(self.msg + str(e), "WARNING")
 
         if not accesspoint_exists:
-            self.msg = "The provided device '{0}' is either invalid or not present in the \
-                     Cisco Catalyst Center.".format(
-                str(input_param)
+            self.msg = (
+                "The provided device '{0}' is either invalid or not present in the \
+                     Cisco Catalyst Center.".format(str(input_param))
             )
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -3725,7 +3721,12 @@ class Accesspoint(CatalystCenterBase):
                 self.payload["wlc_provision_status"] = provision_status
                 self.log("WLC provision status: {0}".format(provision_status), "INFO")
 
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "3.1.3.0"
+                    )
+                    >= 0
+                ):
                     if current_eth_configuration.get("provisioning_status"):
                         self.payload["ap_provision_status"] = "Provisioned"
                     else:
@@ -3842,7 +3843,10 @@ class Accesspoint(CatalystCenterBase):
                     site = response["response"][0]
                     self.log("Site response: {0}".format(self.pprint(site)), "INFO")
 
-                    if self.catalystcenter_version <= self.catalystcenter_versions["2.3.5.3"]:
+                    if (
+                        self.catalystcenter_version
+                        <= self.catalystcenter_versions["2.3.5.3"]
+                    ):
                         location = get_dict_result(
                             site.get("additionalInfo"), "nameSpace", "Location"
                         )
@@ -3959,9 +3963,7 @@ class Accesspoint(CatalystCenterBase):
         except Exception as e:
             self.log(
                 "Failed to execute the get_device_ids_from_site function '{0}'\
-                      Error: {1}".format(
-                    site_id, str(e)
-                ),
+                      Error: {1}".format(site_id, str(e)),
                 "ERROR",
             )
             return False
@@ -5834,7 +5836,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -5854,7 +5859,12 @@ def main():
         ccc_network.msg = "State {0} is invalid".format(state)
         ccc_network.check_return_status()
 
-    if ccc_network.compare_catalystcenter_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_network.compare_catalystcenter_versions(
+            ccc_network.get_ccc_version(), "2.3.5.3"
+        )
+        < 0
+    ):
         ccc_network.status = "failed"
         ccc_network.msg = (
             "The specified version '{0}' does not support the access point workflow feature."

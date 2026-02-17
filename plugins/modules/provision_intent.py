@@ -483,14 +483,8 @@ class Dnacprovision(CatalystCenterBase):
                     family="sda",
                     function="get_provisioned_wired_device",
                     op_modifies=True,
-                    params={
-                        "device_management_\
-                        ip_address": self.validated_config[
-                            0
-                        ][
-                            "management_ip_address"
-                        ]
-                    },
+                    params={"device_management_\
+                        ip_address": self.validated_config[0]["management_ip_address"]},
                 )
             except Exception:
                 status_response = {}
@@ -558,14 +552,8 @@ class Dnacprovision(CatalystCenterBase):
                 family="sda",
                 function="get_provisioned_wired_device",
                 op_modifies=True,
-                params={
-                    "device_management_\
-                    ip_address": self.validated_config[
-                        0
-                    ][
-                        "management_ip_address"
-                    ]
-                },
+                params={"device_management_\
+                    ip_address": self.validated_config[0]["management_ip_address"]},
             )
 
         except Exception:
@@ -582,14 +570,8 @@ class Dnacprovision(CatalystCenterBase):
             family="sda",
             function="delete_provisioned_wired_device",
             op_modifies=True,
-            params={
-                "device_management_\
-                ip_address": self.validated_config[
-                    0
-                ][
-                    "management_ip_address"
-                ]
-            },
+            params={"device_management_\
+                ip_address": self.validated_config[0]["management_ip_address"]},
         )
 
         task_id = response.get("taskId")
@@ -621,7 +603,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

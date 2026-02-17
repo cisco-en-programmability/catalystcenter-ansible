@@ -17,7 +17,9 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_icap_settings_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    assurance_icap_settings_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -34,7 +36,8 @@ class TestDnacAssuranceSettings(TestDnacModule):
         super(TestDnacAssuranceSettings, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
+        )
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -71,7 +74,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
         if "creation_exception" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_list_for_creation"),
-                self.test_data.get("icap_creation")
+                self.test_data.get("icap_creation"),
             ]
 
         if "deletion_icap" in self._testMethodName:
@@ -79,7 +82,7 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 self.test_data.get("get_device_list_for_creation"),
                 self.test_data.get("icap_creation"),
                 self.test_data.get("get_task_by_id"),
-                self.test_data.get("get_icap_configuration_status_per_network_device")
+                self.test_data.get("get_icap_configuration_status_per_network_device"),
             ]
 
         if "discard_exception" in self._testMethodName:
@@ -146,14 +149,14 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_ota_creation
+                config=self.playbook_ota_creation,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["msg"])
         self.assertEqual(
             result["msg"],
-            "An exception occurred while discarding ICAP config in Cisco Catalyst Center: "
+            "An exception occurred while discarding ICAP config in Cisco Catalyst Center: ",
         )
 
     def test_assurance_icap_settings_workflow_manager_creation_exception(self):
@@ -168,14 +171,14 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="merged",
-                config=[self.playbook_config_creation]
+                config=[self.playbook_config_creation],
             )
         )
         result = self.execute_module(changed=True, failed=True)
         print(result["msg"])
         self.assertTrue(
             result["msg"],
-            "An exception occurred while creating ICAP config in Cisco Catalyst Center: "
+            "An exception occurred while creating ICAP config in Cisco Catalyst Center: ",
         )
 
     def test_assurance_icap_settings_workflow_manager_creation(self):
@@ -193,14 +196,13 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=[self.playbook_config_creation]
+                config=[self.playbook_config_creation],
             )
         )
         result = self.execute_module(changed=True, failed=True)
         print(result["msg"])
         self.assertEqual(
-            result["msg"],
-            "Wireless Client MAC address '50:91:E3:47:AC:9E' not found."
+            result["msg"], "Wireless Client MAC address '50:91:E3:47:AC:9E' not found."
         )
 
     def test_assurance_icap_settings_workflow_manager_download(self):
@@ -216,17 +218,19 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=[self.playbook_config_download]
+                config=[self.playbook_config_download],
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["msg"])
         self.assertEqual(
             result["msg"],
-            "Failed to download ICAP packet traces: 'dict' object has no attribute 'data'"
+            "Failed to download ICAP packet traces: 'dict' object has no attribute 'data'",
         )
 
-    def test_assurance_icap_settings_workflow_manager_playbook_onboarding_creation(self):
+    def test_assurance_icap_settings_workflow_manager_playbook_onboarding_creation(
+        self,
+    ):
         """
         Test case for creating Assurance ICAP Settings in Cisco Catalyst Center.
         """
@@ -239,14 +243,13 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_onboarding_creation
+                config=self.playbook_onboarding_creation,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result["msg"])
         self.assertEqual(
-            result["msg"],
-            "ICAP Configuration 'ICAP 2108' created successfully."
+            result["msg"], "ICAP Configuration 'ICAP 2108' created successfully."
         )
 
     def test_assurance_icap_settings_workflow_manager_playbook_ota_creation(self):
@@ -262,19 +265,18 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_ota_creation
+                config=self.playbook_ota_creation,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result["msg"])
         self.assertEqual(
-            result["msg"],
-            "ICAP Configuration 'ICAP 2208' created successfully."
+            result["msg"], "ICAP Configuration 'ICAP 2208' created successfully."
         )
 
     def test_assurance_icap_settings_workflow_manager_deletion_icap(self):
         """
-            Test case for exception while deleting Assurance ICAP Settings in Cisco Catalyst Center.
+        Test case for exception while deleting Assurance ICAP Settings in Cisco Catalyst Center.
         """
         set_module_args(
             dict(
@@ -284,14 +286,14 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_creation
+                config=self.playbook_config_creation,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["msg"])
         self.assertTrue(
             result,
-            "An exception occurred while creating ICAP config in Cisco Catalyst Center: "
+            "An exception occurred while creating ICAP config in Cisco Catalyst Center: ",
         )
 
     def test_assurance_icap_settings_workflow_manager_playbook_invalid_capture(self):
@@ -306,12 +308,12 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_invalid_capture
+                config=self.playbook_invalid_capture,
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["msg"])
         self.assertTrue(
             result,
-            "Invalid capture type provided in assurance_icap_settings: OTAS. Valid options are: FULL, ONBOARDING, OTA, RFSTATS, ANOMALY."
+            "Invalid capture type provided in assurance_icap_settings: OTAS. Valid options are: FULL, ONBOARDING, OTA, RFSTATS, ANOMALY.",
         )

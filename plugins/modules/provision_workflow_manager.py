@@ -1180,9 +1180,7 @@ class Provision(CatalystCenterBase):
         except Exception:
             self.log(
                 "Exception occurred as \
-                site '{0}' was not found".format(
-                    site_name_hierarchy
-                ),
+                site '{0}' was not found".format(site_name_hierarchy),
                 "CRITICAL",
             )
             self.module.fail_json(msg="Site not found", response=[])
@@ -1190,9 +1188,7 @@ class Provision(CatalystCenterBase):
         if response:
             self.log(
                 "Received site details\
-                for '{0}': {1}".format(
-                    site_name_hierarchy, str(response)
-                ),
+                for '{0}': {1}".format(site_name_hierarchy, str(response)),
                 "DEBUG",
             )
             site = response.get("response")
@@ -1366,7 +1362,7 @@ class Provision(CatalystCenterBase):
 
         site_name = self.validated_config.get("site_name_hierarchy")
 
-        (site_exits, site_id) = self.get_site_id(site_name)
+        site_exits, site_id = self.get_site_id(site_name)
 
         if site_exits is False:
             msg = "Site {0} doesn't exist".format(site_name)
@@ -1979,7 +1975,12 @@ class Provision(CatalystCenterBase):
             "Current Catalyst Center version is {0}".format(current_version), "DEBUG"
         )
         if application_telemetry:
-            if self.compare_catalystcenter_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
+            if (
+                self.compare_catalystcenter_versions(
+                    current_version, MIN_SUPPORTED_VERSION
+                )
+                >= 0
+            ):
                 self.log(
                     "Current Catalyst Center version ({0}) supports application telemetry.".format(
                         current_version
@@ -3159,7 +3160,10 @@ class Provision(CatalystCenterBase):
             )
             self.assign_device_to_site([device_id], self.site_name, site_id)
         else:
-            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if (
+                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
+                <= 0
+            ):
                 self.log(
                     "Catalyst Center Version is 2.3.5.3 or earlier; directly initializing provisioning with parameters.",
                     "INFO",
@@ -4309,7 +4313,9 @@ class Provision(CatalystCenterBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        elif (
+            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0
+        ):
             self.log("Detected Catalyst Center version <= 2.3.7.6")
             try:
                 response = self.catalystcenter._exec(
@@ -4447,7 +4453,9 @@ class Provision(CatalystCenterBase):
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's Inventory Database in the provisioned state.
         """
-        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0 or (
+        if self.compare_catalystcenter_versions(
+            self.get_ccc_version(), "2.3.5.3"
+        ) <= 0 or (
             self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0
             and self.device_type == "wireless"
         ):
@@ -4749,7 +4757,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4764,7 +4775,9 @@ def main():
     provision_performed = False
 
     if (
-        ccc_provision.compare_catalystcenter_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
+        ccc_provision.compare_catalystcenter_versions(
+            ccc_provision.get_ccc_version(), "2.3.5.3"
+        )
         < 0
     ):
         ccc_provision.msg = """The specified version '{0}' does not support the 'provision_workflow_manager' feature.
@@ -4783,7 +4796,9 @@ def main():
     ccc_provision.validate_input(state=state).check_return_status()
 
     is_version_valid = (
-        ccc_provision.compare_catalystcenter_versions(ccc_provision.get_ccc_version(), "2.3.7.6")
+        ccc_provision.compare_catalystcenter_versions(
+            ccc_provision.get_ccc_version(), "2.3.7.6"
+        )
         >= 0
     )
 

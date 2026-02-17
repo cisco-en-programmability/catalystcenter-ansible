@@ -1824,7 +1824,7 @@ class UserandRole(CatalystCenterBase):
             # update the user if role exists
             if self.have.get("user_exists"):
                 self.valid_user_config_parameters(config).check_return_status()
-                (consolidated_data, update_required_param) = self.user_requires_update(
+                consolidated_data, update_required_param = self.user_requires_update(
                     self.have["current_user_config"],
                     self.have["current_role_id_config"],
                 )
@@ -2012,7 +2012,9 @@ class UserandRole(CatalystCenterBase):
             for user in users:
                 if input_config.get("username") is not None:
                     if (
-                        self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
+                        self.compare_catalystcenter_versions(
+                            self.get_ccc_version(), "2.3.7.9"
+                        )
                         <= 0
                     ):
                         if user.get("username") == input_config.get("username").lower():
@@ -4118,7 +4120,7 @@ class UserandRole(CatalystCenterBase):
                 )
 
             desired_role = self.generate_role_payload(self.want, "update")
-            (require_update, updated_role_info) = self.role_requires_update(
+            require_update, updated_role_info = self.role_requires_update(
                 self.have["current_role_config"], desired_role
             )
             if not require_update:
@@ -4154,7 +4156,7 @@ class UserandRole(CatalystCenterBase):
                     "INFO",
                 )
 
-            (require_update, updated_user_info) = self.user_requires_update(
+            require_update, updated_user_info = self.user_requires_update(
                 self.have["current_user_config"], self.have["current_role_id_config"]
             )
             if not require_update:
@@ -4440,7 +4442,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4456,7 +4461,9 @@ def main():
     state = ccc_user_role.params.get("state")
 
     if (
-        ccc_user_role.compare_catalystcenter_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
+        ccc_user_role.compare_catalystcenter_versions(
+            ccc_user_role.get_ccc_version(), "2.3.5.3"
+        )
         < 0
     ):
         ccc_user_role.msg = (

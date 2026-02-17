@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Cisco and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +19,9 @@ __metaclass__ = type
 from unittest.mock import patch, Mock, MagicMock
 import time
 import pathlib
-from ansible_collections.cisco.catalystcenter.plugins.modules import device_configs_backup_workflow_manager
+from ansible_collections.cisco.catalystcenter.plugins.modules import (
+    device_configs_backup_workflow_manager,
+)
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -58,8 +59,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
         self.mock_pathlib_resolve = patch(
-            "pathlib.Path.resolve",
-            return_value=backup_path
+            "pathlib.Path.resolve", return_value=backup_path
         )
         self.mock_iterdir = patch("pathlib.Path.iterdir")
         self.mock_stat = patch("pathlib.Path.stat")
@@ -98,7 +98,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_details_response"),
-                self.mock_download_response
+                self.mock_download_response,
             ]
 
         # Run device config backup scenario 2
@@ -108,7 +108,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_details_response"),
-                self.mock_download_response
+                self.mock_download_response,
             ]
 
         # Run device config backup scenario 3
@@ -118,7 +118,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_details_response"),
-                self.mock_download_response
+                self.mock_download_response,
             ]
 
         # Run device config backup scenario 4
@@ -131,7 +131,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_details_response"),
-                self.mock_download_response
+                self.mock_download_response,
             ]
 
         # FIXTURE FOR FAILURE TESTCASES ############################################################
@@ -143,14 +143,14 @@ class TestDeviceConfigsBackup(TestDnacModule):
         if "device_configs_backup_failure_scenario_1_2" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_devices_list_success"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_failure_scenario_1_3" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_devices_list_success"),
                 self.test_data.get("response_get_task_id_success"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_failure_scenario_1_4" in self._testMethodName:
@@ -158,8 +158,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_devices_list_success"),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
-                Exception("Simulated exception")
-
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_failure_scenario_1_5" in self._testMethodName:
@@ -168,8 +167,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_details_response"),
-                Exception("Simulated exception")
-
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_1" in self._testMethodName:
@@ -180,14 +178,14 @@ class TestDeviceConfigsBackup(TestDnacModule):
         if "device_configs_backup_success_scenario_4_2" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_sites"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_3" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_site_assigned_networks"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_4" in self._testMethodName:
@@ -195,7 +193,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_site_assigned_networks"),
                 self.test_data.get("response_get_device_by_id"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_5" in self._testMethodName:
@@ -204,7 +202,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_site_assigned_networks"),
                 self.test_data.get("response_get_device_by_id"),
                 self.test_data.get("response_get_device_by_id_2"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_6" in self._testMethodName:
@@ -214,7 +212,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_device_by_id"),
                 self.test_data.get("response_get_device_by_id_2"),
                 self.test_data.get("response_get_task_id_success"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_7" in self._testMethodName:
@@ -225,7 +223,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_device_by_id_2"),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_4_8" in self._testMethodName:
@@ -237,7 +235,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_task_details_response"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
 
         if "device_configs_backup_success_scenario_5" in self._testMethodName:
@@ -246,12 +244,19 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 self.test_data.get("response_get_network_device_configuration_1"),
                 self.test_data.get("response_get_network_device_configuration_2"),
                 self.test_data.get("response_get_network_device_configuration_3"),
-                Exception("Simulated exception")
+                Exception("Simulated exception"),
             ]
-# SUCCESS TESTCASES ########################################################################################
+
+    # SUCCESS TESTCASES ########################################################################################
 
     def test_device_configs_backup_success_scenario_1(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -264,7 +269,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -274,7 +281,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_2(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_2")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_2"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -287,7 +300,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_2"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_2"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -297,7 +312,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_3(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_3")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_3"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -310,7 +331,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_3"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_3"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -320,7 +343,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -333,7 +362,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -345,7 +376,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
     # FAILURE TESTCASES ########################################################################################
 
     def test_device_configs_backup_failure_scenario_1_1(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -358,7 +395,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -368,7 +407,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_failure_scenario_1_2(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -381,7 +426,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -391,7 +438,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_failure_scenario_1_3(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -404,7 +457,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -414,7 +469,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_failure_scenario_1_4(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -427,7 +488,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -437,7 +500,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_failure_scenario_1_5(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -450,7 +519,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_1"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_1"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -460,7 +531,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_1(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -473,7 +550,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -483,7 +562,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_2(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -496,7 +581,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -506,7 +593,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_3(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -519,7 +612,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -529,7 +624,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_4(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -542,7 +643,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -552,7 +655,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_5(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -565,7 +674,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -575,7 +686,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_6(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -588,7 +705,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -598,7 +717,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_7(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -611,7 +736,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -621,7 +748,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_4_8(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_4")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -634,7 +767,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_4"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_4"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -644,7 +779,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
         )
 
     def test_device_configs_backup_success_scenario_5(self):
-        print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_5")))
+        print(
+            "Test Data: {test_data}".format(
+                test_data=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_5"
+                )
+            )
+        )
 
         set_module_args(
             dict(
@@ -657,11 +798,13 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 config_verify=True,
                 catalystcenter_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_device_configs_backup_scenario_5"),
+                config=self.test_data.get(
+                    "playbook_config_device_configs_backup_scenario_5"
+                ),
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Successfully validated playbook configuration parameters",
-            result.get("msg")
+            result.get("msg"),
         )

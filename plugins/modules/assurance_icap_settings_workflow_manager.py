@@ -10,6 +10,7 @@ ICAP allows network administrators to collect and analyze packet captures from n
 connectivity and performance issues. This module enables automation of ICAP configurations, making it easier
 to manage assurance settings programmatically.
 """
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -2185,7 +2186,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

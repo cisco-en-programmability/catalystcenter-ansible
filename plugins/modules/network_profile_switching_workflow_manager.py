@@ -5,6 +5,7 @@
 
 """Ansible module to create, update, or delete network switch profiles
 in Cisco Catalyst Center, and manage associated sites and CLI templates."""
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1804,7 +1805,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

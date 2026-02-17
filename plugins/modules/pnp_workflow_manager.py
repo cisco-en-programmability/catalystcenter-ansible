@@ -653,7 +653,12 @@ class PnP(CatalystCenterBase):
                 site = response.get("response")
                 site_type = None
 
-                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                if (
+                    self.compare_catalystcenter_versions(
+                        self.get_ccc_version(), "2.3.5.3"
+                    )
+                    <= 0
+                ):
                     site_additional_info = site[0].get("additionalInfo")
                     for item in site_additional_info:
                         if item["nameSpace"] == "Location":
@@ -1597,7 +1602,7 @@ class PnP(CatalystCenterBase):
                     ).check_return_status()
 
                 site_name = self.want.get("site_name")
-                (site_exists, site_id) = self.get_site_details()
+                site_exists, site_id = self.get_site_details()
 
                 if site_exists:
                     have["site_id"] = site_id
@@ -1844,7 +1849,9 @@ class PnP(CatalystCenterBase):
                         current_version = self.get_ccc_version()
                         if (
                             authorize_flag
-                            and self.compare_catalystcenter_versions(current_version, "2.3.7.9")
+                            and self.compare_catalystcenter_versions(
+                                current_version, "2.3.7.9"
+                            )
                             >= 0
                             and claim_stat == "Pending Authorization"
                         ):
@@ -2069,7 +2076,10 @@ class PnP(CatalystCenterBase):
                     # Check authorization requirements
                     if (
                         device_state == "Pending Authorization"
-                        and self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0
+                        and self.compare_catalystcenter_versions(
+                            current_version, "2.3.7.9"
+                        )
+                        >= 0
                     ):
 
                         self.log(
@@ -2188,7 +2198,8 @@ class PnP(CatalystCenterBase):
                 # Process device authorization if conditions are met
                 if (
                     device_state == "Pending Authorization"
-                    and self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0
+                    and self.compare_catalystcenter_versions(current_version, "2.3.7.9")
+                    >= 0
                 ):
 
                     self.log(
@@ -2832,7 +2843,10 @@ def main():
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {
+            "type": "str",
+            "default": "catalystcenter.log",
+        },
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
@@ -2846,7 +2860,10 @@ def main():
     ccc_pnp = PnP(module)
     state = ccc_pnp.params.get("state")
 
-    if ccc_pnp.compare_catalystcenter_versions(ccc_pnp.get_ccc_version(), "2.3.5.3") < 0:
+    if (
+        ccc_pnp.compare_catalystcenter_versions(ccc_pnp.get_ccc_version(), "2.3.5.3")
+        < 0
+    ):
         ccc_pnp.status = "failed"
         ccc_pnp.msg = (
             "The specified version '{0}' does not support the PNP workflow feature."
