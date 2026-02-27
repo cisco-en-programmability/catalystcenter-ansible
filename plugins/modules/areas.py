@@ -28,16 +28,16 @@ options:
     description: Parent Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design CreatesAnArea
+  - name: Cisco Catalyst Center documentation for Site Design CreatesAnArea
     description: Complete reference of the CreatesAnArea API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-an-area
-  - name: Cisco DNA Center documentation for Site Design DeletesAnArea
+  - name: Cisco Catalyst Center documentation for Site Design DeletesAnArea
     description: Complete reference of the DeletesAnArea API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-an-area
-  - name: Cisco DNA Center documentation for Site Design UpdatesAnArea
+  - name: Cisco Catalyst Center documentation for Site Design UpdatesAnArea
     description: Complete reference of the UpdatesAnArea API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-area
 notes:
@@ -91,8 +91,8 @@ EXAMPLES = r"""
     parentId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

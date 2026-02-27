@@ -88,6 +88,6 @@ class ActionModule(ActionBase):
             function="detach_a_list_of_network_profiles_from_a_day_n_cli_template",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

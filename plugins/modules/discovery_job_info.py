@@ -42,13 +42,13 @@ options:
       - Id path parameter. Discovery ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIP
+  - name: Cisco Catalyst Center documentation for Discovery GetDiscoveryJobsByIP
     description: Complete reference of the GetDiscoveryJobsByIP API.
     link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip
-  - name: Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryId
+  - name: Cisco Catalyst Center documentation for Discovery GetListOfDiscoveriesByDiscoveryId
     description: Complete reference of the GetListOfDiscoveriesByDiscoveryId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id
 notes:
@@ -94,8 +94,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

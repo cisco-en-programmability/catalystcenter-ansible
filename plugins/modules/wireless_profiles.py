@@ -105,16 +105,16 @@ options:
     description: Wireless Network Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateWirelessProfileConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless CreateWirelessProfileConnectivity
     description: Complete reference of the CreateWirelessProfileConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity
-  - name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless DeleteWirelessProfileConnectivity
     description: Complete reference of the DeleteWirelessProfileConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity
-  - name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileConnectivity
+  - name: Cisco Catalyst Center documentation for Wireless UpdateWirelessProfileConnectivity
     description: Complete reference of the UpdateWirelessProfileConnectivity API.
     link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity
 notes:
@@ -212,8 +212,8 @@ EXAMPLES = r"""
     wirelessProfileName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

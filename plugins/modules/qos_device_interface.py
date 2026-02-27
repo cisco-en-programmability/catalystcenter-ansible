@@ -63,16 +63,16 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfo
+  - name: Cisco Catalyst Center documentation for Application Policy CreateQosDeviceInterfaceInfo
     description: Complete reference of the CreateQosDeviceInterfaceInfo API.
     link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info
-  - name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfo
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteQosDeviceInterfaceInfo
     description: Complete reference of the DeleteQosDeviceInterfaceInfo API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info
-  - name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfo
+  - name: Cisco Catalyst Center documentation for Application Policy UpdateQosDeviceInterfaceInfo
     description: Complete reference of the UpdateQosDeviceInterfaceInfo API.
     link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info
 notes:
@@ -149,8 +149,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -52,16 +52,16 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates CreateProject
+  - name: Cisco Catalyst Center documentation for Configuration Templates CreateProject
     description: Complete reference of the CreateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!create-project
-  - name: Cisco DNA Center documentation for Configuration Templates DeletesTheProject
+  - name: Cisco Catalyst Center documentation for Configuration Templates DeletesTheProject
     description: Complete reference of the DeletesTheProject API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project
-  - name: Cisco DNA Center documentation for Configuration Templates UpdateProject
+  - name: Cisco Catalyst Center documentation for Configuration Templates UpdateProject
     description: Complete reference of the UpdateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!update-project
 notes:
@@ -129,8 +129,8 @@ EXAMPLES = r"""
     projectId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

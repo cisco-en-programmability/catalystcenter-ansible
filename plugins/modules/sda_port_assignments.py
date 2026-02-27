@@ -80,19 +80,19 @@ options:
     description: VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddPortAssignments
+  - name: Cisco Catalyst Center documentation for SDA AddPortAssignments
     description: Complete reference of the AddPortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!add-port-assignments
-  - name: Cisco DNA Center documentation for SDA DeletePortAssignmentById
+  - name: Cisco Catalyst Center documentation for SDA DeletePortAssignmentById
     description: Complete reference of the DeletePortAssignmentById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id
-  - name: Cisco DNA Center documentation for SDA DeletePortAssignments
+  - name: Cisco Catalyst Center documentation for SDA DeletePortAssignments
     description: Complete reference of the DeletePortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignments
-  - name: Cisco DNA Center documentation for SDA UpdatePortAssignments
+  - name: Cisco Catalyst Center documentation for SDA UpdatePortAssignments
     description: Complete reference of the UpdatePortAssignments API.
     link: https://developer.cisco.com/docs/dna-center/#!update-port-assignments
 notes:
@@ -182,8 +182,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -48,13 +48,13 @@ options:
       - Id path parameter. LSC Certificate Renewal Profile ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GETLSCCertificateRenewalProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless GETLSCCertificateRenewalProfileByID
     description: Complete reference of the GETLSCCertificateRenewalProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!g-etlsc-certificate-renewal-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless GetLSCCertificateRenewalProfiles
+  - name: Cisco Catalyst Center documentation for Wireless GetLSCCertificateRenewalProfiles
     description: Complete reference of the GetLSCCertificateRenewalProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-lsc-certificate-renewal-profiles
 notes:
@@ -97,8 +97,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

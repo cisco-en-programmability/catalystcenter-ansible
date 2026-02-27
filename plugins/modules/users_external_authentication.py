@@ -20,10 +20,10 @@ options:
     description: Enable/disable External Authentication.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPI
+  - name: Cisco Catalyst Center documentation for User and Roles ManageExternalAuthenticationSettingAPI
     description: Complete reference of the ManageExternalAuthenticationSettingAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api
 notes:
@@ -48,8 +48,8 @@ EXAMPLES = r"""
     enable: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

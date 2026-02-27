@@ -740,7 +740,7 @@ EXAMPLES = r"""
           - name: Test321
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict

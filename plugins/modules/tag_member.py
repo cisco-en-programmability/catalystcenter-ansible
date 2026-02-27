@@ -31,13 +31,13 @@ options:
     description: Map of member type and member ids.
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Tag AddMembersToTheTag
+  - name: Cisco Catalyst Center documentation for Tag AddMembersToTheTag
     description: Complete reference of the AddMembersToTheTag API.
     link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
-  - name: Cisco DNA Center documentation for Tag RemoveTagMember
+  - name: Cisco Catalyst Center documentation for Tag RemoveTagMember
     description: Complete reference of the RemoveTagMember API.
     link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
 notes:
@@ -81,8 +81,8 @@ EXAMPLES = r"""
     memberId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

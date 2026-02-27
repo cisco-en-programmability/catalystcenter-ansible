@@ -62,13 +62,13 @@ options:
       - Id path parameter. The `id` of the task to retrieve.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Task GetTasks
+  - name: Cisco Catalyst Center documentation for Task GetTasks
     description: Complete reference of the GetTasks API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tasks
-  - name: Cisco DNA Center documentation for Task GetTasksByID
+  - name: Cisco Catalyst Center documentation for Task GetTasksByID
     description: Complete reference of the GetTasksByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-tasks-by-id
 notes:
@@ -116,8 +116,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

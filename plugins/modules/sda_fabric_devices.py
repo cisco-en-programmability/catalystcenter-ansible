@@ -79,19 +79,19 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddFabricDevices
+  - name: Cisco Catalyst Center documentation for SDA AddFabricDevices
     description: Complete reference of the AddFabricDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices
-  - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceById
+  - name: Cisco Catalyst Center documentation for SDA DeleteFabricDeviceById
     description: Complete reference of the DeleteFabricDeviceById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id
-  - name: Cisco DNA Center documentation for SDA DeleteFabricDevices
+  - name: Cisco Catalyst Center documentation for SDA DeleteFabricDevices
     description: Complete reference of the DeleteFabricDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices
-  - name: Cisco DNA Center documentation for SDA UpdateFabricDevices
+  - name: Cisco Catalyst Center documentation for SDA UpdateFabricDevices
     description: Complete reference of the UpdateFabricDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices
 notes:
@@ -183,8 +183,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

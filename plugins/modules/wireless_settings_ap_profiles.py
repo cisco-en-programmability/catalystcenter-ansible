@@ -173,16 +173,16 @@ options:
     description: Enter the minute value (MM). The valid range is from 0 through 59.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateAPProfile
+  - name: Cisco Catalyst Center documentation for Wireless CreateAPProfile
     description: Complete reference of the CreateAPProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-ap-profile
-  - name: Cisco DNA Center documentation for Wireless DeleteAPProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless DeleteAPProfileByID
     description: Complete reference of the DeleteAPProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless UpdateAPProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless UpdateAPProfileByID
     description: Complete reference of the UpdateAPProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!update-ap-profile-by-id
 notes:
@@ -322,8 +322,8 @@ EXAMPLES = r"""
     timeZoneOffsetMinutes: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

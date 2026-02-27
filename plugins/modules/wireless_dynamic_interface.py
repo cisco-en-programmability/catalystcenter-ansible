@@ -27,13 +27,13 @@ options:
     description: Vlan Id.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterface
+  - name: Cisco Catalyst Center documentation for Wireless CreateUpdateDynamicInterface
     description: Complete reference of the CreateUpdateDynamicInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
-  - name: Cisco DNA Center documentation for Wireless DeleteDynamicInterface
+  - name: Cisco Catalyst Center documentation for Wireless DeleteDynamicInterface
     description: Complete reference of the DeleteDynamicInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
 notes:
@@ -74,8 +74,8 @@ EXAMPLES = r"""
     vlanId: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

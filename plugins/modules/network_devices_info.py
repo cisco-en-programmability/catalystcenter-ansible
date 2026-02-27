@@ -217,13 +217,13 @@ options:
         BORDER, EDGE, MAP-SERVER, LEAF, SPINE, TRANSIT-CP, EXTENDED-NODE, WLC, UNIFIED-AP.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetTheDeviceDataForTheGivenDeviceIdUuid
+  - name: Cisco Catalyst Center documentation for Devices GetTheDeviceDataForTheGivenDeviceIdUuid
     description: Complete reference of the GetTheDeviceDataForTheGivenDeviceIdUuid API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid
-  - name: Cisco DNA Center documentation for Devices GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParameters
+  - name: Cisco Catalyst Center documentation for Devices GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParameters
     description: Complete reference of the GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParameters API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters
 notes:
@@ -292,8 +292,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

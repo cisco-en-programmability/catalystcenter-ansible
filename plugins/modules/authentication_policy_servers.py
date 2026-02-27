@@ -118,16 +118,16 @@ options:
     description: Value true to use Catalyst Center certificate for Pxgrid. Default value is false.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration
+  - name: Cisco Catalyst Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration
     description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration
-  - name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfiguration
+  - name: Cisco Catalyst Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfiguration
     description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration
-  - name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfiguration
+  - name: Cisco Catalyst Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfiguration
     description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration
 notes:
@@ -224,8 +224,8 @@ EXAMPLES = r"""
     useDnacCertForPxgrid: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

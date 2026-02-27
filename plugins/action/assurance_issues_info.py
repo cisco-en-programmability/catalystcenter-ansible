@@ -149,7 +149,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -160,7 +160,7 @@ class ActionModule(ActionBase):
                 function="get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -169,6 +169,6 @@ class ActionModule(ActionBase):
                 function="get_the_details_of_issues_for_given_set_of_filters_know_your_network",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result

@@ -28,16 +28,16 @@ options:
     description: VLAN ID range is 1-4094.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateInterface
+  - name: Cisco Catalyst Center documentation for Wireless CreateInterface
     description: Complete reference of the CreateInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!create-interface
-  - name: Cisco DNA Center documentation for Wireless DeleteInterface
+  - name: Cisco Catalyst Center documentation for Wireless DeleteInterface
     description: Complete reference of the DeleteInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-interface
-  - name: Cisco DNA Center documentation for Wireless UpdateInterface
+  - name: Cisco Catalyst Center documentation for Wireless UpdateInterface
     description: Complete reference of the UpdateInterface API.
     link: https://developer.cisco.com/docs/dna-center/#!update-interface
 notes:
@@ -91,8 +91,8 @@ EXAMPLES = r"""
     vlanId: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

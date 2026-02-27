@@ -186,13 +186,13 @@ options:
         45 67 89 AB or 01-23-45-67-89-AB or 0123.4567.89AB and is case insensitive.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationMatchingTheMACAddress
+  - name: Cisco Catalyst Center documentation for Clients RetrievesSpecificClientInformationMatchingTheMACAddress
     description: Complete reference of the RetrievesSpecificClientInformationMatchingTheMACAddress API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-matching-the-mac-address
-  - name: Cisco DNA Center documentation for Clients RetrievesTheListOfClients_WhileAlsoOfferingBasicFilteringAndSortingCapabilities
+  - name: Cisco Catalyst Center documentation for Clients RetrievesTheListOfClients_WhileAlsoOfferingBasicFilteringAndSortingCapabilities
     description: Complete reference of the RetrievesTheListOfClients_WhileAlsoOfferingBasicFilteringAndSortingCapabilities
       API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-while-also-offering-basic-filtering-and-sorting-capabilities
@@ -257,8 +257,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

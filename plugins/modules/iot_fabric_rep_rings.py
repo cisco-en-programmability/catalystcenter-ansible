@@ -35,10 +35,10 @@ options:
       can be used to get the rootNetworkDeviceId , `instanceUuid` attribute in the response contains rootNetworkDeviceId.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Industrial Configuration ConfigureAREPRingOnFABRICDeployment
+  - name: Cisco Catalyst Center documentation for Industrial Configuration ConfigureAREPRingOnFABRICDeployment
     description: Complete reference of the ConfigureAREPRingOnFABRICDeployment API.
     link: https://developer.cisco.com/docs/dna-center/#!configure-arep-ring-on-fabric-deployment
 notes:
@@ -66,8 +66,8 @@ EXAMPLES = r"""
     rootNetworkDeviceId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

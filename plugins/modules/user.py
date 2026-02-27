@@ -46,16 +46,16 @@ options:
     description: The username of the user.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and Roles AddUser
+  - name: Cisco Catalyst Center documentation for User and Roles AddUser
     description: Complete reference of the AddUser API.
     link: https://developer.cisco.com/docs/dna-center/#!add-user
-  - name: Cisco DNA Center documentation for User and Roles DeleteUserAPI
+  - name: Cisco Catalyst Center documentation for User and Roles DeleteUserAPI
     description: Complete reference of the DeleteUserAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
-  - name: Cisco DNA Center documentation for User and Roles UpdateUser
+  - name: Cisco Catalyst Center documentation for User and Roles UpdateUser
     description: Complete reference of the UpdateUser API.
     link: https://developer.cisco.com/docs/dna-center/#!update-user
 notes:
@@ -121,8 +121,8 @@ EXAMPLES = r"""
     userId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -128,16 +128,16 @@ options:
     description: Pnp Workflow's version.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflow
+  - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) AddAWorkflow
     description: Complete reference of the AddAWorkflow API.
     link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowById
+  - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) DeleteWorkflowById
     description: Complete reference of the DeleteWorkflowById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflow
+  - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) UpdateWorkflow
     description: Complete reference of the UpdateWorkflow API.
     link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
@@ -255,8 +255,8 @@ EXAMPLES = r"""
     version: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

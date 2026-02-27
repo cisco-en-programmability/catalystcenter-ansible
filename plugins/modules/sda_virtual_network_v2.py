@@ -32,16 +32,16 @@ options:
     description: VirtualNetworkName query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroups
+  - name: Cisco Catalyst Center documentation for SDA AddVirtualNetworkWithScalableGroups
     description: Complete reference of the AddVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
-  - name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroups
+  - name: Cisco Catalyst Center documentation for SDA DeleteVirtualNetworkWithScalableGroups
     description: Complete reference of the DeleteVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
-  - name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroups
+  - name: Cisco Catalyst Center documentation for SDA UpdateVirtualNetworkWithScalableGroups
     description: Complete reference of the UpdateVirtualNetworkWithScalableGroups API.
     link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
 notes:
@@ -100,8 +100,8 @@ EXAMPLES = r"""
     virtualNetworkName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

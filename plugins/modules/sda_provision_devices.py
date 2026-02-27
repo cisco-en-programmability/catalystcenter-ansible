@@ -43,19 +43,19 @@ options:
     description: SiteId query parameter. ID of the site hierarchy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA ProvisionDevices
+  - name: Cisco Catalyst Center documentation for SDA ProvisionDevices
     description: Complete reference of the ProvisionDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!provision-devices
-  - name: Cisco DNA Center documentation for SDA DeleteProvisionedDeviceById
+  - name: Cisco Catalyst Center documentation for SDA DeleteProvisionedDeviceById
     description: Complete reference of the DeleteProvisionedDeviceById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id
-  - name: Cisco DNA Center documentation for SDA DeleteProvisionedDevices
+  - name: Cisco Catalyst Center documentation for SDA DeleteProvisionedDevices
     description: Complete reference of the DeleteProvisionedDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices
-  - name: Cisco DNA Center documentation for SDA ReProvisionDevices
+  - name: Cisco Catalyst Center documentation for SDA ReProvisionDevices
     description: Complete reference of the ReProvisionDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!re-provision-devices
 notes:
@@ -126,8 +126,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -28,16 +28,16 @@ options:
     description: Name of UDF.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices CreateUserDefinedField
+  - name: Cisco Catalyst Center documentation for Devices CreateUserDefinedField
     description: Complete reference of the CreateUserDefinedField API.
     link: https://developer.cisco.com/docs/dna-center/#!create-user-defined-field
-  - name: Cisco DNA Center documentation for Devices DeleteUserDefinedField
+  - name: Cisco Catalyst Center documentation for Devices DeleteUserDefinedField
     description: Complete reference of the DeleteUserDefinedField API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field
-  - name: Cisco DNA Center documentation for Devices UpdateUserDefinedField
+  - name: Cisco Catalyst Center documentation for Devices UpdateUserDefinedField
     description: Complete reference of the UpdateUserDefinedField API.
     link: https://developer.cisco.com/docs/dna-center/#!update-user-defined-field
 notes:
@@ -91,8 +91,8 @@ EXAMPLES = r"""
     name: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

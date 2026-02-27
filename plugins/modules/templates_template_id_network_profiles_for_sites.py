@@ -24,13 +24,13 @@ options:
     description: TemplateId path parameter. The `id` of the template, retrievable from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates AttachNetworkProfileToADayNCLITemplate
+  - name: Cisco Catalyst Center documentation for Configuration Templates AttachNetworkProfileToADayNCLITemplate
     description: Complete reference of the AttachNetworkProfileToADayNCLITemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!attach-network-profile-to-a-day-ncli-template
-  - name: Cisco DNA Center documentation for Configuration Templates DetachANetworkProfileFromADayNCLITemplate
+  - name: Cisco Catalyst Center documentation for Configuration Templates DetachANetworkProfileFromADayNCLITemplate
     description: Complete reference of the DetachANetworkProfileFromADayNCLITemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!detach-a-network-profile-from-a-day-ncli-template
 notes:
@@ -70,8 +70,8 @@ EXAMPLES = r"""
     templateId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -81,19 +81,19 @@ options:
         type: int
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransit
+  - name: Cisco Catalyst Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransit
     description: Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransit API.
     link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit
-  - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitById
+  - name: Cisco Catalyst Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitById
     description: Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id
-  - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransit
+  - name: Cisco Catalyst Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransit
     description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransit API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit
-  - name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransit
+  - name: Cisco Catalyst Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransit
     description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransit API.
     link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit
 notes:
@@ -182,8 +182,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -48,16 +48,16 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and Roles AddAccessGroup
+  - name: Cisco Catalyst Center documentation for User and Roles AddAccessGroup
     description: Complete reference of the AddAccessGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!add-access-group
-  - name: Cisco DNA Center documentation for User and Roles DeleteAccessGroup
+  - name: Cisco Catalyst Center documentation for User and Roles DeleteAccessGroup
     description: Complete reference of the DeleteAccessGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-access-group
-  - name: Cisco DNA Center documentation for User and Roles UpdateAccessGroup
+  - name: Cisco Catalyst Center documentation for User and Roles UpdateAccessGroup
     description: Complete reference of the UpdateAccessGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!update-access-group
 notes:
@@ -122,8 +122,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

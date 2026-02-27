@@ -843,7 +843,7 @@ class CatalystCenterBase:
             )
         else:
             self.log(
-                "Using 'get_site_assigned_network_devices' API for DNAC version: '{0}'.".format(
+                "Using 'get_site_assigned_network_devices' API for Catalyst Center version: '{0}'.".format(
                     self.catalystcenter_version
                 ),
                 "DEBUG",
@@ -3676,7 +3676,7 @@ class CatalystCenterSDK(object):
         self.validate_response_schema = params.get("validate_response_schema")
         self.logger = logging.getLogger("catalystcentersdk")
         if CATALYST_SDK_IS_INSTALLED:
-            self.api = api.DNACenterAPI(
+            self.api = api.CatalystCenterAPI(
                 username=params.get("catalystcenter_username"),
                 password=params.get("catalystcenter_password"),
                 base_url="https://{catalystcenter_host}:{catalystcenter_port}".format(
@@ -3691,7 +3691,7 @@ class CatalystCenterSDK(object):
                 self.logger.addHandler(logging.StreamHandler())
         else:
             self.fail_json(
-                msg="DNA Center Python SDK is not installed. Execute 'pip install catalystcentersdk'"
+                msg="Catalyst Center Python SDK is not installed. Execute 'pip install catalystcentersdk'"
             )
 
     def changed(self):
@@ -3808,7 +3808,7 @@ class CatalystCenterSDK(object):
                 )
             )
 
-        except exceptions.dnacentersdkException as e:
+        except exceptions.catalystcentersdkException as e:
             self.fail_json(
                 msg=(
                     "An error occured when executing operation for the family '{family}' "

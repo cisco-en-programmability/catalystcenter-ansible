@@ -88,6 +88,6 @@ class ActionModule(ActionBase):
             function="remove_user_defined_field_from_device",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

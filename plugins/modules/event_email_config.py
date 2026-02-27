@@ -68,13 +68,13 @@ options:
     description: To Email.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CreateEmailDestination
+  - name: Cisco Catalyst Center documentation for Event Management CreateEmailDestination
     description: Complete reference of the CreateEmailDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
-  - name: Cisco DNA Center documentation for Event Management UpdateEmailDestination
+  - name: Cisco Catalyst Center documentation for Event Management UpdateEmailDestination
     description: Complete reference of the UpdateEmailDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
 notes:
@@ -142,8 +142,8 @@ EXAMPLES = r"""
     toEmail: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

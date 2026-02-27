@@ -86,16 +86,16 @@ options:
       is `SINGLE_TEXT` or `MULTI_TEXT`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance CreateANewVariable
+  - name: Cisco Catalyst Center documentation for Compliance CreateANewVariable
     description: Complete reference of the CreateANewVariable API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-variable
-  - name: Cisco DNA Center documentation for Compliance DeleteASpecificVariable
+  - name: Cisco Catalyst Center documentation for Compliance DeleteASpecificVariable
     description: Complete reference of the DeleteASpecificVariable API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-variable
-  - name: Cisco DNA Center documentation for Compliance UpdateAnExistingVariable
+  - name: Cisco Catalyst Center documentation for Compliance UpdateAnExistingVariable
     description: Complete reference of the UpdateAnExistingVariable API.
     link: https://developer.cisco.com/docs/dna-center/#!update-an-existing-variable
 notes:
@@ -180,8 +180,8 @@ EXAMPLES = r"""
     validationRegex: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -9,13 +9,13 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 
-class AnsibleDNACException(Exception):
+class AnsibleCatalystCenterException(Exception):
     """Base class for all Ansible CATALYST package exceptions."""
 
     pass
 
 
-class InconsistentParameters(AnsibleDNACException):
+class InconsistentParameters(AnsibleCatalystCenterException):
     """Provided parameters are not consistent."""
 
     pass

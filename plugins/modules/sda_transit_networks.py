@@ -59,13 +59,13 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddTransitNetworks
+  - name: Cisco Catalyst Center documentation for SDA AddTransitNetworks
     description: Complete reference of the AddTransitNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks
-  - name: Cisco DNA Center documentation for SDA UpdateTransitNetworks
+  - name: Cisco Catalyst Center documentation for SDA UpdateTransitNetworks
     description: Complete reference of the UpdateTransitNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks
 notes:
@@ -124,8 +124,8 @@ EXAMPLES = r"""
         type: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

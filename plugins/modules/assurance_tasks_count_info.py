@@ -24,10 +24,10 @@ options:
       - Status query parameter. Used to get a subset of tasks by their status.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Task RetrieveACountOfTheNumberOfAssuranceTasksThatCurrentlyExist
+  - name: Cisco Catalyst Center documentation for Task RetrieveACountOfTheNumberOfAssuranceTasksThatCurrentlyExist
     description: Complete reference of the RetrieveACountOfTheNumberOfAssuranceTasksThatCurrentlyExist API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-count-of-the-number-of-assurance-tasks-that-currently-exist
 notes:
@@ -53,8 +53,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

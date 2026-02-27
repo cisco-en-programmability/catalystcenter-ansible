@@ -51,13 +51,13 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for LAN Automation CreateANewPortChannelBetweenDevices
+  - name: Cisco Catalyst Center documentation for LAN Automation CreateANewPortChannelBetweenDevices
     description: Complete reference of the CreateANewPortChannelBetweenDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-port-channel-between-devices
-  - name: Cisco DNA Center documentation for LAN Automation DeletePortChannel
+  - name: Cisco Catalyst Center documentation for LAN Automation DeletePortChannel
     description: Complete reference of the DeletePortChannel API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel
 notes:
@@ -103,8 +103,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

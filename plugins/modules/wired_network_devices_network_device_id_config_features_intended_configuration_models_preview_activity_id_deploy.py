@@ -26,10 +26,10 @@ options:
     description: PreviewActivityId path parameter. Activity id from intent/api/v1/activity.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wired DeployTheConfigurationModelOnTheNetworkDevice
+  - name: Cisco Catalyst Center documentation for Wired DeployTheConfigurationModelOnTheNetworkDevice
     description: Complete reference of the DeployTheConfigurationModelOnTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!deploy-the-configuration-model-on-the-network-device
 notes:
@@ -54,8 +54,8 @@ EXAMPLES = r"""
     previewActivityId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
