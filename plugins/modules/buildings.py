@@ -44,16 +44,16 @@ options:
     description: Parent Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design CreatesABuildingV2
+  - name: Cisco Catalyst Center documentation for Site Design CreatesABuildingV2
     description: Complete reference of the CreatesABuildingV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2
-  - name: Cisco DNA Center documentation for Site Design DeletesABuildingV2
+  - name: Cisco Catalyst Center documentation for Site Design DeletesABuildingV2
     description: Complete reference of the DeletesABuildingV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2
-  - name: Cisco DNA Center documentation for Site Design UpdatesABuildingV2
+  - name: Cisco Catalyst Center documentation for Site Design UpdatesABuildingV2
     description: Complete reference of the UpdatesABuildingV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2
 notes:
@@ -115,8 +115,8 @@ EXAMPLES = r"""
     parentId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

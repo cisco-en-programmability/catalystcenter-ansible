@@ -42,13 +42,13 @@ options:
       - Id path parameter. Ap Profile ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetAPProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless GetAPProfileByID
     description: Complete reference of the GetAPProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless GetAPProfiles
+  - name: Cisco Catalyst Center documentation for Wireless GetAPProfiles
     description: Complete reference of the GetAPProfiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-ap-profiles
 notes:
@@ -90,8 +90,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

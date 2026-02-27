@@ -25,10 +25,10 @@ options:
     description: Default smart account id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Licenses UpdateLicenseSetting
+  - name: Cisco Catalyst Center documentation for Licenses UpdateLicenseSetting
     description: Complete reference of the UpdateLicenseSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!update-license-setting
 notes:
@@ -54,8 +54,8 @@ EXAMPLES = r"""
     defaultSmartAccountId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

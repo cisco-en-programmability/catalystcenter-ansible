@@ -85,10 +85,10 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Applications RetrievesTheTrendAnalyticsDataRelatedToNetworkApplications
+  - name: Cisco Catalyst Center documentation for Applications RetrievesTheTrendAnalyticsDataRelatedToNetworkApplications
     description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToNetworkApplications API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-network-applications
 notes:
@@ -132,8 +132,8 @@ EXAMPLES = r"""
     trendInterval: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

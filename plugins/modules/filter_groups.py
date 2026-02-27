@@ -54,16 +54,16 @@ options:
     description: Type.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices CreateFilterGroup
+  - name: Cisco Catalyst Center documentation for Devices CreateFilterGroup
     description: Complete reference of the CreateFilterGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!create-filter-group
-  - name: Cisco DNA Center documentation for Devices DeleteAFilterGroup
+  - name: Cisco Catalyst Center documentation for Devices DeleteAFilterGroup
     description: Complete reference of the DeleteAFilterGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-filter-group
-  - name: Cisco DNA Center documentation for Devices UpdateFilterGroup
+  - name: Cisco Catalyst Center documentation for Devices UpdateFilterGroup
     description: Complete reference of the UpdateFilterGroup API.
     link: https://developer.cisco.com/docs/dna-center/#!update-filter-group
 notes:
@@ -128,8 +128,8 @@ EXAMPLES = r"""
     type: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

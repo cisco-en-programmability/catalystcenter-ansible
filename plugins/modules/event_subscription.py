@@ -94,16 +94,16 @@ options:
     description: Subscriptions query parameter. List of EventSubscriptionId's for removal.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CreateEventSubscriptions
+  - name: Cisco Catalyst Center documentation for Event Management CreateEventSubscriptions
     description: Complete reference of the CreateEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions
-  - name: Cisco DNA Center documentation for Event Management DeleteEventSubscriptions
+  - name: Cisco Catalyst Center documentation for Event Management DeleteEventSubscriptions
     description: Complete reference of the DeleteEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions
-  - name: Cisco DNA Center documentation for Event Management UpdateEventSubscriptions
+  - name: Cisco Catalyst Center documentation for Event Management UpdateEventSubscriptions
     description: Complete reference of the UpdateEventSubscriptions API.
     link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions
 notes:
@@ -204,8 +204,8 @@ EXAMPLES = r"""
         version: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

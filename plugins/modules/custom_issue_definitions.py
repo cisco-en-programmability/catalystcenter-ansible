@@ -70,16 +70,16 @@ options:
         type: int
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitions
+  - name: Cisco Catalyst Center documentation for Issues CreatesANewUserDefinedIssueDefinitions
     description: Complete reference of the CreatesANewUserDefinedIssueDefinitions API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
-  - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinition
+  - name: Cisco Catalyst Center documentation for Issues DeletesAnExistingCustomIssueDefinition
     description: Complete reference of the DeletesAnExistingCustomIssueDefinition API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
-  - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
+  - name: Cisco Catalyst Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId
     description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
@@ -156,8 +156,8 @@ EXAMPLES = r"""
         severity: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

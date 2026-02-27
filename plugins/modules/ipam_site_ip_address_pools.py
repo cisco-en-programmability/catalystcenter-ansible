@@ -155,16 +155,16 @@ options:
     description: The name of the site that this subpool belongs to.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings ReservecreateIPAddressSubpools
+  - name: Cisco Catalyst Center documentation for Network Settings ReservecreateIPAddressSubpools
     description: Complete reference of the ReservecreateIPAddressSubpools API.
     link: https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools
-  - name: Cisco DNA Center documentation for Network Settings ReleaseAnIPAddressSubpool
+  - name: Cisco Catalyst Center documentation for Network Settings ReleaseAnIPAddressSubpool
     description: Complete reference of the ReleaseAnIPAddressSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!release-an-ip-address-subpool
-  - name: Cisco DNA Center documentation for Network Settings UpdatesAnIPAddressSubpool
+  - name: Cisco Catalyst Center documentation for Network Settings UpdatesAnIPAddressSubpool
     description: Complete reference of the UpdatesAnIPAddressSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-ip-address-subpool
 notes:
@@ -277,8 +277,8 @@ EXAMPLES = r"""
     siteId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

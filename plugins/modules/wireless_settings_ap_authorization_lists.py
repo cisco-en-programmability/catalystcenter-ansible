@@ -58,16 +58,16 @@ options:
         type: bool
     type: dict
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateAPAuthorizationList
+  - name: Cisco Catalyst Center documentation for Wireless CreateAPAuthorizationList
     description: Complete reference of the CreateAPAuthorizationList API.
     link: https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list
-  - name: Cisco DNA Center documentation for Wireless DeleteAPAuthorizationList
+  - name: Cisco Catalyst Center documentation for Wireless DeleteAPAuthorizationList
     description: Complete reference of the DeleteAPAuthorizationList API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-ap-authorization-list
-  - name: Cisco DNA Center documentation for Wireless UpdateAPAuthorizationList
+  - name: Cisco Catalyst Center documentation for Wireless UpdateAPAuthorizationList
     description: Complete reference of the UpdateAPAuthorizationList API.
     link: https://developer.cisco.com/docs/dna-center/#!update-ap-authorization-list
 notes:
@@ -139,8 +139,8 @@ EXAMPLES = r"""
       authorizeApWithSerialNumber: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

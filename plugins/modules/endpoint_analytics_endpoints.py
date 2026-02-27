@@ -34,16 +34,16 @@ options:
     description: MAC address of the endpoint.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpoint
+  - name: Cisco Catalyst Center documentation for AI Endpoint Analytics RegisterAnEndpoint
     description: Complete reference of the RegisterAnEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpoint
+  - name: Cisco Catalyst Center documentation for AI Endpoint Analytics DeleteAnEndpoint
     description: Complete reference of the DeleteAnEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics UpdateARegisteredEndpoint
+  - name: Cisco Catalyst Center documentation for AI Endpoint Analytics UpdateARegisteredEndpoint
     description: Complete reference of the UpdateARegisteredEndpoint API.
     link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint
 notes:
@@ -100,8 +100,8 @@ EXAMPLES = r"""
     hardwareModel: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

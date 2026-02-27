@@ -48,13 +48,13 @@ options:
       - Id path parameter. The `id` of the IP address subpool to retrieve.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings RetrievesAnIPAddressSubpool
+  - name: Cisco Catalyst Center documentation for Network Settings RetrievesAnIPAddressSubpool
     description: Complete reference of the RetrievesAnIPAddressSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool
-  - name: Cisco DNA Center documentation for Network Settings RetrievesIPAddressSubpools
+  - name: Cisco Catalyst Center documentation for Network Settings RetrievesIPAddressSubpools
     description: Complete reference of the RetrievesIPAddressSubpools API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieves-ip-address-subpools
 notes:
@@ -98,8 +98,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

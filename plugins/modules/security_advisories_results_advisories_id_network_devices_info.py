@@ -64,13 +64,13 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoryNetworkDeviceForTheSecurityAdvisoryByNetworkDeviceId
+  - name: Cisco Catalyst Center documentation for Compliance GetSecurityAdvisoryNetworkDeviceForTheSecurityAdvisoryByNetworkDeviceId
     description: Complete reference of the GetSecurityAdvisoryNetworkDeviceForTheSecurityAdvisoryByNetworkDeviceId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-security-advisory-network-device-for-the-security-advisory-by-network-device-id
-  - name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoryNetworkDevicesForTheSecurityAdvisory
+  - name: Cisco Catalyst Center documentation for Compliance GetSecurityAdvisoryNetworkDevicesForTheSecurityAdvisory
     description: Complete reference of the GetSecurityAdvisoryNetworkDevicesForTheSecurityAdvisory API.
     link: https://developer.cisco.com/docs/dna-center/#!get-security-advisory-network-devices-for-the-security-advisory
 notes:
@@ -118,8 +118,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

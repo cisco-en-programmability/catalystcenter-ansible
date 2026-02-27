@@ -35,10 +35,10 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) DistributeImagesOnTheNetworkDevice
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) DistributeImagesOnTheNetworkDevice
     description: Complete reference of the DistributeImagesOnTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!distribute-images-on-the-network-device
 notes:
@@ -66,8 +66,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

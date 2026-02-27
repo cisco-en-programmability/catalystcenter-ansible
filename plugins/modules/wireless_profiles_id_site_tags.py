@@ -40,13 +40,13 @@ options:
     description: Use English letters, numbers, special characters except <, /, '.*', ? and leading/trailing space.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeleteASpecificSiteTagFromAWirelessProfile
+  - name: Cisco Catalyst Center documentation for Wireless DeleteASpecificSiteTagFromAWirelessProfile
     description: Complete reference of the DeleteASpecificSiteTagFromAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-site-tag-from-a-wireless-profile
-  - name: Cisco DNA Center documentation for Wireless UpdateASpecificSiteTagForAWirelessProfile
+  - name: Cisco Catalyst Center documentation for Wireless UpdateASpecificSiteTagForAWirelessProfile
     description: Complete reference of the UpdateASpecificSiteTagForAWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-a-specific-site-tag-for-a-wireless-profile
 notes:
@@ -91,8 +91,8 @@ EXAMPLES = r"""
     siteTagName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -28,10 +28,10 @@ options:
       - _unitsOfMeasure query parameter. Floor units of measure.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design GetsAFloorV2
+  - name: Cisco Catalyst Center documentation for Site Design GetsAFloorV2
     description: Complete reference of the GetsAFloorV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor-v-2
 notes:
@@ -58,8 +58,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

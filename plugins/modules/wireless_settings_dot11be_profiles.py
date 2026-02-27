@@ -71,16 +71,16 @@ options:
     description: 802.11be Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateA80211beProfile
+  - name: Cisco Catalyst Center documentation for Wireless CreateA80211beProfile
     description: Complete reference of the CreateA80211beProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-80-21-1be-profile
-  - name: Cisco DNA Center documentation for Wireless DeleteA80211beProfile
+  - name: Cisco Catalyst Center documentation for Wireless DeleteA80211beProfile
     description: Complete reference of the DeleteA80211beProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-80-21-1be-profile
-  - name: Cisco DNA Center documentation for Wireless Update80211beProfile
+  - name: Cisco Catalyst Center documentation for Wireless Update80211beProfile
     description: Complete reference of the Update80211beProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-80-21-1be-profile
 notes:
@@ -154,8 +154,8 @@ EXAMPLES = r"""
     profileName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

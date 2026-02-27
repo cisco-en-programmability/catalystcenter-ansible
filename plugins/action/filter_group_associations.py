@@ -207,6 +207,6 @@ class ActionModule(ActionBase):
                 response = obj.create()
                 catalystcenter.object_created()
 
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

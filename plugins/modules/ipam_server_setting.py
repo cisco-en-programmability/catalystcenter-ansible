@@ -42,16 +42,16 @@ options:
     description: The view under which pools are created in the external IPAM server.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServer
+  - name: Cisco Catalyst Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServer
     description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServer API.
     link: https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
-  - name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServer
+  - name: Cisco Catalyst Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServer
     description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServer API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
-  - name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServer
+  - name: Cisco Catalyst Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServer
     description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServer API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
 notes:
@@ -112,8 +112,8 @@ EXAMPLES = r"""
     view: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

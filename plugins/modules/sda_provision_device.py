@@ -26,16 +26,16 @@ options:
     description: Site Name Hierarchy for device location(only building / floor level).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA ProvisionWiredDevice
+  - name: Cisco Catalyst Center documentation for SDA ProvisionWiredDevice
     description: Complete reference of the ProvisionWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device
-  - name: Cisco DNA Center documentation for SDA DeleteProvisionedWiredDevice
+  - name: Cisco Catalyst Center documentation for SDA DeleteProvisionedWiredDevice
     description: Complete reference of the DeleteProvisionedWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
-  - name: Cisco DNA Center documentation for SDA ReProvisionWiredDevice
+  - name: Cisco Catalyst Center documentation for SDA ReProvisionWiredDevice
     description: Complete reference of the ReProvisionWiredDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device
 notes:
@@ -88,8 +88,8 @@ EXAMPLES = r"""
     siteNameHierarchy: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

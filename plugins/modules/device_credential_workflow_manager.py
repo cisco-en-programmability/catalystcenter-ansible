@@ -873,7 +873,7 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global device credentials
-dnac_response1:
+catalystcenter_response1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -886,7 +886,7 @@ dnac_response1:
       "version": "string"
     }
 # Case_2: Successful assignment/sync of global device credentials to a site.
-dnac_response2:
+catalystcenter_response2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict

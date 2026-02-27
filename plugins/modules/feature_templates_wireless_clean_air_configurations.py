@@ -110,16 +110,16 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateCleanAirConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless CreateCleanAirConfigurationFeatureTemplate
     description: Complete reference of the CreateCleanAirConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!create-clean-air-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless DeleteCleanAirConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless DeleteCleanAirConfigurationFeatureTemplate
     description: Complete reference of the DeleteCleanAirConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-clean-air-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless UpdateCleanAirConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless UpdateCleanAirConfigurationFeatureTemplate
     description: Complete reference of the UpdateCleanAirConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!update-clean-air-configuration-feature-template
 notes:
@@ -227,8 +227,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

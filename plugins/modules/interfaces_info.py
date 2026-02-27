@@ -162,14 +162,14 @@ options:
       - Id path parameter. The interface Uuid.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeData
+  - name: Cisco Catalyst Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeData
     description: Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeData
       API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-and-poe-data
-  - name: Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevices
+  - name: Cisco Catalyst Center documentation for Devices GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevices
     description: Complete reference of the GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-and-poe-data-from-all-network-devices
 notes:
@@ -228,8 +228,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

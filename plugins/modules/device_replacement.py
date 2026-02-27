@@ -65,13 +65,13 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacement
+  - name: Cisco Catalyst Center documentation for Device Replacement MarkDeviceForReplacement
     description: Complete reference of the MarkDeviceForReplacement API.
     link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
-  - name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacement
+  - name: Cisco Catalyst Center documentation for Device Replacement UnMarkDeviceForReplacement
     description: Complete reference of the UnMarkDeviceForReplacement API.
     link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
 notes:
@@ -137,8 +137,8 @@ EXAMPLES = r"""
         workflowId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

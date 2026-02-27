@@ -88,19 +88,19 @@ options:
     description: VlanName query parameter. The vlan name of the layer 2 virtual network.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddLayer2VirtualNetworks
+  - name: Cisco Catalyst Center documentation for SDA AddLayer2VirtualNetworks
     description: Complete reference of the AddLayer2VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!add-layer-2-virtual-networks
-  - name: Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworkById
+  - name: Cisco Catalyst Center documentation for SDA DeleteLayer2VirtualNetworkById
     description: Complete reference of the DeleteLayer2VirtualNetworkById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-network-by-id
-  - name: Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworks
+  - name: Cisco Catalyst Center documentation for SDA DeleteLayer2VirtualNetworks
     description: Complete reference of the DeleteLayer2VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks
-  - name: Cisco DNA Center documentation for SDA UpdateLayer2VirtualNetworks
+  - name: Cisco Catalyst Center documentation for SDA UpdateLayer2VirtualNetworks
     description: Complete reference of the UpdateLayer2VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks
 notes:
@@ -190,8 +190,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

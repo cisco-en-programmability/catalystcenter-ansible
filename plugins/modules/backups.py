@@ -28,13 +28,13 @@ options:
     description: The backup scope states whether the backup is with assurance or without assurance data.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup CreateBackup
+  - name: Cisco Catalyst Center documentation for Backup CreateBackup
     description: Complete reference of the CreateBackup API.
     link: https://developer.cisco.com/docs/dna-center/#!create-backup
-  - name: Cisco DNA Center documentation for Backup DeleteBackup
+  - name: Cisco Catalyst Center documentation for Backup DeleteBackup
     description: Complete reference of the DeleteBackup API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-backup
 notes:
@@ -73,8 +73,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

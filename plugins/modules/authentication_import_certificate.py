@@ -31,10 +31,10 @@ options:
     description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Authentication Management ImportCertificate
+  - name: Cisco Catalyst Center documentation for Authentication Management ImportCertificate
     description: Complete reference of the ImportCertificate API.
     link: https://developer.cisco.com/docs/dna-center/#!import-certificate
 notes:
@@ -61,8 +61,8 @@ EXAMPLES = r"""
     pkPassword: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -24,10 +24,10 @@ options:
       - Id path parameter. Flex Connect Configuration Feature Template Id.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless GetFlexConnectConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless GetFlexConnectConfigurationFeatureTemplate
     description: Complete reference of the GetFlexConnectConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!get-flex-connect-configuration-feature-template
 notes:
@@ -53,8 +53,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

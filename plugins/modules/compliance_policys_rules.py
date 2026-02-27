@@ -57,16 +57,16 @@ options:
     description: Suggestions on how to fix the issues detected by this rule.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance CreateANewRule
+  - name: Cisco Catalyst Center documentation for Compliance CreateANewRule
     description: Complete reference of the CreateANewRule API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-rule
-  - name: Cisco DNA Center documentation for Compliance DeleteASpecificRule
+  - name: Cisco Catalyst Center documentation for Compliance DeleteASpecificRule
     description: Complete reference of the DeleteASpecificRule API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-rule
-  - name: Cisco DNA Center documentation for Compliance UpdateAnExistingRule
+  - name: Cisco Catalyst Center documentation for Compliance UpdateAnExistingRule
     description: Complete reference of the UpdateAnExistingRule API.
     link: https://developer.cisco.com/docs/dna-center/#!update-an-existing-rule
 notes:
@@ -137,8 +137,8 @@ EXAMPLES = r"""
     suggestedFix: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

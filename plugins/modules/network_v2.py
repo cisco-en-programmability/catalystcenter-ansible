@@ -129,13 +129,13 @@ options:
     description: SiteId path parameter. Site Id to which site details to associate with the network settings.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
+  - name: Cisco Catalyst Center documentation for Network Settings CreateNetworkV2
     description: Complete reference of the CreateNetworkV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!create-network-v-2
-  - name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
+  - name: Cisco Catalyst Center documentation for Network Settings UpdateNetworkV2
     description: Complete reference of the UpdateNetworkV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!update-network-v-2
 notes:
@@ -245,8 +245,8 @@ EXAMPLES = r"""
     siteId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
