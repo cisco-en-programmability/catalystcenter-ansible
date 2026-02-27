@@ -126,7 +126,8 @@ jobs:
             # Install ansible, catalystcentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
-            # Build collection and store resulting tarball in directory $HOME/.cache/v<< pipeline.parameters.ansible_cisco_catalystcenter_version >>/collection-tarballs
+            # Build collection and store resulting tarball
+            # in $HOME/.cache/v<< pipeline.parameters.ansible_cisco_catalystcenter_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path workspace/
       - save_cache:
           key: collection-<< pipeline.git.revision >>
