@@ -45,19 +45,19 @@ options:
         type: list
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddExtranetPolicy
+  - name: Cisco Catalyst Center documentation for SDA AddExtranetPolicy
     description: Complete reference of the AddExtranetPolicy API.
     link: https://developer.cisco.com/docs/dna-center/#!add-extranet-policy
-  - name: Cisco DNA Center documentation for SDA DeleteExtranetPolicies
+  - name: Cisco Catalyst Center documentation for SDA DeleteExtranetPolicies
     description: Complete reference of the DeleteExtranetPolicies API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policies
-  - name: Cisco DNA Center documentation for SDA DeleteExtranetPolicyById
+  - name: Cisco Catalyst Center documentation for SDA DeleteExtranetPolicyById
     description: Complete reference of the DeleteExtranetPolicyById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policy-by-id
-  - name: Cisco DNA Center documentation for SDA UpdateExtranetPolicy
+  - name: Cisco Catalyst Center documentation for SDA UpdateExtranetPolicy
     description: Complete reference of the UpdateExtranetPolicy API.
     link: https://developer.cisco.com/docs/dna-center/#!update-extranet-policy
 notes:
@@ -133,8 +133,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

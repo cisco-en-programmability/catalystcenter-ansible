@@ -56,13 +56,13 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeId
+  - name: Cisco Catalyst Center documentation for Compliance GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeId
     description: Complete reference of the GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-field-notice-affecting-the-network-device-by-device-id-and-notice-id
-  - name: Cisco DNA Center documentation for Compliance GetFieldNoticesAffectingTheNetworkDevice
+  - name: Cisco Catalyst Center documentation for Compliance GetFieldNoticesAffectingTheNetworkDevice
     description: Complete reference of the GetFieldNoticesAffectingTheNetworkDevice API.
     link: https://developer.cisco.com/docs/dna-center/#!get-field-notices-affecting-the-network-device
 notes:
@@ -109,8 +109,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

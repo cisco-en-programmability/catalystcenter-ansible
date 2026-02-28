@@ -39,13 +39,13 @@ options:
     description: Netconf port on the device. Valid port should be in the range of 1 to 65535.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery CreateNetconfCredentials
+  - name: Cisco Catalyst Center documentation for Discovery CreateNetconfCredentials
     description: Complete reference of the CreateNetconfCredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!create-netconf-credentials
-  - name: Cisco DNA Center documentation for Discovery UpdateNetconfCredentials
+  - name: Cisco Catalyst Center documentation for Discovery UpdateNetconfCredentials
     description: Complete reference of the UpdateNetconfCredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!update-netconf-credentials
 notes:
@@ -96,8 +96,8 @@ EXAMPLES = r"""
     netconfPort: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

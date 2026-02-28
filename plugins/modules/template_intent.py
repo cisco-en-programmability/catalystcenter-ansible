@@ -1412,7 +1412,7 @@ response_1:
     }
 # Case_2: Error while deleting a template or when given project is not found
 response_2:
-  description: A list with the response returned by the Cisco DNAC Python SDK
+  description: A list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   sample: >
@@ -1422,7 +1422,7 @@ response_2:
     }
 # Case_3: Given template already exists and requires no update
 response_3:
-  description: A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
+  description: A dictionary with the exisiting template deatails as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1432,7 +1432,7 @@ response_3:
     }
 # Case_4: Given template list that needs to be exported
 response_4:
-  description: Details of the templates in the list as returned by the Cisco DNAC Python SDK
+  description: Details of the templates in the list as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1442,7 +1442,7 @@ response_4:
     }
 # Case_5: Given project list that needs to be exported
 response_5:
-  description: Details of the projects in the list as returned by the Cisco DNAC Python SDK
+  description: Details of the projects in the list as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

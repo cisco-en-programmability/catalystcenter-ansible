@@ -74,10 +74,10 @@ options:
       - LastContact query parameter. Device Has Contacted lastContact > 0.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceCountSiteManagement
+  - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) GetDeviceCountSiteManagement
     description: Complete reference of the GetDeviceCountSiteManagement API.
     link: https://developer.cisco.com/docs/dna-center/#!get-device-count-site-management
 notes:
@@ -113,8 +113,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -23,10 +23,10 @@ options:
     description: Username for Custom Prompt.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPI
+  - name: Cisco Catalyst Center documentation for System Settings CustomPromptPOSTAPI
     description: Complete reference of the CustomPromptPOSTAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi
 notes:
@@ -52,8 +52,8 @@ EXAMPLES = r"""
     usernamePrompt: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

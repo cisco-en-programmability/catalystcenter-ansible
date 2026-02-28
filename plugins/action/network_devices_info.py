@@ -131,7 +131,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -142,7 +142,7 @@ class ActionModule(ActionBase):
                 function="get_the_device_data_for_the_given_device_id_uuid",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -151,6 +151,6 @@ class ActionModule(ActionBase):
                 function="gets_the_network_device_details_based_on_the_provided_query_parameters",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result

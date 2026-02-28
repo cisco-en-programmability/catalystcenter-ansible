@@ -86,6 +86,6 @@ class ActionModule(ActionBase):
             function="deletes_a_network_profile_for_sites",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

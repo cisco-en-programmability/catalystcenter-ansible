@@ -37,13 +37,13 @@ options:
     description: NFS server path.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Backup CreateNFSConfiguration
+  - name: Cisco Catalyst Center documentation for Backup CreateNFSConfiguration
     description: Complete reference of the CreateNFSConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!create-nfs-configuration
-  - name: Cisco DNA Center documentation for Backup DeleteNFSConfiguration
+  - name: Cisco Catalyst Center documentation for Backup DeleteNFSConfiguration
     description: Complete reference of the DeleteNFSConfiguration API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-nfs-configuration
 notes:
@@ -85,8 +85,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

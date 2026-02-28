@@ -27,10 +27,10 @@ options:
     description: SsidName path parameter. SSID Name. This parameter needs to be encoded as per UTF-8 encoding.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevices
+  - name: Cisco Catalyst Center documentation for Wireless DeleteSSIDAndProvisionItToDevices
     description: Complete reference of the DeleteSSIDAndProvisionItToDevices API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices
 notes:
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     ssidName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

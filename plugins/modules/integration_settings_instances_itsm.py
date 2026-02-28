@@ -48,16 +48,16 @@ options:
     description: Name of the setting instance.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for ITSM Integration CreateITSMIntegrationSetting
+  - name: Cisco Catalyst Center documentation for ITSM Integration CreateITSMIntegrationSetting
     description: Complete reference of the CreateITSMIntegrationSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting
-  - name: Cisco DNA Center documentation for ITSM Integration DeleteITSMIntegrationSetting
+  - name: Cisco Catalyst Center documentation for ITSM Integration DeleteITSMIntegrationSetting
     description: Complete reference of the DeleteITSMIntegrationSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting
-  - name: Cisco DNA Center documentation for ITSM Integration UpdateITSMIntegrationSetting
+  - name: Cisco Catalyst Center documentation for ITSM Integration UpdateITSMIntegrationSetting
     description: Complete reference of the UpdateITSMIntegrationSetting API.
     link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting
 notes:
@@ -123,8 +123,8 @@ EXAMPLES = r"""
     name: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

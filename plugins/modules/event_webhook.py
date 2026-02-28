@@ -56,13 +56,13 @@ options:
     description: Required only for update webhook configuration.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CreateWebhookDestination
+  - name: Cisco Catalyst Center documentation for Event Management CreateWebhookDestination
     description: Complete reference of the CreateWebhookDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination
-  - name: Cisco DNA Center documentation for Event Management UpdateWebhookDestination
+  - name: Cisco Catalyst Center documentation for Event Management UpdateWebhookDestination
     description: Complete reference of the UpdateWebhookDestination API.
     link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination
 notes:
@@ -122,8 +122,8 @@ EXAMPLES = r"""
     webhookId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -44,13 +44,13 @@ options:
       - Id path parameter. The `id` of the condition.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance RetrieveASpecificCondition
+  - name: Cisco Catalyst Center documentation for Compliance RetrieveASpecificCondition
     description: Complete reference of the RetrieveASpecificCondition API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-condition
-  - name: Cisco DNA Center documentation for Compliance RetrieveTheConditions
+  - name: Cisco Catalyst Center documentation for Compliance RetrieveTheConditions
     description: Complete reference of the RetrieveTheConditions API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-conditions
 notes:
@@ -95,8 +95,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

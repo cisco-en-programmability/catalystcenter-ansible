@@ -53,16 +53,16 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateRRMFRAConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless CreateRRMFRAConfigurationFeatureTemplate
     description: Complete reference of the CreateRRMFRAConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!create-rrmfra-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless DeleteRRMFRAConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless DeleteRRMFRAConfigurationFeatureTemplate
     description: Complete reference of the DeleteRRMFRAConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-rrmfra-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless UpdateRRMFRAConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless UpdateRRMFRAConfigurationFeatureTemplate
     description: Complete reference of the UpdateRRMFRAConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!update-rrmfra-configuration-feature-template
 notes:
@@ -130,8 +130,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

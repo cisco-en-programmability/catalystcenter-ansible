@@ -33,13 +33,13 @@ options:
     description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunity
+  - name: Cisco Catalyst Center documentation for Discovery CreateSNMPReadCommunity
     description: Complete reference of the CreateSNMPReadCommunity API.
     link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
-  - name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunity
+  - name: Cisco Catalyst Center documentation for Discovery UpdateSNMPReadCommunity
     description: Complete reference of the UpdateSNMPReadCommunity API.
     link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
 notes:
@@ -84,8 +84,8 @@ EXAMPLES = r"""
     readCommunity: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -40,16 +40,16 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateDot11beStatusConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless CreateDot11beStatusConfigurationFeatureTemplate
     description: Complete reference of the CreateDot11beStatusConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!create-dot-11be-status-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless DeleteDot11beStatusConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless DeleteDot11beStatusConfigurationFeatureTemplate
     description: Complete reference of the DeleteDot11beStatusConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-dot-11be-status-configuration-feature-template
-  - name: Cisco DNA Center documentation for Wireless UpdateDot11beStatusConfigurationFeatureTemplate
+  - name: Cisco Catalyst Center documentation for Wireless UpdateDot11beStatusConfigurationFeatureTemplate
     description: Complete reference of the UpdateDot11beStatusConfigurationFeatureTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!update-dot-11be-status-configuration-feature-template
 notes:
@@ -111,8 +111,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

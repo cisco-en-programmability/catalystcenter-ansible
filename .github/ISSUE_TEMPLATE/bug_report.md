@@ -25,12 +25,12 @@ A clear and concise description of what you expected to happen.
 Please provide an screenshot of the successful API call with cuRL, Postman, etc.
 
 **Debug**
-Enable debugging and add CiscoISE output request and reponse.
+Enable debugging and add Catalyst Center output request and reponse.
 * exporting `export CATALYSTCENTER_DEBUG=True`
 * playbook `catalystcenter_debug: True`
 
 **Environment (please complete the following information):**
-* Cisco DNA Center Version and patch: 
+* Cisco Catalyst Center Version and patch:
 * Ansible Version:
 * Collection version:
 * OS Version: 

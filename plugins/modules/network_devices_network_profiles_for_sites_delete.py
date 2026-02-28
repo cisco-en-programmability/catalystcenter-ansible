@@ -20,10 +20,10 @@ options:
     description: Id path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design DeletesANetworkProfileForSites
+  - name: Cisco Catalyst Center documentation for Site Design DeletesANetworkProfileForSites
     description: Complete reference of the DeletesANetworkProfileForSites API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites
 notes:
@@ -48,8 +48,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

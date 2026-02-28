@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -98,6 +98,6 @@ class ActionModule(ActionBase):
             function="retrieves_the_count_of_assigned_network_device_products",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

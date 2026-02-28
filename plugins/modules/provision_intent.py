@@ -138,7 +138,7 @@ response_1:
     }
 # Case_2: Error while creating a provision
 response_2:
-  description: A list with the response returned by the Cisco DNAC Python SDK
+  description: A list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   sample: >
@@ -148,7 +148,7 @@ response_2:
     }
 # Case_3: Already exists and requires no update
 response_3:
-  description: A dictionary with the exisiting details as returned by the Cisco DNAC Python SDK
+  description: A dictionary with the exisiting details as returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

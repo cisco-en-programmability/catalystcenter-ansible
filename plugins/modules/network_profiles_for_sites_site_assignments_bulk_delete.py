@@ -28,10 +28,10 @@ options:
       - 2. As separate query parameters with the same name (siteId=388a23e9...&siteId=...)
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSites
+  - name: Cisco Catalyst Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSites
     description: Complete reference of the UnassignsANetworkProfileForSitesFromMultipleSites API.
     link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites
 notes:
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     siteId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

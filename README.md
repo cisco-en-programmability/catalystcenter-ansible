@@ -29,9 +29,9 @@ Notes:
 
 ## Requirements
 
-- Python >= 3.9
+- Python >= 3.12
 - [catalystcentersdk](https://github.com/cisco-en-programmability/catalystcentersdk) (see Compatibility Matrix for tested versions)
-- ansible-core >= 2.15
+- ansible-core >= 2.16
 
 > **Note:** ansible-core is provided through Red Hat Ansible Automation Platform Execution Environments or can be installed via standard enterprise channels. Manual installation is not required for certified environments.
 
@@ -176,8 +176,8 @@ This collection supports automation scenarios such as:
 This collection is validated against the following environments:
 
 - Cisco CATALYST Center: 2.3.7.6, 2.3.7.9, 3.1.3.0, 3.1.6.0
-- ansible-core: >= 2.15
-- Python: >= 3.9
+- ansible-core: >= 2.16
+- Python: >= 3.12
 
 Known limitations and compatibility notes are documented in the [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml). For platform-specific issues, consult the official documentation or open a support case as appropriate.
 
@@ -202,8 +202,8 @@ This collection is available on both Ansible Galaxy and Red Hat Automation Hub.
 For certified content obtained from Red Hat Automation Hub, support is provided through Red Hat Ansible Automation Platform according to your subscription agreement.
 
 For content obtained from Ansible Galaxy, community support may be available via:
-- https://forum.ansible.com/
-- https://github.com/cisco-en-programmability/catalystcenter-ansible/issues
+- [Ansible Forum](https://forum.ansible.com/)
+- [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
 
 Please consult your platform documentation for support eligibility and procedures.
 
@@ -212,8 +212,7 @@ Please consult your platform documentation for support eligibility and procedure
 
 ## Release Notes and Roadmap
 
-Release notes are maintained in the public changelog:
-https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml
+Release notes are maintained in the public [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml).
 
 This collection follows [Semantic Versioning](https://semver.org/). For roadmap information, refer to the repository or contact Cisco for enterprise roadmap details.
 
@@ -222,9 +221,9 @@ This collection follows [Semantic Versioning](https://semver.org/). For roadmap 
 
 ## Related Information
 
-- https://github.com/cisco-en-programmability/catalystcentersdk
-- https://docs.ansible.com/ansible/latest/user_guide/collections_using.html
-- https://github.com/cisco-en-programmability/catalystcenter-ansible
+- [Catalyst Center Python SDK](https://github.com/cisco-en-programmability/catalystcentersdk)
+- [Using Ansible Collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html)
+- [Catalyst Center Ansible Collection](https://github.com/cisco-en-programmability/catalystcenter-ansible)
 
 ---
 
@@ -233,7 +232,6 @@ This collection follows [Semantic Versioning](https://semver.org/). For roadmap 
 
 This collection is licensed under the Cisco Sample Code License.
 
-The full license text is available at:
-https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE
+The full license text is available in the [LICENSE](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE) file.
 
 The license is included in the distributed collection artifact.

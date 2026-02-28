@@ -358,16 +358,16 @@ options:
     description: RF Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateRFProfile
+  - name: Cisco Catalyst Center documentation for Wireless CreateRFProfile
     description: Complete reference of the CreateRFProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile
-  - name: Cisco DNA Center documentation for Wireless DeleteRFProfile
+  - name: Cisco Catalyst Center documentation for Wireless DeleteRFProfile
     description: Complete reference of the DeleteRFProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile
-  - name: Cisco DNA Center documentation for Wireless UpdateRFProfile
+  - name: Cisco Catalyst Center documentation for Wireless UpdateRFProfile
     description: Complete reference of the UpdateRFProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile
 notes:
@@ -621,8 +621,8 @@ EXAMPLES = r"""
     rfProfileName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

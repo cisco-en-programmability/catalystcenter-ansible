@@ -24,13 +24,13 @@ options:
     description: Name of the custom AAA attribute.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for User and Roles AddAndUpdateAAAAttributeAPI
+  - name: Cisco Catalyst Center documentation for User and Roles AddAndUpdateAAAAttributeAPI
     description: Complete reference of the AddAndUpdateAAAAttributeAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!add-and-update-aaa-attribute-api
-  - name: Cisco DNA Center documentation for User and Roles DeleteAAAAttributeAPI
+  - name: Cisco Catalyst Center documentation for User and Roles DeleteAAAAttributeAPI
     description: Complete reference of the DeleteAAAAttributeAPI API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-aaa-attribute-api
 notes:
@@ -67,8 +67,8 @@ EXAMPLES = r"""
     attributeName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

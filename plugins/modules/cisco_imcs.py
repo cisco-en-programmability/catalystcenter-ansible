@@ -36,16 +36,16 @@ options:
     description: Username of the Cisco IMC.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNode
+  - name: Cisco Catalyst Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNode
     description: Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNode API.
     link: https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node
-  - name: Cisco DNA Center documentation for Cisco IMC DeletesTheCiscoIMCConfigurationForACatalystCenterNode
+  - name: Cisco Catalyst Center documentation for Cisco IMC DeletesTheCiscoIMCConfigurationForACatalystCenterNode
     description: Complete reference of the DeletesTheCiscoIMCConfigurationForACatalystCenterNode API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-the-cisco-imc-configuration-for-a-catalyst-center-node
-  - name: Cisco DNA Center documentation for Cisco IMC UpdatesTheCiscoIMCConfigurationForACatalystCenterNode
+  - name: Cisco Catalyst Center documentation for Cisco IMC UpdatesTheCiscoIMCConfigurationForACatalystCenterNode
     description: Complete reference of the UpdatesTheCiscoIMCConfigurationForACatalystCenterNode API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-the-cisco-imc-configuration-for-a-catalyst-center-node
 notes:
@@ -102,8 +102,8 @@ EXAMPLES = r"""
     username: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

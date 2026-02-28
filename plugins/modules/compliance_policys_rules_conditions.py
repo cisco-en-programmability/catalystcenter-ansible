@@ -120,16 +120,16 @@ options:
       `Features` tab.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance CreateANewCondition
+  - name: Cisco Catalyst Center documentation for Compliance CreateANewCondition
     description: Complete reference of the CreateANewCondition API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-condition
-  - name: Cisco DNA Center documentation for Compliance DeleteASpecificCondition
+  - name: Cisco Catalyst Center documentation for Compliance DeleteASpecificCondition
     description: Complete reference of the DeleteASpecificCondition API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-condition
-  - name: Cisco DNA Center documentation for Compliance UpdateAnExistingCondition
+  - name: Cisco Catalyst Center documentation for Compliance UpdateAnExistingCondition
     description: Complete reference of the UpdateAnExistingCondition API.
     link: https://developer.cisco.com/docs/dna-center/#!update-an-existing-condition
 notes:
@@ -223,8 +223,8 @@ EXAMPLES = r"""
     value: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

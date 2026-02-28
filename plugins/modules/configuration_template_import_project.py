@@ -22,10 +22,10 @@ options:
       fails with 'Template already exists' error.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates ImportsTheProjectsProvided
+  - name: Cisco Catalyst Center documentation for Configuration Templates ImportsTheProjectsProvided
     description: Complete reference of the ImportsTheProjectsProvided API.
     link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided
 notes:
@@ -49,8 +49,8 @@ EXAMPLES = r"""
     doVersion: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

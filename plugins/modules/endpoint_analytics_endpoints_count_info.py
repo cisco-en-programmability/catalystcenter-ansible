@@ -118,10 +118,10 @@ options:
       - AncPolicy query parameter. ANC policy. Only exact match will be returned.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpoints
+  - name: Cisco Catalyst Center documentation for AI Endpoint Analytics FetchTheCountOfEndpoints
     description: Complete reference of the FetchTheCountOfEndpoints API.
     link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
@@ -167,8 +167,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

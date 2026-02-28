@@ -26,13 +26,13 @@ options:
       - NameSpace path parameter. A listing of fileId's.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for File GetListOfAvailableNamespaces
+  - name: Cisco Catalyst Center documentation for File GetListOfAvailableNamespaces
     description: Complete reference of the GetListOfAvailableNamespaces API.
     link: https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces
-  - name: Cisco DNA Center documentation for File GetListOfFiles
+  - name: Cisco Catalyst Center documentation for File GetListOfFiles
     description: Complete reference of the GetListOfFiles API.
     link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
 notes:
@@ -71,8 +71,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

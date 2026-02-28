@@ -95,16 +95,16 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Network Settings ReserveIPSubpool
+  - name: Cisco Catalyst Center documentation for Network Settings ReserveIPSubpool
     description: Complete reference of the ReserveIPSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
-  - name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpool
+  - name: Cisco Catalyst Center documentation for Network Settings ReleaseReserveIPSubpool
     description: Complete reference of the ReleaseReserveIPSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
-  - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool
+  - name: Cisco Catalyst Center documentation for Network Settings UpdateReserveIPSubpool
     description: Complete reference of the UpdateReserveIPSubpool API.
     link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
@@ -198,8 +198,8 @@ EXAMPLES = r"""
     slaacSupport: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

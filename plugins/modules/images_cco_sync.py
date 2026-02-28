@@ -19,10 +19,10 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) InitiatesSyncOfSoftwareImagesFromCiscoCom
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) InitiatesSyncOfSoftwareImagesFromCiscoCom
     description: Complete reference of the InitiatesSyncOfSoftwareImagesFromCiscoCom API.
     link: https://developer.cisco.com/docs/dna-center/#!initiates-sync-of-software-images-from-cisco-com
 notes:
@@ -45,8 +45,8 @@ EXAMPLES = r"""
     catalystcenter_debug: "{{catalystcenter_debug}}"
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

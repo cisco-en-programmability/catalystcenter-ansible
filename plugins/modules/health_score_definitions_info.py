@@ -61,13 +61,13 @@ options:
       - Limit query parameter. Maximum number of records to return.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFilters
+  - name: Cisco Catalyst Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFilters
     description: Complete reference of the GetAllHealthScoreDefinitionsForGivenFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-all-health-score-definitions-for-given-filters
-  - name: Cisco DNA Center documentation for Devices GetHealthScoreDefinitionForTheGivenId
+  - name: Cisco Catalyst Center documentation for Devices GetHealthScoreDefinitionForTheGivenId
     description: Complete reference of the GetHealthScoreDefinitionForTheGivenId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-health-score-definition-for-the-given-id
 notes:
@@ -112,8 +112,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

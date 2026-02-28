@@ -72,16 +72,16 @@ options:
       input as all the access points certificate renewal happens at oneshot.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateLSCCertificateRenewalProfile
+  - name: Cisco Catalyst Center documentation for Wireless CreateLSCCertificateRenewalProfile
     description: Complete reference of the CreateLSCCertificateRenewalProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-lsc-certificate-renewal-profile
-  - name: Cisco DNA Center documentation for Wireless DeleteLSCCertificateRenewalProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless DeleteLSCCertificateRenewalProfileByID
     description: Complete reference of the DeleteLSCCertificateRenewalProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-lsc-certificate-renewal-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless UpdateLSCCertificateRenewalProfile
+  - name: Cisco Catalyst Center documentation for Wireless UpdateLSCCertificateRenewalProfile
     description: Complete reference of the UpdateLSCCertificateRenewalProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-lsc-certificate-renewal-profile
 notes:
@@ -153,8 +153,8 @@ EXAMPLES = r"""
     renewalType: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

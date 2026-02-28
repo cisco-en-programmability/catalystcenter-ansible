@@ -189,3 +189,20 @@ releases:
         - Cleaned up imports and backward-compatibility code
         - Updated README for Red Hat requirements and support section
         - Added build_ignore to galaxy.yml for smaller tarball
+  2.4.0:
+    release_date: "2026-02-27"
+    changes:
+      release_summary: Complete DNAC to Catalyst Center rename and minimum version bumps
+      minor_changes:
+        - Renamed all dnac_response return values to catalystcenter_response across all action plugins and module documentation
+        - Renamed AnsibleDNACException to AnsibleCatalystCenterException in module_utils and plugin_utils exceptions
+        - Updated CatalystCenterSDK to use api.CatalystCenterAPI instead of api.DNACenterAPI
+        - Updated SDK exception handling from exceptions.dnacentersdkException to exceptions.catalystcentersdkException
+        - Updated all module documentation seealso references from Cisco DNA Center to Cisco Catalyst Center
+        - Updated all module documentation return values from dnac_response to catalystcenter_response
+        - Bumped minimum SDK requirement from catalystcentersdk >= 3.1.6.0.0 to >= 3.1.6.0.1 across all modules
+        - Bumped minimum Python requirement from >= 3.9 to >= 3.12
+        - Bumped minimum ansible-core requirement from >= 2.15 to >= 2.16 in meta/runtime.yml and README
+        - Updated CircleCI config to replace legacy dnac references with catalystcenter naming
+        - Updated bug report template to reference Catalyst Center instead of DNA Center and CiscoISE
+        - Updated README with improved markdown links and updated compatibility matrix
