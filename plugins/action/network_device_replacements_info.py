@@ -105,7 +105,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -116,7 +116,7 @@ class ActionModule(ActionBase):
                 function="retrieve_the_status_of_device_replacement_workflow_that_replaces_a_faulty_device_with_a_replacement_device",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -125,6 +125,6 @@ class ActionModule(ActionBase):
                 function="retrieve_the_status_of_all_the_device_replacement_workflows",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result

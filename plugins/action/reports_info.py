@@ -85,7 +85,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -96,7 +96,7 @@ class ActionModule(ActionBase):
                 function="get_a_scheduled_report",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -105,6 +105,6 @@ class ActionModule(ActionBase):
                 function="get_list_of_scheduled_reports",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result

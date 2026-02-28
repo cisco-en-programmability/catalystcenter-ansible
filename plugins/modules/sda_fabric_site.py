@@ -29,13 +29,13 @@ options:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddSiteInSDAFabric
+  - name: Cisco Catalyst Center documentation for SDA AddSiteInSDAFabric
     description: Complete reference of the AddSiteInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
-  - name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabric
+  - name: Cisco Catalyst Center documentation for SDA DeleteSiteFromSDAFabric
     description: Complete reference of the DeleteSiteFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
@@ -75,8 +75,8 @@ EXAMPLES = r"""
     siteNameHierarchy: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

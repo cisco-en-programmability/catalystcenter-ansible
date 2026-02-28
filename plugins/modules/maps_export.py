@@ -21,10 +21,10 @@ options:
       at this hierarchy element will be included. Limited to a hierarchy that contains 500 or fewer maps.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sites ExportMapArchive
+  - name: Cisco Catalyst Center documentation for Sites ExportMapArchive
     description: Complete reference of the ExportMapArchive API.
     link: https://developer.cisco.com/docs/dna-center/#!export-map-archive
 notes:
@@ -48,8 +48,8 @@ EXAMPLES = r"""
     siteHierarchyUuid: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

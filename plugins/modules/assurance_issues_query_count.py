@@ -60,10 +60,10 @@ options:
     description: Start Time.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork
+  - name: Cisco Catalyst Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork
     description: Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetwork API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network
 notes:
@@ -98,8 +98,8 @@ EXAMPLES = r"""
     startTime: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

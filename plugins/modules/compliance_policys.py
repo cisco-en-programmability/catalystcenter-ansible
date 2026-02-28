@@ -28,16 +28,16 @@ options:
     description: The unique name of the compliance policy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance CreateANewPolicy
+  - name: Cisco Catalyst Center documentation for Compliance CreateANewPolicy
     description: Complete reference of the CreateANewPolicy API.
     link: https://developer.cisco.com/docs/dna-center/#!create-a-new-policy
-  - name: Cisco DNA Center documentation for Compliance DeleteASpecificPolicy
+  - name: Cisco Catalyst Center documentation for Compliance DeleteASpecificPolicy
     description: Complete reference of the DeleteASpecificPolicy API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-a-specific-policy
-  - name: Cisco DNA Center documentation for Compliance UpdateAnExistingPolicy
+  - name: Cisco Catalyst Center documentation for Compliance UpdateAnExistingPolicy
     description: Complete reference of the UpdateAnExistingPolicy API.
     link: https://developer.cisco.com/docs/dna-center/#!update-an-existing-policy
 notes:
@@ -91,8 +91,8 @@ EXAMPLES = r"""
     name: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

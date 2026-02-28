@@ -47,13 +47,13 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2
+  - name: Cisco Catalyst Center documentation for Application Policy CreateApplicationSetsV2
     description: Complete reference of the CreateApplicationSetsV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!create-application-sets-v-2
-  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2
+  - name: Cisco Catalyst Center documentation for Application Policy DeleteApplicationSetV2
     description: Complete reference of the DeleteApplicationSetV2 API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-v-2
 notes:
@@ -98,8 +98,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

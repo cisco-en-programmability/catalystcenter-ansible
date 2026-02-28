@@ -27,10 +27,10 @@ options:
       are assigned to building. Site Id can be retrieved using '/intent/api/v1/sites'.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design AssignNetworkDevicesToASite
+  - name: Cisco Catalyst Center documentation for Site Design AssignNetworkDevicesToASite
     description: Complete reference of the AssignNetworkDevicesToASite API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-network-devices-to-a-site
 notes:
@@ -56,8 +56,8 @@ EXAMPLES = r"""
     siteId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

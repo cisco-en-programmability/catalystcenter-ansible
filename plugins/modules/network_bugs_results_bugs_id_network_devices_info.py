@@ -64,13 +64,13 @@ options:
         Available values asc, desc. Default value is asc.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance GetNetworkBugDeviceForTheBugByNetworkDeviceId
+  - name: Cisco Catalyst Center documentation for Compliance GetNetworkBugDeviceForTheBugByNetworkDeviceId
     description: Complete reference of the GetNetworkBugDeviceForTheBugByNetworkDeviceId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-device-for-the-bug-by-network-device-id
-  - name: Cisco DNA Center documentation for Compliance GetNetworkBugDevicesForTheBug
+  - name: Cisco Catalyst Center documentation for Compliance GetNetworkBugDevicesForTheBug
     description: Complete reference of the GetNetworkBugDevicesForTheBug API.
     link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-devices-for-the-bug
 notes:
@@ -118,8 +118,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: list
   elements: dict

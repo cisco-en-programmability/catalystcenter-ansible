@@ -46,13 +46,13 @@ options:
     description: Source Port, range 1-65535.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Path Trace InitiateANewPathtrace
+  - name: Cisco Catalyst Center documentation for Path Trace InitiateANewPathtrace
     description: Complete reference of the InitiateANewPathtrace API.
     link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace
-  - name: Cisco DNA Center documentation for Path Trace DeletesPathtraceById
+  - name: Cisco Catalyst Center documentation for Path Trace DeletesPathtraceById
     description: Complete reference of the DeletesPathtraceById API.
     link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id
 notes:
@@ -98,8 +98,8 @@ EXAMPLES = r"""
     flowAnalysisId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

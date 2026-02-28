@@ -34,16 +34,16 @@ options:
     description: SiteNameHierarchy query parameter.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddDefaultAuthenticationTemplateInSDAFabric
+  - name: Cisco Catalyst Center documentation for SDA AddDefaultAuthenticationTemplateInSDAFabric
     description: Complete reference of the AddDefaultAuthenticationTemplateInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!add-default-authentication-template-in-sda-fabric
-  - name: Cisco DNA Center documentation for SDA DeleteDefaultAuthenticationProfileFromSDAFabric
+  - name: Cisco Catalyst Center documentation for SDA DeleteDefaultAuthenticationProfileFromSDAFabric
     description: Complete reference of the DeleteDefaultAuthenticationProfileFromSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-default-authentication-profile-from-sda-fabric
-  - name: Cisco DNA Center documentation for SDA UpdateDefaultAuthenticationProfileInSDAFabric
+  - name: Cisco Catalyst Center documentation for SDA UpdateDefaultAuthenticationProfileInSDAFabric
     description: Complete reference of the UpdateDefaultAuthenticationProfileInSDAFabric API.
     link: https://developer.cisco.com/docs/dna-center/#!update-default-authentication-profile-in-sda-fabric
 notes:
@@ -102,8 +102,8 @@ EXAMPLES = r"""
         wakeOnLan: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

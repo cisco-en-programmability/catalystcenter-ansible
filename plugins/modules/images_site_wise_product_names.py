@@ -30,16 +30,16 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImage
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImage
     description: Complete reference of the AssignNetworkDeviceProductNameToTheGivenSoftwareImage API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImage
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImage
     description: Complete reference of the UnassignNetworkDeviceProductNameFromTheGivenSoftwareImage API.
     link: https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImage
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImage
     description: Complete reference of the UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImage API.
     link: https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image
 notes:
@@ -97,8 +97,8 @@ EXAMPLES = r"""
       - string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

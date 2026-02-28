@@ -215,10 +215,10 @@ options:
       - FabricTransitDriven query parameter. Flag whether the issue is Fabric Transit driven issue.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFilters
+  - name: Cisco Catalyst Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFilters
     description: Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFilters API.
     link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters
 notes:
@@ -271,8 +271,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

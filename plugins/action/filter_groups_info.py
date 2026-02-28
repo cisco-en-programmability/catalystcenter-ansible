@@ -89,7 +89,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -100,7 +100,7 @@ class ActionModule(ActionBase):
                 function="get_the_filter_group_details_for_the_given_id",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -109,6 +109,6 @@ class ActionModule(ActionBase):
                 function="get_the_filter_groups_for_given_search_criteria",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(dnac_response=response))
+            self._result.update(dict(catalystcenter_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result

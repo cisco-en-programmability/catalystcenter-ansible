@@ -28,16 +28,16 @@ options:
     description: ProjectId path parameter. The id of the project to delete, retrieveable from `GET /dna/intent/api/v1/projects`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Configuration Templates CreateTemplateProject
+  - name: Cisco Catalyst Center documentation for Configuration Templates CreateTemplateProject
     description: Complete reference of the CreateTemplateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!create-template-project
-  - name: Cisco DNA Center documentation for Configuration Templates DeleteTemplateProject
+  - name: Cisco Catalyst Center documentation for Configuration Templates DeleteTemplateProject
     description: Complete reference of the DeleteTemplateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-template-project
-  - name: Cisco DNA Center documentation for Configuration Templates UpdateTemplateProject
+  - name: Cisco Catalyst Center documentation for Configuration Templates UpdateTemplateProject
     description: Complete reference of the UpdateTemplateProject API.
     link: https://developer.cisco.com/docs/dna-center/#!update-template-project
 notes:
@@ -91,8 +91,8 @@ EXAMPLES = r"""
     projectId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

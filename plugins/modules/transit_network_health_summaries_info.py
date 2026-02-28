@@ -70,13 +70,13 @@ options:
         be passed to get one or more of the specific health data summaries associated with sites.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA ReadListOfTransitNetworksWithTheirHealthSummary
+  - name: Cisco Catalyst Center documentation for SDA ReadListOfTransitNetworksWithTheirHealthSummary
     description: Complete reference of the ReadListOfTransitNetworksWithTheirHealthSummary API.
     link: https://developer.cisco.com/docs/dna-center/#!read-list-of-transit-networks-with-their-health-summary
-  - name: Cisco DNA Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromId
+  - name: Cisco Catalyst Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromId
     description: Complete reference of the ReadTransitNetworkWithItsHealthSummaryFromId API.
     link: https://developer.cisco.com/docs/dna-center/#!read-transit-network-with-its-health-summary-from-id
 notes:
@@ -128,8 +128,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

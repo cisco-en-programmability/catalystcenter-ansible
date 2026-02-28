@@ -63,16 +63,16 @@ options:
     description: WirelessProfileName path parameter. Wireless Profile Name.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateWirelessProfile
+  - name: Cisco Catalyst Center documentation for Wireless CreateWirelessProfile
     description: Complete reference of the CreateWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile
-  - name: Cisco DNA Center documentation for Wireless DeleteWirelessProfile
+  - name: Cisco Catalyst Center documentation for Wireless DeleteWirelessProfile
     description: Complete reference of the DeleteWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile
-  - name: Cisco DNA Center documentation for Wireless UpdateWirelessProfile
+  - name: Cisco Catalyst Center documentation for Wireless UpdateWirelessProfile
     description: Complete reference of the UpdateWirelessProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile
 notes:
@@ -147,8 +147,8 @@ EXAMPLES = r"""
           wlanProfileName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

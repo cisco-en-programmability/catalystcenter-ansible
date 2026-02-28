@@ -37,16 +37,16 @@ options:
     description: VirtualNetworkName query parameter. Name of the layer 3 virtual network.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddLayer3VirtualNetworks
+  - name: Cisco Catalyst Center documentation for SDA AddLayer3VirtualNetworks
     description: Complete reference of the AddLayer3VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!add-layer-3-virtual-networks
-  - name: Cisco DNA Center documentation for SDA DeleteLayer3VirtualNetworks
+  - name: Cisco Catalyst Center documentation for SDA DeleteLayer3VirtualNetworks
     description: Complete reference of the DeleteLayer3VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-layer-3-virtual-networks
-  - name: Cisco DNA Center documentation for SDA UpdateLayer3VirtualNetworks
+  - name: Cisco Catalyst Center documentation for SDA UpdateLayer3VirtualNetworks
     description: Complete reference of the UpdateLayer3VirtualNetworks API.
     link: https://developer.cisco.com/docs/dna-center/#!update-layer-3-virtual-networks
 notes:
@@ -106,8 +106,8 @@ EXAMPLES = r"""
         virtualNetworkName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

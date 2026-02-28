@@ -40,13 +40,13 @@ options:
       - Id path parameter. The `id` of the rule within the compliance policy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance RetrieveASpecificRule
+  - name: Cisco Catalyst Center documentation for Compliance RetrieveASpecificRule
     description: Complete reference of the RetrieveASpecificRule API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-specific-rule
-  - name: Cisco DNA Center documentation for Compliance RetrieveTheRules
+  - name: Cisco Catalyst Center documentation for Compliance RetrieveTheRules
     description: Complete reference of the RetrieveTheRules API.
     link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-rules
 notes:
@@ -89,8 +89,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

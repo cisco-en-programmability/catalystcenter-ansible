@@ -606,13 +606,13 @@ options:
     description: The sensor test template version (must be 2).
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplate
+  - name: Cisco Catalyst Center documentation for Sensors CreateSensorTestTemplate
     description: Complete reference of the CreateSensorTestTemplate API.
     link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
-  - name: Cisco DNA Center documentation for Sensors DeleteSensorTest
+  - name: Cisco Catalyst Center documentation for Sensors DeleteSensorTest
     description: Complete reference of the DeleteSensorTest API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
@@ -839,8 +839,8 @@ EXAMPLES = r"""
     version: 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -168,19 +168,19 @@ options:
     elements: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery StartDiscovery
+  - name: Cisco Catalyst Center documentation for Discovery StartDiscovery
     description: Complete reference of the StartDiscovery API.
     link: https://developer.cisco.com/docs/dna-center/#!start-discovery
-  - name: Cisco DNA Center documentation for Discovery DeleteAllDiscovery
+  - name: Cisco Catalyst Center documentation for Discovery DeleteAllDiscovery
     description: Complete reference of the DeleteAllDiscovery API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
-  - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryById
+  - name: Cisco Catalyst Center documentation for Discovery DeleteDiscoveryById
     description: Complete reference of the DeleteDiscoveryById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
-  - name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId
+  - name: Cisco Catalyst Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId
     description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId API.
     link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
@@ -338,8 +338,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

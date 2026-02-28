@@ -90,13 +90,13 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Event Management CreateRestWebhookEventSubscription
+  - name: Cisco Catalyst Center documentation for Event Management CreateRestWebhookEventSubscription
     description: Complete reference of the CreateRestWebhookEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
-  - name: Cisco DNA Center documentation for Event Management UpdateRestWebhookEventSubscription
+  - name: Cisco Catalyst Center documentation for Event Management UpdateRestWebhookEventSubscription
     description: Complete reference of the UpdateRestWebhookEventSubscription API.
     link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
 notes:
@@ -184,8 +184,8 @@ EXAMPLES = r"""
         version: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

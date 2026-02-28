@@ -48,16 +48,16 @@ options:
     description: The type of network device validation determines whether this validation runs before or after the operation.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) CreateCustomNetworkDeviceValidation
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) CreateCustomNetworkDeviceValidation
     description: Complete reference of the CreateCustomNetworkDeviceValidation API.
     link: https://developer.cisco.com/docs/dna-center/#!create-custom-network-device-validation
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) DeleteCustomNetworkDeviceValidation
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) DeleteCustomNetworkDeviceValidation
     description: Complete reference of the DeleteCustomNetworkDeviceValidation API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-custom-network-device-validation
-  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateCustomNetworkDeviceValidation
+  - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) UpdateCustomNetworkDeviceValidation
     description: Complete reference of the UpdateCustomNetworkDeviceValidation API.
     link: https://developer.cisco.com/docs/dna-center/#!update-custom-network-device-validation
 notes:
@@ -118,8 +118,8 @@ EXAMPLES = r"""
       - 0
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

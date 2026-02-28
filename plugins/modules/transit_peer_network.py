@@ -49,13 +49,13 @@ options:
     description: Transit Peer Network Type.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddTransitPeerNetwork
+  - name: Cisco Catalyst Center documentation for SDA AddTransitPeerNetwork
     description: Complete reference of the AddTransitPeerNetwork API.
     link: https://developer.cisco.com/docs/dna-center/#!add-transit-peer-network
-  - name: Cisco DNA Center documentation for SDA DeleteTransitPeerNetwork
+  - name: Cisco Catalyst Center documentation for SDA DeleteTransitPeerNetwork
     description: Complete reference of the DeleteTransitPeerNetwork API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-transit-peer-network
 notes:
@@ -101,8 +101,8 @@ EXAMPLES = r"""
     transitPeerNetworkType: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -74,19 +74,19 @@ options:
     description: PortChannelName query parameter. Name of the port channel.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA AddPortChannels
+  - name: Cisco Catalyst Center documentation for SDA AddPortChannels
     description: Complete reference of the AddPortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!add-port-channels
-  - name: Cisco DNA Center documentation for SDA DeletePortChannelById
+  - name: Cisco Catalyst Center documentation for SDA DeletePortChannelById
     description: Complete reference of the DeletePortChannelById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id
-  - name: Cisco DNA Center documentation for SDA DeletePortChannels
+  - name: Cisco Catalyst Center documentation for SDA DeletePortChannels
     description: Complete reference of the DeletePortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-port-channels
-  - name: Cisco DNA Center documentation for SDA UpdatePortChannels
+  - name: Cisco Catalyst Center documentation for SDA UpdatePortChannels
     description: Complete reference of the UpdatePortChannels API.
     link: https://developer.cisco.com/docs/dna-center/#!update-port-channels
 notes:
@@ -173,8 +173,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

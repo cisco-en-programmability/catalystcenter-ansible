@@ -28,10 +28,10 @@ options:
     description: ProfileId path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToAListOfSites
+  - name: Cisco Catalyst Center documentation for Site Design AssignANetworkProfileForSitesToAListOfSites
     description: Complete reference of the AssignANetworkProfileForSitesToAListOfSites API.
     link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-a-list-of-sites
 notes:
@@ -57,8 +57,8 @@ EXAMPLES = r"""
     profileId: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

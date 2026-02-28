@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(dnac_response={}))
+        self._result.update(dict(catalystcenter_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -90,6 +90,6 @@ class ActionModule(ActionBase):
             function="retrieve_a_count_of_the_number_of_assurance_tasks_that_currently_exist",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -24,10 +24,10 @@ options:
     description: If it is true, device controllability is enabled. If it is false, device controllability is disabled.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Site Design UpdateDeviceControllabilitySettings
+  - name: Cisco Catalyst Center documentation for Site Design UpdateDeviceControllabilitySettings
     description: Complete reference of the UpdateDeviceControllabilitySettings API.
     link: https://developer.cisco.com/docs/dna-center/#!update-device-controllability-settings
 notes:
@@ -53,8 +53,8 @@ EXAMPLES = r"""
     deviceControllability: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

@@ -124,13 +124,13 @@ options:
         supported list of attributes Examples `attribute=id&attribute=energyConsumed`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Clients GetClientEnergyByID
+  - name: Cisco Catalyst Center documentation for Clients GetClientEnergyByID
     description: Complete reference of the GetClientEnergyByID API.
     link: https://developer.cisco.com/docs/dna-center/#!get-client-energy-by-id
-  - name: Cisco DNA Center documentation for Clients GetClientsEnergy
+  - name: Cisco Catalyst Center documentation for Clients GetClientsEnergy
     description: Complete reference of the GetClientsEnergy API.
     link: https://developer.cisco.com/docs/dna-center/#!get-clients-energy
 notes:
@@ -187,8 +187,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

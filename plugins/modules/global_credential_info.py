@@ -41,13 +41,13 @@ options:
       - Id path parameter. Global Credential ID.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialId
+  - name: Cisco Catalyst Center documentation for Discovery GetCredentialSubTypeByCredentialId
     description: Complete reference of the GetCredentialSubTypeByCredentialId API.
     link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
-  - name: Cisco DNA Center documentation for Discovery GetGlobalCredentials
+  - name: Cisco Catalyst Center documentation for Discovery GetGlobalCredentials
     description: Complete reference of the GetGlobalCredentials API.
     link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
 notes:
@@ -90,8 +90,8 @@ EXAMPLES = r"""
   register: result
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

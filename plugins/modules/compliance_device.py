@@ -30,10 +30,10 @@ options:
       triggered for categories mentioned in categories section .
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Compliance RunCompliance
+  - name: Cisco Catalyst Center documentation for Compliance RunCompliance
     description: Complete reference of the RunCompliance API.
     link: https://developer.cisco.com/docs/dna-center/#!run-compliance
 notes:
@@ -62,8 +62,8 @@ EXAMPLES = r"""
     triggerFull: true
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

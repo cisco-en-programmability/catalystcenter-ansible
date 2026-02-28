@@ -94,6 +94,6 @@ class ActionModule(ActionBase):
             params=self.get_object(self._task.args),
             file_paths=[("p12_file_path", "p12FileUpload")],
         )
-        self._result.update(dict(dnac_response=response))
+        self._result.update(dict(catalystcenter_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

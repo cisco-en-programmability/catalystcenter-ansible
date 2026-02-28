@@ -45,16 +45,16 @@ options:
         type: str
     type: list
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreatePowerProfile
+  - name: Cisco Catalyst Center documentation for Wireless CreatePowerProfile
     description: Complete reference of the CreatePowerProfile API.
     link: https://developer.cisco.com/docs/dna-center/#!create-power-profile
-  - name: Cisco DNA Center documentation for Wireless DeletePowerProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless DeletePowerProfileByID
     description: Complete reference of the DeletePowerProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-power-profile-by-id
-  - name: Cisco DNA Center documentation for Wireless UpdatePowerProfileByID
+  - name: Cisco Catalyst Center documentation for Wireless UpdatePowerProfileByID
     description: Complete reference of the UpdatePowerProfileByID API.
     link: https://developer.cisco.com/docs/dna-center/#!update-power-profile-by-id
 notes:
@@ -118,8 +118,8 @@ EXAMPLES = r"""
         parameterValue: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

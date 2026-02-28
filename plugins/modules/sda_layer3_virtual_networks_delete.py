@@ -20,10 +20,10 @@ options:
     description: Id path parameter. ID of the layer 3 virtual network.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for SDA DeleteLayer3VirtualNetworkById
+  - name: Cisco Catalyst Center documentation for SDA DeleteLayer3VirtualNetworkById
     description: Complete reference of the DeleteLayer3VirtualNetworkById API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-layer-3-virtual-network-by-id
 notes:
@@ -47,8 +47,8 @@ EXAMPLES = r"""
     id: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >

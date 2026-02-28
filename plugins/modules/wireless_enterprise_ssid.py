@@ -133,16 +133,16 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.0
+  - catalystcentersdk >= 3.1.6.0.1
   - python >= 3.12
 seealso:
-  - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSID
+  - name: Cisco Catalyst Center documentation for Wireless CreateEnterpriseSSID
     description: Complete reference of the CreateEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
-  - name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSID
+  - name: Cisco Catalyst Center documentation for Wireless DeleteEnterpriseSSID
     description: Complete reference of the DeleteEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
-  - name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSID
+  - name: Cisco Catalyst Center documentation for Wireless UpdateEnterpriseSSID
     description: Complete reference of the UpdateEnterpriseSSID API.
     link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
 notes:
@@ -265,8 +265,8 @@ EXAMPLES = r"""
     ssidName: string
 """
 RETURN = r"""
-dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
