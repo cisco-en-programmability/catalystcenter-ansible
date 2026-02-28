@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.wireless_accesspoint_configuration_summary_info module -- Information module for Wireless Accesspoint Configuration Summary<a class="headerlink" href="#cisco-catalystcenter-wireless-accesspoint-configuration-summary-info-module-information-module-for-wireless-accesspoint-configuration-summary" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-wireless-accesspoint-configuration-summary-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1239,7 +1239,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-wireless-accesspoint-configuration-summary-info-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1410,7 +1410,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration">Cisco DNA Center documentation for Wireless GetAccessPointConfiguration</a></dt><dd><p>Complete reference of the GetAccessPointConfiguration API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration">Cisco Catalyst Center documentation for Wireless GetAccessPointConfiguration</a></dt><dd><p>Complete reference of the GetAccessPointConfiguration API.</p>
 </dd>
 </dl>
 </div>
@@ -1451,10 +1451,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-wireless-accesspoint-configuration-summary-info-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-wireless-accesspoint-configuration-summary-info-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`{&quot;adminStatus&quot;: &quot;string&quot;, &quot;apHeight&quot;: 0, &quot;apMode&quot;: &quot;string&quot;, &quot;apName&quot;: &quot;string&quot;, &quot;ethMac&quot;: &quot;string&quot;, &quot;failoverPriority&quot;: &quot;string&quot;, &quot;ledBrightnessLevel&quot;: 0, &quot;ledStatus&quot;: &quot;string&quot;, &quot;location&quot;: &quot;string&quot;, &quot;macAddress&quot;: &quot;string&quot;, &quot;managementIpAddress&quot;: &quot;string&quot;, &quot;meshDTOs&quot;: [&quot;string&quot;], &quot;model&quot;: &quot;string&quot;, &quot;primaryControllerName&quot;: &quot;string&quot;, &quot;primaryIpAddress&quot;: &quot;string&quot;, &quot;provisioningStatus&quot;: &quot;string&quot;, &quot;radioDTOs&quot;: [{&quot;adminStatus&quot;: &quot;string&quot;, &quot;antennaAngle&quot;: 0, &quot;antennaElevAngle&quot;: 0, &quot;antennaGain&quot;: 0, &quot;antennaPatternName&quot;: &quot;string&quot;, &quot;channelAssignmentMode&quot;: &quot;string&quot;, &quot;channelNumber&quot;: 0, &quot;channelWidth&quot;: &quot;string&quot;, &quot;cleanAirSI&quot;: &quot;string&quot;, &quot;dualRadioMode&quot;: &quot;string&quot;, &quot;ifType&quot;: 0, &quot;ifTypeValue&quot;: &quot;string&quot;, &quot;macAddress&quot;: &quot;string&quot;, &quot;powerAssignmentMode&quot;: &quot;string&quot;, &quot;powerlevel&quot;: 0, &quot;radioBand&quot;: {}, &quot;radioRoleAssignment&quot;: {}, &quot;slotId&quot;: 0}], &quot;reachabilityStatus&quot;: &quot;string&quot;, &quot;secondaryControllerName&quot;: &quot;string&quot;, &quot;secondaryIpAddress&quot;: &quot;string&quot;, &quot;tertiaryControllerName&quot;: &quot;string&quot;, &quot;tertiaryIpAddress&quot;: &quot;string&quot;, &quot;wlcIpAddress&quot;: &quot;string&quot;}`</span></a></p>
 </div></td>

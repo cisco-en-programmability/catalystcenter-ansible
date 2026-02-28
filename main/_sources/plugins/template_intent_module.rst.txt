@@ -42,7 +42,7 @@ cisco.catalystcenter.template_intent module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.4.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -12218,7 +12218,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A list with the response returned by the Cisco DNAC Python SDK
+      A list with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12263,7 +12263,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary with the exisiting template deatails as returned by the Cisco DNAC Python SDK
+      A dictionary with the exisiting template deatails as returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12308,7 +12308,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      Details of the templates in the list as returned by the Cisco DNAC Python SDK
+      Details of the templates in the list as returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line
@@ -12353,7 +12353,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      Details of the projects in the list as returned by the Cisco DNAC Python SDK
+      Details of the projects in the list as returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line

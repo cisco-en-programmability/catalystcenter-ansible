@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.sda_site_member_member_info module -- Information module for Sda Site Member Member<a class="headerlink" href="#cisco-catalystcenter-sda-site-member-member-info-module-information-module-for-sda-site-member-member" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-sda-site-member-member-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1240,7 +1240,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-sda-site-member-member-info-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1390,7 +1390,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-devices-that-are-assigned-to-a-site">Cisco DNA Center documentation for Sites GetDevicesThatAreAssignedToASite</a></dt><dd><p>Complete reference of the GetDevicesThatAreAssignedToASite API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-devices-that-are-assigned-to-a-site">Cisco Catalyst Center documentation for Sites GetDevicesThatAreAssignedToASite</a></dt><dd><p>Complete reference of the GetDevicesThatAreAssignedToASite API.</p>
 </dd>
 </dl>
 </div>
@@ -1428,10 +1428,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sda-site-member-member-info-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sda-site-member-member-info-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`&quot;[\\n  {\\n    \\&quot;instanceUuid\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;instanceId\\&quot;: 0,\\n    \\&quot;authEntityId\\&quot;: 0,\\n    \\&quot;authEntityClass\\&quot;: 0,\\n    \\&quot;instanceTenantId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;deployPending\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;instanceVersion\\&quot;: 0,\\n    \\&quot;apManagerInterfaceIp\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;associatedWlcIp\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;bootDateTime\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;collectionInterval\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;collectionIntervalValue\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;collectionStatus\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;description\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;deviceSupportLevel\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;dnsResolvedManagementAddress\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;family\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;hostname\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;interfaceCount\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;inventoryStatusDetail\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;lastUpdateTime\\&quot;: 0,\\n    \\&quot;lastUpdated\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;lineCardCount\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;lineCardId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;lastDeviceResyncStartTime\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;macAddress\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;managedAtleastOnce\\&quot;: true,\\n    \\&quot;managementIpAddress\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;managementState\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;memorySize\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;paddedMgmtIpAddress\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;pendingSyncRequestsCount\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;platformId\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;reachabilityFailureReason\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;reachabilityStatus\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;reasonsForDeviceResync\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;reasonsForPendingSyncRequests\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;role\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;roleSource\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;serialNumber\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;series\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;snmpContact\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;snmpLocation\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;softwareType\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;softwareVersion\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;tagCount\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;type\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;upTime\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;uptimeSeconds\\&quot;: 0,\\n    \\&quot;vendor\\&quot;: \\&quot;string\\&quot;,\\n    \\&quot;displayName\\&quot;: \\&quot;string\\&quot;\\n  }\\n]\\n&quot;`</span></a></p>
 </div></td>

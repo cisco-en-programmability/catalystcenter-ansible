@@ -42,7 +42,7 @@ cisco.catalystcenter.ipam_site_ip_address_pools_info module -- Information modul
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.3.1).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.4.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -86,7 +86,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.0
+- catalystcentersdk \>= 3.1.6.0.1
 - python \>= 3.12
 
 
@@ -679,9 +679,9 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings RetrievesAnIPAddressSubpool <https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool>`_
+   `Cisco Catalyst Center documentation for Network Settings RetrievesAnIPAddressSubpool <https://developer.cisco.com/docs/dna-center/#!retrieves-an-ip-address-subpool>`_
        Complete reference of the RetrievesAnIPAddressSubpool API.
-   `Cisco DNA Center documentation for Network Settings RetrievesIPAddressSubpools <https://developer.cisco.com/docs/dna-center/#!retrieves-ip-address-subpools>`_
+   `Cisco Catalyst Center documentation for Network Settings RetrievesIPAddressSubpools <https://developer.cisco.com/docs/dna-center/#!retrieves-ip-address-subpools>`_
        Complete reference of the RetrievesIPAddressSubpools API.
 
 .. Examples
@@ -747,17 +747,17 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+        <div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_info_module__return-dnac_response:
+      .. _ansible_collections.cisco.catalystcenter.ipam_site_ip_address_pools_info_module__return-catalystcenter_response:
 
       .. rst-class:: ansible-option-title
 
-      **dnac_response**
+      **catalystcenter_response**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+        <a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -771,7 +771,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
         <div class="ansible-option-cell">
 
-      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
 
 
       .. rst-class:: ansible-option-line

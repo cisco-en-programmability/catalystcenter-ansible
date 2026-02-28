@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.3.1
+Collection version 2.4.0
 
 .. contents::
    :local:
@@ -38,7 +38,7 @@ Ansible Modules for Cisco CATALYST Center
 
 **Supported ansible-core versions:**
 
-* 2.15.0 or newer
+* 2.16.0 or newer
 
 .. raw:: html
 
