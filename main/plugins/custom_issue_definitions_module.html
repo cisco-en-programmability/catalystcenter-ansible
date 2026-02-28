@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.custom_issue_definitions module -- Resource module for Custom Issue Definitions<a class="headerlink" href="#cisco-catalystcenter-custom-issue-definitions-module-resource-module-for-custom-issue-definitions" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-custom-issue-definitions-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1239,7 +1239,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-custom-issue-definitions-module-requirements"></span><h2><a class="toc-backref" href="#id30" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1455,11 +1455,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions">Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitions</a></dt><dd><p>Complete reference of the CreatesANewUserDefinedIssueDefinitions API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions">Cisco Catalyst Center documentation for Issues CreatesANewUserDefinedIssueDefinitions</a></dt><dd><p>Complete reference of the CreatesANewUserDefinedIssueDefinitions API.</p>
 </dd>
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition">Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinition</a></dt><dd><p>Complete reference of the DeletesAnExistingCustomIssueDefinition API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition">Cisco Catalyst Center documentation for Issues DeletesAnExistingCustomIssueDefinition</a></dt><dd><p>Complete reference of the DeletesAnExistingCustomIssueDefinition API.</p>
 </dd>
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id">Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId</a></dt><dd><p>Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id">Cisco Catalyst Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId</a></dt><dd><p>Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedId API.</p>
 </dd>
 </dl>
 </div>
@@ -1540,10 +1540,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-custom-issue-definitions-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-custom-issue-definitions-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id27"><span class="problematic" id="id28">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;createdTime&quot;: 0, &quot;description&quot;: &quot;string&quot;, &quot;id&quot;: &quot;string&quot;, &quot;isDeletable&quot;: true, &quot;isEnabled&quot;: true, &quot;isNotificationEnabled&quot;: true, &quot;lastUpdatedTime&quot;: 0, &quot;name&quot;: &quot;string&quot;, &quot;priority&quot;: &quot;string&quot;, &quot;profileId&quot;: &quot;string&quot;, &quot;rules&quot;: [{&quot;durationInMinutes&quot;: 0, &quot;facility&quot;: &quot;string&quot;, &quot;mnemonic&quot;: &quot;string&quot;, &quot;occurrences&quot;: 0, &quot;pattern&quot;: &quot;string&quot;, &quot;severity&quot;: 0, &quot;type&quot;: &quot;string&quot;}], &quot;triggerId&quot;: &quot;string&quot;}}`</span></a></p>
 </div></td>

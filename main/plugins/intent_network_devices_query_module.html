@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.intent_network_devices_query module -- Resource module for Intent Network Devices Query<a class="headerlink" href="#cisco-catalystcenter-intent-network-devices-query-module-resource-module-for-intent-network-devices-query" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-intent-network-devices-query-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1240,7 +1240,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-intent-network-devices-query-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1439,7 +1439,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters">Cisco DNA Center documentation for Devices QueryNetworkDevicesWithFilters</a></dt><dd><p>Complete reference of the QueryNetworkDevicesWithFilters API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters">Cisco Catalyst Center documentation for Devices QueryNetworkDevicesWithFilters</a></dt><dd><p>Complete reference of the QueryNetworkDevicesWithFilters API.</p>
 </dd>
 </dl>
 </div>
@@ -1484,10 +1484,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-intent-network-devices-query-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-intent-network-devices-query-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;apEthernetMacAddress&quot;: &quot;string&quot;, &quot;apManagerInterfaceIpAddress&quot;: &quot;string&quot;, &quot;apWlcIpAddress&quot;: &quot;string&quot;, &quot;bootTime&quot;: 0, &quot;deviceSupportLevel&quot;: &quot;string&quot;, &quot;dnsResolvedManagementIpAddress&quot;: &quot;string&quot;, &quot;errorCode&quot;: &quot;string&quot;, &quot;errorDescription&quot;: &quot;string&quot;, &quot;family&quot;: &quot;string&quot;, &quot;hostname&quot;: &quot;string&quot;, &quot;id&quot;: &quot;string&quot;, &quot;lastSuccessfulResyncReasons&quot;: [&quot;string&quot;], &quot;macAddress&quot;: &quot;string&quot;, &quot;managementAddress&quot;: &quot;string&quot;, &quot;managementState&quot;: &quot;string&quot;, &quot;pendingResyncRequestCount&quot;: 0, &quot;pendingResyncRequestReasons&quot;: [&quot;string&quot;], &quot;platformIds&quot;: [&quot;string&quot;], &quot;reachabilityFailureReason&quot;: &quot;string&quot;, &quot;reachabilityStatus&quot;: &quot;string&quot;, &quot;resyncEndTime&quot;: 0, &quot;resyncIntervalMinutes&quot;: 0, &quot;resyncIntervalSource&quot;: &quot;string&quot;, &quot;resyncReasons&quot;: [&quot;string&quot;], &quot;resyncRequestedByApps&quot;: [&quot;string&quot;], &quot;resyncStartTime&quot;: 0, &quot;role&quot;: &quot;string&quot;, &quot;roleSource&quot;: &quot;string&quot;, &quot;serialNumbers&quot;: [&quot;string&quot;], &quot;series&quot;: &quot;string&quot;, &quot;snmpContact&quot;: &quot;string&quot;, &quot;snmpLocation&quot;: &quot;string&quot;, &quot;softwareType&quot;: &quot;string&quot;, &quot;softwareVersion&quot;: &quot;string&quot;, &quot;stackDevice&quot;: true, &quot;status&quot;: &quot;string&quot;, &quot;type&quot;: &quot;string&quot;, &quot;userDefinedFields&quot;: {}, &quot;vendor&quot;: &quot;string&quot;}], &quot;version&quot;: &quot;string&quot;}`</span></a></p>
 </div></td>

@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.pnp_global_settings_info module -- Information module for Pnp Global Settings<a class="headerlink" href="#cisco-catalystcenter-pnp-global-settings-info-module-information-module-for-pnp-global-settings" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-pnp-global-settings-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1240,7 +1240,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-pnp-global-settings-info-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1355,7 +1355,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-pn-p-global-settings">Cisco DNA Center documentation for Device Onboarding (PnP) GetPnPGlobalSettings</a></dt><dd><p>Complete reference of the GetPnPGlobalSettings API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-pn-p-global-settings">Cisco Catalyst Center documentation for Device Onboarding (PnP) GetPnPGlobalSettings</a></dt><dd><p>Complete reference of the GetPnPGlobalSettings API.</p>
 </dd>
 </dl>
 </div>
@@ -1388,10 +1388,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-global-settings-info-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-pnp-global-settings-info-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`{&quot;aaaCredentials&quot;: {&quot;password&quot;: &quot;string&quot;, &quot;username&quot;: &quot;string&quot;}, &quot;acceptEula&quot;: true, &quot;defaultProfile&quot;: {&quot;cert&quot;: &quot;string&quot;, &quot;fqdnAddresses&quot;: [&quot;string&quot;], &quot;ipAddresses&quot;: [&quot;string&quot;], &quot;port&quot;: 0, &quot;proxy&quot;: true}, &quot;id&quot;: &quot;string&quot;, &quot;savaMappingList&quot;: [{&quot;autoSyncPeriod&quot;: 0, &quot;ccoUser&quot;: &quot;string&quot;, &quot;expiry&quot;: 0, &quot;lastSync&quot;: 0, &quot;profile&quot;: {&quot;addressFqdn&quot;: &quot;string&quot;, &quot;addressIpV4&quot;: &quot;string&quot;, &quot;cert&quot;: &quot;string&quot;, &quot;makeDefault&quot;: true, &quot;name&quot;: &quot;string&quot;, &quot;port&quot;: 0, &quot;profileId&quot;: &quot;string&quot;, &quot;proxy&quot;: true}, &quot;smartAccountId&quot;: &quot;string&quot;, &quot;syncResult&quot;: {&quot;syncList&quot;: [{&quot;deviceSnList&quot;: [&quot;string&quot;], &quot;syncType&quot;: &quot;string&quot;}], &quot;syncMsg&quot;: &quot;string&quot;}, &quot;syncResultStr&quot;: &quot;string&quot;, &quot;syncStartTime&quot;: 0, &quot;syncStatus&quot;: &quot;string&quot;, &quot;tenantId&quot;: &quot;string&quot;, &quot;token&quot;: &quot;string&quot;, &quot;virtualAccountId&quot;: &quot;string&quot;}], &quot;taskTimeOuts&quot;: {&quot;configTimeOut&quot;: 0, &quot;generalTimeOut&quot;: 0, &quot;imageDownloadTimeOut&quot;: 0}, &quot;tenantId&quot;: &quot;string&quot;, &quot;version&quot;: 0}`</span></a></p>
 </div></td>

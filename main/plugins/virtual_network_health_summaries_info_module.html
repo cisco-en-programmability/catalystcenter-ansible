@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.virtual_network_health_summaries_info module -- Information module for Virtual Network Health Summaries<a class="headerlink" href="#cisco-catalystcenter-virtual-network-health-summaries-info-module-information-module-for-virtual-network-health-summaries" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-virtual-network-health-summaries-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1240,7 +1240,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-virtual-network-health-summaries-info-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1439,9 +1439,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!read-list-of-virtual-networks-with-their-health-summary">Cisco DNA Center documentation for SDA ReadListOfVirtualNetworksWithTheirHealthSummary</a></dt><dd><p>Complete reference of the ReadListOfVirtualNetworksWithTheirHealthSummary API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!read-list-of-virtual-networks-with-their-health-summary">Cisco Catalyst Center documentation for SDA ReadListOfVirtualNetworksWithTheirHealthSummary</a></dt><dd><p>Complete reference of the ReadListOfVirtualNetworksWithTheirHealthSummary API.</p>
 </dd>
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id">Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromId</a></dt><dd><p>Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromId API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id">Cisco Catalyst Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromId</a></dt><dd><p>Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromId API.</p>
 </dd>
 </dl>
 </div>
@@ -1502,10 +1502,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-virtual-network-health-summaries-info-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-virtual-network-health-summaries-info-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`{&quot;response&quot;: {&quot;associatedL3Vn&quot;: &quot;string&quot;, &quot;bgpPeerFairHealthDeviceCount&quot;: 0, &quot;bgpPeerGoodHealthDeviceCount&quot;: 0, &quot;bgpPeerGoodHealthPercentage&quot;: 0, &quot;bgpPeerNoHealthDeviceCount&quot;: 0, &quot;bgpPeerPoorHealthDeviceCount&quot;: 0, &quot;bgpPeerTotalDeviceCount&quot;: 0, &quot;fairHealthDeviceCount&quot;: 0, &quot;goodHealthDeviceCount&quot;: 0, &quot;goodHealthPercentage&quot;: 0, &quot;id&quot;: &quot;string&quot;, &quot;internetAvailFairHealthDeviceCount&quot;: 0, &quot;internetAvailGoodHealthDeviceCount&quot;: 0, &quot;internetAvailGoodHealthPercentage&quot;: 0, &quot;internetAvailNoHealthDeviceCount&quot;: 0, &quot;internetAvailPoorHealthDeviceCount&quot;: 0, &quot;internetAvailTotalDeviceCount&quot;: 0, &quot;layer&quot;: &quot;string&quot;, &quot;multiCastFairHealthDeviceCount&quot;: 0, &quot;multiCastGoodHealthDeviceCount&quot;: 0, &quot;multiCastGoodHealthPercentage&quot;: 0, &quot;multiCastPoorHealthDeviceCount&quot;: 0, &quot;multiCastTotalDeviceCount&quot;: 0, &quot;name&quot;: &quot;string&quot;, &quot;networkProtocol&quot;: &quot;string&quot;, &quot;noHealthDeviceCount&quot;: 0, &quot;poorHealthDeviceCount&quot;: 0, &quot;pubsubSessionFairHealthDeviceCount&quot;: 0, &quot;pubsubSessionGoodHealthDeviceCount&quot;: 0, &quot;pubsubSessionGoodHealthPercentage&quot;: 0, &quot;pubsubSessionNoHealthDeviceCount&quot;: 0, &quot;pubsubSessionPoorHealthDeviceCount&quot;: 0, &quot;pubsubSessionTotalDeviceCount&quot;: 0, &quot;totalEndpoints&quot;: 0, &quot;totalFabricSites&quot;: 0, &quot;totalHealthDeviceCount&quot;: 0, &quot;vlan&quot;: &quot;string&quot;, &quot;vnExitFairHealthDeviceCount&quot;: 0, &quot;vnExitGoodHealthDeviceCount&quot;: 0, &quot;vnExitHealthPercentage&quot;: 0, &quot;vnExitNoHealthDeviceCount&quot;: 0, &quot;vnExitPoorHealthDeviceCount&quot;: 0, &quot;vnExitTotalDeviceCount&quot;: 0, &quot;vnFabricControlPlaneFairHealthDeviceCount&quot;: 0, &quot;vnFabricControlPlaneGoodHealthDeviceCount&quot;: 0, &quot;vnFabricControlPlaneGoodHealthPercentage&quot;: 0, &quot;vnFabricControlPlaneNoHealthDeviceCount&quot;: 0, &quot;vnFabricControlPlanePoorHealthDeviceCount&quot;: 0, &quot;vnFabricControlPlaneTotalDeviceCount&quot;: 0, &quot;vnServicesFairHealthDeviceCount&quot;: 0, &quot;vnServicesGoodHealthDeviceCount&quot;: 0, &quot;vnServicesHealthPercentage&quot;: 0, &quot;vnServicesNoHealthDeviceCount&quot;: 0, &quot;vnServicesPoorHealthDeviceCount&quot;: 0, &quot;vnServicesTotalDeviceCount&quot;: 0, &quot;vnStatusFairHealthDeviceCount&quot;: 0, &quot;vnStatusGoodHealthDeviceCount&quot;: 0, &quot;vnStatusHealthPercentage&quot;: 0, &quot;vnStatusNoHealthDeviceCount&quot;: 0, &quot;vnStatusPoorHealthDeviceCount&quot;: 0, &quot;vnStatusTotalDeviceCount&quot;: 0, &quot;vniFairHealthDeviceCount&quot;: 0, &quot;vniGoodHealthDeviceCount&quot;: 0, &quot;vniGoodHealthPercentage&quot;: 0, &quot;vniNoHealthDeviceCount&quot;: 0, &quot;vniPoorHealthDeviceCount&quot;: 0, &quot;vniTotalDeviceCount&quot;: 0, &quot;vnid&quot;: &quot;string&quot;}, &quot;version&quot;: &quot;string&quot;}`</span></a></p>
 </div></td>

@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.sites_wireless_settings_ssids_info module -- Information module for Sites Wireless Settings Ssids<a class="headerlink" href="#cisco-catalystcenter-sites-wireless-settings-ssids-info-module-information-module-for-sites-wireless-settings-ssids" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-sites-wireless-settings-ssids-info-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1242,7 +1242,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-sites-wireless-settings-ssids-info-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1413,9 +1413,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id">Cisco DNA Center documentation for Wireless GetSSIDByID</a></dt><dd><p>Complete reference of the GetSSIDByID API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-ssid-by-id">Cisco Catalyst Center documentation for Wireless GetSSIDByID</a></dt><dd><p>Complete reference of the GetSSIDByID API.</p>
 </dd>
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site">Cisco DNA Center documentation for Wireless GetSSIDBySite</a></dt><dd><p>Complete reference of the GetSSIDBySite API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!get-ssid-by-site">Cisco Catalyst Center documentation for Wireless GetSSIDBySite</a></dt><dd><p>Complete reference of the GetSSIDBySite API.</p>
 </dd>
 </dl>
 </div>
@@ -1468,10 +1468,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-wireless-settings-ssids-info-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-sites-wireless-settings-ssids-info-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`{&quot;response&quot;: [{&quot;aaaOverride&quot;: true, &quot;acctServers&quot;: [&quot;string&quot;], &quot;aclName&quot;: &quot;string&quot;, &quot;authServer&quot;: &quot;string&quot;, &quot;authServers&quot;: [&quot;string&quot;], &quot;authType&quot;: &quot;string&quot;, &quot;basicServiceSetClientIdleTimeout&quot;: 0, &quot;basicServiceSetMaxIdleEnable&quot;: true, &quot;cckmTsfTolerance&quot;: 0, &quot;clientExclusionEnable&quot;: true, &quot;clientExclusionTimeout&quot;: 0, &quot;clientRateLimit&quot;: 0, &quot;coverageHoleDetectionEnable&quot;: true, &quot;directedMulticastServiceEnable&quot;: true, &quot;egressQos&quot;: &quot;string&quot;, &quot;externalAuthIpAddress&quot;: &quot;string&quot;, &quot;fastTransition&quot;: &quot;string&quot;, &quot;fastTransitionOverTheDistributedSystemEnable&quot;: true, &quot;ghz24Policy&quot;: &quot;string&quot;, &quot;ghz6PolicyClientSteering&quot;: true, &quot;id&quot;: &quot;string&quot;, &quot;ingressQos&quot;: &quot;string&quot;, &quot;inheritedSiteId&quot;: &quot;string&quot;, &quot;inheritedSiteName&quot;: &quot;string&quot;, &quot;inheritedSiteNameHierarchy&quot;: &quot;string&quot;, &quot;isApBeaconProtectionEnabled&quot;: true, &quot;isAuthKey8021x&quot;: true, &quot;isAuthKey8021xPlusFT&quot;: true, &quot;isAuthKey8021x\_SHA256&quot;: true, &quot;isAuthKeyEasyPSK&quot;: true, &quot;isAuthKeyOWE&quot;: true, &quot;isAuthKeyPSK&quot;: true, &quot;isAuthKeyPSKPlusFT&quot;: true, &quot;isAuthKeyPSKSHA256&quot;: true, &quot;isAuthKeySae&quot;: true, &quot;isAuthKeySaeExt&quot;: true, &quot;isAuthKeySaeExtPlusFT&quot;: true, &quot;isAuthKeySaePlusFT&quot;: true, &quot;isAuthKeySuiteB1921x&quot;: true, &quot;isAuthKeySuiteB1x&quot;: true, &quot;isBroadcastSSID&quot;: true, &quot;isCckmEnabled&quot;: true, &quot;isCustomNasIdOptions&quot;: true, &quot;isEnabled&quot;: true, &quot;isFastLaneEnabled&quot;: true, &quot;isHex&quot;: true, &quot;isMacFilteringEnabled&quot;: true, &quot;isPosturingEnabled&quot;: true, &quot;isRadiusProfilingEnabled&quot;: true, &quot;isRandomMacFilterEnabled&quot;: true, &quot;isSensorPnp&quot;: true, &quot;l3AuthType&quot;: &quot;string&quot;, &quot;managementFrameProtectionClientprotection&quot;: &quot;string&quot;, &quot;multiPSKSettings&quot;: [{&quot;passphrase&quot;: &quot;string&quot;, &quot;passphraseType&quot;: &quot;string&quot;, &quot;priority&quot;: 0}], &quot;nasOptions&quot;: [&quot;string&quot;], &quot;neighborListEnable&quot;: true, &quot;openSsid&quot;: &quot;string&quot;, &quot;passphrase&quot;: &quot;string&quot;, &quot;policyProfileName&quot;: &quot;string&quot;, &quot;profileName&quot;: &quot;string&quot;, &quot;protectedManagementFrame&quot;: &quot;string&quot;, &quot;rsnCipherSuiteCcmp128&quot;: true, &quot;rsnCipherSuiteCcmp256&quot;: true, &quot;rsnCipherSuiteGcmp128&quot;: true, &quot;rsnCipherSuiteGcmp256&quot;: true, &quot;sessionTimeOut&quot;: 0, &quot;sessionTimeOutEnable&quot;: true, &quot;sleepingClientEnable&quot;: true, &quot;sleepingClientTimeout&quot;: 0, &quot;ssid&quot;: &quot;string&quot;, &quot;ssidRadioType&quot;: &quot;string&quot;, &quot;webPassthrough&quot;: true, &quot;wlanBandSelectEnable&quot;: true, &quot;wlanType&quot;: &quot;string&quot;}], &quot;version&quot;: &quot;string&quot;}`</span></a></p>
 </div></td>

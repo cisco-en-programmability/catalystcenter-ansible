@@ -1207,7 +1207,7 @@
 <h1>cisco.catalystcenter.icap_clients_id_stats module -- Resource module for Icap Clients Id Stats<a class="headerlink" href="#cisco-catalystcenter-icap-clients-id-stats-module-resource-module-for-icap-clients-id-stats" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.3.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.4.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-icap-clients-id-stats-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1239,7 +1239,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-icap-clients-id-stats-module-requirements"></span><h2><a class="toc-backref" href="#id22" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>catalystcentersdk &gt;= 3.1.6.0.0</p></li>
+<li><p>catalystcentersdk &gt;= 3.1.6.0.1</p></li>
 <li><p>python &gt;= 3.12</p></li>
 </ul>
 </section>
@@ -1431,7 +1431,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
-<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time">Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime</a></dt><dd><p>Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime API.</p>
+<dt><a class="reference external" href="https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time">Cisco Catalyst Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime</a></dt><dd><p>Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTime API.</p>
 </dd>
 </dl>
 </div>
@@ -1474,10 +1474,10 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 </thead>
 <tbody>
 <tr class="row-even"><td><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="return-dnac_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-icap-clients-id-stats-module-return-dnac-response"><strong>dnac_response</strong></p>
-<a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
+<div class="ansibleOptionAnchor" id="return-catalystcenter_response"></div><p class="ansible-option-title" id="ansible-collections-cisco-catalystcenter-icap-clients-id-stats-module-return-catalystcenter-response"><strong>catalystcenter_response</strong></p>
+<a class="ansibleOptionLink" href="#return-catalystcenter_response" title="Permalink to this return value"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco DNAC Python SDK</p>
+<td><div class="ansible-option-cell"><p>A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
 <p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id19"><span class="problematic" id="id20">:ansible-rv-sample-value:`{&quot;page&quot;: {&quot;count&quot;: 0, &quot;limit&quot;: 0, &quot;offset&quot;: 0, &quot;timeSortOrder&quot;: &quot;string&quot;}, &quot;response&quot;: [{&quot;apMac&quot;: &quot;string&quot;, &quot;band&quot;: &quot;string&quot;, &quot;clientIp&quot;: &quot;string&quot;, &quot;clientMac&quot;: &quot;string&quot;, &quot;id&quot;: &quot;string&quot;, &quot;radioId&quot;: 0, &quot;rssi&quot;: 0, &quot;rxBytes&quot;: 0, &quot;rxCtrlPackets&quot;: 0, &quot;rxDataPackets&quot;: 0, &quot;rxMgmtPackets&quot;: 0, &quot;rxPackets&quot;: 0, &quot;rxRate&quot;: 0, &quot;rxRetries&quot;: 0, &quot;snr&quot;: 0, &quot;ssid&quot;: &quot;string&quot;, &quot;timestamp&quot;: 0, &quot;txBytes&quot;: 0, &quot;txCtrlPackets&quot;: 0, &quot;txDataPackets&quot;: 0, &quot;txMgmtPackets&quot;: 0, &quot;txPackets&quot;: 0, &quot;txRate&quot;: 0, &quot;txUnicastDataPackets&quot;: 0}], &quot;version&quot;: &quot;string&quot;}`</span></a></p>
 </div></td>
