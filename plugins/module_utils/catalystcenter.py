@@ -19,7 +19,7 @@ except ImportError:
     CATALYST_SDK_IS_INSTALLED = False
 else:
     CATALYST_SDK_IS_INSTALLED = True
-from ansible.module_utils._text import to_native
+from ansible.module_utils.common.text.converters import to_native
 from ansible.module_utils.common import validation
 
 try:
@@ -924,10 +924,13 @@ class CatalystCenterBase:
         # Retrieve device IDs from the specified site
         api_response, device_ids = self.get_device_ids_from_site(site_name, site_id)
         if not api_response:
-            self.msg = "No response received from API call 'get_device_ids_from_site' for site ID: {0}".format(
-                site_id
+            self.log(
+                "No response received from API call 'get_device_ids_from_site' for site ID: {0}, site name: {1}".format(
+                    site_id, site_name
+                ),
+                "DEBUG",
             )
-            self.fail_and_exit(self.msg)
+            return device_details_list
 
         self.log(
             "Device IDs retrieved from site '{0}': {1}".format(
@@ -2276,11 +2279,12 @@ class CatalystCenterBase:
             )
             return False
 
-    def check_task_tree_response(self, task_id):
+    def check_task_tree_response(self, task_id, all_failure_reason=None):
         """
         Returns the task tree response of the task ID.
         Args:
             task_id (string) - The unique identifier of the task for which you want to retrieve details.
+            all_failure_reason (bool) - If True, retrieves all failure reasons for the task.
         Returns:
             error_msg (str) - Returns the task tree error message of the task ID.
         """
@@ -2289,8 +2293,10 @@ class CatalystCenterBase:
             family="task", function="get_task_tree", params={"task_id": task_id}
         )
         self.log(
-            "Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, Response: {1}".format(
-                task_id, response
+            "Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, "
+            "and failure reason set to '{1}', "
+            "Response: {2}".format(
+                task_id, all_failure_reason, self.pprint(response)
             ),
             "DEBUG",
         )
@@ -2298,9 +2304,16 @@ class CatalystCenterBase:
         if response and isinstance(response, dict):
             result = response.get("response")
             error_messages = []
-            for item in result:
-                if item.get("isError") is True:
-                    error_messages.append(item.get("progress"))
+
+            if all_failure_reason is True:
+                for item in result:
+                    if item.get("isError") is True:
+                        error_messages.append(item.get("failureReason"))
+                        error_messages = error_messages[::-1]
+            else:
+                for item in result:
+                    if item.get("isError") is True:
+                        error_messages.append(item.get("progress"))
 
             if error_messages:
                 error_msg = ". ".join(error_messages) + "."
@@ -2812,7 +2825,7 @@ class CatalystCenterBase:
             )
             self.fail_and_exit(self.msg)
 
-    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg):
+    def get_task_status_from_tasks_by_id(self, task_id, task_name, success_msg, all_reasons=None):
         """
         Retrieves and monitors the status of a task by its task ID.
         This function continuously checks the status of a specified task using its task ID.
@@ -2822,6 +2835,7 @@ class CatalystCenterBase:
             task_id (str): The unique identifier of the task to monitor.
             task_name (str): The name of the task being monitored.
             success_msg (str): The success message to set if the task completes successfully.
+            all_reasons (bool): If True, retrieves all failure reasons from the task tree.
         Returns:
             self: The instance of the class with updated status and message.
         """
@@ -2869,19 +2883,22 @@ class CatalystCenterBase:
                 if status == "FAILURE":
                     get_task_details_response = self.get_task_details_by_id(task_id)
                     failure_reason = get_task_details_response.get("failureReason")
-                    if failure_reason:
-                        self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}."
-                            "Failure reason: {2}".format(
-                                task_name, task_id, failure_reason
-                            )
-                        )
+                    if all_reasons is True:
+                        self.msg = self.check_task_tree_response(task_id, True)
                     else:
-                        self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}.".format(
-                                task_name, task_id
+                        if failure_reason:
+                            self.msg = (
+                                "Failed to execute the task {0} with Task ID: {1}."
+                                "Failure reason: {2}".format(
+                                    task_name, task_id, failure_reason
+                                )
                             )
-                        ).format(task_name, task_id)
+                        else:
+                            self.msg = (
+                                "Failed to execute the task {0} with Task ID: {1}.".format(
+                                    task_name, task_id
+                                )
+                            ).format(task_name, task_id)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     break
                 elif status == "SUCCESS":
