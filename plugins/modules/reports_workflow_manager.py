@@ -8645,6 +8645,7 @@ class Reports(CatalystCenterBase):
             "DEBUG"
         )
         return True
+
     def _process_time_range_filter(self, filter_entry, filter_index):
         """Validate and process the 'Time Range' filter by converting date strings to epoch milliseconds.
 
