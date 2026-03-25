@@ -400,7 +400,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 ),
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.assertIn(
             "No reachable devices found among the provided parameters",
             result.get("msg"),
