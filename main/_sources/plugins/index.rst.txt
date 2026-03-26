@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.4.0
+Collection version 2.5.0
 
 .. contents::
    :local:
