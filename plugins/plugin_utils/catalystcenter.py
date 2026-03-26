@@ -14,7 +14,7 @@ except ImportError:
 else:
     CATALYST_SDK_IS_INSTALLED = True
 from ansible.module_utils.basic import env_fallback
-from ansible.module_utils._text import to_native
+from ansible.module_utils.common.text.converters import to_native
 
 try:
     import logging

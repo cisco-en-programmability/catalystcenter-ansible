@@ -3046,6 +3046,92 @@ class Reports(CatalystCenterBase):
                 if not self._validate_channel_change_count_filters(view):
                     return False
 
+        # 7. Audit logs
+        if view_group_name == "Audit Log":
+            if view_name == "Audit Log":
+                if not self._validate_audit_log_filters(view):
+                    return False
+
+        # 8. Compliance
+        if view_group_name == "Compliance":
+            if view_name == "Network Device Compliance":
+                if not self._validate_network_device_compliance_filters(view):
+                    return False
+
+        # 9. Configuration Archive
+        if view_group_name == "Configuration Archive":
+            if view_name == "Configuration Archive":
+                if not self._validate_configuration_archive_filters(view):
+                    return False
+
+        # 10. Eox
+        if view_group_name == "EoX":
+            if view_name == "EoX Data":
+                if not self._validate_eox_data_filters(view):
+                    return False
+
+        # 11. Swim
+        if view_group_name == "Swim":
+            if view_name == "All Data":
+                if not self._validate_swim_all_data_filters(view):
+                    return False
+
+            if view_name == "All Data Version 2.0":
+                if not self._validate_swim_all_data_v2_filters(view):
+                    return False
+
+        # 12. Client
+        if view_group_name == "Client":
+            if view_name == "Busiest Client":
+                if not self._validate_client_busiest_client_filters(view):
+                    return False
+
+            if view_name == "Client Detail":
+                if not self._validate_client_detail_filters(view):
+                    return False
+
+            if view_name == "Client Session":
+                if not self._validate_client_session_filters(view):
+                    return False
+
+            if view_name == "Client Summary":
+                if not self._validate_client_summary_filters(view):
+                    return False
+
+            if view_name == "Client Trend":
+                if not self._validate_client_trend_filters(view):
+                    return False
+
+            if view_name == "Top N Summary":
+                if not self._validate_client_top_n_summary_filters(view):
+                    return False
+
+            if view_name == "Unique Clients and Users Summary":
+                if not self._validate_client_unique_clients_and_users_summary_filters(view):
+                    return False
+
+        # 13. Licensing
+        if view_group_name == "Licensing":
+            if view_name == "AireOS Controllers Licenses":
+                if not self._validate_licensing_aireos_controllers_licenses_filters(view):
+                    return False
+
+            if view_name == "License Usage Upload Details":
+                if not self._validate_licensing_license_usage_upload_details(view):
+                    return False
+
+            if view_name == "Non Compliance Summary":
+                if not self._validate_licensing_non_compliance_summary(view):
+                    return False
+
+            if view_name == "Non Compliant Devices":
+                if not self._validate_licensing_non_compliant_devices(view):
+                    return False
+
+            if view_name == "License Historical Usage":
+                if not self._validate_licensing_license_historical_usage(view):
+                    return False
+
         for filter_index, filter_entry in enumerate(filters):
             if not isinstance(filter_entry, dict):
                 self.msg = "Each filter entry must be a dictionary."
@@ -6368,6 +6454,2198 @@ class Reports(CatalystCenterBase):
         self.log("Validation successful for Network Devices → VLAN report", "DEBUG")
         return True
 
+    def _validate_audit_log_filters(self, view):
+        """
+        Validation for:
+            Template: Audit Log
+            Sub template: Audit Log
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Filter values follow expected constraints
+            - Field groups and fields are valid
+        """
+        self.log("Validating Audit Log report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "domain": ["MULTI_SELECT"],
+            "category": ["MULTI_SELECT"],        # Values must be CAPS
+            "sortBy": ["REGULAR"],
+            "order": ["REGULAR"],                # Value must be 'asc'
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Audit Log report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Validate category values are CAPS
+                if filter_name == "category":
+                    values = flt.get("value", [])
+                    for v in values:
+                        val = v.get("value")
+                        if val and val != val.upper():
+                            self.msg = (
+                                "Invalid category value '{0}'. Category values must be uppercase."
+                            ).format(val)
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                # Validate order value
+                if filter_name == "order":
+                    values = flt.get("value", [])
+                    for v in values:
+                        if v.get("value") != "asc":
+                            self.msg = (
+                                "Invalid order value '{0}'. Only 'asc' is supported."
+                            ).format(v.get("value"))
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                # Auto-set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "audit_log"
+
+        allowed_fields = {
+            "eventId",
+            "namespace",
+            "name",
+            "description",
+            "type",
+            "category",
+            "domain",
+            "subDomain",
+            "severity",
+            "timestamp",
+            "details",
+            "ciscoDnaEventLink",
+            "note",
+            "userId",
+            "i18n",
+            "eventHierarchy",
+            "message",
+            "messageParams",
+            "parentInstanceId",
+            "network",
+            "startTime",
+            "childCount",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                group.setdefault("field_group_display_name", fg_name)
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Audit Log report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("Audit Log validation successful", "DEBUG")
+        return True
+
+    def _validate_network_device_compliance_filters(self, view):
+        """
+        Validation for:
+            Template: Compliance
+            Sub template: Network Device Compliance
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - CAPS validation for complianceStatus and complianceType
+            - Field groups and fields are valid
+        """
+        self.log("Validating Network Device Compliance report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "complianceStatus": ["REGULAR"],   # VALUE must be CAPS
+            "complianceType": ["REGULAR"],     # VALUE must be CAPS
+            "family": ["REGULAR"],
+            "DeviceType": ["REGULAR"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Network Device Compliance report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # CAPS validation
+                if filter_name in ["complianceStatus", "complianceType"]:
+                    values = flt.get("value", [])
+                    for v in values:
+                        val = v.get("value")
+                        if val and val != val.upper():
+                            self.msg = (
+                                "Invalid value '{0}' for '{1}'. Values must be uppercase."
+                            ).format(val, filter_name)
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                # Auto-set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "Compliance"
+
+        allowed_fields = {
+            "rownum",
+            "hostname",
+            "family",
+            "type",
+            "managementIpAddress",
+            "complianceStatus",
+            "IMAGE",
+            "RUNNING_CONFIG",
+            "PSIRT",
+            "NETWORK_PROFILE",
+            "NETWORK_SETTINGS",
+            "EOX",
+            "FABRIC",
+            "APPLICATION_VISIBILITY",
+            "CUSTOMIZATION_PROFILE",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                group.setdefault("field_group_display_name", fg_name)
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Network Device Compliance report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("Network Device Compliance validation successful", "DEBUG")
+        return True
+
+    def _validate_configuration_archive_filters(self, view):
+        """
+        Validation for:
+            Template: Configuration Archive
+            Sub template: Configuration Archive
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - CAPS validation for configChangeType
+            - Field groups and fields are valid
+        """
+        self.log("Validating Configuration Archive report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "configChangeType": ["REGULAR"],   # VALUE must be CAPS
+            "family": ["REGULAR"],
+            "DeviceType": ["REGULAR"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for Configuration Archive report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate provided filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # CAPS validation for configChangeType
+                if filter_name == "configChangeType":
+                    values = flt.get("value", [])
+                    for v in values:
+                        val = v.get("value")
+                        if val:
+                            # Handle comma-separated values like "IN_BAND,NOT_APPLICABLE"
+                            parts = [p.strip() for p in val.split(",")]
+                            for p in parts:
+                                if p != p.upper():
+                                    self.msg = (
+                                        "Invalid value '{0}' for 'configChangeType'. "
+                                        "Values must be uppercase."
+                                    ).format(p)
+                                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                                    return False
+
+                # Auto set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "ConfigArchive"
+
+        allowed_fields = {
+            "rownum",
+            "deviceName",
+            "family",
+            "type",
+            "managementIpAddress",
+            "createdTime",
+            "createdBy",
+            "configChangeType",
+            "userName",
+            "configMethod",
+            "loginIpAddress",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                group.setdefault("field_group_display_name", fg_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Configuration Archive report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("Configuration Archive validation successful", "DEBUG")
+        return True
+
+    def _validate_eox_data_filters(self, view):
+        """
+        Validation for:
+            Template: EoX
+            Sub template: EoX Data
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Field groups and fields are valid
+        """
+        self.log("Validating EoX Data report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "DeviceType": ["MULTI_SELECT"],
+            "Location": ["MULTI_SELECT_TREE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for EoX Data report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate provided filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                flt.setdefault("displayName", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "eoxAllData"
+
+        allowed_fields = {
+            "deviceName",
+            "deviceIpAddress",
+            "deviceType",
+            "deviceSerialNumber",
+            "deviceImageVersion",
+            "deviceSite",
+            "deviceModelName",
+            "deviceImageType",
+            "eoxScanStatus",
+            "eoxType",
+            "endOfLifeExternalAnnouncementDate",
+            "endOfSaleDate",
+            "endOfLastHardwareShipDate",
+            "endOfSoftwareMaintenanceReleasesDate",
+            "endOfHardwareNewServiceAttachmentDate",
+            "endOfSoftwareVulnerabilityOrSecuritySupportDate",
+            "endOfHardwareServiceContractRenewalDate",
+            "lastDateOfSupport",
+            "eoxLastScanTime",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                group.setdefault("field_group_display_name", fg_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in EoX Data report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        # SUCCESS
+        self.log("EoX Data validation successful", "DEBUG")
+        return True
+
+    def _validate_swim_all_data_filters(self, view):
+        """
+        Validation for:
+            Template: SWIM
+            Sub template: All Data
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Field groups and fields are valid
+        """
+        self.log("Validating SWIM All Data report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Allowed Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "DeviceFamily": ["MULTI_SELECT"],
+            "DeviceRole": ["MULTI_SELECT"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected = [f for f in filter_map if f not in allowed_filters]
+            if unexpected:
+                self.msg = (
+                    "Unexpected filters for SWIM All Data report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate provided filters
+            for filter_name, allowed_types in allowed_filters.items():
+
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                f_type = flt.get("filter_type")
+
+                # Validate filter type
+                if f_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(f_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set displayName
+                flt.setdefault("display_name", filter_name)
+
+        # 2. Validate Field Groups
+        expected_group_name = "swimAllData"
+
+        allowed_fields = {
+            "hostname",
+            "family",
+            "type",
+            "role",
+            "ipAddress",
+            "site",
+            "serialNumber",
+            "softwareVersion",
+            "codeUpgradeDate",
+            "previousUpgradeDate",
+            "currentSMU",
+            "currentSMUUpgradeDate",
+            "upgradeFailureReason",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                fg_name = group.get("field_group_name")
+
+                if fg_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto set display name
+                group.setdefault("field_group_display_name", fg_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                # Reject unexpected fields
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in SWIM All Data report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill displayName
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        # SUCCESS
+        self.log("SWIM All Data validation successful", "DEBUG")
+        return True
+
+    def _validate_swim_all_data_v2_filters(self, view):
+        """
+        Validation for:
+            Template: SWIM
+            Sub template: All Data Version 2.0
+
+        Validation checks:
+            - Only allowed filters appear
+            - Filter types match allowed definitions
+            - Field groups and fields are valid
+        """
+        self.log("Validating SWIM All Data Version 2.0 report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters + Types
+        allowed_filters = {
+            "Location1": ["MULTI_SELECT_TREE"],
+            "DeviceFamily": ["MULTI_SELECT"],
+            "DeviceRole": ["MULTI_SELECT"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for SWIM All Data Version 2.0 report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            # Validate filters
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+        # 2. Field Groups Validation
+        expected_group_name = "swimAllData Version 2.0"
+
+        allowed_fields = {
+            "deviceName",
+            "deviceFamily",
+            "deviceType",
+            "deviceRole",
+            "ipAddress",
+            "location",
+            "serialNumber",
+            "currentVersion",
+            "codeUpgradeDate",
+            "priorUpgradeDate",
+            "currentSMU",
+            "currentSMUUpgradeDate",
+            "upgradeFailureReason",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in SWIM All Data Version 2.0 report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("SWIM All Data Version 2.0 validation successful", "DEBUG")
+        return True
+
+    def _validate_client_busiest_client_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Busiest Client
+        """
+        self.log("Validating Client Busiest Client report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "SortBy": ["SINGLE_SELECT_ARRAY"],
+            "Limit": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Busiest Client report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        expected_group_name = "response"
+
+        allowed_fields = {
+            "hostName",
+            "username",
+            "macAddress",
+            "ipv4",
+            "ipv6",
+            "deviceType",
+            "connectionStatus",
+            "averageHealthScore_min",
+            "averageHealthScore_max",
+            "averageHealthScore_median",
+            "usage_sum",
+            "connectedDeviceName",
+            "frequency",
+            "rssi_median",
+            "snr_median",
+            "site",
+            "lastUpdated",
+            "apGroup",
+            "ssid",
+            "vlan",
+            "vnid",
+            "onboardingEventTime",
+            "assocDoneTimestamp",
+            "authDoneTimestamp",
+            "aaaServerIp",
+            "dhcpDoneTimestamp",
+            "maxDhcpDuration_max",
+            "dhcpServerIp",
+            "linkSpeed",
+            "txRate_min",
+            "txRate_max",
+            "txRate_avg",
+            "rxRate_min",
+            "rxRate_max",
+            "rxRate_avg",
+            "txBytes_sum",
+            "rxBytes_sum",
+            "dataRate_median",
+            "dot11Protocol",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                group.setdefault("field_group_display_name", "Busiest Client")
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Client Busiest Client report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("Client Busiest Client validation successful", "DEBUG")
+        return True
+
+    def _validate_client_detail_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Detail
+        """
+        self.log("Validating Client Detail report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Detail report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        expected_group_name = "client_details"
+
+        allowed_fields = {
+            "hostName",
+            "username",
+            "macAddress",
+            "ipv4",
+            "ipv6",
+            "deviceType",
+            "deviceForm",
+            "deviceVendor",
+            "remoteEndDuplexMode",
+            "hostOS",
+            "firmwareVersion",
+            "connectionStatus",
+            "averageHealthScore_min",
+            "averageHealthScore_max",
+            "averageHealthScore_median",
+            "usage_sum",
+            "duration_latest",
+            "connectedDeviceName",
+            "frequency",
+            "rssi_median",
+            "snr_median",
+            "site",
+            "lastUpdated",
+            "connectedDeviceId",
+            "apGroup",
+            "ssid",
+            "ethernetMac",
+            "slotId",
+            "vlan",
+            "vnid",
+            "port",
+            "portDescription",
+            "channel",
+            "onboardingEventTime",
+            "assocDoneTimestamp",
+            "authDoneTimestamp",
+            "aaaServerIp",
+            "dhcpDoneTimestamp",
+            "maxDhcpDuration_max",
+            "dhcpServerIp",
+            "wlcName",
+            "linkSpeed",
+            "txRate_min",
+            "txRate_max",
+            "txRate_avg",
+            "rxRate_min",
+            "rxRate_max",
+            "rxRate_avg",
+            "txBytes_sum",
+            "rxBytes_sum",
+            "dataRate_median",
+            "dot11Protocol",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", "Client Details")
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Client Detail report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("Client Detail validation successful", "DEBUG")
+        return True
+
+    def _validate_client_session_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Session
+        """
+        self.log("Validating Client Session report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddresses": ["SINGLE_INPUT"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Session report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddresses":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddresses filter supports a maximum of 100 MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        expected_group_name = "client_sessions"
+
+        allowed_fields = {
+            "macAddress",
+            "sessionStartTime",
+            "sessionEndTime",
+            "duration",
+            "apMac",
+            "ssid",
+            "siteHierarchy",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name != expected_group_name:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed: '{expected_group_name}'."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", "Client Session")
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                field_names = [f.get("name") for f in fields]
+                unexpected_fields = [f for f in field_names if f not in allowed_fields]
+
+                if unexpected_fields:
+                    self.msg = (
+                        f"Unexpected fields in Client Session report: {unexpected_fields}. "
+                        f"Allowed fields: {sorted(allowed_fields)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log("Client Session validation successful", "DEBUG")
+        return True
+
+    def _validate_client_summary_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Summary
+        """
+        self.log("Validating Client Summary report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "GroupBy": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Summary report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "locationCountGraph",
+            "devTypeCountGraph",
+            "bandCountGraph",
+            "ssidCountGraph",
+            "protocolCountGraph",
+            "clientTrafficTotalByBand",
+            "clientTrafficTotalBySsid",
+            "clientTrafficTotalByProtocol",
+            "clientSessionDurationByBand",
+            "clientSessionDurationBySsid",
+            "clientSessionDurationByProtocol",
+            "clientCountOverTime",
+            "healthScoreOverTime",
+            "sessionInfo",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("fieldGroupDisplayName", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Client Summary validation successful", "DEBUG")
+        return True
+
+    def _validate_client_trend_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Client Trend
+        """
+        self.log("Validating Client Trend report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddresses": ["SINGLE_INPUT"],
+            "ConnectionType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Trend report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("displayName", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddresses":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddresses filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "clientTrend",
+            "clienTraffic",
+            "assocClientHealthTrendTable",
+            "authClientHealthTrendTable",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("fieldGroupDisplayName", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Client Trend validation successful", "DEBUG")
+        return True
+
+    def _validate_client_top_n_summary_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Top N Summary
+        """
+        self.log("Validating Client Top N Summary report filters and field groups", "DEBUG")
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddress": ["SINGLE_INPUT"],
+            "DeviceType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "GroupBy": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Top N Summary report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddress":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddress filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "topLocationsGraph",
+            "topWorstLocationsGraph",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'fieldGroups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("fieldGroupDisplayName", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside fieldGroups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("displayName", fld.get("name"))
+
+        self.log("Client Top N Summary validation successful", "DEBUG")
+        return True
+
+    def _validate_client_unique_clients_and_users_summary_filters(self, view):
+        """
+        Validation for:
+            Template: Client
+            Sub template: Unique Clients and Users Summary
+        """
+        self.log(
+            "Validating Client Unique Clients and Users Summary report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # 1. Allowed Filters and Types
+        allowed_filters = {
+            "Location": ["MULTI_SELECT_TREE"],
+            "clientMacAddresses": ["SINGLE_INPUT"],
+            "ConnectionType": ["SINGLE_SELECT_ARRAY"],
+            "SSID": ["MULTI_SELECT"],
+            "Band": ["MULTI_SELECT"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if filters:
+            filter_map = {f.get("name"): f for f in filters}
+
+            # Reject unexpected filters
+            unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+            if unexpected_filters:
+                self.msg = (
+                    "Unexpected filters for Client Unique Clients and Users Summary report: {0}. "
+                    "Allowed filters: {1}"
+                ).format(unexpected_filters, list(allowed_filters.keys()))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for filter_name, allowed_types in allowed_filters.items():
+                if filter_name not in filter_map:
+                    continue
+
+                flt = filter_map[filter_name]
+                filter_type = flt.get("filter_type")
+
+                # Validate filter type
+                if filter_type not in allowed_types:
+                    self.msg = (
+                        "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                    ).format(filter_type, filter_name, allowed_types)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                flt.setdefault("display_name", filter_name)
+
+                # Special validations
+                if filter_name == "clientMacAddresses":
+                    value = flt.get("value", "")
+                    if value:
+                        macs = [m.strip() for m in value.split(",") if m.strip()]
+                        if len(macs) > 100:
+                            self.msg = (
+                                "clientMacAddresses filter supports a maximum of 100 "
+                                "comma-separated MAC addresses."
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return False
+
+                if filter_name == "SSID":
+                    values = flt.get("value", [])
+                    if isinstance(values, list) and len(values) > 25:
+                        self.msg = "SSID filter supports a maximum of 25 values."
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return False
+
+        # 2. Field Groups Validation
+        allowed_field_groups = {
+            "overview",
+            "ap",
+            "throughput",
+            "protocolBreakdown",
+            "ssidBreakdown",
+            "vlanBreakdown",
+            "vendorBreakdown",
+        }
+
+        if field_groups:
+            if not isinstance(field_groups, list):
+                self.msg = "'field_groups' must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            for group in field_groups:
+                field_group_name = group.get("field_group_name")
+
+                if field_group_name not in allowed_field_groups:
+                    self.msg = (
+                        f"Unexpected field group '{field_group_name}'. "
+                        f"Allowed field groups: {sorted(allowed_field_groups)}"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display name
+                group.setdefault("field_group_display_name", field_group_name)
+
+                fields = group.get("fields", [])
+                if not isinstance(fields, list):
+                    self.msg = "'fields' inside field_groups must be a list."
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+                # Auto-fill display names for fields
+                for fld in fields:
+                    fld.setdefault("display_name", fld.get("name"))
+
+        self.log(
+            "Client Unique Clients and Users Summary validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_aireos_controllers_licenses_filters(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: AireOS Controllers Licenses
+        """
+        self.log(
+            "Validating Licensing AireOS Controllers Licenses report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        self.log("Validating filters for Licensing AireOS Controllers Licenses report", "DEBUG")
+        if not filters:
+            pass
+        else:
+            self.msg = "No filter is supported for Licensing AireOS Controllers Licenses report."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        allowed_field_groups = {
+            "virtual_assignment_devices",
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "virtual_assignment_devices": {
+                "deviceName",
+                "deviceType",
+                "ipAddress",
+                "model",
+                "macAddress",
+                "dnaLevel",
+                "networkLicense",
+                "uxLevel",
+                "virtualAccount",
+                "site",
+                "registrationStatus",
+                "totalAPCount",
+                "licenseConsumed"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group.get(group_name, set())
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing AireOS Controllers Licenses validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_license_usage_upload_details(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: License Usage Upload Details
+        """
+        self.log(
+            "Validating Licensing License Usage Upload Details report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        # This report does NOT support filters
+        if filters:
+            self.msg = (
+                "Filters are not supported for Licensing "
+                "License Usage Upload Details report."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "license_usage_upload_details"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "license_usage_upload_details": {
+                "smartAccount",
+                "virtualAccount",
+                "deviceCount",
+                "lastSync",
+                "syncDue",
+                "reasonIfAny"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group.get(group_name, set())
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing License Usage Upload Details validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_non_compliance_summary(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: Non Compliance Summary
+        """
+        self.log(
+            "Validating Licensing Non Compliance Summary report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        # This report does NOT support filters
+        if filters:
+            self.msg = (
+                "Filters are not supported for Licensing "
+                "Non Compliance Summary report."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "non_compliance_summary"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "non_compliance_summary": {
+                "deviceFamily",
+                "deviceSeries",
+                "purchasedDNAEssential",
+                "purchasedDNAAdvantage",
+                "usedDNAEssential",
+                "usedDNAAdvantage",
+                "entitledUnifiedEssential",
+                "entitledUnifiedAdvantage",
+                "deployedUnifiedEssential",
+                "deployedUnifiedAdvantage",
+                "totalDevices",
+                "Reason"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group.get(group_name, set())
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing Non Compliance Summary validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_non_compliant_devices(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: Non Compliant Devices
+        """
+        self.log(
+            "Validating Licensing Non Compliant Devices report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        # Filters are NOT supported for this report
+        if filters:
+            self.msg = (
+                "Filters are not supported for Licensing "
+                "Non Compliant Devices report."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "non_compliant_devices"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "non_compliant_devices": {
+                "deviceName",
+                "ipAddress",
+                "model",
+                "dnaLevel",
+                "networkLicense",
+                "uxLevel",
+                "deviceType",
+                "totalAPCount",
+                "licenseTerm",
+                "macAddress",
+                "serialNumber",
+                "site",
+                "virtualAccount",
+                "reason"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group[group_name]
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing Non Compliant Devices validation successful",
+            "DEBUG"
+        )
+        return True
+
+    def _validate_licensing_license_historical_usage(self, view):
+        """
+        Validation for:
+            Template: Licensing
+            Sub template: License Historical Usage
+        """
+        self.log(
+            "Validating Licensing License Historical Usage report filters and field groups",
+            "DEBUG"
+        )
+
+        filters = view.get("filters", [])
+        field_groups = view.get("field_groups", [])
+
+        # ----------------------------
+        # Filters Validation
+        # ----------------------------
+        allowed_filters = {
+            "smartaccountuser": ["SINGLE_SELECT_ARRAY"],
+            "smartaccountname": ["SINGLE_SELECT_ARRAY"],
+            "Mode": ["SINGLE_SELECT_ARRAY"],
+            "TimeRange": ["TIME_RANGE"],
+        }
+
+        if not filters:
+            self.msg = (
+                "License Historical Usage report requires mandatory filters: "
+                "smartaccountuser, smartaccountname, Mode, and TimeRange."
+            )
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        filter_map = {f.get("name"): f for f in filters}
+
+        unexpected_filters = [f for f in filter_map if f not in allowed_filters]
+        if unexpected_filters:
+            self.msg = (
+                "Unexpected filters for License Historical Usage report: {0}. "
+                "Allowed filters: {1}"
+            ).format(unexpected_filters, list(allowed_filters.keys()))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        missing_filters = [f for f in allowed_filters if f not in filter_map]
+        if missing_filters:
+            self.msg = (
+                "Missing mandatory filters for License Historical Usage report: {0}"
+            ).format(missing_filters)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return False
+
+        for filter_name, flt in filter_map.items():
+            filter_type = flt.get("filter_type")
+
+            if filter_type not in allowed_filters.get(filter_name, []):
+                self.msg = (
+                    "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                ).format(
+                    filter_type,
+                    filter_name,
+                    allowed_filters[filter_name],
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            flt.setdefault("display_name", filter_name)
+
+            if filter_name == "TimeRange":
+                value = flt.get("value", {})
+                if value.get("time_range_option") != "CUSTOM":
+                    self.msg = (
+                        "License Historical Usage supports only CUSTOM time range."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        # ----------------------------
+        # Field Groups Validation
+        # ----------------------------
+        # Allowed field groups
+        allowed_field_groups = {
+            "license_historical_data"
+        }
+
+        # Allowed fields per field group
+        allowed_fields_by_group = {
+            "license_historical_data": {
+                "license",
+                "virtualaccount",
+                "userdefinedtags",
+                "billingtype",
+                "entitled",
+                "inuse",
+                "balance",
+                "entrydate"
+            }
+        }
+
+        for group in field_groups or []:
+            group_name = group.get("field_group_name")
+
+            if group_name not in allowed_field_groups:
+                self.msg = (
+                    "Unexpected field_group_name '{0}'. Allowed field groups: {1}"
+                ).format(group_name, sorted(allowed_field_groups))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            fields = group.get("fields", [])
+            if not isinstance(fields, list):
+                self.msg = "'fields' inside field_groups must be a list."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return False
+
+            allowed_fields = allowed_fields_by_group[group_name]
+
+            for field in fields:
+                field_name = field.get("name")
+
+                if field_name not in allowed_fields:
+                    self.msg = (
+                        "Unexpected field '{0}' in field group '{1}'. "
+                        "Allowed fields: {2}"
+                    ).format(field_name, group_name, sorted(allowed_fields))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return False
+
+        self.log(
+            "Licensing License Historical Usage validation successful",
+            "DEBUG"
+        )
+        return True
+
     def _process_time_range_filter(self, filter_entry, filter_index):
         """Validate and process the 'Time Range' filter by converting date strings to epoch milliseconds.
 
@@ -7807,32 +10085,100 @@ class Reports(CatalystCenterBase):
                     flt["displayName"] = flt.get("displayName", flt.get("name"))
                     flt["type"] = flt.get("type", flt.get("filterType"))
 
-                    # Normalize value entries
-                    new_values = []
-                    raw_values = flt.get("value", [])
+                    # Normalize value entries - Handle all data types
+                    raw_values = flt.get("value")
+                    filter_type = flt.get("type")
 
-                    # TIME_RANGE uses dict, not list → keep as is
-                    if isinstance(raw_values, dict):
-                        new_values = raw_values
-                    else:
-                        for v in raw_values:
-                            if isinstance(v, dict):
-                                new_values.append(
-                                    {
-                                        "value": v.get("value"),
-                                        "displayValue": v.get(
-                                            "displayValue", v.get("value")
-                                        ),
-                                    }
-                                )
+                    # Special handling for SINGLE_INPUT filter type
+                    if filter_type == "SINGLE_INPUT":
+                        # For SINGLE_INPUT, value should be a string, not an array
+                        if raw_values is None or raw_values == "":
+                            flt["value"] = ""
+                        elif isinstance(raw_values, str):
+                            flt["value"] = raw_values
+                        elif isinstance(raw_values, list):
+                            # If it's a list, take the first value or empty string if empty list
+                            if raw_values:
+                                first_item = raw_values[0]
+                                if isinstance(first_item, dict):
+                                    flt["value"] = first_item.get("value", "")
+                                else:
+                                    flt["value"] = str(first_item)
                             else:
-                                # simple value like "Global"
-                                new_values.append({"value": v, "displayValue": v})
-
-                    flt["value"] = new_values
+                                flt["value"] = ""
+                        else:
+                            # Convert other types to string
+                            flt["value"] = str(raw_values)
+                    else:
+                        # Handle other filter types as before
+                        if raw_values is None:
+                            # Handle null/None values
+                            flt["value"] = []
+                        elif isinstance(raw_values, dict):
+                            # TIME_RANGE uses dict, not list -> keep as is
+                            # Also handle any other dict-based filter values
+                            flt["value"] = raw_values
+                        elif isinstance(raw_values, str):
+                            # Handle string values - could be empty string, single value, or comma-separated
+                            if raw_values == "":
+                                # Empty string
+                                flt["value"] = []
+                            else:
+                                # Non-empty string - treat as single value
+                                flt["value"] = [
+                                    {
+                                        "value": raw_values,
+                                        "displayValue": raw_values,
+                                    }
+                                ]
+                        elif isinstance(raw_values, list):
+                            # Handle list values - could be empty list or list with various content
+                            if not raw_values:
+                                # Empty list
+                                flt["value"] = []
+                            else:
+                                new_values = []
+                                for v in raw_values:
+                                    if isinstance(v, dict):
+                                        # Already in correct format or needs normalization
+                                        new_values.append(
+                                            {
+                                                "value": v.get("value"),
+                                                "displayValue": v.get(
+                                                    "displayValue", v.get("value")
+                                                ),
+                                            }
+                                        )
+                                    elif isinstance(v, str):
+                                        # String value in list
+                                        new_values.append(
+                                            {"value": v, "displayValue": v}
+                                        )
+                                    elif v is None:
+                                        # None value in list - skip
+                                        continue
+                                    else:
+                                        # Other types (int, bool, etc.) - convert to string
+                                        str_value = str(v)
+                                        new_values.append(
+                                            {
+                                                "value": str_value,
+                                                "displayValue": str_value,
+                                            }
+                                        )
+                                flt["value"] = new_values
+                        else:
+                            # Handle other data types (int, bool, float, etc.)
+                            str_value = str(raw_values)
+                            flt["value"] = [
+                                {
+                                    "value": str_value,
+                                    "displayValue": str_value,
+                                }
+                            ]
 
                     fixed_filters.append(flt)
-            report_payload["view"]["filters"] = fixed_filters
+                report_payload["view"]["filters"] = fixed_filters
 
             # NEW SECTION — FIELD GROUP NORMALIZATION (REQUESTED)
             self.log(
