@@ -189,6 +189,49 @@ releases:
         - Cleaned up imports and backward-compatibility code
         - Updated README for Red Hat requirements and support section
         - Added build_ignore to galaxy.yml for smaller tarball
+  2.5.0:
+    release_date: "2026-03-25"
+    changes:
+      release_summary: Synced workflow manager modules with cisco.dnac v6.47.0 through v6.48.2 - Bug fixes, new features and enhanced validation
+      minor_changes:
+        # module_utils
+        - module_utils/catalystcenter - Enhanced task error reporting with all_failure_reason parameter in check_task_tree_response for richer error messages from task tree
+        - module_utils/catalystcenter - Added all_reasons parameter to get_task_status_from_tasks_by_id for collecting detailed failure reasons
+        - module_utils/catalystcenter - Changed get_device_details_from_site to gracefully return empty list instead of calling fail_and_exit when no API response is received
+        # device_configs_backup_workflow_manager
+        - device_configs_backup_workflow_manager - Added null guards in get_diff_merged and verify_diff_merged to prevent errors when no configuration is found to backup
+        - device_configs_backup_workflow_manager - Changed operation status from failed/WARNING to ok/INFO when no reachable devices are found
+        # events_and_notifications_workflow_manager
+        - events_and_notifications_workflow_manager - Added webhook header logging with DEBUG-level messages for better troubleshooting
+        # lan_automation_workflow_manager
+        - lan_automation_workflow_manager - Relaxed discovered_device_site_name_hierarchy, primary_device_interface_names, and ip_pools from required to optional (required only in merged state)
+        - lan_automation_workflow_manager - Added None-safe iteration for deviceSerialNumberAuthorization and discoveryDevices lists
+        - lan_automation_workflow_manager - Added is not None filter in LAN automation parameter preparation to prevent passing None values to API
+        # reports_workflow_manager
+        - reports_workflow_manager - Added 18 new filter validation methods covering Audit Log, Compliance, Configuration Archive, EoX, SWIM, Client, and Licensing report types
+        - reports_workflow_manager - Enhanced filter value normalization with SINGLE_INPUT type handling, None value protection, string-to-list conversion, and mixed-type list support
+        # sda_extranet_policies_workflow_manager
+        - sda_extranet_policies_workflow_manager - Added required true documentation for extranet_policy_name parameter
+        # template_workflow_manager
+        - template_workflow_manager - Added validate_jinja2_syntax option for validating Jinja2 template syntax before upload with line-number error reporting
+        - template_workflow_manager - Implemented UUID-based profile assignment deduplication to prevent duplicate assignments across config iterations
+        - template_workflow_manager - Updated profile-template comparison from name-based to ID-based for handling same-name templates in different projects
+        # wired_campus_automation_workflow_manager
+        - wired_campus_automation_workflow_manager - Made stp_instance_vlan_id and igmp_snooping_vlan_id parameters optional instead of required
+        - wired_campus_automation_workflow_manager - Added enumerate with index tracking and skip-with-warning guards for STP mapping, STP merge, IGMP merge, and MLD merge loops
+        # wireless_design_workflow_manager
+        - wireless_design_workflow_manager - Fixed 802.12ac typo to 802.11ac in radio band documentation and configuration
+        - wireless_design_workflow_manager - Added standard_power_service boolean parameter support for 6GHz radio band settings
+        - wireless_design_workflow_manager - Implemented Feature Template Attribute Reset allowing state deleted with feature_attributes to perform RESET (null values) instead of full DELETE
+        - wireless_design_workflow_manager - Updated 10 process_delete and 10 verify_delete methods with has_other_attributes logic for granular attribute management
+      bugfixes:
+        - device_configs_backup_workflow_manager - Fixed potential crash when self.want is empty during backup and verification operations
+        - lan_automation_workflow_manager - Fixed potential crash when iterating over None values in device authorization and discovery device lists
+        - reports_workflow_manager - Fixed potential crash when filter values are None, bare strings, or contain non-string types in lists
+        - reports_workflow_manager - Fixed NameError when fixed_filters variable referenced outside its conditional block
+        - template_workflow_manager - Fixed redundant profile assignment attempts when multiple config entries reference the same template-profile combination
+        - wired_campus_automation_workflow_manager - Fixed silent skipping of STP/IGMP/MLD entries with missing VLAN IDs by adding explicit warnings
+        - wireless_design_workflow_manager - Fixed incorrect 802.12ac reference that should be 802.11ac
   2.4.0:
     release_date: "2026-02-27"
     changes:
