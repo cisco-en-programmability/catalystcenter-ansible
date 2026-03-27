@@ -73,7 +73,7 @@ options:
               This field is only required when assigning or deleting real access point to/from an existing planned position.
               It is not required when creating, updating, or deleting a planned access point position itself.
               Use C(assign_planned_ap) to assign a planned access point to an actual access point.
-              Use C(manage_real_ap) to udpate or delete the real access point from the position.
+              Use C(manage_real_ap) to update or delete the real access point from the position.
             type: str
             required: false
             choices:
@@ -663,7 +663,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.result_response = {
             "accesspoint_creation": [],
-            "accesspoint_updation": [],
+            "accesspoint_update": [],
             "accesspoint_assignment": [],
             "accesspoint_deletion": [],
             "unprocessed": self.location_not_created,
@@ -2325,7 +2325,7 @@ class AccessPointLocation(CatalystCenterBase):
             - Provides detailed logging for debugging and operational visibility
         """
         self.log(
-            f"Processing access point position creation/updation for: {self.have.get('site_name')}",
+            f"Processing access point position creation/update for: {self.have.get('site_name')}",
             "INFO",
         )
 
@@ -2495,7 +2495,7 @@ class AccessPointLocation(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process planned Access Point position updation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process planned Access Point position update for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
 
@@ -2545,7 +2545,7 @@ class AccessPointLocation(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process real Access Point position updation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process real Access Point position update for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
 
@@ -3289,7 +3289,7 @@ class AccessPointLocation(CatalystCenterBase):
                     + self.have.get("site_name")
                 )
             if self.location_updated:
-                self.result_response["accesspoint_updation"].append(
+                self.result_response["accesspoint_update"].append(
                     "The access point positions for "
                     + str(self.location_updated)
                     + " have been successfully updated and associated with the site "
@@ -3555,7 +3555,7 @@ class AccessPointLocation(CatalystCenterBase):
             )
 
         if self.location_updated:
-            self.result_response["accesspoint_updation"].append(
+            self.result_response["accesspoint_update"].append(
                 "The access point positions for "
                 + str(self.location_updated)
                 + " have been successfully updated and associated with the site "
