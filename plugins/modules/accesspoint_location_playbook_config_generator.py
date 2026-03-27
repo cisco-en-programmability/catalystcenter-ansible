@@ -1536,7 +1536,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         Side Effects:
             - Makes multiple paginated API calls to Catalyst Center
-            - Respects catalystcenter_api_task_timeout and dnac_task_poll_interval from payload
+            - Respects catalystcenter_api_task_timeout and catalystcenter_task_poll_interval from payload
             - Adds sleep delays between pagination requests to avoid rate limiting
             - Logs detailed progress information at DEBUG and INFO levels
 
@@ -1548,13 +1548,13 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         Pagination Logic:
             - Starts at offset=1, limit=500
             - Continues until response < limit or timeout reached
-            - Respects dnac_task_poll_interval between requests
+            - Respects catalystcenter_task_poll_interval between requests
             - Exits early if no response received
 
         Notes:
             - Only retrieves sites with type='floor', excludes buildings/areas
             - Timeout calculated from catalystcenter_api_task_timeout parameter
-            - Poll interval from dnac_task_poll_interval parameter
+            - Poll interval from catalystcenter_task_poll_interval parameter
             - Uses site_design.get_sites API family/function
         """
         self.log(
@@ -1568,7 +1568,7 @@ class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         limit = 500
         api_family, api_function, param_key = "site_design", "get_sites", "type"
         resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
-        resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+        resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
         request_params = {param_key: "floor", "offset": offset, "limit": limit}
 
         self.log(
@@ -3637,19 +3637,19 @@ def main():
             - catalystcenter_username (str, optional): Authentication username (default: "admin")
             - catalystcenter_password (str, required): Authentication password (no_log: True)
             - catalystcenter_verify (bool, optional): Verify SSL certificates (default: True)
-            - catalystcenter_version (str, optional): API version (default: "2.2.3.3")
+            - catalystcenter_version (str, optional): API version (default: "2.3.7.6")
             - catalystcenter_debug (bool, optional): Enable SDK debug logging (default: False)
 
         Logging Parameters:
             - catalystcenter_log_level (str, optional): Log level (default: "WARNING")
-            - catalystcenter_log_file_path (str, optional): Log file path (default: "dnac.log")
+            - catalystcenter_log_file_path (str, optional): Log file path (default: "catalystcenter.log")
             - catalystcenter_log_append (bool, optional): Append to log file (default: True)
             - catalystcenter_log (bool, optional): Enable file logging (default: False)
 
         Operational Parameters:
             - validate_response_schema (bool, optional): Validate API responses (default: True)
             - catalystcenter_api_task_timeout (int, optional): API task timeout in seconds (default: 1200)
-            - dnac_task_poll_interval (int, optional): Task polling interval in seconds (default: 2)
+            - catalystcenter_task_poll_interval (int, optional): Task polling interval in seconds (default: 2)
 
         Configuration Parameters:
             - file_path (str, optional): Output file path for YAML configuration
@@ -3790,15 +3790,15 @@ def main():
         "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "file_path": {"type": "str", "required": False},
         "file_mode": {
             "type": "str",

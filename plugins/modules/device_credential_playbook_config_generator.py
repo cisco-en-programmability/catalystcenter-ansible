@@ -2497,12 +2497,12 @@ def main():
                                             and site configurations
         catalystcenter_password (str, no_log=True): Authentication password for API access
         catalystcenter_verify (bool, default=True): SSL certificate verification flag
-        catalystcenter_version (str, default='2.2.3.3'): Target Catalyst Center version
+        catalystcenter_version (str, default='2.3.7.6'): Target Catalyst Center version
                                             for API compatibility
         catalystcenter_debug (bool, default=False): Debug mode flag for detailed logging
         catalystcenter_log_level (str, default='WARNING'): Logging level (DEBUG, INFO,
                                                 WARNING, ERROR)
-        catalystcenter_log_file_path (str, default='dnac.log'): Log file path for
+        catalystcenter_log_file_path (str, default='catalystcenter.log'): Log file path for
                                                     persistent logging
         catalystcenter_log_append (bool, default=True): Append mode for log file
         catalystcenter_log (bool, default=False): Enable file logging flag
@@ -2510,7 +2510,7 @@ def main():
                                                     schema validation
         catalystcenter_api_task_timeout (int, default=1200): Maximum seconds for API
                                                 task completion
-        dnac_task_poll_interval (int, default=2): Seconds between task status
+        catalystcenter_task_poll_interval (int, default=2): Seconds between task status
                                                 polls
         config (list[dict], required): Configuration parameters with
                                     generate_all_configurations, file_path,
@@ -2537,15 +2537,15 @@ def main():
         "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"type": "dict", "required": False},
         "file_path": {"type": "str", "required": False},
         "file_mode": {"type": "str", "required": False, "default": "overwrite", "choices": ["overwrite", "append"]},
