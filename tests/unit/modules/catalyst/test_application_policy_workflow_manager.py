@@ -662,7 +662,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An exception occured while updating the application policy: 'list' object has no attribute 'get'",
+            "An exception occurred while updating the application policy: 'list' object has no attribute 'get'",
         )
 
     def test_application_policy_workflow_manager_playbook_for_application_policy_delete(
@@ -774,7 +774,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An exception occured while creating the application policy: 'list' object has no attribute 'get'",
+            "An exception occurred while creating the application policy: 'list' object has no attribute 'get'",
         )
 
     def test_application_policy_workflow_manager_playbook_failure_profile(self):
