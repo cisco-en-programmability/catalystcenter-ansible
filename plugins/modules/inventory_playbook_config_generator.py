@@ -52,7 +52,7 @@ options:
   catalystcenter_version:
     description: Cisco Catalyst Center version.
     type: str
-    default: "2.2.3.3"
+    default: "2.3.7.6"
     required: false
   catalystcenter_debug:
     description: Enable debug logging.
@@ -67,7 +67,7 @@ options:
   catalystcenter_log_file_path:
     description: Path for debug log file.
     type: str
-    default: "dnac.log"
+    default: "catalystcenter.log"
     required: false
   catalystcenter_log_append:
     description: Append to log file instead of overwriting.
@@ -89,7 +89,7 @@ options:
     type: int
     default: 1200
     required: false
-  dnac_task_poll_interval:
+  catalystcenter_task_poll_interval:
     description: Task poll interval in seconds.
     type: int
     default: 2
@@ -3946,15 +3946,15 @@ def main():
         "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {"type": "str", "default": "dnac.log"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
         "catalystcenter_log_append": {"type": "bool", "default": True},
         "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "dnac_task_poll_interval": {"type": "int", "default": 2},
+        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "dict"},
         "state": {"default": "gathered", "choices": ["gathered"]},
     }

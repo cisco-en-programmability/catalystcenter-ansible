@@ -2862,16 +2862,16 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
+            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
-            - dnac_task_poll_interval (int, default=2): Poll interval (seconds)
+            - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
 
         Logging Configuration:
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
+            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -2946,13 +2946,13 @@ def main():
         # ============================================
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.2.3.3"
+            "default": "2.3.7.6"
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
             "default": 1200
         },
-        "dnac_task_poll_interval": {
+        "catalystcenter_task_poll_interval": {
             "type": "int",
             "default": 2
         },
@@ -2974,7 +2974,7 @@ def main():
         },
         "catalystcenter_log_file_path": {
             "type": "str",
-            "default": "dnac.log"
+            "default": "catalystcenter.log"
         },
         "catalystcenter_log_append": {
             "type": "bool",
