@@ -213,7 +213,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_sda_fabric_sites_config.yml"
     config:
       component_specific_filters:
-        components_list: ["fabric_sites"] # Optional
+        components_list: ["fabric_sites"]  # Optional
         fabric_sites:
           - site_name_hierarchy: "Global/USA/California/San Jose"
 
@@ -249,7 +249,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_sda_fabric_zones_config.yml"
     config:
       component_specific_filters:
-        components_list: ["fabric_zones"] # Optional
+        components_list: ["fabric_zones"]  # Optional
         fabric_zones:
           - site_name_hierarchy: "Global/USA/California/San Jose"
 

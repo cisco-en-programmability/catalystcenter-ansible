@@ -177,7 +177,7 @@
         file_path: "tmp/anycast_gateways_vn.yml"
         config:
           component_specific_filters:
-            components_list: ["anycast_gateways"] # This line is optional
+            components_list: ["anycast_gateways"]  # This line is optional
             anycast_gateways:
               - vn_name: "Chennai_VN1"
               - vn_name: "Chennai_VN3"
@@ -199,7 +199,7 @@
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["anycast_gateways"] # This line is optional
+            components_list: ["anycast_gateways"]  # This line is optional
             anycast_gateways:
               - vlan_name: "Chennai-VN1-Pool2"
                 vlan_id: 1022

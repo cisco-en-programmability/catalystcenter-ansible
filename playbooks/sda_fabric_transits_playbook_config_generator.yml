@@ -73,7 +73,7 @@
         file_mode: "overwrite"
         config:
           component_specific_filters:
-            components_list: ["sda_fabric_transits"] # This line is optional
+            components_list: ["sda_fabric_transits"]  # This line is optional
             sda_fabric_transits:
               - transit_type: "IP_BASED_TRANSIT"
 
@@ -116,7 +116,7 @@
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["sda_fabric_transits"] # This line is optional
+            components_list: ["sda_fabric_transits"]  # This line is optional
             sda_fabric_transits:
               - name: "sample_transit2"
                 transit_type: "IP_BASED_TRANSIT"
@@ -137,7 +137,7 @@
         file_path: "tmp/transits_all_types.yml"
         config:
           component_specific_filters:
-            components_list: ["sda_fabric_transits"] # This line is optional
+            components_list: ["sda_fabric_transits"]  # This line is optional
             sda_fabric_transits:
               - transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
               - transit_type: "SDA_LISP_BGP_TRANSIT"

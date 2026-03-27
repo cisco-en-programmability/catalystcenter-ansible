@@ -210,7 +210,7 @@ EXAMPLES = r"""
     file_path: "/tmp/catc_fabric_transits_config.yml"
     config:
       component_specific_filters:
-        components_list: ["sda_fabric_transits"] # Optional
+        components_list: ["sda_fabric_transits"]  # Optional
         sda_fabric_transits:
           - transit_type: "IP_BASED_TRANSIT"
           - transit_type: "SDA_LISP_BGP_TRANSIT"
@@ -230,7 +230,7 @@ EXAMPLES = r"""
     file_path: "/tmp/catc_fabric_transits_config.yml"
     config:
       component_specific_filters:
-        components_list: ["sda_fabric_transits"] # Optional
+        components_list: ["sda_fabric_transits"]  # Optional
         sda_fabric_transits:
           - name: "Transit1"
           - name: "Transit2"
@@ -250,7 +250,7 @@ EXAMPLES = r"""
     file_path: "/tmp/catc_fabric_transits_config.yml"
     config:
       component_specific_filters:
-        components_list: ["sda_fabric_transits"] # Optional
+        components_list: ["sda_fabric_transits"]  # Optional
         sda_fabric_transits:
           - name: "Transit1"
             transit_type: "IP_BASED_TRANSIT"

@@ -251,7 +251,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_templates_config.yml"
     config:
       component_specific_filters:
-        components_list: ["projects"] # Optional
+        components_list: ["projects"]  # Optional
         projects:
           - name: "Project_A"
           - name: "Project_B"
@@ -271,7 +271,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_templates_config.yml"
     config:
       component_specific_filters:
-        components_list: ["configuration_templates"] # Optional
+        components_list: ["configuration_templates"]  # Optional
         configuration_templates:
           - template_name: "Template_1"
           - template_name: "Template_2"

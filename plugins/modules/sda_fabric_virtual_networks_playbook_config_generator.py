@@ -290,7 +290,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_fabric_vlans_components_config.yml"
     config:
       component_specific_filters:
-        components_list: ["fabric_vlan"] # Optional
+        components_list: ["fabric_vlan"]  # Optional
         fabric_vlan:
           - vlan_name: "vlan_1"
           - vlan_name: "vlan_2"
@@ -412,7 +412,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_anycast_gateways_components_config.yml"
     config:
       component_specific_filters:
-        components_list: ["anycast_gateways"] # Optional
+        components_list: ["anycast_gateways"]  # Optional
         anycast_gateways:
           - vn_name: "Chennai_VN1"
           - vn_name: "Chennai_VN3"
