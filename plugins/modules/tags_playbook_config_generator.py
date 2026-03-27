@@ -348,7 +348,7 @@ EXAMPLES = r"""
             tag:
               - tag_name: Production
               - tag_name: Data-Center
-      # This will automatically include 'tag' in components_list and retrieve only those tags
+              # This will automatically include 'tag' in components_list and retrieve only those tags
 
 # Example 7: Filter specific tags by name
 - name: Generate configuration for specific tags by name
@@ -472,7 +472,7 @@ EXAMPLES = r"""
             components_list: ["tag_memberships"]
             tag_memberships:
               - device_identifier: hostname
-      # This will retrieve all tags with their members identified by hostname instead of serial_number
+              # This will retrieve all tags with their members identified by hostname instead of serial_number
 
 # Example 11: Retrieve specific tag membership with IP address as device identifier
 - name: Generate specific tag membership using IP address identifier
@@ -504,7 +504,7 @@ EXAMPLES = r"""
             tag_memberships:
               - tag_name: Production
                 device_identifier: ip_address
-      # This will retrieve only the 'Production' tag's members with IP addresses
+                # This will retrieve only the 'Production' tag's members with IP addresses
 
 # Example 12: Retrieve tag memberships with MAC address as device identifier
 - name: Generate tag memberships using MAC address identifier
@@ -538,7 +538,7 @@ EXAMPLES = r"""
                 device_identifier: mac_address
               - tag_name: Core-Routers
                 device_identifier: mac_address
-      # This will retrieve specific tags' members with MAC addresses
+                # This will retrieve specific tags' members with MAC addresses
 
 # Example 13: Retrieve tag memberships with default device identifier (serial_number)
 - name: Generate tag memberships with default serial number identifier
@@ -569,7 +569,7 @@ EXAMPLES = r"""
             components_list: ["tag_memberships"]
             tag_memberships:
               - tag_name: Data-Center
-      # When device_identifier is not specified, it defaults to 'serial_number'
+              # When device_identifier is not specified, it defaults to 'serial_number'
 
 # Example 14: Mixed configuration with different device identifiers
 - name: Generate tag configurations with mixed device identifiers
@@ -606,7 +606,7 @@ EXAMPLES = r"""
               - tag_name: Testing
                 device_identifier: mac_address
               - tag_name: Staging
-      # Different tags can use different device identifiers in the same configuration
+              # Different tags can use different device identifiers in the same configuration
 """
 
 RETURN = r"""

@@ -103,11 +103,11 @@
                   - "Global/USA/San Francisco"
                   - "Global/USA/New York"
 
-#     # ====================================================================================
-#     # Scenario 5: Combined Filters - Multiple Parents with Site Types
-#     # Demonstrates combining multiple parent hierarchies with site type filters.
-#     # Results include all specified parents and their children filtered by type.
-#     # ====================================================================================
+    # ====================================================================================
+    # Scenario 5: Combined Filters - Multiple Parents with Site Types
+    # Demonstrates combining multiple parent hierarchies with site type filters.
+    # Results include all specified parents and their children filtered by type.
+    # ====================================================================================
     - name: Generate configurations with multiple parents and site types
       cisco.catalystcenter.site_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
