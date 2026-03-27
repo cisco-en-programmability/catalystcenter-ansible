@@ -156,7 +156,7 @@
         file_path: "tmp/uncommitted_templates.yml"
         config:
           component_specific_filters:
-            components_list: ["configuration_templates"] # This line is optional
+            components_list: ["configuration_templates"]  # This line is optional
             configuration_templates:
               - include_uncommitted: true
 
@@ -176,7 +176,7 @@
         file_path: "tmp/templates.yml"
         config:
           component_specific_filters:
-            components_list: ["configuration_templates"] # This line is optional
+            components_list: ["configuration_templates"]  # This line is optional
             configuration_templates:
               - project_name: "Project1"
               - project_name: "Project2"
@@ -198,7 +198,7 @@
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["configuration_templates"] # This line is optional
+            components_list: ["configuration_templates"]  # This line is optional
             configuration_templates:
               # Fetches uncommitted template using project name and template name
               - template_name: "Template1"

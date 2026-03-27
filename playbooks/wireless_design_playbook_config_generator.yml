@@ -94,7 +94,7 @@
         file_path: "tmp/wireless_design_feature_template_config.yml"
         config:
           component_specific_filters:
-            components_list: ["feature_template_config"] # Optional
+            components_list: ["feature_template_config"]  # Optional
             feature_template_config:
               - feature_template_type: "advanced_ssid"
                 design_name: "AdvancedSSID_Default"
@@ -116,7 +116,7 @@
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["ssids", "interfaces", "feature_template_config"] # Optional
+            components_list: ["ssids", "interfaces", "feature_template_config"]  # Optional
             ssids:
               - site_name_hierarchy: "Global/USA/San Jose"
                 ssid_type: "Guest"
@@ -141,7 +141,7 @@
         file_path: "tmp/wireless_design_interfaces.yml"
         config:
           component_specific_filters:
-            components_list: ["interfaces"] # Optional
+            components_list: ["interfaces"]  # Optional
             interfaces:
               - interface_name: "guest_interface"
               - vlan_id: 100
@@ -219,7 +219,7 @@
         file_path: "tmp/wireless_design_80211be_profiles.yml"
         config:
           component_specific_filters:
-            components_list: ["802_11_be_profiles"] # Optional
+            components_list: ["802_11_be_profiles"]  # Optional
             802_11_be_profiles:
               - profile_name: "dot11be_profile_1"
 
