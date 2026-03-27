@@ -2540,7 +2540,7 @@ class Accesspoint(CatalystCenterBase):
 
         self.status = "success"
         self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
-                    and its updation has been verified.""".format(
+                    and its update has been verified.""".format(
             ap_name
         )
         self.log(self.msg, "INFO")
@@ -3947,7 +3947,7 @@ class Accesspoint(CatalystCenterBase):
                 and current_config.get("id") in device_list
             ):
                 self.log(
-                    "Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation.".format(
+                    "Device with MAC address: {0} found in site: {1} Proceeding with ap_site update.".format(
                         ap_mac_address, site_id
                     ),
                     "INFO",
@@ -4874,7 +4874,7 @@ class Accesspoint(CatalystCenterBase):
                 return update_config
 
             self.log(
-                "Playbook AP configuration remain same in current AP configration",
+                "Playbook AP configuration remain same in current AP configuration",
                 "INFO",
             )
             return None

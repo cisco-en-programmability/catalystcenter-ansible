@@ -249,3 +249,26 @@ releases:
         - template_workflow_manager - Fixed redundant profile assignment attempts when multiple config entries reference the same template-profile combination
         - wired_campus_automation_workflow_manager - Fixed silent skipping of STP/IGMP/MLD entries with missing VLAN IDs by adding explicit warnings
         - wireless_design_workflow_manager - Fixed incorrect 802.12ac reference that should be 802.11ac
+  2.6.0:
+    release_date: "2026-03-26"
+    changes:
+      release_summary: Added 30 playbook config generator modules, shared brownfield helper, and workflow manager enhancements synced from cisco.dnac v6.49.0
+      minor_changes:
+        # New module_utils
+        - module_utils/brownfield_helper - New shared brownfield helper module providing config validation, global filter validation, component-specific filter validation, IP validation, and YAML OrderedDumper support for all playbook config generator modules
+        - module_utils/catalystcenter - Added find_multiple_dict_by_key_value method to find all matching dictionaries in a list by key-value pair
+        - module_utils/validation - Enhanced error messages for invalid choice validation to display valid choices
+        - module_utils/network_profiles - Added get_wireless_profile method to retrieve wireless profile information via API
+        # New playbook config generator modules
+        - Added 30 playbook config generator modules for brownfield automation covering access point, application policy, assurance, backup and restore, device credential, discovery, events and notifications, inventory, ISE radius integration, network profile switching, network profile wireless, network settings, PnP, provision, RMA, SDA extranet policies, SDA fabric devices, SDA fabric multicast, SDA fabric sites zones, SDA fabric transits, SDA fabric virtual networks, SDA host port onboarding, site, tags, template, user role, wired campus automation, and wireless design workflows
+        - Added device_ips, serial_numbers, and hostnames filters to sda_host_port_onboarding_playbook_config_generator
+        # Workflow manager enhancements
+        - inventory_workflow_manager - Added UDF existence check before adding to prevent duplicates, skip role pre-validation when devices are being added in same run
+        - network_devices_info_workflow_manager - Rewrote device identifier AND/OR logic to only count non-None keys, added stacked device serial number matching with pagination, added site verification before processing
+        - network_profile_wireless_workflow_manager - Moved get_wireless_profile to shared network_profiles module_utils
+        - discovery_workflow_manager - Added discovery_type normalization to uppercase for case-insensitive branching, enhanced main loop for individual config processing with progress logging
+        - tags_workflow_manager - Updated serial number regex to support stacked devices with comma-separated serial numbers
+        - wired_campus_automation_workflow_manager - Added config_verification_wait_time parameter for configurable verification delays
+        - assurance_issue_workflow_manager - Added deleted issue tracking in response, removed duplicate result update
+        # Typo fixes across all workflow managers
+        - Fixed spelling errors across 22 workflow manager modules (occurred, update, parameters, successfully, retrieve, separate, configuration)

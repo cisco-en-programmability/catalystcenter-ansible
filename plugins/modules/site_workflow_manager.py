@@ -1531,7 +1531,7 @@ class Site(CatalystCenterBase):
 
     def get_want(self, config):
         """
-        Get all site-related information from the playbook needed for creation/updation/deletion of site in Cisco Catalyst Center.
+        Get all site-related information from the playbook needed for creation/update/deletion of site in Cisco Catalyst Center.
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): A dictionary containing configuration information.
@@ -3415,7 +3415,7 @@ class Site(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status (Creation/Updation) of site configuration in Cisco Catalyst Center.
+        Verify the merged status (Creation/Update) of site configuration in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.

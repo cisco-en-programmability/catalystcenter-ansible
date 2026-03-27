@@ -2108,7 +2108,7 @@ EXAMPLES = r"""
 """
 
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of template/project
+# Case_1: Successful creation/update/deletion of template/project
 response_1:
   description: A dictionary with versioning details of the template as returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -2182,8 +2182,8 @@ response_6:
   type: dict
   sample: >
     {
-        "msg": "project Wireless_Controller created succesfully",
-        "response": "project Wireless_Controller created succesfully",
+        "msg": "project Wireless_Controller created successfully",
+        "response": "project Wireless_Controller created successfully",
         "status": "success"
     }
 
@@ -3314,7 +3314,7 @@ class Template(NetworkProfileFunctions):
 
     def get_template(self, config):
         """
-        Get the template needed for updation or creation.
+        Get the template needed for update or creation.
 
         Parameters:
             config (dict) - Playbook details containing Template information.
@@ -3467,7 +3467,7 @@ class Template(NetworkProfileFunctions):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while versioning the template '{0}' in the Cisco Catalyst "
+                "An exception occurred while versioning the template '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(template_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -4519,7 +4519,7 @@ class Template(NetworkProfileFunctions):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "project(s) {0} created succesfully".format(
+            success_msg = "project(s) {0} created successfully".format(
                 project_detail.get("name")
             )
             self.log(
@@ -4527,7 +4527,7 @@ class Template(NetworkProfileFunctions):
             )
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
             self.log(
-                "project(s) {0} created succesfully".format(project_detail.get("name")),
+                "project(s) {0} created successfully".format(project_detail.get("name")),
                 "INFO",
             )
             return self
@@ -6714,7 +6714,7 @@ class Template(NetworkProfileFunctions):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while deploying the template '{0}' to the device(s) {1} "
+                "An exception occurred while deploying the template '{0}' to the device(s) {1} "
                 " in the Cisco Catalyst Center: {2}."
             ).format(template_name, device_ips, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")

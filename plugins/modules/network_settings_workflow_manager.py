@@ -886,7 +886,7 @@ EXAMPLES = r"""
 
 
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of global pool
+# Case_1: Successful creation/update/deletion of global pool
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -897,7 +897,7 @@ response_1:
       "executionStatusUrl": "string",
       "message": "string"
     }
-# Case_2: Successful creation/updation/deletion of reserve pool
+# Case_2: Successful creation/update/deletion of reserve pool
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -908,7 +908,7 @@ response_2:
       "executionStatusUrl": "string",
       "message": "string"
     }
-# Case_3: Successful creation/updation of network
+# Case_3: Successful creation/update of network
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -5488,18 +5488,18 @@ class NetworkSettings(CatalystCenterBase):
                     "INFO",
                 )
 
-                updation_list = copy.deepcopy(final_update_global_pool)
-                for item in updation_list:
+                update_list = copy.deepcopy(final_update_global_pool)
+                for item in update_list:
                     if item.get("prev_name"):
                         item.pop("prev_name")
 
                 self.log(
                     "Desired global pool details (want): {0}".format(
-                        self.pprint(updation_list)
+                        self.pprint(update_list)
                     ),
                     "DEBUG",
                 )
-                for param in updation_list:
+                for param in update_list:
                     self.log(
                         "Global pool details to be updated: {0}".format(
                             self.pprint(param)
@@ -5528,13 +5528,13 @@ class NetworkSettings(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                for item in updation_list:
+                for item in update_list:
                     name = item.get("name")
                     self.log(
                         "Global pool '{0}' Updated successfully.".format(name), "INFO"
                     )
                     result_global_pool.get("response").update(
-                        {"globalPool Details": updation_list}
+                        {"globalPool Details": update_list}
                     )
                     result_global_pool.get("msg").update(
                         {name: "Global Pool Updated Successfully"}

@@ -6095,10 +6095,10 @@ class FabricDevices(CatalystCenterBase):
                 "INFO",
             )
             result_fabric_device_response.get("ip_l3_handoff_details").update(
-                {"updation": update_ip_l3_handoff}
+                {"update": update_ip_l3_handoff}
             )
             result_fabric_device_msg.get("ip_l3_handoff_details").update(
-                {"updation": "IP L3 Handoffs updation is successful."}
+                {"update": "IP L3 Handoffs update is successful."}
             )
 
         self.msg = "L3 Handoff(s) with IP Transit operations are successful."
@@ -7183,7 +7183,7 @@ class FabricDevices(CatalystCenterBase):
                 task_name = "delete_fabric_device_layer2_handoff_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7294,7 +7294,7 @@ class FabricDevices(CatalystCenterBase):
                 task_name = "delete_fabric_device_layer3_handoffs_with_sda_transit"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7385,7 +7385,7 @@ class FabricDevices(CatalystCenterBase):
                 task_name = "delete_fabric_device_layer3_handoff_with_ip_transit_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7606,7 +7606,7 @@ class FabricDevices(CatalystCenterBase):
                             "sda", task_name, payload
                         )
                         if not task_id:
-                            self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                            self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                                 task_name=task_name
                             )
                             self.set_operation_result(
