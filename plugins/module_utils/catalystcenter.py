@@ -3444,37 +3444,46 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 def catalystcenter_argument_spec():
     argument_spec = dict(
         catalystcenter_host=dict(
-            type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])
+            type="str",
+            required=True,
+            aliases=["dnac_host"],
+            fallback=(env_fallback, ["CATALYSTCENTER_HOST"]),
         ),
-        catalystcenter_api_port=dict(
+        catalystcenter_port=dict(
             type="int",
             required=False,
             default=443,
-            fallback=(env_fallback, ["CATALYSTCENTER_PORT"]),
+            aliases=["dnac_port", "catalystcenter_api_port"],
+            fallback=(env_fallback, ["CATALYSTCENTER_PORT", "CATALYSTCENTER_API_PORT"]),
         ),
         catalystcenter_username=dict(
             type="str",
             default="admin",
+            aliases=["dnac_username", "user"],
             fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
         ),
         catalystcenter_password=dict(
             type="str",
             no_log=True,
+            aliases=["dnac_password"],
             fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"]),
         ),
         catalystcenter_verify=dict(
             type="bool",
             default=True,
+            aliases=["dnac_verify"],
             fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"]),
         ),
         catalystcenter_version=dict(
             type="str",
             default="3.1.3.0",
+            aliases=["dnac_version"],
             fallback=(env_fallback, ["CATALYSTCENTER_VERSION"]),
         ),
         catalystcenter_debug=dict(
             type="bool",
             default=False,
+            aliases=["dnac_debug"],
             fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
         ),
         catalystcenter_api_task_timeout=dict(type="int", default=1200),

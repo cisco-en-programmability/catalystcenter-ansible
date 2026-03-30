@@ -135,7 +135,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(catalystcenter_response={}))
+        self._result.update(dict(catalystcenter_response={}, dnac_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -144,6 +144,6 @@ class ActionModule(ActionBase):
             function="get_the_total_number_of_issues_for_given_set_of_filters_know_your_network",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result
