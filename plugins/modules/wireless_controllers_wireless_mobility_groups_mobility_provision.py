@@ -67,7 +67,7 @@ options:
     description: Obtain the network device ID value by using the API call GET /dna/intent/api/v1/network-device/ip-...
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless MobilityProvision

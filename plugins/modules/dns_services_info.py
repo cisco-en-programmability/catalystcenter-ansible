@@ -106,7 +106,7 @@ options:
         `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheService

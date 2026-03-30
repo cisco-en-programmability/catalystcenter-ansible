@@ -42,7 +42,7 @@ options:
         for reserved VLANs 1002-1005, 2046, and 4094.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA GetAnycastGatewayCount

@@ -39,7 +39,7 @@ options:
     description: Netconf port on the device. Valid port should be in the range of 1 to 65535.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery CreateNetconfCredentials

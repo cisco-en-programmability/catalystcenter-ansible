@@ -34,7 +34,7 @@ options:
     description: The timeout value in unit of second. If no timeout provided wait till 300sec.
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration

@@ -59,7 +59,7 @@ options:
     description: PreviewDescription query parameter. The ICAP intent's preview-deploy description string.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Sensors CreatesAnICAPConfigurationIntentForPreviewApprove
