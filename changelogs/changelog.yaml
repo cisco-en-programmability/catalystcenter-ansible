@@ -246,3 +246,18 @@ releases:
         - wired_campus_automation_workflow_manager - Added config_verification_wait_time parameter for configurable verification delays
         - assurance_issue_workflow_manager - Added deleted issue tracking in response, removed duplicate result update
         - Fixed spelling errors across 22 workflow manager modules (occurred, update, parameters, successfully, retrieve, separate, configuration)
+  2.7.0:
+    release_date: "2026-03-30"
+    changes:
+      release_summary: Backward-compatible aliases for cisco.dnac migration and Ansible community package inclusion
+      minor_changes:
+        - Added backward-compatible dnac_* aliases to all connection parameters in module_utils and plugin_utils argument specs (dnac_host, dnac_port, dnac_username, dnac_password, dnac_verify, dnac_version, dnac_debug)
+        - Added backward-compatible dnac_* aliases to logging parameters in intent_params and workflow_manager_params doc fragments (dnac_log, dnac_log_level, dnac_log_file_path, dnac_log_append)
+        - Added user alias to catalystcenter_username for parity with cisco.dnac collection
+        - Added catalystcenter_api_port alias to catalystcenter_port for backward compatibility with older catalystcenter versions
+        - Added dnac_response return key alongside catalystcenter_response in all 1052 action plugins for backward compatibility with playbooks migrating from cisco.dnac
+        - Updated all 4 doc_fragments (module.py, module_info.py, intent_params.py, workflow_manager_params.py) with aliases entries for ansible-doc documentation
+        - Added CATALYSTCENTER_API_PORT to environment variable fallbacks for port parameter consistency
+        - Bumped minimum SDK requirement from catalystcentersdk >= 3.1.6.0.1 to >= 3.1.6.0.2 across all modules
+      bugfixes:
+        - Fixed port parameter naming inconsistency - renamed catalystcenter_api_port to catalystcenter_port in module_utils argument spec to match internal code usage (catalystcenter_api_port preserved as alias)
