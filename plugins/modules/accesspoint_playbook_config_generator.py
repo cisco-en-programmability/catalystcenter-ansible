@@ -3152,7 +3152,7 @@ def main():
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"]
+            "aliases": ["dnac_username", "user"]
         },
         "catalystcenter_password": {
             "type": "str",
