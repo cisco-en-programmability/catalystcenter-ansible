@@ -41,6 +41,7 @@ options:
     default: "admin"
     required: false
     aliases:
+      - dnac_username
       - user
   catalystcenter_password:
     description: Cisco Catalyst Center password.
