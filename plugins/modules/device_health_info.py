@@ -48,7 +48,7 @@ options:
       - Offset query parameter. The offset of the first device in the returned data (Mutiple of 'limit' + 1).
     type: int
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Devices Devices

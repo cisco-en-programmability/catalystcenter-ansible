@@ -55,7 +55,7 @@ options:
       - RuleId path parameter. Unique rule identifier.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 notes:
   - SDK Method used are

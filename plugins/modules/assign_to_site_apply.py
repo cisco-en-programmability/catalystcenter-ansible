@@ -27,7 +27,7 @@ options:
       are assigned to building. Site Id can be retrieved using '/intent/api/v1/sites'.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design AssignNetworkDevicesToASite

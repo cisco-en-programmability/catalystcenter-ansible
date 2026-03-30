@@ -34,7 +34,7 @@ options:
       - NoticeCount query parameter. Return network devices with noticeCount greater than this noticeCount.
     type: float
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance GetCountOfFieldNoticeNetworkDevices
