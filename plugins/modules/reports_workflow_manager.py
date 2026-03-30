@@ -11264,7 +11264,7 @@ class Reports(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
@@ -11272,7 +11272,7 @@ def main():
             "aliases": ["dnac_username", "user"],
         },
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},

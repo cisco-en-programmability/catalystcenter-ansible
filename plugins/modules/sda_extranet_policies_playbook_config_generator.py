@@ -1258,8 +1258,9 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
+            "aliases": ["dnac_password"],
         },
-        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         # ============================================
         # API Configuration Parameters
         # ============================================
@@ -1272,7 +1273,7 @@ def main():
         # ============================================
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         # ============================================

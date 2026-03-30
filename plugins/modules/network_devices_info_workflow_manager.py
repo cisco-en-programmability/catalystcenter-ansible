@@ -5260,7 +5260,7 @@ def main():
             "aliases": ["dnac_username", "user"],
         },
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
