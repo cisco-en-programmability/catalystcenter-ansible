@@ -2540,7 +2540,7 @@ class Accesspoint(CatalystCenterBase):
 
         self.status = "success"
         self.msg = """The requested AP Config '{0}' is present in the Cisco Catalyst Center
-                    and its updation has been verified.""".format(
+                    and its update has been verified.""".format(
             ap_name
         )
         self.log(self.msg, "INFO")
@@ -3947,7 +3947,7 @@ class Accesspoint(CatalystCenterBase):
                 and current_config.get("id") in device_list
             ):
                 self.log(
-                    "Device with MAC address: {0} found in site: {1} Proceeding with ap_site updation.".format(
+                    "Device with MAC address: {0} found in site: {1} Proceeding with ap_site update.".format(
                         ap_mac_address, site_id
                     ),
                     "INFO",
@@ -4874,7 +4874,7 @@ class Accesspoint(CatalystCenterBase):
                 return update_config
 
             self.log(
-                "Playbook AP configuration remain same in current AP configration",
+                "Playbook AP configuration remain same in current AP configuration",
                 "INFO",
             )
             return None
@@ -5823,25 +5823,26 @@ class Accesspoint(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     accepoint_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "next_task_after_interval": {"type": "int", "default": 5},

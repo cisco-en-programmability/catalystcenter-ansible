@@ -30,7 +30,7 @@ options:
         'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Wireless GetSSIDCountBySite

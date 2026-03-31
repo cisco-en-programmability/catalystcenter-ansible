@@ -86,7 +86,7 @@ options:
     type: str
     version_added: 6.4.0
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Device Onboarding (PnP) ClaimADeviceToASite

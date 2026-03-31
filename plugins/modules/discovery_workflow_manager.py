@@ -866,6 +866,15 @@ class Discovery(CatalystCenterBase):
             self.status = "failed"
             return self
 
+        # Normalize discovery_type to canonical uppercase value for every
+        # merged config entry so runtime branching is case-insensitive
+        # (e.g., "Single" -> "SINGLE").
+        if state == "merged":
+            for discovery in valid_discovery:
+                discovery_type = discovery.get("discovery_type")
+                if isinstance(discovery_type, str):
+                    discovery["discovery_type"] = discovery_type.upper()
+
         self.validated_config = valid_discovery
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
             str(valid_discovery)
@@ -932,7 +941,7 @@ class Discovery(CatalystCenterBase):
 
     def handle_global_credentials(self, response=None):
         """
-        Method to convert values for create_params API when global paramters
+        Method to convert values for create_params API when global parameters
         are passed as input.
 
         Parameters:
@@ -1324,7 +1333,7 @@ class Discovery(CatalystCenterBase):
 
     def handle_discovery_specific_credentials(self, new_object_params=None):
         """
-        Method to convert values for create_params API when discovery specific paramters
+        Method to convert values for create_params API when discovery specific parameters
         are passed as input.
 
         Parameters:
@@ -2110,7 +2119,7 @@ class Discovery(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of Discovery in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -2206,24 +2215,25 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -2254,7 +2264,17 @@ def main():
         ccc_discovery.check_return_status()
 
     ccc_discovery.validate_input(state=state).check_return_status()
-    for config in ccc_discovery.validated_config:
+    all_validated_configs = list(ccc_discovery.validated_config)
+    for idx, config in enumerate(all_validated_configs, start=1):
+        ccc_discovery.log(
+            "Processing config {0}/{1}: discovery_name='{2}', discovery_type='{3}'".format(
+                idx, len(all_validated_configs),
+                config.get("discovery_name", "unknown"),
+                config.get("discovery_type", "unknown")
+            ),
+            "INFO"
+        )
+        ccc_discovery.validated_config = [config]
         ccc_discovery.reset_values()
         ccc_discovery.get_diff_state_apply[state]().check_return_status()
         if config_verify:

@@ -28,7 +28,7 @@ options:
       - RuleId path parameter. The `id` of the rule within the compliance policy.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Compliance RetrieveTheCountOfVariables

@@ -3262,6 +3262,50 @@ class CatalystCenterBase:
         )
         return None
 
+    def find_multiple_dict_by_key_value(self, data_list, key, value):
+        """
+        Find a dictionary in a list by a matching key-value pair.
+
+        Parameters:
+            data_list (list): List of dictionaries to search.
+            key (str): The key to match in each dictionary.
+            value (any): The value to match against the given key.
+
+        Returns:
+            list or None: The list of dictionaries that match the key-value pair, or None if not found.
+
+        Description:
+            Iterates through the list of dictionaries and returns the first dictionary
+            where the specified key has the specified value. If no match is found, returns None.
+        """
+        if not isinstance(data_list, list):
+            self.log("The 'data_list' parameter must be a list.", "ERROR")
+            return None
+
+        if not all(isinstance(item, dict) for item in data_list):
+            self.log("All items in 'data_list' must be dictionaries.", "ERROR")
+            return None
+
+        self.log(
+            f"Searching for key '{key}' with value '{value}' in a list of {len(data_list)} items.",
+            "DEBUG",
+        )
+        matched_items = []
+        for idx, item in enumerate(data_list):
+            self.log(f"Checking item at index {idx}: {item}", "DEBUG")
+            if item.get(key) == value:
+                self.log(f"Match found at index {idx}: {item}", "DEBUG")
+                matched_items.append(item)
+
+        if matched_items:
+            self.log(f"Total matches found: {len(matched_items)}", "DEBUG")
+            return matched_items
+
+        self.log(
+            f"No matching item found for key '{key}' with value '{value}'.", "DEBUG"
+        )
+        return None
+
     def find_duplicate_value(self, config_list, key_name):
         """
         Identifies duplicate values for a given key in a list of dictionaries.
@@ -3400,37 +3444,46 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 def catalystcenter_argument_spec():
     argument_spec = dict(
         catalystcenter_host=dict(
-            type="str", required=True, fallback=(env_fallback, ["CATALYSTCENTER_HOST"])
+            type="str",
+            required=True,
+            aliases=["dnac_host"],
+            fallback=(env_fallback, ["CATALYSTCENTER_HOST"]),
         ),
-        catalystcenter_api_port=dict(
+        catalystcenter_port=dict(
             type="int",
             required=False,
             default=443,
-            fallback=(env_fallback, ["CATALYSTCENTER_PORT"]),
+            aliases=["dnac_port", "catalystcenter_api_port"],
+            fallback=(env_fallback, ["CATALYSTCENTER_PORT", "CATALYSTCENTER_API_PORT"]),
         ),
         catalystcenter_username=dict(
             type="str",
             default="admin",
+            aliases=["dnac_username", "user"],
             fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
         ),
         catalystcenter_password=dict(
             type="str",
             no_log=True,
+            aliases=["dnac_password"],
             fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"]),
         ),
         catalystcenter_verify=dict(
             type="bool",
             default=True,
+            aliases=["dnac_verify"],
             fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"]),
         ),
         catalystcenter_version=dict(
             type="str",
             default="3.1.3.0",
+            aliases=["dnac_version"],
             fallback=(env_fallback, ["CATALYSTCENTER_VERSION"]),
         ),
         catalystcenter_debug=dict(
             type="bool",
             default=False,
+            aliases=["dnac_debug"],
             fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
         ),
         catalystcenter_api_task_timeout=dict(type="int", default=1200),

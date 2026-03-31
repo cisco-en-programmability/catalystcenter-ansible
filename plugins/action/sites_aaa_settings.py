@@ -202,6 +202,6 @@ class ActionModule(ActionBase):
                     "Object does not exists, plugin only has update"
                 )
 
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

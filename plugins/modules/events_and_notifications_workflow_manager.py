@@ -996,7 +996,7 @@ EXAMPLES = r"""
             subscription"
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash", "Device
-              Updation"]
+              Update"]
           destination: "Webhook Demo"
 - name: Updating Webhook Notification with the list
     of names of subscribed events in the system.
@@ -1059,12 +1059,12 @@ EXAMPLES = r"""
       - email_event_notification:
           name: "Email Notification"
           description: "Notification description for
-            email subscription updation"
+            email subscription update"
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash"]
           sender_email: "catalyst@cisco.com"
           recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
-          subject: "Mail test for updation"
+          subject: "Mail test for update"
           instance: Email Instance test
 - name: Creating Syslog Notification with the list of
     names of subscribed events in the system.
@@ -6687,14 +6687,14 @@ class Events(CatalystCenterBase):
             if destinations_in_ccc:
                 self.status = "success"
                 msg = """Requested Syslog Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     syslog_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that the Syslog destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         syslog_name
                     ),
                     "INFO",
@@ -6707,14 +6707,14 @@ class Events(CatalystCenterBase):
             if self.have.get("snmp_destinations"):
                 self.status = "success"
                 msg = """Requested SNMP Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     snmp_dest_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that the SNMP destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         snmp_dest_name
                     ),
                     "INFO",
@@ -6727,14 +6727,14 @@ class Events(CatalystCenterBase):
             if self.have.get("webhook_destinations"):
                 self.status = "success"
                 msg = """Requested Rest Webhook Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     webhook_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Rest Webhook destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         webhook_name
                     ),
                     "INFO",
@@ -6762,14 +6762,14 @@ class Events(CatalystCenterBase):
             if itsm_detail_in_ccc:
                 self.status = "success"
                 msg = """Requested ITSM Integration setting '{0}' have been successfully added/updated to the Cisco Catalyst Center
-                    and their addition/updation has been verified.""".format(
+                    and their addition/update has been verified.""".format(
                     itsm_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
-                        name '{0}' addition/updation task may not have executed successfully.""".format(
+                        name '{0}' addition/update task may not have executed successfully.""".format(
                         itsm_name
                     ),
                     "INFO",
@@ -6782,14 +6782,14 @@ class Events(CatalystCenterBase):
             if self.have.get("webhook_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Webhook Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     web_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         web_notification_name
                     ),
                     "INFO",
@@ -6802,14 +6802,14 @@ class Events(CatalystCenterBase):
             if self.have.get("email_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Email Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     email_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Email Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         email_notification_name
                     ),
                     "INFO",
@@ -6822,14 +6822,14 @@ class Events(CatalystCenterBase):
             if self.have.get("syslog_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Syslog Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     syslog_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         syslog_notification_name
                     ),
                     "INFO",
@@ -6942,24 +6942,25 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

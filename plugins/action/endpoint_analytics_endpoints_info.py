@@ -133,7 +133,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(catalystcenter_response={}))
+        self._result.update(dict(catalystcenter_response={}, dnac_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -144,7 +144,7 @@ class ActionModule(ActionBase):
                 function="get_endpoint_details",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response))
+            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result
         if not id:
@@ -153,6 +153,6 @@ class ActionModule(ActionBase):
                 function="query_the_endpoints",
                 params=self.get_object(self._task.args),
             )
-            self._result.update(dict(catalystcenter_response=response))
+            self._result.update(dict(catalystcenter_response=response, dnac_response=response))
             self._result.update(catalystcenter.exit_json())
             return self._result

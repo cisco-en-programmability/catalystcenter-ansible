@@ -578,7 +578,7 @@ EXAMPLES = r"""
             excluded_attributes: ["guest_ssid_settings", "bandwidth_limits"]
 """
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of provision
+# Case_1: Successful creation/update/deletion of provision
 response_1:
   description: A dictionary with details of provision is returned
   returned: always
@@ -1356,7 +1356,7 @@ class Provision(CatalystCenterBase):
                           of the site.
         Example:
           Post creation of the validated input, it fetches the required
-          paramters and stores it for further processing and calling the
+          parameters and stores it for further processing and calling the
           parameters in other APIs.
         """
 
@@ -1405,7 +1405,7 @@ class Provision(CatalystCenterBase):
                           of the interface
         Example:
           Post creation of the validated input, it fetches the required
-          paramters and stores it for further processing and calling the
+          parameters and stores it for further processing and calling the
           parameters in other APIs.
         """
         ip_address = self.validated_config.get("management_ip_address")
@@ -1953,12 +1953,12 @@ class Provision(CatalystCenterBase):
             config: validated config passed from the playbook
         Returns:
             The method returns an instance of the class with updated attributes:
-                - self.want: A dictionary of paramters obtained from the playbook
-                - self.msg: A message indicating all the paramters from the playbook are
+                - self.want: A dictionary of parameters obtained from the playbook
+                - self.msg: A message indicating all the parameters from the playbook are
                 collected
                 - self.status: Success
         Example:
-            It stores all the paramters passed from the playbook for further processing
+            It stores all the parameters passed from the playbook for further processing
             before calling the APIs
         """
 
@@ -4248,7 +4248,7 @@ class Provision(CatalystCenterBase):
             the deletion operation.
         Description:
             This function is responsible for removing devices from the Cisco Catalyst Center PnP GUI and
-            raise Exception if any error occured.
+            raise Exception if any error occurred.
         """
         device_ip = self.validated_config["management_ip_address"]
         device_type = self.want.get("device_type")
@@ -4441,7 +4441,7 @@ class Provision(CatalystCenterBase):
 
     def verify_diff_merged(self):
         """
-        Verify the merged status(Creation/Updation) of Discovery in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of Discovery in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -4744,24 +4744,25 @@ def main():
     """
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

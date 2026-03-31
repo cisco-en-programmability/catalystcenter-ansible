@@ -533,7 +533,7 @@ response_1:
       },
       "version": "str"
     }
-# Case_2: Successful updation of SDA fabric transit
+# Case_2: Successful update of SDA fabric transit
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -1586,7 +1586,7 @@ class FabricTransit(CatalystCenterBase):
                 task_name = "add_transit_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1737,7 +1737,7 @@ class FabricTransit(CatalystCenterBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
             if not task_id:
                 self.msg = (
-                    "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                 )
@@ -1829,7 +1829,7 @@ class FabricTransit(CatalystCenterBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
             if not task_id:
                 self.msg = (
-                    "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                 )
@@ -2034,24 +2034,25 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

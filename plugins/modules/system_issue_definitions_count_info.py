@@ -61,7 +61,7 @@ options:
       - IssueEnabled query parameter. The enablement status of the issue definition, either true or false.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Issues GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFilters

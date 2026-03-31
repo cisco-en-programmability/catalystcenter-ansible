@@ -1419,7 +1419,7 @@ class ApplicationPolicy(CatalystCenterBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation, updation and deletion of application are currently unavailable "
+                "The creation, update and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -2114,7 +2114,7 @@ class ApplicationPolicy(CatalystCenterBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation, updation and deletion of application are currently unavailable "
+                "The creation, update and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -3203,7 +3203,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while updating the application policy: {0}".format(
+            self.msg = "An exception occurred while updating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -3529,7 +3529,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while creating the application policy: {0}".format(
+            self.msg = "An exception occurred while creating the application policy: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -4260,7 +4260,7 @@ class ApplicationPolicy(CatalystCenterBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while creating the application: {0}".format(e)
+                "An exception occurred while creating the application: {0}".format(e)
             )
             self.result["response"] = self.msg
             self.set_operation_result(
@@ -4357,7 +4357,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 return self
 
         except Exception as e:
-            self.msg = "An error occured while creating application set: {0}".format(e)
+            self.msg = "An error occurred while creating application set: {0}".format(e)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
@@ -5822,7 +5822,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "An exception occured while updating the application policy queuing profile: {0}".format(
+            self.msg = "An exception occurred while updating the application policy queuing profile: {0}".format(
                 e
             )
             self.set_operation_result(
@@ -6167,7 +6167,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "error occured while creating queuing profile: {0}".format(e)
+            self.msg = "error occurred while creating queuing profile: {0}".format(e)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
@@ -6203,7 +6203,7 @@ class ApplicationPolicy(CatalystCenterBase):
 
         if config.get("application"):
             self.msg = (
-                "The creation, updation and deletion of application are currently unavailable "
+                "The creation, update and deletion of application are currently unavailable "
                 "due to an API issue and are expected to be resolved in a future release."
             )
             self.set_operation_result("success", False, self.msg, "Info")
@@ -6598,7 +6598,7 @@ class ApplicationPolicy(CatalystCenterBase):
                 ).check_return_status()
 
         except Exception as e:
-            self.msg = "Error occured while deleting application set: {0}".format(e)
+            self.msg = "Error occurred while deleting application set: {0}".format(e)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
@@ -7086,24 +7086,25 @@ class ApplicationPolicy(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

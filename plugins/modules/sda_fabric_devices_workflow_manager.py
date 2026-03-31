@@ -6095,10 +6095,10 @@ class FabricDevices(CatalystCenterBase):
                 "INFO",
             )
             result_fabric_device_response.get("ip_l3_handoff_details").update(
-                {"updation": update_ip_l3_handoff}
+                {"update": update_ip_l3_handoff}
             )
             result_fabric_device_msg.get("ip_l3_handoff_details").update(
-                {"updation": "IP L3 Handoffs updation is successful."}
+                {"update": "IP L3 Handoffs update is successful."}
             )
 
         self.msg = "L3 Handoff(s) with IP Transit operations are successful."
@@ -7183,7 +7183,7 @@ class FabricDevices(CatalystCenterBase):
                 task_name = "delete_fabric_device_layer2_handoff_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7294,7 +7294,7 @@ class FabricDevices(CatalystCenterBase):
                 task_name = "delete_fabric_device_layer3_handoffs_with_sda_transit"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7385,7 +7385,7 @@ class FabricDevices(CatalystCenterBase):
                 task_name = "delete_fabric_device_layer3_handoff_with_ip_transit_by_id"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
                 if not task_id:
-                    self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                    self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                         task_name=task_name
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -7606,7 +7606,7 @@ class FabricDevices(CatalystCenterBase):
                             "sda", task_name, payload
                         )
                         if not task_id:
-                            self.msg = "Unable to retrive the task_id for the task '{task_name}'.".format(
+                            self.msg = "Unable to retrieve the task_id for the task '{task_name}'.".format(
                                 task_name=task_name
                             )
                             self.set_operation_result(
@@ -8233,24 +8233,25 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

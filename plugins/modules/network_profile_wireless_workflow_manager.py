@@ -221,8 +221,7 @@ requirements:
   - python >= 3.9
 notes:
   - SDK Method used are
-    wireless.create_wireless_profile
-    ,
+    wireless.create_wireless_profile,
     wireless.update_application_policy,
     wireless.get_wireless_profile,
     site_design.assign_sites,
@@ -2536,55 +2535,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         return True, None
 
-    def get_wireless_profile(self, profile_name):
-        """
-        Get wireless profile from the given playbook data and response with
-        wireless profile information with ssid details.
-
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_name (str): A string containing input data to get wireless profile
-                                for given profile name.
-
-        Returns:
-            dict or None: Dict contains wireless profile information, otherwise None.
-
-        Description:
-            This function used to get the wireless profile from the input config.
-        """
-
-        self.log("Get wireless profile for : {0}".format(profile_name), "INFO")
-        try:
-            response = self.catalystcenter._exec(
-                family="wireless",
-                function="get_wireless_profiles",
-                params={"wireless_profile_name": profile_name},
-            )
-            self.log(
-                "Response from 'get_wireless_profiles_v1' API: {0}".format(
-                    self.pprint(response)
-                ),
-                "DEBUG",
-            )
-            if not response:
-                self.log(
-                    "No wireless profile found for: {0}".format(profile_name), "INFO"
-                )
-                return None
-            self.log(
-                "Received the wireless profile response: {0}".format(
-                    self.pprint(response)
-                ),
-                "INFO",
-            )
-            return response.get("response")[0]
-
-        except Exception as e:
-            msg = "An error occurred during get wireless profile: {0}".format(str(e))
-            self.log(msg, "ERROR")
-            self.set_operation_result("failed", False, msg, "ERROR")
-            return None
-
     def get_ssid_details(self, site_id, site_name):
         """
         Get SSID details from the given playbook data and response with SSID information.
@@ -2743,7 +2693,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def parse_input_data_for_payload(self, wireless_data, payload_data):
         """
-        Parse input playbook data to payload for the profile creation and updation.
+        Parse input playbook data to payload for the profile creation and update.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -3237,7 +3187,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             input_data (dict): A dict containing playbook config of ssid info and ap zone data.
-            have_data (dict): A dict contain the data exist with specific ssid retrived data
+            have_data (dict): A dict contain the data exist with specific ssid retrieved data
             type_of (str): A string contain the ssid details or ap_zone for check data
 
         Returns:
@@ -3752,7 +3702,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Creation/Updation) of wireless profile in Cisco Catalyst Center.
+        Verify the merged status(Creation/Update) of wireless profile in Cisco Catalyst Center.
         Args:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -4953,24 +4903,25 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

@@ -1789,11 +1789,16 @@ class Tags(CatalystCenterBase):
             This method compiles a regex pattern based on the identifier type and checks if the provided device detail
             matches the pattern. If the identifier is invalid, it logs an error message and exits.
         """
+        self.log(
+            f"Starting validation for device detail: '{device_detail}' against identifier type: '{identifier}'",
+            "DEBUG",
+        )
+
         regex_pattern_map = {
             "ip_addresses": r"^(?:(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1?[0-9]?[0-9])$",  # Matches valid IPv4 addresses
             "hostnames": r"^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)(\.(?!-)[A-Za-z0-9-]{1,63}(?<!-))*$",  # Matches valid hostnames
             "mac_addresses": r"^(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}$",  # Matches valid MAC addresses
-            "serial_numbers": r"^[A-Za-z0-9]{8,12}$",  # Matches valid serial numbers (8-12 alphanumeric characters)
+            "serial_numbers": r"^[A-Za-z0-9]{8,12}(?:, [A-Za-z0-9]{8,12})*$",  # Matches serial numbers (8-12 chars), supports stack devices
         }
 
         regex_pattern_for_identifiers = regex_pattern_map.get(identifier)
@@ -1804,8 +1809,10 @@ class Tags(CatalystCenterBase):
         regex_pattern_compiled = re.compile(regex_pattern_for_identifiers)
         match_result = bool(regex_pattern_compiled.fullmatch(device_detail))
 
+        validation_status = "PASSED" if match_result else "FAILED"
         self.log(
-            f"Validating device detail '{device_detail}' with device identifier '{identifier}': Match result: {match_result}",
+            f"Device detail validation {validation_status} for '{device_detail}' "
+            f"with identifier '{identifier}' using pattern: {regex_pattern_for_identifiers}",
             "DEBUG",
         )
 
@@ -5886,24 +5893,25 @@ def main():
     """
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.9"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.9", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
