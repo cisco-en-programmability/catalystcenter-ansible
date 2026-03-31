@@ -28,7 +28,7 @@ options:
       - 2. As separate query parameters with the same name (siteId=388a23e9...&siteId=...)
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSites

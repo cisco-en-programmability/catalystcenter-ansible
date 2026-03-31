@@ -886,7 +886,7 @@ EXAMPLES = r"""
 
 
 RETURN = r"""
-# Case_1: Successful creation/updation/deletion of global pool
+# Case_1: Successful creation/update/deletion of global pool
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -897,7 +897,7 @@ response_1:
       "executionStatusUrl": "string",
       "message": "string"
     }
-# Case_2: Successful creation/updation/deletion of reserve pool
+# Case_2: Successful creation/update/deletion of reserve pool
 response_2:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -908,7 +908,7 @@ response_2:
       "executionStatusUrl": "string",
       "message": "string"
     }
-# Case_3: Successful creation/updation of network
+# Case_3: Successful creation/update of network
 response_3:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -5488,18 +5488,18 @@ class NetworkSettings(CatalystCenterBase):
                     "INFO",
                 )
 
-                updation_list = copy.deepcopy(final_update_global_pool)
-                for item in updation_list:
+                update_list = copy.deepcopy(final_update_global_pool)
+                for item in update_list:
                     if item.get("prev_name"):
                         item.pop("prev_name")
 
                 self.log(
                     "Desired global pool details (want): {0}".format(
-                        self.pprint(updation_list)
+                        self.pprint(update_list)
                     ),
                     "DEBUG",
                 )
-                for param in updation_list:
+                for param in update_list:
                     self.log(
                         "Global pool details to be updated: {0}".format(
                             self.pprint(param)
@@ -5528,13 +5528,13 @@ class NetworkSettings(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                for item in updation_list:
+                for item in update_list:
                     name = item.get("name")
                     self.log(
                         "Global pool '{0}' Updated successfully.".format(name), "INFO"
                     )
                     result_global_pool.get("response").update(
-                        {"globalPool Details": updation_list}
+                        {"globalPool Details": update_list}
                     )
                     result_global_pool.get("msg").update(
                         {name: "Global Pool Updated Successfully"}
@@ -7450,24 +7450,25 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

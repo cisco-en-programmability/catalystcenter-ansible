@@ -123,6 +123,17 @@ options:
         type: bool
         required: false
         default: true
+      config_verification_wait_time:
+        description:
+          - Time in seconds to wait before verifying the configuration deployment status.
+          - Used when config_verify is enabled to allow sufficient time for configuration to be applied.
+          - Provides a delay between configuration deployment and verification checks.
+          - Useful for large configurations or devices with slower response times.
+          - Minimum recommended value is 10 seconds.
+          - Maximum value depends on network conditions and device performance.
+          - Default behavior uses internal timing based on operation complexity.
+        type: int
+        required: false
       layer2_configuration:
         description:
           - Comprehensive Layer 2 configuration settings for the network device.
@@ -7632,7 +7643,7 @@ class WiredCampusAutomation(CatalystCenterBase):
         api_params.update(config_params)
 
         self.log(
-            "Final API parameters for udpate intent operation: {0}".format(api_params),
+            "Final API parameters for update intent operation: {0}".format(api_params),
             "DEBUG",
         )
 
@@ -14662,24 +14673,25 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

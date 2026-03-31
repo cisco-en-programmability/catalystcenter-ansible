@@ -105,7 +105,7 @@ class ActionModule(ActionBase):
         self._result["changed"] = False
         self._check_argspec()
 
-        self._result.update(dict(catalystcenter_response={}))
+        self._result.update(dict(catalystcenter_response={}, dnac_response={}))
 
         catalystcenter = CatalystCenterSDK(params=self._task.args)
 
@@ -114,6 +114,6 @@ class ActionModule(ActionBase):
             function="get_network_device_image_updates",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

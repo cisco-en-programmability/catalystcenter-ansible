@@ -26,7 +26,7 @@ options:
     description: TemplateId path parameter. The `id` of the template, retrievable from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Configuration Templates DetachAListOfNetworkProfilesFromADayNCLITemplate

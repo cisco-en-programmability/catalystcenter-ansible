@@ -156,7 +156,7 @@ options:
       - EpId path parameter. Unique identifier for the endpoint.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for AI Endpoint Analytics GetEndpointDetails

@@ -24,7 +24,7 @@ options:
       - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION_GROUP.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy GetApplicationSetCountV2

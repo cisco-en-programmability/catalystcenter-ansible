@@ -147,39 +147,47 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
 def catalystcenter_argument_spec():
     argument_spec = dict(
         catalystcenter_host=dict(
-            type="str", fallback=(env_fallback, ["CATALYSTCENTER_HOST"]), required=True
+            type="str",
+            fallback=(env_fallback, ["CATALYSTCENTER_HOST"]),
+            required=True,
+            aliases=["dnac_host"],
         ),
         catalystcenter_port=dict(
             type="int",
-            fallback=(env_fallback, ["CATALYSTCENTER_API_PORT"]),
+            fallback=(env_fallback, ["CATALYSTCENTER_PORT", "CATALYSTCENTER_API_PORT"]),
             required=False,
             default=443,
+            aliases=["dnac_port", "catalystcenter_api_port"],
         ),
         catalystcenter_username=dict(
             type="str",
             fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
             default="admin",
-            aliases=["user"],
+            aliases=["dnac_username", "user"],
         ),
         catalystcenter_password=dict(
             type="str",
             fallback=(env_fallback, ["CATALYSTCENTER_PASSWORD"]),
             no_log=True,
+            aliases=["dnac_password"],
         ),
         catalystcenter_verify=dict(
             type="bool",
             fallback=(env_fallback, ["CATALYSTCENTER_VERIFY"]),
             default=True,
+            aliases=["dnac_verify"],
         ),
         catalystcenter_version=dict(
             type="str",
             fallback=(env_fallback, ["CATALYSTCENTER_VERSION"]),
             default="3.1.6.0",
+            aliases=["dnac_version"],
         ),
         catalystcenter_debug=dict(
             type="bool",
             fallback=(env_fallback, ["CATALYSTCENTER_DEBUG"]),
             default=False,
+            aliases=["dnac_debug"],
         ),
         validate_response_schema=dict(
             type="bool",

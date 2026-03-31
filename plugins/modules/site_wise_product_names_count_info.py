@@ -32,7 +32,7 @@ options:
         search. A minimum of 3 characters are required for search.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Software Image Management (SWIM) ReturnsTheCountOfNetworkDeviceProductNamesForASite

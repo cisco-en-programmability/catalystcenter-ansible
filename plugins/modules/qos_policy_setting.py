@@ -21,7 +21,7 @@ options:
       This would be only applicable for cases where the network device is assigned to a site where a QoS policy has been configured.
     type: bool
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Application Policy UpdatesTheApplicationQoSPolicySetting

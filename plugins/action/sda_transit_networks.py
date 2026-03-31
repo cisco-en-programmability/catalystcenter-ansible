@@ -222,6 +222,6 @@ class ActionModule(ActionBase):
                         "Could not create object {e}".format(e=e._response)
                     )
 
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result

@@ -26,6 +26,13 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
+INVALID_MISSING_CONFIG_MSG = (
+    "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
+    "'The 'user_details' key is invalid for role creation, update, or deletion' or "
+    "'The 'role_details' key is invalid for user creation, update, or deletion'"
+)
+
+
 class TestDnacUserRoleWorkflowManager(TestDnacModule):
 
     module = user_role_workflow_manager
@@ -461,8 +468,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' \
-key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'",
+            INVALID_MISSING_CONFIG_MSG
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(self):
@@ -733,9 +739,8 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' \
-key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'",
+            result.get('msg'),
+            INVALID_MISSING_CONFIG_MSG
         )
 
     def test_user_role_workflow_manager_role_invalid_param_not_type_list(self):

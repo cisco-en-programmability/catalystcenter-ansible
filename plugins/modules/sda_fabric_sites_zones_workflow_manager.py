@@ -276,7 +276,7 @@ notes:
   - To ensure the module operates correctly for scaled
     sets,
     which involve creating or updating fabric
-    sites/zones and handling the updation of authentication
+    sites/zones and handling the update of authentication
     profile template,
     please provide valid input in
     the playbook. If any failure is encountered,
@@ -923,7 +923,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.create_site.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1020,7 +1020,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.update_site.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.log(self.msg, "ERROR")
@@ -1089,7 +1089,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.create_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1153,7 +1153,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.update_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while updating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.log(self.msg, "ERROR")
@@ -1675,7 +1675,7 @@ class FabricSitesZones(CatalystCenterBase):
                 "DEBUG",
             )
         except Exception as e:
-            self.msg = "An exception occured while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(
+            self.msg = "An exception occurred while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(
                 site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2065,7 +2065,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
         except Exception as e:
             self.msg = (
-                "An exception occured while enabling the Wired Data Collection for the site '{0}' "
+                "An exception occurred while enabling the Wired Data Collection for the site '{0}' "
                 "in Cisco Catalyst Center: {1}"
             ).format(site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2191,7 +2191,7 @@ class FabricSitesZones(CatalystCenterBase):
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         except Exception as e:
-            self.msg = "An exception occured while applying the pending fabric event '{0}' for site {1}: {2}".format(
+            self.msg = "An exception occurred while applying the pending fabric event '{0}' for site {1}: {2}".format(
                 event_name, site_name, str(e)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2887,24 +2887,25 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

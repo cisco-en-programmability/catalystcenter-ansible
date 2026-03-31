@@ -73,7 +73,7 @@ options:
               This field is only required when assigning or deleting real access point to/from an existing planned position.
               It is not required when creating, updating, or deleting a planned access point position itself.
               Use C(assign_planned_ap) to assign a planned access point to an actual access point.
-              Use C(manage_real_ap) to udpate or delete the real access point from the position.
+              Use C(manage_real_ap) to update or delete the real access point from the position.
             type: str
             required: false
             choices:
@@ -663,7 +663,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.result_response = {
             "accesspoint_creation": [],
-            "accesspoint_updation": [],
+            "accesspoint_update": [],
             "accesspoint_assignment": [],
             "accesspoint_deletion": [],
             "unprocessed": self.location_not_created,
@@ -2325,7 +2325,7 @@ class AccessPointLocation(CatalystCenterBase):
             - Provides detailed logging for debugging and operational visibility
         """
         self.log(
-            f"Processing access point position creation/updation for: {self.have.get('site_name')}",
+            f"Processing access point position creation/update for: {self.have.get('site_name')}",
             "INFO",
         )
 
@@ -2495,7 +2495,7 @@ class AccessPointLocation(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process planned Access Point position updation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process planned Access Point position update for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
 
@@ -2545,7 +2545,7 @@ class AccessPointLocation(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
             else:
-                self.msg = f"Unable to process real Access Point position updation for: {self.have.get('site_name')}"
+                self.msg = f"Unable to process real Access Point position update for: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
 
@@ -3289,7 +3289,7 @@ class AccessPointLocation(CatalystCenterBase):
                     + self.have.get("site_name")
                 )
             if self.location_updated:
-                self.result_response["accesspoint_updation"].append(
+                self.result_response["accesspoint_update"].append(
                     "The access point positions for "
                     + str(self.location_updated)
                     + " have been successfully updated and associated with the site "
@@ -3555,7 +3555,7 @@ class AccessPointLocation(CatalystCenterBase):
             )
 
         if self.location_updated:
-            self.result_response["accesspoint_updation"].append(
+            self.result_response["accesspoint_update"].append(
                 "The access point positions for "
                 + str(self.location_updated)
                 + " have been successfully updated and associated with the site "
@@ -3929,24 +3929,25 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

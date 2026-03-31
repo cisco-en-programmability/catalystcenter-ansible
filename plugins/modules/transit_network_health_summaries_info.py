@@ -70,7 +70,7 @@ options:
         be passed to get one or more of the specific health data summaries associated with sites.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for SDA ReadListOfTransitNetworksWithTheirHealthSummary

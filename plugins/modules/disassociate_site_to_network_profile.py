@@ -23,7 +23,7 @@ options:
     description: SiteId path parameter. Site Id to be associated.
     type: str
 requirements:
-  - catalystcentersdk >= 3.1.6.0.1
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.12
 seealso:
   - name: Cisco Catalyst Center documentation for Site Design Disassociate

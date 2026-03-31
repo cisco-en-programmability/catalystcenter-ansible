@@ -922,7 +922,7 @@ response_1:
             "userId": "string"
         }
     }
-# Case 2: Successful updation of user
+# Case 2: Successful update of user
 response_2:
   description: A dictionary with details of the API execution from Cisco Catalyst Center.
   returned: always
@@ -998,7 +998,7 @@ response_7:
             "message": "string"
         }
     }
-# Case 8: Successful updation of role
+# Case 8: Successful update of role
 response_8:
   description: A dictionary with details of the API execution from Cisco Catalyst Center.
   returned: always
@@ -1221,8 +1221,8 @@ class UserandRole(CatalystCenterBase):
 
         self.msg = (
             "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or "
-            "'The 'user_details' key is invalid for role creation, updation, or deletion' or "
-            "'The 'role_details' key is invalid for user creation, updation, or deletion'"
+            "'The 'user_details' key is invalid for role creation, update, or deletion' or "
+            "'The 'role_details' key is invalid for user creation, update, or deletion'"
         )
         self.log(self.msg, "ERROR")
         self.status = "failed"
@@ -1662,7 +1662,7 @@ class UserandRole(CatalystCenterBase):
 
     def get_want(self, config):
         """
-        Retrieve all user or role-related information from the playbook needed for creation/updation in Cisco Catalyst Center.
+        Retrieve all user or role-related information from the playbook needed for creation/update in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): A dictionary containing user or role information.
@@ -4077,7 +4077,7 @@ class UserandRole(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status (Creation/Updation) of user or role details in Cisco Catalyst Center.
+        Verify the merged status (Creation/Update) of user or role details in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified, containing keys like "role_name", "username", and "email".
@@ -4429,25 +4429,26 @@ def main():
     """main entry point for module execution"""
     # Basic Ansible type check or assign default.
     user_role_details = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
         "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
         "config": {"required": True, "type": "dict"},

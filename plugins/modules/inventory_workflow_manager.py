@@ -1413,6 +1413,7 @@ class Inventory(CatalystCenterBase):
         ) = ([], [], [])
         self.cred_updated_not_required, self.device_role_already_updated = [], []
         self.ap_rebooted_successfully = []
+        self.udf_already_added = []
 
     def validate_input(self):
         """
@@ -1616,7 +1617,7 @@ class Inventory(CatalystCenterBase):
                     "Received API response from 'get_device_list': {0}".format(
                         str(response)
                     ),
-                    "DEBUG",
+                    "error",
                 )
                 if not response:
                     self.log(
@@ -3270,7 +3271,7 @@ class Inventory(CatalystCenterBase):
             )
 
         except Exception as e:
-            self.msg = """An exception occured while fetching the details for wireless provisioning of
+            self.msg = """An exception occurred while fetching the details for wireless provisioning of
                 device '{0}' due to - {1}""".format(
                 device_ip_address, str(e)
             )
@@ -4292,11 +4293,11 @@ class Inventory(CatalystCenterBase):
                                 self.status = "failed"
                                 failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
-                                    self.msg = "Interface Updation get failed because of {0}".format(
+                                    self.msg = "Interface Update get failed because of {0}".format(
                                         failure_reason
                                     )
                                 else:
-                                    self.msg = "Interface Updation get failed"
+                                    self.msg = "Interface Update get failed"
                                 self.log(self.msg, "ERROR")
                                 self.result["response"] = self.msg
                                 break
@@ -4308,7 +4309,7 @@ class Inventory(CatalystCenterBase):
                     self.log(error_message, "INFO")
                     self.status = "success"
                     self.result["changed"] = False
-                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Updation required"
+                    self.msg = "Port actions are only supported on user facing/access ports as it's not allowed or No Update required"
                     self.log(self.msg, "INFO")
                     self.response_list.append(self.msg)
 
@@ -4343,11 +4344,11 @@ class Inventory(CatalystCenterBase):
                 self.status = "failed"
                 failure_reason = execution_details.get("failureReason")
                 if failure_reason:
-                    self.msg = "Device new management IP updation for device '{0}' get failed due to {1}".format(
+                    self.msg = "Device new management IP update for device '{0}' get failed due to {1}".format(
                         device_ip, failure_reason
                     )
                 else:
-                    self.msg = "Device new management IP updation for device '{0}' get failed".format(
+                    self.msg = "Device new management IP update for device '{0}' get failed".format(
                         device_ip
                     )
                 self.log(self.msg, "ERROR")
@@ -4393,12 +4394,12 @@ class Inventory(CatalystCenterBase):
                 failure_reason = execution_details.get("failureReason")
                 if failure_reason:
                     self.msg = (
-                        "Device Updation for device '{0}' get failed due to {1}".format(
+                        "Device Update for device '{0}' get failed due to {1}".format(
                             device_ip, failure_reason
                         )
                     )
                 else:
-                    self.msg = "Device Updation for device '{0}' get failed".format(
+                    self.msg = "Device Update for device '{0}' get failed".format(
                         device_ip
                     )
                 self.log(self.msg, "ERROR")
@@ -5161,7 +5162,7 @@ class Inventory(CatalystCenterBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
+                "An exception occurred while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(device_ips, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -5283,7 +5284,7 @@ class Inventory(CatalystCenterBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while checking the scheduling the maintenance for the device '{0}' "
+                "An exception occurred while checking the scheduling the maintenance for the device '{0}' "
                 " needs update or not in the Cisco Catalyst Center: {1}"
             ).format(device_ip, str(e))
             self.log(self.msg, "ERROR")
@@ -5615,7 +5616,7 @@ class Inventory(CatalystCenterBase):
 
         except Exception as e:
             self.msg = (
-                "An exception occured while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
+                "An exception occurred while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
                 "Center: {1}"
             ).format(device_ip, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -6237,17 +6238,27 @@ class Inventory(CatalystCenterBase):
 
         if self.config[0].get("role"):
             devices_to_update_role = self.get_device_ips_from_config_priority()
-            device_exist = self.is_device_exist_for_update(devices_to_update_role)
+            # Only validate device existence if we are NOT also adding devices in this run.
+            # When devices are being added in the same playbook run, the role update will
+            # happen after the device add operation completes.
+            if not devices_to_add:
+                device_exist = self.is_device_exist_for_update(devices_to_update_role)
 
-            if not device_exist:
-                self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
-                            Catalyst Center.""".format(
-                    str(devices_to_update_role)
+                if not device_exist:
+                    self.msg = """Unable to update device role because the device(s) listed: {0} are not present in the Cisco
+                                Catalyst Center.""".format(
+                        str(devices_to_update_role)
+                    )
+                    self.status = "failed"
+                    self.result["response"] = self.msg
+                    self.log(self.msg, "ERROR")
+                    return self
+            else:
+                self.log(
+                    "Skipping role pre-validation for device(s) {0} as they are being added in this run. "
+                    "Role will be updated after device addition.".format(str(devices_to_update_role)),
+                    "INFO",
                 )
-                self.status = "failed"
-                self.result["response"] = self.msg
-                self.log(self.msg, "ERROR")
-                return self
 
         if credential_update:
             device_to_update = self.get_device_ips_from_config_priority()
@@ -6380,7 +6391,7 @@ class Inventory(CatalystCenterBase):
                             execution_details = self.get_task_details(task_id)
                             progress = execution_details.get("progress")
 
-                            if "successfully" in progress or "succesfully" in progress:
+                            if "successfully" in progress or "successfully" in progress:
                                 self.status = "success"
                                 self.log(
                                     "Device '{0}' role updated successfully to '{1}'".format(
@@ -6395,11 +6406,11 @@ class Inventory(CatalystCenterBase):
                                 self.status = "failed"
                                 failure_reason = execution_details.get("failureReason")
                                 if failure_reason:
-                                    self.msg = "Device role updation get failed because of {0}".format(
+                                    self.msg = "Device role update get failed because of {0}".format(
                                         failure_reason
                                     )
                                 else:
-                                    self.msg = "Device role updation get failed"
+                                    self.msg = "Device role update get failed"
                                 self.log(self.msg, "ERROR")
                                 self.result["response"] = self.msg
                                 break
@@ -6620,15 +6631,22 @@ class Inventory(CatalystCenterBase):
                     self.log(self.msg, "INFO")
                     return self
 
-                # Now add code for adding Global UDF to device with Id
-                self.add_field_to_devices(device_ids, udf).check_return_status()
+                check_udf_added_to_device = self.check_udf_added_to_device(device_ids, field_name)
 
-                self.result["changed"] = True
-                self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
-                    field_name
-                )
-                self.udf_added.append(field_name)
-                self.log(self.msg, "INFO")
+                if not check_udf_added_to_device:
+                    # Now add code for adding Global UDF to device with Id
+                    self.add_field_to_devices(device_ids, udf).check_return_status()
+                    self.result["changed"] = True
+                    self.msg = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format(
+                        field_name
+                    )
+                    self.udf_added.append(field_name)
+                else:
+                    self.result["changed"] = False
+                    self.msg = "Global User Defined Field(UDF) named '{0}' is already added to the device.".format(
+                        field_name
+                    )
+                    self.udf_already_added.append(field_name)
 
         # Once Wired device get added we will assign device to site and Provisioned it
         if self.config[0].get("provision_wired_device"):
@@ -6889,6 +6907,52 @@ class Inventory(CatalystCenterBase):
                     self.no_update_in_maintenance.remove(device_ip)
 
         return self
+
+    def check_udf_added_to_device(self, device_ids, udf_field_name):
+        """
+        Check whether a user-defined field (UDF) exists on a specific device.
+
+        Parameters:
+            device_ids (list): List of device UUIDs. The first ID is used for lookup.
+            udf_field_name (str): UDF key name to verify on the device.
+
+        Returns:
+            bool: `True` if the UDF key exists on the device, otherwise `False`.
+
+        Description:
+            This method fetches device details from Cisco Catalyst Center using
+            `retrieve_network_devices` with `USER_DEFINED_FIELDS` view, then checks
+            whether the requested UDF key is present in the device's
+            `userDefinedFields` dictionary.
+        """
+        self.log("Checking if UDF '{0}' is already added to the device with ID '{1}'".format(udf_field_name, device_ids[0]), "DEBUG")
+        device_id = device_ids[0]
+        api_response = self.catalystcenter._exec(
+            family="devices",
+            function="retrieve_network_devices",
+            op_modifies=True,
+            params={"id": device_id, "views": "USER_DEFINED_FIELDS"},
+        )
+
+        self.log(
+            "Received API response from 'retrieve_network_devices': {0}".format(
+                str(api_response)
+            ),
+            "DEBUG",
+        )
+        self.log("UDF to be added: {0}".format(udf_field_name), "DEBUG")
+
+        devices = api_response.get("response", [])
+        user_defined_fields = (
+            devices[0].get("userDefinedFields", {})
+            if devices and isinstance(devices[0], dict)
+            else {}
+        )
+
+        udf_exists = udf_field_name in user_defined_fields
+        self.log("UDF exists: {0}".format(udf_exists), "DEBUG")
+
+        return udf_exists
 
     def get_diff_deleted(self, config):
         """
@@ -7326,7 +7390,7 @@ class Inventory(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Verify the merged status(Addition/Updation) of Devices in Cisco Catalyst Center.
+        Verify the merged status(Addition/Update) of Devices in Cisco Catalyst Center.
         Parameters:
             - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             - config (dict): The configuration details to be verified.
@@ -7402,7 +7466,7 @@ class Inventory(CatalystCenterBase):
                 self.log(msg, "INFO")
             else:
                 self.log(
-                    "Playbook parameter does not match with Cisco Catalyst Center, meaning device updation task not executed properly.",
+                    "Playbook parameter does not match with Cisco Catalyst Center, meaning device update task not executed properly.",
                     "INFO",
                 )
         elif device_type != "NETWORK_DEVICE":
@@ -7494,7 +7558,7 @@ class Inventory(CatalystCenterBase):
                 else:
                     self.log(
                         "Mismatch between playbook parameter for creating/updating the maintenance schedule for"
-                        "  the device(s) {0}, indicating that the maintenance schedule creation/updation task may "
+                        "  the device(s) {0}, indicating that the maintenance schedule creation/update task may "
                         "not have executed successfully.".format(device_ips),
                         "WARNING",
                     )
@@ -7716,6 +7780,12 @@ class Inventory(CatalystCenterBase):
             )
             result_msg_list_changed.append(udf_added)
 
+        if self.udf_already_added:
+            udf_already_added = "Global User Defined Field(UDF) named '{0}' has already been added to the device.".format(
+                "', '".join(self.udf_already_added)
+            )
+            result_msg_list_not_changed.append(udf_already_added)
+
         if self.ap_rebooted_successfully:
             ap_rebooted_successfully = "AP Device(s) {0} successfully rebooted!".format(
                 "', '".join(self.ap_rebooted_successfully)
@@ -7832,24 +7902,26 @@ def main():
         "catalystcenter_host": {
             "type": "str",
             "required": True,
+            "aliases": ["dnac_host"],
         },
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

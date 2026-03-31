@@ -88,6 +88,6 @@ class ActionModule(ActionBase):
             function="unassigns_a_network_profile_for_sites_from_multiple_sites",
             params=self.get_object(self._task.args),
         )
-        self._result.update(dict(catalystcenter_response=response))
+        self._result.update(dict(catalystcenter_response=response, dnac_response=response))
         self._result.update(catalystcenter.exit_json())
         return self._result
