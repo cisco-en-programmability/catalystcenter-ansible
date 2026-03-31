@@ -42,7 +42,7 @@ cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update module -- R
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.5.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -85,7 +85,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- catalystcentersdk \>= 3.1.6.0.1
+- catalystcentersdk \>= 3.1.6.0.2
 - python \>= 3.12
 
 
@@ -400,8 +400,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_debug"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_debug:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_debug:
 
       .. rst-class:: ansible-option-title
 
@@ -410,6 +412,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_debug`
 
       .. rst-class:: ansible-option-type-line
 
@@ -442,8 +448,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_host"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_host:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_host:
 
       .. rst-class:: ansible-option-title
 
@@ -452,6 +460,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_host`
 
       .. rst-class:: ansible-option-type-line
 
@@ -476,8 +488,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_password"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_password:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_password:
 
       .. rst-class:: ansible-option-title
 
@@ -486,6 +500,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_password`
 
       .. rst-class:: ansible-option-type-line
 
@@ -510,8 +528,12 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+        <div class="ansibleOptionAnchor" id="parameter-catalystcenter_api_port"></div>
 
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_api_port:
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_port:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_port:
 
       .. rst-class:: ansible-option-title
 
@@ -520,6 +542,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_port, catalystcenter_api_port`
 
       .. rst-class:: ansible-option-type-line
 
@@ -548,8 +574,12 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_username:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-user:
 
       .. rst-class:: ansible-option-title
 
@@ -558,6 +588,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_username, user`
 
       .. rst-class:: ansible-option-type-line
 
@@ -586,8 +620,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_verify"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_verify:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_verify:
 
       .. rst-class:: ansible-option-title
 
@@ -596,6 +632,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_verify`
 
       .. rst-class:: ansible-option-type-line
 
@@ -628,8 +668,10 @@ Parameters
 
         <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-catalystcenter_version"></div>
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-catalystcenter_version:
+      .. _ansible_collections.cisco.catalystcenter.sites_site_id_wireless_settings_ssids_id_update_module__parameter-dnac_version:
 
       .. rst-class:: ansible-option-title
 
@@ -638,6 +680,10 @@ Parameters
       .. raw:: html
 
         <a class="ansibleOptionLink" href="#parameter-catalystcenter_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: dnac_version`
 
       .. rst-class:: ansible-option-type-line
 
