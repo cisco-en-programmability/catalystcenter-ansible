@@ -2,18 +2,25 @@ releases:
   2.7.0:
     release_date: "2026-04-27"
     changes:
-      release_summary: Added 69 Ansible roles for simplified workflow management and configuration generation.
+      release_summary: Added 69 Ansible roles and 70+ Cisco Validated Playbooks (CVP) for comprehensive Catalyst Center automation.
       major_changes:
         - Added 39 workflow manager roles wrapping workflow_manager modules for streamlined configuration management
         - Added 30 config generator roles wrapping playbook_config_generator modules for configuration extraction
+        - Added 70+ Cisco Validated Playbooks (CVP) - production-ready automation solutions
+        - CVP includes complete playbooks, vars, schemas, images, and comprehensive documentation
         - Roles provide higher-level abstraction with sensible defaults for common Catalyst Center operations
         - All roles follow standard ansible-galaxy role structure with comprehensive documentation
         - Each role includes tasks, defaults, meta, handlers, tests, and detailed README
+        - CVP validated by Cisco for production deployments across all major use cases
       minor_changes:
         - Added ROLES_GUIDE.md for comprehensive role usage documentation
+        - Added CVP_GUIDE.md for Cisco Validated Playbooks documentation
+        - Added cvp/README.md as CVP catalog and index
         - Added playbooks/example_roles_playbook.yml demonstrating role usage patterns
-        - Updated main README.md with Ansible Roles section
+        - Updated main README.md with Ansible Roles and CVP sections
         - Roles support all connection parameters with backward compatibility
+        - CVP includes Jinja2 templates for bulk operations where applicable
+        - CVP includes YAML schemas for input validation
   1.0.0:
     release_date: "2024-11-04"
     changes:

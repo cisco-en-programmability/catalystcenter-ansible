@@ -195,6 +195,59 @@ Roles reduce boilerplate by providing sensible defaults for connection parameter
 For detailed role documentation, examples, and best practices, see [ROLES_GUIDE.md](ROLES_GUIDE.md) and the [example roles playbook](playbooks/example_roles_playbook.yml).
 
 
+## CVP - Cisco Validated Playbooks
+
+This collection includes **70+ Cisco Validated Playbooks (CVP)** - production-ready, comprehensive automation solutions validated by Cisco.
+
+### What is CVP?
+
+CVP provides complete automation solutions including:
+- ✅ Ready-to-run Ansible playbooks
+- ✅ Example variable files with realistic configurations
+- ✅ YAML schemas for input validation
+- ✅ Detailed documentation with screenshots
+- ✅ Jinja2 templates for bulk operations
+- ✅ Cisco validation and testing
+
+### Quick Start with CVP
+
+```bash
+# Install collection (includes CVPs)
+ansible-galaxy collection install cisco.catalystcenter
+
+# CVPs are installed to:
+# ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/
+
+# Copy a CVP to your project
+cp -r ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_hierarchy my-project/
+
+# Customize and run
+cd my-project/site_hierarchy
+vi vars/site_hierarchy_design_vars.yml
+ansible-playbook playbook/site_hierarchy_playbook.yml
+```
+
+### CVP Categories
+
+- **Network Design**: Site hierarchy, network settings, wireless design
+- **Device Management**: Discovery, credentials, inventory, provisioning
+- **SDA Fabric**: Fabric sites, host onboarding, virtual networks, transits
+- **Assurance**: Issue management, path trace, health scores
+- **Security**: ISE integration, application policies
+- **Operations**: Backup/restore, compliance, SWIM, RMA
+
+### CVP vs Roles vs Playbooks
+
+| Approach | Use Case | Location |
+|----------|----------|----------|
+| **Modules** | Custom automation | Direct module calls |
+| **Roles** | Reusable components | `roles/site` |
+| **Playbooks** | Quick examples | `playbooks/tag.yml` |
+| **CVP** | Production deployments | `cvp/site_hierarchy/` ⭐ |
+
+For complete CVP documentation, catalog, and usage examples, see [CVP_GUIDE.md](CVP_GUIDE.md) and [cvp/README.md](cvp/README.md).
+
+
 ## Use Cases
 
 

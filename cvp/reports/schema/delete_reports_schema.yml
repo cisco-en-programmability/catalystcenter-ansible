@@ -1,0 +1,32 @@
+---
+# Delete Reports Schema
+# This schema defines the structure and validation rules for deleting reports
+
+# Catalyst Center Connection Parameters
+catalyst_center_version: str(required=False)
+catalyst_center_verify: bool(required=False)
+catalyst_center_api_task_timeout: int(required=False, default=1200)
+catalyst_center_debug: bool(required=False, default=False)
+catalyst_center_log: bool(required=False, default=False)
+catalyst_center_log_append: bool(required=False, default=True)
+catalyst_center_log_file_path: str(required=False, default='dnac.log')
+catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
+
+# Main Configuration
+reports_details: list(include('report_config_type'), min=1, max=100, required=True)
+
+---
+# Report Configuration Type
+report_config_type:
+  generate_report: list(include('delete_report_type'), required=True)
+
+---
+# Delete Report Type - Minimal required fields for deletion
+delete_report_type:
+  name: str(required=True)
+  view_group_name: str(required=True)
+  view: include('delete_view_type', required=True)
+
+# Delete View Type - Only view_name is required for deletion
+delete_view_type:
+  view_name: str(required=True)
