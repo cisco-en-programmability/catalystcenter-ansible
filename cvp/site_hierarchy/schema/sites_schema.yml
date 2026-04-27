@@ -1,0 +1,44 @@
+#https://github.com/23andMe/Yamale
+design_sites: list( include('site_type'), min=0, max=6000)
+catalyst_center_version: str(required=False)
+catalyst_center_verify: bool(required=False)
+catalyst_center_api_task_timeout: int(required=False, default=1200)
+catalyst_center_debug: bool(required=False, default=False)
+catalyst_center_log: bool(required=False, default=False)
+catalyst_center_log_append: bool(required=False, default=True)
+catalyst_center_log_file_path: str(required=False, default='dnac.log')
+catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
+catalyst_center_config_verify: bool(required=False)
+jinjatemplate: bool(required=False)
+jinjatemplate_file: str(required=False)
+---
+site_type: 
+  site: any('area_type','building_type','floor_type')
+  type: str()
+
+area_type:
+  area:
+    name: str()
+    parent_name: str()
+
+building_type:
+  building:
+    name: str()
+    parent_name: str()
+    address: str()
+    latitude: num()
+    longitude: num()
+    country: str()
+
+floor_type:
+  floor:
+    name: str()
+    floor_number: num(required=True)
+    parent_name: str()
+    rf_model: str(include('Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling', 'Outdoor Open Space'))
+    width: num()
+    length: num()
+    height: num()
+    upload_floor_image_path: str(required=False)
+    units_of_measure: str(include('feet','meters'), required=False)
+    force_upload_floor_image: bool(required=False)

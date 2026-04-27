@@ -1,0 +1,80 @@
+#====================================================================
+# Yamale validation schema for application_policy
+# This schema is used to validate the input data for the application policy workflow
+catalyst_center_version: str(required=False)
+catalyst_center_verify: bool(required=False)
+catalyst_center_api_task_timeout: int(required=False, default=1200)
+catalyst_center_debug: bool(required=False, default=False)
+catalyst_center_log: bool(required=False, default=False)
+catalyst_center_log_append: bool(required=False, default=True)
+catalyst_center_log_file_path: str(required=False, default='dnac.log')
+catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
+catalyst_center_config_verify: bool(required=False)
+application_policy_details: list(include('application_policy_details_type'), required=True, min=0, max=500)
+
+---
+application_policy_details_type:
+  queuing_profile: list(include('queuing_profile_type'), required=False)
+  application_policy: list(include('application_policy_type'), required=False)
+
+queuing_profile_type:
+  profile_name: str(required=True)
+  new_profile_name: str(required=False)
+  profile_description: str(required=False)
+  new_profile_description: str(required=False)
+  bandwidth_settings: include('bandwidth_settings_type', required=False)
+  dscp_settings:
+    transactional_data: str(required=False)
+    best_effort: str(required=False)
+    voip_telephony: str(required=False)
+    multimedia_streaming: str(required=False)
+    real_time_interactive: str(required=False)
+    multimedia_conferencing: str(required=False)
+    signaling: str(required=False)
+    scavenger: str(required=False)
+    ops_admin_mgmt: str(required=False)
+    broadcast_video: str(required=False)
+    network_control: str(required=False)
+    bulk_data: str(required=False)
+
+bandwidth_settings_type:
+  is_common_between_all_interface_speeds: bool(required=False)
+  interface_speed_settings: list(include('interface_speed_settings_type'), required=False)
+
+interface_speed_settings_type:
+  interface_speed: enum("ALL", "HUNDRED_GBPS", "TEN_GBPS", "ONE_GBPS", "HUNDRED_MBPS", "TEN_MBPS", "ONE_MBPS", required=False)
+  bandwidth_percentages: include('bandwidth_percentages_type', required=False)
+
+bandwidth_percentages_type:
+  transactional_data: str(required=False)
+  best_effort: str(required=False)
+  voip_telephony: str(required=False)
+  multimedia_streaming: str(required=False)
+  real_time_interactive: str(required=False)
+  multimedia_conferencing: str(required=False)
+  signaling: str(required=False)
+  scavenger: str(required=False)
+  ops_admin_mgmt: str(required=False)
+  broadcast_video: str(required=False)
+  network_control: str(required=False)
+  bulk_data: str(required=False)
+
+application_policy_type:
+  name: str(required=True)
+  policy_status: enum("NONE", "DELETED", "RESTORED", required=False)
+  site_names: list(str(), required=False)
+  device_type: str(required=True)
+  ssid_name: str(required=False)
+  application_queuing_profile_name: str(required=False)
+  clause: list(include('clause_details_type'), required=False)
+
+clause_details_type:
+  clause_type: enum("BUSINESS_RELEVANCE", "APPLICATION_POLICY_KNOBS", required=False)
+  relevance_details: list(include('relevance_details_type'), required=False)
+
+relevance_details_type:
+  relevance: enum("BUSINESS_RELEVANT", "BUSINESS_IRRELEVANT", "DEFAULT", required=False)
+  application_set_name: list(str(), required=False)
+#====================================================================
+#   End of schema
+#====================================================================

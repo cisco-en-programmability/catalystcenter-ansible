@@ -10,6 +10,7 @@ authors:
   - Bryan Vargas <bvargas@cloverhound.com>
   - Francisco Muñoz <fmunoz@cloverhound.com>
   - Madhan Sankaranarayanan <madsanka@cisco.com>
+  - Pawan Singh <pawansi@cisco.com>
   - Rishita Chowdhary (@rishitachowdhary)
   - Muthu Rakesh Babu <mutbabu@cisco.com>
   - Akash Bhaskaran <akabhask@cisco.com>
@@ -20,7 +21,7 @@ authors:
   - Rangaprabhu Deenadayalu <radeenad@cisco.com>
   - Ajith Andrew J <jajandre@cisco.com>
   - Syed Khadeer Ahmed <syedkahm@cisco.com>
-description: Ansible Modules for Cisco CATALYST Center
+description: Ansible Modules, Roles, and Cisco Validated Playbooks (CVP) for Cisco CATALYST Center automation
 license_file: "LICENSE"
 tags:
   - cisco
@@ -56,3 +57,7 @@ build_ignore:
   - test-requirements.txt
 
   - cisco-catalystcenter-*.tar.gz
+  
+  - cvp/*/tmp/
+  - cvp/*/*.log
+  - cvp/*/.DS_Store
