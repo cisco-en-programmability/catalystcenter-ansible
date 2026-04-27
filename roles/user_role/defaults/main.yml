@@ -1,0 +1,15 @@
+---
+# defaults file for user_role
+catalystcenter_host: ""
+catalystcenter_username: ""
+catalystcenter_password: ""
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
+catalystcenter_debug: false
+catalystcenter_log_level: "INFO"
+catalystcenter_log: false
+
+user_role_state: merged
+user_role_config_verify: false
+user_role_config: []

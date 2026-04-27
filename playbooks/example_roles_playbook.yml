@@ -1,0 +1,105 @@
+---
+# Example playbook demonstrating how to use Catalyst Center Ansible roles
+- name: Catalyst Center Configuration Management
+  hosts: localhost
+  gather_facts: false
+  
+  vars:
+    # Connection parameters - use Ansible Vault for sensitive data
+    catalystcenter_host: "{{ vault_catalystcenter_host }}"
+    catalystcenter_username: "{{ vault_catalystcenter_username }}"
+    catalystcenter_password: "{{ vault_catalystcenter_password }}"
+    catalystcenter_verify: false
+    catalystcenter_port: 443
+    catalystcenter_version: "2.3.7.6"
+    catalystcenter_debug: false
+    catalystcenter_log_level: "INFO"
+    catalystcenter_log: true
+
+  tasks:
+    # Example 1: Create Site Hierarchy
+    - name: Configure Sites
+      ansible.builtin.include_role:
+        name: site
+      vars:
+        site_config:
+          - site_type: area
+            site:
+              area:
+                name: "USA"
+                parent_name: "Global"
+          - site_type: building
+            site:
+              building:
+                name: "Building1"
+                parent_name: "Global/USA"
+                address: "123 Main St, San Jose, CA"
+                latitude: 37.338
+                longitude: -121.832
+
+    # Example 2: Configure Network Settings
+    - name: Configure Network Settings
+      ansible.builtin.include_role:
+        name: network_settings
+      vars:
+        network_settings_config:
+          - site_name: "Global/USA/Building1"
+            dhcp_server:
+              - "10.0.0.1"
+            dns_server:
+              primary_dns_server: "8.8.8.8"
+              secondary_dns_server: "8.8.4.4"
+
+    # Example 3: Configure Device Credentials
+    - name: Configure Device Credentials
+      ansible.builtin.include_role:
+        name: device_credential
+      vars:
+        device_credential_config:
+          - cli_credential:
+              username: "admin"
+              password: "{{ vault_device_password }}"
+              enable_password: "{{ vault_device_enable_password }}"
+
+    # Example 4: Discover Devices
+    - name: Discover Network Devices
+      ansible.builtin.include_role:
+        name: discovery
+      vars:
+        discovery_config:
+          - discovery_name: "Building1-Discovery"
+            discovery_type: "Range"
+            ip_address_list: "10.1.1.0/24"
+            protocol_order: "ssh"
+
+    # Example 5: Provision Devices
+    - name: Provision Devices
+      ansible.builtin.include_role:
+        name: provision
+      vars:
+        provision_config:
+          - device_ip: "10.1.1.10"
+            site_name: "Global/USA/Building1"
+
+    # Example 6: Configure Templates
+    - name: Configure Configuration Templates
+      ansible.builtin.include_role:
+        name: template
+      vars:
+        template_config:
+          - template_name: "Interface-Config"
+            project_name: "Onboarding"
+            template_content: |
+              interface GigabitEthernet1/0/1
+                description Configured by Ansible
+                no shutdown
+
+    # Example 7: Manage Tags
+    - name: Configure Tags
+      ansible.builtin.include_role:
+        name: tags
+      vars:
+        tags_config:
+          - tag_name: "Production"
+            tag_members:
+              - "10.1.1.10"
