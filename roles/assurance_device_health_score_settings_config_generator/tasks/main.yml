@@ -1,0 +1,23 @@
+---
+# tasks file for assurance_device_health_score_settings_config_generator
+- name: Generate Assurance Device Health Score Settings playbook configuration
+  cisco.catalystcenter.assurance_device_health_score_settings_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: "{{ catalystcenter_log }}"
+    state: "{{ assurance_device_health_score_settings_config_generator_state }}"
+    file_path: "{{ assurance_device_health_score_settings_config_generator_file_path if assurance_device_health_score_settings_config_generator_file_path is not none else omit }}"
+    file_mode: "{{ assurance_device_health_score_settings_config_generator_file_mode }}"
+    config: "{{ assurance_device_health_score_settings_config_generator_config if assurance_device_health_score_settings_config_generator_config is not none else omit }}"
+  register: assurance_device_health_score_settings_config_generator_result
+
+- name: Display Assurance Device Health Score Settings generator result
+  ansible.builtin.debug:
+    var: assurance_device_health_score_settings_config_generator_result
+  when: catalystcenter_debug | default(false)

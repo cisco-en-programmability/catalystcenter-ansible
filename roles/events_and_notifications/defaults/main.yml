@@ -1,0 +1,15 @@
+---
+# defaults file for events_and_notifications
+catalystcenter_host: ""
+catalystcenter_username: ""
+catalystcenter_password: ""
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
+catalystcenter_debug: false
+catalystcenter_log_level: "INFO"
+catalystcenter_log: false
+
+events_and_notifications_state: merged
+events_and_notifications_config_verify: false
+events_and_notifications_config: []

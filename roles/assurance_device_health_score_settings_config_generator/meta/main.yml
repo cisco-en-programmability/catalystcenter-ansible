@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Cisco Systems
+  description: Ansible role for generating Catalyst Center Assurance Device Health Score Settings playbook inputs
+  company: Cisco Systems
+  license: GPL-3.0-or-later
+  min_ansible_version: "2.14"
+  platforms:
+    - name: Any
+      versions:
+        - all
+  galaxy_tags:
+    - cisco
+    - catalystcenter
+    - networking
+    - automation
+    - generator
+
+dependencies: []
