@@ -34,12 +34,7 @@ network_settings_config_generator_type:
 ---
 # Network Settings Component Filters Schema
 network_settings_component_filters_type:
-  components_list: list(
-    enum('global_pool_details', 'reserve_pool_details', 'network_management_details', 'device_controllability_details'),
-    min=1,
-    max=4,
-    required=False
-  )
+  components_list: list(enum('global_pool_details', 'reserve_pool_details', 'network_management_details', 'device_controllability_details'), min=1, max=4, required=False)
   global_pool_details: list(include('global_pool_filter_type'), min=1, max=500, required=False)
   reserve_pool_details: list(include('reserve_pool_filter_type'), min=1, max=500, required=False)
   network_management_details: list(include('network_management_filter_type'), min=1, max=500, required=False)
