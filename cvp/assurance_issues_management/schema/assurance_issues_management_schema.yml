@@ -124,7 +124,7 @@ assurance_system_issue_settings_type:
   start_datetime: str(required=False)
   end_datetime: str(required=False)
   site_hierarchy: str(required=False)
-  priority: enum("P1", "P2", "P3", "P4", required=False)
+  # DUPLICATE KEY - REMOVED: priority: enum("P1", "P2", "P3", "P4", required=False)
   issue_status: enum("ACTIVE", "RESOLVED", "IGNORED", required=False)
   device_name: str(required=False)
   mac_address: str(required=False)

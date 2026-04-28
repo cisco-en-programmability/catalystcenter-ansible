@@ -369,4 +369,3 @@ fabric_site_locations_type_vlan_or_gw:
 fabric_site_locations_type_vn:
   site_name_hierarchy: str(required=False)
   fabric_type: str(required=False, default="fabric_site")
-

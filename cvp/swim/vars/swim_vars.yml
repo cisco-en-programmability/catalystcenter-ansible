@@ -32,13 +32,13 @@ swim_details:
     - tagging_details:
         image_name: cat9k_iosxe.BLD_V1712_THROTTLE_LATEST_20230427_143746.SSA.bin
         device_role: ALL
-        device_image_family_name : Cisco Catalyst 9300 Switch
+        device_image_family_name: Cisco Catalyst 9300 Switch
         site_name: Global/USA/SAN JOSE/BLD23
         tagging: true
     - tagging_details:
         image_name: cat9k_iosxe.BLD_V1712_THROTTLE_LATEST_20230427_143746.SSA.bin
         device_role: ALL
-        device_image_family_name : Cisco Catalyst 9407R Switch-Cisco Catalyst 9400X Supervisor Engine-2XL
+        device_image_family_name: Cisco Catalyst 9407R Switch-Cisco Catalyst 9400X Supervisor Engine-2XL
         site_name: Global/USA/SAN JOSE/BLD23
         tagging: true
 

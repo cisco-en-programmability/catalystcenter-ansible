@@ -555,4 +555,3 @@ rrm_general_feature_attributes_type:
   neighbor_discover_type: enum("NEIGHBOR_DISCOVER_TYPE_TRANSPARENT", "NEIGHBOR_DISCOVER_TYPE_PROTECTED", required=False)
   throughput_threshold: int(required=False)
   coverage_hole_detection: bool(required=False, default=False)
-

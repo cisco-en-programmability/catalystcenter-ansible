@@ -59,4 +59,3 @@
         - "{{ item }}"
       loop: "{{ swim_details.delete_images }}"
       when: swim_details.delete_images is defined
-
