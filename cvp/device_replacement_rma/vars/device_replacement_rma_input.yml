@@ -11,4 +11,3 @@ rma_devices:
   #   replacement_device_serial_number: "FCW2225C020"
   # - faulty_device_ip_address: "204.192.3.40"
   #   replacement_device_ip_address: "204.1.2.5"
-

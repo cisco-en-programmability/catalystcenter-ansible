@@ -329,4 +329,3 @@ ssid_details_type:
   security_group_name: str(required=False)
 
 # The Cisco Catalyst Center schema for the SD-Access Host Onboarding playbook.
-
