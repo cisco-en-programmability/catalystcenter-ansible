@@ -6,12 +6,12 @@ After you have created a fabric site, you can add devices to the fabric site. Yo
 
 You can add a new device to the fabric site only if IP Device Tracking (IPDT) is configured for the fabric site.
 
-A device that is assigned the Access role and has been provisioned before enabling IPDT on the site can’t be added to the fabric. Reprovision such devices before adding them to the fabric site. Check the Provision workflow to confirm the status of Deployment of IPDT on the device.
+A device that is assigned the Access role and has been provisioned before enabling IPDT on the site can't be added to the fabric. Reprovision such devices before adding them to the fabric site. Check the Provision workflow to confirm the status of Deployment of IPDT on the device.
 
 
 Note:
 
-> It’s optional to designate the devices in a fabric site as control plane nodes or border nodes. You might have devices that don’t occupy these roles. However, every fabric site must have at least one control plane node device and one border node device. In the current release for wired fabric, you can add up to six control plane nodes for redundancy.
+> It's optional to designate the devices in a fabric site as control plane nodes or border nodes. You might have devices that don't occupy these roles. However, every fabric site must have at least one control plane node device and one border node device. In the current release for wired fabric, you can add up to six control plane nodes for redundancy.
 
 Currently, the Cisco Wireless Controller communicates only with two control plane nodes.
 
@@ -31,7 +31,7 @@ For more information, please refer to the following documentation: https://galax
 
 ### Before you begin
 
-Provision the device if you haven’t already provisioned it: 
+Provision the device if you haven't already provisioned it: 
 The Provision > Network Devices > Inventory window displays the discovered devices.
 
 The topology view shows a device in gray if it has passed the fabric readiness checks and is ready to be provisioned.
@@ -387,4 +387,3 @@ Use either of these forms:
 
 - Relative to the playbook: `../vars/sda_fabric_device_roles_input.yml`
 - Fully resolved from the repo root: `${PWD}/cvp/sda_fabric_device_roles/vars/sda_fabric_device_roles_input.yml`
-
