@@ -3,6 +3,4 @@ extends: default
 
 rules:
   # Disable anchor checking - anchors are defined in parent playbooks
-  anchors:
-    forbid-undeclared-aliases: false
-    forbid-duplicated-anchors: false
+  anchors: disable
