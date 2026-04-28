@@ -174,4 +174,3 @@ network_compliance_details_type:
   run_compliance_categories: list(str, required=False)
   site_name: str(required=False)
   sync_device_config: bool(required=False)
-

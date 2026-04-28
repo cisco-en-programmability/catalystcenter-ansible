@@ -132,5 +132,3 @@ provision_details:
     rolling_ap_upgrade:
       enable_rolling_ap_upgrade: True
       ap_reboot_percentage: 15
-  
-
