@@ -1,5 +1,6 @@
-# yamllint disable rule:anchors
+# yamllint disable-file
 # The catalyst_center_login anchor is defined in the parent playbook
+# This file cannot be parsed standalone by libyaml
 - block:
     - name: Reset removal workflow context for current device
       ansible.builtin.set_fact:
