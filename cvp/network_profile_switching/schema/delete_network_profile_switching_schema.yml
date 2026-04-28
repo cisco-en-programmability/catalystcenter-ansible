@@ -1,3 +1,4 @@
+---
 # options:
 #   config_verify:
 #     description: >
@@ -57,7 +58,6 @@ jinjatemplate: bool(required=False)
 passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
 switching_network_profile_details: list(include('switching_network_profile_details_type'), required=True, min=0, max=500)
----
 switching_network_profile_details_type:
   profile_name: str(required=True, min=0, max=255)
   day_n_templates: list(str(required=False), min=0, max=500, required=False)

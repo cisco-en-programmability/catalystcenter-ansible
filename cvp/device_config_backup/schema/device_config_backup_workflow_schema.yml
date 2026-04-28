@@ -1,3 +1,4 @@
+---
 #Module Spec, the Schema is defined under it.
 # Parameters
 # Parameter	Choices/Defaults	Comments
@@ -69,7 +70,6 @@ catalyst_center_log_append: bool(required=False, default=True)
 catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_task_poll_interval: int(required=False)
----
 device_configs_backup_details_type:
   collection_status: list(str(), required=False)
   family_list: list(str(), required=False) 

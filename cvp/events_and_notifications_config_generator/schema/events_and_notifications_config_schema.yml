@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center Events and Notifications Config Generator Schema
 # ======================================================================================
 #
@@ -19,7 +20,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Events and Notifications Config Generator Entry Schema
 events_and_notifications_config_generator_type:
   # Output file path for generated YAML
@@ -31,12 +31,10 @@ events_and_notifications_config_generator_type:
   # Module config dict - omit to generate all 8 component types (full discovery)
   config: include('events_and_notifications_config_type', required=False)
 
----
 # Module config dict schema (mirrors module's config parameter)
 events_and_notifications_config_type:
   component_specific_filters: include('events_and_notifications_component_filters_type', required=True)
 
----
 # Events and Notifications Component Filters Schema
 events_and_notifications_component_filters_type:
   components_list: list(enum('webhook_destinations', 'email_destinations', 'syslog_destinations', 'snmp_destinations', 'itsm_settings', 'webhook_event_notifications', 'email_event_notifications', 'syslog_event_notifications'), min=1, max=8, required=False)
@@ -44,19 +42,16 @@ events_and_notifications_component_filters_type:
   notification_filters: include('notification_filters_type', required=False)
   itsm_filters: include('itsm_filters_type', required=False)
 
----
 # Destination filters schema
 destination_filters_type:
   destination_names: list(str(), min=1, max=500, required=False)
   destination_types: list(enum('webhook', 'email', 'syslog', 'snmp'), min=1, max=4, required=False)
 
----
 # Notification filters schema
 notification_filters_type:
   subscription_names: list(str(), min=1, max=500, required=False)
   notification_types: list(enum('webhook', 'email', 'syslog'), min=1, max=3, required=False)
 
----
 # ITSM filters schema
 itsm_filters_type:
   instance_names: list(str(), min=1, max=500, required=False)

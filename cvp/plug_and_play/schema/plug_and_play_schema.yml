@@ -1,3 +1,4 @@
+---
 # Catalyst Center PNP Device Management Schema
 # =======================================
 #
@@ -65,7 +66,6 @@ catalyst_center_config_verify: bool(required=False, default=False)
 jinjatemplate: bool(required=False, default=False)
 passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
----
 claim_wireless_controllers_type:
   site_name: str(required=False)
   project_name: str(required=False)

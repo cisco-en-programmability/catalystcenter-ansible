@@ -1,3 +1,4 @@
+---
 # Catalyst Center Backup and Restore Schema
 # =========================================
 #
@@ -102,7 +103,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_config_verify: bool(required=False)
----
 backup_restore_config:
   nfs_configuration: list(include('nfs_config_type'), required=False)
   backup_storage_configuration: list(include('backup_storage_type'), required=False)

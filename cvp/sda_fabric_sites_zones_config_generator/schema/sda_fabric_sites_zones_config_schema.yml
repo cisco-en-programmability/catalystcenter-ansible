@@ -1,3 +1,4 @@
+---
 # Catalyst Center SDA Fabric Sites Zones Config Generator Schema
 # ====================================================================================
 #
@@ -196,7 +197,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 
----
 # SDA Configuration Generator Schema
 sda_config_generator_type:
   # Output file path
@@ -209,13 +209,11 @@ sda_config_generator_type:
   # Omit or leave empty to generate all sites and zones.
   config: include('sda_fabric_sites_zones_config_type', required=False)
 
----
 # Config Schema - what goes inside the config parameter
 sda_fabric_sites_zones_config_type:
   # Component-specific filters (required when config is provided)
   component_specific_filters: include('sda_fabric_sites_zones_component_filters_type', required=True)
 
----
 # sda fabric sites zones Component Filters Schema
 sda_fabric_sites_zones_component_filters_type:
   # List of components to include
@@ -227,13 +225,11 @@ sda_fabric_sites_zones_component_filters_type:
   # fabric zones filters
   fabric_zones: list(include('fabric_zone_filter_type'), min=1, max=100, required=False)
 
----
 # Fabric Site Filter Schema
 fabric_site_filter_type:
   # Full hierarchical site path for filtering fabric sites
   site_name_hierarchy: str(required=False)
 
----
 # Fabric Zone Filter Schema
 fabric_zone_filter_type:
   # Full hierarchical zone path for filtering fabric zones

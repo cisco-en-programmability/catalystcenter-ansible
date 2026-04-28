@@ -1,3 +1,4 @@
+---
 #https://github.com/23andMe/Yamale
 design_sites: list( include('site_type'), min=0, max=6000)
 catalyst_center_version: str(required=False)
@@ -11,7 +12,6 @@ catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG",
 catalyst_center_config_verify: bool(required=False)
 jinjatemplate: bool(required=False)
 jinjatemplate_file: str(required=False)
----
 site_type: 
   site: any('area_type','building_type','floor_type')
   type: str()

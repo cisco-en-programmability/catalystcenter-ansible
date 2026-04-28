@@ -1,3 +1,4 @@
+---
 catalyst_center_version: str(required=False)
 catalyst_center_verify: bool(required=False)
 catalyst_center_api_task_timeout: int(required=False, default=1200)
@@ -8,7 +9,6 @@ catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_config_verify: bool(required=False)
 template_details: list(include('template_details_type'), required=False)
----
 template_details_type:
   configuration_templates: include('configuration_templates_type', required=False)
 

@@ -1,3 +1,4 @@
+---
 # Catalyst Center Provision Playbook Config Generator Schema
 # ======================================================================================
 #
@@ -142,7 +143,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Provision Configuration Generator Schema
 provision_config_generator_type:
   # Output file path
@@ -155,12 +155,10 @@ provision_config_generator_type:
   # to gather all provisioned devices.
   config: include('provision_generator_config_type', required=False)
 
----
 # Provision Generator Config Schema
 provision_generator_config_type:
   component_specific_filters: include('provision_component_filters_type', required=True)
 
----
 # Provision Component Filters Schema
 provision_component_filters_type:
   # List of components to include
@@ -172,7 +170,6 @@ provision_component_filters_type:
   # Wireless device filters
   wireless: list(include('provision_device_filter_type'), required=False)
 
----
 # Provision Device Filter Schema (shared by wired and wireless)
 provision_device_filter_type:
   # Management IP address to filter devices by IP address

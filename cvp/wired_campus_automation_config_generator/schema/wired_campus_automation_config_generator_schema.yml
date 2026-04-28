@@ -1,3 +1,4 @@
+---
 # Wired Campus Automation Config Generator Schema
 # =====================================================
 # This schema validates input files used by:
@@ -23,30 +24,25 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 wired_campus_automation_config_type:
   generate_all_configurations: bool(required=False)
   file_path: str(required=False)
   global_filters: include('global_filters_type', required=False)
   component_specific_filters: include('component_specific_filters_type', required=False)
 
----
 global_filters_type:
   ip_address_list: list(str(), min=1, max=500, required=False)
   serial_number_list: list(str(), min=1, max=500, required=False)
   hostname_list: list(str(), min=1, max=500, required=False)
 
----
 component_specific_filters_type:
   components_list: list(enum('layer2_configurations'), min=1, max=1, required=False)
   layer2_features: list(enum('vlans', 'cdp', 'lldp', 'stp', 'vtp', 'dhcp_snooping', 'igmp_snooping', 'mld_snooping', 'authentication', 'logical_ports', 'port_configuration'), min=1, max=11, required=False)
   vlans: include('vlans_filter_type', required=False)
   port_configuration: include('port_configuration_filter_type', required=False)
 
----
 vlans_filter_type:
   vlan_ids_list: list(str(), min=1, max=4094, required=False)
 
----
 port_configuration_filter_type:
   interface_names_list: list(str(), min=1, max=500, required=False)

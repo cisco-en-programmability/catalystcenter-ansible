@@ -1,3 +1,4 @@
+---
 # Catalyst Center Assurance Device Health Score Settings Config Generator Schema
 # ===================================================================================
 #
@@ -158,7 +159,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Assurance Device Health Score Settings Config Generator Entry Schema
 assurance_device_health_score_settings_config_generator_type:
   # Output file path
@@ -170,12 +170,10 @@ assurance_device_health_score_settings_config_generator_type:
   # Optional config block. Omit to gather all device health score settings.
   config: include('assurance_device_health_score_settings_config_wrapper_type', required=False)
 
----
 # Assurance Device Health Score Settings Config Wrapper Schema
 assurance_device_health_score_settings_config_wrapper_type:
   component_specific_filters: include('assurance_device_health_score_component_filters_type', required=True)
 
----
 # Assurance Device Health Score Settings Component Filters Schema
 assurance_device_health_score_component_filters_type:
   # Components list - currently supports: device_health_score_settings
@@ -184,7 +182,6 @@ assurance_device_health_score_component_filters_type:
   # Device health score settings sub-filter entries
   device_health_score_settings: list(include('device_health_score_settings_filter_type'), min=1, max=100, required=False)
 
----
 # Device health score settings filter schema
 device_health_score_settings_filter_type:
   device_families: list(enum('ROUTER', 'SWITCH_AND_HUB', 'WIRELESS_CONTROLLER', 'UNIFIED_AP', 'WIRELESS_CLIENT', 'WIRED_CLIENT'), min=1, max=6, required=False)

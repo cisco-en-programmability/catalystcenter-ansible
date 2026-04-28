@@ -1,3 +1,4 @@
+---
 
 
 # Catalyst Center PNP Device Management Schema
@@ -63,7 +64,6 @@ catalyst_center_config_verify: bool(required=False, default=False)
 jinjatemplate: bool(required=False, default=False)
 passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
----
 network_devices_type:
   device_info: list(include('device_info_type'), required=True)
 

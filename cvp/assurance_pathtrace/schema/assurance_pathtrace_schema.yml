@@ -1,3 +1,4 @@
+---
 # options:
 #   config_verify:
 #     description: |
@@ -102,7 +103,6 @@ jinjatemplate: bool(required=False)
 passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
 pathtrace_details: list(include('pathtrace_details_type', required=False), min=0, max=100, required=False)
----
 pathtrace_details_type:
   source_ip: str(required=False)
   dest_ip: str(required=False)

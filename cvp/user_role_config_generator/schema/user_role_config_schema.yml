@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center User Role Config Generator Schema
 # ======================================================================================
 #
@@ -23,7 +24,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # User Role Config Generator Entry Schema
 user_role_config_generator_type:
   # Workflow-level convenience flag. If true, module config is omitted.
@@ -42,12 +42,10 @@ user_role_config_generator_type:
   # as a workflow-level convenience input.
   component_specific_filters: include('user_role_component_filters_type', required=False)
 
----
 # Standard config wrapper schema
 user_role_config_type:
   component_specific_filters: include('user_role_component_filters_type', required=True)
 
----
 # User Role Component Filters Schema
 user_role_component_filters_type:
   components_list: list(enum('user_details', 'role_details'), min=1, max=2, required=False)
@@ -55,14 +53,12 @@ user_role_component_filters_type:
   user_details: list(include('user_details_filter_type'), min=1, max=500, required=False)
   role_details: list(include('role_details_filter_type'), min=1, max=500, required=False)
 
----
 # User details filter schema
 user_details_filter_type:
   username: list(str(), min=1, max=500, required=False)
   email: list(str(), min=1, max=500, required=False)
   role_name: list(str(), min=1, max=500, required=False)
 
----
 # Role details filter schema
 role_details_filter_type:
   role_name: list(str(), min=1, max=500, required=False)

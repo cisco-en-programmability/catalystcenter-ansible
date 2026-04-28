@@ -1,3 +1,4 @@
+---
 # Yamale schema for end-to-end SDA fabric device discover and onboarding workflow
 # Combined data model with typed fields for each stage sourced from individual module schemas.
 
@@ -19,7 +20,6 @@ passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
 catalyst_center_task_poll_interval: int(required=False)
 
----
 
 # ==============================================================================
 # Workflow root and job structure

@@ -1,3 +1,4 @@
+---
 # Catalyst Center Backup and Restore Config Generator Schema
 # ======================================================================================
 #
@@ -200,7 +201,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Individual Configuration Generation Task Schema
 backup_restore_config_generator_type:
   # Output file path (optional - module level parameter)
@@ -213,7 +213,6 @@ backup_restore_config_generator_type:
   # Optional config block. Omit to gather all backup and restore configurations.
   config: include('backup_restore_component_filters_type', required=False)
   
----
 # Backup and Restore Component Filters Schema
 backup_restore_component_filters_type:
 
@@ -231,7 +230,6 @@ backup_restore_component_list_filters_type:
   # Backup storage configuration filters  
   backup_storage_configuration: list(include('backup_storage_configuration_filter_type'), min=0, max=100, required=False)
 
----
 # NFS Configuration Filter Schema
 # Both server_ip and source_path must be provided together for filtering
 nfs_configuration_filter_type:
@@ -241,7 +239,6 @@ nfs_configuration_filter_type:
   # NFS source path for filtering NFS configurations (required when filtering)
   source_path: str(required=False)
 
----
 # Backup Storage Configuration Filter Schema
 backup_storage_configuration_filter_type:
   # Server type for filtering backup storage configurations (required)

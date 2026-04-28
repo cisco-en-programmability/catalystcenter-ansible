@@ -1,3 +1,4 @@
+---
 inventory_details: 
   network_devices: list(include('network_devices_type', min=1, max=10000))
 catalyst_center_version: str(required=False)
@@ -14,7 +15,6 @@ passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
 catalyst_center_task_poll_interval: int(required=False)
 # ==================================================================================================================
----
 #Schema definition for network devices
 network_devices_type: include('network_devices_type_type', required=False)
 

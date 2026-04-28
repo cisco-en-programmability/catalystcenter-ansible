@@ -1,3 +1,4 @@
+---
 # Schema for the fabric extranet policy workflow.
 # Parameters
 # Parameter	Choices/Defaults	Comments
@@ -27,7 +28,6 @@ catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG",
 catalyst_center_config_verify: bool(required=False)
 extranet_policies: list(include('extranet_policies_type'), min=0, max=10000, required=False)
 # Schema for the fabric extranet policy details.
----
 extranet_policies_type:
   extranet_policy_name: str(required=True)
   fabric_sites: list(str, required=False)

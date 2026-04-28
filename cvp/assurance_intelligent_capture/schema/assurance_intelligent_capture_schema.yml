@@ -1,3 +1,4 @@
+---
 # options:
 #   config_verify:
 #    description: Set to 'true' to verify the ICAP configuration on Cisco Catalyst Center after deployment.
@@ -119,7 +120,6 @@ catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_task_poll_interval: int(required=False)
 assurance_inteligent_capture_settings: list(include('assurance_inteligent_capture_settings_type'), min=0, max=1000, required=False)
----
 assurance_inteligent_capture_settings_type:
   assurance_icap_settings: list(include('assurance_icap_settings_type'), min=0, max=1000, required=False)
   assurance_icap_download: list(include('assurance_icap_download_type'), min=0, max=1000, required=False)

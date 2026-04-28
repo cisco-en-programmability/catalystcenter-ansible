@@ -1,3 +1,4 @@
+---
 # Fabric Device Info Schema
 # This schema validates the input parameters for fabric device information retrieval workflow
 #
@@ -54,7 +55,6 @@
 
 fabric_device_info_details: list(include('fabric_device_query'), required=True)
 
----
 fabric_device_query:
   fabric_devices: list(include('fabric_device_type'), required=True)
 

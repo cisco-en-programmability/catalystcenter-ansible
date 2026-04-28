@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center Site Config Generator Schema
 # ======================================================================================
 #
@@ -84,7 +85,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Site Config Generator Entry Schema
 # Each entry represents one generation task with its own filters and output settings
 site_config_generator_type:
@@ -99,7 +99,6 @@ site_config_generator_type:
   config: include('site_component_filters_type', required=False)
 
 
----
 # Site Component Filters Schema
 # Defines filtering criteria for selective site configuration generation
 site_component_filters_type:
@@ -108,7 +107,6 @@ site_component_filters_type:
   # Contains filtering criteria for selective configuration generation
   component_specific_filters: include('site_component_list_filters_type', required=False)
 
----
 
 site_component_list_filters_type:
   
@@ -121,7 +119,6 @@ site_component_list_filters_type:
   # Combined filters in single entry create AND condition (all must match)
   site: list(include('site_filter_type'), min=1, max=500, required=False)
 
----
 # Site Filter Schema
 # Individual site filtering criteria for precise selection
 site_filter_type:

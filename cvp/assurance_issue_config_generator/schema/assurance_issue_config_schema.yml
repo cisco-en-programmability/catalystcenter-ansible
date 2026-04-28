@@ -1,3 +1,4 @@
+---
 # Catalyst Center Assurance Issue Config Generator Schema
 #
 # ======================================================================================
@@ -170,7 +171,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 
----
 # Assurance Issue Configuration Generator Schema
 assurance_issue_config_generator:
   # Output file path (optional - module level parameter)
@@ -182,12 +182,10 @@ assurance_issue_config_generator:
   # Config parameter containing component filters (optional - module level parameter)
   config: include('assurance_issue_config_type', required=False)
 
----
 # Assurance Issue Config Wrapper Schema
 assurance_issue_config_type:
   component_specific_filters: include('assurance_issue_component_filters', required=True)
 
----
 # Assurance Issue Component Filters Schema
 assurance_issue_component_filters:
   # List of components to include
@@ -196,7 +194,6 @@ assurance_issue_component_filters:
   # Issue configuration filters
   assurance_user_defined_issue_settings: list(include('issue_filter'), min=1, max=100, required=False)
 
----
 # Issue Filter Schema
 issue_filter:
   # Issue name or description for filtering

@@ -1,3 +1,4 @@
+---
 #Module Spec, the Schema is defined under it.
 # Parameters
 # Parameter	Choices/Defaults	Comments
@@ -221,7 +222,6 @@ catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_config_verify: bool(required=False)
 # ==================================================================================================================
----
 ise_radius_integration_details_type:
   authentication_policy_server: list(include('authentication_policy_server_type'), required=False)
 authentication_policy_server_type:

@@ -1,3 +1,4 @@
+---
 # Catalyst Center SDA Host Port Onboarding Config Generator Schema
 # ======================================================================================
 #
@@ -96,7 +97,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # SDA Host Port Onboarding Configuration Generator Schema
 sda_host_port_onboarding_config_type:
   # Generate all configurations flag
@@ -111,7 +111,6 @@ sda_host_port_onboarding_config_type:
   # Component-specific filters
   component_specific_filters: include('component_specific_filters_type', required=False)
 
----
 # Component Specific Filters Schema
 component_specific_filters_type:
   # List of components to include
@@ -126,7 +125,6 @@ component_specific_filters_type:
   # Wireless SSIDs filters
   wireless_ssids: include('fabric_site_filter_type', required=False)
 
----
 # Fabric Site Filter Schema
 fabric_site_filter_type:
   # Fabric site name hierarchy for filtering

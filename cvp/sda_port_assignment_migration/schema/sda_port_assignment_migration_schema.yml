@@ -1,3 +1,4 @@
+---
 # Schema for SDA Port Assignment Migration workflow
 #
 # This workflow:
@@ -24,7 +25,6 @@ catalyst_center_log_level: enum('CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG',
 catalyst_center_config_verify: bool(required=False, default=False)
 catalyst_center_task_poll_interval: int(required=False)
 
----
 port_assignment_migration_type:
   fabric_site: str(required=True)
   source_device_ip: str(required=True)

@@ -1,3 +1,4 @@
+---
 # Parameters
 # Parameter	Choices/Defaults	Comments
 # config
@@ -473,7 +474,6 @@ jinjatemplate: bool(required=False)
 jinjatemplate_file: str(required=False)
 fabric_devices_details: list(include('fabric_devices_type'), min=1, max=100, required=True)
 config_verify: bool(required=False, default=False)
----
 fabric_devices_type:
   fabric_devices:
     fabric_name: str(required=True)

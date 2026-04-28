@@ -1,3 +1,4 @@
+---
 # Parameters
 # Parameter	Choices/Defaults	Comments
 #   fabric_sites_and_zones:
@@ -165,7 +166,6 @@ jinjatemplate_file: str(required=False)
 passwords_file: str(required=False)
 fabric_sites_and_zones: list(include('fabric_sites_and_zones_type'), min=0, max=1000, required=False)
 # Schema for the fabric sites and zones details.
----
 fabric_sites_and_zones_type: 
   fabric_sites: list( include('fabric_sites_type'), min=0, max=1000, required=False)
 fabric_sites_type:

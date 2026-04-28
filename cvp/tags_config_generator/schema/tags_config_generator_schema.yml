@@ -1,3 +1,4 @@
+---
 # Catalyst Center Tags Config Generator Schema
 # ======================================================================================
 #
@@ -155,7 +156,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Tags Configuration Generator Schema
 # Omit 'config' key entirely to generate all configurations (full auto-discovery)
 tags_config_generator:
@@ -178,13 +178,11 @@ tags_config_generator:
   # Ignored when generate_all_configurations: true.
   component_specific_filters: include('tags_component_filters', required=False)
 
----
 # Tags Config Schema (mirrors module 'config' parameter)
 tags_config_filters:
   # Component-specific filters inside config
   component_specific_filters: include('tags_component_filters', required=True)
 
----
 # Tags Component Filters Schema
 tags_component_filters:
   # List of components to include

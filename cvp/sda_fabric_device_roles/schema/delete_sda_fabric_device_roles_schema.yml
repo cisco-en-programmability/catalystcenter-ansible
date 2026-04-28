@@ -1,3 +1,4 @@
+---
 # Parameters
 # Parameter	Choices/Defaults	Comments
 # config
@@ -471,7 +472,6 @@ catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 fabric_devices_details: list(include('fabric_devices_type'), min=1, max=100, required=True)
 config_verify: bool(required=False, default=False)
----
 fabric_devices_type:
   fabric_devices:
     fabric_name: str(required=True)

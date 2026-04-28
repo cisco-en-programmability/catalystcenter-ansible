@@ -15,7 +15,6 @@ catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG",
 # Main Configuration
 reports_details: list(include('report_config_type'), min=1, max=100, required=True)
 
----
 # Report Configuration Type
 report_config_type:
   generate_report: list(include('generate_report_type'), required=True)

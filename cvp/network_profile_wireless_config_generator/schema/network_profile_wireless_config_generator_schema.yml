@@ -1,3 +1,4 @@
+---
 # Catalyst Center Network Profile Wireless Config Generator Schema
 # ===================================================================================
 #
@@ -115,7 +116,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Network Profile Wireless Configuration Generator Schema
 network_profile_wireless_config_type:
   # Output file path
@@ -127,12 +127,10 @@ network_profile_wireless_config_type:
   # Optional config block. Omit or leave empty to gather all wireless profiles.
   config: include('network_profile_wireless_config_wrapper_type', required=False)
 
----
 # Wrapper for config block
 network_profile_wireless_config_wrapper_type:
   global_filters: include('network_profile_wireless_global_filters_type', required=True)
 
----
 # Network Profile Wireless Global Filters Schema
 network_profile_wireless_global_filters_type:
   # Profile name list - Priority 1 (HIGHEST)

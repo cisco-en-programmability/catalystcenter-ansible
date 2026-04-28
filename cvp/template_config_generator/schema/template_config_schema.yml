@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center Template Config Generator Schema
 # ======================================================================================
 #
@@ -196,7 +197,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 
----
 # Template Config Generator Entry Schema
 template_config_generator_type:
   # Output file path for generated YAML
@@ -208,12 +208,10 @@ template_config_generator_type:
   # Config payload accepted by template_playbook_config_generator
   config: include('template_config_type', required=False)
 
----
 # Template config wrapper
 template_config_type:
   component_specific_filters: include('template_component_filters_type', required=True)
 
----
 # Template Component Filters Schema
 template_component_filters_type:
   # Components to include in generated YAML
@@ -225,12 +223,10 @@ template_component_filters_type:
   # Filter templates by name/project and include_uncommitted
   configuration_templates: list(include('template_configuration_template_filter_type'), min=1, max=500, required=False)
 
----
 # Template project filter
 template_project_filter_type:
   name: str(required=False)
 
----
 # Configuration template filter
 template_configuration_template_filter_type:
   template_name: str(required=False)
