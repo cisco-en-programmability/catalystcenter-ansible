@@ -108,4 +108,3 @@ ip_transit_settings_type:
 sda_transit_settings_type:
     control_plane_network_device_ips: list(str(), min=1, max=4, required=False)
     is_multicast_over_transit_enabled: bool(required=False)
-

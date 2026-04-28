@@ -1,0 +1,63 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: network_bugs_trigger_scan
+short_description: Resource module for Network Bugs Trigger Scan
+description:
+  - Manage operation create of the resource Network Bugs Trigger Scan. - > Triggers a bugs scan for the supported network
+    devices. The supported devices are switches and routers. If a device is not supported, the NetworkBugsDevice scanStatus
+    will be Failed with appropriate comments.
+version_added: '6.17.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  failedDevicesOnly:
+    description: FailedDevicesOnly query parameter. Used to specify if the scan should run only for the network devices that
+      failed during the previous scan. If not specified, this parameter defaults to false.
+    type: bool
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Compliance TriggersABugsScanForTheSupportedNetworkDevices
+    description: Complete reference of the TriggersABugsScanForTheSupportedNetworkDevices API.
+    link: https://developer.cisco.com/docs/dna-center/#!triggers-a-bugs-scan-for-the-supported-network-devices
+notes:
+  - SDK Method used are
+    compliance.Compliance.triggers_a_bugs_scan_for_the_supported_network_devices,
+  - Paths used are
+    post /dna/intent/api/v1/networkBugs/triggerScan,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.network_bugs_trigger_scan:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    failedDevicesOnly: true
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "count": 0
+      }
+    }
+"""

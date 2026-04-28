@@ -76,4 +76,3 @@ inventory_config:
         device_types:
           - "ACCESS_POINT"
         device_identifier: "mac_address"
-

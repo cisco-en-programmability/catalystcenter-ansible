@@ -15,6 +15,7 @@ skip_list:
   - yaml[empty-lines]
   - yaml[hyphens]
   - yaml[indentation]
+  - yaml[anchors]  # Anchors defined in parent playbooks
   - var-naming[no-role-prefix]  # Connection vars are standardized across collection
   - fqcn[action-core]  # Implicit FQCN is acceptable
   - jinja[spacing]  # Template spacing is functional

@@ -1,0 +1,231 @@
+
+# Catalyst Center Return Material Authorization Playbook to replace faulty routers, switches, and APs:
+
+## Return Material Authorization (RMA) Overview
+
+The Return Material Authorization (RMA) workflow lets you replace failed devices quickly. RMA provides a common workflow to replace routers, switches, and APs.
+
+When using the RMA workflow with routers and switches, the software image, configuration, and license are restored from the failed device to the replacement device. For wireless APs, the replacement device is assigned to the same site and provisioned with the primary wireless controller, RF profile, and AP group settings, and it placed on the same floor map location in Catalyst Center as the failed AP. For Cisco switch stacks (hardware stacking), you don't need to follow a separate procedure in Catalyst Center for member switch replacement, which is handled by the active switch. The member switch is replaced by the active switch by providing the software image and configuration. Full stack replacement is handled by Catalyst Center.
+
+For more information , Refer to the full workflow specification for detailed instructions on the available options and their structure: https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/rma_workflow_manager/
+
+# Procedure
+1. ## Prepare your Ansible environment:
+
+Install Ansible if you haven't already
+Ensure you have network connectivity to your Catalyst Center instance.
+Checkout the project and playbooks: git@github.com:cisco-en-programmability/catalystcenter-ansible.git
+
+2. ## Configure Host Inventory:
+
+The host_inventory_dnac1/hosts.yml file specifies the connection details (IP address, credentials, etc.) for your Catalyst Center instance.
+Make sure the catalystcenter_version in this file matches your actual Catalyst Center version.
+##The Sample host_inventory_dnac1/hosts.yml
+
+```bash
+catalyst_center_hosts:
+    hosts:
+        catalyst_center220:
+            #(Mandatory) CatC Ip address
+            catalyst_center_host:  <DNAC IP Address>
+            #(Mandatory) CatC UI admin Password
+            catalyst_center_password: <DNAC UI admin Password>
+            catalyst_center_port: 443
+            catalyst_center_timeout: 60
+            #(Mandatory) CatC UI admin username
+            catalyst_center_username: <DNAC UI admin username> 
+            catalyst_center_verify: false
+            #(Mandatory) DNAC Release version
+            catalyst_center_version: <DNAC Release version>
+            catalyst_center_debug: true
+            catalyst_center_log_level: INFO
+            catalyst_center_log: true
+```
+
+
+## Please ensure the following conditions are met before proceeding with the verification of the RMA (Return Merchandise Authorization) workflow:
+
+1. The software image version of the faulty device must be imported in the image repository before marking the device for replacement.
+2. The faulty device must be in an unreachable state.
+3. If the replacement device onboards to Catalyst Center through Plug and Play (PnP), the faulty device must be assigned to a user-defined site.
+4. The replacement device must not be in a provisioning state while triggering the RMA workflow.
+5. For switch stacks replacement, the number of stacks for the faulty and replacement device must be the same.
+
+## The Steps covered by the automation
+1. Mark the faulty device for replacement
+    From the top-left corner, click the menu icon and choose Provision > Inventory.
+    From the Actions drop-down list, choose Inventory > Device Replacement > Mark Device for Replacement.
+    In the Mark for Replacement window, click Mark.
+    Figure1: Mark Faulty Device for replacement UI
+    ![Alt text](./images/mark_device_replacement.png)
+
+2. To replace the device, do the following:
+    Select the device that you want to replace and choose Actions > Replace Device.
+    In the Choose Replacement Device window, choose a replacement device from the Unclaimed tab or the Managed tab.
+
+    The Unclaimed tab shows the devices that are onboarded through PnP. The Managed tab shows the devices that are onboarded through the Inventory or the discovery process.
+    If the replacement device is not yet onboarded, do the following:
+    In the Choose Replacement Device window, click Add Device.
+    In the Add New Device window, enter the Serial Number of the device and click Add New Device.
+    In the Choose Replacement Device window, click Sync with Smart Account.
+    In the Sync with Smart Account window, click Sync.
+    The Automation does not support scheduling through Catalyst Center. 
+    User should schedule their script run from automation.
+    ![Alt text](./images/replacement.png)
+
+## Inputs:
+```yaml
+---
+catalyst_center_version: 2.3.7.6
+rma_devices: 
+  - faulty_device_serial_number: "KWC224709LV"
+    replacement_device_serial_number: "KWC2333037V"
+```
+
+```yaml
+---
+catalyst_center_version: 2.3.7.6
+rma_devices: 
+  - faulty_device_ip_address: "204.192.3.40"
+    replacement_device_ip_address: "204.1.2.5"
+```
+
+```yaml
+---
+catalyst_center_version: 2.3.7.6
+rma_devices: 
+  - faulty_device_name: "SJ-EN-9300.cisco.local"
+    replacement_device_name: "SJ-EN-9300.cisco-1.local"
+```
+
+## Validate the inputs:
+```bash
+yamale -s cvp/device_replacement_rma/schema/device_replacement_rma_schema.yml cvp/device_replacement_rma/vars/device_replacement_rma_input.yml
+Validating /Users/pawansi/dnac_ansible_cvp/cvp/device_replacement_rma/vars/device_replacement_rma_input.yml...
+Validation success! 👍
+```
+## Run Playbook with input:
+
+```bash
+ansible-playbook -i host_inventory_dnac1 cvp/device_replacement_rma/playbook/device_replacement_rma_playbook.yml --e VARS_FILE_PATH=../vars/device_replacement_rma_input.yml  -vvv
+```
+
+
+## Run playbook with state set to deleted
+```bash
+ansible-playbook -i host_inventory_dnac1 cvp/device_replacement_rma/playbook/delete_device_replacement_rma_playbook.yml --e VARS_FILE_PATH=../vars/device_replacement_rma_input.yml  -vvv
+```
+
+3. Unmark the faulty devicew replacement
+    If you your faulty device came up and is not more required to be replace, you can un marked the already marked faulty device from replacement as below. 
+    From the Inventory drop-down list, choose Marked for Replacement.
+    A list of devices that are marked for replacement is displayed.
+    If you don't want to replace the device, select the device and choose Actions > Unmark for Replacement.
+    Figure3: Mark Faulty Device for replacement UI
+    ![Alt text](./images/unmark_faulty_device.png)
+
+
+# Limitations of the RMA Workflow in Catalyst Center
+RMA supports replacement of all switches, routers, and Cisco SD-Access devices, except for the following:
+
+Devices with embedded wireless controllers
+
+Cisco Wireless Controllers
+
+Chassis-based Nexus 7700 Series Switches
+
+Switch stacks (SVL stacking)
+
+RMA supports devices with an external SCEP broker PKI certificate. The PKI certificate is created and authenticated for the replacement device during the RMA workflow. The PKI certificate of the replaced faulty device must be manually deleted from the certificate server.
+
+The RMA workflow supports device replacement only if:
+
+Both the faulty and replacement devices have the same extension cards.
+
+The number of ports in both devices does not vary because of the extension cards.
+
+The faulty device is managed by Catalyst Center with a static IP. (RMA is not supported for devices that are managed by Catalyst Center with a DHCP IP, except extended node and AP in fabric.)
+
+Make sure that the replacement device is connected to the same port to which the faulty device was connected.
+
+Fabric edge replacement does not support the DHCP server configuration in the neighbor device if the neighbor device is not part of the fabric. Because intermediate nodes are not part of the Cisco SD-Access fabric, the DHCP server with option 43 is not pushed.
+
+Catalyst Center does not support legacy license deployment.
+
+The RMA workflow deregisters the faulty device from Cisco SSM and registers the replacement device with Cisco SSM.
+
+If the software image installed on the faulty device is earlier than Cisco IOS XE 16.8, the License Details window does not display the Network and Feature License details and no warning message is displayed. Therefore, you should be aware of the legacy network license configured on the faulty device and manually apply the same legacy network license on the replacement device.
+
+If the software image installed on the faulty device is Cisco IOS XE 16.8 or later, the License Details window displays details of the network license (for example, Legacy or Network) and the feature license (for example, IP Base, IP Service, or LAN Base). The following warning message is displayed while marking the faulty device for replacement:
+
+Some of the faulty devices don't have a license. Please ensure your replacement device has the same Legacy license of the faulty device enabled.
+If the legacy network licenses of the replacement and faulty devices do not match, the following error message is displayed during the license deployment:
+
+Catalyst Center doesn't support legacy license deployment. So manually update the faulty device license on the replacement device and resync before proceeding.
+Catalyst Center supports PnP onboarding of the replacement device in a fabric network, except when:
+
+The faulty device is connected to an uplink device using multiple interfaces.
+
+LAN automation uses overlapping pools.
+
+** If the replacement device onboards through the PnP-DHCP functionality, make sure that the device gets the same IP address after every reload and the lease timeout of DHCP is longer than two hours. **
+## Workflow Steps
+## User Flow (3 Steps)
+
+```mermaid
+flowchart TD
+  A[Start] --> B[Step 1: Create virtual env and install dependencies]
+  B --> C[Step 2: Provide workflow inputs]
+  C --> D{Choose input location}
+  D -->|Option A| E[Update inventory hosts.yaml]
+  D -->|Option B| F[Update vars input file]
+  E --> G[Step 3: Export env vars]
+  F --> G
+  G --> H[Run ansible-playbook]
+  H --> I[Review playbook summary output]
+  I --> J[Done]
+```
+
+### Installation and Run (Aligned)
+
+1. Create and activate a Python virtual environment, then install dependencies.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+ansible-galaxy collection install cisco.catalystcenter --force
+```
+
+2. Provide workflow inputs in either inventory (`inventory/demo_lab/hosts.yaml`) or the workflow `vars/` file.
+
+3. Export Catalyst Center environment variables and run the playbook.
+
+```bash
+export HOSTIP=<catalyst-center-ip-or-fqdn>
+export CATALYST_CENTER_USERNAME=<username>
+export CATALYST_CENTER_PASSWORD='<password>'
+ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/device_replacement_rma/playbook/device_replacement_rma_playbook.yml -vvvv
+```
+
+## Inventory / group_vars Example
+
+You can also run this workflow without `VARS_FILE_PATH` by moving the sample workflow data into inventory, `host_vars`, or `group_vars`.
+
+1. Create an inventory vars file such as `inventory/group_vars/all.yml` or `inventory/host_vars/<host>.yml`.
+2. Copy the sample workflow data from `cvp/device_replacement_rma/vars/device_replacement_rma_input.yml` into that inventory vars file.
+3. Keep the same top-level workflow variable names from the sample vars file.
+4. Run the playbook without `VARS_FILE_PATH`:
+
+```bash
+ansible-playbook -i <inventory-file> cvp/device_replacement_rma/playbook/device_replacement_rma_playbook.yml -vvvv
+```
+## VARS_FILE_PATH Path Resolution
+
+Ansible resolves `VARS_FILE_PATH` relative to the playbook directory, not the current working directory.
+
+Use either of these forms:
+
+- Relative to the playbook: `../vars/device_replacement_rma_input.yml`
+- Fully resolved from the repo root: `${PWD}/cvp/device_replacement_rma/vars/device_replacement_rma_input.yml`
+

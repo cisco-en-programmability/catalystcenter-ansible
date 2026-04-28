@@ -105,7 +105,7 @@ backup_and_restore_config:
           - server_ip: "172.27.17.90"
             source_path: "/home/nfsshare/backups/TB17"
         backup_storage_configuration:
-          - server_type : "NFS" 
+          - server_type: "NFS"
 
 #============================================================================
 #Additional Configuration Examples

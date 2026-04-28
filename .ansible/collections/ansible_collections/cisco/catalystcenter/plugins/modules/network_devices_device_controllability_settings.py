@@ -1,0 +1,67 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: network_devices_device_controllability_settings
+short_description: Resource module for Network Devices Device Controllability Settings
+description:
+  - Manage operation update of the resource Network Devices Device Controllability Settings.
+  - Device Controllability is a system-level process on Catalyst Center that enforces state.
+version_added: '6.15.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  autocorrectTelemetryConfig:
+    description: If it is true, autocorrect telemetry config is enabled. If it is false, autocorrect telemetry config is disabled.
+      The autocorrect telemetry config feature is supported only when device controllability is enabled.
+    type: bool
+  deviceControllability:
+    description: If it is true, device controllability is enabled. If it is false, device controllability is disabled.
+    type: bool
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Site Design UpdateDeviceControllabilitySettings
+    description: Complete reference of the UpdateDeviceControllabilitySettings API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-device-controllability-settings
+notes:
+  - SDK Method used are
+    site_design.SiteDesign.update_device_controllability_settings,
+  - Paths used are
+    put /dna/intent/api/v1/networkDevices/deviceControllability/settings,
+"""
+
+EXAMPLES = r"""
+---
+- name: Update all
+  cisco.catalystcenter.network_devices_device_controllability_settings:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    autocorrectTelemetryConfig: true
+    deviceControllability: true
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "count": 0
+      }
+    }
+"""

@@ -1,0 +1,67 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: backups_id_restore
+short_description: Resource module for Backups Id Restore
+description:
+  - Manage operation create of the resource Backups Id Restore.
+  - This api is used to trigger restore workflow of a specific backup.
+version_added: '6.18.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  encryptionPassphrase:
+    description: Passphrase to restore backup.
+    type: str
+  id:
+    description: Id path parameter. The `id` of the backup to be restored.Obtain the `id` from the id attribute in the response
+      of the `/dna/system/api/v1/backups` API.
+    type: str
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Backup RestoreBackup
+    description: Complete reference of the RestoreBackup API.
+    link: https://developer.cisco.com/docs/dna-center/#!restore-backup
+notes:
+  - SDK Method used are
+    backup.Backup.restore_backup,
+  - Paths used are
+    post /dna/system/api/v1/backups/{id}/restore,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.backups_id_restore:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    encryptionPassphrase: string
+    id: string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""

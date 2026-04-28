@@ -73,4 +73,3 @@ device_info_type:
   state: enum('Unclaimed', 'Claimed', 'Provisioned',  'Error', required=False)
   pid: str(required=False)
   add_device_method: str(required=False)
-

@@ -1,0 +1,69 @@
+# ============================================================================
+# Cisco Catalyst Center SDA Fabric Transits Config Generator
+# ============================================================================
+#
+# Usage:
+#   ansible-playbook -i inventory/demo_lab/hosts.yaml \
+#     workflows/sda_fabric_transits_config_generator/playbook/sda_fabric_transits_config_generator.yml \
+#     --extra-vars VARS_FILE_PATH=./workflows/sda_fabric_transits_config_generator/vars/sda_fabric_transits_config_inputs.yml
+#
+# Module used:
+#   cisco.catalystcenter.sda_fabric_transits_playbook_config_generator
+# ============================================================================
+
+sda_fabric_transits_config:
+  # Generate all SDA fabric transits
+  - file_path: "/tmp/sda_fabric_transits_complete_config.yml"
+
+  # Filter by specific transit name
+  - file_path: "/tmp/sda_fabric_transits_by_name.yml"
+    config:
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits:
+          - name: "ip_transit_2"
+
+  # Filter by transit type
+  - file_path: "/tmp/sda_fabric_transits_lisp_pub_only.yml"
+    config:
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits:
+          - transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
+
+  # Combined filter
+  - file_path: "/tmp/sda_fabric_transits_aggregate.yml"
+    config:
+      component_specific_filters:
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits:
+          - name: "TRANSITSDA"
+            transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
+
+  #sda_fabric_transits filters without components_list, the
+  #module auto-adds sda_fabric_transits internally.
+  - file_path: "/tmp/sda_fabric_transits_test1.yml"
+    config:
+      component_specific_filters:
+        sda_fabric_transits:
+          - name: "ip_transit_4"
+
+  # Multiple transit types and names together
+  - file_path: "/tmp/sda_fabric_transits_test2.yml"
+    config:
+      component_specific_filters: 
+        components_list: ["sda_fabric_transits"]
+        sda_fabric_transits: 
+          - transit_type: IP_BASED_TRANSIT
+            name: ip_transit_5
+          - name: "TRANSITSDA"
+            transit_type: "SDA_LISP_PUB_SUB_TRANSIT"
+  
+# ============================================================================
+# Notes
+# ============================================================================
+# - If config is omitted or empty, the workflow omits module config
+#   and runs in full discovery mode.
+# - If you provide sda_fabric_transits filters without components_list, the
+#   module auto-adds sda_fabric_transits internally.
+# ============================================================================

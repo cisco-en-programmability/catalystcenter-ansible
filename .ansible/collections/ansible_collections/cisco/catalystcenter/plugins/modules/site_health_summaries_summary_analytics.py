@@ -1,0 +1,158 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: site_health_summaries_summary_analytics
+short_description: Resource module for Site Health Summaries Summary Analytics
+description:
+  - Manage operation create of the resource Site Health Summaries Summary Analytics.
+  - Query an aggregated summary of all site health.
+version_added: '6.15.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  attributes:
+    description: Attributes.
+    elements: str
+    type: list
+  endTime:
+    description: End Time.
+    type: int
+  headers:
+    description: Additional headers.
+    type: dict
+  id:
+    description:
+      - Id query parameter. The list of entity Uuids.
+      - Example "6bef213c-19ca-4170-8375-b694e251101c".
+      - Multiple entity uuids can be provided with '&' separator.
+    type: str
+  siteHierarchy:
+    description:
+      - SiteHierarchy query parameter. The full hierarchical breakdown of the site tree.
+      - Starting from Global site name and ending with the specific site name.
+      - The Root site is named "Global" (Ex. `Global/AreaName/BuildingName/FloorName`).
+      - This field supports wildcard asterisk (`*`) character search support.
+    type: str
+  siteHierarchyId:
+    description: SiteHierarchyId query parameter. The full hierarchy breakdown of the site tree in id form starting from Global
+      site UUID and ending with the specific site UUID. (Ex. `globalUuid/areaUuid/buildingUuid/floorUuid`) This field supports
+      wildcard asterisk (`*`) character search support. E.g. `*uuid*, *uuid, uuid*` Examples `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid
+      `(single siteHierarchyId requested) `?siteHierarchyId=globalUuid/areaUuid/buildingUuid/floorUuid&siteHierarchyId=globa...
+      (multiple siteHierarchyIds requested).
+    type: str
+  siteType:
+    description: SiteType query parameter. The type of the site. A site can be an area, building, or floor. Default when not
+      provided will be `floor,building,area` Examples `?siteType=area` (single siteType requested) `?siteType=area&siteType=building&siteType=floor`
+      (multiple siteTypes requested).
+    type: str
+  startTime:
+    description: Start Time.
+    type: int
+  views:
+    description: Views.
+    elements: str
+    type: list
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Sites QueryAnAggregatedSummaryOfSiteHealthData
+    description: Complete reference of the QueryAnAggregatedSummaryOfSiteHealthData API.
+    link: https://developer.cisco.com/docs/dna-center/#!query-an-aggregated-summary-of-site-health-data
+notes:
+  - SDK Method used are
+    sites.Sites.query_an_aggregated_summary_of_site_health_data,
+  - Paths used are
+    post /dna/data/api/v1/siteHealthSummaries/summaryAnalytics,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.site_health_summaries_summary_analytics:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    attributes:
+      - string
+    endTime: 0
+    headers: '{{my_headers | from_json}}'
+    id: string
+    siteHierarchy: string
+    siteHierarchyId: string
+    siteType: string
+    startTime: 0
+    views:
+      - string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "siteHierarchy": "string",
+        "siteHierarchyId": "string",
+        "siteType": "string",
+        "latitude": 0,
+        "longitude": 0,
+        "networkDeviceGoodHealthPercentage": 0,
+        "networkDeviceGoodHealthCount": 0,
+        "clientGoodHealthCount": 0,
+        "clientGoodHealthPercentage": 0,
+        "wiredClientGoodHealthPercentage": 0,
+        "wirelessClientGoodHealthPercentage": 0,
+        "clientCount": 0,
+        "wiredClientCount": 0,
+        "wirelessClientCount": 0,
+        "wiredClientGoodHealthCount": 0,
+        "wirelessClientGoodHealthCount": 0,
+        "networkDeviceCount": 0,
+        "accessDeviceCount": 0,
+        "accessDeviceGoodHealthCount": 0,
+        "coreDeviceCount": 0,
+        "coreDeviceGoodHealthCount": 0,
+        "distributionDeviceCount": 0,
+        "distributionDeviceGoodHealthCount": 0,
+        "routerDeviceCount": 0,
+        "routerDeviceGoodHealthCount": 0,
+        "wirelessDeviceCount": 0,
+        "wirelessDeviceGoodHealthCount": 0,
+        "apDeviceCount": 0,
+        "apDeviceGoodHealthCount": 0,
+        "wlcDeviceCount": 0,
+        "wlcDeviceGoodHealthCount": 0,
+        "switchDeviceCount": 0,
+        "switchDeviceGoodHealthCount": 0,
+        "accessDeviceGoodHealthPercentage": 0,
+        "coreDeviceGoodHealthPercentage": 0,
+        "distributionDeviceGoodHealthPercentage": 0,
+        "routerDeviceGoodHealthPercentage": 0,
+        "apDeviceGoodHealthPercentage": 0,
+        "wlcDeviceGoodHealthPercentage": 0,
+        "switchDeviceGoodHealthPercentage": 0,
+        "wirelessDeviceGoodHealthPercentage": 0,
+        "clientDataUsage": 0,
+        "p1IssueCount": 0,
+        "p2IssueCount": 0,
+        "p3IssueCount": 0,
+        "p4IssueCount": 0,
+        "issueCount": 0
+      },
+      "version": "string"
+    }
+"""

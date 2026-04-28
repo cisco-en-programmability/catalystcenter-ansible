@@ -1,0 +1,74 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: backup_configuration
+short_description: Resource module for Backup Configuration
+description:
+  - Manage operation create of the resource Backup Configuration.
+  - This api is used to create or update backup configuration.
+version_added: '6.18.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  dataRetention:
+    description: Date retention policy of the backup.
+    type: int
+  encryptionPassphrase:
+    description: Password to encrypt the backup information.
+    type: str
+  mountPath:
+    description: Backup storage mount path.
+    type: str
+  type:
+    description: The storage type.
+    type: str
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Backup CreateBackupConfiguration
+    description: Complete reference of the CreateBackupConfiguration API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-backup-configuration
+notes:
+  - SDK Method used are
+    backup.Backup.create_backup_configuration,
+  - Paths used are
+    post /dna/system/api/v1/backupConfiguration,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.backup_configuration:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    dataRetention: 0
+    encryptionPassphrase: string
+    mountPath: string
+    type: string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "message": "string"
+      },
+      "version": "string"
+    }
+"""

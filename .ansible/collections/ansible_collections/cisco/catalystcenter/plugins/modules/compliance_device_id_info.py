@@ -1,0 +1,70 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: compliance_device_id_info
+short_description: Information module for Compliance Device Id
+description:
+  - Get Compliance Device Id by id.
+  - Return compliance status of a device.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module_info
+author: Rafael Campos (@racampos)
+options:
+  headers:
+    description: Additional headers.
+    type: dict
+  deviceUuid:
+    description:
+      - DeviceUuid path parameter. Device Id.
+    type: str
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Compliance DeviceComplianceStatus
+    description: Complete reference of the DeviceComplianceStatus API.
+    link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
+notes:
+  - SDK Method used are
+    compliance.Compliance.device_compliance_status,
+  - Paths used are
+    get /dna/intent/api/v1/compliance/{deviceUuid},
+"""
+
+EXAMPLES = r"""
+---
+- name: Get Compliance Device Id by id
+  cisco.catalystcenter.compliance_device_id_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    deviceUuid: string
+  register: result
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "deviceUuid": "string",
+        "complianceStatus": "string",
+        "lastUpdateTime": 0,
+        "scheduleTime": "string"
+      },
+      "version": "string"
+    }
+"""

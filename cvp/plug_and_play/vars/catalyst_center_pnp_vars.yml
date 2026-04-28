@@ -41,7 +41,7 @@ pnp_details:
           state: Unclaimed
           pid: C9300-48T
 
-  claim_switching_devices:
+  # DUPLICATE KEY - REMOVED: claim_switching_devices:
     - site_name:  Global/USA/New York/NY_BLD1
       project_name: Onboarding Configuration
       template_name: PnP-Devices-SW
@@ -77,7 +77,7 @@ pnp_details:
       ip_interface_name: TenGigabitEthernet0/0/2
       vlan_id: 2050
 
-  claim_wireless_controllers:
+  # DUPLICATE KEY - REMOVED: claim_wireless_controllers:
     - site_name: Global/USA/New York/NY_BLD2
       project_name: Onboarding Configuration
       image_name: C9800-40-universalk9_wlc.17.13.01.SPA.bin

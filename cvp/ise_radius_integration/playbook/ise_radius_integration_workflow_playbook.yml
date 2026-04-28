@@ -108,4 +108,3 @@
       register: ansible_play_path
       delegate_to: catalyst_center_hosts
       connection: local
-

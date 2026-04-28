@@ -1,0 +1,22 @@
+---
+# tasks file for sda_fabric_devices
+- name: Manage SDA Fabric Devices
+  cisco.catalystcenter.sda_fabric_devices_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
+    catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    state: "{{ sda_fabric_devices_state | default('merged') }}"
+    config_verify: "{{ sda_fabric_devices_config_verify | default(false) }}"
+    config: "{{ sda_fabric_devices_config }}"
+  register: sda_fabric_devices_result
+
+- name: Display SDA Fabric Devices Result
+  ansible.builtin.debug:
+    var: sda_fabric_devices_result
+  when: catalystcenter_debug | default(false)

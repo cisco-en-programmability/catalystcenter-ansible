@@ -1,0 +1,113 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: sda_fabric_zones
+short_description: Resource module for Sda Fabric Zones
+description:
+  - Manage operations create, update and delete of the resource Sda Fabric Zones.
+  - Adds a fabric zone based on user input.
+  - Deletes a fabric zone based on id.
+  - Updates a fabric zone based on user input.
+version_added: '6.14.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  id:
+    description: Id path parameter. ID of the fabric zone.
+    type: str
+  payload:
+    description: Sda Fabric Zones's payload.
+    elements: dict
+    suboptions:
+      authenticationProfileName:
+        description: Authentication profile used for this fabric.
+        type: str
+      siteId:
+        description: ID of the network hierarchy.
+        type: str
+    type: list
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for SDA AddFabricZone
+    description: Complete reference of the AddFabricZone API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone
+  - name: Cisco Catalyst Center documentation for SDA DeleteFabricZoneById
+    description: Complete reference of the DeleteFabricZoneById API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id
+  - name: Cisco Catalyst Center documentation for SDA UpdateFabricZone
+    description: Complete reference of the UpdateFabricZone API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone
+notes:
+  - SDK Method used are
+    sda.Sda.add_fabric_zone,
+    sda.Sda.delete_fabric_zone_by_id,
+    sda.Sda.update_fabric_zone,
+  - Paths used are
+    post /dna/intent/api/v1/sda/fabricZones,
+    delete /dna/intent/api/v1/sda/fabricZones/{id},
+    put /dna/intent/api/v1/sda/fabricZones,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.sda_fabric_zones:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - authenticationProfileName: string
+        siteId: string
+- name: Update all
+  cisco.catalystcenter.sda_fabric_zones:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    payload:
+      - authenticationProfileName: string
+        id: string
+        siteId: string
+- name: Delete by id
+  cisco.catalystcenter.sda_fabric_zones:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""

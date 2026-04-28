@@ -1,0 +1,22 @@
+---
+# tasks file for device_configs_backup
+- name: Manage Device Configuration Backup
+  cisco.catalystcenter.device_configs_backup_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
+    catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    state: "{{ device_configs_backup_state | default('merged') }}"
+    config_verify: "{{ device_configs_backup_config_verify | default(false) }}"
+    config: "{{ device_configs_backup_config }}"
+  register: device_configs_backup_result
+
+- name: Display Device Configuration Backup Result
+  ansible.builtin.debug:
+    var: device_configs_backup_result
+  when: catalystcenter_debug | default(false)

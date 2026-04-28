@@ -1,0 +1,28 @@
+---
+#Select Catalyst Cennter version, this one overwrite the default version from host file
+catalyst_center_version: 2.3.7.6
+# This file contains the variables for the inventory workflow
+inventory_details:
+  network_devices:
+  - ip_address_list: ["204.101.16.1","1.1.1.1", "2.2.2.2"]
+    cli_transport: ssh
+    compute_device: False
+    password: Test@123
+    enable_password: Test@1234
+    extended_discovery_info: test
+    http_username: "testuser"
+    http_password: "test"
+    http_port: "443"
+    http_secure: False
+    netconf_port: 830
+    snmp_auth_passphrase: "Lablab@12"
+    snmp_auth_protocol: SHA
+    snmp_mode: AUTHPRIV
+    snmp_priv_passphrase: "Lablab@123"
+    snmp_priv_protocol: AES256
+    snmp_retry: 3
+    snmp_timeout: 5
+    snmp_username: v3Public
+    snmp_version: v3
+    type: NETWORK_DEVICE
+    username: cisco

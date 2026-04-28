@@ -1,0 +1,75 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: tag_member_count_info
+short_description: Information module for Tag Member Count
+description:
+  - Get all Tag Member Count.
+  - Returns the number of members in a given tag.
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module_info
+author: Rafael Campos (@racampos)
+options:
+  headers:
+    description: Additional headers.
+    type: dict
+  id:
+    description:
+      - Id path parameter. Tag ID.
+    type: str
+  memberType:
+    description:
+      - MemberType query parameter.
+    type: str
+  memberAssociationType:
+    description:
+      - MemberAssociationType query parameter.
+    type: str
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Tag GetTagMemberCount
+    description: Complete reference of the GetTagMemberCount API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count
+notes:
+  - SDK Method used are
+    tag.Tag.get_tag_member_count,
+  - Paths used are
+    get /dna/intent/api/v1/tag/{id}/member/count,
+"""
+
+EXAMPLES = r"""
+---
+- name: Get all Tag Member Count
+  cisco.catalystcenter.tag_member_count_info:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    headers: "{{my_headers | from_json}}"
+    memberType: string
+    memberAssociationType: string
+    id: string
+  register: result
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": 0
+    }
+"""

@@ -1,0 +1,10 @@
+---
+catalyst_center_version: 2.3.7.6
+catalyst_center_verify: false
+events_notifications_destination_and_subscription_details:
+  - email_event_notification:
+      name: EMAIL Notification Testing
+  - syslog_event_notification:
+      name: Syslog Notification 001
+  - webhook_event_notification:
+      name: Webhook Notification SEEN-4890-02

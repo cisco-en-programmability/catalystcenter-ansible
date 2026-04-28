@@ -26,4 +26,3 @@ lan_automation_details:
       links:
         - source_port: "GigabitEthernet1/0/1"
           destination_port: "GigabitEthernet2/0/1"
-

@@ -1,0 +1,69 @@
+---
+create_wireless_profile:
+  - profile_name: "Corporate_Wireless_Profile"
+    site_names:
+      - "Global/Chennai/LTTS/FLOOR1"
+      - "Global/Madurai/LTTS/FLOOR1"
+    ssid_details:
+      - ssid: "GuestLTTS"
+        enable_fabric: false
+        dot11be_profile_name: "Corporate_VLAN"
+        vlan_group_name: "Corporate_VLAN_Group"
+      - ssid: "NY_SSID"
+        enable_fabric: false
+        dot11be_profile_name: "Corporate_VLAN"
+        interface_name: "guest_network"
+        local_to_vlan: 3002
+    ap_zones:
+      - ap_zone_name: "AP_Zone_North"
+        rf_profile_name: "LOW"
+        ssids:
+          - "GuestLTTS"
+    additional_interfaces:
+      - interface_name: "Corp_Interface_1"
+        vlan_id: 20
+      - interface_name: "Corp_Interface_1"
+        vlan_id: 22
+    day_n_templates:
+      - "WLC Template"
+    feature_template_designs:
+      - design_type: Advanced SSID Configuration
+        feature_templates:
+          - Default Advanced SSID Design
+        applicability_ssids:
+          - HQ_WiFi
+          - Branch_Secure
+
+update_wireless_profile:
+  - profile_name: "Corporate_Wireless_Profile"
+    site_names:
+      - "Global/Chennai/LTTS/FLOOR11"
+    ssid_details:
+      - ssid: "GuestLTTS"
+        enable_fabric: false
+        dot11be_profile_name: "Corporate_VLAN"
+        vlan_group_name: "Corporate_VLAN_Group"
+      - ssid: "NY_SSID"
+        enable_fabric: false
+        dot11be_profile_name: "Corporate_VLAN"
+        interface_name: "guest_network"
+        local_to_vlan: 3002
+    ap_zones:
+      - ap_zone_name: "AP_Zone_North"
+        rf_profile_name: "LOW"
+        ssids:
+          - "GuestLTTS"
+    additional_interfaces:
+      - interface_name: "Corp_Interface_1"
+        vlan_id: 20
+      - interface_name: "Corp_Interface_1"
+        vlan_id: 22
+    day_n_templates:
+      - "WLC Template"
+    feature_template_designs:
+      - design_type: AAA_RADIUS_ATTRIBUTES_CONFIGURATION
+        feature_templates:
+          - Radius Feature templates
+
+delete_wireless_profile:
+  - profile_name: "Corporate_Wireless_Profile"
