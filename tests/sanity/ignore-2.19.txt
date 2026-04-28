@@ -1,0 +1,1 @@
+cvp/sda_device_removal_and_unprovision/playbook/tasks/remove_single_device.yml yamllint:unparsable-with-libyaml
