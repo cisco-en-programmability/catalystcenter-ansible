@@ -588,4 +588,3 @@ reserve_pool_details_type:
   name: str(required=True)
   site_name: str(required=True)
   force_delete: bool(required=False)
-

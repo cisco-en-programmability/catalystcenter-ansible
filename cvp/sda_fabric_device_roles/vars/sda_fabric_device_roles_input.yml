@@ -32,4 +32,3 @@ fabric_devices_details:
               is_multicast_over_transit_enabled: false
         - device_ip: 204.1.2.3
           device_roles: [CONTROL_PLANE_NODE]
-

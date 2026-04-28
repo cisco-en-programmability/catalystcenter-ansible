@@ -1,0 +1,29 @@
+---
+- name: Generate YAML Configuration for Return Material Authorization(RMA)
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Generate YAML Configuration for Return Material Authorization(RMA)
+      cisco.catalystcenter.rma_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: gathered
+        config:
+          - file_path: "/Users/priyadharshini/Downloads/rma_info"
+            component_specific_filters:
+              components_list: ["device_replacement_workflows"]
+              device_replacement_workflows:
+                - replacement_device_serial_number: "9TRQFABSFR2"
+                - replacement_status: "REPLACED"

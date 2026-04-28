@@ -1,0 +1,279 @@
+releases:
+  2.7.0:
+    release_date: "2026-04-27"
+    changes:
+      release_summary: Added 69 Ansible roles and 70+ Cisco Validated Playbooks (CVP) for comprehensive Catalyst Center automation.
+      major_changes:
+        - Added 39 workflow manager roles wrapping workflow_manager modules for streamlined configuration management
+        - Added 30 config generator roles wrapping playbook_config_generator modules for configuration extraction
+        - Added 70+ Cisco Validated Playbooks (CVP) - production-ready automation solutions
+        - CVP includes complete playbooks, vars, schemas, images, and comprehensive documentation
+        - Roles provide higher-level abstraction with sensible defaults for common Catalyst Center operations
+        - All roles follow standard ansible-galaxy role structure with comprehensive documentation
+        - Each role includes tasks, defaults, meta, handlers, tests, and detailed README
+        - CVP validated by Cisco for production deployments across all major use cases
+      minor_changes:
+        - Added ROLES_GUIDE.md for comprehensive role usage documentation
+        - Added CVP_GUIDE.md for Cisco Validated Playbooks documentation
+        - Added cvp/README.md as CVP catalog and index
+        - Added playbooks/example_roles_playbook.yml demonstrating role usage patterns
+        - Updated main README.md with Ansible Roles and CVP sections
+        - Roles support all connection parameters with backward compatibility
+        - CVP includes Jinja2 templates for bulk operations where applicable
+        - CVP includes YAML schemas for input validation
+  1.0.0:
+    release_date: "2024-11-04"
+    changes:
+      release_summary: New Center API version 2.3.7.6 and Alias implementation.
+      minor_changes:
+        - Aliases were implemented to handle v1 and v2 of the API.
+        - Modifications due to documentation errors
+  2.0.0:
+    release_date: "2024-12-30"
+    changes:
+      release_summary: New Center API version 2.3.7.9.
+      minor_changes:
+        - Added compatibility with version 2.3.7.9 of the Cisco API
+  2.1.0:
+    release_date: "2025-01-09"
+    changes:
+      release_summary: Changing the name of credential and connection variables.
+      minor_changes:
+        - Change catalystcenter_host to host
+        - Change catalystcenter_port to api_port
+        - Change catalystcenter_username to username
+        - Change catalystcenter_password to password
+        - Change catalystcenter_verify to verify
+        - Change catalystcenter_version to version
+        - Change catalystcenter_debug to debug
+        - The variables catalystcenter_host, catalystcenter_port, catalystcenter_username, catalystcenter_password, catalystcenter_verify, catalystcenter_version and catalystcenter_debug are deprecated.
+        - But the replaced variables still work.
+        - Fixed issues in module sda_anycast_gateways_v1
+        - Fixed issues in module sda_layer3_virtual_networks_v1
+  2.1.1:
+    release_date: "2025-01-10"
+    changes:
+      release_summary: Update Doc.
+      minor_changes:
+        - Updating the documentation for variables that are deprecated.
+  2.1.2:
+    release_date: "2025-02-28"
+    changes:
+      release_summary: Update Readme
+      minor_changes:
+        - Update Readme
+  2.1.3:
+    release_date: "2025-03-10"
+    changes:
+      release_summary: Update Modules
+      minor_changes:
+        - Update cisco Modules device_credential_workflow_manager, inventory_workflow_manager, ise_radius_integration_workflow_manager, network_settings_workflow_manager, pnp_workflow_manager, provision_workflow_manager, sda_fabric_devices_workflow_manager, sda_fabric_transit_workflow_manager, sda_fabric_virtual_networks_workflow_manager, sda_host_port_onboarding_workflow_manager, site_workflow_manager, swim_workflow_manager, template_workflow_manager, user_and_role_workflow_manager.
+  2.1.4:
+    release_date: "2025-04-22"
+    changes:
+      release_summary: Update Modules and update the format for redhat.
+      minor_changes:
+        - The format has been updated to correct errors when uploading a new version to Red Hat.
+        - The workflow_manager modules have been updated.
+        - Change host to _host
+        - Change cport to _api_port
+        - Change username to _username
+        - Change password to _password
+        - Change verify to _verify
+        - Change version to _version
+        - Change debug to _debug
+        - This was due to problems with the parameters since there were conflicts
+  2.2.0:
+    release_date: "2025-06-19"
+    changes:
+      release_summary: Update Modules
+      minor_changes:
+        - Collection is now compatible with Catalyst Center API 3.1.3.0.
+  2.2.1:
+    release_date: "2025-08-07"
+    changes:
+      release_summary: Complete migration to catc_ prefixed parameters
+      minor_changes:
+        - Migrated all connection and logging parameters to use catc_ prefix (catc_host, catc_username, catc_password, catc_verify, catc_api_port, catc_version, catc_debug, catc_log, catc_log_level, catc_log_append, catc_log_file_path)
+        - Updated all module examples, playbooks, and documentation to use new parameter names
+        - Updated credentials files and doc fragments with new parameter structure
+        - Added timeout parameters catc_api_task_timeout and catc_task_poll_interval to core argument specifications
+        - Maintained backward compatibility through comprehensive aliases for legacy parameter names
+        - Standardized parameter naming across all workflow manager modules
+        - Fixed element_spec definitions in all modules to use consistent catc_ prefixed parameters
+  2.2.2:
+    release_date: "2025-08-11"
+    changes:
+      release_summary: Updated integration tests to use consistent catalystcenter_ prefixed variables
+      minor_changes:
+        - Updated all integration test files to use catalystcenter_ prefixed connection variables
+  2.3.0:
+    release_date: "2026-02-11"
+    changes:
+      release_summary: Introduced compatibility with Cisco Catalyst Center version 3.1.6.0
+      minor_changes:
+        - cisco.catalystcenter collection - SDK updated to dnacentersdk 2.11.0 with support for Cisco Catalyst Center 3.1.6.0
+        - cisco.catalystcenter collection - New service system_software_upgrade added for Catalyst Center 3.1.6.0
+        - access_groups - new module to manage access groups
+        - access_groups_info - new module to retrieve access groups information
+        - access_groups_count_info - new module to retrieve access groups count
+        - roles_v2 - new module to manage roles (v2)
+        - roles_v2_info - new module to retrieve roles information (v2)
+        - roles_permissions_info - new module to retrieve roles permissions
+        - client_enrichment_details_v2_info - new module to retrieve client enrichment details (v2)
+        - compliance_network_devices_detail_policys_info - new module to retrieve compliance policies for network devices
+        - compliance_network_devices_detail_policys_violations_info - new module to retrieve compliance policy violations for network devices
+        - compliance_policys - new module to manage compliance policies
+        - compliance_policys_info - new module to retrieve compliance policies information
+        - compliance_policys_count_info - new module to retrieve compliance policies count
+        - compliance_policys_rules - new module to manage compliance policy rules
+        - compliance_policys_rules_info - new module to retrieve compliance policy rules information
+        - compliance_policys_rules_count_info - new module to retrieve compliance policy rules count
+        - compliance_policys_rules_conditions - new module to manage compliance policy rule conditions
+        - compliance_policys_rules_conditions_info - new module to retrieve compliance policy rule conditions information
+        - compliance_policys_rules_conditions_count_info - new module to retrieve compliance policy rule conditions count
+        - compliance_policys_rules_variables - new module to manage compliance policy rule variables
+        - compliance_policys_rules_variables_info - new module to retrieve compliance policy rule variables information
+        - compliance_policys_rules_variables_count_info - new module to retrieve compliance policy rule variables count
+        - compliance_policys_site_assignments - new module to manage compliance policy site assignments
+        - compliance_policys_site_assignments_info - new module to retrieve compliance policy site assignments information
+        - compliance_policys_sites_rules_variables - new module to manage compliance policy site rule variables
+        - compliance_policys_sites_rules_variables_info - new module to retrieve compliance policy site rule variables information
+        - device_enrichment_details_v2_info - new module to retrieve device enrichment details (v2)
+        - discoverys - new module to manage device discoveries
+        - discoverys_info - new module to retrieve device discoveries information
+        - discoverys_count_info - new module to retrieve device discoveries count
+        - discoverys_jobs - new module to manage discovery jobs
+        - discoverys_jobs_info - new module to retrieve discovery jobs information
+        - discoverys_jobs_count_info - new module to retrieve discovery jobs count
+        - discoverys_jobs_summarys_info - new module to retrieve discovery jobs summaries
+        - discoverys_jobs_discovered_network_devices_info - new module to retrieve discovered network devices from discovery jobs
+        - discoverys_jobs_discovered_network_devices_count_info - new module to retrieve discovered network devices count
+        - discoverys_jobs_stop_create - new module to stop discovery jobs
+        - filter_group_associations - new module to manage filter group associations
+        - filter_group_associations_info - new module to retrieve filter group associations information
+        - filter_group_aassociations_delete - new module to delete filter group associations
+        - filter_groups - new module to manage filter groups
+        - filter_groups_info - new module to retrieve filter groups information
+        - network_devices_create - new module to create network devices
+        - network_devices_update - new module to update network devices
+        - network_devices_update_create - new module to trigger network device updates
+        - network_devices_export_credentials_create - new module to export network device credentials
+        - network_devices_validate_device_create - new module to validate network devices
+        - global_credentials - new module to manage global credentials
+        - global_credentials_info - new module to retrieve global credentials information
+        - global_credentials_count_info - new module to retrieve global credentials count
+        - images_delete - new module to delete software images
+        - product_series_count_info - new module to retrieve product series count
+        - iot_fabric_rep_rings_delete - new module to delete IoT fabric REP rings
+        - iot_non_fabric_rep_rings_delete - new module to delete IoT non-fabric REP rings
+        - issue_enrichment_details_info - new module to retrieve issue enrichment details
+        - download_software_release_create - new module to download software releases
+        - download_software_release_update - new module to update software release downloads
+        - download_software_release_delete - new module to delete software release downloads
+        - install_optional_packages_create - new module to install optional packages
+        - installed_release_info - new module to retrieve installed release information
+        - releases_info - new module to retrieve available releases information
+        - releases_release_summary_info - new module to retrieve release summary
+        - software_management_executions_info - new module to retrieve software management execution details
+        - uninstall_optional_packages_create - new module to uninstall optional packages
+        - upgrade_software_release_create - new module to upgrade software releases
+        - sda_layer3_virtual_networks_delete - new module to delete SDA layer 3 virtual networks
+        - sda_transit_networks_delete - new module to delete SDA transit networks
+        - site_update - new module to update sites
+        - site_delete - new module to delete sites
+        - user_enrichment_details_v2_info - new module to retrieve user enrichment details (v2)
+        - wireless_controllers_certificate_renewal_create - new module to trigger wireless controller certificate renewal
+        - wireless_controllers_site_tags_info - new module to retrieve wireless controller site tags
+        - wireless_profiles_policy_tags_info - new module to retrieve wireless profile policy tags
+        - wireless_settings_certificate_renewal_profiles - new module to manage wireless certificate renewal profiles
+        - wireless_settings_certificate_renewal_profiles_info - new module to retrieve wireless certificate renewal profiles information
+        - wireless_settings_certificate_renewal_profiles_count_info - new module to retrieve wireless certificate renewal profiles count
+  2.3.1:
+    release_date: "2026-02-17"
+    changes:
+      release_summary: Red Hat compliance and cleanup
+      minor_changes:
+        - Removed dnac.py and all legacy dnacenter references
+        - Cleaned up imports and backward-compatibility code
+        - Updated README for Red Hat requirements and support section
+        - Added build_ignore to galaxy.yml for smaller tarball
+  2.4.0:
+    release_date: "2026-02-27"
+    changes:
+      release_summary: Complete DNAC to Catalyst Center rename and minimum version bumps
+      minor_changes:
+        - Renamed all dnac_response return values to catalystcenter_response across all action plugins and module documentation
+        - Renamed AnsibleDNACException to AnsibleCatalystCenterException in module_utils and plugin_utils exceptions
+        - Updated CatalystCenterSDK to use api.CatalystCenterAPI instead of api.DNACenterAPI
+        - Updated SDK exception handling from exceptions.dnacentersdkException to exceptions.catalystcentersdkException
+        - Updated all module documentation seealso references from Cisco DNA Center to Cisco Catalyst Center
+        - Updated all module documentation return values from dnac_response to catalystcenter_response
+        - Bumped minimum SDK requirement from catalystcentersdk >= 3.1.6.0.0 to >= 3.1.6.0.1 across all modules
+        - Bumped minimum Python requirement from >= 3.9 to >= 3.12
+        - Bumped minimum ansible-core requirement from >= 2.15 to >= 2.16 in meta/runtime.yml and README
+        - Updated CircleCI config to replace legacy dnac references with catalystcenter naming
+        - Updated bug report template to reference Catalyst Center instead of DNA Center and CiscoISE
+        - Updated README with improved markdown links and updated compatibility matrix
+  2.5.0:
+    release_date: "2026-03-25"
+    changes:
+      release_summary: Synced workflow manager modules with cisco.dnac v6.47.0 through v6.48.2 - Bug fixes, new features and enhanced validation
+      minor_changes:
+        - module_utils/catalystcenter - Enhanced task error reporting with all_failure_reason parameter in check_task_tree_response for richer error messages from task tree
+        - module_utils/catalystcenter - Added all_reasons parameter to get_task_status_from_tasks_by_id for collecting detailed failure reasons
+        - module_utils/catalystcenter - Changed get_device_details_from_site to gracefully return empty list instead of calling fail_and_exit when no API response is received
+        - device_configs_backup_workflow_manager - Added null guards in get_diff_merged and verify_diff_merged to prevent errors when no configuration is found to backup
+        - device_configs_backup_workflow_manager - Changed operation status from failed/WARNING to ok/INFO when no reachable devices are found
+        - events_and_notifications_workflow_manager - Added webhook header logging with DEBUG-level messages for better troubleshooting
+        - lan_automation_workflow_manager - Relaxed discovered_device_site_name_hierarchy, primary_device_interface_names, and ip_pools from required to optional (required only in merged state)
+        - lan_automation_workflow_manager - Added None-safe iteration for deviceSerialNumberAuthorization and discoveryDevices lists
+        - lan_automation_workflow_manager - Added is not None filter in LAN automation parameter preparation to prevent passing None values to API
+        - reports_workflow_manager - Added 18 new filter validation methods covering Audit Log, Compliance, Configuration Archive, EoX, SWIM, Client, and Licensing report types
+        - reports_workflow_manager - Enhanced filter value normalization with SINGLE_INPUT type handling, None value protection, string-to-list conversion, and mixed-type list support
+        - sda_extranet_policies_workflow_manager - Added required true documentation for extranet_policy_name parameter
+        - template_workflow_manager - Added validate_jinja2_syntax option for validating Jinja2 template syntax before upload with line-number error reporting
+        - template_workflow_manager - Implemented UUID-based profile assignment deduplication to prevent duplicate assignments across config iterations
+        - template_workflow_manager - Updated profile-template comparison from name-based to ID-based for handling same-name templates in different projects
+        - wired_campus_automation_workflow_manager - Made stp_instance_vlan_id and igmp_snooping_vlan_id parameters optional instead of required
+        - wired_campus_automation_workflow_manager - Added enumerate with index tracking and skip-with-warning guards for STP mapping, STP merge, IGMP merge, and MLD merge loops
+        - wireless_design_workflow_manager - Fixed 802.12ac typo to 802.11ac in radio band documentation and configuration
+        - wireless_design_workflow_manager - Added standard_power_service boolean parameter support for 6GHz radio band settings
+        - wireless_design_workflow_manager - Implemented Feature Template Attribute Reset allowing state deleted with feature_attributes to perform RESET (null values) instead of full DELETE
+        - wireless_design_workflow_manager - Updated 10 process_delete and 10 verify_delete methods with has_other_attributes logic for granular attribute management
+      bugfixes:
+        - device_configs_backup_workflow_manager - Fixed potential crash when self.want is empty during backup and verification operations
+        - lan_automation_workflow_manager - Fixed potential crash when iterating over None values in device authorization and discovery device lists
+        - reports_workflow_manager - Fixed potential crash when filter values are None, bare strings, or contain non-string types in lists
+        - reports_workflow_manager - Fixed NameError when fixed_filters variable referenced outside its conditional block
+        - template_workflow_manager - Fixed redundant profile assignment attempts when multiple config entries reference the same template-profile combination
+        - wired_campus_automation_workflow_manager - Fixed silent skipping of STP/IGMP/MLD entries with missing VLAN IDs by adding explicit warnings
+        - wireless_design_workflow_manager - Fixed incorrect 802.12ac reference that should be 802.11ac
+  2.6.0:
+    release_date: "2026-03-30"
+    changes:
+      release_summary: Added 30 playbook config generator modules, shared brownfield helper, workflow manager enhancements, and backward-compatible dnac_* aliases for cisco.dnac migration and Ansible community package inclusion
+      minor_changes:
+        - module_utils/brownfield_helper - New shared brownfield helper module providing config validation, global filter validation, component-specific filter validation, IP validation, and YAML OrderedDumper support for all playbook config generator modules
+        - module_utils/catalystcenter - Added find_multiple_dict_by_key_value method to find all matching dictionaries in a list by key-value pair
+        - module_utils/validation - Enhanced error messages for invalid choice validation to display valid choices
+        - module_utils/network_profiles - Added get_wireless_profile method to retrieve wireless profile information via API
+        - Added 30 playbook config generator modules for brownfield automation covering access point, application policy, assurance, backup and restore, device credential, discovery, events and notifications, inventory, ISE radius integration, network profile switching, network profile wireless, network settings, PnP, provision, RMA, SDA extranet policies, SDA fabric devices, SDA fabric multicast, SDA fabric sites zones, SDA fabric transits, SDA fabric virtual networks, SDA host port onboarding, site, tags, template, user role, wired campus automation, and wireless design workflows
+        - Added device_ips, serial_numbers, and hostnames filters to sda_host_port_onboarding_playbook_config_generator
+        - inventory_workflow_manager - Added UDF existence check before adding to prevent duplicates, skip role pre-validation when devices are being added in same run
+        - network_devices_info_workflow_manager - Rewrote device identifier AND/OR logic to only count non-None keys, added stacked device serial number matching with pagination, added site verification before processing
+        - network_profile_wireless_workflow_manager - Moved get_wireless_profile to shared network_profiles module_utils
+        - discovery_workflow_manager - Added discovery_type normalization to uppercase for case-insensitive branching, enhanced main loop for individual config processing with progress logging
+        - tags_workflow_manager - Updated serial number regex to support stacked devices with comma-separated serial numbers
+        - wired_campus_automation_workflow_manager - Added config_verification_wait_time parameter for configurable verification delays
+        - assurance_issue_workflow_manager - Added deleted issue tracking in response, removed duplicate result update
+        - Fixed spelling errors across 22 workflow manager modules (occurred, update, parameters, successfully, retrieve, separate, configuration)
+        - Added backward-compatible dnac_* aliases to all connection parameters in module_utils and plugin_utils argument specs (dnac_host, dnac_port, dnac_username, dnac_password, dnac_verify, dnac_version, dnac_debug)
+        - Added backward-compatible dnac_* aliases to logging parameters in intent_params and workflow_manager_params doc fragments (dnac_log, dnac_log_level, dnac_log_file_path, dnac_log_append)
+        - Added user alias to catalystcenter_username for parity with cisco.dnac collection
+        - Added catalystcenter_api_port alias to catalystcenter_port for backward compatibility with older catalystcenter versions
+        - Added dnac_response return key alongside catalystcenter_response in all 1052 action plugins for backward compatibility with playbooks migrating from cisco.dnac
+        - Updated all 4 doc_fragments (module.py, module_info.py, intent_params.py, workflow_manager_params.py) with aliases entries for ansible-doc documentation
+        - Added CATALYSTCENTER_API_PORT to environment variable fallbacks for port parameter consistency
+      bugfixes:
+        - Fixed port parameter naming inconsistency - renamed catalystcenter_api_port to catalystcenter_port in module_utils argument spec to match internal code usage (catalystcenter_api_port preserved as alias)

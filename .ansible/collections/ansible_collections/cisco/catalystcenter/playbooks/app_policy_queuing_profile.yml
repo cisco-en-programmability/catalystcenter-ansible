@@ -1,0 +1,33 @@
+---
+- name: Application Set Info
+  hosts: catalystcenter_servers
+  vars_files:
+    - vars/credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Create
+      cisco.catalystcenter.app_policy_queuing_profile:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        state: present
+        id: "a"
+        payload:
+          - clause:
+              - interfaceSpeedBandwidthClauses:
+                  - interfaceSpeed: string
+                    tcBandwidthSettings:
+                      - bandwidthPercentage: 0
+                        trafficClass: string
+                isCommonBetweenAllInterfaceSpeeds: true
+                tcDscpSettings:
+                  - dscp: string
+                    trafficClass: string
+                type: string
+            description: string
+            name: string
+            id: string

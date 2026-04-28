@@ -88,4 +88,3 @@
       delegate_to: catalyst_center_hosts
       connection: local
 
-

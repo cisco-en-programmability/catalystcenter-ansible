@@ -1,0 +1,105 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: areas
+short_description: Resource module for Areas
+description:
+  - Manage operations create, update and delete of the resource Areas.
+  - Creates an area in the network hierarchy. - > Deletes an area in the network hierarchy. This operations fails if there
+    are any child areas or buildings for this area.
+  - Updates an area in the network hierarchy.
+version_added: '6.15.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  id:
+    description: Id path parameter. Area ID.
+    type: str
+  name:
+    description: Area name.
+    type: str
+  parentId:
+    description: Parent Id.
+    type: str
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Site Design CreatesAnArea
+    description: Complete reference of the CreatesAnArea API.
+    link: https://developer.cisco.com/docs/dna-center/#!creates-an-area
+  - name: Cisco Catalyst Center documentation for Site Design DeletesAnArea
+    description: Complete reference of the DeletesAnArea API.
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-an-area
+  - name: Cisco Catalyst Center documentation for Site Design UpdatesAnArea
+    description: Complete reference of the UpdatesAnArea API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-an-area
+notes:
+  - SDK Method used are
+    site_design.SiteDesign.creates_an_area,
+    site_design.SiteDesign.deletes_an_area,
+    site_design.SiteDesign.updates_an_area,
+  - Paths used are
+    post /dna/intent/api/v1/areas,
+    delete /dna/intent/api/v1/areas/{id},
+    put /dna/intent/api/v1/areas/{id},
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.areas:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    name: string
+    parentId: string
+- name: Delete by id
+  cisco.catalystcenter.areas:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+- name: Update by id
+  cisco.catalystcenter.areas:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    id: string
+    name: string
+    parentId: string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "count": 0
+      }
+    }
+"""

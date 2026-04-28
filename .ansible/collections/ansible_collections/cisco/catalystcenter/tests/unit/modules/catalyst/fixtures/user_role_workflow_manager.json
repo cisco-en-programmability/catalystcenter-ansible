@@ -1,0 +1,3380 @@
+{
+    "playbook_config_user": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Example@0101",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_delete_existing_user": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "email": "ajith.andrew@example.com",
+            "password": "Example@0101",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_mandatory_field_not_present": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "email": "ajith.andrew@example.com"
+        }]
+    },
+    "playbook_config_invalid_param_username_email_not_present": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew"
+        }]
+    },
+    "playbook_config_invalid_param_username_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith ",
+            "last_name": "andrew ",
+            "username": "ajithandrewj ",
+            "email": "ajith.andrewexample.com",
+            "password": "Ajith123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_firstname_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith ",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Example@0101",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_lastname_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew ",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Example@0101",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_email_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrewexample.com",
+            "password": "Example@0101",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_password_not_correct_formate": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Ajith123",
+            "role_list": ["Super-Admin-Role"]
+        }]
+    },
+    "playbook_config_invalid_param_user_rolelist_not_type_list": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj&",
+            "email": "ajith.andrew@example.com",
+            "password": "Example@0101",
+            "role_list": "Super-Admin-Role"
+        }]
+    },
+    "playbook_config_user_invalid_param_rolelist_not_found": {
+        "user_details": [{
+            "first_name": "ajith",
+            "last_name": "andrew",
+            "username": "ajithandrewj",
+            "email": "ajith.andrew@example.com",
+            "password": "Example@0101",
+            "role_list": ["Super-Admin-Roleee"]
+        }]
+    },
+    "create_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "create_user_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_user_response":{
+        "response": "User(s) 'ajithandrewj' created successfully in Cisco Catalyst Center."
+    },
+    "update_needed_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith-b",
+                "lastName": "andrew-b",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be62111"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew-b@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "update_user_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_needed_user_response":{
+        "response": "User(s) 'ajithandrewj' updated successfully in Cisco Catalyst Center."
+    },
+    "update_not_needed_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith",
+                "lastName": "andrew",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "update_user_not_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_not_needed_user_response":{
+        "response": "User(s) 'ajithandrewj' need no update in Cisco Catalyst Center."
+    },
+    "delete_existing_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith",
+                "lastName": "andrew",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "delete_existing_user_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_existing_user_response":{
+        "response": "User(s) 'ajithandrewj' deleted successfully from the Cisco Catalyst Center."
+    },
+    "delete_non_existing_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "delete_non_existing_user_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_non_existing_user_response":{
+        "response": "The specified user 'ajithandrewj' does not exist in Cisco Catalyst Center. Please provide a valid 'username' or 'email' for user deletion."
+    },
+    "invalid_param_mandatory_field_not_present_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_mandatory_field_not_present_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "OBSERVER-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_mandatory_field_not_present_param_responce":{
+        "message": "Mandatory parameter(s) 'username, password' not present in the user details."
+    },
+    "invalid_param_username_email_not_present_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_username_email_not_present_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_username_email_not_present_param_responce":{
+        "message": "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
+    },
+    "invalid_param_not_correct_formate_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_not_correct_formate_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_param_not_correct_formate_responce":{
+        "message": "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric characters only and must be 2 to 50 characters long., last_name: Last name 'andrew ' can have alphanumeric characters only and must be 2 to 50 characters long., The password must be 9 to 20 characters long and include at least three of the following character types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential characters., The password must be 9 to 20 characters long and include at least three of the following character types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential characters., username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
+    },
+    "user_invalid_param_not_type_list_response":{
+        "message": "Invalid parameter(s) found in playbook: Super-Admin-Role : is not a valid list"
+    },
+    "invalid_param_rolelist_not_found_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "syed",
+                "lastName": "khadeer",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "syed@example.com",
+                "username": "syedkhadeer"
+            }]
+        }
+    },
+    "invalid_param_rolelist_not_found_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "user_invalid_param_rolelist_not_found_responce":{
+        "message": "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
+    },
+    "invalid_param_update_rolelist_not_found_get_user_response":{
+        "response": {
+            "users": [{
+                "firstName": "ajith",
+                "lastName": "andrew",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1712759668555",
+                "roleList": [
+                    "6486ce97ff1f0d0c8be622f6"
+                ],
+                "userId": "6486ce98ff1f0d0c8be622f7",
+                "email": "ajith.andrew@example.com",
+                "username": "ajithandrewj"
+            }]
+        }
+    },
+    "user_invalid_param_update_rolelist_not_found_responce":{
+        "message": "The role name in the user details 'role_list' is not present in the Cisco Catalyst Center. Please provide a valid role name."
+    },
+    "playbook_config_role": {
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+            {
+                "overall": "write",
+                "monitoring_and_troubleshooting": "write",
+                "monitoring_settings": "write",
+                "troubleshooting_tools": "read"
+            }
+            ],
+            "network_analytics": [
+            {
+                "overall": "read",
+                "data_access": "read"
+            }
+            ],
+            "network_design": [
+            {
+                "overall": "write",
+                "advanced_network_settings": "write",
+                "image_repository": "write",
+                "network_hierarchy": "write",
+                "network_profiles": "read",
+                "network_settings": "read",
+                "virtual_network": "read"
+            }
+            ],
+            "network_provision": [
+            {
+                "overall": "write",
+                "compliance": "write",
+                "eox": "write",
+                "image_update": "read",
+                "inventory_management": [
+                {
+                    "overall": "write",
+                    "device_configuration": "write",
+                    "discovery": "read",
+                    "network_device": "write",
+                    "port_management": "read",
+                    "topology": "write"
+                }
+                ],
+                "license": "write",
+                "network_telemetry": "write",
+                "pnp": "read",
+                "provision": "read"
+            }
+            ],
+            "network_services": [
+            {
+                "overall": "write",
+                "app_hosting": "write",
+                "bonjour": "write",
+                "stealthwatch": "read",
+                "umbrella": "write"
+            }
+            ],
+            "platform": [
+            {
+                "overall": "write",
+                "apis": "write",
+                "bundles": "read",
+                "events": "read",
+                "reports": "write"
+            }
+            ],
+            "security": [
+            {
+                "overall": "write",
+                "group_based_policy": "read",
+                "ip_based_access_control": "read",
+                "security_advisories": "read"
+            }
+            ],
+            "system": [
+            {
+                "overall": "write",
+                "machine_reasoning": "read",
+                "system_management": "write"
+            }
+            ],
+            "utilities": [
+            {
+                "overall": "write",
+                "audit_log": "read",
+                "event_viewer": "read",
+                "network_reasoner": "write",
+                "remote_device_support": "write",
+                "scheduler": "write",
+                "search": "write"
+            }
+            ]
+        }]
+    },
+    "playbook_config_1_role": {
+        "role_details": [
+            {
+              "role_name": "Test_Role_1",
+              "assurance": [
+                {
+                  "overall": "deny",
+                  "monitoring_and_troubleshooting": null,
+                  "monitoring_settings": "write",
+                  "troubleshooting_tools": "read"
+                }
+              ],
+              "network_analytics": [
+                {
+                  "data_access": null
+                }
+              ],
+              "network_design": [
+                {
+                  "overall": "deny",
+                  "advanced_network_settings": "write",
+                  "image_repository": "write",
+                  "network_hierarchy": null,
+                  "network_profiles": "read",
+                  "network_settings": "deny",
+                  "virtual_network": "read"
+                }
+              ],
+              "network_provision": [
+                {
+                  "overall": "deny",
+                  "compliance": null,
+                  "eox": "write",
+                  "image_update": "read",
+                  "inventory_management": [
+                    {
+                      "overall": "write",
+                      "device_configuration": "write",
+                      "discovery": "read",
+                      "network_device": "write",
+                      "port_management": "read",
+                      "topology": null
+                    }
+                  ],
+                  "license": "write",
+                  "network_telemetry": "write",
+                  "pnp": "read",
+                  "provision": "deny"
+                }
+              ],
+              "network_services": [
+                {
+                  "overall": "write",
+                  "app_hosting": "write",
+                  "bonjour": "write",
+                  "stealthwatch": null,
+                  "umbrella": "write"
+                }
+              ],
+              "platform": [
+                {
+                  "overall": "write",
+                  "apis": "write",
+                  "bundles": "read",
+                  "events": "read",
+                  "reports": null
+                }
+              ],
+              "security": [
+                {
+                  "overall": "deny",
+                  "group_based_policy": "deny",
+                  "ip_based_access_control": "read",
+                  "security_advisories": null
+                }
+              ],
+              "system": [
+                {
+                  "overall": "write",
+                  "machine_reasoning": "read",
+                  "system_management": null
+                }
+              ],
+              "utilities": [
+                {
+                  "overall": "deny",
+                  "audit_log": "read",
+                  "event_viewer": "deny",
+                  "network_reasoner": "write",
+                  "remote_device_support": "write",
+                  "scheduler": "write",
+                  "search": null
+                }
+              ]
+            }
+          ]
+    },
+    "playbook_config_invalid_param_rolename_not_present": {
+        "role_details": [{
+            "description": "Default role creation"
+        }]
+    },
+    "playbook_config_invalid_param_role_not_type_list": {
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance":
+                {
+                "overall": "read"
+                }
+        }]
+    },
+    "playbook_config_invalid_param_with_all_permision_deny": {
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "network_analytics": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "network_design": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "network_provision": [
+            {
+                "overall": "deny",
+                "inventory_management": [
+                {
+                    "overall": "deny"
+                }
+                ]
+            }
+            ],
+            "network_services": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "platform": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "security": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "system": [
+            {
+                "overall": "deny"
+            }
+            ],
+            "utilities": [
+            {
+                "overall": "deny"
+            }
+            ]
+        }]
+    },
+    "playbook_config_invalid_param_rolename_not_correct_formate": {
+        "role_details": [{
+            "role_name": "Test_Role_1 ",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "read"
+                }
+            ]
+        }]
+    },
+    "playbook_config_invalid_param_type_list_missing":{
+        "role_details": {
+            "role_name": "Test_Role_1 ",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "read"
+                }
+            ]
+        }
+    },
+    "playbook_config_invalid_param_role_invalid_permission":{
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "aaa"
+                }
+            ]
+        }]
+    },
+    "playbook_config_invalid_invalid_param_state":{
+        "role_details": [{
+            "role_name": "Test_Role_1",
+            "description": "Default role creation",
+            "assurance": [
+                {
+                "overall": "aaa"
+                }
+            ]
+        }]
+    },
+    "create_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_role_response":{
+        "response": "Role(s) 'Test_Role_1' created successfully in Cisco Catalyst Center."
+    },
+    "create_1_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_1_role_response":{
+        "response": "Role(s) 'Test_Role_1' created successfully in Cisco Catalyst Center."
+    },
+    "update_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "Test_Role_1",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_needed_role_response":{
+        "response": "Role(s) 'Test_Role_1' updated successfully in Cisco Catalyst Center."
+    },
+    "update_not_needed_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Assurance.Monitoring and Troubleshooting"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Assurance.Monitoring Settings"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Assurance.Troubleshooting Tools"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Analytics.Data Access"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Design.Advanced Network Settings"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Design.Image Repository"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Design.Network Hierarchy"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Design.Network Profiles"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Design.Network Settings"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Design.Virtual Network"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Compliance"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.EoX"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Image Update"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Inventory Management.Device Configuration"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Inventory Management.Discovery"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Inventory Management.Network Device"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Inventory Management.Port Management"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Inventory Management.Topology"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.License"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Provision.Network Telemetry"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.PnP"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Provision.Provision"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Services.App Hosting"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Services.Bonjour"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Network Services.Stealthwatch"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Network Services.Umbrella"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Platform.APIs"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Platform.Bundles"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Platform.Events"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Platform.Reports"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Security.Group-Based Policy"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Security.IP Based Access Control"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Security.Security Advisories"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "System.Machine Reasoning"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "System.System Management"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Scheduler"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities.Event Viewer"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Network Reasoner"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    },
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities.Audit Log"
+                    },
+                    {
+                        "operations": [
+                            "gRead",
+                            "gUpdate",
+                            "gCreate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Remote Device Support"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1721628945568",
+                    "lastModified": null
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "Test_Role_1",
+                "description": "Default role creation",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "update_not_needed_role_response":{
+        "response": "Role(s) 'Test_Role_1' need no update in Cisco Catalyst Center."
+    },
+    "delete_existing_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Assurance"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "Test_Role_1",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_existing_role_response":{
+        "response": "Role(s) 'Test_Role_1' deleted successfully from the Cisco Catalyst Center."
+    },
+    "delete_non_existing_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "delete_non_existing_role_response":{
+        "response": "The specified role 'Test_Role_1' does not exist in Cisco Catalyst Center. Please provide a valid 'role_name' for user deletion."
+    },
+    "role_invalid_rolename_not_present_param_response":{
+        "message": "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
+    },
+    "role_invalid_param_not_type_list_response":{
+        "message": "Invalid parameter(s) found in playbook: {'overall': 'read'} : is not a valid list"
+    },
+    "role_param_with_all_permision_deny_get_role_responce":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "role_param_with_all_permision_deny_responce":{
+        "message": "The Catalyst Center user 'dummy' does not have the necessary permissions to 'create a role' through the API."
+    },
+    "invalid_param_rolename_not_correct_formate_get_role_responce":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "role_invalid_param_rolename_not_correct_formate_responce":{
+        "message": "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' Role names must be 1 to 25 characters long and should contain only letters, numbers, periods, underscores, and hyphens."
+    },
+    "invalid_param_type_list_missing_response":{
+        "message": "Configuration is not available in the playbook for validation or user/role details are not type list"
+    },
+    "invalid_param_invalid_permission_role_get_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_2",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "invalid_param_invalid_permission_update_role_get_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead"
+                        ],
+                        "type": "Utilities"
+                        
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f7",
+                "name": "Test_Role_1",
+                "description": "Default role creation",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "invalid_param_role_invalid_permission_response":{
+        "message": "Invalid permission 'aaa' for assurance resource 'overall' under the role 'None'"
+    },
+    "invalid_param_role_update_invalid_permission_response":{
+        "message": "Invalid permission 'aaa' for assurance resource 'overall' under the role 'Test_Role_1'"
+    },
+    "playbook_config_for_creating_default_role": {
+            "role_details": [{
+                "role_name": "default_role",
+                "description": "Default role creation"
+            }]
+    },
+    "create_default_get_role_response":{
+        "response": {
+            "roles": [{
+                "resourceTypes": [
+                    {
+                        "operations": [
+                            "gRead",
+                            "gCreate",
+                            "gUpdate",
+                            "gRemove"
+                        ],
+                        "type": "Utilities.Search"
+                    }
+                ],
+                "meta": {
+                    "createdBy": "admin",
+                    "created": "1717390142690",
+                    "lastModified": "1717390238774"
+                },
+                "roleId": "6486ce97ff1f0d0c8be622f6",
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "For LTTS Team",
+                "type": "CUSTOM"
+            }]
+        }
+    },
+    "create_default_role_response":{
+        "response": "Role(s) 'default_role' created successfully in Cisco Catalyst Center."
+    },
+    "invalid_param_state_responce":{
+        "message": "value of state must be one of: merged, deleted, got: mergeddd"
+    },
+
+    "playbook_new_version_user_create": {
+        "user_details": [
+            {
+            "password": "Pbalaku2@16",
+            "password_update": false,
+            "role_list": [
+                "Test_role_1"
+            ],
+            "username": "Priyadharshini"
+            }
+        ]
+        },
+        "get_users_api": {
+        "response": {
+            "users": [
+            {
+                "userId": "685974cecd0f400013b86053",
+                "username": "datcpham",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685975c1cd0f400013b86059",
+                "username": "admin",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a11ebcd0f400013b8605b",
+                "username": "thanduon",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12b4cd0f400013b8605d",
+                "username": "mohmshai",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12c3cd0f400013b8605f",
+                "username": "dkathirv",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12dacd0f400013b86061",
+                "username": "quangvin",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12eccd0f400013b86063",
+                "username": "maaliaj",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a22edcd0f400013b8606b",
+                "username": "thievo",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "68f09130cd0f4000430883d3",
+                "username": "mcp-admin",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "6927d54fcd0f4000430883d7",
+                "username": "ajithandrewj",
+                "lastName": "Andrew",
+                "firstName": "ajith",
+                "email": "ajith@gmail.com",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "Test_role_1"
+                ],
+                "accessGroups": [
+                "bcc4c5ea2b22ecc68819f9549ea0e69aa025e3b1"
+                ]
+            },
+            {
+                "userId": "69412b1bcd0f4000430883e7",
+                "username": "Admin_multiple",
+                "lastName": "",
+                "firstName": "",
+                "email": "super_admin_multiple@example.com",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392498",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            }
+            ]
+        }
+        },
+        "get_roles_api": {
+        "response": {
+            "roles": [
+            {
+                "resourceTypes": [
+                {
+                    "type": "Assurance.Monitoring and Troubleshooting",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Monitoring Settings",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Troubleshooting Tools",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Network Analytics.Data Access",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Advanced Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Image Repository",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Hierarchy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Profiles",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Virtual Network",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Compliance",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.EoX",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Image Update",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Device Configuration",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Discovery",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Network Device",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Port Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Topology",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.License",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Network Telemetry",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.PnP",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Provision",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.App Hosting",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Bonjour",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Stealthwatch",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Umbrella",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Group-Based Policy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.IP Based Access Control",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Security Advisories",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Machine Reasoning",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.System Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Basic",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Utilities.Event Viewer",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Network Reasoner",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Search",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Scheduler",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                }
+                ],
+                "meta": {
+                "created": "2025-11-24 12:06:20.306663025 +0000 UTC m=+3401067.228501489",
+                "lastModified": "2025-11-24 12:06:20.306666125 +0000 UTC m=+3401067.228504590",
+                "createdBy": "admin@localuser.com"
+                },
+                "name": "Test_role_1",
+                "roleId": "Test_role_1",
+                "type": "CustomResource"
+            },
+            {
+                "resourceTypes": [
+                {
+                    "type": "Assurance.Monitoring and Troubleshooting",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Monitoring Settings",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Troubleshooting Tools",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Network Analytics.Data Access",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Advanced Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Image Repository",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Hierarchy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Profiles",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Virtual Network",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Compliance",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.EoX",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Image Update",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Device Configuration",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Discovery",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Network Device",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Port Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Topology",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.License",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Network Telemetry",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.PnP",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Provision",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.App Hosting",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Bonjour",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Stealthwatch",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Umbrella",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Group-Based Policy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.IP Based Access Control",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Security Advisories",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Machine Reasoning",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.System Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Basic",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Utilities.Event Viewer",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Network Reasoner",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Search",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Scheduler",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                }
+                ],
+                "meta": {
+                "created": "2025-11-27 04:36:43.080018004 +0000 UTC m=+3633290.001856467",
+                "lastModified": "2025-11-27 04:36:43.080021144 +0000 UTC m=+3633290.001859612",
+                "createdBy": "admin@localuser.com"
+                },
+                "name": "Test_role_2",
+                "roleId": "Test_role_2",
+                "type": "CustomResource"
+            },
+            {
+                "resourceTypes": [
+                {
+                    "type": "Assurance.Monitoring and Troubleshooting",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Monitoring Settings",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Troubleshooting Tools",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Network Analytics.Data Access",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Advanced Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Image Repository",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Hierarchy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Profiles",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Virtual Network",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Compliance",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.EoX",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Image Update",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Device Configuration",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Discovery",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Network Device",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Port Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Topology",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.License",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Network Telemetry",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.PnP",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Provision",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.App Hosting",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Bonjour",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Stealthwatch",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Umbrella",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Group-Based Policy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.IP Based Access Control",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Security Advisories",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Machine Reasoning",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.System Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Basic",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Utilities.Event Viewer",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Network Reasoner",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Search",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Scheduler",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                }
+                ],
+                "meta": {
+                "created": "2025-11-27 04:40:18.330848588 +0000 UTC m=+3633505.252687045",
+                "lastModified": "2025-11-27 04:40:18.330851409 +0000 UTC m=+3633505.252689865",
+                "createdBy": "admin@localuser.com"
+                },
+                "name": "Test_role_3",
+                "roleId": "Test_role_3",
+                "type": "CustomResource"
+            },
+            {
+                "meta": {
+                "created": "2025-06-23 11:30:54.491615673 +0000 UTC m=+61.896609291",
+                "lastModified": "2025-11-27 04:52:22.518725973 +0000 UTC m=+3634229.440564430",
+                "createdBy": "maglev@test.com"
+                },
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "SUPER-ADMIN-ROLE",
+                "roleId": "SUPER-ADMIN",
+                "type": "System"
+            },
+            {
+                "meta": {
+                "created": "2025-06-23 11:30:54.491615673 +0000 UTC m=+61.896609291",
+                "lastModified": "2025-11-27 04:52:22.518725973 +0000 UTC m=+3634229.440564430",
+                "createdBy": "maglev@test.com"
+                },
+                "name": "OBSERVER-ROLE",
+                "description": "OBSERVER-ROLE",
+                "roleId": "OBSERVER",
+                "type": "System"
+            },
+            {
+                "meta": {
+                "created": "2025-06-23 11:30:54.491615673 +0000 UTC m=+61.896609291",
+                "lastModified": "2025-11-27 04:52:22.518725973 +0000 UTC m=+3634229.440564430",
+                "createdBy": "maglev@test.com"
+                },
+                "name": "NETWORK-ADMIN-ROLE",
+                "description": "NETWORK-ADMIN-ROLE",
+                "roleId": "NW-ADMIN",
+                "type": "System"
+            }
+            ]
+        }
+        },
+        "create_user": {
+        "response": {
+            "userId": "694902c3cd0f4000430883f3",
+            "message": "User is created successfully"
+        }
+        },
+        "get_users_api1": {
+        "response": {
+            "users": [
+            {
+                "userId": "685974cecd0f400013b86053",
+                "username": "datcpham",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685975c1cd0f400013b86059",
+                "username": "admin",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a11ebcd0f400013b8605b",
+                "username": "thanduon",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12b4cd0f400013b8605d",
+                "username": "mohmshai",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12c3cd0f400013b8605f",
+                "username": "dkathirv",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12dacd0f400013b86061",
+                "username": "quangvin",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a12eccd0f400013b86063",
+                "username": "maaliaj",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "685a22edcd0f400013b8606b",
+                "username": "thievo",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "68f09130cd0f4000430883d3",
+                "username": "mcp-admin",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "6927d54fcd0f4000430883d7",
+                "username": "ajithandrewj",
+                "lastName": "Andrew",
+                "firstName": "ajith",
+                "email": "ajith@gmail.com",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "Test_role_1"
+                ],
+                "accessGroups": [
+                "bcc4c5ea2b22ecc68819f9549ea0e69aa025e3b1"
+                ]
+            },
+            {
+                "userId": "69412b1bcd0f4000430883e7",
+                "username": "Admin_multiple",
+                "lastName": "",
+                "firstName": "",
+                "email": "super_admin_multiple@example.com",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "SUPER-ADMIN-ROLE"
+                ],
+                "accessGroups": [
+                "bf968342bb086d285e9c18508bb5af7a67e329be"
+                ]
+            },
+            {
+                "userId": "694902c3cd0f4000430883f3",
+                "username": "Priyadharshini",
+                "lastName": "",
+                "firstName": "",
+                "email": "",
+                "authSource": "internal",
+                "passphraseUpdateTime": "1766392515",
+                "roleList": [
+                "Test_role_1"
+                ],
+                "accessGroups": [
+                "bcc4c5ea2b22ecc68819f9549ea0e69aa025e3b1"
+                ]
+            }
+            ]
+        }
+        },
+        "get_roles_api2": {
+        "response": {
+            "roles": [
+            {
+                "resourceTypes": [
+                {
+                    "type": "Assurance.Monitoring and Troubleshooting",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Monitoring Settings",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Troubleshooting Tools",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Network Analytics.Data Access",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Advanced Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Image Repository",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Hierarchy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Profiles",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Virtual Network",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Compliance",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.EoX",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Image Update",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Device Configuration",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Discovery",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Network Device",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Port Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Topology",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.License",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Network Telemetry",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.PnP",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Provision",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.App Hosting",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Bonjour",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Stealthwatch",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Umbrella",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Group-Based Policy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.IP Based Access Control",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Security Advisories",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Machine Reasoning",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.System Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Basic",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Utilities.Event Viewer",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Network Reasoner",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Search",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Scheduler",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                }
+                ],
+                "meta": {
+                "created": "2025-11-24 12:06:20.306663025 +0000 UTC m=+3401067.228501489",
+                "lastModified": "2025-11-24 12:06:20.306666125 +0000 UTC m=+3401067.228504590",
+                "createdBy": "admin@localuser.com"
+                },
+                "name": "Test_role_1",
+                "roleId": "Test_role_1",
+                "type": "CustomResource"
+            },
+            {
+                "resourceTypes": [
+                {
+                    "type": "Assurance.Monitoring and Troubleshooting",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Monitoring Settings",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Troubleshooting Tools",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Network Analytics.Data Access",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Advanced Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Image Repository",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Hierarchy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Profiles",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Virtual Network",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Compliance",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.EoX",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Image Update",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Device Configuration",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Discovery",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Network Device",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Port Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Topology",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.License",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Network Telemetry",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.PnP",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Provision",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.App Hosting",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Bonjour",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Stealthwatch",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Umbrella",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Group-Based Policy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.IP Based Access Control",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Security Advisories",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Machine Reasoning",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.System Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Basic",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Utilities.Event Viewer",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Network Reasoner",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Search",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Scheduler",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                }
+                ],
+                "meta": {
+                "created": "2025-11-27 04:36:43.080018004 +0000 UTC m=+3633290.001856467",
+                "lastModified": "2025-11-27 04:36:43.080021144 +0000 UTC m=+3633290.001859612",
+                "createdBy": "admin@localuser.com"
+                },
+                "name": "Test_role_2",
+                "roleId": "Test_role_2",
+                "type": "CustomResource"
+            },
+            {
+                "resourceTypes": [
+                {
+                    "type": "Assurance.Monitoring and Troubleshooting",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Monitoring Settings",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Assurance.Troubleshooting Tools",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Network Analytics.Data Access",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Advanced Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Image Repository",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Hierarchy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Profiles",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Network Settings",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Design.Virtual Network",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Compliance",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.EoX",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Image Update",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Device Configuration",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Discovery",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Network Device",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Port Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Inventory Management.Topology",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.License",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Network Telemetry",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.PnP",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Provision.Provision",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.App Hosting",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Bonjour",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Stealthwatch",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Network Services.Umbrella",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Group-Based Policy",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.IP Based Access Control",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Security.Security Advisories",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Machine Reasoning",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.System Management",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "System.Basic",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                },
+                {
+                    "type": "Utilities.Event Viewer",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Network Reasoner",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Search",
+                    "operations": [
+                    "gRead"
+                    ]
+                },
+                {
+                    "type": "Utilities.Scheduler",
+                    "operations": [
+                    "gRead",
+                    "gUpdate",
+                    "gCreate",
+                    "gRemove"
+                    ]
+                }
+                ],
+                "meta": {
+                "created": "2025-11-27 04:40:18.330848588 +0000 UTC m=+3633505.252687045",
+                "lastModified": "2025-11-27 04:40:18.330851409 +0000 UTC m=+3633505.252689865",
+                "createdBy": "admin@localuser.com"
+                },
+                "name": "Test_role_3",
+                "roleId": "Test_role_3",
+                "type": "CustomResource"
+            },
+            {
+                "meta": {
+                "created": "2025-06-23 11:30:54.491615673 +0000 UTC m=+61.896609291",
+                "lastModified": "2025-11-27 04:52:22.518725973 +0000 UTC m=+3634229.440564430",
+                "createdBy": "maglev@test.com"
+                },
+                "name": "SUPER-ADMIN-ROLE",
+                "description": "SUPER-ADMIN-ROLE",
+                "roleId": "SUPER-ADMIN",
+                "type": "System"
+            },
+            {
+                "meta": {
+                "created": "2025-06-23 11:30:54.491615673 +0000 UTC m=+61.896609291",
+                "lastModified": "2025-11-27 04:52:22.518725973 +0000 UTC m=+3634229.440564430",
+                "createdBy": "maglev@test.com"
+                },
+                "name": "OBSERVER-ROLE",
+                "description": "OBSERVER-ROLE",
+                "roleId": "OBSERVER",
+                "type": "System"
+            },
+            {
+                "meta": {
+                "created": "2025-06-23 11:30:54.491615673 +0000 UTC m=+61.896609291",
+                "lastModified": "2025-11-27 04:52:22.518725973 +0000 UTC m=+3634229.440564430",
+                "createdBy": "maglev@test.com"
+                },
+                "name": "NETWORK-ADMIN-ROLE",
+                "description": "NETWORK-ADMIN-ROLE",
+                "roleId": "NW-ADMIN",
+                "type": "System"
+            }
+            ]
+        }
+        }
+}

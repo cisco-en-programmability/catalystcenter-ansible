@@ -147,4 +147,3 @@ discovery_details:
         net_conf_port: "830"
       timeout: 30
       retry: 2
-

@@ -12,4 +12,3 @@ rma_devices:
   # - faulty_device_ip_address: "204.192.3.40"
   #   replacement_device_ip_address: "204.1.2.5"
 
-

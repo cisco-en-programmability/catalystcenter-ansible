@@ -1,0 +1,150 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: wireless_settings_anchor_groups
+short_description: Resource module for Wireless Settings Anchor Groups
+description:
+  - Manage operations create, update and delete of the resource Wireless Settings Anchor Groups.
+  - This API allows the user to create an AnchorGroup.
+  - This API allows the user to delete an AnchorGroup by specifying the AnchorGroup ID.
+  - This API allows the user to update an AnchorGroup.
+version_added: '6.17.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  anchorGroupName:
+    description: Anchor Group Name. Max length is 32 characters.
+    type: str
+  id:
+    description: Id path parameter. AnchorGroup ID.
+    type: str
+  mobilityAnchors:
+    description: Wireless Settings Anchor Groups's mobilityAnchors.
+    elements: dict
+    suboptions:
+      anchorPriority:
+        description: This indicates anchor priority. Priority values range from 1 (high) to 3 (low). Primary, secondary or
+          tertiary and defined priority is displayed with guest anchor. Only one priority value is allowed per anchor WLC.
+        type: str
+      deviceName:
+        description: Peer Host Name.
+        type: str
+      ipAddress:
+        description: This indicates Mobility public IP address. Allowed formats are 192.168.0.1, 10.0.0.1, 255.255.255.255.
+        type: str
+      macAddress:
+        description: Peer Device mobility MAC address. Allowed formats are 0a0b.0c01.0211, 0a0b0c010211, 0a 0b 0c 01 02 11.
+        type: str
+      managedAnchorWlc:
+        description: This indicates whether the Wireless LAN Controller supporting Anchor is managed by the Network Controller
+          or not. True means this is managed by Network Controller.
+        type: bool
+      mobilityGroupName:
+        description: Peer Device mobility group Name. Must be alphanumeric without {!,<,space,?/'} and maximum of 31 characters.
+        type: str
+      peerDeviceType:
+        description: Indicates peer device mobility belongs to AireOS or IOS-XE family.
+        type: str
+      privateIp:
+        description: This indicates private management IP address. Allowed formats are 192.168.0.1, 10.0.0.1, 255.255.255.255.
+        type: str
+    type: list
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Wireless CreateAnchorGroup
+    description: Complete reference of the CreateAnchorGroup API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-anchor-group
+  - name: Cisco Catalyst Center documentation for Wireless DeleteAnchorGroupByID
+    description: Complete reference of the DeleteAnchorGroupByID API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-anchor-group-by-id
+  - name: Cisco Catalyst Center documentation for Wireless UpdateAnchorGroup
+    description: Complete reference of the UpdateAnchorGroup API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-anchor-group
+notes:
+  - SDK Method used are
+    wireless.Wireless.create_anchor_group,
+    wireless.Wireless.delete_anchor_group_by_id,
+    wireless.Wireless.update_anchor_group,
+  - Paths used are
+    post /dna/intent/api/v1/wirelessSettings/anchorGroups,
+    delete /dna/intent/api/v1/wirelessSettings/anchorGroups/{id},
+    put /dna/intent/api/v1/wirelessSettings/anchorGroups/{id},
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.wireless_settings_anchor_groups:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    anchorGroupName: string
+    mobilityAnchors:
+      - anchorPriority: string
+        deviceName: string
+        ipAddress: string
+        macAddress: string
+        managedAnchorWlc: true
+        mobilityGroupName: string
+        peerDeviceType: string
+        privateIp: string
+- name: Delete by id
+  cisco.catalystcenter.wireless_settings_anchor_groups:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: absent
+    id: string
+- name: Update by id
+  cisco.catalystcenter.wireless_settings_anchor_groups:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    state: present
+    anchorGroupName: string
+    id: string
+    mobilityAnchors:
+      - anchorPriority: string
+        deviceName: string
+        ipAddress: string
+        macAddress: string
+        managedAnchorWlc: true
+        mobilityGroupName: string
+        peerDeviceType: string
+        privateIp: string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""

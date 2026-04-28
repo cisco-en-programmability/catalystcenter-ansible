@@ -1,0 +1,71 @@
+{
+    "playbook_config": {
+        "name": "Test_Discovery_1",
+        "devices_list": [
+            {
+                "ip": "10.10.20.1"
+            },
+            {
+                "ip": "10.10.20.2"
+            }
+        ],
+        "delete_non_exist_discovery_name": "Non_Exist_Discovery"
+    },
+    "create_discovery_response": {
+        "response": {
+            "taskId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "url": "/api/v1/task/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        },
+        "version": "1.0"
+    },
+    "get_business_api_execution_details_response": {
+        "status": "SUCCESS"
+    },
+    "get_discovery_response": {
+        "response": [
+            {
+                "id": "1",
+                "name": "Test_Discovery_1",
+                "discoveryType": "MULTI RANGE",
+                "ipAddressList": "10.10.20.1-10.10.20.2",
+                "discoveryStatus": "Active",
+                "numDevices": 2
+            }
+        ]
+    },
+    "delete_get_discovery_response": {
+        "response": [
+            {
+                "id": "1",
+                "name": "Test_Discovery_1",
+                "discoveryType": "MULTI RANGE",
+                "ipAddressList": "10.10.20.1-10.10.20.2",
+                "discoveryStatus": "Active",
+                "numDevices": 2
+            }
+        ]
+    },
+    "delete_delete_discovery_response": {
+        "response": {
+            "taskId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+            "url": "/api/v1/task/b2c3d4e5-f6a7-8901-bcde-f12345678901"
+        },
+        "version": "1.0"
+    },
+    "delete_error_get_discovery_response": {
+        "response": [
+            {
+                "id": "1",
+                "name": "Test_Discovery_1",
+                "discoveryType": "MULTI RANGE",
+                "ipAddressList": "10.10.20.1-10.10.20.2",
+                "discoveryStatus": "Active",
+                "numDevices": 2
+            }
+        ]
+    },
+    "delete_execution_details_error": {
+        "status": "FAILURE",
+        "bapiError": "Discovery deletion failed due to internal error"
+    }
+}

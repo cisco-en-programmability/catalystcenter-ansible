@@ -1,0 +1,69 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id_deploy
+short_description: Resource module for Wired Network Devices Network Device Id Config Features Intended Configuration Models
+  Preview Activity Id Deploy
+description:
+  - Manage operation create of the resource Wired Network Devices Network Device Id Config Features Intended Configuration
+    Models Preview Activity Id Deploy. - > This API deploys the configuration model on the network device. This is the final
+    step 'Step 4' of the following workflow.
+version_added: '6.18.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  networkDeviceId:
+    description: NetworkDeviceId path parameter. Network device ID of the wired device to provision. The API /intent/api/v1/network-device
+      can be used to get the network device ID.
+    type: str
+  previewActivityId:
+    description: PreviewActivityId path parameter. Activity id from intent/api/v1/activity.
+    type: str
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Wired DeployTheConfigurationModelOnTheNetworkDevice
+    description: Complete reference of the DeployTheConfigurationModelOnTheNetworkDevice API.
+    link: https://developer.cisco.com/docs/dna-center/#!deploy-the-configuration-model-on-the-network-device
+notes:
+  - SDK Method used are
+    wired.Wired.deploy_the_configuration_model_on_the_network_device,
+  - Paths used are
+    post /dna/intent/api/v1/intent/api/v1/wired/networkDevices/{networkDeviceId}/configFeatures/intended/configurationModels/{previewActivityId}/deploy,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.wired_network_devices_network_device_id_config_features_intended_configuration_models_preview_activity_id_deploy:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    networkDeviceId: string
+    previewActivityId: string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""

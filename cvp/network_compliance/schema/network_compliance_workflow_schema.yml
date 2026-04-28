@@ -176,4 +176,3 @@ network_compliance_details_type:
   sync_device_config: bool(required=False)
 
 
-

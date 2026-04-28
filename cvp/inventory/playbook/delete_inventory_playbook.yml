@@ -69,4 +69,3 @@
       register: ansible_play_path
       delegate_to: localhost
       run_once: true
-

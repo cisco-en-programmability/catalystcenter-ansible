@@ -154,4 +154,3 @@ wireless_nw_profiles_details: list(include('wireless_nw_profiles_type'), min=0, 
 
 wireless_nw_profiles_type:
   profile_name: str(required=True)
-

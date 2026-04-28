@@ -4,7 +4,7 @@ catalyst_center_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 inventory_details:
   network_devices:
-  - ip_address_list: ["204.101.16.1","1.1.1.1", "2.2.2.2"]
+  - ip_address_list: ["204.101.16.1", "1.1.1.1", "2.2.2.2"]
     cli_transport: ssh
     compute_device: False
     password: Test@123

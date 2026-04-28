@@ -46,7 +46,7 @@ sda_fabric_sites_zones_config:
   - file_path: "/tmp/sda_fabric_sites_zones_components_config3.yaml"
     config:
       component_specific_filters:
-        components_list: ["fabric_sites","fabric_zones"]
+        components_list: ["fabric_sites", "fabric_zones"]
         fabric_sites: 
           - site_name_hierarchy: "Global/Test_Fabric"
         fabric_zones:

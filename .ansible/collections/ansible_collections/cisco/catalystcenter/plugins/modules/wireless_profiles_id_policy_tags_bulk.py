@@ -1,0 +1,85 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+DOCUMENTATION = r"""
+---
+module: wireless_profiles_id_policy_tags_bulk
+short_description: Resource module for Wireless Profiles Id Policy Tags Bulk
+description:
+  - Manage operation create of the resource Wireless Profiles Id Policy Tags Bulk. - > This endpoint allows the creation of
+    multiple `Policy Tags` associated with a specific `Wireless Profile` in a single request. The `id` of the Wireless Profile
+    must be provided as a path parameter, and a list of `Policy Tags` should be included in the request body.
+version_added: '6.17.0'
+extends_documentation_fragment:
+  - cisco.catalystcenter.module
+author: Rafael Campos (@racampos)
+options:
+  id:
+    description: Id path parameter. Wireless Profile Id.
+    type: str
+  items:
+    description: Wireless Profiles Id Policy Tags Bulk's items.
+    elements: dict
+    suboptions:
+      apZones:
+        description: Ap Zones.
+        elements: str
+        type: list
+      policyTagName:
+        description: Use English letters, numbers, special characters except <, /, '.*', ? and leading/trailing space.
+        type: str
+      siteIds:
+        description: Site Ids.
+        elements: str
+        type: list
+    type: list
+requirements:
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
+seealso:
+  - name: Cisco Catalyst Center documentation for Wireless CreateMultiplePolicyTagsForAWirelessProfileInBulk
+    description: Complete reference of the CreateMultiplePolicyTagsForAWirelessProfileInBulk API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-multiple-policy-tags-for-a-wireless-profile-in-bulk
+notes:
+  - SDK Method used are
+    wireless.Wireless.create_multiple_policy_tags_for_a_wireless_profile_in_bulk,
+  - Paths used are
+    post /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/bulk,
+"""
+
+EXAMPLES = r"""
+---
+- name: Create
+  cisco.catalystcenter.wireless_profiles_id_policy_tags_bulk:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    id: string
+    items:
+      - apZones:
+          - string
+        policyTagName: string
+        siteIds:
+          - string
+"""
+RETURN = r"""
+catalystcenter_response:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
+"""

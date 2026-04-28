@@ -1,0 +1,16 @@
+---
+# defaults file for sda_fabric_devices_config_generator
+catalystcenter_host: ""
+catalystcenter_username: ""
+catalystcenter_password: ""
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
+catalystcenter_debug: false
+catalystcenter_log_level: "INFO"
+catalystcenter_log: false
+
+sda_fabric_devices_config_generator_state: "gathered"
+sda_fabric_devices_config_generator_file_path: null
+sda_fabric_devices_config_generator_file_mode: "overwrite"
+sda_fabric_devices_config_generator_config: null
