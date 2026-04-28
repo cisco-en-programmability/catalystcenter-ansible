@@ -226,7 +226,7 @@ inventory_details:
 ```
 
 C. To execute the Ansible playbook for resync and reboot devices:
-* Resync - This task resynchronizes network devices with Cisco Catalyst to ensure their configuration and status in Catalyst match their actual state in the network. The resync process ensures that the device’s configuration and status in Catalyst are updated to reflect its actual state in the network. Resync is commonly used to address discrepancies between Catalyst and device configurations.
+* Resync - This task resynchronizes network devices with Cisco Catalyst to ensure their configuration and status in Catalyst match their actual state in the network. The resync process ensures that the device's configuration and status in Catalyst are updated to reflect its actual state in the network. Resync is commonly used to address discrepancies between Catalyst and device configurations.
 * The below sample playbook will be used for resync.
 * If force_sync is true then device sync would run in high priority thread if available, else the sync will fail.
 ```bash
@@ -404,4 +404,3 @@ Use either of these forms:
 
 - Relative to the playbook: `../vars/inventory_provision_devices.yml`
 - Fully resolved from the repo root: `${PWD}/cvp/inventory/vars/inventory_provision_devices.yml`
-

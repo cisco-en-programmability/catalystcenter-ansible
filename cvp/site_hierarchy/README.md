@@ -2,7 +2,7 @@
 
 ## Overview
 
-This playbook enables you to automate the creation, modification, and deletion of network site hierarchies in Cisco Catalyst Center. The site hierarchy represents your network’s geographical and logical structure, allowing you to apply design settings at various levels (Global, Area, Building, Floor).
+This playbook enables you to automate the creation, modification, and deletion of network site hierarchies in Cisco Catalyst Center. The site hierarchy represents your network's geographical and logical structure, allowing you to apply design settings at various levels (Global, Area, Building, Floor).
 
 **Key Features:**
 - Automate creation of Areas, Buildings, and Floors.
@@ -366,4 +366,3 @@ Use either of these forms:
 
 - Relative to the playbook: `../vars/site_hierarchy_design_vars.yml`
 - Fully resolved from the repo root: `${PWD}/cvp/site_hierarchy/vars/site_hierarchy_design_vars.yml`
-
