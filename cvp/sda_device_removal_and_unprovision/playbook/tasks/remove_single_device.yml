@@ -1,3 +1,5 @@
+# yamllint disable rule:anchors
+# The catalyst_center_login anchor is defined in the parent playbook
 - block:
     - name: Reset removal workflow context for current device
       ansible.builtin.set_fact:
