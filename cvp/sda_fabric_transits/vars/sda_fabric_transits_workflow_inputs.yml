@@ -74,4 +74,3 @@ fabric_transits:
           control_plane_network_device_ips:
             - "10.50.1.1"
             - "10.50.1.2"
-

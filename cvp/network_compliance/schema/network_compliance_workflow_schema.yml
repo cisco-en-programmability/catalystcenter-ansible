@@ -175,4 +175,3 @@ network_compliance_details_type:
   site_name: str(required=False)
   sync_device_config: bool(required=False)
 
-
