@@ -423,6 +423,6 @@ accesspoints_details:
   - mac_address: a4:88:73:d0:53:60
     rf_profile: "HIGH"
     site:
-      floor :
+      floor:
         name: FLOOR1
         parent_name: "Global/USA/SAN JOSE/SJ_BLD23"

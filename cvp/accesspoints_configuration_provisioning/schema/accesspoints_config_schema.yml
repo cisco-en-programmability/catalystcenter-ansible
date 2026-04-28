@@ -145,4 +145,3 @@ radio_type_xor:
   power_assignment_mode: enum("Global", "Custom", required=False)
   channel_width: enum("20 MHz", "40 MHz", "80 MHz", "160 MHz", "320 MHz", required=False)
   power_level: int(required=False)
-

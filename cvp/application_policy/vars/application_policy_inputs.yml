@@ -66,7 +66,7 @@ application_policy_details:
             - relevance: "BUSINESS_RELEVANT"
               application_set_name: ["collaboration-apps"]
             - relevance: "BUSINESS_IRRELEVANT"
-              application_set_name: ["email","tunneling"]
+              application_set_name: ["email", "tunneling"]
             - relevance: "DEFAULT"
               application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
 
@@ -85,4 +85,3 @@ application_policy_details:
               application_set_name: ["email", "backup-and-storage"]
             - relevance: "DEFAULT"
               application_set_name: ["collaboration-apps", "tunneling", "general-media"]
-

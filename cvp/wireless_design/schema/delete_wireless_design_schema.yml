@@ -50,4 +50,3 @@ rf_profiles_type:
 # Anchor groups schema definitions
 anchor_groups_type:
   anchor_group_name: str(required=True)
-

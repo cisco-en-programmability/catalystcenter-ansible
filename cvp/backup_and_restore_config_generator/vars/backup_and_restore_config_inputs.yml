@@ -51,7 +51,7 @@ backup_and_restore_config:
       component_specific_filters:
         components_list: ["backup_storage_configuration"]
         backup_storage_configuration:
-          - server_type: "NFS"
+          - server_type:"NFS"
 
   # Backup storage configurations with PHYSICAL_DISK server type filter
   - file_path: "/tmp/backup_storage_physical_disk_filter_config8.yml"
@@ -59,7 +59,7 @@ backup_and_restore_config:
       component_specific_filters:
         components_list: ["backup_storage_configuration"]
         backup_storage_configuration:
-          - server_type: "PHYSICAL_DISK"
+          - server_type:"PHYSICAL_DISK"
 
   # Backup storage configurations with multiple server types
   - file_path: "/tmp/backup_storage_multiple_types_filter_config9.yml"
@@ -94,7 +94,7 @@ backup_and_restore_config:
       component_specific_filters:
         components_list: ["nfs_configuration"]
         backup_storage_configuration:
-          - server_type : "NFS"
+          - server_type: "NFS"
 
   # No components list specified, only component filters provided
   # Expected: Auto-population infers components_list from provided filters

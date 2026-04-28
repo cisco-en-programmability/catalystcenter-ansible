@@ -93,4 +93,3 @@
         - "{{ item }}"
       loop: "{{ swim_details.upload_tag_dis_activate_images }}"
       when: swim_details.upload_tag_dis_activate_images is defined
-

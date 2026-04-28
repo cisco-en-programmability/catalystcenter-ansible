@@ -38,4 +38,3 @@ design_sites:
         upload_floor_image_path: "{{ playbook_dir }}/../images/floor_image1.png"
         force_upload_floor_image: true
     type: floor
-
