@@ -4,7 +4,6 @@
 # Main Configuration for Deletion
 accesspoint_location_details: list(include('delete_location'), min=1, max=100, required=True)
 
----
 # Delete Location Type - Simplified for deletion operations
 delete_location:
   floor_site_hierarchy: str(required=True)

@@ -1,3 +1,4 @@
+---
 # assurance health_score_settings schema
 catalyst_center_version: str(required=False)
 catalyst_center_verify: bool(required=False)
@@ -10,7 +11,6 @@ catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_task_poll_interval: int(required=False)
 assurance_health_score_settings: list(include('assurance_health_score_settings_type'), min=0, max=1000, required=False)
----
 assurance_health_score_settings_type:
   device_health_score: list(include('device_health_score_type'), min=0, max=1000, required=False)
   

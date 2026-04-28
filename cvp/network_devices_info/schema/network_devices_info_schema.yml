@@ -1,3 +1,4 @@
+---
 # Network Devices Info Schema
 # This schema validates the input parameters for network device information retrieval workflow
 #
@@ -74,7 +75,6 @@ catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG",
 catalyst_center_config_verify: bool(required=False, default=False)
 catalyst_center_task_poll_interval: int(required=False)
 
----
 network_device_query:
   network_devices: list(include('network_device_type'), required=True)
 

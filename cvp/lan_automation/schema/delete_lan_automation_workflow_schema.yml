@@ -1,3 +1,4 @@
+---
 #https://github.com/23andMe/Yamale
 
 lan_automation_details:
@@ -16,7 +17,6 @@ jinjatemplate: bool(required=False)
 passwords_file: str(required=False)
 jinjatemplate_file: str(required=False)
 ccc_poll_interval: int(required=False)  
----
 
 lan_automation_type:
   lan_automation:

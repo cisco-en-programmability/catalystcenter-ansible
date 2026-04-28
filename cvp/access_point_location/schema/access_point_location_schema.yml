@@ -5,7 +5,6 @@
 accesspoint_location_details: list(include('accesspoint_location_type'), min=1, max=100, required=True)
 config_verify: bool(required=False, default=False)
 
----
 # Access Point Location Type
 accesspoint_location_type:
   floor_site_hierarchy: str(required=True)

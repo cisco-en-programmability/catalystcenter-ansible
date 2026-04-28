@@ -1,3 +1,4 @@
+---
 # This schema is used to validate the input parameters for the Ansible playbook.
 # config:
 #     description: >
@@ -294,7 +295,6 @@ jinjatemplate: bool(required=False)
 jinjatemplate_file: str(required=False)
 passwords_file: str(required=False)
 tags_details: list(include('tag_detail_type'), required=False)
----
 tag_detail_type:
   tag: include('tags_type', required=False)
   tag_memberships: include('tag_membership_type', required=False)

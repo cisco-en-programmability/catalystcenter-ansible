@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center ISE Radius Integration Config Generator Schema
 # ======================================================================================
 #
@@ -151,7 +152,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 
----
 # ISE Radius Integration Config Generator Entry Schema
 ise_radius_integration_config_generator_type:
   # Output file path (optional - module level parameter)
@@ -163,13 +163,11 @@ ise_radius_integration_config_generator_type:
   # Component-specific filters
   config: include('ise_radius_config_type', required=False)
 
----
 # ISE Radius config wrapper schema
 ise_radius_config_type:
   # Component-specific filters
   component_specific_filters: include('ise_radius_component_filters_type', required=False)
 
----
 # ISE Radius component filters schema
 ise_radius_component_filters_type:
   # List of components to include
@@ -178,7 +176,6 @@ ise_radius_component_filters_type:
   # Authentication policy server filters
   authentication_policy_server: include('authentication_policy_server_filter_type', required=False)
 
----
 # Authentication policy server filter schema
 authentication_policy_server_filter_type:
   # Server type filter (AAA or ISE)

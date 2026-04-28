@@ -1,3 +1,4 @@
+---
 # create schema for the following spec
 # Parameter	Choices/Defaults	Comments
 # config
@@ -608,7 +609,6 @@ passwords_file: str(required=False)
 roles_users_details: 
     role_details: list(include('roles_details_type'), min=0, max=500, required=False)
     user_details: list(include('users_details_type'), min=0, max=500, required=False)
----
 users_details_type:
   email: str(required=False)
   username: str(required=False)

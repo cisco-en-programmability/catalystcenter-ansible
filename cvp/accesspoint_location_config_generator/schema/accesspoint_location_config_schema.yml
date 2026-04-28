@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center Access Point Location Config Generator Schema
 # ======================================================================================
 #
@@ -280,7 +281,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Access Point Location Config Generator Entry Schema
 accesspoint_location_config_generator_type:
 
@@ -293,13 +293,11 @@ accesspoint_location_config_generator_type:
   # Config parameter containing global filters (optional - module level parameter)
   config: include('accesspoint_global_type', required=False)
 
----
 # Config Schema - what goes inside the config parameter
 accesspoint_global_type:
   # Global filters (required when config is provided)
   global_filters: include('accesspoint_location_global_filters_type', required=True)
 
----
 # Access Point Location Global Filters Schema
 # Identifies which access point locations to include in the generated YAML.
 accesspoint_location_global_filters_type:

@@ -1,3 +1,4 @@
+---
 # Schema for SDA device removal and unprovision workflow
 #
 # This workflow:
@@ -20,7 +21,6 @@ catalyst_center_log_level: enum('CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG',
 catalyst_center_config_verify: bool(required=False, default=False)
 catalyst_center_task_poll_interval: int(required=False)
 
----
 device_removal_type:
   device_name: str(required=True)
   fabric_site_name_hierarchy: str(required=True)

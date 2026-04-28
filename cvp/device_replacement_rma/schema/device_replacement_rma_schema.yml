@@ -1,3 +1,4 @@
+---
 # ccc_poll_interval
 # integer
 # Default:2	
@@ -181,7 +182,6 @@ resync_retry_count: int(required=False)
 timeout_interval: int(required=False)
 validate_response_schema: bool(required=False)
 rma_devices: list(include('device_replacement_rma_type', required=False), min=0, max=10, required=False)
----
 device_replacement_rma_type:
     faulty_device_ip_address: str(required=False)
     faulty_device_name: str(required=False)

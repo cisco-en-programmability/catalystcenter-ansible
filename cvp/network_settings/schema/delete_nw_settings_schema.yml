@@ -1,3 +1,4 @@
+---
 
 #=========================================================================
 # Schema for Network Settings Inputs
@@ -571,7 +572,6 @@ catalyst_center_log_file_path: str(required=False, default='dnac.log')
 catalyst_center_log_level: enum("CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG", required=False)
 catalyst_center_task_poll_interval: int(required=False)
 catalyst_center_config_verify: bool(required=False, default=False)
----
 network_settings_details_type:
   global_pool_details: include('global_pool_details_type', required=False)
   reserve_pool_details: list(include('reserve_pool_details_type'), required=False)

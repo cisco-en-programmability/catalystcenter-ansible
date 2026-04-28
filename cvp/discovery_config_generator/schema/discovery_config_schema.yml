@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center - Discovery Config Generator Schema
 # ===================================================================
 #
@@ -191,7 +192,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Discovery Config Generator Entry Schema
 # Each list entry is a dict passed directly as the module's config parameter (type: dict)
 discovery_config_generator_type:
@@ -205,14 +205,12 @@ discovery_config_generator_type:
   # Config parameter containing global filters (optional - module level parameter)
   config: include('discovery_global_type', required=False)
 
----
 # Config Schema - what goes inside the config parameter
 discovery_global_type:
   # Global filters (required when config is provided)
   global_filters: include('discovery_global_filters_type', required=True)
 
 
----
 # Global Filters Schema
 # Identifies which discovery tasks to include in the generated YAML.
 # Priority: discovery_name_list (highest) > discovery_type_list (lower)

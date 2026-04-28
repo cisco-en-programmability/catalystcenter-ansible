@@ -1,3 +1,4 @@
+---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
 catalyst_center_version: str(required=False)
 catalyst_center_verify: bool(required=False)
@@ -13,7 +14,6 @@ catalyst_center_task_poll_interval: int(required=False, default=2)
 jinjatemplate: bool(required=False)
 jinjatemplate_file: str(required=False)
 accesspoints_details: list(include('accesspoints_details_type'), min=0, max=1000, required=False)
----
 accesspoints_details_type:
   # Note: At least one of mac_address, hostname, or management_ip_address must be provided to identify the access point.
   2.4ghz_radio: include('radio_type_ghz', required=False)

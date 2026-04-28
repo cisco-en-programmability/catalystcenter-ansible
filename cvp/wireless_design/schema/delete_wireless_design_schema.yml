@@ -1,3 +1,4 @@
+---
 # Wireless Design Schema
 # Reference: 
 catalyst_center_version: str(required=False)
@@ -13,7 +14,6 @@ jinjatemplate: bool(required=False)
 jinjatemplate_file: str(required=False)
 passwords_file: str(required=False)
 wireless_design_details: list(include('wireless_design_details_type'), min=0, max=1000, required=False)
----
 wireless_design_details_type:
   ssids: list(include('ssids_type'), min=0, max=1000, required=False)
   interfaces: list(include('interfaces_type'), min=0, max=1000, required=False)

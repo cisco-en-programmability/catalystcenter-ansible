@@ -1,3 +1,4 @@
+---
 
 #   wireless_nw_profiles:
 #     description: A list containing the details for network wireless profile creation.
@@ -151,7 +152,6 @@ jinjatemplate_file: str(required=False)
 passwords_file: str(required=False)
 wireless_nw_profiles_details: list(include('wireless_nw_profiles_type'), min=0, max=1000, required=True)
 
----
 wireless_nw_profiles_type:
   profile_name: str(required=True)
 

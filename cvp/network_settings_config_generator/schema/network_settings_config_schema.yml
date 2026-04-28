@@ -1,3 +1,4 @@
+---
 
 # Cisco Catalyst Center Network Settings Config Generator Schema
 # ======================================================================================
@@ -19,7 +20,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
----
 # Network Settings Config Generator Entry Schema
 network_settings_config_generator_type:
   # Workflow-level convenience flag. If true, the playbook omits module config

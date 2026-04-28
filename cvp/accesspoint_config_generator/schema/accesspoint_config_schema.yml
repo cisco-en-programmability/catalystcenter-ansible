@@ -1,3 +1,4 @@
+---
 # Cisco Catalyst Center Access Point Config Generator Schema
 # ======================================================================================
 #
@@ -19,7 +20,6 @@ catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 catalyst_center_config_verify: bool(required=False)
 
----
 # Access Point Config Generator Entry Schema
 accesspoint_config_generator_type:
   # Workflow-level convenience flag. If true, the playbook omits module config
@@ -31,7 +31,6 @@ accesspoint_config_generator_type:
   # module config.global_filters when at least one filter is present.
   global_filters: include('accesspoint_global_filters_type', required=False)
 
----
 # Access Point Global Filters Schema
 accesspoint_global_filters_type:
   site_list: list(str(), min=1, max=500, required=False)

@@ -1,3 +1,4 @@
+---
 # Catalyst Center SDA Fabric Virtual Networks Configuration Generator Schema
 # ======================================================================================
 #
@@ -221,7 +222,6 @@ catalyst_center_log_append: bool(required=False)
 catalyst_center_log_file_path: str(required=False)
 catalyst_center_log_level: str(required=False)
 
----
 # SDA Virtual Networks Configuration Generator Schema
 sda_vn_config_generator_type:
   # Output file path (optional - module level parameter)
@@ -235,13 +235,11 @@ sda_vn_config_generator_type:
   config: include('vn_component_config_type', required=False)
 
 
----
 # Config Schema - what goes inside the config parameter
 vn_component_config_type:
   # Component-specific filters (required when config is provided)
   component_specific_filters: include('vn_component_filters_type', required=True)
 
----
 # Virtual Networks Component Filters Schema
 vn_component_filters_type:
   # List of components to include
@@ -256,7 +254,6 @@ vn_component_filters_type:
   # Anycast gateways filters
   anycast_gateways: list(include('anycast_gateway_filter_type'), min=1, max=100, required=False)
 
----
 # Fabric VLAN Filter Schema
 fabric_vlan_filter_type:
   # VLAN name for filtering fabric VLANs
@@ -265,13 +262,11 @@ fabric_vlan_filter_type:
   # VLAN ID for filtering fabric VLANs
   vlan_id: int(required=False)
 
----
 # Virtual Network Filter Schema
 virtual_network_filter_type:
   # Virtual network name for filtering virtual networks
   vn_name: str(required=False)
 
----
 # Anycast Gateway Filter Schema
 anycast_gateway_filter_type:
   # Virtual network name for filtering anycast gateways
