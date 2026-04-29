@@ -153,7 +153,7 @@ options:
             required: false
 
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -339,7 +339,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 try:
@@ -360,7 +360,7 @@ else:
     OrderedDumper = None
 
 
-class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
+class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generating playbook files for network settings deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -6688,7 +6688,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             # Execute the API call
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -7539,7 +7539,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
             params = {"id": site_id, "inherited": True}
 
             # Execute the API call
-            aaa_network_response = self.dnac._exec(
+            aaa_network_response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -7727,7 +7727,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            dhcp_response = self.dnac._exec(
+            dhcp_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_d_h_c_p_settings_for_a_site",
                 op_modifies=False,
@@ -8001,7 +8001,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            dns_response = self.dnac._exec(
+            dns_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_d_n_s_settings_for_a_site",
                 op_modifies=False,
@@ -8268,7 +8268,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            telemetry_response = self.dnac._exec(
+            telemetry_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_telemetry_settings_for_a_site",
                 op_modifies=False,
@@ -8522,7 +8522,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            ntpserver_response = self.dnac._exec(
+            ntpserver_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_n_t_p_settings_for_a_site",
                 op_modifies=False,
@@ -8631,7 +8631,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            timezone_response = self.dnac._exec(
+            timezone_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_time_zone_settings_for_a_site",
                 op_modifies=False,
@@ -8922,7 +8922,7 @@ class NetworkSettingsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            banner_response = self.dnac._exec(
+            banner_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_banner_settings_for_a_site",
                 op_modifies=False,
@@ -10540,7 +10540,7 @@ def main():
         "INFO"
     )
 
-    if (ccc_network_settings_playbook_generator.compare_dnac_versions(
+    if (ccc_network_settings_playbook_generator.compare_catalystcenter_versions(
             ccc_network_settings_playbook_generator.get_ccc_version(), "2.3.7.9") < 0):
 
         error_msg = (

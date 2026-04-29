@@ -142,7 +142,7 @@ options:
                 - mac_address
                 - ip_address
 requirements:
-- dnacentersdk >= 2.4.5
+- catalystcentersdk >= 2.4.5
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -640,7 +640,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 from collections import defaultdict
 import time
@@ -666,7 +666,7 @@ else:
     OrderedDumper = None
 
 
-class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
+class TagsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -2307,7 +2307,7 @@ class TagsPlaybookGenerator(DnacBase, BrownFieldHelper):
         params = {"id": device_id}
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices",
                 function="get_device_list",
                 op_modifies=False,
@@ -2999,7 +2999,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_tags_playbook_generator = TagsPlaybookGenerator(module)
     if (
-        ccc_tags_playbook_generator.compare_dnac_versions(
+        ccc_tags_playbook_generator.compare_catalystcenter_versions(
             ccc_tags_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

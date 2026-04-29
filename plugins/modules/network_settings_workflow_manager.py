@@ -612,7 +612,7 @@ options:
             required: false
             default: false
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -925,14 +925,14 @@ import re
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     catalystcenter_compare_equality,
 )
 
 
-class NetworkSettings(DnacBase):
+class NetworkSettings(CatalystCenterBase):
     """Class containing member attributes for network_settings_workflow_manager module"""
 
     def __init__(self, module):
@@ -1264,7 +1264,7 @@ class NetworkSettings(DnacBase):
         current_version = self.get_ccc_version()
         self.log("Current Cisco Catalyst Center Version: {}".format(current_version), "DEBUG")
 
-        if self.compare_dnac_versions(current_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0:
             self.log("Using get_global_pool_params_v1 based on version check", "DEBUG")
             return self.get_global_pool_params_v1(pool_info)
 
@@ -1352,7 +1352,7 @@ class NetworkSettings(DnacBase):
             in the format suitable for the Cisco Catalyst Center config
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
             self.log("Using new Reserved Pool format for version 2.3.7.9 and above", "INFO")
             return pool_info
 
@@ -1454,7 +1454,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            dhcp_response = self.dnac._exec(
+            dhcp_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_d_h_c_p_settings_for_a_site",
                 op_modifies=False,
@@ -1512,7 +1512,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            dns_response = self.dnac._exec(
+            dns_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_d_n_s_settings_for_a_site",
                 op_modifies=False,
@@ -1566,7 +1566,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            telemetry_response = self.dnac._exec(
+            telemetry_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_telemetry_settings_for_a_site",
                 op_modifies=False,
@@ -1621,7 +1621,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            ntpserver_response = self.dnac._exec(
+            ntpserver_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_n_t_p_settings_for_a_site",
                 op_modifies=False,
@@ -1678,7 +1678,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            timezone_response = self.dnac._exec(
+            timezone_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_time_zone_settings_for_a_site",
                 op_modifies=False,
@@ -1732,7 +1732,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            banner_response = self.dnac._exec(
+            banner_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_banner_settings_for_a_site",
                 op_modifies=False,
@@ -1787,7 +1787,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            aaa_network_response = self.dnac._exec(
+            aaa_network_response = self.catalystcenter._exec(
                 family="network_settings",
                 function="retrieve_aaa_settings_for_a_site",
                 op_modifies=False,
@@ -1845,7 +1845,7 @@ class NetworkSettings(DnacBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration according to cisco catalyst center version.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
             self.log(
                 "Using get_network_params_v1 based on version check",
                 "DEBUG",
@@ -1873,7 +1873,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="get_network_v2",
                 op_modifies=True,
@@ -2337,8 +2337,8 @@ class NetworkSettings(DnacBase):
         start_time = time.time()
         while True:
             try:
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
-                    response = self.dnac._exec(
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="get_reserve_ip_subpool",
                         op_modifies=True,
@@ -2348,7 +2348,7 @@ class NetworkSettings(DnacBase):
                         }
                     )
                 else:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="retrieves_ip_address_subpools",
                         op_modifies=True,
@@ -2425,18 +2425,18 @@ class NetworkSettings(DnacBase):
         global_pool_details = None
         response = None
         current_version = self.get_ccc_version()
-        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.9") < 0
+        is_old_version = self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0
         page_limit = 25 if is_old_version else 500
         while True:
             try:
                 if is_old_version:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="get_global_pool",
                         params={"offset": offset}
                     )
                 else:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="retrieves_global_ip_address_pools",
                         params={"offset": offset,
@@ -2573,7 +2573,7 @@ class NetworkSettings(DnacBase):
         if name == "":
             reserve_pool_details = self.all_reserved_pool_details.get(site_id)
         else:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 reserve_pool_details = get_dict_result(
                     self.all_reserved_pool_details.get(site_id), "groupName", name)
             else:
@@ -2772,7 +2772,7 @@ class NetworkSettings(DnacBase):
 
         try:
             # Call the Catalyst Center API using family/function
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function="get_device_controllability_settings",
             )
@@ -3000,7 +3000,7 @@ class NetworkSettings(DnacBase):
         if device_controllability_details:
             # Check if the CCC version is 2.3.7.9 or later
             current_version = self.get_ccc_version()
-            if self.compare_dnac_versions(current_version, "2.3.7.9") >= 0:
+            if self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0:
                 self.log(
                     f"Device controllability details found in config. Proceeding with version {current_version}.",
                     "DEBUG",
@@ -3036,7 +3036,7 @@ class NetworkSettings(DnacBase):
         """
         self.log(f"Starting retrieval of global pool. CIDR: {global_pool_cidr}, Name: {global_pool_name}", "INFO")
         current_version = self.get_ccc_version()
-        is_old_version = self.compare_dnac_versions(current_version, "2.3.7.9") < 0
+        is_old_version = self.compare_catalystcenter_versions(current_version, "2.3.7.9") < 0
         page_limit = 25 if is_old_version else 500
 
         # Direct return for older versions when CIDR is provided
@@ -3054,13 +3054,13 @@ class NetworkSettings(DnacBase):
             self.log(f"Querying global pool details with offset {offset}.", "DEBUG")
             try:
                 if is_old_version:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="get_global_pool",
                         params={"offset": offset}
                     )
                 else:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="retrieves_global_ip_address_pools",
                         params={"offset": offset}
@@ -3834,7 +3834,7 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
             have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -4833,7 +4833,7 @@ class NetworkSettings(DnacBase):
             self.log("Processing global pool details from the playbook.", "INFO")
             global_ippool = config.get("global_pool_details", {}).get("settings", {}).get("ip_pool")
             if global_ippool:
-                if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+                if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
                     self.log("Using Global Pool handling method: V1 (legacy) for Catalyst Center version < 2.3.7.9.", "DEBUG")
                     self.get_want_global_pool_v1(global_ippool).check_return_status()
                 else:
@@ -4845,7 +4845,7 @@ class NetworkSettings(DnacBase):
         if config.get("reserve_pool_details"):
             self.log("Processing reserve pool details from the playbook.", "INFO")
             reserve_pool = config.get("reserve_pool_details")
-            if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
                 self.log("Detected Catalyst Center version < 2.3.7.9: {}".format(ccc_version), "DEBUG")
                 self.log("Using Reserve Pool handling method: V1 (legacy)", "DEBUG")
                 self.get_want_reserve_pool_v1(reserve_pool).check_return_status()
@@ -4867,7 +4867,7 @@ class NetworkSettings(DnacBase):
         if config.get("device_controllability_details"):
             self.log("Processing device controllability details from the playbook.", "INFO")
             device_controllability_details = config.get("device_controllability_details")
-            if self.compare_dnac_versions(ccc_version, "2.3.7.9") >= 0:
+            if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") >= 0:
                 self.log("Using Device Controllability handling method for Catalyst Center version >= 2.3.7.9.", "DEBUG")
                 self.get_want_device_controllability(device_controllability_details).check_return_status()
             else:
@@ -4889,7 +4889,7 @@ class NetworkSettings(DnacBase):
         Returns:
             self
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
             return self.update_global_pool_v2(global_pool)
 
         return self.update_global_pool_v1(global_pool)
@@ -4936,7 +4936,7 @@ class NetworkSettings(DnacBase):
                 pool_params = {"settings": {"ippool": copy.deepcopy(batch)}}
                 self.log("Creating global pool batch: {0}".format(batch), "INFO")
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="create_global_pool",
                         op_modifies=True,
@@ -5057,7 +5057,7 @@ class NetworkSettings(DnacBase):
                     )
                     try:
                         self.log("Executing API call to update global pools...", "INFO")
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="network_settings",
                             function="update_global_pool",
                             op_modifies=True,
@@ -5144,7 +5144,7 @@ class NetworkSettings(DnacBase):
             for param in creation_list:
                 self.log("Global pool details to be created: {0}".format(self.pprint(param)), "INFO")
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="create_a_global_ip_address_pool",
                         op_modifies=True,
@@ -5209,7 +5209,7 @@ class NetworkSettings(DnacBase):
                 for param in updation_list:
                     self.log("Global pool details to be updated: {0}".format(self.pprint(param)), "INFO")
                     try:
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="network_settings",
                             function="updates_a_global_ip_address_pool",
                             op_modifies=True,
@@ -5241,7 +5241,7 @@ class NetworkSettings(DnacBase):
         Dispatcher function that routes to the appropriate reserve pool update method
         based on Catalyst Center version (v1 or v2).
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
             return self.update_reserve_pool_v1(reserve_pool)
         else:
             return self.update_reserve_pool_v2(reserve_pool)
@@ -5300,7 +5300,7 @@ class NetworkSettings(DnacBase):
                     "DEBUG",
                 )
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="reserve_ip_subpool",
                         op_modifies=True,
@@ -5366,7 +5366,7 @@ class NetworkSettings(DnacBase):
                 {"id": self.have.get("reservePool")[reserve_pool_index].get("id")}
             )
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="network_settings",
                     function="update_reserve_ip_subpool",
                     op_modifies=True,
@@ -5433,7 +5433,7 @@ class NetworkSettings(DnacBase):
                 self.log(f"Reserved pool '{name}' does not exist. Creating a new subpool reservation.", "INFO")
                 self.log(f"Details for new reserved pool '{name}': {self.pprint(reserve_params)}", "DEBUG")
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="reservecreate_ip_address_subpools",
                         op_modifies=True,
@@ -5475,7 +5475,7 @@ class NetworkSettings(DnacBase):
                      .format(name, self.want.get("wantReserve")), "DEBUG")
             reserve_params.update({"id": self.have.get("reservePool")[reserve_pool_index].get("id")})
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="network_settings",
                     function="updates_an_ip_address_subpool",
                     op_modifies=True,
@@ -5523,7 +5523,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_dhcp_settings_for_a_site",
                 op_modifies=True,
@@ -5566,7 +5566,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_n_t_p_settings_for_a_site",
                 op_modifies=True,
@@ -5616,7 +5616,7 @@ class NetworkSettings(DnacBase):
             param = {"id": site_id, "payload": payload}
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_time_zone_for_a_site",
                 op_modifies=True,
@@ -5673,7 +5673,7 @@ class NetworkSettings(DnacBase):
             dns_params["dnsServers"].append(secondary_ip)
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_d_n_s_settings_for_a_site",
                 op_modifies=True,
@@ -5718,7 +5718,7 @@ class NetworkSettings(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_telemetry_settings_for_a_site",
                 op_modifies=True,
@@ -5774,7 +5774,7 @@ class NetworkSettings(DnacBase):
             payload = {"settings": {"messageOfTheday": {}}}
             param = {"id": site_id, "payload": payload}
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_banner_settings_for_a_site",
                 op_modifies=True,
@@ -5842,7 +5842,7 @@ class NetworkSettings(DnacBase):
             param = {"id": site_id, "payload": payload}
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="set_aaa_settings_for_a_site",
                 op_modifies=True,
@@ -5895,7 +5895,7 @@ class NetworkSettings(DnacBase):
             skip_update = False
 
             # Only apply extra checks for versions > 2.3.7.9
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                 empty_settings = [
                     network_aaa,
                     client_and_endpoint_aaa,
@@ -5966,14 +5966,14 @@ class NetworkSettings(DnacBase):
                 "Network parameters for 'update_network_v2': {0}".format(net_params),
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0:
                 if "client_and_endpoint_aaa" in net_params["settings"]:
                     net_params["settings"]["clientAndEndpoint_aaa"] = net_params[
                         "settings"
                     ].pop("client_and_endpoint_aaa")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="network_settings",
                         function="update_network_v2",
                         op_modifies=True,
@@ -6193,7 +6193,7 @@ class NetworkSettings(DnacBase):
         }
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function='update_device_controllability_settings',
                 op_modifies=True,
@@ -6248,7 +6248,7 @@ class NetworkSettings(DnacBase):
             self.log("No device controllability details provided in the playbook.", "INFO")
             return self
         if device_controllability_detail:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                 self.update_device_controllability(device_controllability_detail).check_return_status()
             else:
                 self.log("Device controlability feature is available for only for version 2.3.7.9 onwards")
@@ -6277,7 +6277,7 @@ class NetworkSettings(DnacBase):
         )
         self.log("{0} pool '{1}' id: {2}".format(pool_type, name, pool_id), "DEBUG")
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function=function_name,
                 op_modifies=True,
@@ -6291,7 +6291,7 @@ class NetworkSettings(DnacBase):
             else:
                 success_msg = "Ip subpool reservation released successfully."
                 failed_msg = "Unable to release subpool reservation. "
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                 self.check_tasks_response_status(response, function_name)
                 task_id = response["response"]["taskId"]
             else:
@@ -6388,7 +6388,7 @@ class NetworkSettings(DnacBase):
                         pool_id = each_pool.get("id")
                         self.log("Processing deletion for reserved pool '{0}' with ID '{1}'"
                                  .format(pool_name, pool_id), "INFO")
-                        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                             execution_details = self.delete_ip_pool(pool_name, pool_id,
                                                                     "release_an_ip_address_subpool",
                                                                     "Reserve")
@@ -6443,7 +6443,7 @@ class NetworkSettings(DnacBase):
 
                 self.log("Reserved IP pool '{0}' scheduled for deletion".format(pool_name), "INFO")
                 self.log("Reserved pool '{0}' ID: {1}".format(pool_name, pool_id), "DEBUG")
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                     execution_details = self.delete_ip_pool(pool_name, pool_id,
                                                             "release_an_ip_address_subpool",
                                                             "Reserve"
@@ -6495,7 +6495,7 @@ class NetworkSettings(DnacBase):
 
                     execution_details = {}
                     pool_id = each_item.get("id")
-                    if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                    if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                         execution_details = self.delete_ip_pool(pool_name, pool_id,
                                                                 "delete_a_global_ip_address_pool",
                                                                 "Global")
@@ -6545,7 +6545,7 @@ class NetworkSettings(DnacBase):
                     "INFO",
                 )
                 id = item.get("id")
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
                     execution_details = self.delete_ip_pool(pool_name, id,
                                                             "delete_a_global_ip_address_pool",
                                                             "Global")
@@ -6976,7 +6976,7 @@ def main():
     ccc_network = NetworkSettings(module)
     state = ccc_network.params.get("state")
 
-    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_network.compare_catalystcenter_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
         ccc_network.msg = """The specified version '{0}' does not support the Network_settings_workflow features.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_network.get_ccc_version()

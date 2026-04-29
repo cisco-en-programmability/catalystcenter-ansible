@@ -639,7 +639,7 @@ options:
                 default: "read"
                 type: str
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 2.7.2
   - python >= 3.9.19
 notes:
   - SDK Methods used - user_and_roles.UserandRoles.get_user_api
@@ -1048,14 +1048,14 @@ response_11:
 
 import re
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     validate_list,
 )
 from ansible.module_utils.basic import AnsibleModule
 
 
-class UserandRole(DnacBase):
+class UserandRole(CatalystCenterBase):
     """Class containing member attributes for user workflow_manager module"""
 
     def __init__(self, module):
@@ -2059,7 +2059,7 @@ class UserandRole(DnacBase):
 
             for user in users:
                 if input_config.get("username") is not None:
-                    if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+                    if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
                         if user.get("username") == input_config.get("username").lower():
                             current_user_configuration = user
                             user_exists = True
@@ -2149,7 +2149,7 @@ class UserandRole(DnacBase):
             return {"error_message": error_message}
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="user_and_roles",
                 function="add_user_api",
                 op_modifies=True,
@@ -2188,13 +2188,13 @@ class UserandRole(DnacBase):
             - Returns the API response from the "create_role" function.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log(
                     "Create role with role_info_params: {0}".format(str(role_params)),
                     "DEBUG",
                 )
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="user_and_roles",
                     function="add_role_api",
                     op_modifies=True,
@@ -2231,7 +2231,7 @@ class UserandRole(DnacBase):
               and "get_users_api" function.
             - Logs the received API response and returns it.
         """
-        response = self.dnac._exec(
+        response = self.catalystcenter._exec(
             family="user_and_roles",
             function="get_users_api",
             op_modifies=True,
@@ -2255,7 +2255,7 @@ class UserandRole(DnacBase):
               and "get_roles_api" function.
             - Logs the received API response and returns it.
         """
-        response = self.dnac._exec(
+        response = self.catalystcenter._exec(
             family="user_and_roles",
             function="get_roles_api",
             op_modifies=True,
@@ -3517,7 +3517,7 @@ class UserandRole(DnacBase):
         """
         try:
             self.log("Updating user with parameters: {0}".format(user_params), "DEBUG")
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="user_and_roles",
                 function="update_user_api",
                 op_modifies=True,
@@ -3555,13 +3555,13 @@ class UserandRole(DnacBase):
               finally returns the response.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log(
                     "Updating role with role_info_params: {0}".format(str(role_params)),
                     "DEBUG",
                 )
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="user_and_roles",
                     function="update_role_api",
                     op_modifies=True,
@@ -4006,7 +4006,7 @@ class UserandRole(DnacBase):
             - The function uses the "user_and_roles" family and the "delete_user_api" function from the Cisco Catalyst Center API.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             username = self.have.get("username")
             self.log(
                 "Attempting to delete user with user_params: {0}".format(
@@ -4015,7 +4015,7 @@ class UserandRole(DnacBase):
                 "DEBUG",
             )
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="user_and_roles",
                     function="delete_user_api",
                     op_modifies=True,
@@ -4080,13 +4080,13 @@ class UserandRole(DnacBase):
             - The function uses the "user_and_roles" family and the "delete_role_api" function from the Cisco Catalyst Center API.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             try:
                 self.log(
                     "delete role with role_params: {0}".format(str(role_params)),
                     "DEBUG",
                 )
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="user_and_roles",
                     function="delete_role_api",
                     op_modifies=True,
@@ -4498,7 +4498,7 @@ def main():
     state = ccc_user_role.params.get("state")
 
     if (
-        ccc_user_role.compare_dnac_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
+        ccc_user_role.compare_catalystcenter_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
         < 0
     ):
         ccc_user_role.msg = (

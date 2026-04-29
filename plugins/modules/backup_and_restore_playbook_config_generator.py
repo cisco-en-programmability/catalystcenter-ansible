@@ -139,7 +139,7 @@ options:
                 choices: ['NFS', 'PHYSICAL_DISK']
 
 requirements:
-- dnacentersdk >= 2.9.3
+- catalystcentersdk >= 2.9.3
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -469,7 +469,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 try:
@@ -491,7 +491,7 @@ else:
     OrderedDumper = None
 
 
-class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
+class BackupRestorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Class for generating brownfield YAML playbooks for backup and restore configurations
     from Cisco Catalyst Center.
@@ -511,7 +511,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         - Provides detailed logging and operation tracking
 
     Inherits From:
-        - DnacBase: Provides Catalyst Center SDK connectivity and base operations
+        - CatalystCenterBase: Provides Catalyst Center SDK connectivity and base operations
         - BrownFieldHelper: Provides YAML generation and file handling utilities
 
     Supported Components:
@@ -1088,7 +1088,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -1749,7 +1749,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -2124,7 +2124,7 @@ class BackupRestorePlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
                     self.log("Trying API function: {0}".format(api_function), "DEBUG")
                     # Execute API call with current function name
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="backup",
                         function=api_function,
                         op_modifies=False,
@@ -3141,7 +3141,7 @@ def main():
     )
 
     if (
-        ccc_backup_restore_playbook_generator.compare_dnac_versions(
+        ccc_backup_restore_playbook_generator.compare_catalystcenter_versions(
             ccc_backup_restore_playbook_generator.get_ccc_version(), "3.1.3.0"
         )
         < 0

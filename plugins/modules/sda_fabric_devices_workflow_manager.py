@@ -571,7 +571,7 @@ options:
                             4094.
                         type: int
 requirements:
-  - dnacentersdk >= 2.9.2
+  - catalystcentersdk >= 2.9.2
   - python >= 3.9
 notes:
   - Wireless controller settings configured via this module require specific device roles and image states on the switch.
@@ -1253,13 +1253,13 @@ import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
 )
 
 
-class FabricDevices(DnacBase):
+class FabricDevices(CatalystCenterBase):
     """Class containing member attributes for sda_fabric_devices_workflow_manager module"""
 
     def __init__(self, module):
@@ -1462,7 +1462,7 @@ class FabricDevices(DnacBase):
         )
         transit_id = None
         try:
-            transit_details = self.dnac._exec(
+            transit_details = self.catalystcenter._exec(
                 family="sda",
                 function="get_transit_networks",
                 params={"name": transit_name},
@@ -1519,7 +1519,7 @@ class FabricDevices(DnacBase):
         )
         device_details = None
         try:
-            device_details = self.dnac._exec(
+            device_details = self.catalystcenter._exec(
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": device_ip},
@@ -1579,7 +1579,7 @@ class FabricDevices(DnacBase):
             "DEBUG",
         )
         try:
-            virtual_network_details = self.dnac._exec(
+            virtual_network_details = self.catalystcenter._exec(
                 family="sda",
                 function="get_layer3_virtual_networks",
                 params={
@@ -1674,7 +1674,7 @@ class FabricDevices(DnacBase):
                 "DEBUG",
             )
             while True:
-                all_reserved_pool_details = self.dnac._exec(
+                all_reserved_pool_details = self.catalystcenter._exec(
                     family="network_settings",
                     function="get_reserve_ip_subpool",
                     params={"site_id": site_id, "offset": offset},
@@ -1766,7 +1766,7 @@ class FabricDevices(DnacBase):
         )
         fabric_site_id = None
         try:
-            fabric_site_exists = self.dnac._exec(
+            fabric_site_exists = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_sites",
                 params={"site_id": site_id},
@@ -1842,7 +1842,7 @@ class FabricDevices(DnacBase):
         )
         fabric_zone_id = None
         try:
-            fabric_zone = self.dnac._exec(
+            fabric_zone = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_zones",
                 params={"site_id": site_id},
@@ -1921,7 +1921,7 @@ class FabricDevices(DnacBase):
             )
         )
         try:
-            provisioned_device_details = self.dnac._exec(
+            provisioned_device_details = self.catalystcenter._exec(
                 family="sda",
                 function="get_provisioned_devices",
                 params={"network_device_id": device_id},
@@ -2015,7 +2015,7 @@ class FabricDevices(DnacBase):
         # interface name and internal vlan id
         while True:
             try:
-                all_l2_handoff_details = self.dnac._exec(
+                all_l2_handoff_details = self.catalystcenter._exec(
                     family="sda",
                     function="get_fabric_devices_layer2_handoffs",
                     params={
@@ -2142,7 +2142,7 @@ class FabricDevices(DnacBase):
         # Call the SDK with incremental offset till to find the SDA L3 Handoff
         while True:
             try:
-                all_sda_l3_handoff_details = self.dnac._exec(
+                all_sda_l3_handoff_details = self.catalystcenter._exec(
                     family="sda",
                     function="get_fabric_devices_layer3_handoffs_with_sda_transit",
                     params={
@@ -2285,7 +2285,7 @@ class FabricDevices(DnacBase):
         )
         while True:
             try:
-                all_ip_l3_handoff_details = self.dnac._exec(
+                all_ip_l3_handoff_details = self.catalystcenter._exec(
                     family="sda",
                     function="get_fabric_devices_layer3_handoffs_with_ip_transit",
                     params={
@@ -2416,7 +2416,7 @@ class FabricDevices(DnacBase):
             "device_details": None,
             "id": None,
         }
-        fabric_device_details = self.dnac._exec(
+        fabric_device_details = self.catalystcenter._exec(
             family="sda",
             function="get_fabric_devices",
             params={
@@ -3030,7 +3030,7 @@ class FabricDevices(DnacBase):
             "DEBUG",
         )
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="fabric_wireless",
                 function="get_sda_wireless_details_from_switches",
                 params={"fabric_id": fabric_id},
@@ -3134,7 +3134,7 @@ class FabricDevices(DnacBase):
             )
 
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="wireless",
                     function=api_function,
                     op_modifies=False,
@@ -3245,7 +3245,7 @@ class FabricDevices(DnacBase):
             "DEBUG",
         )
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
                 "Minimum required version is 2.3.7.9. Returning None.",
@@ -4028,7 +4028,7 @@ class FabricDevices(DnacBase):
         )
         is_transit_pub_sub = False
         try:
-            transit_details = self.dnac._exec(
+            transit_details = self.catalystcenter._exec(
                 family="sda",
                 function="get_transit_networks",
                 params={"id": transit_id, "type": "SDA_LISP_PUB_SUB_TRANSIT"},
@@ -5146,7 +5146,7 @@ class FabricDevices(DnacBase):
             return None
 
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.msg = (
                 f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
                 "Minimum required version is 2.3.7.9."
@@ -8262,7 +8262,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_sda_devices = FabricDevices(module)
     if (
-        ccc_sda_devices.compare_dnac_versions(
+        ccc_sda_devices.compare_catalystcenter_versions(
             ccc_sda_devices.get_ccc_version(), "2.3.7.6"
         )
         < 0

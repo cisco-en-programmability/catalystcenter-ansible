@@ -1663,7 +1663,7 @@ options:
                     required: false
                     default: true
 requirements:
-  - dnacentersdk >= 2.10.1
+  - catalystcentersdk >= 2.10.1
   - python >= 3.9
 notes:
    - SDK Method used are
@@ -2319,13 +2319,13 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import copy
 
 
-class WiredCampusAutomation(DnacBase):
+class WiredCampusAutomation(CatalystCenterBase):
     """
     A class for managing Wired Campus Automation within the Cisco DNA Center.
     """
@@ -2699,7 +2699,7 @@ class WiredCampusAutomation(DnacBase):
         )
         try:
             # Query Cisco Catalyst Center for device information using the parameters
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices",
                 function="get_device_list",
                 op_modifies=False,
@@ -7504,7 +7504,7 @@ class WiredCampusAutomation(DnacBase):
             )
             api_family = "wired"
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -11649,7 +11649,7 @@ class WiredCampusAutomation(DnacBase):
                     "Deployment task initiated, task ID: {0}".format(task_id), "INFO"
                 )
 
-                # Monitor deployment task completion using existing DnacBase function
+                # Monitor deployment task completion using existing CatalystCenterBase function
                 self.get_task_status_from_tasks_by_id(
                     task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
@@ -14823,7 +14823,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_wired_campus_automation = WiredCampusAutomation(module)
     if (
-        ccc_wired_campus_automation.compare_dnac_versions(
+        ccc_wired_campus_automation.compare_catalystcenter_versions(
             ccc_wired_campus_automation.get_ccc_version(), "3.1.3.0"
         )
         < 0

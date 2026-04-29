@@ -121,7 +121,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- dnacentersdk >= 2.3.7.9
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -347,7 +347,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     DoubleQuotedStr,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 import logging
@@ -387,7 +387,7 @@ else:
     OrderedDumper = None
 
 
-class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
+class SitePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Orchestrates brownfield site playbook generation for Catalyst Center inventories.
 
@@ -397,7 +397,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
     fields to `site_workflow_manager` schema, and YAML file generation.
 
     Inheritance:
-    - `DnacBase`: provides Catalyst Center client/session utilities, standardized
+    - `CatalystCenterBase`: provides Catalyst Center client/session utilities, standardized
       result handling, and framework-level lifecycle hooks.
     - `BrownFieldHelper`: provides reusable transformation helpers used by the
       brownfield workflow modules for schema mapping and YAML serialization.
@@ -469,7 +469,7 @@ class SitePlaybookGenerator(DnacBase, BrownFieldHelper):
             level (str): Severity level passed through to the base logger.
 
         Returns:
-            Any: The return value from `DnacBase.log`.
+            Any: The return value from `CatalystCenterBase.log`.
         """
         module_name = getattr(self, "module_name", "site_workflow_manager")
         status = getattr(self, "status", "unset")
@@ -4108,7 +4108,7 @@ def main():
     # Enforce minimum supported Catalyst Center version before attempting site
     # workflow export operations.
     if (
-        ccc_site_playbook_generator.compare_dnac_versions(
+        ccc_site_playbook_generator.compare_catalystcenter_versions(
             ccc_site_playbook_generator.get_ccc_version(), "2.3.7.6"
         )
         < 0

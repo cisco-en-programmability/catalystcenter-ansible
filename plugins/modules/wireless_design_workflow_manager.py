@@ -4191,7 +4191,7 @@ options:
             required: false
 
 requirements:
-  - dnacentersdk >= 2.10.3
+  - catalystcentersdk >= 2.10.3
   - python >= 3.9
 notes:
   - SDK Methods used are - sites.Sites.get_site - site_design.SiteDesigns.get_sites
@@ -7442,13 +7442,13 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import re
 
 
-class WirelessDesign(DnacBase):
+class WirelessDesign(CatalystCenterBase):
     """
     A class for managing Wireless Design operations within the Cisco DNA Center using the SDA API.
     """
@@ -12839,7 +12839,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating RRM General configuration: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_r_r_m_general_configuration_feature_template",
                         op_modifies=True,
@@ -12909,7 +12909,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_r_r_m_general_configuration_feature_template",
                         op_modifies=True,
@@ -12965,7 +12965,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating RRM-FRA configuration: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_r_r_m_f_r_a_configuration_feature_template",
                         op_modifies=True,
@@ -13029,7 +13029,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_r_r_m_f_r_a_configuration_feature_template",
                         op_modifies=True,
@@ -13087,7 +13087,7 @@ class WirelessDesign(DnacBase):
                 )
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_multicast_configuration_feature_template",
                         op_modifies=True,
@@ -13150,7 +13150,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_multicast_configuration_feature_template",
                         op_modifies=True,
@@ -13311,7 +13311,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting Multicast with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_multicast_configuration_feature_template",
                             op_modifies=True,
@@ -13334,7 +13334,7 @@ class WirelessDesign(DnacBase):
                             "INFO"
                         )
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_multicast_configuration_feature_template",
                             op_modifies=True,
@@ -13383,7 +13383,7 @@ class WirelessDesign(DnacBase):
             for payload in params or []:
                 dn = payload.get("designName") or payload.get("design_name") or "<unknown>"
                 try:
-                    resp = self.dnac._exec(
+                    resp = self.catalystcenter._exec(
                         family="wireless",
                         function="create_flex_connect_configuration_feature_template",
                         op_modifies=True,
@@ -13430,7 +13430,7 @@ class WirelessDesign(DnacBase):
                     self.log(results[dn], "ERROR")
                     continue
                 try:
-                    resp = self.dnac._exec(
+                    resp = self.catalystcenter._exec(
                         family="wireless",
                         function="update_flex_connect_configuration_feature_template",
                         op_modifies=True,
@@ -13477,7 +13477,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating Event-Driven RRM configuration: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_event_driven_r_r_m_configuration_feature_template",
                         op_modifies=True,
@@ -13543,7 +13543,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_event_driven_r_r_m_configuration_feature_template",
                         op_modifies=True,
@@ -13598,7 +13598,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating dot11be configuration: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_dot11be_status_configuration_feature_template",
                         op_modifies=True,
@@ -13657,7 +13657,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_dot11be_status_configuration_feature_template",
                         op_modifies=True,
@@ -13710,7 +13710,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating dot11ax configuration: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_dot11ax_configuration_feature_template",
                         op_modifies=True,
@@ -13769,7 +13769,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_dot11ax_configuration_feature_template",
                         op_modifies=True,
@@ -13825,7 +13825,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating CleanAir Profile: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_clean_air_configuration_feature_template",
                         op_modifies=True,
@@ -13878,7 +13878,7 @@ class WirelessDesign(DnacBase):
                 self.log("Updating CleanAir Profile: design='{0}', id='{1}'".format(design_name, template_id), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_clean_air_configuration_feature_template",
                         op_modifies=True,
@@ -13936,7 +13936,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_advanced_ssid_configuration_feature_template",
                         op_modifies=True,
@@ -13992,7 +13992,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating Advanced SSID: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_advanced_ssid_configuration_feature_template",
                         op_modifies=True,
@@ -14051,7 +14051,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating AAA Radius Attribute: {0}".format(design_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_aaa_radius_attributes_configuration_feature_template",
                         op_modifies=True,
@@ -14108,7 +14108,7 @@ class WirelessDesign(DnacBase):
                 design_name = payload.get("designName")
                 self.log("Updating AAA Radius Attribute: {0}".format(design_name), "DEBUG")
 
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="wireless",
                     function="update_aaa_radius_attributes_configuration_feature_template",
                     op_modifies=True,
@@ -14263,7 +14263,7 @@ class WirelessDesign(DnacBase):
 
                         self.log("Resetting RRM General with payload: {0}".format(reset_payload), "DEBUG")
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_r_r_m_general_configuration_feature_template",
                             op_modifies=True,
@@ -14285,7 +14285,7 @@ class WirelessDesign(DnacBase):
                             "INFO"
                         )
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_r_r_m_general_configuration_feature_template",
                             op_modifies=True,
@@ -14438,7 +14438,7 @@ class WirelessDesign(DnacBase):
 
                         self.log("Resetting RRM-FRA with payload: {0}".format(reset_payload), "DEBUG")
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_r_r_m_f_r_a_configuration_feature_template",
                             op_modifies=True,
@@ -14460,7 +14460,7 @@ class WirelessDesign(DnacBase):
                             "INFO"
                         )
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_r_r_m_f_r_a_configuration_feature_template",
                             op_modifies=True,
@@ -14593,7 +14593,7 @@ class WirelessDesign(DnacBase):
 
                         self.log("Resetting FlexConnect with payload: {0}".format(reset_payload), "DEBUG")
 
-                        resp = self.dnac._exec(
+                        resp = self.catalystcenter._exec(
                             family="wireless",
                             function="update_flex_connect_configuration_feature_template",
                             op_modifies=True,
@@ -14612,7 +14612,7 @@ class WirelessDesign(DnacBase):
                             "Only design_name provided for '{0}'. Performing DELETE operation.".format(dn),
                             "INFO"
                         )
-                        resp = self.dnac._exec(
+                        resp = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_flex_connect_configuration_feature_template",
                             op_modifies=True,
@@ -14764,7 +14764,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_dot11be_status_configuration_feature_template",
                             op_modifies=True,
@@ -14787,7 +14787,7 @@ class WirelessDesign(DnacBase):
                             "INFO"
                         )
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_dot11be_status_configuration_feature_template",
                             op_modifies=True,
@@ -14953,7 +14953,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_dot11ax_configuration_feature_template",
                             op_modifies=True,
@@ -14977,7 +14977,7 @@ class WirelessDesign(DnacBase):
                         )
 
                         # Call DELETE API
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_dot11ax_configuration_feature_template",
                             op_modifies=True,
@@ -15182,7 +15182,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_clean_air_configuration_feature_template",
                             op_modifies=True,
@@ -15206,7 +15206,7 @@ class WirelessDesign(DnacBase):
                         )
 
                         # Call DELETE API
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_clean_air_configuration_feature_template",
                             op_modifies=True,
@@ -15369,7 +15369,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_event_driven_r_r_m_configuration_feature_template",
                             op_modifies=True,
@@ -15392,7 +15392,7 @@ class WirelessDesign(DnacBase):
                             "INFO"
                         )
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_event_driven_r_r_m_configuration_feature_template",
                             op_modifies=True,
@@ -15596,7 +15596,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_advanced_ssid_configuration_feature_template",
                             op_modifies=True,
@@ -15620,7 +15620,7 @@ class WirelessDesign(DnacBase):
                         )
 
                         # Call DELETE API
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_advanced_ssid_configuration_feature_template",
                             op_modifies=True,
@@ -15707,7 +15707,7 @@ class WirelessDesign(DnacBase):
                         self.log("Resetting feature attributes with payload: {0}".format(reset_payload), "DEBUG")
 
                         # Call UPDATE API (not delete)
-                        reset_response = self.dnac._exec(
+                        reset_response = self.catalystcenter._exec(
                             family="wireless",
                             function="update_aaa_radius_attributes_configuration_feature_template",
                             op_modifies=True,
@@ -15732,7 +15732,7 @@ class WirelessDesign(DnacBase):
                         )
 
                         # Call DELETE API
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="wireless",
                             function="delete_aaa_radius_attributes_configuration_feature_template",
                             op_modifies=True,
@@ -15786,7 +15786,7 @@ class WirelessDesign(DnacBase):
                 self.log("Creating 802.11be profile: {0}".format(profile_name), "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="create_a80211be_profile",
                         op_modifies=True,
@@ -15865,7 +15865,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update80211be_profile",
                         op_modifies=True,
@@ -19605,7 +19605,7 @@ class WirelessDesign(DnacBase):
                     )
 
                     # Execute the API call
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -25983,7 +25983,7 @@ class WirelessDesign(DnacBase):
             "INFO",
         )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             self.log("Using 'execute_get_request' for version <= 2.3.7.9", "DEBUG")
             # Execute the GET request to retrieve anchor groups
             api_response = self.execute_get_request(
@@ -28309,7 +28309,7 @@ class WirelessDesign(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="wireless",
                 function="get80211be_profile_by_id",
                 params={"id": profile_id},
@@ -28389,7 +28389,7 @@ class WirelessDesign(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="wireless",
                 function="get80211be_profiles",
                 params=params
@@ -28475,7 +28475,7 @@ class WirelessDesign(DnacBase):
                 )
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="update_native_vlan_settings_by_site",
                         op_modifies=True,
@@ -29019,7 +29019,7 @@ class WirelessDesign(DnacBase):
                 )
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="delete_native_vlan_settings_by_site",
                         op_modifies=True,
@@ -29119,7 +29119,7 @@ class WirelessDesign(DnacBase):
                     continue
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="wireless",
                         function="delete_a80211be_profile",
                         op_modifies=True,
@@ -29418,7 +29418,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_wireless_design = WirelessDesign(module)
     if (
-        ccc_wireless_design.compare_dnac_versions(
+        ccc_wireless_design.compare_catalystcenter_versions(
             ccc_wireless_design.get_ccc_version(), "2.3.7.9"
         )
         < 0

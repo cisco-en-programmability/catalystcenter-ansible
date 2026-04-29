@@ -160,7 +160,7 @@ options:
             elements: str
             required: false
 requirements:
-  - dnacentersdk >= 2.10.10
+  - catalystcentersdk >= 2.10.10
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods
@@ -360,7 +360,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 import copy
@@ -384,7 +384,7 @@ else:
     OrderedDumper = None
 
 
-class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
+class AccesspointLocationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center
     using the GET APIs.
@@ -2485,7 +2485,7 @@ class AccesspointLocationPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            ap_config_response = self.dnac._exec(
+            ap_config_response = self.catalystcenter._exec(
                 family="wireless",
                 function="get_access_point_configuration",
                 params=input_param,
@@ -3849,7 +3849,7 @@ def main():
     # ========================================
     # Verify Catalyst Center version meets minimum requirement (3.1.3.0+)
     if (
-        ccc_accesspoint_location_playbook_generator.compare_dnac_versions(
+        ccc_accesspoint_location_playbook_generator.compare_catalystcenter_versions(
             ccc_accesspoint_location_playbook_generator.get_ccc_version(), "3.1.3.0"
         )
         < 0

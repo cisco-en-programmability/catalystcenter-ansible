@@ -105,7 +105,7 @@ options:
         type: list
         elements: str
 requirements:
-  - dnacentersdk == 2.7.0
+  - catalystcentersdk == 2.7.0
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites
@@ -235,12 +235,12 @@ sample_response_3:
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 
 
-class SDAExtranetPolicies(DnacBase):
+class SDAExtranetPolicies(CatalystCenterBase):
     """
     A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
     """
@@ -514,7 +514,7 @@ class SDAExtranetPolicies(DnacBase):
         """
         try:
             # Call the SDA 'get_fabric_sites' API with the provided site ID
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_sites",
                 op_modifies=False,
@@ -608,7 +608,7 @@ class SDAExtranetPolicies(DnacBase):
         """
         try:
             # Execute the API call to get extranet policie
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_extranet_policies",
                 op_modifies=False,
@@ -1423,7 +1423,7 @@ def main():
     ccc_sda_extranet_policies = SDAExtranetPolicies(module)
 
     if (
-        ccc_sda_extranet_policies.compare_dnac_versions(
+        ccc_sda_extranet_policies.compare_catalystcenter_versions(
             ccc_sda_extranet_policies.get_ccc_version(), "2.3.7.6"
         )
         < 0

@@ -185,7 +185,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.7.2
 - python >= 3.9
 notes:
 - Minimum supported Catalyst Center version is 2.3.5.3 which
@@ -425,7 +425,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 try:
@@ -447,7 +447,7 @@ else:
     OrderedDumper = None
 
 
-class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
+class UserRolePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generating playbook files for user and role management configured in Cisco Catalyst Center using the GET APIs.
     """
@@ -1039,7 +1039,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
                     "INFO"
                 )
                 self._role_cache = {}
-                roles_response = self.dnac._exec(
+                roles_response = self.catalystcenter._exec(
                     family="user_and_roles",
                     function="get_roles_api",
                     op_modifies=False,
@@ -1845,7 +1845,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             # Get all users first
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -2167,7 +2167,7 @@ class UserRolePlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             # Get all roles
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -3440,7 +3440,7 @@ def main():
         "INFO"
     )
 
-    if (ccc_user_role_playbook_generator.compare_dnac_versions(
+    if (ccc_user_role_playbook_generator.compare_catalystcenter_versions(
             ccc_user_role_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
 
         error_msg = (

@@ -727,7 +727,7 @@ options:
             type: list
             elements: str
 requirements:
-  - dnacentersdk >= 2.7.2
+  - catalystcentersdk >= 2.7.2
   - python >= 3.5
 notes:
   - To ensure the module operates correctly with scaled
@@ -738,11 +738,11 @@ notes:
     the module will halt execution
     and will not proceed to subsequent operations.
   - Configuring the webhook destination with headers
-    now supports starting from dnacentersdk version
+    now supports starting from catalystcentersdk version
     2.9.1 onwards. This enhancement is in alignment
     with Catalyst Center Release 2.3.7.5.
   - Configuring the SNMP destination now supports starting
-    from dnacentersdk version 2.9.1 onwards. This enhancement
+    from catalystcentersdk version 2.9.1 onwards. This enhancement
     is in alignment with Catalyst Center Release 2.3.7.5.
   - SDK Method used are
     events.Events.get_syslog_destination,
@@ -1189,7 +1189,7 @@ catalystcenter_response:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import ipaddress
@@ -1197,7 +1197,7 @@ import re
 import time
 
 
-class Events(DnacBase):
+class Events(CatalystCenterBase):
     """Class containing member attributes for inventory workflow manager module"""
 
     def __init__(self, module):
@@ -1529,7 +1529,7 @@ class Events(DnacBase):
             In case of any errors during the API call, an exception is raised with an error message.
         """
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_syslog_destination",
                 op_modifies=True,
@@ -1662,7 +1662,7 @@ class Events(DnacBase):
                 "port": int(port),
             }
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_syslog_destination",
                 op_modifies=True,
@@ -1755,7 +1755,7 @@ class Events(DnacBase):
                 self.result["response"] = self.msg
                 return self
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_syslog_destination",
                 op_modifies=True,
@@ -1821,7 +1821,7 @@ class Events(DnacBase):
             limit = 10
             while True:
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="event_management",
                         function="get_snmp_destination",
                         params={"offset": offset * limit, "limit": limit},
@@ -2098,7 +2098,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_snmp_destination",
                 op_modifies=True,
@@ -2263,7 +2263,7 @@ class Events(DnacBase):
 
             update_snmp_params["configId"] = snmp_dest_detail_in_ccc.get("configId")
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_snmp_destination",
                 op_modifies=True,
@@ -2328,7 +2328,7 @@ class Events(DnacBase):
             limit = 10
             while True:
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="event_management",
                         function="get_webhook_destination",
                         params={"offset": offset * limit, "limit": limit},
@@ -2466,7 +2466,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_webhook_destination",
                 op_modifies=True,
@@ -2642,7 +2642,7 @@ class Events(DnacBase):
                     "headers"
                 )
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_webhook_destination",
                 op_modifies=True,
@@ -2701,7 +2701,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management", function="get_email_destination"
             )
             self.log(
@@ -2856,7 +2856,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_email_destination",
                 op_modifies=True,
@@ -2982,7 +2982,7 @@ class Events(DnacBase):
                 "emailConfigId"
             )
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_email_destination",
                 op_modifies=True,
@@ -3047,7 +3047,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="itsm_integration",
                 function="get_all_itsm_integration_settings",
                 op_modifies=True,
@@ -3092,7 +3092,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="itsm_integration",
                 function="get_itsm_integration_setting_by_id",
                 op_modifies=True,
@@ -3204,7 +3204,7 @@ class Events(DnacBase):
 
         try:
             instance_name = itsm_params.get("name")
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="itsm_integration",
                 function="create_itsm_integration_setting",
                 op_modifies=True,
@@ -3387,7 +3387,7 @@ class Events(DnacBase):
                 "instance_id": itsm_in_ccc.get("id"),
             }
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="itsm_integration",
                 function="update_itsm_integration_setting",
                 op_modifies=True,
@@ -3452,7 +3452,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="itsm_integration",
                 function="delete_itsm_integration_setting",
                 op_modifies=True,
@@ -3507,7 +3507,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_syslog_event_subscriptions",
                 op_modifies=True,
@@ -3572,7 +3572,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_syslog_subscription_details",
                 op_modifies=True,
@@ -3830,7 +3830,7 @@ class Events(DnacBase):
 
         for event_name in events:
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="event_management",
                     function="get_eventartifacts",
                     op_modifies=True,
@@ -3886,7 +3886,7 @@ class Events(DnacBase):
         site_ids = []
         for site in sites:
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="sites",
                     function="get_site",
                     op_modifies=True,
@@ -4131,7 +4131,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_syslog_event_subscription",
                 op_modifies=True,
@@ -4447,7 +4447,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_syslog_event_subscription",
                 op_modifies=True,
@@ -4512,7 +4512,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_rest_webhook_event_subscriptions",
                 op_modifies=True,
@@ -4578,7 +4578,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_rest_webhook_subscription_details",
                 op_modifies=True,
@@ -4841,7 +4841,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_rest_webhook_event_subscription",
                 op_modifies=True,
@@ -5012,7 +5012,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_rest_webhook_event_subscription",
                 op_modifies=True,
@@ -5077,7 +5077,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_email_event_subscriptions",
                 op_modifies=True,
@@ -5139,7 +5139,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_email_subscription_details",
                 op_modifies=True,
@@ -5465,7 +5465,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="create_email_event_subscription",
                 op_modifies=True,
@@ -5694,7 +5694,7 @@ class Events(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="update_email_event_subscription",
                 op_modifies=True,
@@ -5764,7 +5764,7 @@ class Events(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="delete_event_subscriptions",
                 op_modifies=True,
@@ -7043,7 +7043,7 @@ def main():
         ccc_events.check_return_status()
 
     ccc_events.validate_input().check_return_status()
-    if ccc_events.compare_dnac_versions(ccc_events.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_events.compare_catalystcenter_versions(ccc_events.get_ccc_version(), "2.3.5.3") < 0:
         ccc_events.msg = (
             "The specified version '{0}' does not support the events and notifications workflow. "
             "Supported versions start from '2.3.5.3' onwards.".format(

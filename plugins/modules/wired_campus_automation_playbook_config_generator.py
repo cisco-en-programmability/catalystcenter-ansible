@@ -192,7 +192,7 @@ options:
                     elements: str
                     required: false
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -776,7 +776,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 
@@ -801,7 +801,7 @@ else:
     OrderedDumper = None
 
 
-class WiredCampusAutomationPlaybookGenerator(DnacBase, BrownFieldHelper):
+class WiredCampusAutomationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -4752,7 +4752,7 @@ def main():
         WiredCampusAutomationPlaybookGenerator(module)
     )
     if (
-        ccc_wired_campus_automation_playbook_generator.compare_dnac_versions(
+        ccc_wired_campus_automation_playbook_generator.compare_catalystcenter_versions(
             ccc_wired_campus_automation_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

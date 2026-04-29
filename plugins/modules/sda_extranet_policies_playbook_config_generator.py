@@ -125,7 +125,7 @@ author:
 - Apoorv Bansal (@Apoorv74-dot)
 - Madhan Sankaranarayanan (@madhansansel)
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 - Requires minimum Cisco Catalyst Center version 2.3.7.9
@@ -317,7 +317,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 
@@ -345,7 +345,7 @@ else:
     OrderedDumper = None
 
 
-class SdaExtranetPoliciesPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Playbook config generator for SDA extranet policies.
     Attributes:
@@ -1328,7 +1328,7 @@ def main():
         "INFO",
     )
     if (
-        ccc_sda_extranet_policies_playbook_config_generator.compare_dnac_versions(
+        ccc_sda_extranet_policies_playbook_config_generator.compare_catalystcenter_versions(
             ccc_sda_extranet_policies_playbook_config_generator.get_ccc_version(),
             "2.3.7.9",
         )

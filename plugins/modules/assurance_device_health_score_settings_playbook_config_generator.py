@@ -156,7 +156,7 @@ options:
                 required: false
 
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.7.2
 - python >= 3.9
 - PyYAML >= 5.1
 notes:
@@ -597,7 +597,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 from collections import OrderedDict
 import time
@@ -619,7 +619,7 @@ else:
     OrderedDumper = None
 
 
-class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
+class AssuranceDeviceHealthScorePlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center device health score settings.
 
@@ -649,7 +649,7 @@ class AssuranceDeviceHealthScorePlaybookGenerator(DnacBase, BrownFieldHelper):
       playbook readability and maintainability
 
     Inheritance:
-        DnacBase: Provides Cisco Catalyst Center API connectivity, authentication,
+        CatalystCenterBase: Provides Cisco Catalyst Center API connectivity, authentication,
                   request execution, logging infrastructure, and common utility methods
         BrownFieldHelper: Provides parameter transformation utilities, reverse mapping
                          functions, and configuration processing helpers for brownfield
@@ -2858,7 +2858,7 @@ def main():
         "INFO"
     )
 
-    if (ccc_brownfield_assurance_device_health_score_settings.compare_dnac_versions(
+    if (ccc_brownfield_assurance_device_health_score_settings.compare_catalystcenter_versions(
             ccc_brownfield_assurance_device_health_score_settings.get_ccc_version(), "2.3.7.9") < 0):
 
         error_msg = (
