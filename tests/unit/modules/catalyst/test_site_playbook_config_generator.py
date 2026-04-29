@@ -27,10 +27,10 @@ from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     site_playbook_config_generator,
 )
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestBrownfieldSiteWorkflowManager(TestDnacModule):
+class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
 
     module = site_playbook_config_generator
     test_data = loadPlaybookData("site_playbook_config_generator")

@@ -26,10 +26,10 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import template_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestTemplatePlaybookConfigGenerator(TestDnacModule):
+class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
     module = template_playbook_config_generator
     test_data = loadPlaybookData("template_playbook_config_generator")
 

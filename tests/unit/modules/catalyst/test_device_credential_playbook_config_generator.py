@@ -19,10 +19,10 @@ __metaclass__ = type
 from unittest.mock import patch, mock_open
 import yaml
 from ansible_collections.cisco.catalystcenter.plugins.modules import device_credential_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDeviceCredentialPlaybookConfigGenerator(TestDnacModule):
+class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
     module = device_credential_playbook_config_generator
     test_data = loadPlaybookData("device_credential_playbook_config_generator")
 

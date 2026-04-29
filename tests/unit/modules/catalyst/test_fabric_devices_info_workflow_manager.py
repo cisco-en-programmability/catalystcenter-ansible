@@ -23,10 +23,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     fabric_devices_info_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacFabricDeviceInfoWorkflowManager(TestDnacModule):
+class TestDnacFabricDeviceInfoWorkflowManager(TestCatalystModule):
 
     module = fabric_devices_info_workflow_manager
 

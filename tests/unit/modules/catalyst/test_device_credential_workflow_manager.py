@@ -20,10 +20,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     device_credential_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacCredentialWorkflow(TestDnacModule):
+class TestDnacCredentialWorkflow(TestCatalystModule):
 
     module = device_credential_workflow_manager
     test_data = loadPlaybookData("device_credential_workflow_manager")

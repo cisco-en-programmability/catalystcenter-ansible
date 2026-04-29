@@ -25,10 +25,10 @@ from unittest.mock import patch, mock_open
 import yaml
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import pnp_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldPnpPlaybookGenerator(TestDnacModule):
+class TestDnacBrownfieldPnpPlaybookGenerator(TestCatalystModule):
 
     module = pnp_playbook_config_generator
 

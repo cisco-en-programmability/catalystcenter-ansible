@@ -21,10 +21,10 @@ __metaclass__ = type
 from unittest.mock import patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import events_and_notifications_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
+class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
 
     module = events_and_notifications_playbook_config_generator
 

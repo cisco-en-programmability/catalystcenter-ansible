@@ -27,10 +27,10 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import network_profile_switching_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestNetworkProfileSwitchingPlaybookGenerator(TestDnacModule):
+class TestNetworkProfileSwitchingPlaybookGenerator(TestCatalystModule):
 
     module = network_profile_switching_playbook_config_generator
     test_data = loadPlaybookData("network_profile_switching_playbook_config_generator")

@@ -25,10 +25,10 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import wireless_design_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestWirelessDesignPlaybookConfigGenerator(TestDnacModule):
+class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
     module = wireless_design_playbook_config_generator
     test_data = loadPlaybookData("wireless_design_playbook_config_generator")
 

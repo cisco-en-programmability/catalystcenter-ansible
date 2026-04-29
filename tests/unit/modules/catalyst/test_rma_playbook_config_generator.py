@@ -21,10 +21,10 @@ __metaclass__ = type
 from unittest.mock import patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import rma_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacRmaPlaybookGenerator(TestDnacModule):
+class TestDnacRmaPlaybookGenerator(TestCatalystModule):
 
     module = rma_playbook_config_generator
 
