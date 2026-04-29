@@ -18,7 +18,7 @@
 
 # Example 1: Generate all fabric device configurations for all fabric sites
 - name: Generate complete SDA fabric devices configuration
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -42,7 +42,7 @@
 
 # Example 2: Generate all configurations with custom file path
 - name: Generate complete SDA fabric devices configuration with custom filename
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -68,7 +68,7 @@
 
 # Example 3: Generate fabric device configurations for a specific fabric site
 - name: Generate fabric device configurations for one fabric site
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -94,11 +94,11 @@
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
+              - fabric_name: "Global/USA/SAN-JOSE"
 
 # Example 4: Generate configuration for devices with specific roles in a fabric site
 - name: Generate configuration for border and control plane devices
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -124,12 +124,12 @@
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
-              device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
+              - fabric_name: "Global/USA/SAN-JOSE"
+                device_roles: ["BORDER_NODE", "CONTROL_PLANE_NODE"]
 
 # Example 5: Generate configuration for a specific device in a fabric site
 - name: Generate configuration for a specific fabric device
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -155,12 +155,12 @@
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
-              device_ip: "10.0.0.1"
+              - fabric_name: "Global/USA/SAN-JOSE"
+                device_ip: "10.0.0.1"
 
 # Example 6: Auto-populate components_list from component filters
 - name: Generate configuration with auto-populated components_list
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -187,11 +187,11 @@
             # No components_list specified, but fabric_devices filters are provided
             # The 'fabric_devices' component will be automatically added to components_list
             fabric_devices:
-              fabric_name: "Global/USA/SAN-JOSE"
+              - fabric_name: "Global/USA/SAN-JOSE"
 
 # Example 7: Generate configuration with append mode
 - name: Generate and append SDA fabric device configuration
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -217,5 +217,5 @@
           component_specific_filters:
             components_list: ["fabric_devices"]
             fabric_devices:
-              fabric_name: "Global/India/Bangalore"
-              device_roles: ["BORDER_NODE"]
+              - fabric_name: "Global/India/Bangalore"
+                device_roles: ["BORDER_NODE"]

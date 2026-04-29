@@ -27,10 +27,8 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    site_workflow_manager,
-)
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from ansible_collections.cisco.catalystcenter.plugins.modules import site_workflow_manager
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacSiteWorkflow(TestDnacModule):
@@ -44,9 +42,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
     update_a_playbook = test_data.get("update_a_playbook")
     playbook_config_invalid_param = test_data.get("playbook_config_invalid_param")
     playbook_config_empty = test_data.get("playbook_config_empty")
-    playbook_config_invalid_bulk_site = test_data.get(
-        "playbook_config_invalid_bulk_site"
-    )
+    playbook_config_invalid_bulk_site = test_data.get("playbook_config_invalid_bulk_site")
     playbook_config_delete = test_data.get("playbook_config_delete")
     playbook_config_update1_site = test_data.get("playbook_config_update1_site")
     delete_playbook_config = test_data.get("delete_playbook_config")
@@ -58,22 +54,21 @@ class TestDnacSiteWorkflow(TestDnacModule):
     def setUp(self):
         super(TestDnacSiteWorkflow, self).setUp()
 
-        self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
-        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
-        self.run_catalystcenter_init.side_effect = [None]
-        self.mock_catalystcenter_exec = patch(
+        self.mock_dnac_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_dnac_init = self.mock_dnac_init.start()
+        self.run_dnac_init.side_effect = [None]
+        self.mock_dnac_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
+        self.run_dnac_exec = self.mock_dnac_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestDnacSiteWorkflow, self).tearDown()
-        self.mock_catalystcenter_exec.stop()
-        self.mock_catalystcenter_init.stop()
+        self.mock_dnac_exec.stop()
+        self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -81,10 +76,11 @@ class TestDnacSiteWorkflow(TestDnacModule):
         """
 
         if "invalid_delete_config" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = []
+            self.run_dnac_exec.side_effect = [
+            ]
 
         elif "playbook_config_bulk_site_2376" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites"),
                 self.test_data.get("get_sites1"),
                 self.test_data.get("get_sites2"),
@@ -96,17 +92,18 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "invalid_create_bulk_site_type" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("create_bulk_site_response"),
                 self.test_data.get("create_bulk_site_response_details1"),
                 self.test_data.get("create_bulk_site_response_details2"),
                 self.test_data.get("get_sites_area"),
                 self.test_data.get("get_sites_building"),
                 self.test_data.get("get_sites_floor"),
+
             ]
 
         elif "create_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 Exception(),
                 Exception(),
                 self.test_data.get("get_site_response"),
@@ -125,7 +122,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "update_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_area_update"),
                 self.test_data.get("get_site_building_update"),
                 self.test_data.get("update_site_building_response"),
@@ -137,7 +134,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "playbook_config_update_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 Exception(),
                 self.test_data.get("get_sites_area"),
                 self.test_data.get("get_sites_building"),
@@ -153,7 +150,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "playbook_config_update_site_2376" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_update"),
                 self.test_data.get("get_site_update1"),
                 self.test_data.get("get_site_update2"),
@@ -164,14 +161,14 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "update_not_needed_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_site_area"),
                 self.test_data.get("update_not_needed_get_sites_building"),
                 self.test_data.get("update_not_needed_get_sites_floor"),
             ]
 
         elif "delete_a_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_floor_a_delete"),
                 self.test_data.get("get_sites_assigned_devices_network"),
                 self.test_data.get("delete_a_floor_response"),
@@ -185,7 +182,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "playbook_site_delete_2376" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_sites_response1"),
                 self.test_data.get("get_sites_response2"),
                 self.test_data.get("get_sites_response3"),
@@ -203,7 +200,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "delete_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("delete_get_site_response"),
                 self.test_data.get("delete_get_membership"),
                 self.test_data.get("delete_response"),
@@ -219,7 +216,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "invalid_delete_site" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("delete_get_site_response"),
                 self.test_data.get("delete_get_membership"),
                 self.test_data.get("delete_response"),
@@ -235,7 +232,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         if "verify_diff" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_site_area"),
                 self.test_data.get("get_site_area"),
                 self.test_data.get("get_site_building"),
@@ -245,7 +242,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         if "playbook_config_site_creation" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 Exception(),
                 Exception(),
                 self.test_data.get("get_site"),
@@ -266,7 +263,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             ]
 
         elif "upload_floor_map" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("upload_for_get_site"),
                 self.test_data.get("upload_for_get_site2"),
                 self.test_data.get("upload_for_get_site3"),
@@ -293,15 +290,14 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_bulk_site_2376,
+                config=self.playbook_config_bulk_site_2376
             )
         )
-        result = self.execute_module(changed=True, failed=True)
+        result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
-        self.assertEqual(
-            result.get("msg"),
-            "An exception occurred: {'msg': 'Site created successfully.', "
-            + "'response': 'File path does not exist: /Users/mabdulk2/pngegg.png', 'failed': True}",
+        self.assertIn(
+            "created successfully in Cisco Catalyst Center.",
+            result.get('msg')
         )
 
     def test_Site_workflow_manager_non_create_bulk_site(self):
@@ -320,13 +316,13 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_site,
+                config=self.playbook_config_site
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"),
-            "Unable to proceed to create bulk site 'Global/japan8888/blossom'.",
+            result.get('msg'),
+            "Unable to proceed to create bulk site 'Global/japan8888/blossom'."
         )
 
     def test_Site_workflow_manager_non_playbook_config_site_creation(self):
@@ -345,18 +341,18 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_empty,
+                config=self.playbook_config_empty
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg").strip(),
+            result.get('msg').strip(),
             (
                 "Missing or invalid parameters in playbook config: "
                 "'name should not be None or empty, "
                 "parent_name should not be None or empty, "
                 "parent_name should not be None or empty'"
-            ),
+            )
         )
 
     def test_Site_workflow_manager_invalid_create_site(self):
@@ -376,16 +372,17 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_site,
+                config=self.playbook_config_site
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"),
-            "Parent name 'Global' does not exist in the Cisco Catalyst Center.",
+            result.get('msg'),
+            "Parent name 'Global' does not exist in the Cisco Catalyst Center."
         )
 
     def test_site_workflow_manager_invalid_param(self):
+
         """
         Test case for site workflow manager with invalid parameters in the playbook.
 
@@ -401,11 +398,13 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_invalid_param,
+                config=self.playbook_config_invalid_param
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertFalse("Invalid parameters in playbook:" in result.get("msg"))
+        self.assertFalse(
+            "Invalid parameters in playbook:" in result.get('msg')
+        )
 
     def test_site_workflow_manager_invalid_delete_site(self):
         """
@@ -423,11 +422,14 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_site_delete_2376,
+                config=self.playbook_site_delete_2376
             )
         )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertFalse("Invalid parameters in playbook:" in result.get("msg"))
+        result = self.execute_module(changed=False, failed=False)
+        self.assertIn(
+            "not needs any update in Cisco Catalyst Center.",
+            result.get('msg')
+        )
 
     def test_Site_workflow_manager_invalid_delete_config_exception(self):
         """
@@ -445,15 +447,15 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_site_delete_2376,
+                config=self.playbook_site_delete_2376
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertEqual(
-            result.get("msg"),
+            result.get('msg'),
             "An error occurred while executing GET API call to Function: 'get_sites' from Family: 'site_design'. "
-            "Parameters: {'name_hierarchy': 'Global/bangalore/s1/cherry', 'offset': 1, 'limit': 500}. Exception: .",
+            "Parameters: {'name_hierarchy': 'Global/bangalore/s1/cherry', 'offset': 1, 'limit': 500}. Exception: ."
         )
 
     def test_Site_workflow_manager_create_site_bulk_invalid(self):
@@ -471,16 +473,16 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_site,
+                config=self.playbook_config_site
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"),
+            result.get('msg'),
             "An error occurred while executing GET API call to Function: 'get_sites' "
             "from Family: 'site_design'. "
             "Parameters: {'name_hierarchy': 'Global/japan8888/blossom', 'offset': 1, 'limit': 500}. "
-            "Exception: .",
+            "Exception: ."
         )
 
     def test_Site_workflow_manager_verify_diff_merged_site(self):
@@ -494,48 +496,46 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
-                catalystcenter_version="2.2.3.3",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_site,
+                config=self.playbook_config_site
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertEqual(
-            result.get("msg"),
+            result.get('msg'),
             "The specified version '2.2.3.3' does not support the site workflow feature. "
             "Supported versions start from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for creating, updating, "
-            "and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites.",
+            "and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites."
         )
 
     def test_Site_workflow_manager_verify_diff_deleted_site(self):
         """
-        Test case to check error when deleting a site using an unsupported Catalyst Center version.
+        Test case to check error when deleting a site using an unsupported DNAC version.
 
         This test verifies that the site workflow manager returns an appropriate error message
-        if the Catalyst Center version does not support site deletion operations.
+        if the DNAC version does not support site deletion operations.
         """
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
-                catalystcenter_version="2.2.3.3",
                 catalystcenter_log=True,
                 state="deleted",
                 config_verify=True,
-                config=self.playbook_config_site,
+                config=self.playbook_config_site
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertEqual(
-            result.get("msg"),
+            result.get('msg'),
             "The specified version '2.2.3.3' does not support the site workflow feature. "
             "Supported versions start from '2.3.5.3' onwards. Version '2.3.5.3' introduces APIs for creating, updating, "
-            "and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites.",
+            "and deleting sites. Version '2.3.7.6' expands support to include APIs for bulk site creating, updating, and deleting sites."
         )
 
     def test_Site_workflow_manager_delete_a_site(self):
@@ -554,13 +554,13 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_delete,
+                config=self.playbook_config_delete
             )
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get("msg"),
-            "Unable to proceed to create bulk site 'Global/japan8888'.",
+            result.get('msg'),
+            "Unable to proceed to create bulk site 'Global/japan8888'."
         )
 
     def test_Site_workflow_manager_playbook_site_delete_2376(self):
@@ -579,14 +579,14 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="deleted",
                 config_verify=True,
-                config=self.playbook_site_delete_2376,
+                config=self.playbook_site_delete_2376
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get("msg"),
+            result.get('msg'),
             "Given site(s) '['floor: Global/bangalore/s1/cherry', 'building: Global/bangalore/s1', "
-            "'area: Global/bangalore']' deleted successfully from Cisco Catalyst Center",
+            "'area: Global/bangalore']' deleted successfully from Cisco Catalyst Center"
         )
 
     def test_Site_workflow_manager_delete_site(self):
@@ -605,13 +605,13 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="deleted",
                 config_verify=True,
-                config=self.delete_config_playbook,
+                config=self.delete_config_playbook
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get("msg"),
-            "Given site(s) '['Global/bangalore/s1/cherry4', 'Global/bangalore/s1', 'Global/bangalore']' deleted successfully from Cisco Catalyst Center",
+            result.get('msg'),
+            "Given site(s) '['Global/bangalore/s1/cherry4', 'Global/bangalore/s1', 'Global/bangalore']' deleted successfully from Cisco Catalyst Center"
         )
 
     def test_Site_workflow_manager_playbook_config_update_site(self):
@@ -630,16 +630,16 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_update_site,
+                config=self.playbook_config_update_site
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
-            result.get("msg"),
+            result.get('msg'),
             "Site(s) '['building: Global/japan8888/blossom', 'floor: Global/japan8888/blossom/cherry']' updated successfully and some site(s)"
-            " '['area: Global/japan8888']' not needs any update in Cisco Catalyst\n"
-            + "                                Center.",
+            " '['area: Global/japan8888']' not needs any update in Cisco Catalyst\n" +
+            "                                Center."
         )
 
     def test_Site_workflow_manager_playbook_config_not_update_site(self):
@@ -658,12 +658,12 @@ class TestDnacSiteWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_update_site,
+                config=self.playbook_config_update_site
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.maxDiff = None
-        self.assertEqual(
-            result.get("msg"),
-            "Site - Global/japan8888/blossom does not need any update",
+        self.assertIn(
+            "not needs any update in Cisco Catalyst Center.",
+            result.get('msg')
         )

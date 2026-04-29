@@ -35,7 +35,7 @@ author:
 options:
   catalystcenter_api_task_timeout:
     description: The maximum time to wait for a task
-      to complete on Cisco Catalyst Center for LAN Automation.
+      to complete on Cisco DNA Center for LAN Automation.
     type: int
     default: 604800
   catalystcenter_task_poll_interval:
@@ -72,8 +72,10 @@ options:
         type: dict
         suboptions:
           discovered_device_site_name_hierarchy:
-            description: Site hierarchy where the discovered
-              devices will be placed. Required only in merged state.
+            description: |
+              - Site hierarchy where the discovered
+                devices will be placed.
+              - Required only in merged state.
             type: str
             required: false
           primary_device_management_ip_address:
@@ -88,15 +90,19 @@ options:
             type: str
             required: false
           primary_device_interface_names:
-            description: A list of interface names on
-              the primary device to be used for LAN
-              automation. Required only in merged state.
+            description: |
+              - A list of interface names on
+                the primary device to be used for LAN
+                automation.
+              - Required only in merged state.
             type: list
             elements: str
             required: false
           ip_pools:
-            description: A list of IP pools used during
-              the LAN Automation session. Required only in merged state.
+            description: |
+              - A list of IP pools used during
+                the LAN Automation session.
+              - Required only in merged state.
             type: list
             elements: dict
             required: false
@@ -404,7 +410,7 @@ options:
                 type: str
                 required: true
 requirements:
-  - catalystcentersdk >= 2.9.2
+  - dnacentersdk >= 2.9.2
   - python >= 3.9
 notes:
   - When waiting for the LAN automation session to complete,
@@ -477,7 +483,14 @@ notes:
   - Links from different Port Channels cannot be mixed during update
     operations. Each physical link can belong to only one Port Channel
     at any given time.
-
+  - To run multiple LAN Automation sessions in parallel, use Ansible asynchronous
+    tasks within a single playbook. This allows multiple LAN session start tasks
+    to execute concurrently. Cisco Catalyst Center supports up to 5 concurrent
+    LAN Automation sessions.
+  - For parallel execution, add async, poll, and register on each LAN
+    Automation task, then add a final async_status task that loops over the
+    registered jobs and waits for completion. Check the examples section for a
+    complete parallel execution playbook.
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_start_v2
     lan_automation.LanAutomation.lan_automation_stop
@@ -594,6 +607,70 @@ EXAMPLES = r"""
           device_serial_number_authorization:
             - "FJC27172JDW"
             - "FJC2721261A"
+
+- name: Start multiple LAN Automation sessions in parallel
+  hosts: catalystcenter_servers
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Start LAN Automation session 1 asynchronously
+      cisco.catalystcenter.lan_automation_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: merged
+        config:
+          - lan_automation:
+              primary_device_management_ip_address: "204.1.1.1"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+              primary_device_interface_names:
+                - "HundredGigE1/0/2"
+              ip_pools:
+                - ip_pool_name: "underlay_sub_sj"
+                  ip_pool_role: "MAIN_POOL"
+              launch_and_wait: false
+        async: 3600
+        poll: 0
+        register: lan_job_1
+
+    - name: Start LAN Automation session 2 asynchronously
+      cisco.catalystcenter.lan_automation_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        state: merged
+        config:
+          - lan_automation:
+              primary_device_management_ip_address: "204.1.1.2"
+              discovered_device_site_name_hierarchy: "Global/USA/SAN FRANCISCO"
+              primary_device_interface_names:
+                - "HundredGigE1/0/29"
+              ip_pools:
+                - ip_pool_name: "underlay_sub_sf"
+                  ip_pool_role: "MAIN_POOL"
+              launch_and_wait: false
+      async: 3600
+      poll: 0
+      register: lan_job_2
+
+    - name: Wait for all asynchronous LAN Automation jobs
+      ansible.builtin.async_status:
+        jid: "{{ item.ansible_job_id }}"
+      register: lan_job_status
+      until: lan_job_status.finished
+      retries: 300
+      delay: 10
+      loop:
+        - "{{ lan_job_1 }}"
+        - "{{ lan_job_2 }}"
 
 - name: Stop a LAN Automation session
   cisco.catalystcenter.lan_automation_workflow_manager:
@@ -972,9 +1049,7 @@ catalystcenter_response:
 """
 
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
-)
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import DnacBase
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
@@ -982,7 +1057,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation im
 import time
 
 
-class LanAutomation(CatalystCenterBase):
+class LanAutomation(DnacBase):
     """Class containing member attributes for lan automation workflow manager module"""
 
     def __init__(self, module):
@@ -1283,7 +1358,7 @@ class LanAutomation(CatalystCenterBase):
         active_lan_automation = False
         lan_automation_session_ids = []
 
-        active_lan_automation, lan_automation_session_ids = (
+        (active_lan_automation, lan_automation_session_ids) = (
             self.active_lan_automation_sessions()
         )
 
@@ -1417,7 +1492,7 @@ class LanAutomation(CatalystCenterBase):
                 f"Calling 'get_port_channels' API with payload: {self.pprint(payload)}",
                 "DEBUG",
             )
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="lan_automation", function="get_port_channels", params=payload
             )
 
@@ -1818,7 +1893,7 @@ class LanAutomation(CatalystCenterBase):
         """
         response = None
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="lan_automation",
                 function="lan_automation_active_sessions",
                 op_modifies=False,
@@ -1864,7 +1939,7 @@ class LanAutomation(CatalystCenterBase):
 
         sessions = []
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="lan_automation",
                 function="lan_automation_status",
                 op_modifies=False,
@@ -1904,7 +1979,7 @@ class LanAutomation(CatalystCenterBase):
 
         ip_exists = False
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": management_ip_address},
@@ -1956,7 +2031,7 @@ class LanAutomation(CatalystCenterBase):
 
         hostname = None
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": management_ip_address},
@@ -2013,7 +2088,7 @@ class LanAutomation(CatalystCenterBase):
 
         site_exists = False
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="sites",
                 function="get_site",
                 params={"name": site_name_hierarchy},
@@ -2118,7 +2193,7 @@ class LanAutomation(CatalystCenterBase):
             f"Constructed payload for API request: {self.pprint(payload)}", "DEBUG"
         )
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="devices",
                 function="get_device_list",
                 params=payload,
@@ -2193,7 +2268,7 @@ class LanAutomation(CatalystCenterBase):
 
             - Logs are generated at DEBUG level for every step.
             - If a device cannot be found using the provided identifier, the method calls `fail_and_exit`.
-            - Internally, it uses `get_device_ip_by_device_identifier` to query Cisco Catalyst Center.
+            - Internally, it uses `get_device_ip_by_device_identifier` to query Cisco DNA Center.
         """
         self.log(
             f"Starting device IP resolution for {device_type} device using available identifiers",
@@ -3590,7 +3665,7 @@ class LanAutomation(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": device_ip},
@@ -3639,7 +3714,7 @@ class LanAutomation(CatalystCenterBase):
             return False
 
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="devices",
                 function="get_interface_details",
                 params={"device_id": device_id, "name": interface_name},
@@ -5344,7 +5419,7 @@ class LanAutomation(CatalystCenterBase):
             params = {"feature": feature, payload_key: payload}
 
             self.log("Ready for API call with params: {}".format(params))
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="lan_automation",
                 function="lan_automation_device_update",
                 params=params,
@@ -5487,7 +5562,7 @@ class LanAutomation(CatalystCenterBase):
             the automation tasks.
         """
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="lan_automation",
                 function="lan_automation_log",
                 op_modifies=False,
@@ -5653,7 +5728,7 @@ class LanAutomation(CatalystCenterBase):
 
         payload = {"deviceIdList": device_ids}
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="device_onboarding_pnp",
                 function="authorize_device",
                 op_modifies=True,
@@ -5708,7 +5783,7 @@ class LanAutomation(CatalystCenterBase):
             "Initiating API call for device list: {}".format(device_serial_numbers)
         )
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params={"serial_number": device_serial_numbers},
@@ -5809,7 +5884,7 @@ class LanAutomation(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="lan_automation",
                 function="lan_automation_start_v2",
                 params={"payload": lan_auto_params_list},
@@ -5932,7 +6007,7 @@ class LanAutomation(CatalystCenterBase):
                 ),
                 "DEBUG",
             )
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="lan_automation",
                 function="lan_automation_stop",
                 params={"id": session_id},
@@ -6200,7 +6275,7 @@ class LanAutomation(CatalystCenterBase):
                 f"Calling 'get_port_channel_information_by_id' API with ID: '{port_channel_id}'",
                 "DEBUG",
             )
-            response = self.catalystcenter_apply["exec"](
+            response = self.dnac_apply["exec"](
                 family="lan_automation",
                 function="get_port_channel_information_by_id",
                 params={"id": port_channel_id},
@@ -6595,8 +6670,7 @@ class LanAutomation(CatalystCenterBase):
             self.log(
                 "LAN automation session for seed IP '{0}' is still running. Checking again in "
                 "{1} seconds...".format(
-                    seed_ip_address,
-                    self.params.get("catalystcenter_task_poll_interval"),
+                    seed_ip_address, self.params.get("catalystcenter_task_poll_interval")
                 ),
                 "INFO",
             )
@@ -6819,21 +6893,13 @@ def main():
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -6850,7 +6916,7 @@ def main():
     state = ccc_lan_automation.params.get("state")
 
     if (
-        ccc_lan_automation.compare_catalystcenter_versions(
+        ccc_lan_automation.compare_dnac_versions(
             ccc_lan_automation.get_ccc_version(), "2.3.7.6"
         )
         < 0

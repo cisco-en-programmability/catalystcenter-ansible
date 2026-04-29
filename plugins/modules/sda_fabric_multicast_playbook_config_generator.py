@@ -390,7 +390,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
 )
 import time
 
@@ -415,7 +415,7 @@ else:
     OrderedDumper = None
 
 
-class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
+class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     Playbook config generator for SDA fabric multicast configurations.
 
@@ -555,7 +555,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
             return None
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sda",
                 function="get_fabric_sites",
                 op_modifies=False,
@@ -623,7 +623,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
             return None
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sda",
                 function="get_fabric_zones",
                 op_modifies=False,
@@ -971,7 +971,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
                 "DEBUG",
             )
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sda", function="get_multicast", params={}
             )
 
@@ -1598,7 +1598,7 @@ def main():
         module
     )
     if (
-        ccc_sda_multicast_playbook_generator.compare_catalystcenter_versions(
+        ccc_sda_multicast_playbook_generator.compare_dnac_versions(
             ccc_sda_multicast_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
@@ -1622,7 +1622,7 @@ def main():
         ccc_sda_multicast_playbook_generator.log(
             ccc_sda_multicast_playbook_generator.msg, "ERROR"
         )
-        ccc_sda_multicast_playbook_generator.check_recturn_status()
+        ccc_sda_multicast_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return status
     ccc_sda_multicast_playbook_generator.validate_input().check_return_status()

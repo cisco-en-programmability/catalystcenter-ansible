@@ -152,6 +152,11 @@ options:
                 description:
                 - List of exact destination names to filter from retrieved
                   configurations.
+                - When C(destination_names) is provided, you must target at
+                  least one destination component using either
+                  C(destination_types) or C(components_list) with one or more
+                  of C(webhook_destinations), C(email_destinations),
+                  C(syslog_destinations), C(snmp_destinations).
                 - Names must match exactly as configured in Catalyst Center
                   (case-sensitive).
                 - Only components listed in components_list are retrieved.
@@ -212,6 +217,11 @@ options:
                 description:
                 - List of exact event subscription names to filter from
                   retrieved configurations.
+                - When C(subscription_names) is provided, you must target at
+                  least one notification component using either
+                  C(notification_types) or C(components_list) with one or more
+                  of C(webhook_event_notifications),
+                  C(email_event_notifications), C(syslog_event_notifications).
                 - Names must match exactly as configured in Catalyst Center
                   event subscriptions.
                 - Filters webhook, email, and syslog event notifications based
@@ -285,16 +295,16 @@ notes:
     - event_management.Events.get_event_artifacts
     - sites.Sites.get_site
 - Paths used are
-    - GET /dna/system/api/v1/event/webhook
-    - GET /dna/system/api/v1/event/email-config
-    - GET /dna/system/api/v1/event/syslog-config
-    - GET /dna/system/api/v1/event/snmp-config
-    - GET /dna/system/api/v1/event/itsm-integration-setting
-    - GET /dna/system/api/v1/event/subscription/rest
-    - GET /dna/system/api/v1/event/subscription/email
-    - GET /dna/system/api/v1/event/subscription/syslog
-    - GET /dna/intent/api/v1/event-artifact
-    - GET /dna/intent/api/v1/site
+    - GET /dna/intent/api/v1/event/webhook
+    - GET /dna/intent/api/v1/event/email-config
+    - GET /dna/intent/api/v1/event/syslog-config
+    - GET /dna/intent/api/v1/dna-event/snmp-config
+    - GET /dna/intent/api/v1/integration-settings/itsm/instances
+    - GET /dna/intent/api/v1/event/subscription/rest
+    - GET /dna/intent/api/v1/event/subscription/email
+    - GET /dna/intent/api/v1/event/subscription/syslog
+    - GET /dna/system/api/v1/event/artifact
+    - GET /dna/intent/api/v1/sites
 - Minimum Catalyst Center version required is 2.3.5.3 for events and
   notifications APIs.
 - Module performs read-only operations and does not modify Catalyst Center
@@ -305,8 +315,8 @@ notes:
   readability.
 - Event IDs are automatically resolved to event names using Event Artifacts
   API.
-- Pagination is automatically handled for large datasets in webhook, SNMP,
-  and event subscriptions.
+- Pagination is automatically handled for large datasets in webhook, syslog,
+  SNMP destinations, ITSM settings and webhook, email, syslog notifications.
 - Generated playbooks are compatible with
   events_and_notifications_workflow_manager module.
 - When filter blocks (C(destination_filters), C(notification_filters),
@@ -417,6 +427,60 @@ EXAMPLES = r"""
       component_specific_filters:
         itsm_filters:
           instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
+
+# destination_names with destination_types (new filter in isolation)
+- name: Generate config filtering specific destinations by name and type
+  cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    component_specific_filters:
+      destination_filters:
+        destination_names:
+          - "Scale Syslog 7"
+          - "Prod Webhook Endpoint"
+        destination_types:        # Required when destination_names is specified
+          - "syslog"
+          - "webhook"
+
+# subscription_names with notification_types (new filter in isolation)
+- name: Generate config filtering specific subscriptions by name and type
+  cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    component_specific_filters:
+      notification_filters:
+        subscription_names:
+          - "Critical Email Alerts"
+          - "Syslog Infra Events"
+        notification_types:       # Required when subscription_names is specified
+          - "email"
+          - "syslog"
+
+# Combined filters with components_list as the targeting mechanism (multi-entry, mixed)
+- name: Generate config with name filters targeted via components_list
+  cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    component_specific_filters:
+      components_list:
+        - "syslog_destinations"          # Targets destination_names filter
+        - "email_event_notifications"    # Targets subscription_names filter
+        - "itsm_settings"                # No name filter, retrieves all
+      destination_filters:
+        destination_names:
+          - "Scale Syslog 7"             # Filtered — only syslog destinations matched
+      notification_filters:
+        subscription_names:
+          - "Critical Email Alerts"      # Filtered — only email notifications matched
+      itsm_filters:
+        instance_names:
+          - "ServiceNow Prod"
 """
 
 RETURN = r"""
@@ -463,7 +527,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
 )
 import time
 try:
@@ -485,7 +549,7 @@ else:
     OrderedDumper = None
 
 
-class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
+class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generating playbook files for events and notifications configurations in Cisco Catalyst Center using the GET APIs.
     """
@@ -671,7 +735,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             syslog_event_notifications_temp_spec(): Defines syslog notification rules
 
         Inheritance:
-            CatalystCenterBase: Provides core Catalyst Center SDK integration and helper methods
+            DnacBase: Provides core DNA Center SDK integration and helper methods
             BrownFieldHelper: Provides YAML generation utilities and file operations
 
         Returns:
@@ -751,14 +815,24 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_filters = validated_config.get("component_specific_filters")
         if config_provided and component_filters is None:
-            self.msg = (
-                "Validation Error: 'component_specific_filters' is mandatory when "
-                "'config' is provided. Please provide "
-                "'config.component_specific_filters' with either "
-                "'components_list' or component filter blocks."
+            if "component_specific_filters" not in self.config:
+                self.msg = (
+                    "Validation Error: 'component_specific_filters' is mandatory when "
+                    "'config' is provided. Please provide "
+                    "'config.component_specific_filters' with either "
+                    "'components_list' or component filter blocks."
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log(
+                "'component_specific_filters' key is present but value is null/empty under "
+                "'config'. Normalizing to empty dict to enforce standard minimum requirement "
+                "validation for components_list/component filters.",
+                "DEBUG"
             )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
+            component_filters = {}
+            validated_config["component_specific_filters"] = component_filters
 
         self.log(
             "Schema validation completed successfully. Validated configuration: {0}".format(
@@ -776,7 +850,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         # Validate nested component_specific_filters structure
-        if component_filters and isinstance(component_filters, dict):
+        if isinstance(component_filters, dict):
             self.log(
                 "Validating nested component_specific_filters keys: {0}".format(
                     list(component_filters.keys())
@@ -862,6 +936,47 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
 
+                destination_names = destination_filters.get("destination_names")
+                if destination_names and isinstance(destination_names, list):
+                    self.log("Validating destination name filters against targeted components.", "DEBUG")
+                    destination_component_map = {
+                        "webhook": "webhook_destinations",
+                        "email": "email_destinations",
+                        "syslog": "syslog_destinations",
+                        "snmp": "snmp_destinations",
+                    }
+                    destination_components = set(destination_component_map.values())
+                    self.log("Destination component mapping: {0}".format(destination_component_map), "DEBUG")
+
+                    targeted_components_from_types = set()
+                    if destination_types:
+                        self.log("Determining targeted components from destination_types filter: {0}".format(destination_types), "DEBUG")
+                        targeted_components_from_types = {
+                            destination_component_map[dest_type]
+                            for dest_type in destination_types
+                            if dest_type in destination_component_map
+                        }
+
+                    targeted_components_from_list = set()
+                    if components_list:
+                        self.log("Determining targeted components from components_list filter: {0}".format(components_list), "DEBUG")
+                        targeted_components_from_list = {
+                            component_name
+                            for component_name in components_list
+                            if component_name in destination_components
+                        }
+
+                    if not (targeted_components_from_types or targeted_components_from_list):
+                        self.msg = (
+                            "Validation Error: 'destination_filters.destination_names' requires "
+                            "at least one destination target. Provide "
+                            "'destination_filters.destination_types' (webhook/email/syslog/snmp) "
+                            "or include destination component(s) in "
+                            "'component_specific_filters.components_list'."
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
             # Validate notification_filters
             allowed_notification_filter_keys = {"subscription_names", "notification_types"}
             notification_filters = component_filters.get("notification_filters")
@@ -891,6 +1006,48 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                             "Please provide valid notification types and try again.".format(
                                 invalid_notif_types, sorted(allowed_notification_types)
                             )
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                subscription_names = notification_filters.get("subscription_names")
+                if subscription_names and isinstance(subscription_names, list):
+                    self.log("Validating subscription name filters against targeted components.", "DEBUG")
+                    notification_component_map = {
+                        "webhook": "webhook_event_notifications",
+                        "email": "email_event_notifications",
+                        "syslog": "syslog_event_notifications",
+                    }
+                    notification_components = set(notification_component_map.values())
+
+                    targeted_notification_components_from_types = set()
+                    if notification_types:
+                        self.log("Determining targeted components from notification_types filter: {0}".format(notification_types), "DEBUG")
+                        targeted_notification_components_from_types = {
+                            notification_component_map[notif_type]
+                            for notif_type in notification_types
+                            if notif_type in notification_component_map
+                        }
+
+                    targeted_notification_components_from_list = set()
+                    if components_list:
+                        self.log("Determining targeted components from components_list filter: {0}".format(components_list), "DEBUG")
+                        targeted_notification_components_from_list = {
+                            component_name
+                            for component_name in components_list
+                            if component_name in notification_components
+                        }
+
+                    if not (
+                        targeted_notification_components_from_types
+                        or targeted_notification_components_from_list
+                    ):
+                        self.msg = (
+                            "Validation Error: 'notification_filters.subscription_names' requires "
+                            "at least one notification target. Provide "
+                            "'notification_filters.notification_types' (webhook/email/syslog) "
+                            "or include notification component(s) in "
+                            "'component_specific_filters.components_list'."
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return self
@@ -932,6 +1089,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     inferred_components.update(
                         [destination_type_map[dt] for dt in destination_types]
                     )
+
                 else:
                     if not components_list:
                         inferred_components.update(
@@ -1633,7 +1791,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             return None
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_event_artifacts",
                 op_modifies=False,
@@ -1741,6 +1899,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         sites_from_resource = 0
 
         try:
+            has_explicit_filter_sites = False
+
             # Check filter for direct sites
             filter_data = notification.get("filter", {})
             if isinstance(filter_data, dict):
@@ -1753,6 +1913,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 if direct_sites:
                     sites.extend(direct_sites)
                     sites_from_direct = len(direct_sites)
+                    has_explicit_filter_sites = True
 
                 self.log(
                     "Extracted {0} direct site name(s) from filter.sites: {1}".format(
@@ -1764,6 +1925,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 # Site IDs in filter - need to resolve to names
                 site_ids = filter_data.get("siteIds", [])
                 if site_ids:
+                    has_explicit_filter_sites = True
                     self.log(
                         "Found {0} site ID(s) requiring resolution: {1}. Calling site API "
                         "to resolve IDs to hierarchical names.".format(len(site_ids), site_ids),
@@ -1814,7 +1976,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
             # Check resourceDomain for site information
             resource_domain = notification.get("resourceDomain", {})
-            if resource_domain:
+            if resource_domain and not has_explicit_filter_sites:
                 resource_groups = resource_domain.get("resourceGroups", [])
                 self.log(
                     "Processing resource domain with {0} resource group(s). Extracting "
@@ -1867,6 +2029,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                                     ),
                                     "DEBUG"
                                 )
+
+            elif resource_domain and has_explicit_filter_sites:
+                self.log(
+                    "Skipping resource domain site extraction because explicit filter sites "
+                    "(sites/siteIds) are already provided in notification filter.",
+                    "DEBUG"
+                )
 
             self.log(
                 "Resource domain processing completed. Sites from resource groups: {0}".format(
@@ -1943,7 +2112,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             return None
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sites",
                 function="get_site",
                 op_modifies=False,
@@ -2654,6 +2823,48 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         return None
 
+    def _resolve_name_filter(self, type_filters, names_filter, expected_type):
+        """
+        Returns effective names filter list for a destination/notification type.
+
+        Centralises the repeated pattern of checking whether the current component
+        type is included in the user-supplied type filter list before applying the
+        name-based filter.  If ``type_filters`` is empty or ``None`` the names
+        filter is returned as-is (all types selected).  If ``type_filters`` is
+        non-empty but does not contain ``expected_type``, an empty list is returned
+        so that name filtering is skipped for this component.
+
+        Args:
+            type_filters (list): destination_types or notification_types from the
+                playbook filter block.  May be ``None`` or empty.
+            names_filter (list): destination_names or subscription_names from the
+                playbook filter block.  May be ``None`` or empty.
+            expected_type (str): The component type to check for, e.g. ``"webhook"``,
+                ``"email"``, ``"syslog"``, ``"snmp"``.
+
+        Returns:
+            tuple: A two-element tuple ``(effective_names_filter, type_selected)``.
+                - effective_names_filter (list): The names filter to apply for this
+                  component type.  Returns an empty list when the component type is
+                  excluded by ``type_filters``.
+                - type_selected (bool): ``True`` when the component type is included
+                  (or no type filter is set); ``False`` when it is excluded.
+        """
+        type_filters = type_filters or []
+        names_filter = names_filter or []
+
+        if type_filters and expected_type not in type_filters:
+            self.log(
+                "Component type '{0}' not in type_filters {1}. "
+                "Clearing name filter for this component.".format(
+                    expected_type, type_filters
+                ),
+                "DEBUG"
+            )
+            return [], False
+
+        return names_filter, True
+
     def get_webhook_destinations(self, network_element, filters):
         """
         Retrieves webhook destination configurations from Cisco Catalyst Center.
@@ -2681,7 +2892,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = destination_filters.get("destination_names", [])
+        destination_names, type_selected = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "webhook"
+        )
+        if not type_selected:
+            self.log(
+                "Webhook destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"webhook_destinations": []}
+
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(destination_names),
@@ -2699,7 +2922,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            webhook_configs = self.get_all_webhook_destinations(api_family, api_function)
+            webhook_configs = self.get_all_webhook_destinations(
+                api_family, api_function,
+                target_destination_names=destination_names if destination_names else None
+            )
             self.log(
                 "Retrieved {0} webhook destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(webhook_configs)),
@@ -2722,9 +2948,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         ),
                         "INFO"
                     )
-                    final_webhook_configs = matching_configs
                 else:
-                    self.log("No matching webhook destinations found for filter - including all", "DEBUG")
+                    final_webhook_configs = []
+                    self.log(
+                        "No matching webhook destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
+                        "INFO"
+                    )
             else:
                 final_webhook_configs = webhook_configs
                 self.log(
@@ -2796,7 +3026,18 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = destination_filters.get("destination_names", [])
+        destination_names, type_selected = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "email"
+        )
+        if not type_selected:
+            self.log(
+                "Email destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"email_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -2845,13 +3086,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "INFO"
                     )
                 else:
-                    final_email_configs = email_configs
+                    final_email_configs = []
                     self.log(
-                        "No matching email destinations found for filter: {0}. Including "
-                        "all {1} email(s) for comprehensive configuration coverage.".format(
-                            destination_names, len(email_configs)
-                        ),
-                        "WARNING"
+                        "No matching email destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
+                        "INFO"
                     )
             else:
                 self.log(
@@ -2925,7 +3164,18 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = destination_filters.get("destination_names", [])
+        destination_names, type_selected = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "syslog"
+        )
+        if not type_selected:
+            self.log(
+                "Syslog destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"syslog_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -2944,7 +3194,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            syslog_configs = self.get_all_syslog_destinations(api_family, api_function)
+            syslog_configs = self.get_all_syslog_destinations(
+                api_family, api_function,
+                target_destination_names=destination_names if destination_names else None
+            )
             self.log(
                 "Retrieved {0} syslog destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(syslog_configs)),
@@ -2968,13 +3221,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "INFO"
                     )
                 else:
-                    final_syslog_configs = syslog_configs
+                    final_syslog_configs = []
                     self.log(
-                        "No matching syslog destinations found for filter: {0}. Including "
-                        "all {1} syslog(s) for comprehensive configuration coverage.".format(
-                            destination_names, len(syslog_configs)
-                        ),
-                        "WARNING"
+                        "No matching syslog destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
+                        "INFO"
                     )
             else:
                 self.log(
@@ -3047,7 +3298,18 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_specific_filters = filters.get("component_specific_filters", {})
         destination_filters = component_specific_filters.get("destination_filters", {})
-        destination_names = destination_filters.get("destination_names", [])
+        destination_names, type_selected = self._resolve_name_filter(
+            destination_filters.get("destination_types"),
+            destination_filters.get("destination_names"),
+            "snmp"
+        )
+        if not type_selected:
+            self.log(
+                "SNMP destination type not selected in destination_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"snmp_destinations": []}
 
         self.log(
             "Destination name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -3067,7 +3329,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            snmp_configs = self.get_all_snmp_destinations(api_family, api_function)
+            snmp_configs = self.get_all_snmp_destinations(
+                api_family, api_function,
+                target_destination_names=destination_names if destination_names else None
+            )
             self.log(
                 "Retrieved {0} SNMP destination(s) from Catalyst Center. Processing "
                 "filtering logic based on destination_names.".format(len(snmp_configs)),
@@ -3091,12 +3356,11 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "INFO"
                     )
                 else:
-                    final_snmp_configs = snmp_configs
+                    final_snmp_configs = []
                     self.log(
-                        "No matching SNMP destinations found for filter: {0}. Including "
-                        "all {1} SNMP destination(s) for comprehensive configuration "
-                        "coverage.".format(destination_names, len(snmp_configs)),
-                        "WARNING"
+                        "No matching SNMP destinations found for destination_names "
+                        "filter: {0}. Returning empty list.".format(destination_names),
+                        "INFO"
                     )
             else:
                 self.log(
@@ -3143,7 +3407,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_all_webhook_destinations(self, api_family, api_function):
+    def get_all_webhook_destinations(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all webhook destinations using pagination from the API.
 
@@ -3155,6 +3419,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         Args:
             api_family (str): The API family identifier for webhook destinations.
             api_function (str): The specific API function name for retrieving webhook destinations.
+            target_destination_names (list, optional): Destination names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of webhook destination dictionaries containing all available
@@ -3169,26 +3435,25 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_webhooks = []
             page_count = 0
 
             while True:
                 page_count += 1
-                current_offset = offset * limit
 
                 self.log(
                     "Fetching webhook destinations page {0} with offset={1}, limit={2}. "
                     "Calling API to retrieve webhook configurations.".format(
-                        page_count, current_offset, limit
+                        page_count, offset, limit
                     ),
                     "DEBUG"
                 )
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
-                    params={"offset": offset * limit, "limit": limit},
+                    params={"offset": offset, "limit": limit},
                 )
                 self.log(
                     "Received API response for webhook destinations page {0}. Response "
@@ -3218,6 +3483,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "DEBUG"
                 )
 
+                # Early-stop: if all target names found, skip remaining pages
+                if target_destination_names:
+                    found_names = {w.get("name", "") for w in all_webhooks}
+                    if all(n in found_names for n in target_destination_names):
+                        self.log(
+                            "All {0} target webhook destination(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_destination_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
+
                 if len(webhooks) < limit:
                     self.log(
                         "Received {0} webhook(s) in page {1}, which is less than limit "
@@ -3228,7 +3506,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     )
                     break
 
-                offset += 1
+                offset += limit
                 self.log(
                     "Webhook destination retrieval completed successfully. Total pages "
                     "fetched: {0}, Total webhooks retrieved: {1}. Returning complete "
@@ -3272,7 +3550,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             "DEBUG"
         )
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -3315,65 +3593,126 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_all_syslog_destinations(self, api_family, api_function):
+    def get_all_syslog_destinations(self, api_family, api_function, target_destination_names=None):
         """
-        Retrieves all syslog destinations from the API.
+        Retrieves all syslog destinations using pagination from the API.
 
         Description:
-            This helper method fetches syslog destination configurations from Cisco Catalyst Center.
-            It extracts syslog configuration data from the API response and handles various
-            response formats to ensure consistent data retrieval.
+            This helper method makes paginated API calls to fetch all syslog destination
+            configurations from Cisco Catalyst Center. It handles API response variations
+            and continues pagination until all destinations are retrieved.
 
         Args:
             api_family (str): The API family identifier for syslog destinations.
             api_function (str): The specific API function name for retrieving syslog destinations.
+            target_destination_names (list, optional): Destination names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
-            list: A list of syslog destination dictionaries containing server addresses,
-            protocols, ports, and other syslog configuration parameters.
+            list: A list of syslog destination dictionaries containing all available
+            syslog configurations from the Cisco Catalyst Center.
         """
         self.log(
-            "Retrieving all syslog destinations from Catalyst Center. API family: {0}, "
-            "API function: {1}. Calling API to fetch syslog configurations.".format(
+            "Retrieving all syslog destinations with pagination. API family: {0}, "
+            "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
             "DEBUG"
         )
         try:
-            response = self.catalystcenter._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
-                params={},
-            )
+            offset = 0
+            limit = 100
+            all_syslogs = []
+            page_count = 0
+
+            while True:
+                page_count += 1
+
+                self.log(
+                    "Fetching syslog destinations page {0} with offset={1}, limit={2}. "
+                    "Calling API to retrieve syslog configurations.".format(
+                        page_count, offset, limit
+                    ),
+                    "DEBUG"
+                )
+
+                response = self.dnac._exec(
+                    family=api_family,
+                    function=api_function,
+                    op_modifies=False,
+                    params={"offset": offset, "limit": limit},
+                )
+                self.log(
+                    "Received API response for syslog destinations page {0}. Response "
+                    "type: {1}. Processing statusMessage field for syslog data.".format(
+                        page_count, type(response).__name__
+                    ),
+                    "DEBUG"
+                )
+
+                syslog_configs = response.get("statusMessage", [])
+                if not isinstance(syslog_configs, list):
+                    self.log(
+                        "statusMessage has unexpected format in page {0}. Expected list, "
+                        "got: {1}. Terminating pagination.".format(
+                            page_count, type(syslog_configs).__name__
+                        ),
+                        "WARNING"
+                    )
+                    break
+
+                if not syslog_configs:
+                    self.log(
+                        "No syslog destinations found in page {0} response. statusMessage "
+                        "field empty or missing. Terminating pagination loop.".format(
+                            page_count
+                        ),
+                        "DEBUG"
+                    )
+                    break
+
+                all_syslogs.extend(syslog_configs)
+                self.log(
+                    "Added {0} syslog destination(s) from page {1}. Total accumulated: "
+                    "{2}. Checking if more pages available.".format(
+                        len(syslog_configs), page_count, len(all_syslogs)
+                    ),
+                    "DEBUG"
+                )
+
+                # Early-stop: if all target names found, skip remaining pages
+                if target_destination_names:
+                    found_names = {s.get("name", "") for s in all_syslogs}
+                    if all(n in found_names for n in target_destination_names):
+                        self.log(
+                            "All {0} target syslog destination(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_destination_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
+
+                if len(syslog_configs) < limit:
+                    self.log(
+                        "Received {0} syslog destination(s) in page {1}, which is less "
+                        "than limit {2}. No more pages available. Terminating pagination.".format(
+                            len(syslog_configs), page_count, limit
+                        ),
+                        "DEBUG"
+                    )
+                    break
+
+                offset += limit
+
             self.log(
-                "Received API response for syslog destinations. Response type: {0}. "
-                "Processing statusMessage field to extract syslog configuration data.".format(
-                    type(response).__name__
+                "Syslog destination retrieval completed successfully. Total pages fetched: "
+                "{0}, Total syslog destinations retrieved: {1}. Returning complete syslog list.".format(
+                    page_count, len(all_syslogs)
                 ),
-                "DEBUG"
+                "INFO"
             )
-
-            syslog_configs = response.get("statusMessage", [])
-
-            if isinstance(syslog_configs, list):
-                self.log(
-                    "Extracted {0} syslog destination(s) from statusMessage field. "
-                    "Returning syslog configurations for processing.".format(
-                        len(syslog_configs)
-                    ),
-                    "INFO"
-                )
-                return syslog_configs
-            else:
-                self.log(
-                    "statusMessage field has unexpected format. Expected list, got: {0}. "
-                    "Returning empty list for graceful handling.".format(
-                        type(syslog_configs).__name__
-                    ),
-                    "WARNING"
-                )
-                return []
+            return all_syslogs
 
         except Exception as e:
             self.log(
@@ -3385,7 +3724,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
             )
             return []
 
-    def get_all_snmp_destinations(self, api_family, api_function):
+    def get_all_snmp_destinations(self, api_family, api_function, target_destination_names=None):
         """
         Retrieves all SNMP destinations using pagination from the API.
 
@@ -3397,6 +3736,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         Args:
             api_family (str): The API family identifier for SNMP destinations.
             api_function (str): The specific API function name for retrieving SNMP destinations.
+            target_destination_names (list, optional): Destination names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of SNMP destination dictionaries containing IP addresses,
@@ -3411,27 +3752,26 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_snmp = []
             page_count = 0
 
             while True:
                 page_count += 1
-                current_offset = offset * limit
 
                 self.log(
                     "Fetching SNMP destinations page {0} with offset={1}, limit={2}. "
                     "Calling API to retrieve SNMP configurations.".format(
-                        page_count, current_offset, limit
+                        page_count, offset, limit
                     ),
                     "DEBUG"
                 )
                 try:
-                    response = self.catalystcenter._exec(
+                    response = self.dnac._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
-                        params={"offset": offset * limit, "limit": limit},
+                        params={"offset": offset, "limit": limit},
                     )
                     self.log(
                         "Received API response for SNMP destinations page {0}. Response "
@@ -3461,6 +3801,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "DEBUG"
                     )
 
+                    # Early-stop: if all target names found, skip remaining pages
+                    if target_destination_names:
+                        found_names = {s.get("name", "") for s in all_snmp}
+                        if all(n in found_names for n in target_destination_names):
+                            self.log(
+                                "All {0} target SNMP destination(s) found after {1} page(s). "
+                                "Stopping pagination early.".format(
+                                    len(target_destination_names), page_count
+                                ),
+                                "INFO"
+                            )
+                            break
+
                     if len(snmp_configs) < limit:
                         self.log(
                             "Received {0} SNMP destination(s) in page {1}, which is less "
@@ -3470,7 +3823,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         )
                         break
 
-                    offset += 1
+                    offset += limit
 
                 except Exception as e:
                     self.log(
@@ -3546,7 +3899,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            itsm_configs = self.get_all_itsm_settings(api_family, api_function)
+            itsm_configs = self.get_all_itsm_settings(
+                api_family, api_function,
+                target_instance_names=instance_names if instance_names else None
+            )
             self.log(
                 "Retrieved {0} ITSM setting(s) from Catalyst Center. Processing filtering "
                 "logic based on instance_names.".format(len(itsm_configs)),
@@ -3611,7 +3967,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         return result
 
-    def get_all_itsm_settings(self, api_family, api_function):
+    def get_all_itsm_settings(self, api_family, api_function, target_instance_names=None):
         """
         Retrieves all ITSM integration settings from the API with full connection details.
 
@@ -3627,63 +3983,148 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         Args:
             api_family (str): The API family identifier for ITSM settings.
             api_function (str): The specific API function name for retrieving ITSM settings.
+            target_instance_names (list, optional): Instance names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of ITSM setting dictionaries containing instance names,
             descriptions, and connection configuration details.
         """
         self.log(
-            "Retrieving all ITSM settings from Catalyst Center. API family: {0}, "
-            "API function: {1}. Calling API to fetch ITSM configurations.".format(
+            "Retrieving all ITSM settings with pagination. API family: {0}, API "
+            "function: {1}. Starting pagination with page_size=50.".format(
                 api_family, api_function
             ),
             "DEBUG"
         )
         try:
-            response = self.catalystcenter._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
-            )
-            self.log(
-                "Received API response for ITSM settings. Response {0}. "
-                "Processing response structure to extract ITSM configuration data.".format(
-                    response
-                ),
-                "DEBUG"
-            )
+            page = 1
+            page_size = 50
+            all_itsm_settings = []
+            page_count = 0
 
-            itsm_settings = []
-
-            if isinstance(response, dict):
-                itsm_settings = response.get("data") or response.get("response", [])
-            elif isinstance(response, list):
-                itsm_settings = response
-
-            if not isinstance(itsm_settings, list):
+            while True:
+                page_count += 1
                 self.log(
-                    "ITSM settings has unexpected format. Expected list, got: {0}. "
-                    "Returning empty list for graceful handling.".format(
-                        type(itsm_settings).__name__
-                    ),
-                    "WARNING"
+                    "Fetching ITSM instances page {0} with page={1}, page_size={2}, "
+                    "sortBy=name, order=asc.".format(page_count, page, page_size),
+                    "DEBUG"
                 )
-                return []
+                response = self.dnac._exec(
+                    family=api_family,
+                    function=api_function,
+                    op_modifies=False,
+                    params={
+                        "page_size": page_size,
+                        "page": page,
+                        "sortBy": "name",
+                        "order": "asc",
+                    },
+                )
+
+                itsm_settings = []
+                if isinstance(response, dict):
+                    itsm_settings = response.get("data") or response.get("response", [])
+                elif isinstance(response, list):
+                    itsm_settings = response
+
+                if not isinstance(itsm_settings, list):
+                    self.log(
+                        "ITSM listing response format unexpected in page {0}. Expected list, "
+                        "got: {1}. Terminating pagination.".format(
+                            page_count, type(itsm_settings).__name__
+                        ),
+                        "WARNING"
+                    )
+                    break
+
+                if not itsm_settings:
+                    self.log(
+                        "No ITSM instances returned in page {0}. Terminating pagination loop.".format(
+                            page_count
+                        ),
+                        "DEBUG"
+                    )
+                    break
+
+                all_itsm_settings.extend(itsm_settings)
+                self.log(
+                    "Added {0} ITSM instance(s) from page {1}. Total accumulated: {2}.".format(
+                        len(itsm_settings), page_count, len(all_itsm_settings)
+                    ),
+                    "DEBUG"
+                )
+
+                # Early-stop: if all target names already found in listing, skip remaining pages
+                if target_instance_names:
+                    found_names = {
+                        item.get("name", "").lower()
+                        for item in all_itsm_settings
+                        if isinstance(item, dict)
+                    }
+                    target_lower = {n.lower() for n in target_instance_names}
+                    if target_lower.issubset(found_names):
+                        self.log(
+                            "All {0} target ITSM instance(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_instance_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
+
+                if len(itsm_settings) < page_size:
+                    self.log(
+                        "Received {0} ITSM instance(s) in page {1}, less than page_size {2}. "
+                        "No more pages available.".format(
+                            len(itsm_settings), page_count, page_size
+                        ),
+                        "DEBUG"
+                    )
+                    break
+
+                page += 1
 
             self.log(
                 "Extracted {0} ITSM setting(s) from listing API. Now retrieving full "
                 "details for each instance using get_itsm_integration_setting_by_id.".format(
-                    len(itsm_settings)
+                    len(all_itsm_settings)
                 ),
                 "INFO"
             )
 
+            # When target names provided, filter listing before expensive get-by-id calls
+            if target_instance_names:
+                target_names_lower = {n.lower() for n in target_instance_names}
+                filtered_itsm = [
+                    item for item in all_itsm_settings
+                    if isinstance(item, dict) and item.get("name", "").lower() in target_names_lower
+                ]
+                self.log(
+                    "Target instance filter active: {0} target(s). Matched {1} of {2} "
+                    "listing entries. Only matched entries will have details fetched.".format(
+                        len(target_instance_names), len(filtered_itsm), len(all_itsm_settings)
+                    ),
+                    "INFO"
+                )
+                if not filtered_itsm:
+                    available_names = [
+                        item.get("name", "unknown") for item in all_itsm_settings
+                        if isinstance(item, dict)
+                    ]
+                    self.log(
+                        "No ITSM instances matched target names {0}. Available ITSM "
+                        "instance names: {1}".format(target_instance_names, available_names),
+                        "WARNING"
+                    )
+                all_itsm_settings = filtered_itsm
+
             detailed_settings = []
-            for idx, item in enumerate(itsm_settings, start=1):
+            for idx, item in enumerate(all_itsm_settings, start=1):
                 if not isinstance(item, dict):
                     self.log(
                         "Skipping ITSM entry {0}/{1} - not a valid dictionary.".format(
-                            idx, len(itsm_settings)
+                            idx, len(all_itsm_settings)
                         ),
                         "WARNING"
                     )
@@ -3695,7 +4136,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 if not instance_id:
                     self.log(
                         "Skipping ITSM instance {0}/{1} '{2}' - no 'id' field found in "
-                        "listing response.".format(idx, len(itsm_settings), instance_name),
+                        "listing response.".format(idx, len(all_itsm_settings), instance_name),
                         "WARNING"
                     )
                     continue
@@ -3703,7 +4144,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                 self.log(
                     "Processing ITSM instance {0}/{1} - name: '{2}', ID: '{3}'. "
                     "Fetching full details.".format(
-                        idx, len(itsm_settings), instance_name, instance_id
+                        idx, len(all_itsm_settings), instance_name, instance_id
                     ),
                     "DEBUG"
                 )
@@ -3713,22 +4154,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     self.log(
                         "Could not retrieve full details for ITSM instance {0}/{1} '{2}' "
                         "(ID: {3}). Falling back to listing data.".format(
-                            idx, len(itsm_settings), instance_name, instance_id
+                            idx, len(all_itsm_settings), instance_name, instance_id
                         ),
                         "WARNING"
                     )
                     detailed_settings.append(item)
+                    continue
 
                 detailed_settings.append(detail)
                 self.log(
                     "Successfully retrieved full details for ITSM instance {0}/{1} "
-                    "'{2}'.".format(idx, len(itsm_settings), instance_name),
+                    "'{2}'.".format(idx, len(all_itsm_settings), instance_name),
                     "DEBUG"
                 )
 
             self.log(
                 "Completed ITSM detail retrieval. {0} of {1} instance(s) have full "
-                "connection details.".format(len(detailed_settings), len(itsm_settings)),
+                "connection details.".format(len(detailed_settings), len(all_itsm_settings)),
                 "INFO"
             )
             return detailed_settings
@@ -3770,7 +4212,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            detail_response = self.catalystcenter._exec(
+            detail_response = self.dnac._exec(
                 family="itsm_integration",
                 function="get_itsm_integration_setting_by_id",
                 op_modifies=False,
@@ -3858,7 +4300,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = notification_filters.get("subscription_names", [])
+        subscription_names, type_selected = self._resolve_name_filter(
+            notification_filters.get("notification_types"),
+            notification_filters.get("subscription_names"),
+            "webhook"
+        )
+        if not type_selected:
+            self.log(
+                "Webhook notification type not selected in notification_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"webhook_event_notifications": []}
+
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
                 len(subscription_names),
@@ -3876,7 +4330,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            notification_configs = self.get_all_webhook_event_notifications(api_family, api_function)
+            notification_configs = self.get_all_webhook_event_notifications(
+                api_family, api_function,
+                target_subscription_names=subscription_names if subscription_names else None
+            )
             self.log(
                 "Retrieved {0} webhook event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
@@ -3909,12 +4366,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "INFO"
                     )
                 else:
-                    final_notification_configs = notification_configs
+                    final_notification_configs = []
                     self.log(
-                        "No matching webhook event notifications found for filter: {0}. "
-                        "Including all {1} notification(s) for comprehensive configuration "
-                        "coverage.".format(subscription_names, len(notification_configs)),
-                        "WARNING"
+                        "No matching webhook event notifications found for "
+                        "subscription_names filter: {0}. Returning empty list.".format(
+                            subscription_names
+                        ),
+                        "INFO"
                     )
             else:
                 final_notification_configs = notification_configs
@@ -3963,7 +4421,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_all_webhook_event_notifications(self, api_family, api_function):
+    def get_all_webhook_event_notifications(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all webhook event notifications using pagination from the API.
 
@@ -3975,6 +4433,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         Args:
             api_family (str): The API family identifier for webhook event notifications.
             api_function (str): The specific API function name for retrieving webhook notifications.
+            target_subscription_names (list, optional): Subscription names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of webhook event notification dictionaries containing subscription
@@ -3989,7 +4449,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_notifications = []
             page_count = 0
 
@@ -4004,7 +4464,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "DEBUG"
                 )
                 try:
-                    response = self.catalystcenter._exec(
+                    response = self.dnac._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -4058,6 +4518,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         ),
                         "DEBUG"
                     )
+
+                    # Early-stop: if all target subscription names found, skip remaining pages
+                    if target_subscription_names:
+                        found_names = {n.get("name", "") for n in all_notifications}
+                        if all(sn in found_names for sn in target_subscription_names):
+                            self.log(
+                                "All {0} target webhook notification(s) found after {1} page(s). "
+                                "Stopping pagination early.".format(
+                                    len(target_subscription_names), page_count
+                                ),
+                                "INFO"
+                            )
+                            break
 
                     if len(notifications) < limit:
                         self.log(
@@ -4126,7 +4599,18 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = notification_filters.get("subscription_names", [])
+        subscription_names, type_selected = self._resolve_name_filter(
+            notification_filters.get("notification_types"),
+            notification_filters.get("subscription_names"),
+            "email"
+        )
+        if not type_selected:
+            self.log(
+                "Email notification type not selected in notification_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"email_event_notifications": []}
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4140,15 +4624,16 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         api_function = network_element.get("api_function")
 
         self.log(
-            "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
-                len(subscription_names),
-                "name-based filtering" if subscription_names else "retrieve all"
-            ),
+            "API details extracted - Family: {0}, Function: {1}. Calling API to retrieve "
+            "email event notifications.".format(api_family, api_function),
             "DEBUG"
         )
 
         try:
-            notification_configs = self.get_all_email_event_notifications(api_family, api_function)
+            notification_configs = self.get_all_email_event_notifications(
+                api_family, api_function,
+                target_subscription_names=subscription_names if subscription_names else None
+            )
             self.log(
                 "Retrieved {0} email event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
@@ -4181,12 +4666,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "INFO"
                     )
                 else:
-                    final_notification_configs = notification_configs
+                    final_notification_configs = []
                     self.log(
-                        "No matching email event notifications found for filter: {0}. "
-                        "Including all {1} notification(s) for comprehensive configuration "
-                        "coverage.".format(subscription_names, len(notification_configs)),
-                        "WARNING"
+                        "No matching email event notifications found for "
+                        "subscription_names filter: {0}. Returning empty list.".format(
+                            subscription_names
+                        ),
+                        "INFO"
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4234,72 +4720,125 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         return result
 
-    def get_all_email_event_notifications(self, api_family, api_function):
+    def get_all_email_event_notifications(self, api_family, api_function, target_subscription_names=None):
         """
-        Retrieves all email event notifications from the API.
+        Retrieves all email event notifications using pagination from the API.
 
         Description:
-            This helper method fetches email event notification configurations from
-            Cisco Catalyst Center. It handles different response formats and extracts
-            email subscription data from the API response.
+            This helper method makes paginated API calls to fetch all email event
+            notification configurations from Cisco Catalyst Center. It handles
+            different response formats and continues pagination until all
+            notifications are retrieved.
 
         Args:
             api_family (str): The API family identifier for email event notifications.
             api_function (str): The specific API function name for retrieving email notifications.
+            target_subscription_names (list, optional): Subscription names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of email event notification dictionaries containing subscription
             endpoints, event filters, and email configuration details.
         """
         self.log(
-            "Retrieving all email event notifications from Catalyst Center. API family: {0}, "
-            "API function: {1}. Calling API to fetch email subscription configurations.".format(
+            "Retrieving all email event notifications with pagination. API family: {0}, "
+            "API function: {1}. Starting pagination loop with limit=10.".format(
                 api_family, api_function
             ),
             "DEBUG"
         )
         try:
-            response = self.catalystcenter._exec(
-                family=api_family,
-                function=api_function,
-                op_modifies=False,
-                params={}
-            )
-            self.log(
-                "Received API response for email event notifications. Response type: {0}. "
-                "Processing response structure to extract subscription data.".format(
-                    type(response).__name__
-                ),
-                "DEBUG"
-            )
+            offset = 0
+            limit = 100
+            all_notifications = []
+            page_count = 0
 
-            if isinstance(response, list):
-                notifications = response
+            while True:
+                page_count += 1
                 self.log(
-                    "API response is list format with {0} email event notification(s). "
-                    "Returning notification list directly for processing.".format(len(response)),
-                    "INFO"
-                )
-
-            elif isinstance(response, dict):
-                notifications = response.get("response", [])
-                self.log(
-                    "API response is dictionary format. Extracted {0} email event notification(s) "
-                    "from response field. Returning subscription configurations.".format(
-                        len(notifications)
+                    "Fetching email event notifications page {0} with offset={1}, limit={2}. "
+                    "Calling API to retrieve email subscription configurations.".format(
+                        page_count, offset, limit
                     ),
-                    "INFO"
+                    "DEBUG"
                 )
 
-            else:
+                response = self.dnac._exec(
+                    family=api_family,
+                    function=api_function,
+                    op_modifies=False,
+                    params={"offset": offset, "limit": limit}
+                )
                 self.log(
-                    "API response has unexpected format. Response type: {0}. Returning empty "
-                    "list for graceful handling.".format(type(response).__name__),
-                    "WARNING"
+                    "Received API response for email event notifications page {0}. "
+                    "Response type: {1}. Processing response structure for subscription data.".format(
+                        page_count, type(response).__name__
+                    ),
+                    "DEBUG"
                 )
-                notifications = []
 
-            return notifications
+                if isinstance(response, list):
+                    notifications = response
+                elif isinstance(response, dict):
+                    notifications = response.get("response", [])
+                else:
+                    notifications = []
+                    self.log(
+                        "API response has unexpected format in page {0}. Response type: {1}. "
+                        "Terminating pagination.".format(page_count, type(response).__name__),
+                        "WARNING"
+                    )
+                    break
+
+                if not notifications:
+                    self.log(
+                        "No email event notifications found in page {0} response. "
+                        "Terminating pagination loop.".format(page_count),
+                        "DEBUG"
+                    )
+                    break
+
+                all_notifications.extend(notifications)
+                self.log(
+                    "Added {0} email event notification(s) from page {1}. Total accumulated: {2}.".format(
+                        len(notifications), page_count, len(all_notifications)
+                    ),
+                    "DEBUG"
+                )
+
+                # Early-stop: if all target subscription names found, skip remaining pages
+                if target_subscription_names:
+                    found_names = {n.get("name", "") for n in all_notifications}
+                    if all(sn in found_names for sn in target_subscription_names):
+                        self.log(
+                            "All {0} target email notification(s) found after {1} page(s). "
+                            "Stopping pagination early.".format(
+                                len(target_subscription_names), page_count
+                            ),
+                            "INFO"
+                        )
+                        break
+
+                if len(notifications) < limit:
+                    self.log(
+                        "Received {0} email event notification(s) in page {1}, which is less "
+                        "than limit {2}. No more pages available. Terminating pagination.".format(
+                            len(notifications), page_count, limit
+                        ),
+                        "DEBUG"
+                    )
+                    break
+
+                offset += limit
+
+            self.log(
+                "Email event notification retrieval completed successfully. Total pages fetched: "
+                "{0}, Total email event notifications retrieved: {1}. Returning complete notification list.".format(
+                    page_count, len(all_notifications)
+                ),
+                "INFO"
+            )
+            return all_notifications
 
         except Exception as e:
             self.log(
@@ -4337,7 +4876,18 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         component_specific_filters = filters.get("component_specific_filters", {})
         notification_filters = component_specific_filters.get("notification_filters", {})
-        subscription_names = notification_filters.get("subscription_names", [])
+        subscription_names, type_selected = self._resolve_name_filter(
+            notification_filters.get("notification_types"),
+            notification_filters.get("subscription_names"),
+            "syslog"
+        )
+        if not type_selected:
+            self.log(
+                "Syslog notification type not selected in notification_types filter. "
+                "Skipping retrieval and returning empty list.",
+                "DEBUG"
+            )
+            return {"syslog_event_notifications": []}
 
         self.log(
             "Subscription name filters extracted: {0} name(s) specified. Filter mode: {1}".format(
@@ -4357,7 +4907,10 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
 
         try:
-            notification_configs = self.get_all_syslog_event_notifications(api_family, api_function)
+            notification_configs = self.get_all_syslog_event_notifications(
+                api_family, api_function,
+                target_subscription_names=subscription_names if subscription_names else None
+            )
             self.log(
                 "Retrieved {0} syslog event notification(s) from Catalyst Center. "
                 "Processing filtering logic based on subscription_names.".format(
@@ -4390,12 +4943,13 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         "INFO"
                     )
                 else:
-                    final_notification_configs = matching_configs
+                    final_notification_configs = []
                     self.log(
-                        "No matching syslog event notifications found for filter: {0}. "
-                        "Including all {1} notification(s) for comprehensive configuration "
-                        "coverage.".format(subscription_names, len(notification_configs)),
-                        "WARNING"
+                        "No matching syslog event notifications found for "
+                        "subscription_names filter: {0}. Returning empty list.".format(
+                            subscription_names
+                        ),
+                        "INFO"
                     )
             else:
                 final_notification_configs = notification_configs
@@ -4445,7 +4999,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
 
         return result
 
-    def get_all_syslog_event_notifications(self, api_family, api_function):
+    def get_all_syslog_event_notifications(self, api_family, api_function, target_subscription_names=None):
         """
         Retrieves all syslog event notifications using pagination from the API.
 
@@ -4457,6 +5011,8 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         Args:
             api_family (str): The API family identifier for syslog event notifications.
             api_function (str): The specific API function name for retrieving syslog notifications.
+            target_subscription_names (list, optional): Subscription names used to
+                short-circuit pagination when all targets are found. Defaults to None.
 
         Returns:
             list: A list of syslog event notification dictionaries containing subscription
@@ -4471,7 +5027,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
         )
         try:
             offset = 0
-            limit = 10
+            limit = 100
             all_notifications = []
             page_count = 0
 
@@ -4486,7 +5042,7 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     "DEBUG"
                 )
                 try:
-                    response = self.catalystcenter._exec(
+                    response = self.dnac._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -4537,6 +5093,19 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                         ),
                         "DEBUG"
                     )
+
+                    # Early-stop: if all target subscription names found, skip remaining pages
+                    if target_subscription_names:
+                        found_names = {n.get("name", "") for n in all_notifications}
+                        if all(sn in found_names for sn in target_subscription_names):
+                            self.log(
+                                "All {0} target syslog notification(s) found after {1} page(s). "
+                                "Stopping pagination early.".format(
+                                    len(target_subscription_names), page_count
+                                ),
+                                "INFO"
+                            )
+                            break
 
                     if len(notifications) < limit:
                         self.log(
@@ -5025,8 +5594,17 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     ),
                     "DEBUG"
                 )
+                header_notes = [
+                    "Auto-generated configuration for Events and Notifications workflow.",
+                    "Components requested: {0}".format(", ".join(components_list)),
+                    "File mode: {0}".format(file_mode),
+                ]
 
-                if self.write_dict_to_yaml(playbook_data, file_path, file_mode):
+                write_result = self.write_dict_to_yaml(
+                    playbook_data, file_path, file_mode, notes=header_notes
+                )
+
+                if write_result:
                     success_message = "YAML configuration file generated successfully for module '{0}'".format(self.module_name)
 
                     response_data = {
@@ -5048,21 +5626,23 @@ class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper)
                     )
 
                 else:
-                    error_message = "Failed to write YAML configuration to file: {0}".format(file_path)
-
+                    success_message = (
+                        "YAML configuration file already up-to-date for module '{0}'. "
+                        "No changes written.".format(self.module_name)
+                    )
                     response_data = {
-                        "message": error_message,
-                        "status": "failed"
+                        "components_processed": components_processed,
+                        "components_skipped": components_skipped,
+                        "configurations_count": total_configurations,
+                        "file_path": file_path,
+                        "message": success_message,
+                        "status": "success"
                     }
 
-                    self.set_operation_result("failed", False, error_message, "ERROR")
+                    self.set_operation_result("success", False, success_message, "INFO")
                     self.msg = response_data
                     self.result["response"] = response_data
-                    self.log(
-                        "YAML file write operation failed for file path: {0}. Check file "
-                        "permissions and disk space.".format(file_path),
-                        "ERROR"
-                    )
+                    self.log(success_message, "INFO")
 
             else:
                 no_config_message = "No configurations found to generate. Verify that the components exist and have data."
@@ -5409,7 +5989,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -5418,7 +5998,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -5471,12 +6051,12 @@ def main():
         "catalystcenter_host": {
             "required": True,
             "type": "str",
-            "aliases": ["dnac_host"],
+            "aliases": ["dnac_host"]
         },
         "catalystcenter_port": {
             "type": "str",
             "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "aliases": ["dnac_port", "catalystcenter_api_port"]
         },
         "catalystcenter_username": {
             "type": "str",
@@ -5486,12 +6066,12 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_verify"],
+            "aliases": ["dnac_verify"]
         },
 
         # ============================================
@@ -5500,7 +6080,7 @@ def main():
         "catalystcenter_version": {
             "type": "str",
             "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "aliases": ["dnac_version"]
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -5521,27 +6101,27 @@ def main():
         "catalystcenter_debug": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_debug"],
+            "aliases": ["dnac_debug"]
         },
         "catalystcenter_log_level": {
             "type": "str",
             "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "aliases": ["dnac_log_level"]
         },
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "aliases": ["dnac_log_file_path"]
         },
         "catalystcenter_log_append": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_log_append"],
+            "aliases": ["dnac_log_append"]
         },
         "catalystcenter_log": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_log"],
+            "aliases": ["dnac_log"]
         },
 
         # ============================================
@@ -5622,7 +6202,7 @@ def main():
         "INFO"
     )
 
-    if (ccc_events_and_notifications_playbook_generator.compare_catalystcenter_versions(
+    if (ccc_events_and_notifications_playbook_generator.compare_dnac_versions(
             ccc_events_and_notifications_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
 
         error_msg = (

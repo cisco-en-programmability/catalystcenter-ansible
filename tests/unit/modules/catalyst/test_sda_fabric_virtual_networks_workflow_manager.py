@@ -23,89 +23,52 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    sda_fabric_virtual_networks_workflow_manager,
-)
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from ansible_collections.cisco.catalystcenter.plugins.modules import sda_fabric_virtual_networks_workflow_manager
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
 
     module = sda_fabric_virtual_networks_workflow_manager
     test_data = loadPlaybookData("sda_fabric_virtual_networks_workflow_manager")
-    playbook_config_create_fabric_vlan_with_verify = test_data.get(
-        "playbook_config_create_fabric_vlan_with_verify"
-    )
-    playbook_config_fabric_vlan_need_no_update = test_data.get(
-        "playbook_config_fabric_vlan_need_no_update"
-    )
-    playbook_config_update_fabric_vlan = test_data.get(
-        "playbook_config_update_fabric_vlan"
-    )
-    playbook_config_create_virtual_network_with_verify = test_data.get(
-        "playbook_config_create_virtual_network_with_verify"
-    )
-    playbook_config_create_anchored_virtual_network = test_data.get(
-        "playbook_config_create_anchored_virtual_network"
-    )
-    playbook_config_virtual_network_needs_no_update = test_data.get(
-        "playbook_config_virtual_network_needs_no_update"
-    )
-    playbook_config_update_virtual_network = test_data.get(
-        "playbook_config_update_virtual_network"
-    )
-    playbook_config_delete_virtual_network_with_verify = test_data.get(
-        "playbook_config_delete_virtual_network_with_verify"
-    )
-    playbook_config_create_anycast_gateway_with_verify = test_data.get(
-        "playbook_config_create_anycast_gateway_with_verify"
-    )
-    playbook_config_anycast_gateway_no_update = test_data.get(
-        "playbook_config_anycast_gateway_no_update"
-    )
-    playbook_config_update_anycast_gateway = test_data.get(
-        "playbook_config_update_anycast_gateway"
-    )
-    playbook_config_delete_anycast_gateway = test_data.get(
-        "playbook_config_delete_anycast_gateway"
-    )
-    playbook_config_delete_absent_anycast_gateway = test_data.get(
-        "playbook_config_delete_absent_anycast_gateway"
-    )
-    playbook_config_delete_absent_virtual_network = test_data.get(
-        "playbook_config_delete_absent_virtual_network"
-    )
-    playbook_config_delete_fabric_vlan_with_verify = test_data.get(
-        "playbook_config_delete_fabric_vlan_with_verify"
-    )
-    playbook_config_delete_absent_fabric_vlan = test_data.get(
-        "playbook_config_delete_absent_fabric_vlan"
-    )
-    playbook_config_failed_anchored_virtual_network_creation = test_data.get(
-        "playbook_config_failed_anchored_virtual_network_creation"
-    )
-    playbook_config_invalid_fabric_vlan_id = test_data.get(
-        "playbook_config_invalid_fabric_vlan_id"
-    )
+    playbook_config_create_fabric_vlan_with_verify = test_data.get("playbook_config_create_fabric_vlan_with_verify")
+    playbook_config_fabric_vlan_need_no_update = test_data.get("playbook_config_fabric_vlan_need_no_update")
+    playbook_config_update_fabric_vlan = test_data.get("playbook_config_update_fabric_vlan")
+    playbook_config_create_virtual_network_with_verify = test_data.get("playbook_config_create_virtual_network_with_verify")
+    playbook_config_create_anchored_virtual_network = test_data.get("playbook_config_create_anchored_virtual_network")
+    playbook_config_virtual_network_needs_no_update = test_data.get("playbook_config_virtual_network_needs_no_update")
+    playbook_config_update_virtual_network = test_data.get("playbook_config_update_virtual_network")
+    playbook_config_delete_virtual_network_with_verify = test_data.get("playbook_config_delete_virtual_network_with_verify")
+    playbook_config_create_anycast_gateway_with_verify = test_data.get("playbook_config_create_anycast_gateway_with_verify")
+    playbook_config_anycast_gateway_no_update = test_data.get("playbook_config_anycast_gateway_no_update")
+    playbook_config_update_anycast_gateway = test_data.get("playbook_config_update_anycast_gateway")
+    playbook_config_delete_anycast_gateway = test_data.get("playbook_config_delete_anycast_gateway")
+    playbook_config_delete_absent_anycast_gateway = test_data.get("playbook_config_delete_absent_anycast_gateway")
+    playbook_config_delete_absent_virtual_network = test_data.get("playbook_config_delete_absent_virtual_network")
+    playbook_config_delete_fabric_vlan_with_verify = test_data.get("playbook_config_delete_fabric_vlan_with_verify")
+    playbook_config_delete_absent_fabric_vlan = test_data.get("playbook_config_delete_absent_fabric_vlan")
+    playbook_config_failed_anchored_virtual_network_creation = test_data.get("playbook_config_failed_anchored_virtual_network_creation")
+    playbook_config_invalid_fabric_vlan_id = test_data.get("playbook_config_invalid_fabric_vlan_id")
+    playbook_config_create_fabric_vlan_with_multiple_ip_to_mac = test_data.get("playbook_config_create_fabric_vlan_with_multiple_ip_to_mac")
+    playbook_config_update_fabric_vlan_multiple_ip_to_mac = test_data.get("playbook_config_update_fabric_vlan_multiple_ip_to_mac")
 
     def setUp(self):
         super(TestDnacFabricSitesZonesWorkflow, self).setUp()
 
-        self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
-        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
-        self.run_catalystcenter_init.side_effect = [None]
-        self.mock_catalystcenter_exec = patch(
+        self.mock_dnac_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_dnac_init = self.mock_dnac_init.start()
+        self.run_dnac_init.side_effect = [None]
+        self.mock_dnac_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
+        self.run_dnac_exec = self.mock_dnac_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
         super(TestDnacFabricSitesZonesWorkflow, self).tearDown()
-        self.mock_catalystcenter_exec.stop()
-        self.mock_catalystcenter_init.stop()
+        self.mock_dnac_exec.stop()
+        self.mock_dnac_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -113,7 +76,7 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
         """
 
         if "create_fabric_vlan_with_verify" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -123,29 +86,39 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_fabric_vlan_response"),
+                self.test_data.get("get_fabric_vlan_response")
             ]
 
         elif "fabric_vlan_need_no_update" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_fabric_vlan_response"),
+                self.test_data.get("get_fabric_vlan_response")
+            ]
+
+        elif "update_fabric_vlan_multiple_ip_to_mac" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_fabric_vlan_multi_ip_response"),
+                self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_fabric_vlan_multi_ip_response"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
             ]
 
         elif "update_fabric_vlan" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success")
             ]
 
         elif "delete_fabric_vlan_with_verify" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -155,34 +128,54 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_empty_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_empty_fabric_vlan_response"),
+                self.test_data.get("get_empty_fabric_vlan_response")
             ]
 
         elif "delete_absent_fabric_vlan" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_empty_fabric_vlan_response"),
+                self.test_data.get("get_empty_fabric_vlan_response")
             ]
 
         elif "invalid_fabric_vlan_id" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_invalid_fabric_vlan_id"),
             ]
 
+        elif "create_fabric_vlan_with_multiple_ip_to_mac" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
+                self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
+            ]
+
+        elif "omit_multiple_ip_field" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
+                self.test_data.get("get_site_details"),
+                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
+                self.test_data.get("response_get_task_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success"),
+            ]
+
         elif "create_virtual_network_with_verify" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
-                self.test_data.get("get_virtual_network_response"),
+                self.test_data.get("get_virtual_network_response")
             ]
 
         elif "create_anchored_virtual_network" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -192,11 +185,11 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("get_anchored_virtual_network_response"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success")
             ]
 
         elif "failed_anchored_virtual_network_creation" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -206,19 +199,19 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("get_anchored_virtual_network_response"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_failed_anchored_vn"),
+                self.test_data.get("response_get_task_status_by_id_failed_anchored_vn")
             ]
 
         elif "virtual_network_needs_no_update" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_site_details"),
-                self.test_data.get("get_fabric_site_details"),
+                self.test_data.get("get_fabric_site_details")
             ]
 
         elif "update_virtual_network" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_site_details"),
@@ -230,28 +223,28 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_zone_site_details"),
                 self.test_data.get("get_fabric_zone_details"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success")
             ]
 
         elif "delete_virtual_network_with_verify" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
-                self.test_data.get("get_empty_virtual_network_response"),
+                self.test_data.get("get_empty_virtual_network_response")
             ]
 
         elif "delete_absent_virtual_network" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_empty_virtual_network_response"),
-                self.test_data.get("get_empty_virtual_network_response"),
+                self.test_data.get("get_empty_virtual_network_response")
             ]
 
         elif "create_anycast_gateway_with_verify" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -268,11 +261,11 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_anycast_gateway_details"),
+                self.test_data.get("get_anycast_gateway_details")
             ]
 
         elif "anycast_gateway_no_update" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -281,11 +274,11 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_anycast_gateway_details"),
+                self.test_data.get("get_anycast_gateway_details")
             ]
 
         elif "update_anycast_gateway" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -296,11 +289,11 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("response_get_task_id_success"),
-                self.test_data.get("response_get_task_status_by_id_success"),
+                self.test_data.get("response_get_task_status_by_id_success")
             ]
 
         elif "delete_anycast_gateway" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -319,11 +312,11 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_empty_anycast_gateway_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_empty_anycast_gateway_response"),
+                self.test_data.get("get_empty_anycast_gateway_response")
             ]
 
         elif "delete_absent_anycast_gateway" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -335,17 +328,15 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 self.test_data.get("get_empty_anycast_gateway_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
-                self.test_data.get("get_empty_anycast_gateway_response"),
+                self.test_data.get("get_empty_anycast_gateway_response")
             ]
 
         elif "invalid_testbed_release" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_invalid_testbed_release"),
             ]
 
-    def test_sda_fabric_virtual_networks_workflow_manager_create_fabric_vlan_with_verify(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_create_fabric_vlan_with_verify(self):
         """
         Test case for sda fabric virtual networks workflow manager when creating a fabric vlan along with the verification.
 
@@ -362,15 +353,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_fabric_vlan_with_verify,
+                config=self.playbook_config_create_fabric_vlan_with_verify
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("created successfully", result.get("msg"))
+        self.assertIn(
+            "created successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_fabric_vlan_need_no_update(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_fabric_vlan_need_no_update(self):
         """
         Test case for sda fabric virtual networks workflow manager when fabric vlan(layer 2 virtual network) does not need any update.
 
@@ -387,11 +379,14 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_create_fabric_vlan_with_verify,
+                config=self.playbook_config_create_fabric_vlan_with_verify
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("does not need any update", result.get("msg"))
+        self.assertIn(
+            "does not need any update",
+            result.get('msg')
+        )
 
     def test_sda_fabric_virtual_networks_workflow_manager_update_fabric_vlan(self):
         """
@@ -410,15 +405,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_fabric_vlan,
+                config=self.playbook_config_update_fabric_vlan
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("updated successfully", result.get("msg"))
+        self.assertIn(
+            "updated successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_create_virtual_network_with_verify(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_create_virtual_network_with_verify(self):
         """
         Test case for sda fabric virtual networks workflow manager when creating a virtual network(layer3 virtual network)
         along with the verification.
@@ -436,15 +432,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_virtual_network_with_verify,
+                config=self.playbook_config_create_virtual_network_with_verify
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("created successfully", result.get("msg"))
+        self.assertIn(
+            "created successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_create_anchored_virtual_network(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_create_anchored_virtual_network(self):
         """
         Test case for sda fabric virtual networks workflow manager when creating an anchored virtual network with the main site.
 
@@ -461,15 +458,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_create_anchored_virtual_network,
+                config=self.playbook_config_create_anchored_virtual_network
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("created successfully", result.get("msg"))
+        self.assertIn(
+            "created successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_failed_anchored_virtual_network_creation(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_failed_anchored_virtual_network_creation(self):
         """
         Test case for sda fabric virtual networks workflow manager when anchored virtual network creation failed as it
         needs atleast one CP and External Node at the given fabric site.
@@ -487,15 +485,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_failed_anchored_virtual_network_creation,
+                config=self.playbook_config_failed_anchored_virtual_network_creation
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("An error occurred while", result.get("msg"))
+        self.assertIn(
+            "An error occurred while",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_virtual_network_needs_no_update(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_virtual_network_needs_no_update(self):
         """
         Test case for sda fabric virtual networks workflow manager when regular virtual network(layer3 virtual network) does not
         needs any update.
@@ -513,11 +512,14 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_virtual_network_needs_no_update,
+                config=self.playbook_config_virtual_network_needs_no_update
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("does not need any update", result.get("msg"))
+        self.assertIn(
+            "does not need any update",
+            result.get('msg')
+        )
 
     def test_sda_fabric_virtual_networks_workflow_manager_update_virtual_network(self):
         """
@@ -536,15 +538,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_virtual_network,
+                config=self.playbook_config_update_virtual_network
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("updated successfully", result.get("msg"))
+        self.assertIn(
+            "updated successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_create_anycast_gateway_with_verify(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_create_anycast_gateway_with_verify(self):
         """
         Test case for sda fabric virtual networks workflow manager when creating an anycast gateway along with the verification.
 
@@ -561,15 +564,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="merged",
-                config=self.playbook_config_create_anycast_gateway_with_verify,
+                config=self.playbook_config_create_anycast_gateway_with_verify
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("added successfully", result.get("msg"))
+        self.assertIn(
+            "added successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_anycast_gateway_no_update(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_anycast_gateway_no_update(self):
         """
         Test case for sda fabric virtual networks workflow manager when an anycast gateway does not needs any update.
 
@@ -586,11 +590,14 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_anycast_gateway_no_update,
+                config=self.playbook_config_anycast_gateway_no_update
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("does not need any update", result.get("msg"))
+        self.assertIn(
+            "does not need any update",
+            result.get('msg')
+        )
 
     def test_sda_fabric_virtual_networks_workflow_manager_update_anycast_gateway(self):
         """
@@ -609,11 +616,14 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_update_anycast_gateway,
+                config=self.playbook_config_update_anycast_gateway
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("updated successfully", result.get("msg"))
+        self.assertIn(
+            "updated successfully",
+            result.get('msg')
+        )
 
     def test_sda_fabric_virtual_networks_workflow_manager_delete_anycast_gateway(self):
         """
@@ -632,15 +642,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_config_delete_anycast_gateway,
+                config=self.playbook_config_delete_anycast_gateway
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("deleted successfully", result.get("msg"))
+        self.assertIn(
+            "deleted successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_anycast_gateway(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_anycast_gateway(self):
         """
         Test case for sda fabric virtual networks workflow manager to delete an absent anycast gateway.
 
@@ -657,15 +668,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="deleted",
-                config=self.playbook_config_delete_absent_anycast_gateway,
+                config=self.playbook_config_delete_absent_anycast_gateway
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("Unable to delete", result.get("msg"))
+        self.assertIn(
+            "Unable to delete",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_virtual_network(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_virtual_network(self):
         """
         Test case for sda fabric virtual networks workflow manager to delete an absent virtual network.
 
@@ -682,15 +694,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="deleted",
-                config=self.playbook_config_delete_absent_virtual_network,
+                config=self.playbook_config_delete_absent_virtual_network
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("Unable to delete", result.get("msg"))
+        self.assertIn(
+            "Unable to delete",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_delete_fabric_vlan_with_verify(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_delete_fabric_vlan_with_verify(self):
         """
         Test case for sda fabric virtual networks workflow manager to delete a layer2 fabric vlan.
 
@@ -707,15 +720,16 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=True,
                 state="deleted",
-                config=self.playbook_config_delete_fabric_vlan_with_verify,
+                config=self.playbook_config_delete_fabric_vlan_with_verify
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("deleted successfully", result.get("msg"))
+        self.assertIn(
+            "deleted successfully",
+            result.get('msg')
+        )
 
-    def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_fabric_vlan(
-        self,
-    ):
+    def test_sda_fabric_virtual_networks_workflow_manager_delete_absent_fabric_vlan(self):
         """
         Test case for sda fabric virtual networks workflow manager to delete an absent layer2 fabric vlan.
 
@@ -732,11 +746,14 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="deleted",
-                config=self.playbook_config_delete_absent_fabric_vlan,
+                config=self.playbook_config_delete_absent_fabric_vlan
             )
         )
         result = self.execute_module(changed=False, failed=False)
-        self.assertIn("Unable to delete", result.get("msg"))
+        self.assertIn(
+            "Unable to delete",
+            result.get('msg')
+        )
 
     def test_sda_fabric_virtual_networks_workflow_manager_invalid_fabric_vlan_id(self):
         """
@@ -755,11 +772,66 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_invalid_fabric_vlan_id,
+                config=self.playbook_config_invalid_fabric_vlan_id
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid vlan_id", result.get("msg"))
+        self.assertIn(
+            "Invalid vlan_id",
+            result.get('msg')
+        )
+
+    def test_sda_fabric_virtual_networks_workflow_manager_create_fabric_vlan_with_multiple_ip_to_mac(self):
+        """
+        Test case for creating a fabric VLAN with multiple_ip_to_mac_addresses enabled.
+
+        This test verifies that the module correctly creates a fabric VLAN with the
+        multiple_ip_to_mac_addresses parameter set to true on Catalyst Center >= 3.1.3.0.
+        """
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="3.1.3.0",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                config=self.playbook_config_create_fabric_vlan_with_multiple_ip_to_mac
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "created successfully",
+            result.get('msg')
+        )
+
+    def test_sda_fabric_virtual_networks_workflow_manager_update_fabric_vlan_multiple_ip_to_mac(self):
+        """
+        Test case for updating a fabric VLAN to enable multiple_ip_to_mac_addresses.
+
+        This test verifies that the module detects a change in multiple_ip_to_mac_addresses
+        and triggers an update on Catalyst Center >= 3.1.3.0.
+        """
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="3.1.3.0",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                config=self.playbook_config_update_fabric_vlan_multiple_ip_to_mac
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "updated successfully",
+            result.get('msg')
+        )
 
     def test_sda_fabric_virtual_networks_workflow_manager_invalid_testbed_release(self):
         """
@@ -778,8 +850,96 @@ class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
                 catalystcenter_log=True,
                 config_verify=False,
                 state="merged",
-                config=self.playbook_config_failed_anchored_virtual_network_creation,
+                config=self.playbook_config_failed_anchored_virtual_network_creation
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("The specified version", result.get("msg"))
+        self.assertIn(
+            "The specified version",
+            result.get('msg')
+        )
+
+    def test_sda_fabric_virtual_networks_workflow_manager_invalid_multiple_ip_to_mac_without_l3_vn(self):
+        """
+        Verify module fails when multiple_ip_to_mac_addresses is provided
+        without associated_layer3_virtual_network.
+        """
+        invalid_config = [
+            {
+                "fabric_vlan": [
+                    {
+                        "vlan_name": "vlan_multi_ip_invalid",
+                        "fabric_site_locations": [
+                            {
+                                "site_name_hierarchy": "Global/India/Fabric_Test",
+                                "fabric_type": "fabric_site",
+                            }
+                        ],
+                        "vlan_id": 1945,
+                        "traffic_type": "DATA",
+                        "fabric_enabled_wireless": False,
+                        "multiple_ip_to_mac_addresses": True,
+                    }
+                ]
+            }
+        ]
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="3.1.3.0",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                config=invalid_config,
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "requires 'associated_layer3_virtual_network'",
+            result.get("msg"),
+        )
+
+    def test_sda_fabric_virtual_networks_workflow_manager_create_fabric_vlan_omit_multiple_ip_field(self):
+        """
+        Verify create flow does not force isMultipleIpToMacAddresses
+        when multiple_ip_to_mac_addresses is omitted.
+        """
+        config_without_multi_ip = [
+            {
+                "fabric_vlan": [
+                    {
+                        "vlan_name": "vlan_without_multi_ip",
+                        "fabric_site_locations": [
+                            {
+                                "site_name_hierarchy": "Global/India/Fabric_Test",
+                                "fabric_type": "fabric_site",
+                            }
+                        ],
+                        "vlan_id": 1946,
+                        "traffic_type": "DATA",
+                        "fabric_enabled_wireless": False,
+                    }
+                ]
+            }
+        ]
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="3.1.3.0",
+                catalystcenter_log=True,
+                config_verify=False,
+                state="merged",
+                config=config_without_multi_ip,
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        self.assertIn(
+            "created successfully",
+            result.get('msg')
+        )

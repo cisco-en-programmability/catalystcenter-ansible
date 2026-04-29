@@ -21,7 +21,7 @@ __metaclass__ = type
 from unittest.mock import patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import events_and_notifications_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
@@ -45,11 +45,11 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
         super(TestDnacEventsAndNotificationsPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
         self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
@@ -282,7 +282,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 config=self.playbook_itsm
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
@@ -291,7 +291,11 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestDnacModule):
                 "components_skipped": 0,
                 "configurations_count": 2,
                 "file_path": "/tmp/events_and_notifications_playbook1",
-                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "message": (
+                    "YAML configuration file already up-to-date for module"
+                    " 'events_and_notifications_workflow_manager'."
+                    " No changes written."
+                ),
                 "status": "success"
             }
         )

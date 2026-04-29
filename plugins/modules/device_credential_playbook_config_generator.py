@@ -507,7 +507,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
 )
 
 
@@ -521,7 +521,7 @@ else:
     OrderedDumper = None
 
 
-class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
+class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center device credentials.
 
@@ -549,7 +549,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
       playbook readability and maintainability
 
     Inheritance:
-        CatalystCenterBase: Provides Cisco Catalyst Center API connectivity, authentication,
+        DnacBase: Provides Cisco Catalyst Center API connectivity, authentication,
                   request execution, logging infrastructure, and common utility methods
         BrownFieldHelper: Provides parameter transformation utilities, reverse mapping
                          functions, and configuration processing helpers for brownfield
@@ -633,7 +633,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
             "Site ID to Name mapping: {0}".format(self.site_id_name_dict),
             "DEBUG",
         )
-        self.global_credential_details = self.catalystcenter._exec(
+        self.global_credential_details = self.dnac._exec(
             family="discovery", function="get_all_global_credentials", op_modifies=False
         ).get("response", [])
         self.module_name = "device_credential_workflow_manager"
@@ -1755,7 +1755,7 @@ class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelp
                 "DEBUG"
             )
             try:
-                resp = self.catalystcenter._exec(
+                resp = self.dnac._exec(
                     family=api_family,
                     function=api_function,
                     params={"id": site_id}
@@ -2497,12 +2497,12 @@ def main():
                                             and site configurations
         catalystcenter_password (str, no_log=True): Authentication password for API access
         catalystcenter_verify (bool, default=True): SSL certificate verification flag
-        catalystcenter_version (str, default='2.3.7.6'): Target Catalyst Center version
+        catalystcenter_version (str, default='2.2.3.3'): Target Catalyst Center version
                                             for API compatibility
         catalystcenter_debug (bool, default=False): Debug mode flag for detailed logging
         catalystcenter_log_level (str, default='WARNING'): Logging level (DEBUG, INFO,
                                                 WARNING, ERROR)
-        catalystcenter_log_file_path (str, default='catalystcenter.log'): Log file path for
+        catalystcenter_log_file_path (str, default='dnac.log'): Log file path for
                                                     persistent logging
         catalystcenter_log_append (bool, default=True): Append mode for log file
         catalystcenter_log (bool, default=False): Enable file logging flag
@@ -2557,14 +2557,14 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_device_credential_playbook_config_generator = DeviceCredentialPlaybookConfigGenerator(module)
     if (
-        ccc_device_credential_playbook_config_generator.compare_catalystcenter_versions(
+        ccc_device_credential_playbook_config_generator.compare_dnac_versions(
             ccc_device_credential_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
     ):
         ccc_device_credential_playbook_config_generator.msg = (
             "The specified version '{0}' does not support the YAML Playbook generation "
-            "for <module_name_caps> Module. Supported versions start from '2.3.7.9' onwards. ".format(
+            "for Device Credential Module. Supported versions start from '2.3.7.9' onwards. ".format(
                 ccc_device_credential_playbook_config_generator.get_ccc_version()
             )
         )
@@ -2581,7 +2581,7 @@ def main():
         ccc_device_credential_playbook_config_generator.msg = "State {0} is invalid".format(
             state
         )
-        ccc_device_credential_playbook_config_generator.check_recturn_status()
+        ccc_device_credential_playbook_config_generator.check_return_status()
 
     # Validate the input parameters and check the return statusk
     ccc_device_credential_playbook_config_generator.validate_input().check_return_status()
@@ -2590,7 +2590,6 @@ def main():
         "Validated configuration parameters: {0}".format(str(config)), "DEBUG"
     )
 
-    config = ccc_device_credential_playbook_config_generator.validated_config
     ccc_device_credential_playbook_config_generator.get_want(
         config, state
     ).check_return_status()

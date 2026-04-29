@@ -683,11 +683,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -696,7 +696,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
 )
 import time
 try:
@@ -727,7 +727,7 @@ else:
     OrderedDumper = None
 
 
-class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
+class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center SDA host port onboarding.
 
@@ -757,7 +757,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
       documentation
 
     Inheritance:
-        CatalystCenterBase: Provides Cisco Catalyst Center API connectivity, authentication,
+        DnacBase: Provides Cisco Catalyst Center API connectivity, authentication,
                   request execution, logging infrastructure, and common utility methods
         BrownFieldHelper: Provides parameter transformation utilities, reverse mapping
                          functions, and configuration processing helpers for brownfield
@@ -955,7 +955,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
         Notes:
             - Schema is immutable during instance lifetime; modifications require restart
-            - All API functions assumed to be accessible via self.catalystcenter._exec()
+            - All API functions assumed to be accessible via self.dnac._exec()
             - Reverse mapping functions must return OrderedDict for consistent key ordering
             - get_function_name methods must accept (network_element, filters) parameters
         """
@@ -1149,7 +1149,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         )
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -1354,7 +1354,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 )
                 # Get device details to fetch management IP address
                 try:
-                    device_response = self.catalystcenter._exec(
+                    device_response = self.dnac._exec(
                         family="devices",
                         function="get_device_by_id",
                         op_modifies=False,
@@ -1513,7 +1513,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
         )
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -1714,7 +1714,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 )
                 # Get device details to fetch management IP address
                 try:
-                    device_response = self.catalystcenter._exec(
+                    device_response = self.dnac._exec(
                         family="devices",
                         function="get_device_by_id",
                         op_modifies=False,
@@ -1948,7 +1948,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 "DEBUG"
             )
             try:
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
@@ -2364,7 +2364,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -2373,12 +2373,11 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
             - config (list[dict], required): Configuration parameters list containing:
-                * generate_all_configurations (bool): Enable auto-discovery mode
                 * file_path (str): Output YAML file path
                 * component_specific_filters (dict): Component-based filters with:
                     - components_list (list): Component types to extract
@@ -2461,12 +2460,12 @@ def main():
         "catalystcenter_host": {
             "required": True,
             "type": "str",
-            "aliases": ["dnac_host"],
+            "aliases": ["dnac_host"]
         },
         "catalystcenter_port": {
             "type": "str",
             "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "aliases": ["dnac_port", "catalystcenter_api_port"]
         },
         "catalystcenter_username": {
             "type": "str",
@@ -2476,12 +2475,12 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_verify"],
+            "aliases": ["dnac_verify"]
         },
 
         # ============================================
@@ -2490,7 +2489,7 @@ def main():
         "catalystcenter_version": {
             "type": "str",
             "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "aliases": ["dnac_version"]
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -2511,27 +2510,27 @@ def main():
         "catalystcenter_debug": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_debug"],
+            "aliases": ["dnac_debug"]
         },
         "catalystcenter_log_level": {
             "type": "str",
             "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "aliases": ["dnac_log_level"]
         },
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "aliases": ["dnac_log_file_path"]
         },
         "catalystcenter_log_append": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_log_append"],
+            "aliases": ["dnac_log_append"]
         },
         "catalystcenter_log": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_log"],
+            "aliases": ["dnac_log"]
         },
 
         # ============================================
@@ -2591,7 +2590,7 @@ def main():
     )
 
     if (
-        catc_sda_host_port_onboarding_playbook_config_generator.compare_catalystcenter_versions(
+        catc_sda_host_port_onboarding_playbook_config_generator.compare_dnac_versions(
             catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

@@ -3,7 +3,6 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on SDA fabric devices in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -572,7 +571,7 @@ options:
                             4094.
                         type: int
 requirements:
-  - catalystcentersdk >= 2.9.2
+  - dnacentersdk >= 2.9.2
   - python >= 3.9
 notes:
   - Wireless controller settings configured via this module require specific device roles and image states on the switch.
@@ -1254,13 +1253,13 @@ import time
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
     validate_list_of_dicts,
     get_dict_result,
 )
 
 
-class FabricDevices(CatalystCenterBase):
+class FabricDevices(DnacBase):
     """Class containing member attributes for sda_fabric_devices_workflow_manager module"""
 
     def __init__(self, module):
@@ -1463,7 +1462,7 @@ class FabricDevices(CatalystCenterBase):
         )
         transit_id = None
         try:
-            transit_details = self.catalystcenter._exec(
+            transit_details = self.dnac._exec(
                 family="sda",
                 function="get_transit_networks",
                 params={"name": transit_name},
@@ -1520,7 +1519,7 @@ class FabricDevices(CatalystCenterBase):
         )
         device_details = None
         try:
-            device_details = self.catalystcenter._exec(
+            device_details = self.dnac._exec(
                 family="devices",
                 function="get_device_list",
                 params={"management_ip_address": device_ip},
@@ -1580,7 +1579,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            virtual_network_details = self.catalystcenter._exec(
+            virtual_network_details = self.dnac._exec(
                 family="sda",
                 function="get_layer3_virtual_networks",
                 params={
@@ -1649,7 +1648,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            site_exists, site_id = self.get_site_id(fabric_name)
+            (site_exists, site_id) = self.get_site_id(fabric_name)
             self.log(
                 "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
                     site_name=fabric_name, site_exists=site_exists
@@ -1675,7 +1674,7 @@ class FabricDevices(CatalystCenterBase):
                 "DEBUG",
             )
             while True:
-                all_reserved_pool_details = self.catalystcenter._exec(
+                all_reserved_pool_details = self.dnac._exec(
                     family="network_settings",
                     function="get_reserve_ip_subpool",
                     params={"site_id": site_id, "offset": offset},
@@ -1767,7 +1766,7 @@ class FabricDevices(CatalystCenterBase):
         )
         fabric_site_id = None
         try:
-            fabric_site_exists = self.catalystcenter._exec(
+            fabric_site_exists = self.dnac._exec(
                 family="sda",
                 function="get_fabric_sites",
                 params={"site_id": site_id},
@@ -1843,7 +1842,7 @@ class FabricDevices(CatalystCenterBase):
         )
         fabric_zone_id = None
         try:
-            fabric_zone = self.catalystcenter._exec(
+            fabric_zone = self.dnac._exec(
                 family="sda",
                 function="get_fabric_zones",
                 params={"site_id": site_id},
@@ -1922,7 +1921,7 @@ class FabricDevices(CatalystCenterBase):
             )
         )
         try:
-            provisioned_device_details = self.catalystcenter._exec(
+            provisioned_device_details = self.dnac._exec(
                 family="sda",
                 function="get_provisioned_devices",
                 params={"network_device_id": device_id},
@@ -2016,7 +2015,7 @@ class FabricDevices(CatalystCenterBase):
         # interface name and internal vlan id
         while True:
             try:
-                all_l2_handoff_details = self.catalystcenter._exec(
+                all_l2_handoff_details = self.dnac._exec(
                     family="sda",
                     function="get_fabric_devices_layer2_handoffs",
                     params={
@@ -2143,7 +2142,7 @@ class FabricDevices(CatalystCenterBase):
         # Call the SDK with incremental offset till to find the SDA L3 Handoff
         while True:
             try:
-                all_sda_l3_handoff_details = self.catalystcenter._exec(
+                all_sda_l3_handoff_details = self.dnac._exec(
                     family="sda",
                     function="get_fabric_devices_layer3_handoffs_with_sda_transit",
                     params={
@@ -2286,7 +2285,7 @@ class FabricDevices(CatalystCenterBase):
         )
         while True:
             try:
-                all_ip_l3_handoff_details = self.catalystcenter._exec(
+                all_ip_l3_handoff_details = self.dnac._exec(
                     family="sda",
                     function="get_fabric_devices_layer3_handoffs_with_ip_transit",
                     params={
@@ -2417,7 +2416,7 @@ class FabricDevices(CatalystCenterBase):
             "device_details": None,
             "id": None,
         }
-        fabric_device_details = self.catalystcenter._exec(
+        fabric_device_details = self.dnac._exec(
             family="sda",
             function="get_fabric_devices",
             params={
@@ -2708,7 +2707,7 @@ class FabricDevices(CatalystCenterBase):
             ),
             "INFO",
         )
-        site_exists, site_id = self.get_site_id(fabric_name)
+        (site_exists, site_id) = self.get_site_id(fabric_name)
         self.log(
             "Retrieved site ID: {site_id}. Site exists: {site_exists}.".format(
                 site_id=site_id, site_exists=site_exists
@@ -3031,7 +3030,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="fabric_wireless",
                 function="get_sda_wireless_details_from_switches",
                 params={"fabric_id": fabric_id},
@@ -3135,7 +3134,7 @@ class FabricDevices(CatalystCenterBase):
             )
 
             try:
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="wireless",
                     function=api_function,
                     op_modifies=False,
@@ -3246,7 +3245,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         ccc_version = self.get_ccc_version()
-        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
                 "Minimum required version is 2.3.7.9. Returning None.",
@@ -4029,7 +4028,7 @@ class FabricDevices(CatalystCenterBase):
         )
         is_transit_pub_sub = False
         try:
-            transit_details = self.catalystcenter._exec(
+            transit_details = self.dnac._exec(
                 family="sda",
                 function="get_transit_networks",
                 params={"id": transit_id, "type": "SDA_LISP_PUB_SUB_TRANSIT"},
@@ -4140,7 +4139,7 @@ class FabricDevices(CatalystCenterBase):
                 internal_vlan_id, external_vlan_id, device_ip
             )
             if error:
-                self.msg, self.status = error
+                (self.msg, self.status) = error
                 self.log(
                     "Validation error for device IP {ip}: {msg}".format(
                         ip=device_ip, msg=self.msg
@@ -4791,6 +4790,13 @@ class FabricDevices(CatalystCenterBase):
             current_site = self.get_site(site_name).get("response", [])
 
             child_sites_response = self.get_site(site_name + "/.*")
+            if not child_sites_response:
+                self.log(
+                    f"No child sites found for site '{site_name}'.",
+                    "DEBUG",
+                )
+                continue
+
             child_sites = child_sites_response.get("response", [])
             self.log(
                 f"Found {len(child_sites)} child site(s) for site '{site_name}'.",
@@ -5140,7 +5146,7 @@ class FabricDevices(CatalystCenterBase):
             return None
 
         ccc_version = self.get_ccc_version()
-        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
             self.msg = (
                 f"Wireless controller settings are not supported in Catalyst Center version '{ccc_version}'. "
                 "Minimum required version is 2.3.7.9."
@@ -5658,7 +5664,7 @@ class FabricDevices(CatalystCenterBase):
         Returns:
             self (object): The current object with added L2 Handoff information.
         Description:
-            Seperate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
+            Separate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
             only be created not updated. Call the API 'add_fabric_devices_layer2_handoffs' to
             create the L2 Handoff in the provided device.
         """
@@ -7143,7 +7149,7 @@ class FabricDevices(CatalystCenterBase):
         Returns:
             self (object): The current object with deleted L2 Handoffs information.
         Description:
-            Seperate which L2 Handoff exist and which are not. If there are L2 Handoff,
+            Separate which L2 Handoff exist and which are not. If there are L2 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer2_handoff_by_id'.
         """
 
@@ -7344,7 +7350,7 @@ class FabricDevices(CatalystCenterBase):
         Returns:
             self (object): The current object with deleted IP L3 Handoffs information.
         Description:
-            Seperate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
+            Separate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer3_handoff_with_ip_transit_by_id'.
         """
 
@@ -8235,22 +8241,14 @@ def main():
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -8264,7 +8262,7 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_sda_devices = FabricDevices(module)
     if (
-        ccc_sda_devices.compare_catalystcenter_versions(
+        ccc_sda_devices.compare_dnac_versions(
             ccc_sda_devices.get_ccc_version(), "2.3.7.6"
         )
         < 0

@@ -26,7 +26,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import template_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestTemplatePlaybookConfigGenerator(TestDnacModule):
@@ -48,15 +48,17 @@ class TestTemplatePlaybookConfigGenerator(TestDnacModule):
     playbook_invalid_template_details = test_data.get("playbook_invalid_template_details")
     playbook_config_empty_config = test_data.get("playbook_config_empty_config")
     playbook_config_empty_component_specific_filters = test_data.get("playbook_config_empty_component_specific_filters")
+    playbook_config_invalid_component = test_data.get("playbook_config_invalid_component")
+    playbook_config_invalid_component_filters = test_data.get("playbook_config_invalid_component_filters")
 
     def setUp(self):
         super(TestTemplatePlaybookConfigGenerator, self).setUp()
         self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
         self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
         self.load_fixtures()
@@ -134,6 +136,12 @@ class TestTemplatePlaybookConfigGenerator(TestDnacModule):
             # No side effects needed - validation happens before API calls
             pass
         elif "empty_component_specific_filters" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "invalid_component" in self._testMethodName:
+            # No side effects needed - validation happens before API calls
+            pass
+        elif "invalid_component_filters" in self._testMethodName:
             # No side effects needed - validation happens before API calls
             pass
 
@@ -382,3 +390,53 @@ class TestTemplatePlaybookConfigGenerator(TestDnacModule):
             "Invalid parameters in playbook config: 'component_specific_filters' is provided but empty.",
             str(result.get("msg")),
         )
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_invalid_component(self, mock_exists, mock_file):
+        """
+        Test case for invalid component in component_specific_filters.
+
+        This test verifies that the generator correctly fails when
+        an invalid component name is provided in component_specific_filters.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_component
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid network components provided for module", str(result.get("msg")))
+
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('os.path.exists')
+    def test_invalid_component_filters(self, mock_exists, mock_file):
+        """
+        Test case for invalid filter keys in component_specific_filters.
+
+        This test verifies that the generator correctly fails when
+        invalid filter keys are provided in component_specific_filters.
+        """
+        mock_exists.return_value = True
+
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="gathered",
+                config=self.playbook_config_invalid_component_filters
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Invalid filters provided for module", str(result.get("msg")))
