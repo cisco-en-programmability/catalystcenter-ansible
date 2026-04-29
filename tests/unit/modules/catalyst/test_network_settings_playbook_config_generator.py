@@ -27,7 +27,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import network_settings_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
@@ -58,12 +58,12 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
         super(TestNetworkSettingsPlaybookGenerator, self).setUp()
 
         self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
 
         self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
@@ -108,7 +108,7 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
 
         elif "reserve_pools_by_pool_name" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_reserve_ip_pool_details"),
+                self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
             ]
 
@@ -121,8 +121,6 @@ class TestNetworkSettingsPlaybookGenerator(TestDnacModule):
 
         elif "device_controllability_by_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_site_details"),
-                self.test_data.get("get_device_controllability_response"),
                 self.test_data.get("get_device_controllability_response"),
             ]
 

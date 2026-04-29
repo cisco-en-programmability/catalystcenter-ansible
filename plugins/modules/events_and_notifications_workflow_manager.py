@@ -5,7 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Priyadharshini B, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: events_and_notifications_workflow_manager
@@ -32,7 +32,7 @@ description:
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
+author: Abhishek Maheshwari (@abmahesh) Priyadharshini B(@pbalaku2) Madhan Sankaranarayanan
   (@madhansansel)
 options:
   config_verify:
@@ -727,7 +727,7 @@ options:
             type: list
             elements: str
 requirements:
-  - catalystcentersdk >= 2.7.2
+  - dnacentersdk >= 2.7.2
   - python >= 3.5
 notes:
   - To ensure the module operates correctly with scaled
@@ -738,11 +738,11 @@ notes:
     the module will halt execution
     and will not proceed to subsequent operations.
   - Configuring the webhook destination with headers
-    now supports starting from catalystcentersdk version
+    now supports starting from dnacentersdk version
     2.9.1 onwards. This enhancement is in alignment
     with Catalyst Center Release 2.3.7.5.
   - Configuring the SNMP destination now supports starting
-    from catalystcentersdk version 2.9.1 onwards. This enhancement
+    from dnacentersdk version 2.9.1 onwards. This enhancement
     is in alignment with Catalyst Center Release 2.3.7.5.
   - SDK Method used are
     events.Events.get_syslog_destination,
@@ -1189,14 +1189,15 @@ catalystcenter_response:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
     validate_list_of_dicts,
 )
+import ipaddress
 import re
 import time
 
 
-class Events(CatalystCenterBase):
+class Events(DnacBase):
     """Class containing member attributes for inventory workflow manager module"""
 
     def __init__(self, module):
@@ -1528,7 +1529,7 @@ class Events(CatalystCenterBase):
             In case of any errors during the API call, an exception is raised with an error message.
         """
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_syslog_destination",
                 op_modifies=True,
@@ -1661,7 +1662,7 @@ class Events(CatalystCenterBase):
                 "port": int(port),
             }
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_syslog_destination",
                 op_modifies=True,
@@ -1754,7 +1755,7 @@ class Events(CatalystCenterBase):
                 self.result["response"] = self.msg
                 return self
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_syslog_destination",
                 op_modifies=True,
@@ -1820,7 +1821,7 @@ class Events(CatalystCenterBase):
             limit = 10
             while True:
                 try:
-                    response = self.catalystcenter._exec(
+                    response = self.dnac._exec(
                         family="event_management",
                         function="get_snmp_destination",
                         params={"offset": offset * limit, "limit": limit},
@@ -1877,6 +1878,57 @@ class Events(CatalystCenterBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
+    def validate_ip_literal_or_fail(self, server_address, destination_name):
+        """
+        Validate whether the given server address is a valid IPv4 or IPv6
+        literal.  If the address looks like an IP literal (rather than an
+        FQDN) but is malformed, the method sets the module status to
+        *failed* and calls ``check_return_status`` so execution stops
+        immediately.
+
+        If ``server_address`` is ``None``/empty or is not an IP literal
+        (e.g. it is an FQDN), the method returns without taking any
+        action.
+
+        Args:
+            server_address (str): The server address string to validate.
+            destination_name (str): A human-readable destination label
+                (e.g. ``"SNMP"`` or ``"Syslog"``) used in error messages.
+
+        Returns:
+            None
+        """
+        if not server_address:
+            return
+
+        is_ipv4_literal = bool(re.match(r'^\d+\.\d+\.\d+\.\d+$', server_address))
+        is_ipv6_literal = (
+            ":" in server_address
+            and bool(re.match(r'^[0-9A-Fa-f:.]+$', server_address))
+        )
+
+        if not (is_ipv4_literal or is_ipv6_literal):
+            return
+
+        try:
+            ipaddress.ip_address(server_address)
+        except ValueError:
+            if is_ipv6_literal:
+                self.msg = (
+                    "Invalid IPv6 address '{0}' given in the playbook for configuring "
+                    "{1} destination. Please provide a valid IPv6 address "
+                    "(e.g., 2001:db8::1)."
+                ).format(server_address, destination_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if is_ipv4_literal:
+                self.msg = (
+                    "Invalid IPv4 address '{0}' given in the playbook for configuring "
+                    "{1} destination. Please provide a valid IPv4 address "
+                    "(e.g., 10.0.0.1). Each octet must be between 0 and 255."
+                ).format(server_address, destination_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
     def collect_snmp_playbook_params(self, snmp_details):
         """
         Collect the SNMP playbook parameters based on the provided SNMP details.
@@ -1910,14 +1962,18 @@ class Events(CatalystCenterBase):
             self.result["response"] = self.msg
             self.check_return_status()
 
-        if server_address and not self.is_valid_server_address(server_address):
-            self.status = "failed"
-            self.msg = "Invalid server address '{0}' given in the playbook for configuring SNMP destination".format(
-                server_address
-            )
-            self.log(self.msg, "ERROR")
-            self.result["response"] = self.msg
-            self.check_return_status()
+        if server_address:
+            if not self.is_valid_server_address(server_address):
+                self.msg = (
+                    "Invalid server address '{0}' given in the playbook for configuring "
+                    "SNMP destination. Please provide a valid FQDN, IPv4, or IPv6 address."
+                ).format(server_address)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            try:
+                self.validate_ip_literal_or_fail(server_address, "SNMP")
+            except Exception:
+                return self
 
         if snmp_version == "V2C":
             playbook_params["community"] = snmp_details.get("community")
@@ -2042,7 +2098,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_snmp_destination",
                 op_modifies=True,
@@ -2207,7 +2263,7 @@ class Events(CatalystCenterBase):
 
             update_snmp_params["configId"] = snmp_dest_detail_in_ccc.get("configId")
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_snmp_destination",
                 op_modifies=True,
@@ -2272,7 +2328,7 @@ class Events(CatalystCenterBase):
             limit = 10
             while True:
                 try:
-                    response = self.catalystcenter._exec(
+                    response = self.dnac._exec(
                         family="event_management",
                         function="get_webhook_destination",
                         params={"offset": offset * limit, "limit": limit},
@@ -2410,7 +2466,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_webhook_destination",
                 op_modifies=True,
@@ -2473,6 +2529,15 @@ class Events(CatalystCenterBase):
             If they are not identical, it sets the update_needed flag to True.
         """
 
+        # Normalize null/empty header payloads so comparisons handle API responses
+        # where headers may be returned as None instead of [].
+        playbook_header = playbook_header or []
+        ccc_header = ccc_header or []
+        self.log(
+            "Comparing playbook headers: {0} with CCC headers: {1} to determine if update is needed.".format(
+                playbook_header, ccc_header), "DEBUG"
+        )
+
         if len(playbook_header) == 0 and ccc_header:
             return True
 
@@ -2506,7 +2571,7 @@ class Events(CatalystCenterBase):
         for key, value in webhook_params.items():
             if isinstance(value, list):
                 update_needed = self.webhook_header_needs_update(
-                    value, webhook_dest_detail_in_ccc[key]
+                    value, webhook_dest_detail_in_ccc.get(key)
                 )
                 if update_needed:
                     break
@@ -2577,7 +2642,7 @@ class Events(CatalystCenterBase):
                     "headers"
                 )
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_webhook_destination",
                 op_modifies=True,
@@ -2636,7 +2701,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management", function="get_email_destination"
             )
             self.log(
@@ -2791,7 +2856,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_email_destination",
                 op_modifies=True,
@@ -2917,7 +2982,7 @@ class Events(CatalystCenterBase):
                 "emailConfigId"
             )
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_email_destination",
                 op_modifies=True,
@@ -2982,7 +3047,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="itsm_integration",
                 function="get_all_itsm_integration_settings",
                 op_modifies=True,
@@ -3027,7 +3092,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="itsm_integration",
                 function="get_itsm_integration_setting_by_id",
                 op_modifies=True,
@@ -3139,7 +3204,7 @@ class Events(CatalystCenterBase):
 
         try:
             instance_name = itsm_params.get("name")
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="itsm_integration",
                 function="create_itsm_integration_setting",
                 op_modifies=True,
@@ -3322,7 +3387,7 @@ class Events(CatalystCenterBase):
                 "instance_id": itsm_in_ccc.get("id"),
             }
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="itsm_integration",
                 function="update_itsm_integration_setting",
                 op_modifies=True,
@@ -3387,7 +3452,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="itsm_integration",
                 function="delete_itsm_integration_setting",
                 op_modifies=True,
@@ -3442,7 +3507,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_syslog_event_subscriptions",
                 op_modifies=True,
@@ -3507,7 +3572,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_syslog_subscription_details",
                 op_modifies=True,
@@ -3765,7 +3830,7 @@ class Events(CatalystCenterBase):
 
         for event_name in events:
             try:
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="event_management",
                     function="get_eventartifacts",
                     op_modifies=True,
@@ -3821,7 +3886,7 @@ class Events(CatalystCenterBase):
         site_ids = []
         for site in sites:
             try:
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="sites",
                     function="get_site",
                     op_modifies=True,
@@ -4066,7 +4131,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_syslog_event_subscription",
                 op_modifies=True,
@@ -4382,7 +4447,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_syslog_event_subscription",
                 op_modifies=True,
@@ -4447,7 +4512,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_rest_webhook_event_subscriptions",
                 op_modifies=True,
@@ -4513,7 +4578,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_rest_webhook_subscription_details",
                 op_modifies=True,
@@ -4776,7 +4841,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_rest_webhook_event_subscription",
                 op_modifies=True,
@@ -4947,7 +5012,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_rest_webhook_event_subscription",
                 op_modifies=True,
@@ -5012,7 +5077,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_email_event_subscriptions",
                 op_modifies=True,
@@ -5074,7 +5139,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="get_email_subscription_details",
                 op_modifies=True,
@@ -5400,7 +5465,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="create_email_event_subscription",
                 op_modifies=True,
@@ -5629,7 +5694,7 @@ class Events(CatalystCenterBase):
                 ),
                 "INFO",
             )
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="update_email_event_subscription",
                 op_modifies=True,
@@ -5699,7 +5764,7 @@ class Events(CatalystCenterBase):
         """
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="event_management",
                 function="delete_event_subscriptions",
                 op_modifies=True,
@@ -6052,14 +6117,19 @@ class Events(CatalystCenterBase):
                 self.result["response"] = self.msg
                 return self
 
-            if server_address and not self.is_valid_server_address(server_address):
-                self.status = "failed"
-                self.msg = "Invalid server address '{0}' given in the playbook for configuring Syslog destination".format(
-                    server_address
-                )
-                self.log(self.msg, "ERROR")
-                self.result["response"] = self.msg
-                return self
+            if server_address:
+                if not self.is_valid_server_address(server_address):
+                    self.msg = (
+                        "Invalid server address '{0}' given in the playbook for configuring "
+                        "Syslog destination. Please provide a valid FQDN, IPv4, or IPv6 address."
+                    ).format(server_address)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                try:
+                    self.validate_ip_literal_or_fail(server_address, "Syslog")
+                except Exception:
+                    return self
 
             syslog_details_in_ccc = self.have.get("syslog_destinations")
 
@@ -6942,23 +7012,16 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
+
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -6980,12 +7043,7 @@ def main():
         ccc_events.check_return_status()
 
     ccc_events.validate_input().check_return_status()
-    if (
-        ccc_events.compare_catalystcenter_versions(
-            ccc_events.get_ccc_version(), "2.3.5.3"
-        )
-        < 0
-    ):
+    if ccc_events.compare_dnac_versions(ccc_events.get_ccc_version(), "2.3.5.3") < 0:
         ccc_events.msg = (
             "The specified version '{0}' does not support the events and notifications workflow. "
             "Supported versions start from '2.3.5.3' onwards.".format(

@@ -4,11 +4,10 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage wired campus automation in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Vivek Raj"
 
 
 DOCUMENTATION = r"""
@@ -79,6 +78,7 @@ extends_documentation_fragment:
 author:
   - Rugvedi Kapse (@rukapse)
   - Madhan Sankaranarayanan (@madhansansel)
+  - Vivek Raj (@vivekraj2000)
 options:
   config_verify:
     description: Set to true to verify the Cisco Catalyst
@@ -180,8 +180,12 @@ options:
                   - When true, the VLAN is active and can carry traffic.
                   - When false, the VLAN is administratively shut down.
                   - Disabled VLANs do not forward traffic but retain their configuration.
-                  - NOTE - "vlan_admin_status" Can only be modified for VLAN IDs 2-1001.
-                  - Extended range VLANs (1002-4094) do not support admin status updates.
+                  - NOTE - For standard-range VLANs (2-1001), "vlan_admin_status" can be
+                    set to true or false for both create and update operations.
+                  - For extended-range VLANs (1006-4094), "vlan_admin_status" cannot be
+                    set to false. These VLANs must always remain enabled. Setting
+                    "vlan_admin_status" to false for an extended-range VLAN will result
+                    in a validation error.
                 type: bool
                 required: false
                 default: true
@@ -443,7 +447,7 @@ options:
                       - Each VLAN can have its own STP parameters.
                       - VLAN must exist before STP instance configuration.
                     type: int
-                    required: true
+                    required: false
                   stp_instance_priority:
                     description:
                       - Bridge priority for this VLAN's STP instance.
@@ -473,7 +477,7 @@ options:
                     type: int
                     required: false
                     default: 20
-                  stp_instace_hello_interval_timer:
+                  stp_instance_hello_interval_timer:
                     description:
                       - Hello interval timer for this STP instance in seconds.
                       - Must be between 1 and 10 seconds.
@@ -483,7 +487,7 @@ options:
                     type: int
                     required: false
                     default: 2
-                  stp_instace_forward_delay_timer:
+                  stp_instance_forward_delay_timer:
                     description:
                       - Forward delay timer for this STP instance in seconds.
                       - Must be between 4 and 30 seconds.
@@ -570,7 +574,9 @@ options:
                   - When true, restricts flooded traffic to only necessary trunk links.
                   - Reduces unnecessary broadcast traffic in the VTP domain.
                   - Only affects VLANs 2-1001; VLAN 1 and extended VLANs are not pruned.
-                  - Can only be configured when "vtp_mode" is "SERVER".
+                  - VTP pruning can only be enabled when 'vtp_mode' is set to 'SERVER'.
+                  - Setting 'vtp_pruning' to true with any other 'vtp_mode' value will result in a
+                    validation error.
                 type: bool
                 required: false
                 default: false
@@ -741,7 +747,7 @@ options:
                       - VLAN must exist before configuring IGMP Snooping.
                       - Each VLAN can have independent IGMP Snooping settings.
                     type: int
-                    required: true
+                    required: false
                   enable_igmp_snooping:
                     description:
                       - Enable IGMP Snooping for this specific VLAN.
@@ -1657,7 +1663,7 @@ options:
                     required: false
                     default: true
 requirements:
-  - catalystcentersdk >= 2.10.1
+  - dnacentersdk >= 2.10.1
   - python >= 3.9
 notes:
    - SDK Method used are
@@ -1943,8 +1949,8 @@ EXAMPLES = r"""
       - ip_address: 204.1.2.3
         layer2_configuration:
           authentication:
-          enable_dot1x_authentication: true
-          authentication_config_mode: NEW_STYLE
+            enable_dot1x_authentication: true
+            authentication_config_mode: NEW_STYLE
 
 - name: Configure LACP and PAGP Port Channels
   cisco.catalystcenter.wired_campus_automation_workflow_manager:
@@ -2313,15 +2319,15 @@ response_2:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
     validate_list_of_dicts,
 )
 import copy
 
 
-class WiredCampusAutomation(CatalystCenterBase):
+class WiredCampusAutomation(DnacBase):
     """
-    A class for managing Wired Campus Automation within the Cisco Catalyst Center.
+    A class for managing Wired Campus Automation within the Cisco DNA Center.
     """
 
     def __init__(self, module):
@@ -2693,7 +2699,7 @@ class WiredCampusAutomation(CatalystCenterBase):
         )
         try:
             # Query Cisco Catalyst Center for device information using the parameters
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="devices",
                 function="get_device_list",
                 op_modifies=False,
@@ -2992,7 +2998,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "stp_instance_vlan_id": {
                     "type": "int",
                     "range": (1, 4094),
-                    "required": True,
+                    "required": False,
                 },  # Added type: int
                 "stp_instance_priority": {
                     "type": "int",
@@ -3089,7 +3095,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "igmp_snooping_vlan_id": {
                     "type": "int",
                     "range": (1, 4094),
-                    "required": True,
+                    "required": False,
                 },  # Added type: int
                 "enable_igmp_snooping": {"type": "bool", "required": False},
                 "igmp_snooping_immediate_leave": {"type": "bool", "required": False},
@@ -3533,17 +3539,13 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type boolean. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "str" and not isinstance(value, str):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type string. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "int" and (
                     isinstance(value, bool) or not isinstance(value, int)
@@ -3552,25 +3554,19 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type integer. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "list" and not isinstance(value, list):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type list. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "dict" and not isinstance(value, dict):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type dictionary. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate the range of the parameter
@@ -3597,9 +3593,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be at least {2} characters long. "
                         "Provided value length: {3}. Full configuration: {4}"
-                    ).format(
-                        param, config_name, rule["minLength"], len(value), config_values
-                    )
+                    ).format(param, config_name, rule["minLength"], len(value), config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate the maximum length of the parameter
@@ -3608,9 +3602,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' exceeds maximum length of {2}. "
                         "Provided value length: {3}. Full configuration: {4}"
-                    ).format(
-                        param, config_name, rule["maxLength"], len(value), config_values
-                    )
+                    ).format(param, config_name, rule["maxLength"], len(value), config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate maximum number of items in list
@@ -3729,6 +3721,29 @@ class WiredCampusAutomation(CatalystCenterBase):
                 self.fail_and_exit(self.msg)
 
             self.log("Validating VLAN configuration: {0}".format(vlan), "DEBUG")
+
+            # Check for reserved VLAN IDs (1002-1005 are reserved for legacy protocols)
+            vlan_id = vlan.get("vlan_id")
+            if vlan_id is not None and vlan_id in (1002, 1003, 1004, 1005):
+                self.msg = (
+                    "VLAN ID {0} is reserved for legacy protocols (FDDI, Token Ring). "
+                    "Reserved VLAN IDs 1002-1005 cannot be created, modified, or deleted. "
+                    "Please use a VLAN ID outside the reserved range (2-1001 or 1006-4094).".format(vlan_id)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            # Extended-range VLANs (1006-4094) cannot have admin status set to false
+            vlan_admin_status = vlan.get("vlan_admin_status")
+            if vlan_id is not None and vlan_id >= 1006 and vlan_admin_status is False:
+                self.msg = (
+                    "Cannot set 'vlan_admin_status' to false for VLAN ID {0}. "
+                    "Extended-range VLANs (1006-4094) must always have admin status enabled. "
+                    "Please either set 'vlan_admin_status' to true or remove it from the "
+                    "VLAN {0} configuration.".format(vlan_id)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
 
             # Validate the individual VLAN configuration against the provided rules
             self.validate_config_against_rules("vlans", vlan, rules)
@@ -3871,14 +3886,6 @@ class WiredCampusAutomation(CatalystCenterBase):
                 )
                 self.fail_and_exit(self.msg)
 
-            if instance.get("stp_instance_vlan_id") is None:
-                self.log(
-                    "Skipping STP instance entry at index {0} because 'stp_instance_vlan_id' is not provided. "
-                    "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
-                    "WARNING",
-                )
-                continue
-
             self.log(
                 "Validating STP instance configuration: {0}".format(instance), "DEBUG"
             )
@@ -3904,6 +3911,19 @@ class WiredCampusAutomation(CatalystCenterBase):
         """
         self.log("Starting validation for VTP global configuration", "INFO")
         self.log("Validating VTP configuration: {0}".format(vtp_config), "DEBUG")
+
+        # Validate that vtp_pruning is only enabled when vtp_mode is SERVER
+        vtp_pruning = vtp_config.get("vtp_pruning")
+        vtp_mode = vtp_config.get("vtp_mode")
+        if vtp_pruning is True and vtp_mode != "SERVER":
+            self.msg = (
+                "Invalid configuration: 'vtp_pruning' can only be set to true when "
+                "'vtp_mode' is 'SERVER'. Current 'vtp_mode' is '{0}'. "
+                "Either set 'vtp_mode' to 'SERVER' or remove 'vtp_pruning' "
+                "from the configuration.".format(vtp_mode if vtp_mode is not None else "not specified")
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
 
         # Validate the VTP configuration against the provided validation rules
         self.validate_config_against_rules("vtp", vtp_config, rules)
@@ -7484,7 +7504,7 @@ class WiredCampusAutomation(CatalystCenterBase):
             )
             api_family = "wired"
 
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -8175,6 +8195,17 @@ class WiredCampusAutomation(CatalystCenterBase):
             else:
                 # VLAN exists - check if update is needed
                 if self._config_needs_update(desired_vlan, deployed_vlan):
+                    # Validate: admin status cannot be set to false for extended-range VLANs (1006-4094)
+                    if vlan_id >= 1006 and desired_vlan.get("isVlanEnabled") is False:
+                        self.msg = (
+                            "Cannot set 'vlan_admin_status' to false for VLAN ID {0}. "
+                            "Extended-range VLANs (1006-4094) must always have admin status enabled. "
+                            "Please either set 'vlan_admin_status' to true or remove it from the "
+                            "VLAN {0} configuration.".format(vlan_id)
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
+
                     # Update existing VLAN with new parameters
                     updated_vlan = deployed_vlan.copy()
                     updated_vlan.update(
@@ -8716,17 +8747,24 @@ class WiredCampusAutomation(CatalystCenterBase):
                 current_by_vlan[vlan_id] = instance
 
         # Check each desired instance
-        for desired_instance in desired_instances:
+        for index, desired_instance in enumerate(desired_instances, start=1):
             vlan_id = desired_instance.get("vlanId")
             if vlan_id is None:
+                self.log(
+                    "Skipping {0} entry at index {1} during comparison because 'vlanId' is not provided. "
+                    "Each instance should specify a VLAN ID for proper configuration.".format(
+                        instance_type, index
+                    ),
+                    "WARNING",
+                )
                 continue
 
             current_instance = current_by_vlan.get(vlan_id)
 
             if not current_instance:
                 self.log(
-                    "VLAN {0} not found in current instances - update needed".format(
-                        vlan_id
+                    "VLAN {0} at index {1} not found in current instances - update needed".format(
+                        vlan_id, index
                     ),
                     "DEBUG",
                 )
@@ -8904,6 +8942,89 @@ class WiredCampusAutomation(CatalystCenterBase):
 
         return False
 
+    def _deep_compare_nested_dict(self, desired_dict, current_dict):
+        """
+        Recursively compare two nested dictionaries to detect
+        configuration differences.
+
+        Iterates over keys in desired_dict and checks whether
+        the corresponding value in current_dict matches. For
+        nested dicts, recurses into _deep_compare_nested_dict.
+        For nested lists, delegates to _deep_compare_nested_list.
+
+        Args:
+            desired_dict (dict): Desired dictionary configuration
+                to compare against the current state.
+            current_dict (dict): Current dictionary configuration
+                retrieved from Catalyst Center.
+
+        Returns:
+            bool: True if any key/value differs between
+                desired_dict and current_dict, False if all
+                present keys match.
+
+        Note:
+            Only keys present in desired_dict are compared.
+            Extra keys in current_dict are ignored.
+        """
+        self.log(
+            "Starting deep nested dict comparison - desired keys: {0}, current keys: {1}".format(
+                list(desired_dict.keys()), list(current_dict.keys())
+            ),
+            "DEBUG",
+        )
+
+        if not isinstance(desired_dict, dict) or not isinstance(current_dict, dict):
+            self.log(
+                "Invalid input types for deep comparison - "
+                "desired_type={0}, current_type={1}. "
+                "Returning True (differs).".format(
+                    type(desired_dict).__name__,
+                    type(current_dict).__name__
+                ),
+                "DEBUG",
+            )
+            return desired_dict != current_dict
+
+        for key, desired_value in desired_dict.items():
+            current_value = current_dict.get(key)
+
+            if isinstance(desired_value, dict) and isinstance(current_value, dict):
+                self.log(
+                    "Key '{0}' is a nested dict - recursing for deep comparison".format(key),
+                    "DEBUG",
+                )
+                if self._deep_compare_nested_dict(desired_value, current_value):
+                    self.log("Nested dict key '{0}' differs".format(key), "DEBUG")
+                    return True
+            elif isinstance(desired_value, list) and isinstance(current_value, list):
+                self.log(
+                    "Key '{0}' is a nested list - desired_len={1}, current_len={2}".format(
+                        key, len(desired_value), len(current_value)
+                    ),
+                    "DEBUG",
+                )
+                if self._deep_compare_nested_list(desired_value, current_value):
+                    self.log("Nested list key '{0}' differs".format(key), "DEBUG")
+                    return True
+            else:
+                if desired_value != current_value:
+                    self.log(
+                        "Dict key '{0}' differs: desired='{1}', current='{2}'".format(
+                            key, desired_value, current_value
+                        ),
+                        "DEBUG",
+                    )
+                    return True
+                else:
+                    self.log(
+                        "Key '{0}' matches: value='{1}'".format(key, desired_value),
+                        "DEBUG",
+                    )
+
+        self.log("Deep nested dict comparison completed - no differences found", "DEBUG")
+        return False
+
     def _deep_compare_nested_list(self, desired_list, current_list):
         """
         Enhanced comparison of nested lists with improved identifier detection.
@@ -9058,9 +9179,7 @@ class WiredCampusAutomation(CatalystCenterBase):
             if i < len(deployed_items):
                 deployed_item = deployed_items[i]
                 self.log(
-                    "Comparing desired and deployed configurations for item at index {0}".format(
-                        i
-                    ),
+                    "Comparing desired and deployed configurations for item at index {0}".format(i),
                     "DEBUG",
                 )
 
@@ -9454,7 +9573,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                         "Updated STP instance for VLAN {0} at index {1}".format(
                             vlan_id, index
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                 else:
                     # Add new instance
@@ -10115,7 +10234,12 @@ class WiredCampusAutomation(CatalystCenterBase):
                 )
                 continue
 
-            self.log("Processing user-specified VLAN {0} at index {1}".format(vlan_id, index), "DEBUG")
+            self.log(
+                "Processing user-specified VLAN {0} at index {1}".format(
+                    vlan_id, index
+                ),
+                "DEBUG",
+            )
 
             if vlan_id in final_vlan_dict:
                 # VLAN exists in current intended config - UPDATE with user's desired parameters
@@ -10652,7 +10776,12 @@ class WiredCampusAutomation(CatalystCenterBase):
                 )
                 continue
 
-            self.log("Processing user-specified VLAN {0} at index {1}".format(vlan_id, index), "DEBUG")
+            self.log(
+                "Processing user-specified VLAN {0} at index {1}".format(
+                    vlan_id, index
+                ),
+                "DEBUG",
+            )
 
             if vlan_id in final_vlan_dict:
                 # VLAN exists in current intended config - UPDATE with user's desired parameters
@@ -11417,7 +11546,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion using the same pattern as wireless design module
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 # Check the final status
@@ -11520,9 +11649,9 @@ class WiredCampusAutomation(CatalystCenterBase):
                     "Deployment task initiated, task ID: {0}".format(task_id), "INFO"
                 )
 
-                # Monitor deployment task completion using existing CatalystCenterBase function
+                # Monitor deployment task completion using existing DnacBase function
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 # Check the final status
@@ -12268,9 +12397,7 @@ class WiredCampusAutomation(CatalystCenterBase):
         Returns:
             bool: True if values match, False otherwise
         """
-        if not isinstance(desired, type(current)) and not isinstance(
-            current, type(desired)
-        ):
+        if not isinstance(desired, current.__class__) and not isinstance(current, desired.__class__):
             self.log(
                 "Type mismatch detected: desired={0}, current={1}".format(
                     type(desired).__name__, type(current).__name__
@@ -13672,7 +13799,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13733,7 +13860,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13794,7 +13921,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion using existing infrastructure
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13845,7 +13972,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion using existing infrastructure
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -14521,10 +14648,8 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "Initiating post-operation configuration retrieval from Catalyst Center",
                 "DEBUG",
             )
-            post_operation_deployed_configs, post_operation_intended_configs = (
-                self.get_current_configs_for_features(
-                    network_device_id, discovered_features
-                )
+            post_operation_deployed_configs, post_operation_intended_configs = self.get_current_configs_for_features(
+                network_device_id, discovered_features
             )
 
             self.log(
@@ -14675,21 +14800,13 @@ def main():
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -14706,7 +14823,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_wired_campus_automation = WiredCampusAutomation(module)
     if (
-        ccc_wired_campus_automation.compare_catalystcenter_versions(
+        ccc_wired_campus_automation.compare_dnac_versions(
             ccc_wired_campus_automation.get_ccc_version(), "3.1.3.0"
         )
         < 0

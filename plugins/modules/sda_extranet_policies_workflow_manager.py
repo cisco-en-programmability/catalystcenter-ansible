@@ -3,11 +3,10 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to manage Extranet Policy Operations in SD-Access Fabric in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Archit Soni"
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_workflow_manager
@@ -27,7 +26,7 @@ version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
 author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
-  (@madhansansel)
+  (@madhansansel) Archit Soni (@koderchit)
 options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst
@@ -106,7 +105,7 @@ options:
         type: list
         elements: str
 requirements:
-  - catalystcentersdk == 2.7.0
+  - dnacentersdk == 2.7.0
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites
@@ -236,14 +235,14 @@ sample_response_3:
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    DnacBase,
     validate_list_of_dicts,
 )
 
 
-class SDAExtranetPolicies(CatalystCenterBase):
+class SDAExtranetPolicies(DnacBase):
     """
-    A class for managing Extranet Policies within the Cisco Catalyst Center using the SDA API.
+    A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
     """
 
     def __init__(self, module):
@@ -256,6 +255,11 @@ class SDAExtranetPolicies(CatalystCenterBase):
         """
         self.supported_states = ["merged", "deleted"]
         super().__init__(module)
+        self.created_extranet_policy = []
+        self.updated_extranet_policy = []
+        self.not_updated_extranet_policy = []
+        self.deleted_extranet_policy = []
+        self.absent_extranet_policy = []
 
     def validate_input(self):
         """
@@ -510,7 +514,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
         """
         try:
             # Call the SDA 'get_fabric_sites' API with the provided site ID
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sda",
                 function="get_fabric_sites",
                 op_modifies=False,
@@ -604,7 +608,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
         """
         try:
             # Execute the API call to get extranet policie
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sda",
                 function="get_extranet_policies",
                 op_modifies=False,
@@ -781,8 +785,28 @@ class SDAExtranetPolicies(CatalystCenterBase):
             extranet_policy_name
         )
 
-        # Retrieve and return the task status using the provided task ID
-        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+        # Retrieve the task status using the provided task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        # If the task succeeded, record the policy name
+        if self.status == "success":
+            self.created_extranet_policy.append(extranet_policy_name)
+            self.log(
+                "Extranet Policy '{0}' successfully recorded in 'created_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "INFO",
+            )
+        else:
+            self.log(
+                "Add Extranet Policy task for '{0}' did not succeed; "
+                "policy not recorded in 'created_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "WARNING",
+            )
+
+        return self
 
     def update_extranet_policy(self, update_extranet_policy_params):
         """
@@ -819,8 +843,28 @@ class SDAExtranetPolicies(CatalystCenterBase):
             extranet_policy_name
         )
 
-        # Retrieve and return the task status using the provided task ID
-        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+        # Retrieve the task status using the provided task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        # If the task succeeded, record the policy name
+        if self.status == "success":
+            self.updated_extranet_policy.append(extranet_policy_name)
+            self.log(
+                "Extranet Policy '{0}' successfully recorded in 'updated_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "INFO",
+            )
+        else:
+            self.log(
+                "Update Extranet Policy task for '{0}' did not succeed; "
+                "policy not recorded in 'updated_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "WARNING",
+            )
+
+        return self
 
     def delete_extranet_policy(self, delete_extranet_policy_params):
         """
@@ -852,8 +896,28 @@ class SDAExtranetPolicies(CatalystCenterBase):
             extranet_policy_name
         )
 
-        # Retrieve and return the task status using the provided task ID
-        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+        # Retrieve the task status using the provided task ID
+        self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+        # If the task succeeded, record the policy name
+        if self.status == "success":
+            self.deleted_extranet_policy.append(extranet_policy_name)
+            self.log(
+                "Extranet Policy '{0}' successfully recorded in 'deleted_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "INFO",
+            )
+        else:
+            self.log(
+                "Delete Extranet Policy task for '{0}' did not succeed; "
+                "policy not recorded in 'deleted_extranet_policy' list.".format(
+                    extranet_policy_name
+                ),
+                "WARNING",
+            )
+
+        return self
 
     def get_have(self, config):
         """
@@ -873,7 +937,7 @@ class SDAExtranetPolicies(CatalystCenterBase):
 
         extranet_policy_name = config.get("extranet_policy_name")
         # check if given extranet policy exits, if exists store current extranet policy info
-        extranet_policy_exists, extranet_policy_id, extranet_policy_details = (
+        (extranet_policy_exists, extranet_policy_id, extranet_policy_details) = (
             self.validate_extranet_policy_exists(extranet_policy_name)
         )
 
@@ -958,11 +1022,15 @@ class SDAExtranetPolicies(CatalystCenterBase):
                 if self.compare_extranet_policies(
                     extranet_policy_details, want["update_extranet_policy_params"]
                 ):
-                    self.msg = "Extranet Policy '{0}' is identical to the update requested. No update operation needed.".format(
-                        extranet_policy_name
+                    self.not_updated_extranet_policy.append(extranet_policy_name)
+                    self.log(
+                        "Extranet Policy '{0}' is identical to the update requested. No update operation needed.".format(
+                            extranet_policy_name
+                        ),
+                        "INFO",
                     )
-                    self.set_operation_result("ok", False, self.msg, "INFO")
-                    self.check_return_status()
+                    self.msg = "Successfully collected all parameters from the playbook for creating/updating/deleting the extranet policy."
+                    self.status = "success"
                     return self
             else:
                 self.log(
@@ -994,12 +1062,14 @@ class SDAExtranetPolicies(CatalystCenterBase):
                     ),
                 )
             else:
-                self.msg = (
+                self.absent_extranet_policy.append(extranet_policy_name)
+                self.log(
                     "Extranet Policy - '{0}' does not exist in the Cisco Catalyst Center and "
-                    "hence delete operation not required.".format(extranet_policy_name)
+                    "hence delete operation not required.".format(extranet_policy_name),
+                    "INFO",
                 )
-                self.set_operation_result("ok", False, self.msg, "INFO")
-                self.check_return_status()
+                self.msg = "Successfully collected all parameters from the playbook for creating/updating/deleting the extranet policy."
+                self.status = "success"
                 return self
 
         self.want = want
@@ -1237,6 +1307,91 @@ class SDAExtranetPolicies(CatalystCenterBase):
         self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
 
+    def update_sda_extranet_policies_profile_messages(self):
+        """
+        Compiles all per-policy operation results into a single consolidated message and sets
+        the final operation result.
+
+        Returns:
+            self: The instance of the class, allowing for method chaining.
+
+        Description:
+            Iterates over all tracking lists populated during the config loop and builds a
+            human-readable summary message covering created, updated, not-updated, deleted,
+            and absent extranet policies.  Sets 'changed' to True only when at least one
+            create, update, or delete operation was carried out.
+        """
+        self.log(
+            "Starting 'update_sda_extranet_policies_profile_messages' operation.",
+            "INFO",
+        )
+        self.log(
+            "Summary — created: {0}, updated: {1}, not_updated: {2}, deleted: {3}, absent: {4}".format(
+                self.created_extranet_policy,
+                self.updated_extranet_policy,
+                self.not_updated_extranet_policy,
+                self.deleted_extranet_policy,
+                self.absent_extranet_policy,
+            ),
+            "DEBUG",
+        )
+        self.result["changed"] = False
+        result_msg_list = []
+
+        policy_messages = {
+            "created_extranet_policy": (
+                "Extranet Policy '{0}' has been created successfully in the Cisco Catalyst Center."
+            ),
+            "updated_extranet_policy": (
+                "Extranet Policy '{0}' has been updated successfully in the Cisco Catalyst Center."
+            ),
+            "not_updated_extranet_policy": (
+                "Extranet Policy '{0}' needs no update in the Cisco Catalyst Center."
+            ),
+            "deleted_extranet_policy": (
+                "Extranet Policy '{0}' has been deleted successfully from the Cisco Catalyst Center."
+            ),
+            "absent_extranet_policy": (
+                "Extranet Policy '{0}' is not present in the Cisco Catalyst Center; "
+                "delete operation skipped."
+            ),
+        }
+
+        for attr, msg_template in policy_messages.items():
+            policy_list = getattr(self, attr, [])
+            for policy_name in policy_list:
+                msg = msg_template.format(policy_name)
+                result_msg_list.append(msg)
+                self.log(msg, "INFO")
+
+        if any(
+            [
+                self.created_extranet_policy,
+                self.updated_extranet_policy,
+                self.deleted_extranet_policy,
+            ]
+        ):
+            self.result["changed"] = True
+
+        self.msg = (
+            "\n".join(result_msg_list)
+            if result_msg_list
+            else "No extranet policy operations were performed."
+        )
+        self.log(
+            "Final consolidated message for extranet policy operations: {0}".format(
+                self.msg
+            ),
+            "INFO",
+        )
+        self.set_operation_result("success", self.result["changed"], self.msg, "INFO")
+        self.log(
+            "Completed 'update_sda_extranet_policies_profile_messages' operation.",
+            "INFO",
+        )
+
+        return self
+
 
 def main():
     """main entry point for module execution"""
@@ -1244,21 +1399,13 @@ def main():
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -1276,7 +1423,7 @@ def main():
     ccc_sda_extranet_policies = SDAExtranetPolicies(module)
 
     if (
-        ccc_sda_extranet_policies.compare_catalystcenter_versions(
+        ccc_sda_extranet_policies.compare_dnac_versions(
             ccc_sda_extranet_policies.get_ccc_version(), "2.3.7.6"
         )
         < 0
@@ -1316,6 +1463,8 @@ def main():
             ccc_sda_extranet_policies.verify_diff_state_apply[state](
                 config
             ).check_return_status()
+
+    ccc_sda_extranet_policies.update_sda_extranet_policies_profile_messages().check_return_status()
 
     module.exit_json(**ccc_sda_extranet_policies.result)
 

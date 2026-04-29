@@ -63,11 +63,12 @@ options:
     elements: dict
     required: true
     suboptions:
-      tag:
-        description: A dictionary containing detailed
-          configurations for creating, updating, or
-          deleting tags.
-        type: dict
+      tags:
+        description: A list of dictionaries, each containing
+          detailed configurations for creating, updating,
+          or deleting one or more tags.
+        type: list
+        elements: dict
         suboptions:
           name:
             description: >
@@ -266,10 +267,11 @@ options:
             type: str
             required: false
       tag_memberships:
-        description: A dictionary containing detailed
-          configuration for managing tag memberships
+        description: A list of dictionaries, each containing
+          detailed configuration for managing tag memberships
           for devices and interfaces.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           tags:
             description: >
@@ -345,7 +347,7 @@ options:
                 type: list
                 elements: str
 requirements:
-  - catalystcentersdk >= 2.10.3
+  - dnacentersdk >= 2.10.3
   - python >= 3.9
 notes:
   - Ensure that all required parameters are provided
@@ -386,7 +388,7 @@ EXAMPLES = r"""
 - name: Create a tag with description.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -406,16 +408,16 @@ EXAMPLES = r"""
         state: merged
         config_verify: false
         config:
-          - tag:
-              name: Server_Connected_Devices_and_Ports
-              description: "Tag for devices and interfaces
-                connected to servers"
+          - tags:
+              - name: Server_Connected_Devices_and_Ports
+                description: "Tag for devices and interfaces
+                  connected to servers"
 # For creating/updating a tag with device rules.
 - name: Create a tag for border devices in the 9300
     series.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -436,26 +438,26 @@ EXAMPLES = r"""
         state: merged
         config_verify: false
         config:
-          - tag:
-              name: Border_9300_Tag
-              description: Tag for border devices belonging
-                to the Cisco Catalyst 9300 family.
-              device_rules:
-                rule_descriptions:
-                  - rule_name: device_name
-                    search_pattern: contains
-                    value: Border
-                    operation: ILIKE
-                  - rule_name: device_series
-                    search_pattern: ends_with
-                    value: 9300
-                    operation: ILIKE
+          - tags:
+              - name: Border_9300_Tag
+                description: Tag for border devices belonging
+                  to the Cisco Catalyst 9300 family.
+                device_rules:
+                  rule_descriptions:
+                    - rule_name: device_name
+                      search_pattern: contains
+                      value: Border
+                      operation: ILIKE
+                    - rule_name: device_series
+                      search_pattern: ends_with
+                      value: 9300
+                      operation: ILIKE
 # For creating/updating a tag with port rules.
 - name: Create a tag for high-speed server-connected
     interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -476,31 +478,56 @@ EXAMPLES = r"""
         state: merged
         config_verify: false
         config:
-          - tag:
-              name: HighSpeed_Server_Interfaces
-              description: Tag for 10G interfaces connected
-                to servers.
-              port_rules:
-                scope_description:
-                  scope_category: TAG
-                  scope_members:
-                    - NY_SERVER_TAG
-                    - SJC_SERVER_TAG
-                rule_descriptions:
-                  - rule_name: speed
-                    search_pattern: equals
-                    value: "10000"
-                    operation: ILIKE
-                  - rule_name: port_name
-                    search_pattern: contains
-                    value: TenGigabitEthernet1/0/1
-                    operation: ILIKE
+          - tags:
+              - name: HighSpeed_Server_Interfaces
+                description: Tag for 10G interfaces connected
+                  to servers.
+                port_rules:
+                  scope_description:
+                    scope_category: TAG
+                    scope_members:
+                      - NY_SERVER_TAG
+                      - SJC_SERVER_TAG
+                  rule_descriptions:
+                    - rule_name: speed
+                      search_pattern: equals
+                      value: "10000"
+                      operation: ILIKE
+                    - rule_name: port_name
+                      search_pattern: contains
+                      value: TenGigabitEthernet1/0/1
+                      operation: ILIKE
+# For creating multiple tags in a single config entry.
+- name: Create multiple tags in one config entry.
+  hosts: catalystcenter_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  tasks:
+    - name: Create two tags at once
+      cisco.catalystcenter.tags_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: merged
+        config_verify: false
+        config:
+          - tags:
+              - name: DC_Core_Devices
+                description: "Core devices in data center"
+              - name: DC_Access_Devices
 # For updating the scope description of a tag with port rules:
 - name: Update scope description for tagged server-connected
     interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -521,23 +548,23 @@ EXAMPLES = r"""
         state: merged
         config_verify: false
         config:
-          - tag:
-              name: Server_Connected_Interfaces
-              description: Tag for interfaces on devices
-                connected to servers, scoped to specific
-                sites.
-              port_rules:
-                scope_description:
-                  scope_category: SITE
-                  scope_members:
-                    - Global/USA
-                    - Global/INDIA
+          - tags:
+              - name: Server_Connected_Interfaces
+                description: Tag for interfaces on devices
+                  connected to servers, scoped to specific
+                  sites.
+                port_rules:
+                  scope_description:
+                    scope_category: SITE
+                    scope_members:
+                      - Global/USA
+                      - Global/INDIA
 # For updating rule descriptions of a tag with port rules:
 - name: Update port rule descriptions for server-connected
     interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -558,25 +585,25 @@ EXAMPLES = r"""
         state: merged
         config_verify: false
         config:
-          - tag:
-              name: Server_Connected_Interfaces
-              description: Tag for interfaces on devices
-                connected to servers.
-              port_rules:
-                rule_descriptions:
-                  - rule_name: speed
-                    search_pattern: contains
-                    value: "100000"
-                    operation: ILIKE
-                  - rule_name: port_name
-                    search_pattern: equals
-                    value: TenGigabitEthernet1/0/1
-                    operation: ILIKE
+          - tags:
+              - name: Server_Connected_Interfaces
+                description: Tag for interfaces on devices
+                  connected to servers.
+                port_rules:
+                  rule_descriptions:
+                    - rule_name: speed
+                      search_pattern: contains
+                      value: "100000"
+                      operation: ILIKE
+                    - rule_name: port_name
+                      search_pattern: equals
+                      value: TenGigabitEthernet1/0/1
+                      operation: ILIKE
 # To assign tags to devices/ports (Remove port_names list to assign tags to devices.)
 - name: Assign tags to devices or interfaces.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -597,54 +624,53 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tag_memberships:
-              tags:
-                - High_Speed_Interfaces
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                    - 10.197.156.99
-                  hostnames:
-                    - SJC_Border1
-                    - SJC_Border2
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                    - 34:5d:a8:3b:d8:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
-                    - SAD055108C2
-                  port_names:
-                    - FortyGigabitEthernet1/1/1
-                    - FortyGigabitEthernet1/1/2
-          - tag_memberships:
-              tags:
-                - Server_Connected_Devices
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                    - 10.197.156.99
-                  hostnames:
-                    - SJC_Border1
-                    - SJC_Border2
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                    - 34:5d:a8:3b:d8:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
-                    - SAD055108C2
+              - tags:
+                  - High_Speed_Interfaces
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                      - 10.197.156.99
+                    hostnames:
+                      - SJC_Border1
+                      - SJC_Border2
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                      - 34:5d:a8:3b:d8:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
+                      - SAD055108C2
+                    port_names:
+                      - FortyGigabitEthernet1/1/1
+                      - FortyGigabitEthernet1/1/2
+              - tags:
+                  - Server_Connected_Devices
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                      - 10.197.156.99
+                    hostnames:
+                      - SJC_Border1
+                      - SJC_Border2
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                      - 34:5d:a8:3b:d8:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
+                      - SAD055108C2
 # To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)
 - name: Assign tags to devices or interfaces within
     a specific site.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -666,25 +692,24 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tag_memberships:
-              tags:
-                - High_Speed_Interfaces
-              site_details:
-                - site_names:
-                    - Global/INDIA
-                  port_names:
-                    - FortyGigabitEthernet1/1/1
-                    - FortyGigabitEthernet1/1/2
-          - tag_memberships:
-              tags:
-                - Server_Connected_Devices
-              site_details:
-                - site_names:
-                    - Global/INDIA
+              - tags:
+                  - High_Speed_Interfaces
+                site_details:
+                  - site_names:
+                      - Global/INDIA
+                    port_names:
+                      - FortyGigabitEthernet1/1/1
+                      - FortyGigabitEthernet1/1/2
+              - tags:
+                  - Server_Connected_Devices
+                site_details:
+                  - site_names:
+                      - Global/INDIA
 # Deleting a tag.
 - name: Delete a Tag.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -704,14 +729,14 @@ EXAMPLES = r"""
         state: deleted
         config_verify: false
         config:
-          - tag:
-              name: Server_Connected_Devices
+          - tags:
+              - name: Server_Connected_Devices
 # Force Deleting a tag.
 # It will remove all the dynamic and static members from the tag and delete the tag.
 - name: Force delete a Tag.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -731,15 +756,15 @@ EXAMPLES = r"""
         state: deleted
         config_verify: false
         config:
-          - tag:
-              name: Server_Connected_Devices
-              force_delete: true
+          - tags:
+              - name: Server_Connected_Devices
+                force_delete: true
 # For deleting rule descriptions of a tag with device rules.
 - name: Delete rule description of a tag with device
     rules
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -760,19 +785,19 @@ EXAMPLES = r"""
         state: deleted
         config_verify: false
         config:
-          - tag:
-              name: Catalyst_Access_Tag
-              device_rules:
-                rule_descriptions:
-                  - rule_name: device_family
-                    search_pattern: ends_with
-                    value: 9300
-                    operation: ILIKE
+          - tags:
+              - name: Catalyst_Access_Tag
+                device_rules:
+                  rule_descriptions:
+                    - rule_name: device_family
+                      search_pattern: ends_with
+                      value: 9300
+                      operation: ILIKE
 # For deleting scope members of a tag with port rules.
 - name: Delete scope members of a tag with port rules
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -793,21 +818,21 @@ EXAMPLES = r"""
         state: deleted
         config_verify: false
         config:
-          - tag:
-              name: Catalyst_Site_Tag
-              description: Tag for managing site-based
-                configurations
-              port_rules:
-                scope_description:
-                  scope_category: SITE
-                  scope_members:
-                    - Global/INDIA
+          - tags:
+              - name: Catalyst_Site_Tag
+                description: Tag for managing site-based
+                  configurations
+                port_rules:
+                  scope_description:
+                    scope_category: SITE
+                    scope_members:
+                      - Global/INDIA
 # For deleting rule descriptions of a tag with port rules.
 - name: Delete rule descriptions of a tag with port
     rules
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -828,25 +853,25 @@ EXAMPLES = r"""
         state: deleted
         config_verify: false
         config:
-          - tag:
-              name: Catalyst_Port_Tag
-              description: Tag for high-speed ports
-                and interface rules
-              port_rules:
-                rule_descriptions:
-                  - rule_name: speed
-                    search_pattern: equals
-                    value: "10000"
-                    operation: ILIKE
-                  - rule_name: port_name
-                    search_pattern: contains
-                    value: tengig/1/0/1
-                    operation: ILIKE
+          - tags:
+              - name: Catalyst_Port_Tag
+                description: Tag for high-speed ports
+                  and interface rules
+                port_rules:
+                  rule_descriptions:
+                    - rule_name: speed
+                      search_pattern: equals
+                      value: "10000"
+                      operation: ILIKE
+                    - rule_name: port_name
+                      search_pattern: contains
+                      value: tengig/1/0/1
+                      operation: ILIKE
 # For Deleting tags from devices/ports (Remove port_names to delete tags from devices)
 - name: Delete tags from members.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -867,45 +892,44 @@ EXAMPLES = r"""
         config_verify: false
         config:
           - tag_memberships:
-              tags:
-                - Catalyst_Port_Tag
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                  hostnames:
-                    - SJC_Border1
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
-                  port_names:
-                    - TenGigabitEthernet1/0/1
-                    - TenGigabitEthernet1/0/2
-          - tag_memberships:
-              tags:
-                - Catalyst_Device_Tag
-              device_details:
-                - ip_addresses:
-                    - 10.197.156.97
-                    - 10.197.156.98
-                  hostnames:
-                    - SJC_Border1
-                    - NY_Border1
-                  mac_addresses:
-                    - e4:38:7e:42:bc:00
-                    - 6c:d6:e3:75:5a:e0
-                  serial_numbers:
-                    - SAD055006NE
-                    - SAD04350EEU
+              - tags:
+                  - Catalyst_Port_Tag
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                    hostnames:
+                      - SJC_Border1
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
+                    port_names:
+                      - TenGigabitEthernet1/0/1
+                      - TenGigabitEthernet1/0/2
+              - tags:
+                  - Catalyst_Device_Tag
+                device_details:
+                  - ip_addresses:
+                      - 10.197.156.97
+                      - 10.197.156.98
+                    hostnames:
+                      - SJC_Border1
+                      - NY_Border1
+                    mac_addresses:
+                      - e4:38:7e:42:bc:00
+                      - 6c:d6:e3:75:5a:e0
+                    serial_numbers:
+                      - SAD055006NE
+                      - SAD04350EEU
 #  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)
 - name: Delete tags from members within a specific sites.
   hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -927,20 +951,19 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - tag_memberships:
-              tags:
-                - Catalyst_Device_Tag
-              site_details:
-                - site_names:
-                    - Global/INDIA
-          - tag_memberships:
-              tags:
-                - Catalyst_Port_Tag
-              site_details:
-                - site_names:
-                    - Global/INDIA
-                  port_names:
-                    - TenGigabitEthernet1/0/1
-                    - TenGigabitEthernet1/0/2
+              - tags:
+                  - Catalyst_Device_Tag
+                site_details:
+                  - site_names:
+                      - Global/INDIA
+              - tags:
+                  - Catalyst_Port_Tag
+                site_details:
+                  - site_names:
+                      - Global/INDIA
+                    port_names:
+                      - TenGigabitEthernet1/0/1
+                      - TenGigabitEthernet1/0/2
 """
 
 RETURN = r"""
@@ -960,16 +983,14 @@ catalystcenter_response:
 
 from collections import defaultdict
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
-)
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import DnacBase
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
 import re
 
 
-class Tags(CatalystCenterBase):
+class Tags(DnacBase):
     """Class containing member attributes for tags workflow manager module"""
 
     def __init__(self, module):
@@ -1039,8 +1060,8 @@ class Tags(CatalystCenterBase):
         """
 
         validation_schema = {
-            "tag": {
-                "type": "dict",
+            "tags": {
+                "type": "list",
                 "elements": "dict",
                 "name": {"type": "str", "required": True},
                 "description": {"type": "str"},
@@ -1108,7 +1129,8 @@ class Tags(CatalystCenterBase):
                 },
             },
             "tag_memberships": {
-                "type": "dict",
+                "type": "list",
+                "elements": "dict",
                 "tags": {"type": "list", "elements": "str", "required": True},
                 "device_details": {
                     "type": "list",
@@ -1654,7 +1676,7 @@ class Tags(CatalystCenterBase):
         self.log("Retrieving tag ID for tag name: '{0}'.".format(tag_name), "DEBUG")
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="tag", function="get_tag", params={"name": tag_name}
             )
 
@@ -1954,8 +1976,8 @@ class Tags(CatalystCenterBase):
             parameters.
 
             The processed results are stored in the `want` dictionary, which includes:
-            - 'tag': The validated tag configuration (if provided).
-            - 'tag_memberships': The validated tag membership details (if provided).
+            - 'tags': A list of validated tag configurations (if provided).
+            - 'tag_memberships': A list of validated tag membership details (if provided).
 
             The `want` dictionary is assigned to the instance for further processing.
         """
@@ -1969,24 +1991,26 @@ class Tags(CatalystCenterBase):
 
         want = {}
 
-        tag = config.get("tag")
-        tag_memberships = config.get("tag_memberships")
+        tags = config.get("tags")
+        tag_memberships_list = config.get("tag_memberships")
 
-        if not tag and not tag_memberships:
+        if not tags and not tag_memberships_list:
             self.msg = "No input provided for tag operations or updating tag memberships in Cisco Catalyst Center."
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
         # Process tags
-        if tag:
-            want["tag"] = self.process_tag(tag)
+        if tags:
+            want["tags"] = [self.process_tag(tag) for tag in tags]
         else:
             self.log("Tag config not provided.", "DEBUG")
 
         # Process tag memberships
-        if tag_memberships:
-            want["tag_memberships"] = self.process_tag_memberships(tag_memberships)
+        if tag_memberships_list:
+            want["tag_memberships"] = [
+                self.process_tag_memberships(tm) for tm in tag_memberships_list
+            ]
         else:
             self.log("Tag memberships config not provided.", "DEBUG")
 
@@ -1998,17 +2022,19 @@ class Tags(CatalystCenterBase):
 
     def get_have(self, config):
         """
-        Retrieves the tag ID based on the provided config, and stores it in the 'have' dictionary.
+        Retrieves the tag IDs based on the provided config, and stores them in the 'have' dictionary.
 
         Args:
-            config (dict): Configuration dictionary containing the 'tag' key with 'name' as a subkey.
+            config (dict): Configuration dictionary containing the 'tags' key with a list of tag dicts,
+                each having 'name' as a subkey.
 
         Returns:
             self: Returns the instance of the class for method chaining.
 
         Description:
-            This method extracts the tag name from the config, retrieves the tag ID,
-            and stores it in the 'have' dictionary. If the tag ID is not found, it logs an debug message.
+            This method extracts the tag names from the config, retrieves the tag IDs,
+            and stores them in the 'have' dictionary keyed by tag name. If the tag ID is
+            not found, it logs a debug message.
         """
 
         self.log(
@@ -2018,17 +2044,19 @@ class Tags(CatalystCenterBase):
             "DEBUG",
         )
         have = {}
-        tag = config.get("tag")
-        if tag:
-            tag_name = tag.get("name")
-            tag_info = self.get_tag_info(tag_name)
-            if not tag_info:
-                self.msg = "Tag Details for {0} are not available in Cisco Catalyst Center".format(
-                    tag_name
-                )
-                self.log(self.msg, "DEBUG")
-            else:
-                have["tag_info"] = tag_info
+        tags = config.get("tags")
+        if tags:
+            have["tag_info"] = {}
+            for tag in tags:
+                tag_name = tag.get("name")
+                tag_info = self.get_tag_info(tag_name)
+                if not tag_info:
+                    self.msg = "Tag Details for {0} are not available in Cisco Catalyst Center".format(
+                        tag_name
+                    )
+                    self.log(self.msg, "DEBUG")
+                else:
+                    have["tag_info"][tag_name] = tag_info
 
         self.have = have
         self.msg = "Successfully retrieved tag details from Cisco Catalyst Center."
@@ -2551,7 +2579,7 @@ class Tags(CatalystCenterBase):
         )
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="tag", function="get_tag", params={"name": tag_name}
             )
 
@@ -2621,7 +2649,7 @@ class Tags(CatalystCenterBase):
             }
 
             payload = {"{0}".format(param_api_name.get(param)): param_value}
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="devices", function="get_device_list", params=payload
             )
             # Check if the response is empty
@@ -2679,7 +2707,7 @@ class Tags(CatalystCenterBase):
         )
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="devices",
                 function="get_interface_details",
                 params={"device_id": device_id, "name": port_name},
@@ -2955,7 +2983,7 @@ class Tags(CatalystCenterBase):
                 "DEBUG",
             )
             try:
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="site_design",
                     function="get_site_assigned_network_devices",
                     params={"site_id": site_id, "offset": offset, "limit": limit},
@@ -3143,7 +3171,7 @@ class Tags(CatalystCenterBase):
 
         try:
             payload = {"id": device_id}
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="devices", function="get_device_list", params=payload
             )
             # Check if the response is empty
@@ -3309,7 +3337,7 @@ class Tags(CatalystCenterBase):
             try:
                 payload = {"ids": batch}
 
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="tag",
                     function="query_the_tags_associated_with_network_devices",
                     op_modifies=True,
@@ -3411,7 +3439,7 @@ class Tags(CatalystCenterBase):
 
             try:
                 payload = {"ids": batch}
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="tag",
                     function="query_the_tags_associated_with_interfaces",
                     op_modifies=True,
@@ -4638,7 +4666,7 @@ class Tags(CatalystCenterBase):
                 "DEBUG",
             )
             try:
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="tag",
                     function="get_tag_members_by_id",
                     op_modifies=False,
@@ -4727,7 +4755,7 @@ class Tags(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-                response = self.catalystcenter._exec(
+                response = self.dnac._exec(
                     family="tag",
                     function="get_tag_members_by_id",
                     op_modifies=False,
@@ -4969,7 +4997,7 @@ class Tags(CatalystCenterBase):
         )
         self.initialize_batch_size_values(tag)
 
-        tag_in_ccc = self.have.get("tag_info")
+        tag_in_ccc = self.have.get("tag_info", {}).get(tag_name)
         if not tag_in_ccc:
             self.log(
                 "Creating Tag: {0} with config: {1}".format(tag_name, self.pprint(tag)),
@@ -5064,13 +5092,15 @@ class Tags(CatalystCenterBase):
             "INFO",
         )
 
-        tag = self.want.get("tag")
+        tag = self.want.get("tags")
         tag_memberships = self.want.get("tag_memberships")
 
         if tag:
-            self.process_tag_merged(tag)
+            for t in tag:
+                self.process_tag_merged(t)
         if tag_memberships:
-            self.process_tag_memberships_merged(tag_memberships)
+            for tm in tag_memberships:
+                self.process_tag_memberships_merged(tm)
 
         self.msg = "Get Diff Merged Completed Successfully"
         return self
@@ -5184,7 +5214,7 @@ class Tags(CatalystCenterBase):
         self.log("Starting Tag Deletion for the Tag '{0}'".format(tag_name), "DEBUG")
         self.initialize_batch_size_values(tag)
 
-        tag_in_ccc = self.have.get("tag_info")
+        tag_in_ccc = self.have.get("tag_info", {}).get(tag_name)
         if not tag_in_ccc:
             self.log(
                 "Not able to perform delete operations. Tag '{0}' as it is not present in Cisco Catalyst Center.".format(
@@ -5267,14 +5297,16 @@ class Tags(CatalystCenterBase):
             "INFO",
         )
 
-        tag = self.want.get("tag")
+        tag = self.want.get("tags")
         tag_memberships = self.want.get("tag_memberships")
 
         if tag:
-            self.process_tag_deleted(tag)
+            for t in tag:
+                self.process_tag_deleted(t)
 
         if tag_memberships:
-            self.process_tag_membership_deleted(tag_memberships)
+            for tm in tag_memberships:
+                self.process_tag_membership_deleted(tm)
 
         self.msg = "Get Diff Deleted Completed Successfully"
 
@@ -5465,10 +5497,10 @@ class Tags(CatalystCenterBase):
 
         self.log("Verifying the tag details for the playbook operation", "INFO")
 
-        tag_name = tag.get("name")
+        tag_name = tag.get("new_name") or tag.get("name")
 
         verify_diff = True
-        tag_in_ccc = self.have.get("tag_info")
+        tag_in_ccc = self.have.get("tag_info", {}).get(tag_name)
         if not tag_in_ccc:
             verify_diff = False
             self.log(
@@ -5527,39 +5559,43 @@ class Tags(CatalystCenterBase):
             "DEBUG",
         )
 
-        tag_config_data = config.get("tag", {})
-        if tag_config_data:
-            new_tag_name = tag_config_data.get("new_name")
+        tags_config_data = config.get("tags")
 
-            if new_tag_name:
-                current_name = self.want.get("tag", {}).get("name", "Unknown")
-                self.log(
-                    f"Updating tag name: current name='{current_name}', new name='{new_tag_name}'.",
-                    "DEBUG",
-                )
-                # Update the tag name in the config
-                config["tag"]["name"] = config["tag"].get("new_name")
+        if tags_config_data:
+            self.log("Updating the tag names in the config data if 'new_name' is provided for verification.", "DEBUG")
+            for tag_config_data in tags_config_data:
+                new_tag_name = tag_config_data.get("new_name")
+                if new_tag_name:
+                    current_name = tag_config_data.get("name", "Unknown")
+                    self.log(
+                        f"Updating tag name: current name='{current_name}', new name='{new_tag_name}'.",
+                        "DEBUG",
+                    )
+                    # Update the tag name in the config entry
+                    tag_config_data["name"] = new_tag_name
 
         self.get_have(config).check_return_status()
-        tag = self.want.get("tag")
+        tag = self.want.get("tags")
         tag_memberships = self.want.get("tag_memberships")
         verify_diff = True
         if tag:
-            verify_diff &= self.verify_tag_diff_merged(tag)
+            for t in tag:
+                verify_diff &= self.verify_tag_diff_merged(t)
 
         if tag_memberships:
-            membership_verify_diff = self.verify_tag_membership_diff(tag_memberships)
-            if membership_verify_diff:
-                self.log(
-                    "tag memberships Details present in playbook and Cisco Catalyst Center are same.",
-                    "DEBUG",
-                )
-            else:
-                verify_diff = False
-                self.log(
-                    "tag memberships Details present in playbook and Cisco Catalyst Center does not match. Playbook operation might be unsuccessful",
-                    "WARNING",
-                )
+            for tm in tag_memberships:
+                membership_verify_diff = self.verify_tag_membership_diff(tm)
+                if membership_verify_diff:
+                    self.log(
+                        "tag memberships Details present in playbook and Cisco Catalyst Center are same.",
+                        "DEBUG",
+                    )
+                else:
+                    verify_diff = False
+                    self.log(
+                        "tag memberships Details present in playbook and Cisco Catalyst Center does not match. Playbook operation might be unsuccessful",
+                        "WARNING",
+                    )
 
         if verify_diff:
             self.msg = "Playbook operation is successful. Verification Completed"
@@ -5592,7 +5628,7 @@ class Tags(CatalystCenterBase):
             "DEBUG",
         )
 
-        tag_in_ccc = self.have.get("tag_info")
+        tag_in_ccc = self.have.get("tag_info", {}).get(tag_name)
         force_delete = tag.get("force_delete")
         verify_diff = True
         if force_delete:
@@ -5694,26 +5730,28 @@ class Tags(CatalystCenterBase):
         )
 
         self.get_have(config).check_return_status()
-        tag = self.want.get("tag")
+        tag = self.want.get("tags")
         tag_memberships = self.want.get("tag_memberships")
 
         verify_diff = True
         if tag:
-            verify_diff &= self.verify_tag_diff_deleted(tag)
+            for t in tag:
+                verify_diff &= self.verify_tag_diff_deleted(t)
 
         if tag_memberships:
-            membership_verify_diff = self.verify_tag_membership_diff(tag_memberships)
-            if membership_verify_diff:
-                self.log(
-                    "tag memberships Details present in playbook and Cisco Catalyst Center are same.",
-                    "DEBUG",
-                )
-            else:
-                verify_diff = False
-                self.log(
-                    "tag memberships Details present in playbook and Cisco Catalyst Center does not match. Playbook operation might be unsuccessful",
-                    "WARNING",
-                )
+            for tm in tag_memberships:
+                membership_verify_diff = self.verify_tag_membership_diff(tm)
+                if membership_verify_diff:
+                    self.log(
+                        "tag memberships Details present in playbook and Cisco Catalyst Center are same.",
+                        "DEBUG",
+                    )
+                else:
+                    verify_diff = False
+                    self.log(
+                        "tag memberships Details present in playbook and Cisco Catalyst Center does not match. Playbook operation might be unsuccessful",
+                        "WARNING",
+                    )
 
         if verify_diff:
             self.msg = "Playbook operation is successful. Verification Completed"
@@ -5893,23 +5931,16 @@ def main():
     """
 
     element_spec = {
+
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.9", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
@@ -5924,7 +5955,7 @@ def main():
 
     ccc_tags = Tags(module)
     ccc_version = ccc_tags.get_ccc_version()
-    if ccc_tags.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_tags.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
         ccc_tags.msg = (
             "Tagging feature is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
             "from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for creating, updating and deleting the "

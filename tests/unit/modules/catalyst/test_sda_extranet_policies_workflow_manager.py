@@ -20,7 +20,7 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     sda_extranet_policies_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class SDAExtranetPolicies(TestDnacModule):
@@ -32,21 +32,21 @@ class SDAExtranetPolicies(TestDnacModule):
     def setUp(self):
         super(SDAExtranetPolicies, self).setUp()
 
-        self.mock_catalystcenter_init = patch(
+        self.mock_dnac_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
-        self.run_catalystcenter_init.side_effect = [None]
-        self.mock_catalystcenter_exec = patch(
+        self.run_dnac_init = self.mock_dnac_init.start()
+        self.run_dnac_init.side_effect = [None]
+        self.mock_dnac_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
-        print(f"Mock for CatalystCenterSDK._exec: {self.run_catalystcenter_exec}")
+        self.run_dnac_exec = self.mock_dnac_exec.start()
+        print(f"Mock for CatalystCenterSDK._exec: {self.run_dnac_exec}")
 
     def tearDown(self):
         super(SDAExtranetPolicies, self).tearDown()
-        self.mock_catalystcenter_init.stop()
-        self.mock_catalystcenter_exec.stop()
+        self.mock_dnac_init.stop()
+        self.mock_dnac_exec.stop()
 
     def load_fixtures(self, response=None, device=""):
         print("Inside load_fixtures")
@@ -54,7 +54,7 @@ class SDAExtranetPolicies(TestDnacModule):
         # FIXTURE FOR SUCCESS TESTCASES ############################################################
 
         if "create_sda_extranet_policies" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
@@ -64,7 +64,7 @@ class SDAExtranetPolicies(TestDnacModule):
             ]
 
         if "update_sda_extranet_policies" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_2"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
@@ -74,7 +74,7 @@ class SDAExtranetPolicies(TestDnacModule):
             ]
 
         if "delete_sda_extranet_policies" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_3"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
@@ -83,25 +83,23 @@ class SDAExtranetPolicies(TestDnacModule):
         # FIXTURES FOR FAILURE TESTCASES ############################################################
 
         if "create_sda_extranet_policies_failure_1" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                Exception("Simulated exception")
-            ]
+            self.run_dnac_exec.side_effect = [Exception("Simulated exception")]
 
         if "create_sda_extranet_policies_failure_2" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 Exception("Simulated exception"),
             ]
 
         if "create_sda_extranet_policies_failure_3" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
                 Exception("Simulated exception"),
             ]
 
         if "create_sda_extranet_policies_failure_4" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
@@ -109,7 +107,7 @@ class SDAExtranetPolicies(TestDnacModule):
             ]
 
         if "create_sda_extranet_policies_failure_5" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
@@ -118,7 +116,7 @@ class SDAExtranetPolicies(TestDnacModule):
             ]
 
         if "create_sda_extranet_policies_failure_6" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_1"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
@@ -128,7 +126,7 @@ class SDAExtranetPolicies(TestDnacModule):
             ]
 
         if "update_sda_extranet_policies_failure_1" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_2"),
                 self.test_data.get("response_get_sites"),
                 self.test_data.get("response_get_fabric_sites"),
@@ -136,25 +134,23 @@ class SDAExtranetPolicies(TestDnacModule):
             ]
 
         if "delete_sda_extranet_policies_failure_1" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
-                Exception("Simulated exception")
-            ]
+            self.run_dnac_exec.side_effect = [Exception("Simulated exception")]
 
         if "delete_sda_extranet_policies_failure_2" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_3"),
                 Exception("Simulated exception"),
             ]
 
         if "delete_sda_extranet_policies_failure_3" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_3"),
                 self.test_data.get("response_get_task_id"),
                 Exception("Simulated exception"),
             ]
 
         if "delete_sda_extranet_policies_failure_4" in self._testMethodName:
-            self.run_catalystcenter_exec.side_effect = [
+            self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_extranet_policies_3"),
                 self.test_data.get("response_get_task_id"),
                 self.test_data.get("response_get_task_status_by_id"),
@@ -190,7 +186,7 @@ class SDAExtranetPolicies(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Add Extranet Policy Task Succeeded for the Extranet Policy",
+            "has been created successfully in the Cisco Catalyst Center",
             result.get("msg"),
         )
 
@@ -221,7 +217,7 @@ class SDAExtranetPolicies(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Update Extranet Policy Task Succeeded for following Extranet Policy",
+            "has been updated successfully in the Cisco Catalyst Center",
             result.get("msg"),
         )
 
@@ -252,7 +248,7 @@ class SDAExtranetPolicies(TestDnacModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
-            "Delete Extranet Policy Task Succeeded for following Extranet Policy",
+            "has been deleted successfully from the Cisco Catalyst Center",
             result.get("msg"),
         )
 

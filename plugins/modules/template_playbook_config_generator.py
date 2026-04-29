@@ -148,11 +148,11 @@ notes:
 - |-
   Module result behavior (changed/ok/failed):
   The module result reflects local file state only, not Catalyst Center state.
-  In overwrite mode, the full file content is compared (excluding volatile
-  fields like timestamps and playbook path). In append mode, only the last
-  YAML document in the file is compared against the newly generated
-  configuration. If a file contains multiple config entries from previous
-  appends, only the most recent entry is used for the idempotency check.
+  In overwrite mode, the full generated YAML content is compared against the
+  existing file after excluding generated header comment lines. In append mode,
+  only the last YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous appends,
+  only the most recent entry is used for the idempotency check.
   - changed=true (status: success): The generated YAML configuration differs
     from the existing output file (or the file does not exist). The file was
     written and the configuration was updated.
@@ -163,6 +163,11 @@ notes:
     API failure, or file write error. No file was written or modified.
   Note: Re-running with identical inputs and unchanged Catalyst Center state
   will produce changed=false, ensuring idempotent playbook behavior.
+  Note: If append mode creates multiple config entries in the
+  generated file, replaying the file as config in the workflow
+  manager module applies only the last config entry because
+  yaml.safe_load uses last-key-wins semantics for duplicate
+  keys in a single YAML document.
 seealso:
 - module: cisco.catalystcenter.template_workflow_manager
   description: Module for managing template projects and templates.
@@ -251,7 +256,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_templates_config.yml"
     config:
       component_specific_filters:
-        components_list: ["projects"]  # Optional
+        components_list: ["projects"] # Optional
         projects:
           - name: "Project_A"
           - name: "Project_B"
@@ -271,7 +276,7 @@ EXAMPLES = r"""
     file_path: "tmp/catc_templates_config.yml"
     config:
       component_specific_filters:
-        components_list: ["configuration_templates"]  # Optional
+        components_list: ["configuration_templates"] # Optional
         configuration_templates:
           - template_name: "Template_1"
           - template_name: "Template_2"
@@ -401,7 +406,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase
+    DnacBase
 )
 import time
 try:
@@ -432,7 +437,7 @@ else:
     OrderedDumper = None
 
 
-class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
+class TemplatePlaybookConfigGenerator(DnacBase, BrownFieldHelper):
     """
     A class for generator playbook files for templates deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -537,18 +542,20 @@ class TemplatePlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "projects": {
-                    "filters": ["name"],
+                    "filters": {
+                        "name": {"type": "str"}
+                    },
                     "reverse_mapping_function": self.projects_temp_spec,
                     "api_function": "get_projects_details",
                     "api_family": "configuration_templates",
                     "get_function_name": self.get_template_projects_details
                 },
                 "configuration_templates": {
-                    "filters": [
-                        "template_name",
-                        "project_name",
-                        "include_uncommitted"
-                    ],
+                    "filters": {
+                        "template_name": {"type": "str"},
+                        "project_name": {"type": "str"},
+                        "include_uncommitted": {"type": "bool"}
+                    },
                     "reverse_mapping_function": self.templates_temp_spec,
                     "api_function": "get_templates_details",
                     "api_family": "configuration_templates",
@@ -1235,7 +1242,7 @@ def main():
 
     config_generator = TemplatePlaybookConfigGenerator(module)
     if (
-        config_generator.compare_catalystcenter_versions(
+        config_generator.compare_dnac_versions(
             config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0
