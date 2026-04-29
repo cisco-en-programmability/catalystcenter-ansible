@@ -30,10 +30,10 @@ import tempfile
 import os
 import copy
 from ansible_collections.cisco.catalystcenter.plugins.modules import template_workflow_manager
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacTemplateWorkflow(TestDnacModule):
+class TestDnacTemplateWorkflow(TestCatalystModule):
 
     module = template_workflow_manager
     test_data = loadPlaybookData("template_workflow_manager")

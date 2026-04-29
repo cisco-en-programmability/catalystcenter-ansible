@@ -20,10 +20,10 @@ __metaclass__ = type
 from unittest.mock import patch
 from ansible.errors import AnsibleActionFail
 from ansible_collections.cisco.catalystcenter.plugins.modules import pnp_intent
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacPnPIntent(TestDnacModule):
+class TestDnacPnPIntent(TestCatalystModule):
 
     module = pnp_intent
     test_data = loadPlaybookData("pnp_intent")

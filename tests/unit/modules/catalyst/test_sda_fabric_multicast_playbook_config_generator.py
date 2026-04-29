@@ -32,10 +32,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     sda_fabric_multicast_playbook_config_generator,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestSdaFabricMulticastPlaybookConfigGenerator(TestDnacModule):
+class TestSdaFabricMulticastPlaybookConfigGenerator(TestCatalystModule):
 
     module = sda_fabric_multicast_playbook_config_generator
     test_data = loadPlaybookData("sda_fabric_multicast_playbook_config_generator")

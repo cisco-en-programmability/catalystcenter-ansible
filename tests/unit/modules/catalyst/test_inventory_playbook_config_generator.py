@@ -28,10 +28,10 @@ __metaclass__ = type
 
 from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import inventory_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestInventoryPlaybookConfigGenerator(TestDnacModule):
+class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
 
     module = inventory_playbook_config_generator
     test_data = loadPlaybookData("inventory_playbook_config_generator")

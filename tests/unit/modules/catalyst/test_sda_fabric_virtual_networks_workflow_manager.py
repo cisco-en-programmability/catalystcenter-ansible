@@ -24,10 +24,10 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import sda_fabric_virtual_networks_workflow_manager
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacFabricSitesZonesWorkflow(TestDnacModule):
+class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
 
     module = sda_fabric_virtual_networks_workflow_manager
     test_data = loadPlaybookData("sda_fabric_virtual_networks_workflow_manager")

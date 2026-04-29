@@ -28,10 +28,10 @@ from unittest.mock import patch, mock_open
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     ise_radius_integration_playbook_config_generator,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestIseRadiusIntegrationPlaybookConfigGenerator(TestDnacModule):
+class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
 
     module = ise_radius_integration_playbook_config_generator
     test_data = loadPlaybookData("ise_radius_integration_playbook_config_generator")

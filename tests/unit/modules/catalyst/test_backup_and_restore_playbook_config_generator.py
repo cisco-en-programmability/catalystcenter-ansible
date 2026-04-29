@@ -21,10 +21,10 @@ __metaclass__ = type
 from unittest.mock import patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import backup_and_restore_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBackupRestorePlaybookGenerator(TestDnacModule):
+class TestDnacBackupRestorePlaybookGenerator(TestCatalystModule):
 
     module = backup_and_restore_playbook_config_generator
     test_data = loadPlaybookData("backup_and_restore_playbook_config_generator")

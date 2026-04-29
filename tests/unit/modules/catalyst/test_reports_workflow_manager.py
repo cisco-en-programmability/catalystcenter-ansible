@@ -30,10 +30,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     reports_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacreportsWorkflow(TestDnacModule):
+class TestDnacreportsWorkflow(TestCatalystModule):
     module = reports_workflow_manager
     test_data = loadPlaybookData("reports_workflow_manager")
     playbook_config_create = test_data.get("playbook_config_create")

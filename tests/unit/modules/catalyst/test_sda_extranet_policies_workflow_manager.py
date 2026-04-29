@@ -20,10 +20,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     sda_extranet_policies_workflow_manager,
 )
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class SDAExtranetPolicies(TestDnacModule):
+class SDAExtranetPolicies(TestCatalystModule):
 
     module = sda_extranet_policies_workflow_manager
 

@@ -22,10 +22,10 @@ import os
 from unittest.mock import patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import user_role_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacUserRolePlaybookGenerator(TestDnacModule):
+class TestDnacUserRolePlaybookGenerator(TestCatalystModule):
 
     module = user_role_playbook_config_generator
 

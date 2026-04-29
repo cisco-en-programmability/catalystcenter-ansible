@@ -18,10 +18,10 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import discovery_playbook_config_generator
-from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestDnacModule):
+class TestDnacBrownfieldDiscoveryPlaybookGenerator(TestCatalystModule):
 
     module = discovery_playbook_config_generator
     test_data = loadPlaybookData("discovery_playbook_config_generator")

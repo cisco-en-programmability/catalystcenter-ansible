@@ -20,10 +20,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     assurance_issue_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacAssuranceSettings(TestDnacModule):
+class TestDnacAssuranceSettings(TestCatalystModule):
     module = assurance_issue_workflow_manager
     test_data = loadPlaybookData("assurance_issue_workflow_manager")
     playbook_config_updation = test_data.get("playbook_config_updation")
