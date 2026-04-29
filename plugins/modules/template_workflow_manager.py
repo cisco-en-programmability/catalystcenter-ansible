@@ -1502,7 +1502,7 @@ options:
                 type: str
 
 requirements:
-  - dnacentersdk >= 2.8.6
+  - catalystcentersdk >= 2.8.6
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -2703,7 +2703,7 @@ class Template(NetworkProfileFunctions):
                 profile_names), "DEBUG")
 
             if profile_names and isinstance(profile_names, list):
-                if self.compare_dnac_versions(ccc_version, "3.1.3.0") < 0:
+                if self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") < 0:
                     msg = (
                         "Profile assignment feature is not supported in Cisco Catalyst Center version '{0}'. "
                         "Supported versions start from '3.1.3.0' onwards. Current configuration includes "
@@ -3049,7 +3049,7 @@ class Template(NetworkProfileFunctions):
         )
         template_details = None
         try:
-            items = self.dnac_apply["exec"](
+            items = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="get_templates_details",
                 op_modifies=True,
@@ -3449,7 +3449,7 @@ class Template(NetworkProfileFunctions):
         """
 
         result = None
-        items = self.dnac_apply["exec"](
+        items = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="get_template_details",
             op_modifies=True,
@@ -3490,7 +3490,7 @@ class Template(NetworkProfileFunctions):
         )
         template_id = None
         try:
-            template_list = self.dnac_apply["exec"](
+            template_list = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
@@ -3683,7 +3683,7 @@ class Template(NetworkProfileFunctions):
         have_template["id"] = template_details.get("id")
         project_name = config.get("configuration_templates").get("project_name")
         # Get available templates which are committed under the project
-        template_list = self.dnac_apply["exec"](
+        template_list = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
@@ -4152,7 +4152,7 @@ class Template(NetworkProfileFunctions):
         )
         ccc_version = self.get_ccc_version()
 
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 "Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(
                     project_name
@@ -4160,7 +4160,7 @@ class Template(NetworkProfileFunctions):
                 "DEBUG",
             )
 
-            items = self.dnac_apply["exec"](
+            items = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="get_projects",
                 op_modifies=True,
@@ -4180,7 +4180,7 @@ class Template(NetworkProfileFunctions):
                 ),
                 "DEBUG",
             )
-            items = self.dnac_apply["exec"](
+            items = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="get_projects_details",
                 op_modifies=True,
@@ -4233,7 +4233,7 @@ class Template(NetworkProfileFunctions):
 
             ccc_version = self.get_ccc_version()
             if (
-                self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0
+                self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") >= 0
                 and configuration_templates.get("profile_names")
             ):
                 want["profile_names"] = configuration_templates.get("profile_names")
@@ -4596,7 +4596,7 @@ class Template(NetworkProfileFunctions):
             validation_string = "Successfully created template"
             creation_value = "create_template"
 
-        response = self.dnac_apply["exec"](
+        response = self.catalystcenter_apply["exec"](
             family="configuration_templates",
             function=creation_value,
             op_modifies=True,
@@ -4870,7 +4870,7 @@ class Template(NetworkProfileFunctions):
             self
         """
 
-        all_project_details = self.dnac._exec(
+        all_project_details = self.catalystcenter._exec(
             family="configuration_templates", function="get_projects_details"
         )
         self.log(
@@ -4957,7 +4957,7 @@ class Template(NetworkProfileFunctions):
                 "templateId": template_id
             }
             self.log("Versioning parameters for template '{0}': {1}".format(template_name, version_params), "DEBUG")
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="configuration_templates",
                 function="version_template",
                 op_modifies=True,
@@ -5019,7 +5019,7 @@ class Template(NetworkProfileFunctions):
         self.log("Checking commit status for template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
         is_template_uncommitted = True
         try:
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
@@ -5330,7 +5330,7 @@ class Template(NetworkProfileFunctions):
         self.log("Export project playbook details: {0}".format(export_project), "DEBUG")
         if export_project:
             self.log("Found export project details: {0}".format(export_project), "DEBUG")
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="configuration_templates",
                 function="export_projects",
                 op_modifies=True,
@@ -5354,7 +5354,7 @@ class Template(NetworkProfileFunctions):
                 "Exporting template playbook details: {0}".format(self.export_template),
                 "DEBUG",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="configuration_templates",
                 function="export_templates",
                 op_modifies=True,
@@ -5442,7 +5442,7 @@ class Template(NetworkProfileFunctions):
                     "DEBUG",
                 )
                 if _import_project:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="configuration_templates",
                         function="imports_the_projects_provided",
                         op_modifies=True,
@@ -5553,7 +5553,7 @@ class Template(NetworkProfileFunctions):
                     return self
 
             if _import_template:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="configuration_templates",
                     function="imports_the_templates_provided",
                     op_modifies=True,
@@ -5607,7 +5607,7 @@ class Template(NetworkProfileFunctions):
         for device_id in site_assign_device_ids:
             try:
                 self.log("Processing device ID: {0}".format(device_id), "DEBUG")
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_list",
                     op_modifies=True,
@@ -5684,7 +5684,7 @@ class Template(NetworkProfileFunctions):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="configuration_templates",
                 function="get_template_versions",
                 op_modifies=True,
@@ -5769,7 +5769,7 @@ class Template(NetworkProfileFunctions):
         device_hostname = None
         self.log("Fetching device hostname for device_id: {0}".format(device_id), "INFO")
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices",
                 function='get_device_list',
                 op_modifies=True,
@@ -5814,7 +5814,7 @@ class Template(NetworkProfileFunctions):
         self.log("Checking site assignment for device with UUID: {0}".format(device_id), "INFO")
         site_uuid = None
         try:
-            response = self.dnac_apply['exec'](
+            response = self.catalystcenter_apply['exec'](
                 family="site_design",
                 function='get_site_assigned_network_device',
                 params={"id": device_id}
@@ -6307,7 +6307,7 @@ class Template(NetworkProfileFunctions):
         while True:
             try:
                 task_name = "get_template_deployment_status"
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="configuration_templates",
                     function=task_name,
                     params={"deployment_id": deployment_id},
@@ -6707,7 +6707,7 @@ class Template(NetworkProfileFunctions):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="tag",
                 function="get_tag_members_by_id",
                 op_modifies=False,
@@ -7127,14 +7127,14 @@ class Template(NetworkProfileFunctions):
             deletion_value = "deletes_the_template"
             name = "templateName: {0}".format(template_params.get("name"))
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.5.3") <= 0:
             self.log(
                 "Deleting '{0}' using function '{1}' with parameters: {2} on Catalyst version: {3} (≤ 2.3.5.3)".format(
                     name, deletion_value, params_key, ccc_version
                 ),
                 "DEBUG",
             )
-            response = self.dnac_apply["exec"](
+            response = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function=deletion_value,
                 op_modifies=True,
@@ -7202,7 +7202,7 @@ class Template(NetworkProfileFunctions):
                 time.sleep(sleep_duration)
         else:
             current_profiles = self.have.get("current_profile", [])
-            if current_profiles and self.compare_dnac_versions(ccc_version, "3.1.3.0") >= 0:
+            if current_profiles and self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") >= 0:
                 template_name = self.want.get("template_params").get("name")
                 self.log("Detaching profile from template", "DEBUG")
                 detach_status = self.detach_profiles_from_template(template_name, current_profiles)
@@ -7521,7 +7521,7 @@ class Template(NetworkProfileFunctions):
         if config.get("configuration_templates") is not None:
             self.log("Current State (have): {0}".format(self.have), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
-            template_list = self.dnac_apply["exec"](
+            template_list = self.catalystcenter_apply["exec"](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=True,
@@ -7626,7 +7626,7 @@ def main():
     ccc_template = Template(module)
 
     ccc_version = ccc_template.get_ccc_version()
-    if ccc_template.compare_dnac_versions(ccc_version, "2.3.7.6") < 0:
+    if ccc_template.compare_catalystcenter_versions(ccc_version, "2.3.7.6") < 0:
         ccc_template.msg = (
             "Template module is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
             "from '2.3.7.6' onwards.".format(ccc_version)

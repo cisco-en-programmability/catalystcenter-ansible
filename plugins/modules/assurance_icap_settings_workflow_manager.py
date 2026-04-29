@@ -181,7 +181,7 @@ options:
             type: str
             required: true
 requirements:
-  - dnacentersdk >=  2.8.6
+  - catalystcentersdk >=  2.8.6
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -320,7 +320,7 @@ except ImportError:
     pathlib = None
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 from datetime import datetime
@@ -328,7 +328,7 @@ import time
 import os
 
 
-class Icap(DnacBase):
+class Icap(CatalystCenterBase):
     """Class containing member attributes for ICAP setting workflow manager module"""
 
     def __init__(self, module):
@@ -594,7 +594,7 @@ class Icap(DnacBase):
         """
         self.log("Retrieving device ID for hostname: {0}".format(hostname), "DEBUG")
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices",
                 function="get_device_list",
                 params={"hostname": hostname},  # Using hostname in the API call
@@ -709,7 +709,7 @@ class Icap(DnacBase):
             )
 
             # Execute API call
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sensors",
                 function="lists_i_cap_packet_capture_files_matching_specified_criteria",
                 params=param,
@@ -894,7 +894,7 @@ class Icap(DnacBase):
                     continue
 
                 self.log("Fetching ICAP packet capture for ID: {0}".format(download_id))
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="sensors",
                     function="downloads_a_specific_i_cap_packet_capture_file",
                     op_modifies=True,
@@ -1037,7 +1037,7 @@ class Icap(DnacBase):
                 "DEBUG",
             )
             task_name = "deploys_the_i_cap_configuration_intent_by_activity_id"
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sensors",
                 function="deploys_the_i_cap_configuration_intent_by_activity_id",
                 op_modifies=True,
@@ -1146,7 +1146,7 @@ class Icap(DnacBase):
                 "DEBUG"
             )
             try:
-                icap_configuration_status_per_network_device = self.dnac._exec(
+                icap_configuration_status_per_network_device = self.catalystcenter._exec(
                     family="sensors",
                     function="get_i_cap_configuration_status_per_network_device",
                     params={"preview_activity_id": preview_activity_id}
@@ -1243,7 +1243,7 @@ class Icap(DnacBase):
                 "DEBUG"
             )
             try:
-                devices_clis_of_the_icap_configuration = self.dnac._exec(
+                devices_clis_of_the_icap_configuration = self.catalystcenter._exec(
                     family="sensors",
                     function="generates_the_devices_clis_of_the_i_cap_configuration_intent",
                     params={
@@ -1366,7 +1366,7 @@ class Icap(DnacBase):
         # Implementation to retrieve CLI commands
         try:
             self.log("Retrieving CLI commands for preview activity ID: {0} and network device ID: {1}".format(preview_activity_id, network_device_id), "DEBUG")
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sensors",
                 function="retrieves_the_devices_clis_of_the_i_capintent",
                 params={
@@ -1453,7 +1453,7 @@ class Icap(DnacBase):
                 )
 
             # Check if an ICAP configuration with the same parameters is already in progress
-            existing_config = self.dnac._exec(
+            existing_config = self.catalystcenter._exec(
                 family="sensors",
                 function="retrieves_deployed_i_cap_configurations_while_supporting_basic_filtering",
                 params=param
@@ -1498,7 +1498,7 @@ class Icap(DnacBase):
                 "macAddress": client_mac
             }
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="clients",
                 function="retrieves_the_list_of_clients_while_also_offering_basic_filtering_and_sorting_capabilities",
                 params=params
@@ -1536,7 +1536,7 @@ class Icap(DnacBase):
         try:
             self.log("Verifying site assignment for AP '{0}' (ID: {1}).".format(ap_name, ap_id), "DEBUG")
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function="get_site_assigned_network_device",
                 params={"id": ap_id}
@@ -1642,7 +1642,7 @@ class Icap(DnacBase):
             param = {"previewDescription": preview_description, "payload": updated_assurance_icap_details}
             self.log("Creating Intelligent Capture Configuration with the following parameters: {0}.".format(self.pprint(param)))
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sensors",
                 function="creates_an_i_cap_configuration_intent_for_preview_approve",
                 op_modifies=True,
@@ -1757,7 +1757,7 @@ class Icap(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sensors",
                 function="discards_the_i_cap_configuration_intent_by_activity_id",
                 op_modifies=True,
@@ -1800,7 +1800,7 @@ class Icap(DnacBase):
 
         while True:
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="sensors",
                     function="get_device_deployment_status",
                     params={"deploy_activity_id": deployment_task_id},
@@ -1984,7 +1984,7 @@ def main():
     state = ccc_assurance.params.get("state")
     ccc_version = ccc_assurance.get_ccc_version()
 
-    if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_assurance.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_assurance.msg = """The specified version '{0}' does not support the Assurance Intelligent Capture
         Settings feature. Supported versions start from '2.3.7.9' onwards.""".format(
             ccc_assurance.get_ccc_version()

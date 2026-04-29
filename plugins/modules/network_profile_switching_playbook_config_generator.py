@@ -126,7 +126,7 @@ options:
             elements: str
             required: false
 requirements:
-  - dnacentersdk >= 2.10.10
+  - catalystcentersdk >= 2.10.10
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods
@@ -2585,7 +2585,7 @@ def main():
         "INFO"
     )
 
-    if (ccc_network_profile_switching_playbook_generator.compare_dnac_versions(
+    if (ccc_network_profile_switching_playbook_generator.compare_catalystcenter_versions(
             ccc_network_profile_switching_playbook_generator.get_ccc_version(), "2.3.7.9") < 0):
 
         error_msg = (

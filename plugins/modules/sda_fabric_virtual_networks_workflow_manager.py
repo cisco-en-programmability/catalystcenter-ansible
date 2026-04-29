@@ -535,7 +535,7 @@ options:
               in the playbook.
             type: bool
 requirements:
-  - dnacentersdk >= 2.9.2
+  - catalystcentersdk >= 2.9.2
   - python >= 3.9
 notes:
   - To ensure the module operates correctly for scaled
@@ -1020,7 +1020,7 @@ catalystcenter_response:
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
 )
 import copy
@@ -1029,7 +1029,7 @@ import re
 RESERVED_VLAN_IDS = frozenset({1002, 1003, 1004, 1005, 2046})
 
 
-class VirtualNetwork(DnacBase):
+class VirtualNetwork(CatalystCenterBase):
     """Class containing member attributes for fabric sites and zones workflow manager module"""
 
     def __init__(self, module):
@@ -1329,7 +1329,7 @@ class VirtualNetwork(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_sites",
                 op_modifies=False,
@@ -1397,7 +1397,7 @@ class VirtualNetwork(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_zones",
                 op_modifies=False,
@@ -1573,7 +1573,7 @@ class VirtualNetwork(DnacBase):
                 )
                 params["vlan_id"] = vlan_id
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_layer2_virtual_networks",
                 op_modifies=False,
@@ -1681,7 +1681,7 @@ class VirtualNetwork(DnacBase):
                 )
                 params["vlan_id"] = vlan_id
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_layer2_virtual_networks",
                 op_modifies=False,
@@ -1823,7 +1823,7 @@ class VirtualNetwork(DnacBase):
             ),
         }
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN creation in Cisco Catalyst Center.",
                 "DEBUG",
@@ -2003,7 +2003,7 @@ class VirtualNetwork(DnacBase):
             )
             return True
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN configuration in Cisco Catalyst Center.",
                 "DEBUG",
@@ -2153,7 +2153,7 @@ class VirtualNetwork(DnacBase):
                 "DEBUG",
             )
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "Using new payload structure for fabric VLAN update in Cisco Catalyst Center.",
                 "DEBUG",
@@ -2372,7 +2372,7 @@ class VirtualNetwork(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_layer3_virtual_networks",
                 op_modifies=False,
@@ -2551,7 +2551,7 @@ class VirtualNetwork(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_layer3_virtual_networks",
                 op_modifies=False,
@@ -3269,7 +3269,7 @@ class VirtualNetwork(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="network_settings",
                 function="get_reserve_ip_subpool",
                 op_modifies=True,
@@ -3330,7 +3330,7 @@ class VirtualNetwork(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_anycast_gateways",
                 op_modifies=False,
@@ -3438,7 +3438,7 @@ class VirtualNetwork(DnacBase):
                 "failed", False, self.msg, "ERROR"
             ).check_return_status()
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, validating additional parameters for Anycast Gateway.",
                 "DEBUG",
@@ -3525,7 +3525,7 @@ class VirtualNetwork(DnacBase):
                     ),
                     "DEBUG",
                 )
-        elif self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") < 0:
+        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") < 0:
             self.log(
                 "CCC version is below 3.1.3, removing certain parameters from gateway mapping.",
                 "DEBUG",
@@ -3643,7 +3643,7 @@ class VirtualNetwork(DnacBase):
                     anycast_payload[value] = False
                     self.log("Setting '{0}' to False in payload.".format(key), "DEBUG")
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for Anycast Gateway.",
                     "DEBUG",
@@ -3722,7 +3722,7 @@ class VirtualNetwork(DnacBase):
             "group_policy_enforcement_enabled",
         ]
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             self.log(
                 "CCC version is 3.1.3 or above, adding additional parameters for Anycast Gateway update checks.",
                 "DEBUG",
@@ -3768,7 +3768,7 @@ class VirtualNetwork(DnacBase):
                 "'group_policy_enforcement_enabled'.",
                 "DEBUG",
             )
-            if self.compare_dnac_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
                 self.log(
                     "CCC version is 3.1.3 or above, checking additional parameters for non-INFRA_VN.",
                     "DEBUG",
@@ -3930,7 +3930,7 @@ class VirtualNetwork(DnacBase):
                     "DEBUG",
                 )
 
-        if vn_name != "INFRA_VN" and self.compare_dnac_versions(
+        if vn_name != "INFRA_VN" and self.compare_catalystcenter_versions(
             self.get_ccc_version(), "3.1.3.0"
         ) >= 0:
             self.log(
@@ -4728,7 +4728,7 @@ class VirtualNetwork(DnacBase):
             error_msg (str) - Returns the task tree error message of the task ID.
         """
 
-        response = self.dnac._exec(
+        response = self.catalystcenter._exec(
             family="task", function="get_task_tree", params={"task_id": task_id}
         )
         self.log(
@@ -6249,7 +6249,7 @@ def main():
     # Initialize the Virtual Network object
     ccc_virtual_network = VirtualNetwork(module)
     if (
-        ccc_virtual_network.compare_dnac_versions(
+        ccc_virtual_network.compare_catalystcenter_versions(
             ccc_virtual_network.get_ccc_version(), "2.3.7.6"
         )
         < 0

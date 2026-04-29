@@ -98,7 +98,7 @@ options:
             default: "ip_address"
 
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -245,13 +245,13 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase
+    CatalystCenterBase
 )
 from collections import OrderedDict
 import time
 
 
-class InventoryPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class InventoryPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generating playbook files for inventory config deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -941,7 +941,7 @@ def main():
 
     config_generator = InventoryPlaybookConfigGenerator(module)
     if (
-        config_generator.compare_dnac_versions(
+        config_generator.compare_catalystcenter_versions(
             config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

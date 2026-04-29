@@ -354,7 +354,7 @@ options:
                 required: false
 
 requirements:
-- dnacentersdk >= 2.3.7.9
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 - PyYAML >= 5.1
 notes:
@@ -696,7 +696,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 try:
@@ -727,7 +727,7 @@ else:
     OrderedDumper = None
 
 
-class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center SDA host port onboarding.
 
@@ -757,7 +757,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
       documentation
 
     Inheritance:
-        DnacBase: Provides Cisco Catalyst Center API connectivity, authentication,
+        CatalystCenterBase: Provides Cisco Catalyst Center API connectivity, authentication,
                   request execution, logging infrastructure, and common utility methods
         BrownFieldHelper: Provides parameter transformation utilities, reverse mapping
                          functions, and configuration processing helpers for brownfield
@@ -796,7 +796,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - dnacentersdk: 2.3.7.9 or higher
+        - catalystcentersdk: 2.3.7.9 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 
@@ -955,7 +955,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
         Notes:
             - Schema is immutable during instance lifetime; modifications require restart
-            - All API functions assumed to be accessible via self.dnac._exec()
+            - All API functions assumed to be accessible via self.catalystcenter._exec()
             - Reverse mapping functions must return OrderedDict for consistent key ordering
             - get_function_name methods must accept (network_element, filters) parameters
         """
@@ -1149,7 +1149,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -1354,7 +1354,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
                 # Get device details to fetch management IP address
                 try:
-                    device_response = self.dnac._exec(
+                    device_response = self.catalystcenter._exec(
                         family="devices",
                         function="get_device_by_id",
                         op_modifies=False,
@@ -1513,7 +1513,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -1714,7 +1714,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 )
                 # Get device details to fetch management IP address
                 try:
-                    device_response = self.dnac._exec(
+                    device_response = self.catalystcenter._exec(
                         family="devices",
                         function="get_device_by_id",
                         op_modifies=False,
@@ -1948,7 +1948,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
@@ -2590,7 +2590,7 @@ def main():
     )
 
     if (
-        catc_sda_host_port_onboarding_playbook_config_generator.compare_dnac_versions(
+        catc_sda_host_port_onboarding_playbook_config_generator.compare_catalystcenter_versions(
             catc_sda_host_port_onboarding_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

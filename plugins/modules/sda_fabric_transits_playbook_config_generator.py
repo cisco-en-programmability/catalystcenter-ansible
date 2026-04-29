@@ -104,7 +104,7 @@ options:
                 - SDA_LISP_BGP_TRANSIT
 
 requirements:
-- dnacentersdk >= 2.3.7.9
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -322,13 +322,13 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 from collections import OrderedDict
 
 
-class SdaFabricTransitsPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class SdaFabricTransitsPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -891,7 +891,7 @@ def main():
         module
     )
     if (
-        config_generator.compare_dnac_versions(
+        config_generator.compare_catalystcenter_versions(
             config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

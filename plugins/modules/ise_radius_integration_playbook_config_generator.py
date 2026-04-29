@@ -94,7 +94,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -283,7 +283,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 
@@ -307,7 +307,7 @@ else:
     OrderedDumper = None
 
 
-class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
+class IseRadiusIntegrationPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Generates YAML playbook files for ISE RADIUS integration brownfield deployments.
 
@@ -316,7 +316,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
     playbooks compatible with the ise_radius_integration_workflow_manager module.
 
     Inherits from:
-        DnacBase: Provides base functionality for Catalyst Center operations.
+        CatalystCenterBase: Provides base functionality for Catalyst Center operations.
         BrownFieldHelper: Provides helper methods for brownfield configuration
             generation.
 
@@ -986,7 +986,7 @@ class IseRadiusIntegrationPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG",
         )
 
-        response = self.dnac._exec(
+        response = self.catalystcenter._exec(
             family=api_family,
             function=api_function,
         )
@@ -1234,7 +1234,7 @@ def main():
         IseRadiusIntegrationPlaybookGenerator(module)
     )
     if (
-        config_generator.compare_dnac_versions(
+        config_generator.compare_catalystcenter_versions(
             config_generator.get_ccc_version(),
             "2.3.7.9",
         )

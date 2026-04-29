@@ -110,7 +110,7 @@ options:
             - CIDR
 
 requirements:
-- dnacentersdk >= 2.4.5
+- catalystcentersdk >= 2.4.5
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 notes:
@@ -291,14 +291,14 @@ import os
 from collections import OrderedDict
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_helper import (
     BrownFieldHelper
 )
 
 
-class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
+class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Brownfield playbook generator for discovery
     configurations.
@@ -555,7 +555,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
         try:
             # Use the same approach as discovery_workflow_manager.py
             headers = {}
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="discovery",
                 function="get_all_global_credentials",
                 params=headers,
@@ -834,7 +834,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                     )
 
                     headers = {}
-                    alt_response = self.dnac._exec(
+                    alt_response = self.catalystcenter._exec(
                         family="discovery",
                         function="get_all_global_credentials_v2",
                         params=headers
@@ -1584,7 +1584,7 @@ class DiscoveryPlaybookGenerator(DnacBase, BrownFieldHelper):
                 self.log(f"Fetching discoveries: start_index={start_index}, records_to_return={records_to_return}", "DEBUG")
 
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="discovery",
                         function='get_discoveries_by_range',
                         op_modifies=False,
@@ -2212,7 +2212,7 @@ def main():
     )
 
     if (
-        ccc_discovery_playbook_generator.compare_dnac_versions(
+        ccc_discovery_playbook_generator.compare_catalystcenter_versions(
             stored_ccc_version, "2.3.7.9"
         )
         < 0

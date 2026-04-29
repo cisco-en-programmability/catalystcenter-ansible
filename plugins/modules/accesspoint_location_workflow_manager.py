@@ -174,7 +174,7 @@ options:
                     type: int
                     required: true
 requirements:
-  - dnacentersdk >= 2.8.6
+  - catalystcentersdk >= 2.8.6
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center API Documentation
@@ -632,7 +632,7 @@ response_unassign_real_position:
 
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_str,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
@@ -641,7 +641,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation im
 from ansible.module_utils.basic import AnsibleModule
 
 
-class AccessPointLocation(DnacBase):
+class AccessPointLocation(CatalystCenterBase):
     """Class containing member attributes for access point position workflow manager module"""
 
     def __init__(self, module):
@@ -1915,7 +1915,7 @@ class AccessPointLocation(DnacBase):
         )
 
         try:
-            ap_response = self.dnac._exec(
+            ap_response = self.catalystcenter._exec(
                 family="devices",
                 function="get_device_list",
                 op_modifies=True,
@@ -3709,7 +3709,7 @@ def main():
     state = ccc_ap_location.params.get("state")
 
     if (
-        ccc_ap_location.compare_dnac_versions(
+        ccc_ap_location.compare_catalystcenter_versions(
             ccc_ap_location.get_ccc_version(), "3.1.3.0"
         )
         < 0

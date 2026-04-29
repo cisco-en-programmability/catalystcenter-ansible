@@ -196,7 +196,7 @@ options:
             required: false
             choices: ["Unclaimed", "Planned", "Onboarding", "Provisioned", "Error"]
 requirements:
-- dnacentersdk >= 2.9.3
+- catalystcentersdk >= 2.9.3
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -299,14 +299,14 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 
 from collections import OrderedDict
 
 
-class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
+class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Class for generating YAML playbooks from PnP device configurations.
 
@@ -420,7 +420,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
         get_diff_gathered(): Processes gathered state for YAML generation
 
     Inheritance:
-        DnacBase: Provides core DNA Center SDK integration and helper methods
+        CatalystCenterBase: Provides core DNA Center SDK integration and helper methods
         BrownFieldHelper: Provides YAML generation utilities and file operations
 
     Returns:
@@ -1063,7 +1063,7 @@ class PnPPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="device_onboarding_pnp",
                 function="get_device_list",
                 params=params,
@@ -1760,7 +1760,7 @@ def main():
         "INFO"
     )
 
-    if pnp_generator.compare_dnac_versions(current_version, min_supported_version) < 0:
+    if pnp_generator.compare_catalystcenter_versions(current_version, min_supported_version) < 0:
         pnp_generator.msg = "PnP features require Cisco Catalyst Center version {0} or later. Current version: {1}".format(
             min_supported_version, current_version
         )

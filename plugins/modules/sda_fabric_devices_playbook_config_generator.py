@@ -125,7 +125,7 @@ options:
                   - WIRELESS_CONTROLLER_NODE
                   - EXTENDED_NODE
 requirements:
-- dnacentersdk >= 2.4.5
+- catalystcentersdk >= 2.4.5
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.6
@@ -442,7 +442,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 
@@ -467,7 +467,7 @@ else:
     OrderedDumper = None
 
 
-class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
+class SdaFabricDevicesPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generator playbook files for infrastructure deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -610,7 +610,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
                 "Executing API call to get_transit_networks (offset=1, limit=500)",
                 "DEBUG",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_transit_networks",
                 params={"offset": 1, "limit": 500},
@@ -1069,7 +1069,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     params=query_params,
@@ -1336,7 +1336,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         ccc_version = self.get_ccc_version()
-        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+        if self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
             self.log(
                 f"Embedded wireless controller settings are not available in Catalyst Center version '{ccc_version}'. "
                 f"Minimum required version is 2.3.7.9. Skipping embedded wireless controller settings retrieval.",
@@ -2094,7 +2094,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_devices_layer2_handoffs",
                 params={
@@ -2160,7 +2160,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_devices_layer3_handoffs_with_ip_transit",
                 params={
@@ -2227,7 +2227,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_devices_layer3_handoffs_with_sda_transit",
                 params={
@@ -2574,7 +2574,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            wireless_response = self.dnac._exec(
+            wireless_response = self.catalystcenter._exec(
                 family="fabric_wireless",
                 function="get_sda_wireless_details_from_switches",
                 params={"fabric_id": fabric_id},
@@ -2681,7 +2681,7 @@ class SdaFabricDevicesPlaybookGenerator(DnacBase, BrownFieldHelper):
             )
 
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="wireless",
                     function=api_function,
                     op_modifies=False,
@@ -2907,7 +2907,7 @@ def main():
 
     ccc_version = ccc_sda_fabric_devices_playbook_generator.get_ccc_version()
     if (
-        ccc_sda_fabric_devices_playbook_generator.compare_dnac_versions(
+        ccc_sda_fabric_devices_playbook_generator.compare_catalystcenter_versions(
             ccc_version, "2.3.7.6"
         )
         < 0

@@ -226,7 +226,7 @@ options:
                 type: bool
                 default: false
 requirements:
-  - dnacentersdk == 2.4.5
+  - catalystcentersdk == 2.4.5
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center API Documentation
@@ -239,7 +239,7 @@ notes:
   # Version Compatibility
     - Floor number and units_of_measure require Catalyst Center version 2.3.7.6 or later.
     - Floor image upload is available from version 2.3.7.6 onwards.
-    - Module requires dnacentersdk 2.4.5 or later.
+    - Module requires catalystcentersdk 2.4.5 or later.
 
   # API Methods and Endpoints
     - Primary SDK Methods
@@ -566,7 +566,7 @@ floor_plan = {
 }
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
     validate_list_of_dicts,
     get_dict_result,
     validate_str
@@ -576,7 +576,7 @@ import os
 import copy
 
 
-class Site(DnacBase):
+class Site(CatalystCenterBase):
     """Class containing member attributes for Site workflow_manager module"""
 
     def __init__(self, module):
@@ -810,7 +810,7 @@ class Site(DnacBase):
         """
         self.log("Fetching site details for site hierarchy: '{0}'".format(site_name_hierarchy), "INFO")
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sites",
                 function='get_site',
                 op_modifies=True,
@@ -851,7 +851,7 @@ class Site(DnacBase):
         site_exists = False
         current_site = {}
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             sites = None
             response = self.get_site(site_name_hierarchy)
             self.log("Raw response from get_site: {}".format(response), "DEBUG")
@@ -1178,7 +1178,7 @@ class Site(DnacBase):
             stored in the 'want' attribute. It checks for differences in
             specified parameters, such as the site type and site details.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             current_site = self.have.get('current_site', {})
             site_type = current_site.get('type')
             updated_site = current_site.get('site', {}).get(site_type)
@@ -1231,7 +1231,7 @@ class Site(DnacBase):
         have = {}
 
         try:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 self.handle_config["create_site"] = []
                 self.handle_config["have"] = []
                 self.handle_config['area'] = []
@@ -1326,7 +1326,7 @@ class Site(DnacBase):
             information is stored in the 'want' attribute for later reference.
         """
         try:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 self.keymap = self.map_config_key_to_api_param({}, config)
                 self.keymap.update({
                     "floor_number": "floorNumber",
@@ -1441,7 +1441,7 @@ class Site(DnacBase):
                     if not (isinstance(longitude, (float, int)) and -180 <= longitude <= 180):
                         errormsg.append("Invalid longitude. Valid range is -180 to +180.")
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                     if not (latitude and longitude or address):
                         errormsg.append("Either latitude/longitude or address is required.")
                         self.log("Missing required latitude/longitude or address for building.", "ERROR")
@@ -1464,7 +1464,7 @@ class Site(DnacBase):
             if site_type == "floor":
                 self.log("Performing floor-specific validations.", "DEBUG")
                 floor_number = site.get(site_type, {}).get("floor_number")
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                     if floor_number or floor_number == 0:
                         self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
                         if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
@@ -1520,7 +1520,7 @@ class Site(DnacBase):
                 else:
                     errormsg.append("height should not be None or empty")
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                     units_of_measure = site.get(site_type, {}).get("units_of_measure")
                     if units_of_measure:
                         if units_of_measure not in ("feet", "meters"):
@@ -1539,7 +1539,7 @@ class Site(DnacBase):
                 elif upload_floor_image_path == "":
                     errormsg.append("upload_floor_image_path should not be whitespace")
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                     if upload_floor_image_path:
                         errormsg.append(
                             "upload_floor_image_path parameter not supported for 2.3.5.3 Catalyst Center and only applicable from "
@@ -1611,7 +1611,7 @@ class Site(DnacBase):
             site_id = site_params.get("site_id")
             floor_param['id'] = site_id
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function='updates_a_floor',
                 op_modifies=True,
@@ -1665,7 +1665,7 @@ class Site(DnacBase):
             building_param['id'] = site_id
 
             self.log("Before updating the building params:{0}".format(building_param), "INFO")
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function='updates_a_building',
                 op_modifies=True,
@@ -1700,7 +1700,7 @@ class Site(DnacBase):
             area_param['id'] = site_id
             self.log("Updating area with parameters: {0}".format(area_param), "INFO")
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function='updates_an_area',
                 op_modifies=True,
@@ -1729,7 +1729,7 @@ class Site(DnacBase):
 
         self.log("Before executing create site: {0}".format(params), "INFO")
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function='create_sites',
                 op_modifies=True,
@@ -1929,7 +1929,7 @@ class Site(DnacBase):
         site_updated = False
         site_created = False
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             self.handle_config['area'] = []
             self.handle_config['building'] = []
             self.handle_config['floor'] = []
@@ -2072,7 +2072,7 @@ class Site(DnacBase):
 
                             site_params['site']['building'] = building_details
 
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="sites",
                             function='update_site',
                             op_modifies=True,
@@ -2130,7 +2130,7 @@ class Site(DnacBase):
                     except Exception as e:
                         self.log("No response received from 'get_site_v1' API for site: {0}".format(parent_name + str(e)), "ERROR")
 
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family="sites",
                         function='create_site',
                         op_modifies=True,
@@ -2187,7 +2187,7 @@ class Site(DnacBase):
             details about the error.
         """
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sites",
                 function="delete_site",
                 op_modifies=True,
@@ -2283,7 +2283,7 @@ class Site(DnacBase):
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="site_design",
                 function="deletes_a_building",
                 op_modifies=True,
@@ -2376,7 +2376,7 @@ class Site(DnacBase):
                     self.log("Deleting {0}: {1} with ID: {2}".format(
                         delete_type, child_site_name_hierarchy, child_site_id), "INFO")
 
-                    delete_response = self.dnac._exec(
+                    delete_response = self.catalystcenter._exec(
                         family="site_design",
                         function="deletes_an_area",
                         op_modifies=True,
@@ -2411,7 +2411,7 @@ class Site(DnacBase):
             of the Cisco Catalyst Center API. It uses the site ID obtained from the 'have' attribute.
         """
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_exists = self.have.get("site_exists")
             site_name_hierarchy = self.want.get("site_name_hierarchy")
             site_id = self.have.get("site_id")
@@ -2445,7 +2445,7 @@ class Site(DnacBase):
             self.log(
                 "The site '{0}' and its child sites have been deleted successfully".format(site_name_hierarchy), "INFO")
 
-        elif self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             final_deletion_list = []
             for each_type in ("floor", "building", "area"):
                 if self.handle_config[each_type]:
@@ -2570,7 +2570,7 @@ class Site(DnacBase):
             site exists in the Catalyst Center configuration.
         """
         try:
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 self.get_have(config)
                 config_count = len(config)
                 site_exist_list = [
@@ -2633,7 +2633,7 @@ class Site(DnacBase):
             This method checks the deletion status of a configuration in Cisco Catalyst Center.
             It validates whether the specified site exists in the Catalyst Center configuration.
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             self.get_have(config)
             config_count = len(config)
             site_not_exist_list = [
@@ -2812,7 +2812,7 @@ class Site(DnacBase):
                 self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="site_design",
                     function="uploads_floor_image",
                     op_modifies=True,
@@ -2856,23 +2856,23 @@ def main():
     """
     element_spec = {
         'catalystcenter_host': {'required': True, 'type': 'str', "aliases": ["dnac_host"]},
-                    'catalystcenter_port': {'type': 'str', 'default': '443', "aliases": ["dnac_port", "catalystcenter_api_port"]},
-                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['dnac_username', 'user']},
-                    'catalystcenter_password': {'type': 'str', 'no_log': True, "aliases": ["dnac_password"]},
-                    'catalystcenter_verify': {'type': 'bool', 'default': 'True', "aliases": ["dnac_verify"]},
-                    'catalystcenter_version': {'type': 'str', 'default': '2.3.7.6', "aliases": ["dnac_version"]},
-                    'catalystcenter_debug': {'type': 'bool', 'default': False, "aliases": ["dnac_debug"]},
-                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING', "aliases": ["dnac_log_level"]},
-                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log', "aliases": ["dnac_log_file_path"]},
-                    "catalystcenter_log_append": {"type": 'bool', "default": True, "aliases": ["dnac_log_append"]},
-                    'catalystcenter_log': {'type': 'bool', 'default': False, "aliases": ["dnac_log"]},
-                    'validate_response_schema': {'type': 'bool', 'default': True},
-                    'config_verify': {'type': 'bool', "default": False},
-                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
-                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
-                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
-                    }
+        'catalystcenter_port': {'type': 'str', 'default': '443', "aliases": ["dnac_port", "catalystcenter_api_port"]},
+        'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['dnac_username', 'user']},
+        'catalystcenter_password': {'type': 'str', 'no_log': True, "aliases": ["dnac_password"]},
+        'catalystcenter_verify': {'type': 'bool', 'default': 'True', "aliases": ["dnac_verify"]},
+        'catalystcenter_version': {'type': 'str', 'default': '2.3.7.6', "aliases": ["dnac_version"]},
+        'catalystcenter_debug': {'type': 'bool', 'default': False, "aliases": ["dnac_debug"]},
+        'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING', "aliases": ["dnac_log_level"]},
+        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log', "aliases": ["dnac_log_file_path"]},
+        "catalystcenter_log_append": {"type": 'bool', "default": True, "aliases": ["dnac_log_append"]},
+        'catalystcenter_log': {'type': 'bool', 'default': False, "aliases": ["dnac_log"]},
+        'validate_response_schema': {'type': 'bool', 'default': True},
+        'config_verify': {'type': 'bool', "default": False},
+        'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+        'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
+        'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+    }
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
@@ -2880,7 +2880,7 @@ def main():
     ccc_site = Site(module)
     state = ccc_site.params.get("state")
 
-    if ccc_site.compare_dnac_versions(ccc_site.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_site.compare_catalystcenter_versions(ccc_site.get_ccc_version(), "2.3.5.3") < 0:
         ccc_site.msg = (
             "The specified version '{0}' does not support the site workflow feature. Supported versions start from '2.3.5.3' onwards. "
             "Version '2.3.5.3' introduces APIs for creating, updating, and deleting sites. "
@@ -2900,7 +2900,7 @@ def main():
     config_verify = ccc_site.params.get("config_verify")
     ccc_site.validate_site_input_data(ccc_site.validated_config, state).check_return_status()
 
-    if ccc_site.compare_dnac_versions(ccc_site.get_ccc_version(), "2.3.7.6") >= 0:
+    if ccc_site.compare_catalystcenter_versions(ccc_site.get_ccc_version(), "2.3.7.6") >= 0:
         ccc_site.reset_values()
         ccc_site.get_want(ccc_site.validated_config).check_return_status()
         ccc_site.get_have(ccc_site.validated_config).check_return_status()

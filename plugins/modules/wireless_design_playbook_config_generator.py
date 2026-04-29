@@ -200,7 +200,7 @@ options:
                 type: str
 
 requirements:
-- dnacentersdk >= 2.3.7.9
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -408,14 +408,14 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase
+    CatalystCenterBase
 )
 import time
 import re
 from collections import OrderedDict
 
 
-class WirelessDesignPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class WirelessDesignPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generating playbook config for wireless design deployed within the Cisco Catalyst Center using the GET APIs.
     """
@@ -4325,7 +4325,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     config_generator = WirelessDesignPlaybookConfigGenerator(module)
     if (
-        config_generator.compare_dnac_versions(
+        config_generator.compare_catalystcenter_versions(
             config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

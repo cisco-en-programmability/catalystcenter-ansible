@@ -245,7 +245,7 @@ options:
                 elements: str
                 required: false
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 - PyYAML >= 5.1
 notes:
@@ -507,7 +507,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 
 
@@ -521,7 +521,7 @@ else:
     OrderedDumper = None
 
 
-class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class DeviceCredentialPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Brownfield playbook generator for Cisco Catalyst Center device credentials.
 
@@ -549,7 +549,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
       playbook readability and maintainability
 
     Inheritance:
-        DnacBase: Provides Cisco Catalyst Center API connectivity, authentication,
+        CatalystCenterBase: Provides Cisco Catalyst Center API connectivity, authentication,
                   request execution, logging infrastructure, and common utility methods
         BrownFieldHelper: Provides parameter transformation utilities, reverse mapping
                          functions, and configuration processing helpers for brownfield
@@ -591,7 +591,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - dnacentersdk: 2.10.10 or higher
+        - catalystcentersdk: 2.10.10 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 
@@ -633,7 +633,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             "Site ID to Name mapping: {0}".format(self.site_id_name_dict),
             "DEBUG",
         )
-        self.global_credential_details = self.dnac._exec(
+        self.global_credential_details = self.catalystcenter._exec(
             family="discovery", function="get_all_global_credentials", op_modifies=False
         ).get("response", [])
         self.module_name = "device_credential_workflow_manager"
@@ -1755,7 +1755,7 @@ class DeviceCredentialPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG"
             )
             try:
-                resp = self.dnac._exec(
+                resp = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     params={"id": site_id}
@@ -2557,7 +2557,7 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_device_credential_playbook_config_generator = DeviceCredentialPlaybookConfigGenerator(module)
     if (
-        ccc_device_credential_playbook_config_generator.compare_dnac_versions(
+        ccc_device_credential_playbook_config_generator.compare_catalystcenter_versions(
             ccc_device_credential_playbook_config_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

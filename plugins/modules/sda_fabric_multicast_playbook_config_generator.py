@@ -142,7 +142,7 @@ options:
                 required: false
 
 requirements:
-- dnacentersdk >= 2.9.2
+- catalystcentersdk >= 2.9.2
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 
@@ -390,7 +390,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 
@@ -415,7 +415,7 @@ else:
     OrderedDumper = None
 
 
-class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
+class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     Playbook config generator for SDA fabric multicast configurations.
 
@@ -555,7 +555,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             return None
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_sites",
                 op_modifies=False,
@@ -623,7 +623,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
             return None
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function="get_fabric_zones",
                 op_modifies=False,
@@ -971,7 +971,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(DnacBase, BrownFieldHelper):
                 "DEBUG",
             )
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda", function="get_multicast", params={}
             )
 
@@ -1598,7 +1598,7 @@ def main():
         module
     )
     if (
-        ccc_sda_multicast_playbook_generator.compare_dnac_versions(
+        ccc_sda_multicast_playbook_generator.compare_catalystcenter_versions(
             ccc_sda_multicast_playbook_generator.get_ccc_version(), "2.3.7.9"
         )
         < 0

@@ -347,7 +347,7 @@ options:
                 type: list
                 elements: str
 requirements:
-  - dnacentersdk >= 2.10.3
+  - catalystcentersdk >= 2.10.3
   - python >= 3.9
 notes:
   - Ensure that all required parameters are provided
@@ -983,14 +983,14 @@ catalystcenter_response:
 
 from collections import defaultdict
 from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import DnacBase
+from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import CatalystCenterBase
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
     validate_list_of_dicts,
 )
 import re
 
 
-class Tags(DnacBase):
+class Tags(CatalystCenterBase):
     """Class containing member attributes for tags workflow manager module"""
 
     def __init__(self, module):
@@ -1676,7 +1676,7 @@ class Tags(DnacBase):
         self.log("Retrieving tag ID for tag name: '{0}'.".format(tag_name), "DEBUG")
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="tag", function="get_tag", params={"name": tag_name}
             )
 
@@ -2579,7 +2579,7 @@ class Tags(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="tag", function="get_tag", params={"name": tag_name}
             )
 
@@ -2649,7 +2649,7 @@ class Tags(DnacBase):
             }
 
             payload = {"{0}".format(param_api_name.get(param)): param_value}
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices", function="get_device_list", params=payload
             )
             # Check if the response is empty
@@ -2707,7 +2707,7 @@ class Tags(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices",
                 function="get_interface_details",
                 params={"device_id": device_id, "name": port_name},
@@ -2983,7 +2983,7 @@ class Tags(DnacBase):
                 "DEBUG",
             )
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="site_design",
                     function="get_site_assigned_network_devices",
                     params={"site_id": site_id, "offset": offset, "limit": limit},
@@ -3171,7 +3171,7 @@ class Tags(DnacBase):
 
         try:
             payload = {"id": device_id}
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="devices", function="get_device_list", params=payload
             )
             # Check if the response is empty
@@ -3337,7 +3337,7 @@ class Tags(DnacBase):
             try:
                 payload = {"ids": batch}
 
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="tag",
                     function="query_the_tags_associated_with_network_devices",
                     op_modifies=True,
@@ -3439,7 +3439,7 @@ class Tags(DnacBase):
 
             try:
                 payload = {"ids": batch}
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="tag",
                     function="query_the_tags_associated_with_interfaces",
                     op_modifies=True,
@@ -4666,7 +4666,7 @@ class Tags(DnacBase):
                 "DEBUG",
             )
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="tag",
                     function="get_tag_members_by_id",
                     op_modifies=False,
@@ -4755,7 +4755,7 @@ class Tags(DnacBase):
                     ),
                     "DEBUG",
                 )
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="tag",
                     function="get_tag_members_by_id",
                     op_modifies=False,
@@ -5955,7 +5955,7 @@ def main():
 
     ccc_tags = Tags(module)
     ccc_version = ccc_tags.get_ccc_version()
-    if ccc_tags.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+    if ccc_tags.compare_catalystcenter_versions(ccc_version, "2.3.7.9") < 0:
         ccc_tags.msg = (
             "Tagging feature is not supported in Cisco Catalyst Center version '{0}'. Supported versions start "
             "from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for creating, updating and deleting the "

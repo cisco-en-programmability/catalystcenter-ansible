@@ -375,7 +375,7 @@ options:
                     type: list
                     elements: str
 requirements:
-  - dnacentersdk >= 2.9.3
+  - catalystcentersdk >= 2.9.3
   - python >= 3.9.19
 notes:
 - SDK Methods used are
@@ -1275,7 +1275,7 @@ application_policy_not_found_response_task_execution:
 """
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 from ansible.module_utils.basic import AnsibleModule
 import json
@@ -1288,7 +1288,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation im
 support_for_application_set = False
 
 
-class ApplicationPolicy(DnacBase):
+class ApplicationPolicy(CatalystCenterBase):
     """Class containing member attributes for application_policy_workflow_manager module"""
 
     def __init__(self, module):
@@ -1634,7 +1634,7 @@ class ApplicationPolicy(DnacBase):
 
         try:
             params = dict(name=name)
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy_queuing_profile",
                 params=params,
@@ -1700,7 +1700,7 @@ class ApplicationPolicy(DnacBase):
         current_application_set = {}
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_sets",
                 params={"name": name},
@@ -1767,7 +1767,7 @@ class ApplicationPolicy(DnacBase):
         application_set_id = ""
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_sets",
                 params={"name": name},
@@ -1843,7 +1843,7 @@ class ApplicationPolicy(DnacBase):
         current_application = {}
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_applications_v2",
                 params={
@@ -1919,7 +1919,7 @@ class ApplicationPolicy(DnacBase):
 
         try:
             # Fetching application data
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_applications_v2",
                 params={"attributes": "application", "offset": 1, "limit": 500},
@@ -1984,7 +1984,7 @@ class ApplicationPolicy(DnacBase):
 
         try:
 
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy",
                 params={"policyScope": name},
@@ -3346,7 +3346,7 @@ class ApplicationPolicy(DnacBase):
             This function is useful for updating application policies dynamically and handling the success or failure of the update operation in structured way.
         """
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="application_policy_intent",
                 op_modifies=True,
@@ -3675,7 +3675,7 @@ class ApplicationPolicy(DnacBase):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="application_policy_intent",
                 op_modifies=True,
@@ -4173,7 +4173,7 @@ class ApplicationPolicy(DnacBase):
         """
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="edit_applications",
                 op_modifies=True,
@@ -4407,7 +4407,7 @@ class ApplicationPolicy(DnacBase):
             param["networkIdentity"] = network_identity_list
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="create_applications",
                 op_modifies=True,
@@ -4516,7 +4516,7 @@ class ApplicationPolicy(DnacBase):
                 ),
                 "INFO",
             )
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="create_application_set",
                 op_modifies=True,
@@ -5968,7 +5968,7 @@ class ApplicationPolicy(DnacBase):
             success or failure of the update operation with appropriate logging and response handling.
         """
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="update_application_policy_queuing_profile",
                 op_modifies=True,
@@ -6313,7 +6313,7 @@ class ApplicationPolicy(DnacBase):
         profile_name = new_queuing_profile_details.get("profile_name")
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="create_application_policy_queuing_profile",
                 op_modifies=True,
@@ -6671,7 +6671,7 @@ class ApplicationPolicy(DnacBase):
                         )
 
             try:
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family="application_policy",
                     function="application_policy_intent",
                     op_modifies=True,
@@ -6829,7 +6829,7 @@ class ApplicationPolicy(DnacBase):
                 ):
                     queuing_profile_id = current_queuing_profile[0].get("id", None)
                     try:
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="application_policy",
                             function="delete_application_policy_queuing_profile",
                             op_modifies=True,
@@ -6942,7 +6942,7 @@ class ApplicationPolicy(DnacBase):
         self.log("Application set ID: {0}".format(application_set_id), "INFO")
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="delete_application_set",
                 op_modifies=True,
@@ -7031,7 +7031,7 @@ class ApplicationPolicy(DnacBase):
                 if isinstance(current_application, list) and current_application:
                     application_id = current_application[0].get("id", None)
                     try:
-                        response = self.dnac._exec(
+                        response = self.catalystcenter._exec(
                             family="application_policy",
                             function="delete_application_v2",
                             op_modifies=True,
@@ -7543,7 +7543,7 @@ def main():
     min_supported_version = "2.3.7.6"
 
     if (
-        ccc_application.compare_dnac_versions(current_version, min_supported_version)
+        ccc_application.compare_catalystcenter_versions(current_version, min_supported_version)
         < 0
     ):
         ccc_application.status = "failed"

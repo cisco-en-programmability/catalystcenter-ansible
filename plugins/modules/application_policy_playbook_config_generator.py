@@ -114,7 +114,7 @@ options:
                 elements: str
                 required: false
 requirements:
-- dnacentersdk >= 2.9.3
+- catalystcentersdk >= 2.9.3
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -255,7 +255,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 
 try:
@@ -278,7 +278,7 @@ else:
     OrderedDumper = None
 
 
-class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
+class ApplicationPolicyPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generating playbook files for application policies deployed within the Cisco Catalyst Center.
     """
@@ -2118,7 +2118,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy_queuing_profile",
                 op_modifies=False
@@ -2306,7 +2306,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_sets",
                 op_modifies=False
@@ -3049,7 +3049,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             # Try getting with policy scope parameter
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy",
                 op_modifies=False,
@@ -3251,7 +3251,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             # Get all application policies
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy",
                 op_modifies=False,
@@ -4214,7 +4214,7 @@ class ApplicationPolicyPlaybookGenerator(DnacBase, BrownFieldHelper):
 
         try:
             # Get queuing profiles
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="application_policy",
                 function="get_application_policy_queuing_profile",
                 op_modifies=False,
@@ -5267,7 +5267,7 @@ def main():
         "INFO"
     )
 
-    if ccc_app_policy_generator.compare_dnac_versions(current_version, min_supported_version) < 0:
+    if ccc_app_policy_generator.compare_catalystcenter_versions(current_version, min_supported_version) < 0:
         error_msg = (
             "The specified Catalyst Center version '{0}' does not support the YAML "
             "playbook generation for Application Policy module. Supported versions start "

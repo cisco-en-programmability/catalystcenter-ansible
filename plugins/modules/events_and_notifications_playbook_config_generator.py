@@ -280,7 +280,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.7.2
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -527,7 +527,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.brownfield_he
     BrownFieldHelper,
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    DnacBase,
+    CatalystCenterBase,
 )
 import time
 try:
@@ -549,7 +549,7 @@ else:
     OrderedDumper = None
 
 
-class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
+class EventsNotificationsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
     """
     A class for generating playbook files for events and notifications configurations in Cisco Catalyst Center using the GET APIs.
     """
@@ -735,7 +735,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             syslog_event_notifications_temp_spec(): Defines syslog notification rules
 
         Inheritance:
-            DnacBase: Provides core DNA Center SDK integration and helper methods
+            CatalystCenterBase: Provides core DNA Center SDK integration and helper methods
             BrownFieldHelper: Provides YAML generation utilities and file operations
 
         Returns:
@@ -1791,7 +1791,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="event_management",
                 function="get_event_artifacts",
                 op_modifies=False,
@@ -2112,7 +2112,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             return None
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sites",
                 function="get_site",
                 op_modifies=False,
@@ -3449,7 +3449,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     ),
                     "DEBUG"
                 )
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
@@ -3550,7 +3550,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
             "DEBUG"
         )
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family=api_family,
                 function=api_function,
                 op_modifies=False,
@@ -3636,7 +3636,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
@@ -3767,7 +3767,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -4010,7 +4010,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "sortBy=name, order=asc.".format(page_count, page, page_size),
                     "DEBUG"
                 )
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
@@ -4212,7 +4212,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
         )
 
         try:
-            detail_response = self.dnac._exec(
+            detail_response = self.catalystcenter._exec(
                 family="itsm_integration",
                 function="get_itsm_integration_setting_by_id",
                 op_modifies=False,
@@ -4464,7 +4464,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -4763,7 +4763,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
 
-                response = self.dnac._exec(
+                response = self.catalystcenter._exec(
                     family=api_family,
                     function=api_function,
                     op_modifies=False,
@@ -5042,7 +5042,7 @@ class EventsNotificationsPlaybookGenerator(DnacBase, BrownFieldHelper):
                     "DEBUG"
                 )
                 try:
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -6202,7 +6202,7 @@ def main():
         "INFO"
     )
 
-    if (ccc_events_and_notifications_playbook_generator.compare_dnac_versions(
+    if (ccc_events_and_notifications_playbook_generator.compare_catalystcenter_versions(
             ccc_events_and_notifications_playbook_generator.get_ccc_version(), "2.3.5.3") < 0):
 
         error_msg = (
