@@ -1,0 +1,134 @@
+---
+#Select Catalyst Cennter version, this one overwrite the default version from host file
+catalyst_center_version: 2.3.7.9
+provision_details:
+# Define the devices for assigning devices on sites and provisioning
+# Wired device controller provisioning
+  #Switches and Hubs provisioning
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 204.1.2.5
+  # To provision multiple devices in bulk, add additional entries below
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: 137.1.4.103
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: 137.1.4.104
+
+  # Assigned the device to the site without provisioning
+  # Uncomment below lines if want to assign devices to sites without provisioning
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 137.1.1.10
+    provisioning: False
+  # To assign multiple devices in bulk, add additional entries below
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 137.1.1.94
+    provisioning: False
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: 137.1.1.95
+    provisioning: False
+
+  #Switches and Hubs provisioning wireless device
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: 204.192.4.200
+    managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR2
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR3
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR4
+  #To provision multiple devices in bulk, add additional entries below
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 204.192.6.202
+    managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR2
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR3
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR4
+
+  #Wired device Reprovisioning 
+  #Reprovision wired device Hubs and Switches
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: 137.1.1.72
+    force_provisioning: True
+  #To reprovision multiple devices in bulk, add additional entries below
+  - site_name_hierarchy: Global/USA/New York/NY_BLD1
+    management_ip_address: 137.1.1.8
+    force_provisioning: True
+  - site_name_hierarchy: Global/USA/New York/NY_BLD1
+    management_ip_address: 137.1.1.9
+    force_provisioning: True
+
+  #Wireless device Reprovisioning
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: 204.192.4.200
+    managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR2
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR3
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR4
+    force_provisioning: True
+  #To reprovision multiple devices in bulk, add additional entries below
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 204.192.6.202
+    managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR2
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR3
+      - Global/USA/SAN JOSE/SJ_BLD23/FLOOR4
+    force_provisioning: True
+
+  #Wireless device Provisioning with skip AP provisioning
+  - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+    management_ip_address: 204.192.3.40
+    primary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor2
+    secondary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor1
+    dynamic_interfaces:
+      - interface_name: "Vlan1866"
+        vlan_id: "1866"
+        interface_ip_address: "204.192.6.200"
+        interface_gateway: "204.192.6.1"
+        interface_netmask_in_c_i_d_r: "24"
+    skip_ap_provision: True
+    force_provisioning: True
+
+  #Wireless device Provisioning without skip AP provisioning and AP authorization
+  - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+    management_ip_address: 204.192.3.40
+    primary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor2
+      - Global/USA/San Francisco/BGL_18/Test_Floor3
+    secondary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor1
+    dynamic_interfaces:
+      - interface_name: "Vlan1866"
+        vlan_id: "1866"
+        interface_ip_address: "204.192.6.200"
+        interface_gateway: "204.192.6.1"
+        interface_netmask_in_c_i_d_r: "24"
+    skip_ap_provision: False
+    ap_authorization_list_name: "Corporate-AP-Auth-List"
+
+  #Wireless device Provisioning with rolling AP upgrade
+  - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+    management_ip_address: 204.192.3.40
+    primary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor2
+      - Global/USA/San Francisco/BGL_18/Test_Floor3
+      - Global/USA/San Francisco/BGL_18/Test_Floor4
+    secondary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor1
+    dynamic_interfaces:
+      - interface_name: "Vlan1866"
+        vlan_id: "1866"
+        interface_ip_address: "204.192.6.200"
+        interface_gateway: "204.192.6.1"
+        interface_netmask_in_c_i_d_r: "24"
+      - interface_name: "Vlan1867"
+        vlan_id: "1867"
+        interface_ip_address: "204.192.7.200"
+        interface_gateway: "204.192.7.1"
+        interface_netmask_in_c_i_d_r: "24"
+    skip_ap_provision: False
+    rolling_ap_upgrade:
+      enable_rolling_ap_upgrade: True
+      ap_reboot_percentage: 15

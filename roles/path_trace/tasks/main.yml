@@ -1,0 +1,22 @@
+---
+# tasks file for path_trace
+- name: Manage Path Trace
+  cisco.catalystcenter.path_trace_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
+    catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    state: "{{ path_trace_state | default('merged') }}"
+    config_verify: "{{ path_trace_config_verify | default(true) }}"
+    config: "{{ path_trace_config }}"
+  register: path_trace_result
+
+- name: Display Path Trace Result
+  ansible.builtin.debug:
+    var: path_trace_result
+  when: catalystcenter_debug | default(false)

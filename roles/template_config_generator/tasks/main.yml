@@ -1,0 +1,23 @@
+---
+# tasks file for template_config_generator
+- name: Generate Template playbook configuration
+  cisco.catalystcenter.template_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: "{{ catalystcenter_log }}"
+    state: "{{ template_config_generator_state }}"
+    file_path: "{{ template_config_generator_file_path if template_config_generator_file_path is not none else omit }}"
+    file_mode: "{{ template_config_generator_file_mode }}"
+    config: "{{ template_config_generator_config if template_config_generator_config is not none else omit }}"
+  register: template_config_generator_result
+
+- name: Display Template generator result
+  ansible.builtin.debug:
+    var: template_config_generator_result
+  when: catalystcenter_debug | default(false)

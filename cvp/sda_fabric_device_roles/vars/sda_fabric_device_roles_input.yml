@@ -1,0 +1,34 @@
+---
+catalyst_center_version: 2.3.7.6
+fabric_devices_details:
+  - fabric_devices:
+      fabric_name: Global/USA/SAN-FRANCISCO
+      device_config:
+        - device_ip: 204.1.2.6
+          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+          borders_settings:
+            layer3_settings:
+              local_autonomous_system_number: 1234
+              is_default_exit: true
+              import_external_routes: true
+              border_priority: 1
+              prepend_autonomous_system_count: 1
+            layer2_handoff:
+              - interface_name: GigabitEthernet0/0/2
+                internal_vlan_id: 1036
+                external_vlan_id: 550
+            layer3_handoff_ip_transit:
+              - transit_network_name: iptransit
+                interface_name: GigabitEthernet0/0/1
+                external_connectivity_ip_pool_name: Reserved_sda_test_1
+                virtual_network_name: L3VN1
+                vlan_id: 440
+                tcp_mss_adjustment: 510
+            layer3_handoff_sda_transit:
+              transit_network_name: TRANSITSDA
+              affinity_id_prime: 1        
+              affinity_id_decider: 1     
+              connected_to_internet: true
+              is_multicast_over_transit_enabled: false
+        - device_ip: 204.1.2.3
+          device_roles: [CONTROL_PLANE_NODE]
