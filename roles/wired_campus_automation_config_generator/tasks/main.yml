@@ -1,0 +1,22 @@
+---
+# tasks file for wired_campus_automation_config_generator
+- name: Generate Wired Campus Automation playbook configuration
+  cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: "{{ catalystcenter_log }}"
+    config_verify: "{{ wired_campus_automation_config_generator_config_verify }}"
+    state: "{{ wired_campus_automation_config_generator_state }}"
+    config: "{{ wired_campus_automation_config_generator_config if wired_campus_automation_config_generator_config is not none else omit }}"
+  register: wired_campus_automation_config_generator_result
+
+- name: Display Wired Campus Automation generator result
+  ansible.builtin.debug:
+    var: wired_campus_automation_config_generator_result
+  when: catalystcenter_debug | default(false)

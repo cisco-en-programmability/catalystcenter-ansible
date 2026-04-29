@@ -1,0 +1,22 @@
+---
+# tasks file for assurance_device_health_score_settings
+- name: Manage Assurance Device Health Score Settings
+  cisco.catalystcenter.assurance_device_health_score_settings_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
+    catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    state: "{{ assurance_device_health_score_settings_state | default('merged') }}"
+    config_verify: "{{ assurance_device_health_score_settings_config_verify | default(false) }}"
+    config: "{{ assurance_device_health_score_settings_config }}"
+  register: assurance_device_health_score_settings_result
+
+- name: Display Assurance Device Health Score Settings Result
+  ansible.builtin.debug:
+    var: assurance_device_health_score_settings_result
+  when: catalystcenter_debug | default(false)
