@@ -20,10 +20,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     accesspoint_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacAccesspointWorkflow(TestDnacModule):
+class TestDnacAccesspointWorkflow(TestCatalystModule):
 
     module = accesspoint_workflow_manager
 

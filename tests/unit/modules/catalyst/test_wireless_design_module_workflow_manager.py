@@ -21,10 +21,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     wireless_design_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestWirelessDesign(TestDnacModule):
+class TestWirelessDesign(TestCatalystModule):
     module = wireless_design_workflow_manager
     test_data = loadPlaybookData("wireless_design_workflow_manager_intent")
     # playbooks for wireless_design_workflow_manager enhancements (feature_template)

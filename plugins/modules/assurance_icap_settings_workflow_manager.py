@@ -10,7 +10,6 @@ ICAP allows network administrators to collect and analyze packet captures from n
 connectivity and performance issues. This module enables automation of ICAP configurations, making it easier
 to manage assurance settings programmatically.
 """
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -82,8 +81,9 @@ options:
               - RFSTATS # Captures RF statistics to analyze signal and interference levels.
               - ANOMALY # Captures specific anomalies detected in the network.
           duration_in_mins:
-            description: The duration of the Intelligent
-              Capture session in minutes.
+            description:
+              - The duration of the Intelligent Capture session in minutes.
+              - Accepted range is 30 to 480 minutes (inclusive).
             type: int
           preview_description:
             description: A short summary or metadata
@@ -203,7 +203,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -266,7 +266,7 @@ EXAMPLES = r"""
 
 - hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -424,21 +424,12 @@ class Icap(CatalystCenterBase):
             self: The current instance of the class with updated 'want' attributes.
 
         """
-        self.log(
-            "Starting to retrieve the desired state from the playbook configuration",
-            "DEBUG",
-        )
+        self.log("Starting to retrieve the desired state from the playbook configuration", "DEBUG")
         want = {}
         want["assurance_icap_settings"] = config.get("assurance_icap_settings")
-        self.log(
-            f"Extracted assurance_icap_settings: {want['assurance_icap_settings']}",
-            "DEBUG",
-        )
+        self.log(f"Extracted assurance_icap_settings: {want['assurance_icap_settings']}", "DEBUG")
         want["assurance_icap_download"] = config.get("assurance_icap_download")
-        self.log(
-            f"Extracted assurance_icap_download: {want['assurance_icap_download']}",
-            "DEBUG",
-        )
+        self.log(f"Extracted assurance_icap_download: {want['assurance_icap_download']}", "DEBUG")
         if not want["assurance_icap_settings"] and not want["assurance_icap_download"]:
             self.msg = "No data provided for ICAP configuration creation."
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -452,15 +443,10 @@ class Icap(CatalystCenterBase):
             for batch in want.get("assurance_icap_settings", []):
                 icap_settings_type = str(batch.get("capture_type", "")).upper()
                 batch["capture_type"] = icap_settings_type  # Update to uppercase
+                self.log(f"Normalized capture_type in assurance_icap_settings batch: {icap_settings_type}", "DEBUG")
                 self.log(
-                    f"Normalized capture_type in assurance_icap_settings batch: {icap_settings_type}",
-                    "DEBUG",
-                )
-                self.log(
-                    "Validating capture type '{0}' for ICAP settings batch".format(
-                        icap_settings_type
-                    ),
-                    "DEBUG",
+                    "Validating capture type '{0}' for ICAP settings batch".format(icap_settings_type),
+                    "DEBUG"
                 )
 
                 if icap_settings_type not in valid_capture_types:
@@ -476,39 +462,27 @@ class Icap(CatalystCenterBase):
                 if "ota_band" in setting and isinstance(setting["ota_band"], str):
                     # Remove 'GHz', strip spaces, and convert to float or int
                     band_str = setting["ota_band"].replace("GHz", "").strip()
-                    self.log(
-                        f"Original ota_band string: '{setting['ota_band']}', cleaned: '{band_str}'",
-                        "DEBUG",
-                    )
+                    self.log(f"Original ota_band string: '{setting['ota_band']}', cleaned: '{band_str}'", "DEBUG")
                     band_value = float(band_str)
                     # Convert to int if it's a whole number (like 5.0)
-                    setting["ota_band"] = (
-                        int(band_value) if band_value.is_integer() else band_value
-                    )
-                    self.log(
-                        f"Converted ota_band value: {setting['ota_band']}", "DEBUG"
-                    )
+                    setting["ota_band"] = int(band_value) if band_value.is_integer() else band_value
+                    self.log(f"Converted ota_band value: {setting['ota_band']}", "DEBUG")
 
         if want["assurance_icap_download"]:
             self.log(
                 "Processing {0} ICAP download configurations".format(
                     len(want["assurance_icap_download"])
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             # Normalize and validate assurance_icap_download capture type
             for batch in want.get("assurance_icap_download", []):
                 icap_download_type = str(batch.get("capture_type", "")).upper()
                 batch["capture_type"] = icap_download_type
+                self.log(f"Normalized capture_type in assurance_icap_download batch: {icap_download_type}", "DEBUG")
                 self.log(
-                    f"Normalized capture_type in assurance_icap_download batch: {icap_download_type}",
-                    "DEBUG",
-                )
-                self.log(
-                    "Validating capture type '{0}' for ICAP download batch".format(
-                        icap_download_type
-                    ),
-                    "DEBUG",
+                    "Validating capture type '{0}' for ICAP download batch".format(icap_download_type),
+                    "DEBUG"
                 )
 
                 if icap_download_type not in valid_capture_types:
@@ -523,7 +497,7 @@ class Icap(CatalystCenterBase):
         self.log("Desired State (want): {0}".format((self.pprint(want))), "INFO")
         self.log(
             "Successfully extracted and validated desired ICAP configuration state",
-            "INFO",
+            "INFO"
         )
 
         return self
@@ -625,9 +599,7 @@ class Icap(CatalystCenterBase):
                 function="get_device_list",
                 params={"hostname": hostname},  # Using hostname in the API call
             )
-            self.log(
-                "Received API response for Device List: {0}".format(response), "DEBUG"
-            )
+            self.log("Received API response for Device List: {0}".format(response), "DEBUG")
 
             devices = response.get("response", [])
             if not devices:
@@ -742,16 +714,11 @@ class Icap(CatalystCenterBase):
                 function="lists_i_cap_packet_capture_files_matching_specified_criteria",
                 params=param,
             )
-            self.log(
-                "Received API response for ICAP Packet Capture: {0}".format(response),
-                "DEBUG",
-            )
+            self.log("Received API response for ICAP Packet Capture: {0}".format(response), "DEBUG")
 
             # Check if response is an empty list
             if isinstance(response, list) and not response:
-                failure_reason = (
-                    "Empty response received for ICAP parameters: {0}".format(param)
-                )
+                failure_reason = "Empty response received for ICAP parameters: {0}".format(param)
                 self.msg = "ICAP capture download failed: {0}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
@@ -760,11 +727,7 @@ class Icap(CatalystCenterBase):
             # Extract response dictionary
             response_data = response.get("response", [])
             if not response_data:
-                failure_reason = (
-                    "No ICAP packet capture files found for parameters: {0}".format(
-                        param
-                    )
-                )
+                failure_reason = "No ICAP packet capture files found for parameters: {0}".format(param)
                 self.msg = "ICAP capture download failed: {0}".format(failure_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 self.log(self.msg, "ERROR")
@@ -783,17 +746,13 @@ class Icap(CatalystCenterBase):
             return file_id
 
         except Exception as e:
-            failure_reason = "An error occurred while retrieving ICAP packet capture files: {0}".format(
-                str(e)
-            )
+            failure_reason = "An error occurred while retrieving ICAP packet capture files: {0}".format(str(e))
             self.msg = "ICAP capture download failed: {0}".format(failure_reason)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(self.msg, "ERROR")
             return None
 
-    def validate_start_end_datetime(
-        self, start_time=None, end_time=None, errormsg=None
-    ):
+    def validate_start_end_datetime(self, start_time=None, end_time=None, errormsg=None):
         """
         Validate and convert input datetimes into Unix epoch milliseconds.
 
@@ -819,17 +778,10 @@ class Icap(CatalystCenterBase):
                 start_datetime = datetime.strptime(start_time, date_format)
             if end_time:
                 end_datetime = datetime.strptime(end_time, date_format)
-            self.log(
-                "Parsed start datetime: {0}, end datetime: {1}".format(
-                    start_datetime, end_datetime
-                ),
-                "DEBUG",
-            )
+            self.log("Parsed start datetime: {0}, end datetime: {1}".format(start_datetime, end_datetime), "DEBUG")
 
             if start_datetime and end_datetime and start_datetime > end_datetime:
-                msg = "Start datetime '{0}' must be before end datetime '{1}'.".format(
-                    start_time, end_time
-                )
+                msg = "Start datetime '{0}' must be before end datetime '{1}'.".format(start_time, end_time)
                 errormsg.append(msg)
                 self.log(msg, "ERROR")
                 return None, None
@@ -841,12 +793,7 @@ class Icap(CatalystCenterBase):
             if end_datetime:
                 end_epoch_ms = int(end_datetime.timestamp() * 1000)
 
-            self.log(
-                "Datetime validation successful. Start: {0}, End: {1}".format(
-                    start_epoch_ms, end_epoch_ms
-                ),
-                "INFO",
-            )
+            self.log("Datetime validation successful. Start: {0}, End: {1}".format(start_epoch_ms, end_epoch_ms), "INFO")
             return start_epoch_ms, end_epoch_ms
 
         except ValueError as e:
@@ -955,9 +902,7 @@ class Icap(CatalystCenterBase):
                 )
                 response = response.data
                 self.log(
-                    "Received API response for ICAP ID {0}: {1}".format(
-                        download_id, response
-                    )
+                    "Received API response for ICAP ID {0}: {1}".format(download_id, response)
                 )
 
                 # If response contains binary data, save it as a .pcap file
@@ -994,9 +939,7 @@ class Icap(CatalystCenterBase):
                         )
                 else:
                     self.log(
-                        "Invalid or empty response for ICAP ID: {0}".format(
-                            download_id
-                        ),
+                        "Invalid or empty response for ICAP ID: {0}".format(download_id),
                         "ERROR",
                     )
                     responses.append(
@@ -1171,9 +1114,7 @@ class Icap(CatalystCenterBase):
         self.log("Updating dictionary keys based on mapping.", "DEBUG")
         return [{mapping.get(k, k): v for k, v in item.items()} for item in data]
 
-    def get_icap_configuration_status_per_network_device(
-        self, preview_activity_id, preview_description
-    ):
+    def get_icap_configuration_status_per_network_device(self, preview_activity_id, preview_description):
         """
         Retrieves the status of an Intelligent Capture (ICAP) configuration per network device.
 
@@ -1188,14 +1129,12 @@ class Icap(CatalystCenterBase):
             "Polling ICAP configuration status for activity '{0}' with description '{1}' until network device ID is available".format(
                 preview_activity_id, preview_description
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         start_time = time.time()
         retry_interval = int(self.payload.get("catalystcenter_task_poll_interval", 5))
-        resync_retry_count = int(
-            self.payload.get("catalystcenter_api_task_timeout", 100)
-        )
+        resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
         retry_count = 0
 
         while True:
@@ -1204,86 +1143,54 @@ class Icap(CatalystCenterBase):
                 "Attempt {0} to get ICAP configuration status and network device ID for preview activity ID: {1}".format(
                     retry_count, preview_activity_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             try:
-                icap_configuration_status_per_network_device = (
-                    self.catalystcenter._exec(
-                        family="sensors",
-                        function="get_i_cap_configuration_status_per_network_device",
-                        params={"preview_activity_id": preview_activity_id},
-                    )
+                icap_configuration_status_per_network_device = self.catalystcenter._exec(
+                    family="sensors",
+                    function="get_i_cap_configuration_status_per_network_device",
+                    params={"preview_activity_id": preview_activity_id}
                 )
 
-                self.log(
-                    "Received API response for ICAP configuration status: {0}".format(
-                        icap_configuration_status_per_network_device
-                    ),
-                    "DEBUG",
-                )
+                self.log("Received API response for ICAP configuration status: {0}".format(icap_configuration_status_per_network_device), "DEBUG")
 
                 # Validate response
-                if not icap_configuration_status_per_network_device or not isinstance(
-                    icap_configuration_status_per_network_device, dict
-                ):
-                    self.msg = (
-                        "Invalid response received for preview activity ID: {0}".format(
-                            preview_activity_id
-                        )
-                    )
+                if not icap_configuration_status_per_network_device or not isinstance(icap_configuration_status_per_network_device, dict):
+                    self.msg = "Invalid response received for preview activity ID: {0}".format(preview_activity_id)
                     self.delete_icap_config(preview_activity_id, preview_description)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return None
 
-                response = icap_configuration_status_per_network_device.get(
-                    "response", []
-                )
+                response = icap_configuration_status_per_network_device.get("response", [])
                 response = response[0] if response else {}
-                self.log(
-                    "Parsed ICAP configuration status response: {0}".format(response),
-                    "DEBUG",
-                )
+                self.log("Parsed ICAP configuration status response: {0}".format(response), "DEBUG")
 
                 network_device_id = response.get("networkDeviceId")
                 status = response.get("status")
 
                 if network_device_id and status == "Not Started":
                     self.log(
-                        "ICAP configuration status is 'Not Started' - returning network device ID: {0}".format(
-                            network_device_id
-                        ),
-                        "INFO",
+                        "ICAP configuration status is 'Not Started' - returning network device ID: {0}".format(network_device_id),
+                        "INFO"
                     )
                     return network_device_id
                 elif network_device_id:
                     self.log(
-                        "Network device ID found but status is '{0}' - continuing to poll".format(
-                            status
-                        ),
-                        "DEBUG",
+                        "Network device ID found but status is '{0}' - continuing to poll".format(status),
+                        "DEBUG"
                     )
                 else:
                     self.log(
                         "No network device ID found in response - continuing to poll",
-                        "DEBUG",
+                        "DEBUG"
                     )
 
-                self.msg = (
-                    "No network device ID found for preview activity ID: {0}".format(
-                        preview_activity_id
-                    )
-                )
+                self.msg = "No network device ID found for preview activity ID: {0}".format(preview_activity_id)
                 self.delete_icap_config(preview_activity_id, preview_description)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
-                self.msg = "Error retrieving ICAP configuration status: {0}".format(
-                    str(e)
-                )
+                self.msg = "Error retrieving ICAP configuration status: {0}".format(str(e))
                 self.log(self.msg, "ERROR")
 
             # Check if timeout has been reached
@@ -1293,22 +1200,14 @@ class Icap(CatalystCenterBase):
                             status for activity ID: {preview_activity_id}"
                 self.log(self.msg, "ERROR")
                 self.delete_icap_config(preview_activity_id, preview_description)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Log before sleeping and retry
-            self.log(
-                "Waiting for {0} seconds before retrying ICAP configuration status for activity ID: {1}".format(
-                    retry_interval, preview_activity_id
-                ),
-                "DEBUG",
-            )
+            self.log("Waiting for {0} seconds before retrying ICAP configuration status for activity ID: {1}"
+                     .format(retry_interval, preview_activity_id), "DEBUG")
             time.sleep(retry_interval)
 
-    def generate_device_cli_of_icap_config(
-        self, preview_activity_id, network_device_id, preview_description
-    ):
+    def generate_device_cli_of_icap_config(self, preview_activity_id, network_device_id, preview_description):
         """
         Generates CLI commands for the Intelligent Capture Configuration based on the preview activity ID and network device ID.
 
@@ -1324,7 +1223,7 @@ class Icap(CatalystCenterBase):
             "Generating CLI commands for ICAP configuration with preview activity ID: {0}, network device ID: {1}, and description: {2}".format(
                 preview_activity_id, network_device_id, preview_description
             ),
-            "INFO",
+            "INFO"
         )
 
         retry_interval = int(self.payload.get("catalystcenter_task_poll_interval", 5))
@@ -1341,7 +1240,7 @@ class Icap(CatalystCenterBase):
                 "Attempt {0} to generate CLI commands for preview activity ID: {1}".format(
                     retry_count, preview_activity_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             try:
                 devices_clis_of_the_icap_configuration = self.catalystcenter._exec(
@@ -1349,48 +1248,38 @@ class Icap(CatalystCenterBase):
                     function="generates_the_devices_clis_of_the_i_cap_configuration_intent",
                     params={
                         "preview_activity_id": preview_activity_id,
-                        "network_device_id": network_device_id,
-                    },
+                        "network_device_id": network_device_id
+                    }
                 )
 
                 self.log(
-                    "Received API Response from CLI generation: {0}".format(
-                        devices_clis_of_the_icap_configuration
-                    ),
-                    "DEBUG",
+                    "Received API Response from CLI generation: {0}".format(devices_clis_of_the_icap_configuration),
+                    "DEBUG"
                 )
 
                 # Check if valid response is received
-                if devices_clis_of_the_icap_configuration and isinstance(
-                    devices_clis_of_the_icap_configuration, dict
-                ):
+                if devices_clis_of_the_icap_configuration and isinstance(devices_clis_of_the_icap_configuration, dict):
                     if isinstance(devices_clis_of_the_icap_configuration, dict):
-                        response = devices_clis_of_the_icap_configuration.get(
-                            "response", {}
-                        )
+                        response = devices_clis_of_the_icap_configuration.get("response", {})
                         if response:
                             self.log(
                                 f"Successfully received a non-empty 'response' object from CLI generation API. Response: {response}",
-                                "INFO",
+                                "INFO"
                             )
                             break  # Exit polling loop if a valid response is found
                         else:
                             self.log(
                                 "API response received but 'response' key is empty or missing. Retrying...",
-                                "DEBUG",
+                                "DEBUG"
                             )
                     else:
                         self.log(
                             f"API response is not a dictionary. Received: {type(devices_clis_of_the_icap_configuration)}. Retrying...",
-                            "DEBUG",
+                            "DEBUG"
                         )
 
             except Exception as e:
-                self.msg = (
-                    "Error while calling API to generate CLI commands: {0}".format(
-                        str(e)
-                    )
-                )
+                self.msg = "Error while calling API to generate CLI commands: {0}".format(str(e))
                 self.log(self.msg, "ERROR")
 
             # Check if timeout has been reached
@@ -1400,21 +1289,17 @@ class Icap(CatalystCenterBase):
                 )
                 self.log(self.msg, "ERROR")
                 self.delete_icap_config(preview_activity_id, preview_description)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return self
 
             # Wait before retry
-            self.log(
-                "No valid response yet, retrying in {0} seconds...".format(
-                    retry_interval
-                ),
-                "DEBUG",
-            )
+            self.log("No valid response yet, retrying in {0} seconds...".format(retry_interval), "DEBUG")
             time.sleep(retry_interval)
 
-        self.log("Processing CLI generation response to extract task ID", "DEBUG")
+        self.log(
+            "Processing CLI generation response to extract task ID",
+            "DEBUG"
+        )
 
         # After loop, process the final response
         response = devices_clis_of_the_icap_configuration.get("response", {})
@@ -1424,37 +1309,29 @@ class Icap(CatalystCenterBase):
             self.msg = "Failed to retrieve task ID for ICAP deployment."
             self.log(
                 "Initiating cleanup due to task failure - deleting ICAP configuration",
-                "WARNING",
+                "WARNING"
             )
             self.delete_icap_config(preview_activity_id, preview_description)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             self.log(self.msg, "ERROR")
             return self
 
         self.log(
-            "Retrieved task ID '{0}' for CLI generation - validating task details".format(
-                task_id
-            ),
-            "INFO",
+            "Retrieved task ID '{0}' for CLI generation - validating task details".format(task_id),
+            "INFO"
         )
 
         # Validate task details
         task_details = self.get_task_details(task_id)
         if task_details.get("isError"):
             failure_reason = task_details.get("failureReason", "Unknown error")
-            self.msg = "ICAP configuration deployment failed: {0}".format(
-                failure_reason
-            )
+            self.msg = "ICAP configuration deployment failed: {0}".format(failure_reason)
             self.log(
                 "Initiating cleanup due to task failure - deleting ICAP configuration",
-                "WARNING",
+                "WARNING"
             )
             self.delete_icap_config(preview_activity_id, preview_description)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             self.log(self.msg, "ERROR")
             return self
 
@@ -1462,13 +1339,11 @@ class Icap(CatalystCenterBase):
             "CLI command generation completed successfully for preview activity ID '{0}' and network device ID '{1}'".format(
                 preview_activity_id, network_device_id
             ),
-            "INFO",
+            "INFO"
         )
         return self
 
-    def retrieves_the_devices_clis_of_the_icap(
-        self, preview_activity_id, network_device_id, preview_description
-    ):
+    def retrieves_the_devices_clis_of_the_icap(self, preview_activity_id, network_device_id, preview_description):
         """
         Retrieves the CLI commands that will be applied to the device for the specified ICAP configuration.
 
@@ -1490,35 +1365,21 @@ class Icap(CatalystCenterBase):
         """
         # Implementation to retrieve CLI commands
         try:
-            self.log(
-                "Retrieving CLI commands for preview activity ID: {0} and network device ID: {1}".format(
-                    preview_activity_id, network_device_id
-                ),
-                "DEBUG",
-            )
+            self.log("Retrieving CLI commands for preview activity ID: {0} and network device ID: {1}".format(preview_activity_id, network_device_id), "DEBUG")
             response = self.catalystcenter._exec(
                 family="sensors",
                 function="retrieves_the_devices_clis_of_the_i_capintent",
                 params={
                     "preview_activity_id": preview_activity_id,
-                    "network_device_id": network_device_id,
-                },
+                    "network_device_id": network_device_id
+                }
             )
-            self.log(
-                "Received API response for CLI retrieval: {0}".format(response), "DEBUG"
-            )
+            self.log("Received API response for CLI retrieval: {0}".format(response), "DEBUG")
             if response is None or not isinstance(response, dict):
-                self.msg = "Invalid or unexpected API response received for CLI retrieval for preview activity ID: {0}".format(
-                    preview_activity_id
-                )
-                self.log(
-                    "calling delete_icap_config due to invalid response in retrieves_the_devices_clis_of_the_i_capintent ",
-                    "DEBUG",
-                )
+                self.msg = "Invalid or unexpected API response received for CLI retrieval for preview activity ID: {0}".format(preview_activity_id)
+                self.log("calling delete_icap_config due to invalid response in retrieves_the_devices_clis_of_the_i_capintent ", "DEBUG")
                 self.delete_icap_config(preview_activity_id, preview_description)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             device_clis_of_icap = response.get("response")
             if device_clis_of_icap is None:
@@ -1529,27 +1390,18 @@ class Icap(CatalystCenterBase):
                 self.log(
                     f"Calling delete_icap_config due to missing 'response' data in 'retrieves_the_devices_clis_of_the_i_capintent_v1'"
                     f" for preview activity ID: {preview_activity_id}.",
-                    "ERROR",
+                    "ERROR"
                 )
                 self.delete_icap_config(preview_activity_id, preview_description)
-                self.set_operation_result(
-                    "failed", False, self.msg, "WARNING"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "WARNING").check_return_status()
 
             self.log("Retrieved device CLI's: {0}".format(device_clis_of_icap), "DEBUG")
         except Exception as e:
-            self.msg = "An error occurred while retrieving device CLI's: {0}".format(
-                str(e)
-            )
-            self.log(
-                "calling delete_icap_config due to exception in retrieves_the_devices_clis_of_the_i_capintent ",
-                "DEBUG",
-            )
+            self.msg = "An error occurred while retrieving device CLI's: {0}".format(str(e))
+            self.log("calling delete_icap_config due to exception in retrieves_the_devices_clis_of_the_i_capintent ", "DEBUG")
             self.delete_icap_config(preview_activity_id, preview_description)
             self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return device_clis_of_icap
 
@@ -1570,70 +1422,56 @@ class Icap(CatalystCenterBase):
             ap_name = icap.get("ap_name", None)
             wlc_id = icap.get("wlc_id")
             param = {
-                "capture_status": "INPROGRESS",
-                "captureType": capture_type,
-                "clientMac": client_mac,
-                "wlcId": wlc_id,
+                'capture_status': "INPROGRESS",
+                'captureType': capture_type,
+                'clientMac': client_mac,
+                'wlcId': wlc_id
             }
             if capture_type == "OTA":
                 is_site_assigned_to_ap = self.is_ap_assigned_to_site(ap_id, ap_name)
                 if ap_id and is_site_assigned_to_ap:
-                    param["apId"] = ap_id
-                    param["apName"] = ap_name
+                    param['apId'] = ap_id
+                    param['apName'] = ap_name
                 else:
-                    self.msg = "Provided AP '{0}' is not assigned to a site".format(
-                        ap_name
-                    )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.msg = "Provided AP '{0}' is not assigned to a site".format(ap_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log(
                 "Checking for existing ICAP configurations with parameters: capture_type='{0}', client_mac='{1}', wlc_id='{2}', ap_id='{3}'".format(
-                    capture_type, client_mac, wlc_id, ap_id
+                    capture_type,
+                    client_mac,
+                    wlc_id,
+                    ap_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             if ap_id:
-                param["apId"] = ap_id
+                param['apId'] = ap_id
                 self.log(
                     "Including AP ID '{0}' in the search parameters".format(ap_id),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
             # Check if an ICAP configuration with the same parameters is already in progress
             existing_config = self.catalystcenter._exec(
                 family="sensors",
                 function="retrieves_deployed_i_cap_configurations_while_supporting_basic_filtering",
-                params=param,
+                params=param
             )
-            self.log(
-                "Received API response for Existing ICAP configurations: {0}".format(
-                    existing_config
-                ),
-                "DEBUG",
-            )
+            self.log("Received API response for Existing ICAP configurations: {0}".format(existing_config), "DEBUG")
             if existing_config and existing_config.get("response"):
-                self.msg = "An ICAP configuration {0} with capture type '{1}' is already in progress.".format(
-                    icap, capture_type
-                )
+                self.msg = "An ICAP configuration {0} with capture type '{1}' is already in progress.".format(icap, capture_type)
                 self.log(self.msg, "ERROR")
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             else:
                 self.log(
                     "No existing ICAP configuration found with the same parameters - validation passed",
-                    "INFO",
+                    "INFO"
                 )
         except Exception as e:
-            self.msg = "An error occurred while checking existing ICAP configurations: {0}".format(
-                str(e)
-            )
+            self.msg = "An error occurred while checking existing ICAP configurations: {0}".format(str(e))
             self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return None
 
     def valid_client_mac(self, client_mac, wlc_name):
@@ -1654,24 +1492,18 @@ class Icap(CatalystCenterBase):
         """
 
         try:
-            self.log(
-                "Validating existence of client MAC '{0}' on WLC '{1}'".format(
-                    client_mac, wlc_name
-                ),
-                "DEBUG",
-            )
+            self.log("Validating existence of client MAC '{0}' on WLC '{1}'".format(client_mac, wlc_name), "DEBUG")
 
-            params = {"macAddress": client_mac}
+            params = {
+                "macAddress": client_mac
+            }
 
             response = self.catalystcenter._exec(
                 family="clients",
                 function="retrieves_the_list_of_clients_while_also_offering_basic_filtering_and_sorting_capabilities",
-                params=params,
+                params=params
             )
-            self.log(
-                "Received API response for client MAC validation: {0}".format(response),
-                "DEBUG",
-            )
+            self.log("Received API response for client MAC validation: {0}".format(response), "DEBUG")
 
             if response and isinstance(response, dict):
                 clients = response.get("response", [])
@@ -1683,12 +1515,7 @@ class Icap(CatalystCenterBase):
             return False
 
         except Exception as e:
-            self.log(
-                "Exception while checking client MAC '{0}': {1}".format(
-                    client_mac, str(e)
-                ),
-                "ERROR",
-            )
+            self.log("Exception while checking client MAC '{0}': {1}".format(client_mac, str(e)), "ERROR")
             return False
 
     def is_ap_assigned_to_site(self, ap_id, ap_name):
@@ -1707,22 +1534,14 @@ class Icap(CatalystCenterBase):
         """
 
         try:
-            self.log(
-                "Verifying site assignment for AP '{0}' (ID: {1}).".format(
-                    ap_name, ap_id
-                ),
-                "DEBUG",
-            )
+            self.log("Verifying site assignment for AP '{0}' (ID: {1}).".format(ap_name, ap_id), "DEBUG")
 
             response = self.catalystcenter._exec(
                 family="site_design",
                 function="get_site_assigned_network_device",
-                params={"id": ap_id},
+                params={"id": ap_id}
             )
-            self.log(
-                "Received API response for site assignment: {0}".format(response),
-                "DEBUG",
-            )
+            self.log("Received API response for site assignment: {0}".format(response), "DEBUG")
 
             if not response or not response.get("response"):
                 msg = "AP '{0}' is not assigned to any site".format(ap_name)
@@ -1738,16 +1557,16 @@ class Icap(CatalystCenterBase):
 
             self.log(
                 "AP '{0}' is assigned to site '{1}' (Site ID: {2})".format(
-                    ap_name, site_info.get("siteNameHierarchy"), site_info["siteId"]
+                    ap_name,
+                    site_info.get("siteNameHierarchy"),
+                    site_info["siteId"]
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             return True
 
         except Exception as e:
-            msg = "Exception while checking site assignment for AP '{0}': {1}".format(
-                ap_name, str(e)
-            )
+            msg = "Exception while checking site assignment for AP '{0}': {1}".format(ap_name, str(e))
             self.log(msg, "ERROR")
             return False, msg
 
@@ -1785,12 +1604,8 @@ class Icap(CatalystCenterBase):
             wlc_name = icap.get("wlc_name")
 
             if not self.valid_client_mac(client_mac, wlc_name):
-                self.msg = "Wireless Client MAC address '{0}' not found.".format(
-                    client_mac
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Wireless Client MAC address '{0}' not found.".format(client_mac)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # check if the icap with same config is already is in progress
             self.existing_icap_configuration(icap)
@@ -1824,15 +1639,8 @@ class Icap(CatalystCenterBase):
 
         try:
             task_name = "creates_an_i_cap_configuration_intent_for_preview_approve"
-            param = {
-                "previewDescription": preview_description,
-                "payload": updated_assurance_icap_details,
-            }
-            self.log(
-                "Creating Intelligent Capture Configuration with the following parameters: {0}.".format(
-                    self.pprint(param)
-                )
-            )
+            param = {"previewDescription": preview_description, "payload": updated_assurance_icap_details}
+            self.log("Creating Intelligent Capture Configuration with the following parameters: {0}.".format(self.pprint(param)))
 
             response = self.catalystcenter._exec(
                 family="sensors",
@@ -1862,34 +1670,22 @@ class Icap(CatalystCenterBase):
                 self.set_operation_result("failed", False, failure_reason, "ERROR")
                 return self
 
-            self.log(
-                f"Attempting to retrieve network device ID for preview activity ID: {preview_activity_id}.",
-                "INFO",
-            )
-            network_device_id = self.get_icap_configuration_status_per_network_device(
-                preview_activity_id, preview_description
-            )
+            self.log(f"Attempting to retrieve network device ID for preview activity ID: {preview_activity_id}.", "INFO")
+            network_device_id = self.get_icap_configuration_status_per_network_device(preview_activity_id, preview_description)
             if not network_device_id:
-                self.msg = (
-                    "Failed to retrieve network device ID for ICAP configuration."
-                )
+                self.msg = "Failed to retrieve network device ID for ICAP configuration."
                 self.log(self.msg, "ERROR")
                 self.delete_icap_config(preview_activity_id, preview_description)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log(
-                f"Successfully retrieved Network Device ID for ICAP configuration: {network_device_id}.",
-                "INFO",
-            )
+            self.log(f"Successfully retrieved Network Device ID for ICAP configuration: {network_device_id}.", "INFO")
 
             # Generate the CLI commands that will be applied to device.
             self.log("Generating CLI commands for ICAP configuration.", "DEBUG")
             self.generate_device_cli_of_icap_config(
                 preview_activity_id=preview_activity_id,
                 network_device_id=network_device_id,
-                preview_description=preview_description,
+                preview_description=preview_description
             )
             self.log("Retrieving the generated CLI commands for review.", "INFO")
 
@@ -1897,12 +1693,9 @@ class Icap(CatalystCenterBase):
             to_be_applied_clis = self.retrieves_the_devices_clis_of_the_icap(
                 preview_activity_id=preview_activity_id,
                 network_device_id=network_device_id,
-                preview_description=preview_description,
+                preview_description=preview_description
             )
-            self.log(
-                "Retrieved device CLI's to be applied: {0}".format(to_be_applied_clis),
-                "DEBUG",
-            )
+            self.log("Retrieved device CLI's to be applied: {0}".format(to_be_applied_clis), "DEBUG")
             result_icap_settings.setdefault("device_cli", {}).update(
                 {"The device's CLIs of the ICAP intent": to_be_applied_clis}
             )
@@ -1937,9 +1730,7 @@ class Icap(CatalystCenterBase):
             self.log(self.msg, "ERROR")
             if preview_activity_id:
                 self.delete_icap_config(preview_activity_id, preview_description)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def delete_icap_config(self, preview_activity_id, preview_description):
         """
@@ -2005,9 +1796,7 @@ class Icap(CatalystCenterBase):
 
         start_time = time.time()
         retry_interval = int(self.payload.get("catalystcenter_task_poll_interval", 5))
-        resync_retry_count = int(
-            self.payload.get("catalystcenter_api_task_timeout", 100)
-        )
+        resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
 
         while True:
             try:
@@ -2017,8 +1806,7 @@ class Icap(CatalystCenterBase):
                     params={"deploy_activity_id": deployment_task_id},
                 )
                 self.log(
-                    "Received API response for deployment status: {0}".format(response),
-                    "INFO",
+                    "Received API response for deployment status: {0}".format(response), "INFO"
                 )
 
                 # Check if response is valid
@@ -2035,9 +1823,7 @@ class Icap(CatalystCenterBase):
                         return response["response"]
 
             except Exception as e:
-                self.log(
-                    "Error fetching deployment status: {0}".format(str(e)), "ERROR"
-                )
+                self.log("Error fetching deployment status: {0}".format(str(e)), "ERROR")
 
             # Check if timeout has been reached
             if time.time() - start_time >= resync_retry_count:
@@ -2175,22 +1961,14 @@ def main():
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

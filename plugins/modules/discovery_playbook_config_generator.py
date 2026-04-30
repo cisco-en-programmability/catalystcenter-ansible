@@ -110,7 +110,7 @@ options:
             - CIDR
 
 requirements:
-- dnacentersdk >= 2.4.5
+- catalystcentersdk >= 2.4.5
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 notes:
@@ -143,6 +143,24 @@ notes:
   - GET /dna/intent/api/v1/global-credential
   - GET /dna/intent/api/v2/global-credential
   - GET /dna/intent/api/v1/discovery/{id}/network-device
+- |-
+  Module result behavior (changed/ok/failed):
+  The module result reflects local file state only, not Catalyst Center state.
+  In overwrite mode, the full generated YAML content is compared against the
+  existing file after excluding generated header comment lines. In append mode,
+  only the last YAML document in the file is compared against the newly generated
+  configuration. If a file contains multiple config entries from previous appends,
+  only the most recent entry is used for the idempotency check.
+  - changed=true (status: success): The generated YAML configuration differs
+    from the existing output file (or the file does not exist). The file was
+    written and the configuration was updated.
+  - changed=false (status: ok): The generated YAML configuration matches the
+    existing output file content. The write was skipped as the file is
+    already up-to-date. Also returned when no discoveries are found.
+  - failed=true (status: failed): The module encountered a validation error,
+    API failure, or file write error. No file was written or modified.
+  Note: Re-running with identical inputs and unchanged Catalyst Center state
+  will produce changed=false, ensuring idempotent playbook behavior.
 
 seealso:
 - module: cisco.catalystcenter.discovery_workflow_manager
@@ -1780,13 +1798,11 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     )
                 )
                 self.log(error_msg, "ERROR")
-                self.msg = {
-                    "message": "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
-                        self.module_name
-                    ),
-                    "error": error_msg
-                }
-                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.msg = "YAML config generation failed for module '{0}' - invalid file_path parameter.".format(
+                    self.module_name
+                )
+                additional_info = {"error": error_msg}
+                self.set_operation_result("failed", False, self.msg, "ERROR", additional_info)
                 return self
 
             self.log(
@@ -1814,13 +1830,11 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         directory, str(e)
                     )
                     self.log(error_msg, "ERROR")
-                    self.msg = {
-                        "message": "YAML config generation failed for module '{0}' - cannot create output directory.".format(
-                            self.module_name
-                        ),
-                        "error": error_msg
-                    }
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.msg = "YAML config generation failed for module '{0}' - cannot create output directory.".format(
+                        self.module_name
+                    )
+                    additional_info = {"error": error_msg}
+                    self.set_operation_result("failed", False, self.msg, "ERROR", additional_info)
                     return self
 
         # Get filters
@@ -1834,25 +1848,25 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         else:
             # Validate that global_filters are provided when config is provided
             if not global_filters:
-                self.result["response"] = {
-                    "status": "validation_error",
-                    "message": "global_filters is required when config is provided."
-                }
                 self.msg = "Validation failed: global_filters is required when config is provided."
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
         # Get discovery data
         discoveries_data = self.get_discoveries_data(global_filters, component_specific_filters)
 
         if not discoveries_data:
-            self.result["response"] = {
-                "status": "no_data",
-                "message": "No discoveries found matching the specified criteria"
+            self.msg = (
+                "No discovery tasks matched the specified filters. "
+                "filters (discovery_name_list / discovery_type_list). "
+                "No YAML configuration was generated. Verify that the filter "
+                "values match existing discovery task names or types."
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg
             }
-            self.msg = "No discoveries found to generate configuration"
-            self.log(self.msg, "WARNING")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Generate reverse mapping
@@ -1893,38 +1907,67 @@ class DiscoveryPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             file_mode=file_mode,
         )
 
+        discovery_summary = [
+            {
+                "discovery_name": disc.get('name'),
+                "discovery_type": disc.get('discoveryType'),
+                "status": disc.get('discoveryCondition')
+            } for disc in discoveries_data
+        ]
+
+        component_summary = {
+            "discovery_details": {
+                "total_processed": len(discoveries_data),
+                "total_successful": len(discovery_details),
+                "total_failed": len(discoveries_data) - len(discovery_details)
+            }
+        }
+
         if success:
-            self.result["response"] = {
+            self.msg = (
+                "YAML configuration file generated successfully for module '{0}'.".format(
+                    self.module_name
+                )
+            )
+            additional_info = {
                 "status": "success",
+                "message": self.msg,
                 "file_path": file_path,
+                "file_mode": file_mode,
                 "total_discoveries_processed": len(discoveries_data),
-                "discoveries_found": [
-                    {
-                        "discovery_name": disc.get('name'),
-                        "discovery_type": disc.get('discoveryType'),
-                        "status": disc.get('discoveryCondition')
-                    } for disc in discoveries_data
-                ],
+                "discoveries_found": discovery_summary,
                 "discoveries_skipped": [],
-                "component_summary": {
-                    "discovery_details": {
-                        "total_processed": len(discoveries_data),
-                        "total_successful": len(discovery_details),
-                        "total_failed": 0
-                    }
-                }
+                "component_summary": component_summary
             }
-            self.msg = "Discovery YAML configuration generated successfully"
-            self.status = "success"
-            self.log(f"Discovery playbook generated successfully: {file_path}", "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", additional_info)
+            self.log(
+                "Discovery playbook generated successfully: {0}".format(file_path),
+                "INFO"
+            )
         else:
-            self.result["response"] = {
-                "status": "failed",
-                "error": "Failed to write YAML configuration file"
+            # write_dict_to_yaml returns False when the existing file content is
+            # identical to the newly generated content (idempotent - no write needed).
+            # This is not a failure; the file is already up-to-date.
+            self.msg = (
+                "YAML configuration file already up-to-date for module '{0}'. "
+                "No changes written.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
+                "file_path": file_path,
+                "file_mode": file_mode,
+                "total_discoveries_processed": len(discoveries_data),
+                "discoveries_found": discovery_summary,
+                "discoveries_skipped": [],
+                "component_summary": component_summary
             }
-            self.msg = "Error occurred during YAML generation"
-            self.status = "failed"
-            self.log("Failed to write discovery YAML configuration", "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
+            self.log(
+                "Discovery YAML file '{0}' content is identical to newly generated "
+                "content. Skipping write (idempotent).".format(file_path),
+                "INFO"
+            )
 
         return self
 
@@ -1962,7 +2005,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -1971,7 +2014,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -2019,12 +2062,12 @@ def main():
         "catalystcenter_host": {
             "required": True,
             "type": "str",
-            "aliases": ["dnac_host"],
+            "aliases": ["dnac_host"]
         },
         "catalystcenter_port": {
             "type": "str",
             "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "aliases": ["dnac_port", "catalystcenter_api_port"]
         },
         "catalystcenter_username": {
             "type": "str",
@@ -2034,18 +2077,18 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevents password logging for security
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_verify"],
+            "aliases": ["dnac_verify"]
         },
         # API Configuration Parameters
         "catalystcenter_version": {
             "type": "str",
             "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "aliases": ["dnac_version"]
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -2063,27 +2106,27 @@ def main():
         "catalystcenter_debug": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_debug"],
+            "aliases": ["dnac_debug"]
         },
         "catalystcenter_log_level": {
             "type": "str",
             "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "aliases": ["dnac_log_level"]
         },
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "aliases": ["dnac_log_file_path"]
         },
         "catalystcenter_log_append": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_log_append"],
+            "aliases": ["dnac_log_append"]
         },
         "catalystcenter_log": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_log"],
+            "aliases": ["dnac_log"]
         },
         "file_path": {
             "required": False,

@@ -126,7 +126,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- dnacentersdk >= 2.7.2
+- catalystcentersdk >= 2.7.2
 - python >= 3.9
 notes:
 - SDK Methods used are

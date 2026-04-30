@@ -255,3 +255,74 @@ releases:
         - Added CATALYSTCENTER_API_PORT to environment variable fallbacks for port parameter consistency
       bugfixes:
         - Fixed port parameter naming inconsistency - renamed catalystcenter_api_port to catalystcenter_port in module_utils argument spec to match internal code usage (catalystcenter_api_port preserved as alias)
+  2.7.0:
+    release_date: "2026-04-30"
+    changes:
+      release_summary: Added 69 Ansible roles and 70+ Cisco Validated Playbooks (CVP) for comprehensive Catalyst Center automation. Synced workflow manager modules and playbook config generators with cisco.dnac v6.50.0 and v6.51.0 - changes across 43 modules, new tags_workflow_manager playbook, and REST API helper in module_utils.
+      major_changes:
+        - Added 39 workflow manager roles wrapping workflow_manager modules for streamlined configuration management
+        - Added 30 config generator roles wrapping playbook_config_generator modules for configuration extraction
+        - Added 70+ Cisco Validated Playbooks (CVP) - production-ready automation solutions
+        - CVP includes complete playbooks, vars, schemas, images, and comprehensive documentation
+        - Roles provide higher-level abstraction with sensible defaults for common Catalyst Center operations
+        - All roles follow standard ansible-galaxy role structure with comprehensive documentation
+        - Each role includes tasks, defaults, meta, handlers, tests, and detailed README
+        - CVP validated by Cisco for production deployments across all major use cases
+      minor_changes:
+        - Added ROLES_GUIDE.md for comprehensive role usage documentation
+        - Added CVP_GUIDE.md for Cisco Validated Playbooks documentation
+        - Added cvp/README.md as CVP catalog and index
+        - Added playbooks/example_roles_playbook.yml demonstrating role usage patterns
+        - Updated main README.md with Ansible Roles and CVP sections
+        - Roles support all connection parameters with backward compatibility
+        - CVP includes Jinja2 templates for bulk operations where applicable
+        - CVP includes YAML schemas for input validation
+        - module_utils/catalystcenter - Added execute_rest_api_call helper method on CatalystCenterSDK for direct REST API invocation via SDK custom_caller
+        - module_utils/catalystcenter - Fixed typo 'occured' to 'occurred' in fail_json error messages for API operation failures
+        - module_utils/brownfield_helper - Incremental refinements to config validation, global filter validation, and YAML OrderedDumper support (v6.50.0 + v6.51.0 deltas from cisco.dnac)
+        - Changes in accesspoint_location_playbook_config_generator module
+        - Changes in accesspoint_location_workflow_manager module
+        - Changes in application_policy_playbook_config_generator module
+        - Changes in application_policy_workflow_manager module
+        - Changes in assurance_device_health_score_settings_playbook_config_generator module
+        - Changes in assurance_icap_settings_workflow_manager module
+        - Changes in assurance_issue_playbook_config_generator module
+        - Changes in backup_and_restore_playbook_config_generator module
+        - Changes in device_credential_playbook_config_generator module
+        - Changes in discovery_playbook_config_generator module
+        - Changes in events_and_notifications_playbook_config_generator module
+        - Changes in events_and_notifications_workflow_manager module
+        - Changes in inventory_playbook_config_generator module
+        - Changes in ise_radius_integration_playbook_config_generator module
+        - Changes in lan_automation_workflow_manager module
+        - Changes in network_profile_switching_playbook_config_generator module
+        - Changes in network_profile_wireless_playbook_config_generator module
+        - Changes in network_settings_playbook_config_generator module
+        - Changes in network_settings_workflow_manager module
+        - Changes in pnp_playbook_config_generator module
+        - Changes in sda_extranet_policies_playbook_config_generator module
+        - Changes in sda_extranet_policies_workflow_manager module
+        - Changes in sda_fabric_devices_playbook_config_generator module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Changes in sda_fabric_multicast_playbook_config_generator module
+        - Changes in sda_fabric_sites_zones_playbook_config_generator module
+        - Changes in sda_fabric_sites_zones_workflow_manager module
+        - Changes in sda_fabric_transits_playbook_config_generator module
+        - Changes in sda_fabric_virtual_networks_playbook_config_generator module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_playbook_config_generator module
+        - Changes in site_playbook_config_generator module
+        - Changes in site_workflow_manager module
+        - Changes in tags_playbook_config_generator module
+        - Changes in tags_workflow_manager module
+        - Changes in template_playbook_config_generator module
+        - Added 'member_template_deployment_info' attribute in template_workflow_manager module
+        - Changes in user_role_playbook_config_generator module
+        - Changes in user_role_workflow_manager module
+        - Changes in wired_campus_automation_playbook_config_generator module
+        - Changes in wired_campus_automation_workflow_manager module
+        - Changes in wireless_design_playbook_config_generator module
+        - Changes in wireless_design_workflow_manager module
+        - Added tags_workflow_manager.yml playbook example (previously missing from cisco.catalystcenter)
+        - Added ccc_sda_fabric_devices_workflow_management integration test suite
+        - Added vars_tags_workflow_management.yml to ccc_tags_workflow_management integration tests

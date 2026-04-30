@@ -6,7 +6,6 @@
 
 from __future__ import absolute_import, division, print_function
 import datetime
-import hashlib
 import os
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
     validate_list_of_dicts,
@@ -185,6 +184,33 @@ class BrownFieldHelper:
                     )
                     continue
 
+            # Validate choices for strings
+            if expected_type == "str" and "choices" in filter_spec:
+                valid_choices = filter_spec["choices"]
+                if filter_value not in valid_choices:
+                    invalid_filters.append(
+                        "Filter '{0}' has invalid value: '{1}'. Valid choices: {2}".format(
+                            filter_name,
+                            filter_value,
+                            valid_choices,
+                        )
+                    )
+
+            # Validate choices for lists
+            if expected_type == "list" and "choices" in filter_spec:
+                valid_choices = filter_spec["choices"]
+                invalid_choices = [
+                    item for item in filter_value if item not in valid_choices
+                ]
+                if invalid_choices:
+                    invalid_filters.append(
+                        "Filter '{0}' contains invalid choices: {1}. Valid choices: {2}".format(
+                            filter_name,
+                            invalid_choices,
+                            valid_choices,
+                        )
+                    )
+
             # Validate list elements
             if expected_type == "list" and filter_value:
                 element_type = filter_spec.get("elements", "str")
@@ -291,8 +317,9 @@ class BrownFieldHelper:
                 comp for comp in components_list if comp not in network_elements
             ]
             if invalid_components:
+                valid_components = list(network_elements.keys()) + ["components_list"]
                 self.msg = "Invalid network components provided for module '{0}': {1}. Valid components are: {2}".format(
-                    self.module_name, invalid_components, list(network_elements.keys())
+                    self.module_name, invalid_components, valid_components
                 )
                 self.fail_and_exit(self.msg)
 
@@ -301,12 +328,23 @@ class BrownFieldHelper:
 
         for component_name, component_filters in component_specific_filters.items():
             if component_name == "components_list":
+                self.log(
+                    "Skipping 'components_list' key — not a component entry.",
+                    "DEBUG",
+                )
                 continue
 
             # Check if component exists
             if component_name not in network_elements:
                 invalid_filters.append(
                     "Component '{0}' not supported".format(component_name)
+                )
+                continue
+
+            # Component Filters must be list
+            if not isinstance(component_filters, list):
+                invalid_filters.append(
+                    "Component '{0}' filters must be a list".format(component_name)
                 )
                 continue
 
@@ -327,9 +365,46 @@ class BrownFieldHelper:
                             )
                 continue
 
-            # Enhanced validation for new format (dict with rules)
-            if isinstance(component_filters, dict):
-                for filter_name, filter_value in component_filters.items():
+            # Validating component filters entries
+            self.log(
+                "Validating {0} filter entry/entries for component '{1}'.".format(
+                    len(component_filters), component_name
+                ),
+                "DEBUG",
+            )
+
+            for index, component_filter in enumerate(component_filters, start=1):
+                self.log(
+                    "Validating filter entry {0}/{1} for component '{2}': {3}".format(
+                        index, len(component_filters), component_name, component_filter
+                    ),
+                    "DEBUG",
+                )
+
+                if not isinstance(component_filter, dict):
+                    invalid_filters.append(
+                        "Component '{0}' filter entry must be a dict, got {1}".format(
+                            component_name, type(component_filter).__name__
+                        )
+                    )
+                    continue
+
+                # Check for missing required filters in this entry
+                for req_filter_name, req_filter_spec in valid_filters_for_component.items():
+                    if req_filter_spec.get("required", False) and req_filter_name not in component_filter:
+                        invalid_filters.append(
+                            "Component '{0}' filter entry {1}/{2} is missing required filter '{3}'".format(
+                                component_name, index, len(component_filters), req_filter_name
+                            )
+                        )
+
+                for filter_name, filter_value in component_filter.items():
+                    self.log(
+                        "Processing filter '{0}' in entry {1}/{2} for component '{3}': value={4}".format(
+                            filter_name, index, len(component_filters), component_name, filter_value
+                        ),
+                        "DEBUG",
+                    )
                     if filter_name not in valid_filters_for_component:
                         invalid_filters.append(
                             "Filter '{0}' not valid for component '{1}'".format(
@@ -341,6 +416,13 @@ class BrownFieldHelper:
                     filter_spec = valid_filters_for_component[filter_name]
                     # Validate type
                     expected_type = filter_spec.get("type", "str")
+                    self.log(
+                        "Validating filter '{0}' for component '{1}': expected_type='{2}', value={3}".format(
+                            filter_name, component_name, expected_type, filter_value
+                        ),
+                        "DEBUG",
+                    )
+
                     if expected_type == "list" and not isinstance(filter_value, list):
                         invalid_filters.append(
                             "Component '{0}' filter '{1}' must be a list".format(
@@ -369,6 +451,13 @@ class BrownFieldHelper:
                             )
                         )
                         continue
+                    elif expected_type == "bool" and not isinstance(filter_value, bool):
+                        invalid_filters.append(
+                            "Component '{0}' filter '{1}' must be a boolean".format(
+                                component_name, filter_name
+                            )
+                        )
+                        continue
 
                     #  ADD: Direct range validation for integers
                     if expected_type == "int" and "range" in filter_spec:
@@ -389,6 +478,12 @@ class BrownFieldHelper:
                     # Validate patterns for string filters
                     if expected_type == "str" and "pattern" in filter_spec:
                         pattern = filter_spec["pattern"]
+                        self.log(
+                            "Checking pattern for component '{0}' filter '{1}': value='{2}', pattern='{3}'.".format(
+                                component_name, filter_name, filter_value, pattern
+                            ),
+                            "DEBUG",
+                        )
                         if isinstance(filter_value, str) and not re.match(
                             pattern, filter_value
                         ):
@@ -402,6 +497,12 @@ class BrownFieldHelper:
                     # Validate choices for lists
                     if expected_type == "list" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
+                        self.log(
+                            "Checking list choices for component '{0}' filter '{1}': valid_choices={2}.".format(
+                                component_name, filter_name, valid_choices
+                            ),
+                            "DEBUG",
+                        )
                         invalid_choices = [
                             item for item in filter_value if item not in valid_choices
                         ]
@@ -419,6 +520,13 @@ class BrownFieldHelper:
                     if expected_type == "list" and filter_value:
                         element_type = filter_spec.get("elements", "str")
                         range_values = filter_spec.get("range")
+                        self.log(
+                            "Validating list elements for component '{0}' filter '{1}': "
+                            "element_type='{2}', element_count={3}.".format(
+                                component_name, filter_name, element_type, len(filter_value)
+                            ),
+                            "DEBUG",
+                        )
 
                         for i, element in enumerate(filter_value):
                             #  ADD: Range validation for list elements
@@ -443,6 +551,12 @@ class BrownFieldHelper:
                     # Validate choices for strings
                     if expected_type == "str" and "choices" in filter_spec:
                         valid_choices = filter_spec["choices"]
+                        self.log(
+                            "Checking string choices for component '{0}' filter '{1}': value='{2}', valid_choices={3}.".format(
+                                component_name, filter_name, filter_value, valid_choices
+                            ),
+                            "DEBUG",
+                        )
                         if filter_value not in valid_choices:
                             invalid_filters.append(
                                 "Component '{0}' filter '{1}' has invalid value: '{2}'. Valid choices: {3}".format(
@@ -456,6 +570,12 @@ class BrownFieldHelper:
                     # Validate nested dict options and apply dynamic validation
                     if expected_type == "dict" and "options" in filter_spec:
                         nested_options = filter_spec["options"]
+                        self.log(
+                            "Validating nested dict options for component '{0}' filter '{1}': keys={2}.".format(
+                                component_name, filter_name, list(filter_value.keys())
+                            ),
+                            "DEBUG",
+                        )
                         for nested_key, nested_value in filter_value.items():
                             if nested_key not in nested_options:
                                 invalid_filters.append(
@@ -467,6 +587,13 @@ class BrownFieldHelper:
 
                             nested_spec = nested_options[nested_key]
                             nested_type = nested_spec.get("type", "str")
+                            self.log(
+                                "Validating nested key '{0}' in component '{1}' filter '{2}': "
+                                "expected_type='{3}', value={4}.".format(
+                                    nested_key, component_name, filter_name, nested_type, nested_value
+                                ),
+                                "DEBUG",
+                            )
 
                             if nested_type == "list" and not isinstance(
                                 nested_value, list
@@ -497,6 +624,13 @@ class BrownFieldHelper:
                             if nested_type == "int" and "range" in nested_spec:
                                 range_values = nested_spec["range"]
                                 min_val, max_val = range_values[0], range_values[1]
+                                self.log(
+                                    "Checking range for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "value={3}, range=[{4}, {5}].".format(
+                                        nested_key, component_name, filter_name, nested_value, min_val, max_val
+                                    ),
+                                    "DEBUG",
+                                )
                                 if not (min_val <= nested_value <= max_val):
                                     invalid_filters.append(
                                         "Component '{0}' filter '{1}.{2}' value {3} is outside valid range [{4}, {5}]".format(
@@ -515,6 +649,13 @@ class BrownFieldHelper:
                                 nested_value, str
                             ):
                                 pattern = nested_spec["pattern"]
+                                self.log(
+                                    "Checking pattern for nested key '{0}' in component '{1}' filter '{2}': "
+                                    "value='{3}', pattern='{4}'.".format(
+                                        nested_key, component_name, filter_name, nested_value, pattern
+                                    ),
+                                    "DEBUG",
+                                )
                                 if not re.match(pattern, nested_value):
                                     invalid_filters.append(
                                         "Component '{0}' filter '{1}.{2}' does not match required pattern".format(
@@ -529,7 +670,7 @@ class BrownFieldHelper:
             self.fail_and_exit(self.msg)
 
         self.log(
-            "All component-specific filters for module '{0}' are valid.".format(
+            "Successfully validated all component-specific filters for module '{0}'.".format(
                 self.module_name
             ),
             "INFO",
@@ -893,17 +1034,88 @@ class BrownFieldHelper:
             "DEBUG",
         )
 
+    def validate_config_filters_against_temp_spec(self, config_dict, temp_spec):
+        """
+        Validates that only filter keys defined in temp_spec are present in config.
+
+        This function is focused on filter-level key validation for config generator
+        playbook inputs. Supported filter keys are defined by temp_spec and may
+        include one or both of:
+            - global_filters
+            - component_specific_filters
+
+        Args:
+            config_dict (dict): User-provided configuration dictionary.
+            temp_spec (dict): Schema dictionary that defines allowed filter keys.
+
+        Returns:
+            None
+
+        Raises:
+            SystemExit: If validation fails and fail_and_exit is called.
+        """
+
+        self.log(
+            "Starting validation of filter keys against temp_spec. "
+            "config_keys={0}, temp_spec_keys={1}".format(
+                sorted(config_dict.keys()),
+                sorted(temp_spec.keys()),
+            ),
+            "DEBUG",
+        )
+
+        configured_filter_keys = set(config_dict.keys())
+        allowed_filter_keys = set(temp_spec.keys())
+        sorted_allowed = sorted(allowed_filter_keys)
+
+        self.log(
+            "Filter key validation context - configured_filter_keys={0}, "
+            "allowed_filter_keys={1}".format(
+                sorted(configured_filter_keys), sorted_allowed
+            ),
+            "DEBUG",
+        )
+
+        invalid_filter_keys = configured_filter_keys - allowed_filter_keys
+        sorted_invalid = sorted(invalid_filter_keys)
+        if invalid_filter_keys:
+            self.msg = (
+                "Invalid filters found in playbook config: {0}. "
+                "Allowed filters are: {1}."
+            ).format(
+                sorted_invalid,
+                sorted_allowed,
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log(
+            "Filter key validation completed successfully. "
+            "Provided filter keys are valid against temp_spec.",
+            "DEBUG",
+        )
+
     def validate_config_dict(self, config_dict, temp_spec):
         """
         Validates config dictionary using the same behavior as
         validate_list_of_dicts by wrapping the dict into a one-item list.
+
+        This method performs multi-stage validation:
+        1. Type validation to ensure config_dict is a dictionary.
+        2. Schema validation against temp_spec using validate_list_of_dicts.
+        3. Filter-key validation to ensure only keys defined in temp_spec are used.
+        4. Guard checks for empty filter dictionaries when filter keys are provided
+           (for example, empty global_filters or component_specific_filters).
 
         Args:
             config_dict (dict): Single configuration dictionary from playbook input.
             temp_spec (dict): Validation schema for config keys.
 
         Returns:
-            dict: Single config dictionary entry.
+            dict: Single validated configuration dictionary entry.
+
+        Raises:
+            SystemExit: If validation fails and fail_and_exit is called.
         """
 
         self.log(
@@ -929,8 +1141,17 @@ class BrownFieldHelper:
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
+        self.validate_config_filters_against_temp_spec(config_dict, temp_spec)
+
         component_specific_filters = config_dict.get("component_specific_filters")
-        if component_specific_filters is None:
+        if "component_specific_filters" in config_dict and component_specific_filters is None:
+            self.msg = (
+                "Invalid playbook config: 'component_specific_filters' cannot be null when provided. "
+                "Provide at least one filter or omit 'component_specific_filters'."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+        elif component_specific_filters is None:
             self.log(
                 "No 'component_specific_filters' provided in config; skipping validation.",
                 "DEBUG",
@@ -940,6 +1161,27 @@ class BrownFieldHelper:
                 "Invalid parameters in playbook config: 'component_specific_filters' "
                 "is provided but empty. Please provide at least one component filter "
                 "or remove 'component_specific_filters' from the configuration."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        global_filters = config_dict.get("global_filters")
+        if "global_filters" in config_dict and global_filters is None:
+            self.msg = (
+                "Invalid playbook config: 'global_filters' cannot be null when provided. "
+                "Provide at least one filter or omit 'global_filters'."
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+        elif global_filters is None:
+            self.log(
+                "No 'global_filters' provided in config; skipping validation.",
+                "DEBUG",
+            )
+        elif not global_filters:
+            self.msg = (
+                "Invalid playbook config: 'global_filters' is empty. "
+                "Provide at least one filter or omit 'global_filters'."
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
@@ -1707,19 +1949,31 @@ class BrownFieldHelper:
 
     def _get_last_yaml_document(self, file_path):
         """
-        Extract the last YAML document's data from a multi-document YAML file.
-        Uses the '---' YAML document separator to split documents and parses only
-        the last one. Header comment lines are automatically ignored by the YAML parser.
+        Extract the effective YAML data from a file that uses
+        last-key-wins semantics (single-document, no ---
+        separators between appended blocks).
+
+        Uses yaml.safe_load which, for duplicate top-level keys
+        such as config:, returns the value from the last
+        occurrence. This matches the append-mode file format
+        where new config blocks are appended without ---
+        separators.
+
+        Note: For files containing multiple YAML documents
+        (separated with ---), yaml.safe_load may fail because it
+        expects a single document. In that case, this function
+        returns None (exception is handled).
 
         Args:
-            file_path (str): Path to the multi-document YAML file.
+            file_path (str): Path to the YAML file.
 
         Returns:
             dict or None: The parsed data from the last YAML document, or None if
-                          the file is empty, doesn't exist, or parsing fails.
+                          the file is empty, doesn't exist, does not exist, or parsing fails.
         """
         self.log(
-            "Attempting to extract last YAML document from '{0}'".format(file_path),
+            "Reading file '{0}' to extract the last YAML "
+            "document.".format(file_path),
             "DEBUG",
         )
 
@@ -1731,8 +1985,8 @@ class BrownFieldHelper:
                 )
                 return None
 
-            with open(file_path, "r") as f:
-                content = f.read()
+            with open(file_path, "r") as yaml_file:
+                content = yaml_file.read()
 
             self.log(
                 "Successfully read file '{0}', content length: {1} characters".format(
@@ -1748,55 +2002,19 @@ class BrownFieldHelper:
                 )
                 return None
 
-            # Split by YAML document separator and take the last non-empty segment
-            documents = content.split("\n---\n")
+            # -----------------------------------------------
+            # yaml.safe_load returns last-key-wins for
+            # duplicate top-level keys. Append mode omits
+            # --- separators so the file stays as a single
+            # document - safe_load returns the last config.
+            # -----------------------------------------------
             self.log(
-                "File '{0}' split into {1} YAML document segment(s)".format(file_path, len(documents)),
+                "Parsing file '{0}' with safe_load (last-key-wins) to extract "
+                "last config block.".format(file_path),
                 "DEBUG",
             )
 
-            last_segment = None
-            total_segments = len(documents)
-
-            for segment_number in range(total_segments, 0, -1):
-                segment = documents[segment_number - 1]
-                stripped = segment.strip()
-
-                self.log(
-                    "Checking segment {0}/{1}, "
-                    "empty: {2}, length: {3} characters".format(
-                        segment_number, total_segments,
-                        not bool(stripped), len(stripped)
-                    ),
-                    "DEBUG",
-                )
-
-                if stripped:
-                    self.log(
-                        "Found last non-empty YAML segment at position {0}".format(segment_number),
-                        "DEBUG",
-                    )
-                    last_segment = stripped
-                    break
-
-                self.log(
-                    "Segment {0} is empty, continuing to next".format(segment_number),
-                    "DEBUG",
-                )
-
-            if last_segment is None:
-                self.log(
-                    "No non-empty YAML segment found in '{0}', returning None".format(file_path),
-                    "DEBUG",
-                )
-                return None
-
-            self.log(
-                "Parsing last YAML segment from '{0}'".format(file_path),
-                "DEBUG",
-            )
-
-            last_doc = yaml.safe_load(last_segment)
+            last_doc = yaml.safe_load(content)
 
             self.log(
                 "Extracted last YAML document from '{0}', content: {1}"
@@ -1805,6 +2023,24 @@ class BrownFieldHelper:
             )
 
             return last_doc
+
+        except yaml.YAMLError as yaml_err:
+            self.log(
+                "YAML parsing error while reading '{0}': {1}".format(
+                    file_path, str(yaml_err)
+                ),
+                "ERROR",
+            )
+            return None
+
+        except (IOError, OSError) as io_err:
+            self.log(
+                "File read error for '{0}': {1}".format(
+                    file_path, str(io_err)
+                ),
+                "ERROR",
+            )
+            return None
 
         except Exception as e:
             self.log(
@@ -1815,76 +2051,44 @@ class BrownFieldHelper:
             )
             return None
 
-    def _compute_content_hash(self, content):
+    def strip_comment_lines(self, content):
         """
-        Compute a SHA256 hash of file content after stripping volatile header
-        fields (timestamp, playbook path) so that two files generated from the
-        same config at different times produce an identical hash.
+        Return content lines with all comment lines removed.
 
-        Uses streaming hash updates per line instead of building a full
-        normalized string in memory, which is significantly faster and more
-        memory-efficient for large configuration files.
+        Strips every line whose first non-whitespace character is '#'.
+        This removes generated header blocks as well as any other
+        comment lines so that two YAML files differing only in
+        comments compare as equal during the idempotency check.
 
         Args:
-            content (str): Raw file content including header comments.
+            content (str): Raw file content including header
+                comments and YAML payload.
 
         Returns:
-            str: Hex-encoded SHA256 digest of the normalized content.
+            list: Content lines excluding comment lines.
         """
         self.log(
-            "Starting SHA256 content hash computation. "
-            "Input content length: {0} characters.".format(len(content)),
+            "Stripping comment lines from content of "
+            "length {0} characters.".format(len(content)),
             "DEBUG",
         )
 
         lines = content.splitlines()
-        total_lines = len(lines)
+        filtered_lines = [
+            line for line in lines if not line.strip().startswith("#")
+        ]
 
         self.log(
-            "Content split into {0} lines for hash processing.".format(total_lines),
+            "Stripped comment lines from content. "
+            "Total lines: {0}, retained lines: {1}, "
+            "removed comment lines: {2}".format(
+                len(lines),
+                len(filtered_lines),
+                len(lines) - len(filtered_lines),
+            ),
             "DEBUG",
         )
-
-        hasher = hashlib.sha256()
-        skipped_lines = 0
-        hashed_lines = 0
-
-        for index, line in enumerate(lines, start=1):
-            stripped = line.strip()
-
-            self.log(
-                "Processing line {0}/{1}: '{2}'".format(index, total_lines, stripped),
-                "DEBUG",
-            )
-
-            # Skip lines that change every run
-            if stripped.startswith("#  Generated on") or stripped.startswith("#  Generated from"):
-                self.log(
-                    "Line {0}: Skipping volatile header line: '{1}'".format(index, stripped),
-                    "DEBUG",
-                )
-                skipped_lines += 1
-                continue
-
-            hasher.update(line.encode("utf-8"))
-            hasher.update(b"\n")
-            hashed_lines += 1
-
-            self.log(
-                "Line {0}: Hashed successfully.".format(index),
-                "DEBUG",
-            )
-
-        digest = hasher.hexdigest()
-
-        self.log(
-            "SHA256 content hash computation completed. "
-            "Total lines: {0}, Lines hashed: {1}, Volatile lines skipped: {2}, "
-            "Computed hash: {3}".format(total_lines, hashed_lines, skipped_lines, digest),
-            "DEBUG",
-        )
-
-        return digest
+        return filtered_lines
 
     def write_dict_to_yaml(
         self,
@@ -1895,24 +2099,33 @@ class BrownFieldHelper:
         notes=None,
     ):
         """
-        Converts a dictionary to YAML format and writes it to a specified file path.
-        Supports idempotent behavior: skips writing if the content is unchanged.
+        Converts a dictionary to YAML format and writes it to
+        a specified file path. Supports idempotent behavior:
+        skips writing if the YAML payload is unchanged.
 
-        For overwrite mode: compares the full file content (excluding volatile header
-        fields like timestamp) against the new content.
-        For append mode: compares the data payload against the last YAML document
-        already present in the file.
+        For overwrite mode: compares the full rendered YAML
+        content while ignoring all comment lines (lines
+        starting with '#').
+        For append mode: compares the data payload against the
+        last config block in the file using yaml.safe_load
+        last-key-wins semantics.
+
+        In append mode the --- document separator is omitted
+        so the file remains a single YAML document where the
+        last config: key wins.
 
         Args:
-            data_dict (dict): The dictionary to convert to YAML format.
-            file_path (str): The path where the YAML file will be written.
-            file_mode (str): File write mode. Supported values: "overwrite", "append".
-            notes (list, optional): A list of additional comment lines to append after the
-                                   standard header information. Each string in the list will be
-                                   prefixed with "# " to maintain comment formatting. Defaults to None.
-            dumper: The YAML dumper class to use for serialization (default is OrderedDumper).
+            data_dict (dict): The dictionary to convert to YAML.
+            file_path (str): The path where the YAML file will
+                be written.
+            file_mode (str): 'overwrite' or 'append'.
+            dumper: The YAML dumper class (default OrderedDumper).
+            notes (list, optional): Additional comment lines to
+                append after the standard header.
+
         Returns:
-            bool: True if the file was written (content changed), False if skipped (no change).
+            bool: True if written (content changed), False if
+                skipped (no change).
         """
 
         self.log(
@@ -1937,7 +2150,24 @@ class BrownFieldHelper:
                 self.fail_and_exit(self.msg)
 
             header_comments = self.add_header_comments(notes=notes)
-            yaml_content = header_comments + "\n---\n" + yaml_content
+
+            # Use --- separator only for overwrite mode or when file doesn't exist yet.
+            # In append mode, skip --- so the file remains a single YAML document
+            # where the last config: key wins (history-style structure).
+            if file_mode == "append" and os.path.isfile(file_path) and os.path.getsize(file_path) > 0:
+                self.log(
+                    "Append mode with non-empty existing file '{0}'. Building YAML "
+                    "content without document separator.".format(file_path),
+                    "DEBUG",
+                )
+                yaml_content = "\n" + header_comments + "\n" + yaml_content
+            else:
+                self.log(
+                    "Using standard YAML content format for '{0}' with header comments "
+                    "and document separator.".format(file_path),
+                    "DEBUG",
+                )
+                yaml_content = header_comments + "\n---\n" + yaml_content
 
             self.log("Dictionary successfully converted to YAML format.", "DEBUG")
 
@@ -1945,7 +2175,8 @@ class BrownFieldHelper:
             if file_mode == "overwrite" and os.path.isfile(file_path):
                 self.log(
                     "Overwrite mode: Existing file found at '{0}'. "
-                    "Starting idempotency check by comparing content hashes.".format(file_path),
+                    "Starting idempotency check by comparing full YAML content "
+                    "without header comments.".format(file_path),
                     "DEBUG",
                 )
 
@@ -1960,26 +2191,17 @@ class BrownFieldHelper:
                         "DEBUG",
                     )
 
-                    existing_hash = self._compute_content_hash(existing_content)
-                    new_hash = self._compute_content_hash(yaml_content)
-
-                    self.log(
-                        "Content hash comparison for '{0}': existing_hash={1}, new_hash={2}".format(
-                            file_path, existing_hash, new_hash
-                        ),
-                        "DEBUG",
-                    )
-
-                    if existing_hash == new_hash:
+                    if self.strip_comment_lines(existing_content) == self.strip_comment_lines(yaml_content):
                         self.log(
-                            "Overwrite mode: File '{0}' already has identical content (hash match). "
-                            "Skipping write.".format(file_path),
+                            "Overwrite mode: File '{0}' already has identical YAML content "
+                            "after excluding header comments. Skipping write.".format(file_path),
                             "INFO",
                         )
                         return False
 
                     self.log(
-                        "Overwrite mode: Content hashes differ for '{0}'. Proceeding with write.".format(file_path),
+                        "Overwrite mode: YAML content differs for '{0}' after excluding "
+                        "header comments. Proceeding with write.".format(file_path),
                         "DEBUG",
                     )
 
@@ -2549,7 +2771,7 @@ class BrownFieldHelper:
                     )
 
                     # Execute the API call
-                    response = self.catalystcenter._exec(
+                    response = self.dnac._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -2655,7 +2877,7 @@ class BrownFieldHelper:
             function_name = "get_fabric_zones"
 
         try:
-            response = self.catalystcenter._exec(
+            response = self.dnac._exec(
                 family="sda",
                 function=function_name,
                 op_modifies=False,
@@ -2826,7 +3048,7 @@ class BrownFieldHelper:
             site_id = site.get("id")
             if site_id:
                 if (
-                    self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") <= 0
+                    self.compare_dnac_versions(ccc_version, "2.3.7.9") <= 0
                     and site.get("type") == "global"
                 ):
                     # For versions <= 2.3.7.9
@@ -2862,9 +3084,12 @@ class BrownFieldHelper:
         )
         return site_id_name_mapping
 
-    def get_fabric_site_name_to_id_mapping(self):
+    def get_fabric_site_name_to_id_mapping(self, site_id_name_mapping=None):
         """
         Retrieves the bidirectional mapping of fabric site names to fabric site IDs for all fabric sites.
+        Args:
+            site_id_name_mapping (dict, optional): Pre-fetched mapping of site IDs to site names.
+                If None, the mapping is retrieved from the API. Defaults to None.
         Returns:
             tuple: A tuple containing two dictionaries:
                 - fabric_site_name_to_id (dict): Mapping of fabric site names (hierarchical) to fabric site IDs
@@ -2894,7 +3119,12 @@ class BrownFieldHelper:
         ]
 
         # Get mapping of siteId to nameHierarchy
-        site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)
+        if site_id_name_mapping is None:
+            self.log(
+                "site_id_name_mapping not passed as parameter, creating mapping from API",
+                "INFO",
+            )
+            site_id_name_mapping = self.get_site_id_name_mapping(site_ids_of_fabric_sites)
 
         for fabric_site in fabric_sites:
             fabric_id = fabric_site.get("id")

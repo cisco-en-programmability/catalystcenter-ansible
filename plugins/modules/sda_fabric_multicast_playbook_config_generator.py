@@ -142,7 +142,7 @@ options:
                 required: false
 
 requirements:
-- dnacentersdk >= 2.9.2
+- catalystcentersdk >= 2.9.2
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 
@@ -1622,7 +1622,7 @@ def main():
         ccc_sda_multicast_playbook_generator.log(
             ccc_sda_multicast_playbook_generator.msg, "ERROR"
         )
-        ccc_sda_multicast_playbook_generator.check_recturn_status()
+        ccc_sda_multicast_playbook_generator.check_return_status()
 
     # Validate the input parameters and check the return status
     ccc_sda_multicast_playbook_generator.validate_input().check_return_status()

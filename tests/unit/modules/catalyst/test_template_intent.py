@@ -19,10 +19,10 @@ __metaclass__ = type
 
 from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import template_intent
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacTemplateIntent(TestDnacModule):
+class TestDnacTemplateIntent(TestCatalystModule):
 
     module = template_intent
     test_data = loadPlaybookData("template_intent")

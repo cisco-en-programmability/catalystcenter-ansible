@@ -125,7 +125,7 @@ author:
 - Apoorv Bansal (@Apoorv74-dot)
 - Madhan Sankaranarayanan (@madhansansel)
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.7.9
 - Requires minimum Cisco Catalyst Center version 2.3.7.9
@@ -456,6 +456,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
             return self
 
         self.auto_populate_and_validate_components_list(component_specific_filters)
+        # Deduplicate user-provided filters to avoid issuing redundant API calls
+        # for the same policy name. Note: API-level deduplication is done separately
+        # in get_extranet_policies_configuration() for paginated response overlap.
+        self.deduplicate_component_filters(component_specific_filters)
 
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
@@ -496,7 +500,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
         schema = {
             "network_elements": {
                 "extranet_policies": {
-                    "filters": ["extranet_policy_name"],
+                    "filters": {"extranet_policy_name": {"type": "str"}},
                     "reverse_mapping_function": (self.extranet_policy_temp_spec),
                     "api_function": "get_extranet_policies",
                     "api_family": "sda",
@@ -534,10 +538,11 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
                 - Other policy details (not processed by this method)
 
         Returns:
-            list[str]: Fabric site name hierarchies in order:
+            list[str] | None: Fabric site name hierarchies in order:
                 - Format: "Global/Region/Site/Building"
                 - Only includes successfully resolved site names
-                - Returns empty list if no fabricIds or resolution failures
+                - Returns None if no fabricIds found, or if all fabric IDs
+                  fail to resolve (empty result list)
 
         Processing Flow:
             1. Extract fabricIds list from policy details
@@ -573,11 +578,10 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
         fabric_ids = extranet_policy_details.get("fabricIds", [])
         if not fabric_ids:
             self.log(
-                "No fabric IDs found in extranet policy "
-                "details, returning empty list",
+                "No fabric IDs found in extranet policy details, returning None",
                 "DEBUG",
             )
-            return []
+            return None
 
         self.log(
             "Processing {0} fabric ID(s) for site name "
@@ -618,7 +622,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
                 ),
                 "DEBUG",
             )
-        return fabric_site_names
+        return fabric_site_names if fabric_site_names else None
 
     def extranet_policy_temp_spec(self):
         """
@@ -762,7 +766,7 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
                         ...
                     ]
                 }
-                Returns {"extranet_policies": []} if no policies found
+                Returns None if no policies found
 
         Processing Workflow:
             1. Extract API family and function from network_element
@@ -779,11 +783,16 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
             5. For full retrieval:
                 - Execute paginated API call with empty params
                 - Collect all policies from Catalyst Center
-            6. Transform results:
+            6. Deduplicate output policies before transformation using the unique policy
+               name (extranetPolicyName) as key:
+                - Track seen policy names in a set
+                - Skip policies with duplicate names
+                - Log count of removed duplicates if any
+            7. Transform results:
                 - Generate extranet_policy_temp_spec()
                 - Apply modify_parameters(temp_spec, policies)
                 - Convert API format to YAML format
-            7. Return structured result dictionary
+            8. Return structured result dictionary
 
         API Integration:
             - Family: sda
@@ -823,8 +832,8 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
 
         Error Handling:
             - API failures: Logged and propagated to calling function
-            - Empty results: Returns empty list, not error
-            - Invalid filter names: Logged as warning, skipped
+            - Empty results: Returns None, not an error
+            - Invalid filter names: Logged as a warning and skipped
             - Failed transformations: Logged and may cause failures
 
         Logging:
@@ -915,11 +924,31 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
         if not final_extranet_policies:
             self.log(
                 "No extranet policies found matching the "
-                "specified filters. Returning empty "
+                "specified filters. Returning None "
                 "result.",
                 "WARNING",
             )
-            return {"extranet_policies": []}
+            return None
+
+        # Deduplicate output policies before transformation using the unique policy name as key
+        original_count = len(final_extranet_policies)
+        seen_policy_names = set()
+        deduped_policies = []
+        for policy in final_extranet_policies:
+            policy_name = policy.get("extranetPolicyName")
+            if policy_name not in seen_policy_names:
+                seen_policy_names.add(policy_name)
+                deduped_policies.append(policy)
+        final_extranet_policies = deduped_policies
+        dedup_count = original_count - len(final_extranet_policies)
+        if dedup_count > 0:
+            self.log(
+                "Removed {0} duplicate extranet policy(ies) from API results. "
+                "Original count: {1}, After dedup: {2}".format(
+                    dedup_count, original_count, len(final_extranet_policies)
+                ),
+                "INFO",
+            )
 
         self.log(
             "Transforming {0} extranet policy(ies) using "
@@ -931,14 +960,13 @@ class SdaExtranetPoliciesPlaybookConfigGenerator(CatalystCenterBase, BrownFieldH
             extranet_policy_temp_spec, final_extranet_policies
         )
 
-        result = {"extranet_policies": ep_details}
         self.log(
             "Completed extranet policies configuration retrieval. Returning {0} transformed policies.".format(
                 len(ep_details)
             ),
             "INFO",
         )
-        return result
+        return ep_details
 
     def get_diff_gathered(self):
         """
@@ -1182,7 +1210,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -1191,7 +1219,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -1258,7 +1286,7 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         # ============================================

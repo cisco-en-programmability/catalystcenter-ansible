@@ -354,7 +354,7 @@ options:
                 required: false
 
 requirements:
-- dnacentersdk >= 2.3.7.9
+- catalystcentersdk >= 2.3.7.9
 - python >= 3.9
 - PyYAML >= 5.1
 notes:
@@ -683,11 +683,11 @@ response_2:
   sample: >
     {
         "msg":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False.",
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components.",
         "response":
-            "Validation Error: 'component_specific_filters' must be provided with 'components_list' key
-             when 'generate_all_configurations' is set to False."
+            "Validation Error: component_specific_filters is provided but no components are specified.
+             Either provide 'components_list' with at least one component, or provide filters for specific components."
     }
 """
 
@@ -796,7 +796,7 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
 
     Version Requirements:
         - Cisco Catalyst Center: 2.3.7.9 or higher
-        - dnacentersdk: 2.3.7.9 or higher
+        - catalystcentersdk: 2.3.7.9 or higher
         - Python: 3.9 or higher
         - PyYAML: 5.1 or higher (for YAML serialization with OrderedDumper)
 
@@ -2364,7 +2364,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -2373,12 +2373,11 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
             - config (list[dict], required): Configuration parameters list containing:
-                * generate_all_configurations (bool): Enable auto-discovery mode
                 * file_path (str): Output YAML file path
                 * component_specific_filters (dict): Component-based filters with:
                     - components_list (list): Component types to extract
@@ -2461,12 +2460,12 @@ def main():
         "catalystcenter_host": {
             "required": True,
             "type": "str",
-            "aliases": ["dnac_host"],
+            "aliases": ["dnac_host"]
         },
         "catalystcenter_port": {
             "type": "str",
             "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "aliases": ["dnac_port", "catalystcenter_api_port"]
         },
         "catalystcenter_username": {
             "type": "str",
@@ -2476,12 +2475,12 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_verify"],
+            "aliases": ["dnac_verify"]
         },
 
         # ============================================
@@ -2490,7 +2489,7 @@ def main():
         "catalystcenter_version": {
             "type": "str",
             "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "aliases": ["dnac_version"]
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -2511,27 +2510,27 @@ def main():
         "catalystcenter_debug": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_debug"],
+            "aliases": ["dnac_debug"]
         },
         "catalystcenter_log_level": {
             "type": "str",
             "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "aliases": ["dnac_log_level"]
         },
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "aliases": ["dnac_log_file_path"]
         },
         "catalystcenter_log_append": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_log_append"],
+            "aliases": ["dnac_log_append"]
         },
         "catalystcenter_log": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_log"],
+            "aliases": ["dnac_log"]
         },
 
         # ============================================

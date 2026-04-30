@@ -8,9 +8,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-__author__ = [
-    "Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek"
-]
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni, A Mohamed Rafeek, Vivek Raj']
 
 DOCUMENTATION = r"""
 ---
@@ -1126,8 +1124,8 @@ options:
                       - When provided, this field takes precedence over 'template_content'.
                       - Supports absolute and relative paths. Relative paths are resolved from the playbook's working
                         directory (typically the directory where `ansible-playbook` is executed).
-                      - For '.j2' files, content is rendered using Jinja before being sent to Cisco Catalyst Center;
-                        variables and logic are evaluated using the provided `template_params` and runtime context.
+                      - For '.j2' files, content is evaluated if validate_jinja2_syntax is set to true, using Jinja templating engine before
+                        being sent to Cisco Catalyst Center; variables and logic are evaluated using the provided `template_params` and runtime context.
                       - For '.txt' files, content is passed transparently to the Cisco Catalyst Center APIs without
                         evaluation or interpolation.
                       - Rendering errors (e.g., missing variables, invalid Jinja syntax) cause the module to fail with a descriptive message.
@@ -1303,6 +1301,61 @@ options:
               the template is built using multiple smaller
               templates.
             type: bool
+          member_template_deployment_info:
+            description:
+              - A list of member template deployment
+                details used when deploying a composite
+                template.
+              - Each entry describes a child template
+                and its deployment parameters.
+              - Required when is_composite is set to
+                true.
+            type: list
+            elements: dict
+            suboptions:
+              project_name:
+                description:
+                - Name of the project under which the member
+                  template resides in Catalyst Center.
+                - Matched against the 'name' field of projects
+                  returned by the Catalyst Center API.
+                - If omitted, defaults to the parent template's
+                  project_name, allowing member templates in the
+                  same project to be referenced without
+                  repetition.
+                - Applies per member entry in the
+                  member_template_deployment_info list.
+                - For example, 'Composite_Project'.
+                type: str
+              template_name:
+                description: Name of the member template
+                  to deploy.
+                type: str
+                required: true
+              force_push_template:
+                description: Whether to force push the
+                  member template to the device even if
+                  the template has already been applied.
+                type: bool
+                default: true
+              copy_config:
+                description: Whether to copy the running
+                  configuration to startup after applying
+                  the member template.
+                type: bool
+                default: true
+              template_parameters:
+                description: A list of parameter name-value
+                  pairs for customizing the member template.
+                type: list
+                elements: dict
+                suboptions:
+                  param_name:
+                    description: Name of the parameter.
+                    type: str
+                  param_value:
+                    description: Value for the parameter.
+                    type: str
           copy_config:
             description:
               - A boolean flag that specifies whether
@@ -1472,6 +1525,10 @@ notes:
   - While deploying the template to devices, the value for the following resource types can be filled in the resource parameters at
     RUNTIME- MANAGED_DEVICE_UUID, MANAGED_DEVICE_IP, MANAGED_DEVICE_HOSTNAME, and SITE_UUID. For all other resource types, the value
     must be provided at DESIGN time in the playbook.
+  - Sensitive data such as template parameter values, credentials, or other confidential information can be protected
+    using Ansible Vault. Store sensitive values in a vault-encrypted file and reference them as variables in the playbook.
+    Use C(ansible-vault encrypt <file>) to encrypt the file and pass C(--ask-vault-pass) or C(--vault-password-file)
+    when running the playbook.
 """
 
 EXAMPLES = r"""
@@ -2056,31 +2113,6 @@ EXAMPLES = r"""
             - product_family: Switches and Hubs
 
 - name: Create L2VN anycast template in Catalyst Center where
-    template content is stored in a file and its relative path is provided.
-  cisco.catalystcenter.template_workflow_manager:
-    catalystcenter_host: "{{ catalystcenter_host }}"
-    catalystcenter_port: "{{ catalystcenter_port }}"
-    catalystcenter_username: "{{ catalystcenter_username }}"
-    catalystcenter_password: "{{ catalystcenter_password }}"
-    catalystcenter_verify: "{{ catalystcenter_verify }}"
-    catalystcenter_version: "{{ catalystcenter_version }}"
-    catalystcenter_debug: "{{ catalystcenter_debug }}"
-    catalystcenter_log_level: DEBUG
-    catalystcenter_log: true
-    config_verify: true
-    state: merged
-    config:
-      - configuration_templates:
-          project_name: "evpn_l2vn_anycast"
-          template_name: "evpn_l2vn_anycast_template"
-          template_content_file_path: "evpn_templates/evpn_anycast.j2"
-          version_description: "Raw Jinja BGP EVPN L2VN anycast template"
-          language: JINJA
-          software_type: "IOS-XE"
-          device_types:
-            - product_family: Switches and Hubs
-
-- name: Create L2VN anycast template in Catalyst Center where
     template content is stored in a file and its relative path is provided. validate_jinja2_syntax is set to true.
   cisco.catalystcenter.template_workflow_manager:
     catalystcenter_host: "{{ catalystcenter_host }}"
@@ -2105,6 +2137,112 @@ EXAMPLES = r"""
           software_type: "IOS-XE"
           device_types:
             - product_family: Switches and Hubs
+
+- name: Deploy a composite template with member templates to devices based on device specific details
+  cisco.catalystcenter.template_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    catalystcenter_log_append: true
+    validate_response_schema: false
+    state: "merged"
+    config_verify: true
+    config:
+      - deploy_template:
+          project_name: "composite_project"
+          template_name: "composite_template"
+          is_composite: true
+          force_push: true
+          member_template_deployment_info:
+            - project_name: "composite_project"
+              template_name: "containing_template1"
+              copy_config: false
+            - project_name: "composite_project"
+              template_name: "containing_template2"
+              copy_config: false
+          device_details:
+            device_ips:
+              - 10.1.1.1
+
+- name: Deploy a composite template with member templates using template_parameters to devices based on device specific details
+  cisco.catalystcenter.template_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log: true
+    catalystcenter_log_level: DEBUG
+    catalystcenter_log_append: true
+    validate_response_schema: false
+    state: "merged"
+    config_verify: true
+    config:
+      - deploy_template:
+          project_name: "composite_project"
+          template_name: "composite_template"
+          is_composite: true
+          force_push: true
+          member_template_deployment_info:
+            - project_name: "composite_project"
+              template_name: "containing_template1"
+              copy_config: false
+              template_parameters:
+                - param_name: "name"
+                  param_value: "abc"
+            - project_name: "composite_project"
+              template_name: "containing_template2"
+              copy_config: false
+              template_parameters:
+                - param_name: "name"
+                  param_value: "xyz"
+          device_details:
+            device_ips:
+              - 10.1.1.1
+
+- name: Deploy template with sensitive parameter values protected using Ansible Vault
+  # Step 1 - Create a vault file (e.g., vault_vars.yml) with sensitive values:
+  #   password: "my_password"
+  # Step 2 - Encrypt it: ansible-vault encrypt vault_vars.yml --ask-vault-pass
+  # Step 3 - Run the playbook: ansible-playbook playbook.yml --ask-vault-pass
+  hosts: localhost
+  vars_files:
+    - credentials.yml
+    - vault_vars.yml
+  gather_facts: false
+  tasks:
+    - name: Deploy template with vaulted parameter values
+      cisco.catalystcenter.template_workflow_manager:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        state: merged
+        config_verify: true
+        config:
+          - deploy_template:
+              project_name: "Sample_Project"
+              template_name: "Sample Template"
+              force_push: true
+              template_parameters:
+                - param_name: "password"
+                  param_value: "{{ password }}"
+              device_details:
+                device_ips:
+                  - 10.1.2.1
 """
 
 RETURN = r"""
@@ -2285,7 +2423,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     validate_list_of_dicts,
     get_dict_result,
     catalystcenter_compare_equality,
-    validate_str,
+    validate_str
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.network_profiles import (
     NetworkProfileFunctions,
@@ -2302,27 +2440,15 @@ class Template(NetworkProfileFunctions):
         self.supported_states = ["merged", "deleted"]
         self.accepted_languages = ["JINJA", "VELOCITY"]
         self.export_template = []
-        self.max_timeout = self.params.get("catalystcenter_api_task_timeout")
-        self.template_created, self.no_update_template, self.template_updated = (
-            [],
-            [],
-            [],
-        )
+        self.max_timeout = self.params.get('catalystcenter_api_task_timeout')
+        self.template_created, self.no_update_template, self.template_updated = [], [], []
         self.project_created, self.template_committed = [], []
-        self.profile_assigned, self.no_profile_assigned, self.profile_exists = (
-            [],
-            [],
-            [],
-        )
-        (
-            self.profile_detached,
-            self.profile_not_detached,
-            self.profile_already_detached,
-        ) = ([], [], [])
+        self.profile_assigned, self.no_profile_assigned, self.profile_exists = [], [], []
+        self.profile_detached, self.profile_not_detached, self.profile_already_detached = [], [], []
         # Global set to track processed profile assignments across all config iterations
-        # Format: set of tuples (template_id, profile_name)
+        # Format: set of tuples (template_name, project_name, profile_name)
         self.processed_profile_assignments = set()
-        self.result["response"] = [
+        self.result['response'] = [
             {"configurationTemplate": {"response": {}, "msg": {}}},
             {"export": {"response": {}}},
             {"import": {"response": {}}},
@@ -2392,6 +2518,20 @@ class Template(NetworkProfileFunctions):
                 "template_name": {"type": "str"},
                 "force_push": {"type": "bool"},
                 "is_composite": {"type": "bool"},
+                "member_template_deployment_info": {
+                    "type": "list",
+                    "elements": "dict",
+                    "template_name": {"type": "str"},
+                    "project_name": {"type": "str"},
+                    "force_push_template": {"type": "bool", "default": True},
+                    "copy_config": {"type": "bool", "default": True},
+                    "template_parameters": {
+                        "type": "list",
+                        "elements": "dict",
+                        "param_name": {"type": "str"},
+                        "param_value": {"type": "str"},
+                    },
+                },
                 "copy_config": {"type": "bool", "default": True},
                 "template_parameters": {
                     "type": "list",
@@ -2459,20 +2599,20 @@ class Template(NetworkProfileFunctions):
                             "product_series": {"type": "str"},
                             "product_type": {"type": "str"},
                         },
-                        "failure_policy": {"type": "str"},
-                        "id": {"type": "str"},
-                        "language": {"type": "str"},
-                        "name": {"type": "str"},
-                        "project_name": {"type": "str"},
-                        "project_description": {"type": "str"},
-                        "software_type": {"type": "str"},
-                        "software_version": {"type": "str"},
-                        "template_content": {"type": "str"},
-                        "template_params": {"type": "list"},
-                        "template_name": {"type": "str"},
-                        "version": {"type": "str"},
-                    },
-                },
+                        'failure_policy': {'type': 'str'},
+                        'id': {'type': 'str'},
+                        'language': {'type': 'str'},
+                        'name': {'type': 'str'},
+                        'project_name': {'type': 'str'},
+                        'project_description': {'type': 'str'},
+                        'software_type': {'type': 'str'},
+                        'software_version': {'type': 'str'},
+                        'template_content': {'type': 'str'},
+                        'template_params': {'type': 'list'},
+                        'template_name': {'type': 'str'},
+                        'version': {'type': 'str'}
+                    }
+                }
             },
             "projects": {
                 "type": "list",
@@ -2480,15 +2620,17 @@ class Template(NetworkProfileFunctions):
                 "options": {
                     "name": {"type": "str", "required": True},
                     "new_name": {"type": "str"},
-                    "description": {"type": "str"},
-                },
-            },
+                    "description": {"type": "str"}
+                }
+            }
         }
 
         # Validate template params
         self.config = self.camel_to_snake_case(self.config)
 
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec
+        )
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
@@ -2501,9 +2643,7 @@ class Template(NetworkProfileFunctions):
 
         self.validated_config = valid_temp
         self.log(
-            "Successfully validated playbook config params: {0}".format(
-                self.pprint(valid_temp)
-            ),
+            "Successfully validated playbook config params: {0}".format(self.pprint(valid_temp)),
             "INFO",
         )
         self.msg = "Successfully validated input"
@@ -2559,12 +2699,8 @@ class Template(NetworkProfileFunctions):
         if configuration_templates and isinstance(configuration_templates, dict):
             profile_names = configuration_templates.get("profile_names")
             ccc_version = self.get_ccc_version()
-            self.log(
-                "Processing profile assignment configuration - profiles: {0}".format(
-                    profile_names
-                ),
-                "DEBUG",
-            )
+            self.log("Processing profile assignment configuration - profiles: {0}".format(
+                profile_names), "DEBUG")
 
             if profile_names and isinstance(profile_names, list):
                 if self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") < 0:
@@ -2575,15 +2711,10 @@ class Template(NetworkProfileFunctions):
                     )
                     errormsg.append(msg)
                 else:
-                    self.log(
-                        "Validating profiles configuration for template profile assignment",
-                        "DEBUG",
-                    )
+                    self.log("Validating profiles configuration for template profile assignment", "DEBUG")
                     for each_profile in profile_names:
                         if each_profile and isinstance(each_profile, str):
-                            validate_str(
-                                each_profile, param_spec_str, "profile_names", errormsg
-                            )
+                            validate_str(each_profile, param_spec_str, "profile_names", errormsg)
 
         if errormsg:
             msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -2625,13 +2756,13 @@ class Template(NetworkProfileFunctions):
 
         self.log(
             "Starting template tag configuration processing for Cisco Catalyst Center operations",
-            "INFO",
+            "INFO"
         )
 
         if _tags is None:
             self.log(
                 "No tag configuration provided - returning None for template processing",
-                "DEBUG",
+                "DEBUG"
             )
             return None
 
@@ -2639,10 +2770,8 @@ class Template(NetworkProfileFunctions):
 
         for index, tag_item in enumerate(_tags):
             self.log(
-                "Processing tag configuration at index {0}: {1}".format(
-                    index, tag_item
-                ),
-                "DEBUG",
+                "Processing tag configuration at index {0}: {1}".format(index, tag_item),
+                "DEBUG"
             )
 
             tags.append({})
@@ -2650,7 +2779,8 @@ class Template(NetworkProfileFunctions):
             if tag_id is not None:
                 tags[index].update({"id": tag_id})
                 self.log(
-                    "Tag at index {0} includes ID: {1}".format(index, tag_id), "DEBUG"
+                    "Tag at index {0} includes ID: {1}".format(index, tag_id),
+                    "DEBUG"
                 )
 
             # Process required tag name field
@@ -2658,17 +2788,11 @@ class Template(NetworkProfileFunctions):
             if tag_name is not None:
                 tags[index].update({"name": tag_name})
                 self.log(
-                    "Tag at index {0} configured with name: {1}".format(
-                        index, tag_name
-                    ),
-                    "DEBUG",
+                    "Tag at index {0} configured with name: {1}".format(index, tag_name),
+                    "DEBUG"
                 )
             else:
-                error_msg = (
-                    "Tag name is required but not provided for tag at index {0}".format(
-                        index
-                    )
-                )
+                error_msg = "Tag name is required but not provided for tag at index {0}".format(index)
                 self.log(error_msg, "ERROR")
                 self.msg = error_msg
                 self.status = "failed"
@@ -2676,14 +2800,14 @@ class Template(NetworkProfileFunctions):
 
             self.log(
                 "Successfully processed tag configuration at index {0}".format(index),
-                "DEBUG",
+                "DEBUG"
             )
 
         self.log(
             "Template tag configuration processing completed successfully - processed {0} tags".format(
                 len(tags)
             ),
-            "INFO",
+            "INFO"
         )
         return tags
 
@@ -3099,11 +3223,12 @@ class Template(NetworkProfileFunctions):
         template_content = params.get("template_content")
         template_content_file_path = params.get("template_content_file_path")
         validate_jinja2_syntax = params.get("validate_jinja2_syntax")
+
         self.log(
             "Template content sources - file_path: {0}, inline_content: {1}".format(
                 bool(template_content_file_path), bool(template_content)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Priority 1: template_content_file_path (file-based content)
@@ -3112,7 +3237,7 @@ class Template(NetworkProfileFunctions):
                 "Processing file-based template content from path: {0}".format(
                     template_content_file_path
                 ),
-                "INFO",
+                "INFO"
             )
 
             # Validate file existence
@@ -3159,7 +3284,7 @@ class Template(NetworkProfileFunctions):
                     "Validating Jinja2 template syntax for file: {0}".format(
                         template_content_file_path
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 try:
                     from jinja2 import Environment, TemplateSyntaxError
@@ -3179,7 +3304,7 @@ class Template(NetworkProfileFunctions):
                         "Jinja2 template validation successful for file: {0}".format(
                             template_content_file_path
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                 except TemplateSyntaxError as e:
                     self.msg = (
@@ -3206,13 +3331,13 @@ class Template(NetworkProfileFunctions):
                 "Using inline template content - length: {0} characters".format(
                     len(template_content)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
         else:
             # No content provided; proceed without 'templateContent' field
             self.log(
                 "No template content provided; proceeding with empty template content",
-                "DEBUG",
+                "DEBUG"
             )
             template_content = ""
 
@@ -3562,7 +3687,10 @@ class Template(NetworkProfileFunctions):
             family="configuration_templates",
             function="gets_the_templates_available",
             op_modifies=True,
-            params={"projectNames": projectName, "un_committed": True},
+            params={
+                "projectNames": projectName,
+                "un_committed": True
+            },
         )
         self.log(
             "Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
@@ -3609,12 +3737,8 @@ class Template(NetworkProfileFunctions):
             device_type (str): The type of device for which to retrieve profiles.
         """
 
-        self.log(
-            "Starting profile retrieval with pagination for device type: '{0}'".format(
-                device_type
-            ),
-            "DEBUG",
-        )
+        self.log("Starting profile retrieval with pagination for device type: '{0}'".format(
+            device_type), "DEBUG")
 
         offset = 1
         limit = 500
@@ -3628,61 +3752,34 @@ class Template(NetworkProfileFunctions):
             elapsed_time = time.time() - start_time
             if elapsed_time >= api_timeout:
                 self.msg = "Timeout exceeded ({0}s) while retrieving profiles for device type '{1}'".format(
-                    api_timeout, device_type
-                )
+                    api_timeout, device_type)
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
-            self.log(
-                "Retrieving profiles with offset={0}, limit={1} for device type '{2}'".format(
-                    offset, limit, device_type
-                ),
-                "DEBUG",
-            )
+            self.log("Retrieving profiles with offset={0}, limit={1} for device type '{2}'".format(
+                offset, limit, device_type), "DEBUG")
 
             profiles = self._get_profiles_by_device_type(device_type, offset, limit)
 
             if not profiles:
-                self.log(
-                    "No more profiles received from API (offset={0}). Pagination complete.".format(
-                        offset
-                    ),
-                    "DEBUG",
-                )
+                self.log("No more profiles received from API (offset={0}). Pagination complete.".format(offset), "DEBUG")
                 break
 
-            self.log(
-                "Retrieved {0} profile(s) from API (offset={1})".format(
-                    len(profiles), offset
-                ),
-                "DEBUG",
-            )
+            self.log("Retrieved {0} profile(s) from API (offset={1})".format(len(profiles), offset), "DEBUG")
             self.have["profile_list"].extend(profiles)
 
             # Check if we've received all available profiles
             if len(profiles) < limit:
-                self.log(
-                    "Received fewer profiles than limit ({0} < {1}). Last page reached.".format(
-                        len(profiles), limit
-                    ),
-                    "DEBUG",
-                )
+                self.log("Received fewer profiles than limit ({0} < {1}). Last page reached.".format(
+                    len(profiles), limit), "DEBUG")
                 break
 
             # Prepare for next iteration
             offset += limit
-            self.log(
-                "Incrementing offset to {0} for next API request".format(offset),
-                "DEBUG",
-            )
+            self.log("Incrementing offset to {0} for next API request".format(offset), "DEBUG")
 
             # Rate limiting
-            self.log(
-                "Applying rate limiting delay of {0} seconds before next API call".format(
-                    poll_interval
-                ),
-                "DEBUG",
-            )
+            self.log("Applying rate limiting delay of {0} seconds before next API call".format(poll_interval), "DEBUG")
             time.sleep(poll_interval)
 
     def _get_profiles_by_device_type(self, device_type, offset, limit):
@@ -3703,35 +3800,23 @@ class Template(NetworkProfileFunctions):
             "Switches and Hubs": "Switching",
             "Wireless Controller": "Wireless",
             "Routers": "Routing",
-            "Security and VPN": "Firewall",
+            "Security and VPN": "Firewall"
         }
 
         profile_category = device_type_mapping.get(device_type, "Assurance")
 
-        self.log(
-            "Mapping device type '{0}' to profile category '{1}'".format(
-                device_type, profile_category
-            ),
-            "DEBUG",
-        )
+        self.log("Mapping device type '{0}' to profile category '{1}'".format(
+            device_type, profile_category), "DEBUG")
 
         try:
             profiles = self.get_network_profile(profile_category, offset, limit)
-            self.log(
-                "Successfully retrieved profiles for category '{0}'".format(
-                    profile_category
-                ),
-                "DEBUG",
-            )
+            self.log("Successfully retrieved profiles for category '{0}'".format(
+                profile_category), "DEBUG")
             return profiles
 
         except Exception as e:
-            self.log(
-                "Error retrieving profiles for category '{0}': {1}".format(
-                    profile_category, str(e)
-                ),
-                "ERROR",
-            )
+            self.log("Error retrieving profiles for category '{0}': {1}".format(
+                profile_category, str(e)), "ERROR")
             return []
 
     def _process_individual_profile(self, profile_name, template_name, template_id):
@@ -3746,82 +3831,59 @@ class Template(NetworkProfileFunctions):
         Returns:
             dict: Profile information including assignment status.
         """
-        self.log(
-            "Processing individual profile: '{0}' for template: '{1}' (ID: {2})".format(
-                profile_name, template_name, template_id
-            ),
-            "DEBUG",
-        )
+        self.log("Processing individual profile: '{0}' for template: '{1}' (ID: {2})".format(
+            profile_name, template_name, template_id), "DEBUG")
 
         profile_info = {
             "profile_name": profile_name,
             "template_name": template_name,
-            "template_id": template_id,
+            "template_id": template_id
         }
+        self.log("Created profile_info with template_id '{0}' for profile '{1}'".format(
+            template_id, profile_name), "DEBUG")
 
         # Validate profile existence
         if not self.value_exists(self.have["profile_list"], "name", profile_name):
-            self.msg = "Profile '{0}' does not exist in Cisco Catalyst Center".format(
-                profile_name
-            )
+            self.msg = "Profile '{0}' does not exist in Cisco Catalyst Center".format(profile_name)
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Get profile ID
         profile_index = next(
-            (
-                index
-                for index, profile in enumerate(self.have["profile_list"])
-                if profile.get("name") == profile_name
-            ),
-            -1,
+            (index for index, profile in enumerate(self.have["profile_list"])
+             if profile.get("name") == profile_name), -1
         )
 
         if profile_index == -1:
-            self.msg = (
-                "Failed to locate profile '{0}' in retrieved profile list".format(
-                    profile_name
-                )
-            )
+            self.msg = "Failed to locate profile '{0}' in retrieved profile list".format(profile_name)
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         profile_id = self.have["profile_list"][profile_index]["id"]
         profile_info["profile_id"] = profile_id
 
-        self.log(
-            "Successfully resolved profile '{0}' to ID: '{1}'".format(
-                profile_name, profile_id
-            ),
-            "DEBUG",
-        )
+        self.log("Successfully resolved profile '{0}' to ID: '{1}'".format(
+            profile_name, profile_id), "DEBUG")
 
         # Check template assignment
+        self.log("Checking assignment status for profile '{0}' against template ID '{1}'".format(
+            profile_name, template_id), "DEBUG")
         assignment_status = self._check_profile_template_assignment(
-            profile_name, profile_id, template_id
-        )
+            profile_name, profile_id, template_id)
         profile_info["profile_status"] = assignment_status
+        self.log("Assignment status determined for profile '{0}': '{1}'".format(
+            profile_name, assignment_status), "INFO")
 
         if assignment_status == "already assigned":
             self.profile_exists.append(profile_name)
-            self.log(
-                "Profile '{0}' marked as existing (already assigned)".format(
-                    profile_name
-                ),
-                "DEBUG",
-            )
+            self.log("Profile '{0}' marked as existing (already assigned)".format(
+                profile_name), "DEBUG")
 
-        self.log(
-            "Profile processing completed for '{0}': status='{1}'".format(
-                profile_name, assignment_status
-            ),
-            "DEBUG",
-        )
+        self.log("Profile processing completed for '{0}': status='{1}'".format(
+            profile_name, assignment_status), "DEBUG")
         return profile_info
 
-    def _check_profile_template_assignment(
-        self, profile_name, profile_id, template_id
-    ):
+    def _check_profile_template_assignment(self, profile_name, profile_id, template_id):
         """
         Checks if a profile is assigned to the specified template.
 
@@ -3834,29 +3896,19 @@ class Template(NetworkProfileFunctions):
             str: Assignment status ('Not Assigned' or 'already assigned').
         """
 
-        self.log(
-            "Checking template assignment for profile '{0}' (ID: {1}) against template ID '{2}'".format(
-                profile_name, profile_id, template_id
-            ),
-            "DEBUG",
-        )
+        self.log("Checking template assignment for profile '{0}' (ID: {1}) against template ID '{2}'".format(
+            profile_name, profile_id, template_id), "DEBUG")
 
         try:
             template_details = self.get_templates_for_profile(profile_id)
 
             if not template_details:
-                self.log(
-                    "No templates found assigned to profile '{0}'".format(profile_name),
-                    "INFO",
-                )
+                self.log("No templates found assigned to profile '{0}'".format(
+                    profile_name), "INFO")
                 return "Not Assigned"
 
-            self.log(
-                "Found {0} template(s) assigned to profile '{1}'".format(
-                    len(template_details), profile_name
-                ),
-                "DEBUG",
-            )
+            self.log("Found {0} template(s) assigned to profile '{1}'".format(
+                len(template_details), profile_name), "DEBUG")
 
             # Check if the specific template (by ID) is assigned
             # Using template ID ensures uniqueness even across projects with same template names
@@ -3865,38 +3917,22 @@ class Template(NetworkProfileFunctions):
                 assigned_template_name = template.get("name")
                 assigned_project_name = template.get("projectName")
 
-                self.log(
-                    "Checking assigned template: name='{0}', projectName='{1}', id='{2}'".format(
-                        assigned_template_name, assigned_project_name, assigned_template_id
-                    ),
-                    "DEBUG",
-                )
+                self.log("Checking assigned template: name='{0}', projectName='{1}', id='{2}'".format(
+                    assigned_template_name, assigned_project_name, assigned_template_id), "DEBUG")
 
                 # Compare template IDs for exact match
                 if assigned_template_id == template_id:
-                    self.log(
-                        "Profile '{0}' is already assigned to template ID '{1}' (name: '{2}')".format(
-                            profile_name, template_id, assigned_template_name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Profile '{0}' is already assigned to template ID '{1}' (name: '{2}')".format(
+                        profile_name, template_id, assigned_template_name), "INFO")
                     return "already assigned"
 
-            self.log(
-                "Profile '{0}' is not assigned to template ID '{1}' (may be assigned to other templates)".format(
-                    profile_name, template_id
-                ),
-                "INFO",
-            )
+            self.log("Profile '{0}' is not assigned to template ID '{1}' (may be assigned to other templates)".format(
+                profile_name, template_id), "INFO")
             return "Not Assigned"
 
         except Exception as e:
-            self.log(
-                "Error checking template assignment for profile '{0}': {1}".format(
-                    profile_name, str(e)
-                ),
-                "ERROR",
-            )
+            self.log("Error checking template assignment for profile '{0}': {1}".format(
+                profile_name, str(e)), "ERROR")
             return "Not Assigned"
 
     def get_profile_details(self, device_type, input_profiles, template_name, template_id):
@@ -3916,7 +3952,6 @@ class Template(NetworkProfileFunctions):
                 - profile_status (str): Assignment status ('Not Assigned' or 'already assigned')
                 - template_name (str): Name of the template
                 - template_id (str): UUID of the template
-                - template_name (str): Name of the template
 
         Description:
             This function retrieves comprehensive profile information from Cisco Catalyst Center and determines
@@ -3924,12 +3959,8 @@ class Template(NetworkProfileFunctions):
             profile datasets, validates profile existence, and checks current template assignments. The function
             supports multiple device types and maps them to appropriate network profile categories for API calls.
         """
-        self.log(
-            "Initiating profile details collection for device type '{0}' with profiles: {1} and template '{2}'".format(
-                device_type, input_profiles, template_name
-            ),
-            "DEBUG",
-        )
+        self.log("Initiating profile details collection for device type '{0}' with profiles: {1} and template '{2}'".format(
+            device_type, input_profiles, template_name), "DEBUG")
 
         # Input validation
         if not device_type:
@@ -3952,12 +3983,8 @@ class Template(NetworkProfileFunctions):
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        self.log(
-            "Collecting profile information for device type '{0}', profiles: {1}, template: '{2}' (ID: {3})".format(
-                device_type, input_profiles, template_name, template_id
-            ),
-            "INFO",
-        )
+        self.log("Collecting profile information for device type '{0}', profiles: {1}, template: '{2}' (ID: {3})".format(
+            device_type, input_profiles, template_name, template_id), "INFO")
 
         # Initialize profile storage
         self.have["profile"] = []
@@ -3967,18 +3994,12 @@ class Template(NetworkProfileFunctions):
         self._retrieve_all_profiles_with_pagination(device_type)
 
         if not self.have["profile_list"]:
-            self.msg = "No profiles found for device type '{0}' in Cisco Catalyst Center".format(
-                device_type
-            )
+            self.msg = "No profiles found for device type '{0}' in Cisco Catalyst Center".format(device_type)
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        self.log(
-            "Successfully retrieved {0} total profile(s) for device type '{1}'".format(
-                len(self.have["profile_list"]), device_type
-            ),
-            "INFO",
-        )
+        self.log("Successfully retrieved {0} total profile(s) for device type '{1}'".format(
+            len(self.have["profile_list"]), device_type), "INFO")
 
         # Process each input profile
         processed_profiles = []
@@ -3986,12 +4007,8 @@ class Template(NetworkProfileFunctions):
             profile_info = self._process_individual_profile(profile_name, template_name, template_id)
             processed_profiles.append(profile_info)
 
-        self.log(
-            "Profile details collection completed successfully. Processed {0} profile(s): {1}".format(
-                len(processed_profiles), self.pprint(processed_profiles)
-            ),
-            "INFO",
-        )
+        self.log("Profile details collection completed successfully. Processed {0} profile(s): {1}".format(
+            len(processed_profiles), self.pprint(processed_profiles)), "INFO")
 
         return processed_profiles
 
@@ -4022,49 +4039,34 @@ class Template(NetworkProfileFunctions):
                 self.get_have_template(config, template_available)
 
             if profile_names and template_name and device_types:
-                self.log(
-                    "Initiating profile assignment collection for template profile management",
-                    "DEBUG",
-                )
+                self.log("Initiating profile assignment collection for template profile management", "DEBUG")
 
                 # Get template ID for accurate profile assignment tracking
                 # Only proceed with profile collection if template exists
                 template_id = self.have_template.get("id") if self.have_template else None
-                self.log(
-                    "Retrieved template_id from have_template: {0}".format(
-                        template_id if template_id else "None (template does not exist)"
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieved template_id from have_template: {0}".format(
+                    template_id if template_id else "None (template does not exist)"), "DEBUG")
 
                 if template_id:
-                    self.log(
-                        "Template ID '{0}' found for template '{1}'. Proceeding with profile assignment collection.".format(
-                            template_id, template_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Template ID '{0}' found for template '{1}'. Proceeding with profile assignment collection.".format(
+                        template_id, template_name), "DEBUG")
 
                     if device_types:
                         parsed_current_profile = []
                         for each_type in device_types:
                             each_family = each_type.get("product_family")
                             parsed_current_profile.extend(
-                                self.get_profile_details(
-                                    each_family, profile_names, template_name, template_id
-                                )
+                                self.get_profile_details(each_family,
+                                                         profile_names,
+                                                         template_name,
+                                                         template_id)
                             )
 
-                    have["current_profile"] = self.deduplicate_list_of_dict(
-                        parsed_current_profile
-                    )
+                    have["current_profile"] = self.deduplicate_list_of_dict(parsed_current_profile)
                 else:
-                    self.log(
-                        "Template '{0}' does not exist yet. Profile assignment will be handled after template creation.".format(
-                            template_name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Template '{0}' does not exist yet. Profile assignment will be handled after template creation.".format(
+                        template_name), "INFO")
+                    have["current_profile"] = []
 
         project_config = config.get("projects", [])
         if project_config and isinstance(project_config, list):
@@ -4084,10 +4086,8 @@ class Template(NetworkProfileFunctions):
                     existing[0]["unmatched"] = unmatched
                     have["projects"].append(existing[0] or {})
                 else:
-                    self.log(
-                        "No existing project found for name: {0}".format(project_name),
-                        "INFO",
-                    )
+                    self.log("No existing project found for name: {0}".format(
+                        project_name), "INFO")
 
         deploy_temp_details = config.get("deploy_template")
         if deploy_temp_details:
@@ -4232,9 +4232,10 @@ class Template(NetworkProfileFunctions):
                 self.update_mandatory_parameters(template_params)
 
             ccc_version = self.get_ccc_version()
-            if self.compare_catalystcenter_versions(
-                ccc_version, "3.1.3.0"
-            ) >= 0 and configuration_templates.get("profile_names"):
+            if (
+                self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") >= 0
+                and configuration_templates.get("profile_names")
+            ):
                 want["profile_names"] = configuration_templates.get("profile_names")
 
             want["template_params"] = template_params
@@ -4320,9 +4321,7 @@ class Template(NetworkProfileFunctions):
         """
         self.log("Comparing input project config with current config.", "INFO")
         self.log("Input project config: {0}".format(self.pprint(input_config)), "DEBUG")
-        self.log(
-            "Current project config: {0}".format(self.pprint(current_proj)), "DEBUG"
-        )
+        self.log("Current project config: {0}".format(self.pprint(current_proj)), "DEBUG")
 
         unmatched_keys = []
 
@@ -4331,22 +4330,16 @@ class Template(NetworkProfileFunctions):
                 # Compare values of the current key
                 if current_proj.get(key) != value:
                     unmatched_keys.append(key)
-                    self.log(
-                        "Mismatch found for key: {0}. Input value: {1}, Current value: {2}".format(
-                            key, value, current_proj.get(key)
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Mismatch found for key: {0}. Input value: {1}, Current value: {2}".format(
+                        key, value, current_proj.get(key)), "DEBUG")
 
             # If no mismatches are found, configurations match
             if not unmatched_keys:
                 self.log("Input project config matches current project config.", "INFO")
                 return True, None
 
-        self.log(
-            "Configurations do not match. Mismatched keys: {0}".format(unmatched_keys),
-            "DEBUG",
-        )
+        self.log("Configurations do not match. Mismatched keys: {0}".format(
+            unmatched_keys), "DEBUG")
 
         return False, unmatched_keys
 
@@ -4367,9 +4360,7 @@ class Template(NetworkProfileFunctions):
           the outcome. In cases of failure (e.g., missing name, project not found, or API error), it sets the
           operation result to failed and logs the issue accordingly.
         """
-        self.log(
-            "Attempting to delete project with name: {0}".format(project_name), "DEBUG"
-        )
+        self.log("Attempting to delete project with name: {0}".format(project_name), "DEBUG")
 
         if not project_name:
             self.msg = "No project name provided for deletion."
@@ -4384,49 +4375,36 @@ class Template(NetworkProfileFunctions):
                 break
 
         if not project_id:
-            self.msg = "Could not find a project with the name: {0}".format(
-                project_name
-            )
+            self.msg = "Could not find a project with the name: {0}".format(project_name)
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
         # If a valid project ID is found, proceed to delete the project
-        self.log(
-            "Found project ID: {0} for project name: {1}".format(
-                project_id, project_name
-            ),
-            "INFO",
-        )
+        self.log("Found project ID: {0} for project name: {1}".format(
+            project_id, project_name), "INFO")
 
         try:
             function_name = "delete_template_project"
             params = {"project_id": project_id}
-            task_id = self.get_taskid_post_api_call(
-                "configuration_templates", function_name, params
-            )
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    function_name, params)
 
             if not task_id:
                 self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
-                    function_name
-                )
+                    function_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            self.log(
-                "Successfully deleted project with ID: {0}".format(project_name), "INFO"
-            )
-            self.result["changed"] = True  # Indicate that the project was deleted
+            self.log("Successfully deleted project with ID: {0}".format(project_name), "INFO")
+            self.result['changed'] = True  # Indicate that the project was deleted
             self.status = "success"
             self.msg = "Successfully deleted project: {0}".format(project_name)
             return self
 
         except Exception as e:
-            self.msg = (
-                "An error occurred while deleting project {0} (ID: {1}). ".format(
-                    project_name, project_id
-                )
-            )
+            self.msg = "An error occurred while deleting project {0} (ID: {1}). ".format(
+                project_name, project_id)
             self.log(self.msg + str(e), "ERROR")
             self.status = "failed"
 
@@ -4443,23 +4421,15 @@ class Template(NetworkProfileFunctions):
         Returns:
             self: The current instance with updated project configuration.
         """
-        self.log(
-            "Starting to apply project configurations. Total projects: {0}".format(
-                len(config)
-            ),
-            "INFO",
-        )
+        self.log("Starting to apply project configurations. Total projects: {0}".format(
+            len(config)), "INFO")
 
         for project in config:
             project_name = project.get("name", "Unnamed Project")
             self.log("Processing project: {0}".format(project_name), "DEBUG")
             if project.get("new_name"):
-                self.log(
-                    "Updating project: {0} with new name: {1}".format(
-                        project_name, project.get("new_name")
-                    ),
-                    "INFO",
-                )
+                self.log("Updating project: {0} with new name: {1}".format(
+                    project_name, project.get("new_name")), "INFO")
                 self.update_project(project)
             else:
                 self.log("Creating project: {0}".format(project_name), "INFO")
@@ -4480,12 +4450,8 @@ class Template(NetworkProfileFunctions):
             self: The current instance with created project configuration.
         """
 
-        self.log(
-            "Processing Project creation with input details: {0}".format(
-                self.pprint(project_detail)
-            ),
-            "DEBUG",
-        )
+        self.log("Processing Project creation with input details: {0}".format(
+            self.pprint(project_detail)), "DEBUG")
 
         if not project_detail:
             self.msg = "No project details provided for creation."
@@ -4497,45 +4463,32 @@ class Template(NetworkProfileFunctions):
                 "name": project_detail.get("name"),
                 "description": project_detail.get("description"),
                 "createTime": int(time.time()),
-                "lastUpdateTime": int(time.time()),
+                "lastUpdateTime": int(time.time())
             }
 
-            self.log(
-                "Creating project with parameters: {0}".format(
-                    self.pprint(create_project_params)
-                ),
-                "INFO",
-            )
+            self.log("Creating project with parameters: {0}".format(
+                self.pprint(create_project_params)), "INFO")
 
             task_name = "create_project"
-            task_id = self.get_taskid_post_api_call(
-                "configuration_templates", task_name, create_project_params
-            )
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    task_name, create_project_params)
 
             if not task_id:
                 self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
-                    task_name
-                )
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "project(s) {0} created successfully".format(
-                project_detail.get("name")
-            )
-            self.log(
-                "Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG"
-            )
+            success_msg = "project(s) {0} created successfully".format(project_detail.get("name"))
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.log(
-                "project(s) {0} created successfully".format(project_detail.get("name")),
-                "INFO",
-            )
+            self.log("project(s) {0} created successfully".format(
+                project_detail.get("name")), "INFO")
             return self
 
         except Exception as e:
             self.msg = "Failed to create the project - ({0}) from Cisco Catalyst Center due to - {1}".format(
-                project_detail.get("name"), str(e)
-            )
+                project_detail.get("name"), str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
     def update_project(self, project_detail):
@@ -4551,12 +4504,8 @@ class Template(NetworkProfileFunctions):
             self: The current instance with updated project configuration.
         """
 
-        self.log(
-            "Processing Project update with input details: {0}".format(
-                self.pprint(project_detail)
-            ),
-            "DEBUG",
-        )
+        self.log("Processing Project update with input details: {0}".format(
+            self.pprint(project_detail)), "DEBUG")
 
         if not project_detail:
             self.msg = "No project details provided for update."
@@ -4584,40 +4533,27 @@ class Template(NetworkProfileFunctions):
             update_project_params = {
                 "id": existing_project.get("id"),
                 "name": new_name,
-                "description": project_detail.get(
-                    "description", existing_project.get("description")
-                ),
+                "description": project_detail.get("description", existing_project.get("description")),
                 "createTime": existing_project.get("createTime"),
                 "lastUpdateTime": int(time.time()),
-                "templates": project_detail.get(
-                    "templates", existing_project.get("templates", [])
-                ),
+                "templates": project_detail.get("templates", existing_project.get("templates", []))
             }
 
             # Log the update parameters
-            self.log(
-                "Updating project with parameters: {0}".format(
-                    self.pprint(update_project_params)
-                ),
-                "DEBUG",
-            )
+            self.log("Updating project with parameters: {0}".format(
+                self.pprint(update_project_params)), "DEBUG")
 
             task_name = "update_project"
-            task_id = self.get_taskid_post_api_call(
-                "configuration_templates", task_name, update_project_params
-            )
+            task_id = self.get_taskid_post_api_call("configuration_templates",
+                                                    task_name, update_project_params)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
-                    task_name
-                )
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             success_msg = "Project(s) '{0}' updated successfully.".format(new_name)
-            self.log(
-                "Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG"
-            )
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
             self.log("Project(s) '{0}' updated successfully.".format(new_name), "INFO")
@@ -4625,8 +4561,7 @@ class Template(NetworkProfileFunctions):
 
         except Exception as e:
             self.msg = "Failed to update the project '{0}' due to error: {1}".format(
-                project_detail.get("name"), str(e)
-            )
+                project_detail.get("name"), str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -4650,14 +4585,14 @@ class Template(NetworkProfileFunctions):
 
         if is_create_project:
             params_key = project_params
-            self.project_created.append(project_params.get("name"))
-            name = "project: {0}".format(project_params.get("name"))
+            self.project_created.append(project_params.get('name'))
+            name = "project: {0}".format(project_params.get('name'))
             validation_string = "Successfully created project"
             creation_value = "create_project"
         else:
             params_key = template_params
-            self.template_created.append(template_params.get("name"))
-            name = "template: {0}".format(template_params.get("name"))
+            self.template_created.append(template_params.get('name'))
+            name = "template: {0}".format(template_params.get('name'))
             validation_string = "Successfully created template"
             creation_value = "create_template"
 
@@ -4737,7 +4672,7 @@ class Template(NetworkProfileFunctions):
                 template_params["projectId"] = creation_id
                 template_params["project_id"] = creation_id
 
-        self.result["changed"] = True
+        self.result['changed'] = True
         self.msg = "{0} created successfully with id {1}".format(name, creation_id)
         self.log("New {0} created with id {1}".format(name, creation_id), "DEBUG")
         return creation_id, created
@@ -4776,10 +4711,8 @@ class Template(NetworkProfileFunctions):
             req_project = req.get("projectName")
             if req_name is None or req_project is None:
                 self.log(
-                    "Skipping requested containing template with missing 'name' or 'projectName': {0}".format(
-                        req
-                    ),
-                    "WARNING",
+                    "Skipping requested containing template with missing 'name' or 'projectName': {0}".format(req),
+                    "WARNING"
                 )
                 continue
 
@@ -4789,7 +4722,7 @@ class Template(NetworkProfileFunctions):
                     "Containing template '{0}' under project '{1}' is missing in current state and requires update.".format(
                         req_name, req_project
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 return True
 
@@ -4797,9 +4730,7 @@ class Template(NetworkProfileFunctions):
                 self.log(
                     "Containing template '{0}' in project '{1}' differs. Current: {2} | Requested: {3}".format(
                         req_name, req_project, current_dict[req_key], req
-                    ),
-                    "INFO",
-                )
+                    ), "INFO")
                 return True
 
         self.log("No update required for containingTemplates.", "DEBUG")
@@ -5020,105 +4951,47 @@ class Template(NetworkProfileFunctions):
         """
 
         try:
-            self.log(
-                "Starting the commit process for template '{0}' with ID '{1}'.".format(
-                    template_name, template_id
-                ),
-                "INFO",
-            )
+            self.log("Starting the commit process for template '{0}' with ID '{1}'.".format(template_name, template_id), "INFO")
             version_params = {
                 "comments": self.want.get("comments"),
-                "templateId": template_id,
+                "templateId": template_id
             }
-            self.log(
-                "Versioning parameters for template '{0}': {1}".format(
-                    template_name, version_params
-                ),
-                "DEBUG",
-            )
-            response = self.catalystcenter_apply["exec"](
+            self.log("Versioning parameters for template '{0}': {1}".format(template_name, version_params), "DEBUG")
+            response = self.catalystcenter_apply['exec'](
                 family="configuration_templates",
                 function="version_template",
                 op_modifies=True,
-                params=version_params,
+                params=version_params
             )
-            self.log(
-                "Received response from API 'version_template' for 'tempate': '{0}' is {1}".format(
-                    template_name, response
-                ),
-                "DEBUG",
-            )
+            self.log("Received response from API 'version_template' for 'tempate': '{0}' is {1}".format(template_name, response), "DEBUG")
             if not response or not isinstance(response, dict):
-                self.msg = "Invalid response received from 'version_template' API for template '{0}'.".format(
-                    template_name
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Invalid response received from 'version_template' API for template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return self
 
             task_id = response.get("response").get("taskId")
             if not task_id:
-                self.msg = (
-                    "Unable to retrieve the task_id for the template '{0}'.".format(
-                        template_name
-                    )
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Unable to retrieve the task_id for the template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log(
-                "Task ID '{0}' retrieved successfully for template '{1}'.".format(
-                    task_id, template_name
-                ),
-                "INFO",
-            )
+            self.log("Task ID '{0}' retrieved successfully for template '{1}'.".format(task_id, template_name), "INFO")
             task_details = self.get_task_details(task_id)
-            self.log(
-                "Task details retrieved for task ID '{0}': {1}".format(
-                    task_id, task_details
-                ),
-                "DEBUG",
-            )
-            self.msg = "Template '{0}' committed successfully in Cisco Catalyst Center.".format(
-                template_name
-            )
+            self.log("Task details retrieved for task ID '{0}': {1}".format(task_id, task_details), "DEBUG")
+            self.msg = "Template '{0}' committed successfully in Cisco Catalyst Center.".format(template_name)
             # Ensure the response structure in self.result is initialized properly
-            self.log(
-                "Initializing response structure in self.result for template '{0}'.".format(
-                    template_name
-                ),
-                "DEBUG",
-            )
-            if not self.result.get("response"):
-                self.result["response"] = [
-                    {}
-                ]  # Initialize as a list with one empty dictionary
+            self.log("Initializing response structure in self.result for template '{0}'.".format(template_name), "DEBUG")
+            if not self.result.get('response'):
+                self.result['response'] = [{}]  # Initialize as a list with one empty dictionary
 
-            self.log(
-                "Updated self.result structure for template '{0}': {1}".format(
-                    template_name, self.result
-                ),
-                "DEBUG",
-            )
+            self.log("Updated self.result structure for template '{0}': {1}".format(template_name, self.result), "DEBUG")
             # Add the template name to the committed list
             self.template_committed.append(template_name)
-            self.log(
-                "Template '{0}' added to the committed list.".format(template_name),
-                "INFO",
-            )
-            self.result["changed"] = True
-            self.log(
-                "Successfully committed template '{0}'.".format(template_name), "INFO"
-            )
+            self.log("Template '{0}' added to the committed list.".format(template_name), "INFO")
+            self.result['changed'] = True
+            self.log("Successfully committed template '{0}'.".format(template_name), "INFO")
         except Exception as e:
-            self.msg = "Error while executing 'version_template' API for template '{0}': {1}".format(
-                template_name, str(e)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "Error while executing 'version_template' API for template '{0}': {1}".format(template_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
@@ -5143,53 +5016,32 @@ class Template(NetworkProfileFunctions):
             logged without halting execution.
         """
 
-        self.log(
-            "Checking commit status for template '{0}' with ID '{1}'.".format(
-                name, template_id
-            ),
-            "INFO",
-        )
+        self.log("Checking commit status for template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
         is_template_uncommitted = True
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.catalystcenter_apply['exec'](
                 family="configuration_templates",
                 function="gets_the_templates_available",
                 op_modifies=False,
-                params={"id": template_id, "un_committed": True},
+                params={
+                    "id": template_id,
+                    "un_committed": True
+                },
             )
-            self.log(
-                "Received Response from 'gets_the_templates_available' for 'tempate': '{0}' is {1}".format(
-                    name, response
-                ),
-                "DEBUG",
-            )
+            self.log("Received Response from 'gets_the_templates_available' for 'tempate': '{0}' is {1}".format(name, response), "DEBUG")
             if not response or not isinstance(response, dict):
-                self.log(
-                    "The response for template '{0}' is invalid or empty. Assuming it is already committed.".format(
-                        name
-                    ),
-                    "INFO",
-                )
+                self.log("The response for template '{0}' is invalid or empty. Assuming it is already committed.".format(name), "INFO")
                 is_template_uncommitted = False
                 return is_template_uncommitted
 
-            self.log(
-                "Given template '{0}' is not committed in the Cisco Catalyst Center.".format(
-                    name
-                ),
-                "INFO",
-            )
+            self.log("Given template '{0}' is not committed in the Cisco Catalyst Center.".format(name), "INFO")
         except Exception as e:
-            self.msg = "An exception occurred while retrieving the commit status for template '{0}': {1}".format(
-                name, str(e)
+            self.msg = (
+                "An exception occurred while retrieving the commit status for template '{0}': {1}"
+                .format(name, str(e))
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
-        self.log(
-            "Commit status for template '{0}': {1}".format(
-                name, is_template_uncommitted
-            ),
-            "DEBUG",
-        )
+        self.log("Commit status for template '{0}': {1}".format(name, is_template_uncommitted), "DEBUG")
 
         return is_template_uncommitted
 
@@ -5283,33 +5135,14 @@ class Template(NetworkProfileFunctions):
             if not self.requires_update():
                 # Template does not need update
                 self.no_update_template.append(current_template_name)
-                is_template_un_committed = self.get_template_commit_status(
-                    template_id, current_template_name
-                )
-                self.log(
-                    "Template '{0}' uncommitted status: {1}".format(
-                        current_template_name, is_template_un_committed
-                    ),
-                    "DEBUG",
-                )
+                is_template_un_committed = self.get_template_commit_status(template_id, current_template_name)
+                self.log("Template '{0}' uncommitted status: {1}".format(current_template_name, is_template_un_committed), "DEBUG")
                 # Check whether the above template is committed or not
                 is_commit = configuration_templates.get("commit", True)
-                self.log(
-                    "Commit flag for template '{0}': {1}".format(
-                        current_template_name, is_commit
-                    ),
-                    "DEBUG",
-                )
+                self.log("Commit flag for template '{0}': {1}".format(current_template_name, is_commit), "DEBUG")
                 if is_commit and is_template_un_committed:
-                    self.commit_the_template(
-                        template_id, current_template_name
-                    ).check_return_status()
-                    self.log(
-                        "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(
-                            current_template_name
-                        ),
-                        "INFO",
-                    )
+                    self.commit_the_template(template_id, current_template_name).check_return_status()
+                    self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(current_template_name), "INFO")
 
                 return self
 
@@ -5333,18 +5166,12 @@ class Template(NetworkProfileFunctions):
                 ).check_return_status()
                 return self
 
-            success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(
-                template_name
-            )
+            success_msg = "Successfully updated the configuration template '{0}' in Cisco Catalyst Center".format(template_name)
             self.template_updated.append(template_name)
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.result["response"] = copy.deepcopy(current_response)
-            self.log(
-                "Updating existing template '{0}'.".format(
-                    self.have_template.get("template").get("name")
-                ),
-                "INFO",
-            )
+            self.result['response'] = copy.deepcopy(current_response)
+            self.log("Updating existing template '{0}'."
+                     .format(self.have_template.get("template").get("name")), "INFO")
 
         else:
             if not template_params.get("name"):
@@ -5356,68 +5183,42 @@ class Template(NetworkProfileFunctions):
         is_commit = configuration_templates.get("commit", True)
         if is_commit:
             name = self.want.get("template_params").get("name")
-            self.log(
-                "Attempting to commit template '{0}' with ID '{1}'.".format(
-                    name, template_id
-                ),
-                "INFO",
-            )
+            self.log("Attempting to commit template '{0}' with ID '{1}'.".format(name, template_id), "INFO")
 
             self.commit_the_template(template_id, name).check_return_status()
-            self.log(
-                "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(
-                    name
-                ),
-                "INFO",
-            )
+            self.log("Template '{0}' committed successfully in the Cisco Catalyst Center.".format(name), "INFO")
 
-            self.log(
-                "Initiating profile assignment and detachment processing for template '{0}'".format(
-                    name
-                ),
-                "DEBUG",
-            )
+            self.log("Initiating profile assignment and detachment processing for template '{0}'".format(
+                name), "DEBUG")
+
             # If template was just created, we need to collect profile information now
             current_profiles = self.have.get("current_profile", [])
             if not current_profiles and configuration_templates.get("profile_names"):
-                self.log(
-                    "Template was newly created. Collecting profile information for assignment.",
-                    "INFO",
-                )
-                self.log(
-                    "Using template_id '{0}' for newly created template '{1}'".format(
-                        template_id, name
-                    ),
-                    "DEBUG",
-                )
+                self.log("Template was newly created. Collecting profile information for assignment.", "INFO")
+                self.log("Using template_id '{0}' for newly created template '{1}'".format(
+                    template_id, name), "DEBUG")
                 profile_names = configuration_templates.get("profile_names")
+                self.log("Profile names specified for assignment: {0}".format(profile_names), "DEBUG")
+
                 device_types = configuration_templates.get("device_types")
+                self.log("Device types specified for profile assignment: {0}".format(device_types), "DEBUG")
 
                 if profile_names and device_types:
                     parsed_current_profile = []
                     for each_type in device_types:
                         each_family = each_type.get("product_family")
                         parsed_current_profile.extend(
-                            self.get_profile_details(
-                                each_family, profile_names, name, template_id
-                            )
+                            self.get_profile_details(each_family,
+                                                     profile_names,
+                                                     name,
+                                                     template_id)
                         )
-                    current_profiles = self.deduplicate_list_of_dict(
-                        parsed_current_profile
-                    )
-                    self.log(
-                        "Collected {0} profile(s) for newly created template '{1}' (ID: {2})".format(
-                            len(current_profiles), name, template_id
-                        ),
-                        "INFO",
-                    )
+                    current_profiles = self.deduplicate_list_of_dict(parsed_current_profile)
+                    self.log("Collected {0} profile(s) for newly created template '{1}' (ID: {2})".format(
+                        len(current_profiles), name, template_id), "INFO")
 
-            self.log(
-                "Processing {0} profile(s) for template '{1}'.".format(
-                    len(current_profiles), name
-                ),
-                "INFO",
-            )
+            self.log("Processing {0} profile(s) for template '{1}'.".format(
+                len(current_profiles), name), "INFO")
 
             for profile_index, each_profile in enumerate(current_profiles):
                 # Extract profile information once per iteration
@@ -5429,147 +5230,88 @@ class Template(NetworkProfileFunctions):
 
                 # Skip profiles not associated with the current template
                 if profile_template_name != name:
-                    self.log(
-                        "Skipping profile '{0}' - not associated with template '{1}' (associated with '{2}')".format(
-                            each_profile_name, name, profile_template_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Skipping profile '{0}' - not associated with template '{1}' (associated with '{2}')".format(
+                        each_profile_name, name, profile_template_name), "DEBUG")
                     continue
 
-                self.log(
-                    "Processing profile '{0}' (index {1}) with status '{2}' for template '{3}' (ID: {4})".format(
-                        each_profile_name, profile_index, profile_status, name, template_id
-                    ),
-                    "DEBUG",
-                )
+                self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}' (ID: {4})".format(
+                    each_profile_name, profile_index, profile_status, name, template_id), "DEBUG")
 
                 # Create a unique key using template_id for this profile assignment
                 # This prevents duplicates across config iterations and handles templates with same name in different projects
                 assignment_key = (template_id, each_profile_name)
-                self.log(
-                    "Generated assignment key for profile '{0}': {1}".format(
-                        each_profile_name, assignment_key
-                    ),
-                    "DEBUG",
-                )
+                self.log("Generated assignment key for profile '{0}': {1}".format(each_profile_name, assignment_key), "DEBUG")
                 # Check if this profile+template combination has already been processed
                 if assignment_key in self.processed_profile_assignments:
                     self.log(
                         "Profile '{0}' for template ID '{1}' (name: '{2}') already processed in a previous config entry "
                         "- skipping to avoid duplicate assignment".format(
-                            each_profile_name, template_id, name
+                            each_profile_name,
+                            template_id,
+                            name
                         ),
-                        "INFO",
-                    )
+                        "INFO")
                     continue
 
                 # Case 1: Assign profile to template
                 if profile_status == "Not Assigned":
-                    self.log(
-                        "Assigning profile '{0}' to template '{1}' - profile not currently assigned".format(
-                            each_profile_name, name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Assigning profile '{0}' to template '{1}' - profile not currently assigned".format(
+                        each_profile_name, name), "INFO")
 
                     try:
                         template_status = self.attach_networkprofile_cli_template(
-                            each_profile_name, each_profile_id, name, template_id
-                        )
-                        self.log(
-                            "Received response from profile attachment API for profile '{0}': {1}".format(
-                                each_profile_name, template_status
-                            ),
-                            "DEBUG",
-                        )
+                            each_profile_name, each_profile_id, name, template_id)
+                        self.log("Received response from profile attachment API for profile '{0}': {1}".format(
+                            each_profile_name, template_status), "DEBUG")
 
                         if template_status and template_status.get("progress"):
                             success_msg = "Profile '{0}' successfully attached to template '{1}'".format(
-                                each_profile_name, name
-                            )
+                                each_profile_name, name)
                             self.log(success_msg, "INFO")
                             self.profile_assigned.append(each_profile_name)
                             # Mark this assignment as processed
                             self.processed_profile_assignments.add(assignment_key)
-                            self.log(
-                                "Marked assignment key {0} as processed in tracking set".format(
-                                    assignment_key
-                                ),
-                                "DEBUG",
-                            )
+                            self.log("Marked assignment key {0} as processed in tracking set".format(
+                                assignment_key), "DEBUG")
                         else:
                             error_msg = "Failed to attach profile '{0}' to template '{1}' - API response indicates failure".format(
-                                each_profile_name, name
-                            )
+                                each_profile_name, name)
                             self.log(error_msg, "ERROR")
                             self.no_profile_assigned.append(each_profile_name)
 
                     except Exception as e:
                         error_msg = "Exception occurred while attaching profile '{0}' to template '{1}': {2}".format(
-                            each_profile_name, name, str(e)
-                        )
+                            each_profile_name, name, str(e))
                         self.log(error_msg, "ERROR")
                         self.no_profile_assigned.append(each_profile_name)
 
                 # Case 2: Profile already assigned (idempotent case)
                 elif profile_status == "already assigned":
-                    self.log(
-                        "Profile '{0}' already assigned to template '{1}' - no action required".format(
-                            each_profile_name, name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Profile '{0}' already assigned to template '{1}' - no action required".format(
+                        each_profile_name, name), "DEBUG")
                     # Mark this assignment as processed to avoid duplicate attempts in subsequent iterations
                     self.processed_profile_assignments.add(assignment_key)
-                    self.log(
-                        "Marked pre-existing assignment key {0} as processed in tracking set".format(
-                            assignment_key
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Marked pre-existing assignment key {0} as processed in tracking set".format(
+                        assignment_key), "DEBUG")
 
                 # Case 3: Unexpected scenario
                 else:
-                    self.log(
-                        "Unexpected scenario for profile '{0}' on template '{1}': status='{2}'".format(
-                            each_profile_name, name, profile_status
-                        ),
-                        "WARNING",
-                    )
+                    self.log("Unexpected scenario for profile '{0}' on template '{1}': status='{2}'".format(
+                        each_profile_name, name, profile_status), "WARNING")
 
             # Log summary of operations
-            total_assigned = len(getattr(self, "profile_assigned", []))
-            total_assignment_failures = len(getattr(self, "no_profile_assigned", []))
+            total_assigned = len(getattr(self, 'profile_assigned', []))
+            total_assignment_failures = len(getattr(self, 'no_profile_assigned', []))
 
-            self.log(
-                "Profile operation summary for template '{0}':".format(name), "INFO"
-            )
-            self.log(
-                "  - Profiles assigned: {0} {1}".format(
-                    total_assigned, getattr(self, "profile_assigned", [])
-                ),
-                "INFO",
-            )
-            self.log(
-                "  - Assignment failures: {0} {1}".format(
-                    total_assignment_failures, getattr(self, "no_profile_assigned", [])
-                ),
-                "INFO",
-            )
-            self.log(
-                "  - Total entries in processed_profile_assignments tracking set: {0}".format(
-                    len(self.processed_profile_assignments)
-                ),
-                "DEBUG",
-            )
+            self.log("Profile operation summary for template '{0}':".format(name), "INFO")
+            self.log("  - Profiles assigned: {0} {1}".format(total_assigned,
+                                                             getattr(self, 'profile_assigned', [])), "INFO")
+            self.log("  - Assignment failures: {0} {1}".format(total_assignment_failures,
+                                                               getattr(self, 'no_profile_assigned', [])), "INFO")
+            self.log("  - Total entries in processed_profile_assignments tracking set: {0}".format(
+                len(self.processed_profile_assignments)), "DEBUG")
 
-            self.log(
-                "Completed profile assignment and processing for template '{0}'".format(
-                    name
-                ),
-                "INFO",
-            )
+            self.log("Completed profile assignment and processing for template '{0}'".format(name), "INFO")
 
         return self
 
@@ -5587,9 +5329,7 @@ class Template(NetworkProfileFunctions):
         export_project = export.get("project")
         self.log("Export project playbook details: {0}".format(export_project), "DEBUG")
         if export_project:
-            self.log(
-                "Found export project details: {0}".format(export_project), "DEBUG"
-            )
+            self.log("Found export project details: {0}".format(export_project), "DEBUG")
             response = self.catalystcenter._exec(
                 family="configuration_templates",
                 function="export_projects",
@@ -5958,12 +5698,7 @@ class Template(NetworkProfileFunctions):
                 ),
                 "DEBUG",
             )
-            self.log(
-                "Received Response for 'get_template_versions' for template_name: {0} is {1}".format(
-                    template_name, response
-                ),
-                "DEBUG",
-            )
+            self.log("Received Response for 'get_template_versions' for template_name: {0} is {1}".format(template_name, response), "DEBUG")
             response = response.get("response")
 
             if not response or not isinstance(response, list):
@@ -5987,21 +5722,14 @@ class Template(NetworkProfileFunctions):
                 self.log(
                     "Failed to identify the latest version for template '{0}'. 'versionId' key is missing in the response.".format(
                         template_name
-                    ),
-                    "ERROR",
+                    ), "ERROR"
                 )
-                self.msg = "Missing 'versionId' in the response for the template '{0}'.".format(
-                    template_name
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Missing 'versionId' in the response for the template '{0}'.".format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log(
                 "Identified the latest version for template '{0}'. Version ID: {1}".format(
-                    template_name, version_temp_id
-                ),
-                "DEBUG",
+                    template_name, version_temp_id), "DEBUG"
             )
             return version_temp_id
 
@@ -6039,51 +5767,30 @@ class Template(NetworkProfileFunctions):
         """
 
         device_hostname = None
-        self.log(
-            "Fetching device hostname for device_id: {0}".format(device_id), "INFO"
-        )
+        self.log("Fetching device hostname for device_id: {0}".format(device_id), "INFO")
         try:
             response = self.catalystcenter._exec(
                 family="devices",
-                function="get_device_list",
+                function='get_device_list',
                 op_modifies=True,
-                params={"id": device_id},
+                params={"id": device_id}
             )
-            self.log(
-                "Received API response for 'get_device_list' for device {0}: {1}".format(
-                    device_id, str(response)
-                ),
-                "DEBUG",
-            )
+            self.log("Received API response for 'get_device_list' for device {0}: {1}".format(device_id, str(response)), "DEBUG")
             response = response.get("response")
             if not response:
                 self.log("No device found with ID: {0}".format(device_id), "WARNING")
                 return None
 
             if "hostname" not in response[0]:
-                self.log(
-                    "Hostname key missing in the API response for device_id: {0}".format(
-                        device_id
-                    ),
-                    "ERROR",
-                )
+                self.log("Hostname key missing in the API response for device_id: {0}".format(device_id), "ERROR")
                 return None
 
             device_hostname = response[0].get("hostname")
         except Exception as e:
-            self.msg = "Exception occurred while fetching device hostname for device_id '{0}': {1}".format(
-                device_id, str(e)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "Exception occurred while fetching device hostname for device_id '{0}': {1}".format(device_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log(
-            "Device hostname for device_id '{0}' is '{1}'.".format(
-                device_id, device_hostname
-            ),
-            "INFO",
-        )
+        self.log("Device hostname for device_id '{0}' is '{1}'.".format(device_id, device_hostname), "INFO")
 
         return device_hostname
 
@@ -6104,41 +5811,23 @@ class Template(NetworkProfileFunctions):
             without breaking execution flow.
         """
 
-        self.log(
-            "Checking site assignment for device with UUID: {0}".format(device_id),
-            "INFO",
-        )
+        self.log("Checking site assignment for device with UUID: {0}".format(device_id), "INFO")
         site_uuid = None
         try:
-            response = self.catalystcenter_apply["exec"](
+            response = self.catalystcenter_apply['exec'](
                 family="site_design",
-                function="get_site_assigned_network_device",
-                params={"id": device_id},
+                function='get_site_assigned_network_device',
+                params={"id": device_id}
             )
 
-            self.log(
-                "API response received for 'get_site_assigned_network_device': {0}".format(
-                    response
-                ),
-                "DEBUG",
-            )
+            self.log("API response received for 'get_site_assigned_network_device': {0}".format(response), "DEBUG")
             if not response or not isinstance(response, dict):
-                self.log(
-                    "No site assignment found for device with UUID: {0}".format(
-                        device_id
-                    ),
-                    "WARNING",
-                )
+                self.log("No site assignment found for device with UUID: {0}".format(device_id), "WARNING")
                 return site_uuid
 
             response = response.get("response")
             if not isinstance(response, dict):
-                self.log(
-                    "Unexpected 'response' format for device with UUID: {0}".format(
-                        device_id
-                    ),
-                    "WARNING",
-                )
+                self.log("Unexpected 'response' format for device with UUID: {0}".format(device_id), "WARNING")
                 return None
 
             # Extract site details
@@ -6146,29 +5835,17 @@ class Template(NetworkProfileFunctions):
             site_name = response.get("siteNameHierarchy")
 
             if not site_uuid:
-                self.log(
-                    "No site assignment found for device with UUID: {0}".format(
-                        device_id
-                    ),
-                    "WARNING",
-                )
+                self.log("No site assignment found for device with UUID: {0}".format(device_id), "WARNING")
                 return None
 
             self.log(
-                "Device with UUID {0} is assigned to site: {1} (siteId: {2})".format(
-                    device_id, site_name, site_uuid
-                ),
-                "INFO",
+                "Device with UUID {0} is assigned to site: {1} (siteId: {2})".format(device_id, site_name, site_uuid), "INFO"
             )
             return site_uuid
 
         except Exception as e:
-            self.msg = "Exception occurred while fetching site assignment for device with UUID '{0}': {1}".format(
-                device_id, str(e)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "Exception occurred while fetching site assignment for device with UUID '{0}': {1}".format(device_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def create_payload_for_template_deploy(self, deploy_temp_details, device_ids):
         """
@@ -6236,12 +5913,144 @@ class Template(NetworkProfileFunctions):
                 project_name, template_name, template_id
             ).check_return_status()
 
+        is_composite = deploy_temp_details.get("is_composite", False)
+        self.log(
+            "Preparing deployment payload for"
+            " template '{0}', is_composite={1}.".format(
+                template_name, is_composite),
+            "DEBUG",
+        )
+        member_deployments = []
+
+        self.log(
+            "Preparing deployment payload for"
+            " template '{0}', is_composite={1}.".format(
+                template_name, is_composite),
+            "DEBUG",
+        )
         deploy_payload = {
             "forcePushTemplate": deploy_temp_details.get("force_push", False),
-            "isComposite": deploy_temp_details.get("is_composite", False),
+            "isComposite": is_composite,
             "templateId": template_id,
             "copyingConfig": deploy_temp_details.get("copy_config", True),
         }
+
+        # For composite templates, set mainTemplateId and build memberTemplateDeploymentInfo
+        if is_composite:
+            self.log(
+                "Processing composite template deployment"
+                " for template '{0}'.".format(template_name),
+                "INFO",
+            )
+            deploy_payload["mainTemplateId"] = template_id
+            # Resolve versioned template ID for the composite parent
+            composite_version_id = self.get_latest_template_version_id(template_id, template_name)
+            self.log(
+                "Resolved composite template '{0}'"
+                " version ID: '{1}'.".format(
+                    template_name,
+                    composite_version_id or template_id),
+                "DEBUG",
+            )
+
+            if composite_version_id:
+                deploy_payload["templateId"] = composite_version_id
+
+            member_info_list = deploy_temp_details.get("member_template_deployment_info", [])
+            if not member_info_list:
+                self.msg = (
+                    "Composite template '{0}' requires 'member_template_deployment_info' "
+                    "to be provided in the playbook."
+                ).format(template_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            for idx, member in enumerate(member_info_list):
+                member_template_name = member.get("template_name")
+                self.log(
+                    "Processing member template {0}/{1}"
+                    " with name '{2}' for composite"
+                    " template '{3}'.".format(
+                        idx + 1, len(member_info_list),
+                        member_template_name, template_name),
+                    "DEBUG",
+                )
+                if not member_template_name:
+                    self.msg = (
+                        "Each entry in 'member_template_deployment_info' must include a 'template_name' "
+                        "for composite template '{0}'."
+                    ).format(template_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                member_project_name = member.get("project_name") or project_name
+                member_response = self.get_project_defined_template_details(
+                    member_project_name, member_template_name
+                )
+                member_templates = member_response.get("response") if member_response else None
+                if not member_templates or not isinstance(member_templates, list):
+                    self.msg = (
+                        "Member template '{0}' not found under project '{1}' or it is not versioned."
+                    ).format(member_template_name, member_project_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                member_template_id = member_templates[0].get("id")
+                if not member_template_id:
+                    self.msg = (
+                        "Member template '{0}' under"
+                        " project '{1}' has no valid ID."
+                    ).format(
+                        member_template_name, member_project_name
+                    )
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR"
+                    ).check_return_status()
+                self.log("Resolved member template '{0}' to ID '{1}'.".format(
+                    member_template_name, member_template_id), "DEBUG")
+
+                member_version_id = self.get_latest_template_version_id(member_template_id, member_template_name)
+                if not member_version_id:
+                    member_version_id = member_template_id
+
+                member_params = {}
+                member_template_params = member.get("template_parameters", [])
+                for idx, param in enumerate(member_template_params):
+                    self.log(
+                        "Processing parameter {0}/{1} for"
+                        " member template '{2}'.".format(
+                            idx + 1, len(member_template_params),
+                            member_template_name),
+                        "DEBUG",
+                    )
+                    p_name = param.get("param_name")
+                    p_value = param.get("param_value")
+
+                    if not p_name:
+                        self.msg = (
+                            "Each template parameter in member"
+                            " template '{0}' must include"
+                            " 'param_name'."
+                        ).format(member_template_name)
+                        self.set_operation_result(
+                            "failed", False, self.msg, "ERROR"
+                        ).check_return_status()
+
+                    member_params[p_name] = p_value
+
+                member_deploy = {
+                    "forcePushTemplate": member.get("force_push_template", True),
+                    "isComposite": False,
+                    "templateId": member_version_id,
+                    "copyingConfig": member.get("copy_config", True),
+                    "targetInfo": [],
+                }
+
+                member_deployments.append({
+                    "deploy": member_deploy,
+                    "params": member_params,
+                    "version_id": member_version_id,
+                })
+
+            self.log("Built {0} member template deployment entries for composite template '{1}'.".format(
+                len(member_deployments), template_name), "DEBUG")
         self.log(
             "Handling template parameters for the deployment of template '{0}'.".format(
                 template_name
@@ -6250,15 +6059,7 @@ class Template(NetworkProfileFunctions):
         )
         target_info_list = []
         template_dict = {}
-        template_parameters = deploy_temp_details.get("template_parameters")
-        if not template_parameters:
-            self.msg = (
-                "It appears that no template parameters were provided in the playbook. Unfortunately, this "
-                "means we cannot proceed with deploying template '{0}' to the devices."
-            ).format(template_name)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+        template_parameters = deploy_temp_details.get("template_parameters", [])
 
         for param in template_parameters:
             name = param["param_name"]
@@ -6271,23 +6072,18 @@ class Template(NetworkProfileFunctions):
             )
             template_dict[name] = value
 
-        # Get the latest version template ID
-        version_template_id = self.get_latest_template_version_id(
-            template_id, template_name
-        )
-        if not version_template_id:
-            self.log(
-                "No versioning found for the template: {0}".format(template_name),
-                "INFO",
-            )
-            version_template_id = template_id
+        # Get the latest version template ID (only needed for non-composite deployments)
+        version_template_id = None
+        if not is_composite:
+            version_template_id = self.get_latest_template_version_id(template_id, template_name)
+            if not version_template_id:
+                self.log(
+                    "Using base template ID for '{0}' — no committed version found in Catalyst Center.".format(template_name),
+                    "INFO",
+                )
+                version_template_id = template_id
 
-        self.log(
-            "Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(
-                template_name, device_ids
-            ),
-            "DEBUG",
-        )
+        self.log("Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(template_name, device_ids), "DEBUG")
         for device_id in device_ids:
             self.log(
                 "Adding device '{0}' to the deployment payload.".format(device_id),
@@ -6296,34 +6092,23 @@ class Template(NetworkProfileFunctions):
             target_device_dict = {
                 "id": device_id,
                 "type": "MANAGED_DEVICE_UUID",
-                "versionedTemplateId": version_template_id,
                 "params": template_dict,
             }
+            if not is_composite:
+                target_device_dict["versionedTemplateId"] = version_template_id
             resource_params = deploy_temp_details.get("resource_parameters")
-            self.log(
-                "Handling resource parameters for the deployment of template '{0}'.".format(
-                    template_name
-                ),
-                "DEBUG",
-            )
+            self.log("Handling resource parameters for the deployment of template '{0}'.".format(template_name), "DEBUG")
             resource_params_list = []
-            runtime_scopes_available = [
-                "MANAGED_DEVICE_UUID",
-                "MANAGED_DEVICE_IP",
-                "MANAGED_DEVICE_HOSTNAME",
-                "SITE_UUID",
-            ]
-            self.log(
-                "Available runtime scopes for resource parameters: {0}".format(
-                    runtime_scopes_available
-                ),
-                "DEBUG",
-            )
+            runtime_scopes_available = ["MANAGED_DEVICE_UUID", "MANAGED_DEVICE_IP", "MANAGED_DEVICE_HOSTNAME", "SITE_UUID"]
+            self.log("Available runtime scopes for resource parameters: {0}".format(runtime_scopes_available), "DEBUG")
             if resource_params:
                 for resource_param in resource_params:
                     r_type = resource_param.get("resource_type")
                     scope = resource_param.get("resource_scope", "RUNTIME")
-                    resource_params_dict = {"type": r_type, "scope": scope}
+                    resource_params_dict = {
+                        'type': r_type,
+                        'scope': scope
+                    }
                     if scope == "RUNTIME":
                         # Validate runtime scope type
                         if r_type not in runtime_scopes_available:
@@ -6331,61 +6116,39 @@ class Template(NetworkProfileFunctions):
                                 "The resource type '{0}' with scope '{1}' is not supported for runtime provisioning. "
                                 "Supported types are: {2}."
                             ).format(r_type, scope, ", ".join(runtime_scopes_available))
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         self.log(
                             "Processing resource parameter with type '{0}' and scope '{1}' for runtime"
-                            " provisioning.".format(r_type, scope),
-                            "DEBUG",
+                            " provisioning.".format(r_type, scope), "DEBUG"
                         )
                         if r_type == "SITE_UUID":
                             value = self.get_site_uuid_from_device_id(device_id)
                         elif r_type == "MANAGED_DEVICE_UUID":
                             value = device_id
                         elif r_type == "MANAGED_DEVICE_IP":
-                            device_ip_id_map = self.get_device_ips_from_device_ids(
-                                [device_id]
-                            )
+                            device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
                             value = device_ip_id_map[device_id]
                         elif r_type == "MANAGED_DEVICE_HOSTNAME":
                             value = self.get_device_hostname_from_device_id(device_id)
 
-                        resource_params_dict["value"] = value
-                        self.log(
-                            "Update the resource placeholder for the type '{0}' with scope {1}".format(
-                                r_type, scope
-                            ),
-                            "DEBUG",
-                        )
+                        resource_params_dict['value'] = value
+                        self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
                         resource_params_list.append(resource_params_dict)
                         continue
 
                     # If the scope is not RUNTIME, we take the value directly from the resource_param dictionary
-                    self.log(
-                        "Processing resource parameter with type '{0}' and scope '{1}'.".format(
-                            r_type, scope
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Processing resource parameter with type '{0}' and scope '{1}'.".format(r_type, scope), "DEBUG")
                     value = resource_param.get("resource_value")
                     if not value:
                         self.msg = (
                             "The resource type '{0}' with scope '{1}' requires a value to be provided. "
                             "Please specify a value for this resource parameter."
                         ).format(r_type, scope)
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                    resource_params_dict["value"] = value
-                    self.log(
-                        "Update the resource placeholder for the type '{0}' with scope {1}".format(
-                            r_type, scope
-                        ),
-                        "DEBUG",
-                    )
+                    resource_params_dict['value'] = value
+                    self.log("Update the resource placeholder for the type '{0}' with scope {1}".format(r_type, scope), "DEBUG")
                     resource_params_list.append(resource_params_dict)
 
             if resource_params_list:
@@ -6401,13 +6164,111 @@ class Template(NetworkProfileFunctions):
             del target_device_dict
 
         deploy_payload["targetInfo"] = target_info_list
+
+        # For composite templates, populate memberTemplateDeploymentInfo with per-device target info
+        if is_composite:
+            member_template_deployment_info = []
+            for idx, member_entry in enumerate(member_deployments):
+                self.log(
+                    "Building target info for member"
+                    " deployment {0}/{1}, templateId"
+                    " '{2}'.".format(
+                        idx + 1, len(member_deployments),
+                        member_entry.get("version_id")),
+                    "DEBUG",
+                )
+                member_deploy = member_entry["deploy"]
+                member_params = member_entry["params"]
+                member_version_id = member_entry["version_id"]
+                member_resource_params = deploy_temp_details.get("resource_parameters", [])
+
+                member_target_info_list = []
+                for dev_idx, device_id in enumerate(device_ids):
+                    self.log(
+                        "Preparing member deployment target"
+                        " {0}/{1} for device_id '{2}'"
+                        " in member template"
+                        " '{3}'.".format(
+                            dev_idx + 1, len(device_ids),
+                            device_id,
+                            member_deploy.get("templateId")),
+                        "DEBUG",
+                    )
+                    member_target = {
+                        "id": device_id,
+                        "type": "MANAGED_DEVICE_UUID",
+                        "params": member_params,
+                    }
+
+                    member_res_list = []
+                    runtime_scopes_available = ["MANAGED_DEVICE_UUID", "MANAGED_DEVICE_IP", "MANAGED_DEVICE_HOSTNAME", "SITE_UUID"]
+                    for res_idx, resource_param in enumerate(member_resource_params):
+                        r_type = resource_param.get("resource_type")
+                        self.log(
+                            "Resolving resource param"
+                            " {0}/{1} type='{2}' for"
+                            " device '{3}'.".format(
+                                res_idx + 1,
+                                len(member_resource_params),
+                                r_type, device_id),
+                            "DEBUG",
+                        )
+                        scope = resource_param.get("resource_scope", "RUNTIME")
+                        resource_params_dict = {"type": r_type, "scope": scope}
+                        if scope == "RUNTIME":
+                            if r_type not in runtime_scopes_available:
+                                self.msg = (
+                                    "The resource type '{0}' with scope '{1}' is not supported for runtime provisioning. "
+                                    "Supported types are: {2}."
+                                ).format(r_type, scope, ", ".join(runtime_scopes_available))
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                            if r_type == "SITE_UUID":
+                                value = self.get_site_uuid_from_device_id(device_id)
+                            elif r_type == "MANAGED_DEVICE_UUID":
+                                value = device_id
+                            elif r_type == "MANAGED_DEVICE_IP":
+                                device_ip_id_map = self.get_device_ips_from_device_ids([device_id])
+                                value = device_ip_id_map[device_id]
+                            elif r_type == "MANAGED_DEVICE_HOSTNAME":
+                                value = self.get_device_hostname_from_device_id(device_id)
+
+                            resource_params_dict['value'] = value
+                            member_res_list.append(resource_params_dict)
+                            self.log("Resolved runtime resource parameter '{0}' with scope '{1}' to value '{2}' for device '{3}'.".format(
+                                r_type, scope, value, device_id), "DEBUG")
+                            continue
+
+                        self.log("Processing resource parameter with type '{0}' and scope '{1}'.".format(r_type, scope), "DEBUG")
+                        value = resource_param.get("resource_value")
+                        if not value:
+                            self.msg = (
+                                "The resource type '{0}' with scope '{1}' requires a value to be provided. "
+                                "Please specify a value for this resource parameter."
+                            ).format(r_type, scope)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                        resource_params_dict["value"] = value
+                        member_res_list.append(resource_params_dict)
+
+                    if member_res_list:
+                        member_target["resourceParams"] = member_res_list
+                    member_target_info_list.append(member_target)
+
+                member_deploy["targetInfo"] = member_target_info_list
+                member_template_deployment_info.append(member_deploy)
+
+            deploy_payload["memberTemplateDeploymentInfo"] = member_template_deployment_info
+            self.log("Added {0} member template deployment info entries to composite payload.".format(
+                len(member_template_deployment_info)), "DEBUG")
+
         self.log(
             "Successfully generated deployment payload for template '{0}'.".format(
                 template_name
             ),
             "INFO",
         )
-
+        self.log("Final deployment payload for template '{0}': {1}".format(template_name, deploy_payload), "DEBUG")
         return deploy_payload
 
     def monitor_template_deployment_status(
@@ -6625,7 +6486,7 @@ class Template(NetworkProfileFunctions):
                     "DEBUG",
                 )
                 match = re.search(
-                    r"Template\s+Deployemnt\s+Id:\s+([a-f0-9\-]+)",
+                    r"Template\s+Deployment\s+Id:\s+([a-f0-9\-]+)",
                     progress,
                     re.IGNORECASE,
                 )
@@ -6648,6 +6509,16 @@ class Template(NetworkProfileFunctions):
                         self.monitor_template_deployment_status(
                             template_name, deployment_id, device_ips
                         ).check_return_status()
+                        self.log(
+                            "Deployment monitoring completed"
+                            " for template '{0}' with"
+                            " deployment ID '{1}'."
+                            " Returning.".format(
+                                template_name,
+                                deployment_id),
+                            "INFO",
+                        )
+                        return self
                     else:
                         self.log(
                             "Regex matched the progress message, but no Deployment ID was captured. "
@@ -6658,12 +6529,21 @@ class Template(NetworkProfileFunctions):
                         )
                 else:
                     self.log(
-                        "Deployment ID not found in the progress message. This could indicate that the template '{0}' is already deployed with"
-                        " same parameters, Hence not deploying on devices. Progress message: '{1}'.".format(
+                        "Deployment ID not found in the progress message for template '{0}'. Progress message: '{1}'.".format(
                             template_name, progress
                         ),
-                        "WARNING",
+                        "DEBUG",
                     )
+
+                # Check for task-level success even without a deployment ID
+                is_task_end = task_details.get("isError")
+                if is_task_end is False and "endTime" in task_details and task_details.get("endTime"):
+                    self.msg = (
+                        "Given template '{0}' deployed successfully to all the device(s) '{1}' "
+                        " in the Cisco Catalyst Center."
+                    ).format(template_name, device_ips)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    return self
 
                 if "already deployed with same params" in progress:
                     self.msg = "Template '{0}' is already deployed with the same parameters. No deployment actions will be performed.".format(
@@ -6744,12 +6624,8 @@ class Template(NetworkProfileFunctions):
         try:
             device_ips = device_details.get("device_ips")
             if device_ips and not isinstance(device_ips, list):
-                self.msg = "Device IPs should be a list, but got: {0}".format(
-                    type(device_ips).__name__
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Device IPs should be a list, but got: {0}".format(type(device_ips).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if device_ips:
                 self.log("Found device IPs: {0}".format(device_ips), "INFO")
@@ -6901,21 +6777,15 @@ class Template(NetworkProfileFunctions):
         self.result["changed"] = False
         result_msg_list = []
         if self.project_created:
-            create_project_msg = "Project '{0}' created successfully in the Cisco Catalyst Center.".format(
-                self.project_created
-            )
+            create_project_msg = "Project '{0}' created successfully in the Cisco Catalyst Center.".format(self.project_created)
             result_msg_list.append(create_project_msg)
 
         if self.template_created:
-            create_template_msg = "Template '{0}' created successfully in the Cisco Catalyst Center.".format(
-                self.template_created
-            )
+            create_template_msg = "Template '{0}' created successfully in the Cisco Catalyst Center.".format(self.template_created)
             result_msg_list.append(create_template_msg)
 
         if self.template_updated:
-            update_template_msg = "Template '{0}' updated successfully in the Cisco Catalyst Center.".format(
-                self.template_updated
-            )
+            update_template_msg = "Template '{0}' updated successfully in the Cisco Catalyst Center.".format(self.template_updated)
             result_msg_list.append(update_template_msg)
 
         if self.no_update_template:
@@ -6925,69 +6795,43 @@ class Template(NetworkProfileFunctions):
             result_msg_list.append(no_update_template_msg)
 
         if self.template_committed:
-            commit_template_msg = "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(
-                self.template_committed
-            )
+            commit_template_msg = "Template '{0}' committed successfully in the Cisco Catalyst Center.".format(self.template_committed)
             result_msg_list.append(commit_template_msg)
 
         if self.profile_assigned:
-            profile_assign_msg = (
-                "Profile(s) '{0}' assigned successfully to the template.".format(
-                    str(self.profile_assigned)
-                )
-            )
+            profile_assign_msg = "Profile(s) '{0}' assigned successfully to the template.".format(str(
+                self.profile_assigned))
             result_msg_list.append(profile_assign_msg)
 
         if self.no_profile_assigned:
-            no_profile_assign_msg = (
-                "Unable to assign the profile(s) '{0}' to the template.".format(
-                    str(self.no_profile_assigned)
-                )
-            )
+            no_profile_assign_msg = "Unable to assign the profile(s) '{0}' to the template.".format(str(
+                self.no_profile_assigned))
             result_msg_list.append(no_profile_assign_msg)
 
-        if (
-            self.profile_exists
-            and not self.profile_detached
-            and not self.profile_not_detached
-            and not self.profile_already_detached
-        ):
-            profile_exists_msg = "Profile(s) '{0}' already exist and cannot be assigned to the template.".format(
-                str(self.profile_exists)
-            )
+        if (self.profile_exists and not self.profile_detached
+           and not self.profile_not_detached and not self.profile_already_detached):
+            profile_exists_msg = "Profile(s) '{0}' already exist and cannot be assigned to the template.".format(str(
+                self.profile_exists))
             result_msg_list.append(profile_exists_msg)
 
         if self.profile_detached:
-            profile_detach_msg = (
-                "Profile(s) '{0}' detached successfully from the template.".format(
-                    str(self.profile_detached)
-                )
-            )
+            profile_detach_msg = "Profile(s) '{0}' detached successfully from the template.".format(str(
+                self.profile_detached))
             result_msg_list.append(profile_detach_msg)
 
         if self.profile_not_detached:
-            profile_not_detach_msg = (
-                "Profile(s) '{0}' could not be detached from the template.".format(
-                    str(self.profile_not_detached)
-                )
-            )
+            profile_not_detach_msg = "Profile(s) '{0}' could not be detached from the template.".format(str(
+                self.profile_not_detached))
             result_msg_list.append(profile_not_detach_msg)
 
         if self.profile_already_detached:
-            profile_already_detach_msg = (
-                "Profile(s) '{0}' were already detached from the template.".format(
-                    str(self.profile_already_detached)
-                )
-            )
+            profile_already_detach_msg = "Profile(s) '{0}' were already detached from the template.".format(str(
+                self.profile_already_detached))
             result_msg_list.append(profile_already_detach_msg)
 
         if (
-            self.project_created
-            or self.template_created
-            or self.template_updated
-            or self.template_committed
-            or self.profile_assigned
-            or self.profile_detached
+            self.project_created or self.template_created or self.template_updated
+            or self.template_committed or self.profile_assigned or self.profile_detached
         ):
             self.result["changed"] = True
 
@@ -7015,25 +6859,20 @@ class Template(NetworkProfileFunctions):
         project_details = config.get("projects")
         if project_details:
             if len(self.have.get("projects")) == len(project_details):
-                project_unmatch = any(
-                    not project.get("project_status") and not project.get("new_name")
-                    for project in self.have.get("projects")
-                )
+                project_unmatch = any(not project.get("project_status") and
+                                      not project.get("new_name")
+                                      for project in self.have.get("projects"))
                 if not project_unmatch:
                     self.msg = "No changes required, project(s) already exist"
                     self.log(self.msg, "INFO")
-                    self.set_operation_result(
-                        "success", False, self.msg, "INFO"
-                    ).check_return_status()
+                    self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
                     return self
             self.apply_project_config(project_details).check_return_status()
             return self
 
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
-            self.update_configuration_templates(
-                config, configuration_templates
-            ).check_return_status()
+            self.update_configuration_templates(config, configuration_templates).check_return_status()
             self.update_template_projects_message().check_return_status()
 
         _import = config.get("import")
@@ -7363,15 +7202,10 @@ class Template(NetworkProfileFunctions):
                 time.sleep(sleep_duration)
         else:
             current_profiles = self.have.get("current_profile", [])
-            if (
-                current_profiles
-                and self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") >= 0
-            ):
+            if current_profiles and self.compare_catalystcenter_versions(ccc_version, "3.1.3.0") >= 0:
                 template_name = self.want.get("template_params").get("name")
                 self.log("Detaching profile from template", "DEBUG")
-                detach_status = self.detach_profiles_from_template(
-                    template_name, current_profiles
-                )
+                detach_status = self.detach_profiles_from_template(template_name, current_profiles)
                 if detach_status:
                     self.log("Received response from detach profile.", "DEBUG")
                     self.update_template_projects_message().check_return_status()
@@ -7417,12 +7251,7 @@ class Template(NetworkProfileFunctions):
         Returns:
             bool: Returns True if the detachment was successful execution.
         """
-        self.log(
-            "Detaching profiles from template '{0}': {1}".format(
-                name, current_profiles
-            ),
-            "INFO",
-        )
+        self.log("Detaching profiles from template '{0}': {1}".format(name, current_profiles), "INFO")
 
         for profile_index, each_profile in enumerate(current_profiles):
             # Extract profile information once per iteration
@@ -7434,109 +7263,66 @@ class Template(NetworkProfileFunctions):
 
             # Skip profiles not associated with the current template
             if profile_template_name != name:
-                self.log(
-                    "Skipping profile '{0}' - not associated with template '{1}' (associated with '{2}')".format(
-                        each_profile_name, name, profile_template_name
-                    ),
-                    "DEBUG",
-                )
+                self.log("Skipping profile '{0}' - not associated with template '{1}' (associated with '{2}')".format(
+                    each_profile_name, name, profile_template_name), "DEBUG")
                 continue
 
-            self.log(
-                "Processing profile '{0}' (index {1}) with status '{2}' for template '{3}'".format(
-                    each_profile_name, profile_index, profile_status, name
-                ),
-                "DEBUG",
-            )
+            self.log("Processing profile '{0}' (index {1}) with status '{2}' for template '{3}'".format(
+                each_profile_name, profile_index, profile_status, name), "DEBUG")
 
             # Case 1: Detach profile from template
             if profile_status == "already assigned":
-                self.log(
-                    "Detaching profile '{0}' from template '{1}' - profile currently assigned and detach requested".format(
-                        each_profile_name, name
-                    ),
-                    "INFO",
-                )
+                self.log("Detaching profile '{0}' from template '{1}' - profile currently assigned and detach requested".format(
+                    each_profile_name, name), "INFO")
 
                 try:
                     template_status = self.detach_networkprofile_cli_template(
-                        each_profile_name, each_profile_id, name, template_id
-                    )
-                    self.log(
-                        "Received response from profile detachment API for profile '{0}': {1}".format(
-                            each_profile_name, template_status
-                        ),
-                        "DEBUG",
-                    )
+                        each_profile_name, each_profile_id, name, template_id)
+                    self.log("Received response from profile detachment API for profile '{0}': {1}".format(
+                        each_profile_name, template_status), "DEBUG")
 
                     if template_status and template_status.get("progress"):
                         success_msg = "Profile '{0}' successfully detached from template '{1}'".format(
-                            each_profile_name, name
-                        )
+                            each_profile_name, name)
                         self.log(success_msg, "INFO")
                         self.profile_detached.append(each_profile_name)
                     else:
                         error_msg = "Failed to detach profile '{0}' from template '{1}' - API response indicates failure".format(
-                            each_profile_name, name
-                        )
+                            each_profile_name, name)
                         self.log(error_msg, "ERROR")
                         self.profile_not_detached.append(each_profile_name)
 
                 except Exception as e:
                     error_msg = "Exception occurred while detaching profile '{0}' from template '{1}': {2}".format(
-                        each_profile_name, name, str(e)
-                    )
+                        each_profile_name, name, str(e))
                     self.log(error_msg, "ERROR")
                     self.profile_not_detached.append(each_profile_name)
 
             # Case 2: Profile already detached (idempotent case)
             elif profile_status == "Not Assigned":
-                self.log(
-                    "Profile '{0}' already detached from template '{1}' - no action required".format(
-                        each_profile_name, name
-                    ),
-                    "INFO",
-                )
+                self.log("Profile '{0}' already detached from template '{1}' - no action required".format(
+                    each_profile_name, name), "INFO")
                 self.profile_already_detached.append(each_profile_name)
 
             # Case 3: Unexpected scenario
             else:
-                self.log(
-                    "Unexpected scenario for profile '{0}' on template '{1}': status='{2}'".format(
-                        each_profile_name, name, profile_status
-                    ),
-                    "WARNING",
-                )
+                self.log("Unexpected scenario for profile '{0}' on template '{1}': status='{2}'".format(
+                    each_profile_name, name, profile_status), "WARNING")
 
         # Log summary of operations
-        total_detached = len(getattr(self, "profile_detached", []))
-        total_detachment_failures = len(getattr(self, "profile_not_detached", []))
-        total_already_detached = len(getattr(self, "profile_already_detached", []))
+        total_detached = len(getattr(self, 'profile_detached', []))
+        total_detachment_failures = len(getattr(self, 'profile_not_detached', []))
+        total_already_detached = len(getattr(self, 'profile_already_detached', []))
 
         self.log("Profile operation summary for template '{0}':".format(name), "INFO")
-        self.log(
-            "  - Profiles detached: {0} {1}".format(
-                total_detached, getattr(self, "profile_detached", [])
-            ),
-            "INFO",
-        )
-        self.log(
-            "  - Detachment failures: {0} {1}".format(
-                total_detachment_failures, getattr(self, "profile_not_detached", [])
-            ),
-            "INFO",
-        )
-        self.log(
-            "  - Already detached: {0} {1}".format(
-                total_already_detached, getattr(self, "profile_already_detached", [])
-            ),
-            "INFO",
-        )
+        self.log("  - Profiles detached: {0} {1}".format(total_detached,
+                                                         getattr(self, 'profile_detached', [])), "INFO")
+        self.log("  - Detachment failures: {0} {1}".format(total_detachment_failures,
+                                                           getattr(self, 'profile_not_detached', [])), "INFO")
+        self.log("  - Already detached: {0} {1}".format(total_already_detached,
+                                                        getattr(self, 'profile_already_detached', [])), "INFO")
 
-        self.log(
-            "Completed profile detachment processing for template '{0}'".format(name),
-            "INFO",
-        )
+        self.log("Completed profile detachment processing for template '{0}'".format(name), "INFO")
 
         return True
 
@@ -7626,9 +7412,7 @@ class Template(NetworkProfileFunctions):
 
                 if self.delete_project(project_name):
                     self.processed_project.append(project_name)
-                    self.log(
-                        "Successfully deleted project: {0}".format(project_name), "INFO"
-                    )
+                    self.log("Successfully deleted project: {0}".format(project_name), "INFO")
 
         return self
 
@@ -7777,33 +7561,26 @@ class Template(NetworkProfileFunctions):
             if not self.processed_project:
                 self.msg = "No changes required, project(s) are already deleted"
                 self.log(self.msg, "INFO")
-                self.set_operation_result(
-                    "success", False, self.msg, "INFO"
-                ).check_return_status()
+                self.set_operation_result("success", False, self.msg,
+                                          "INFO").check_return_status()
                 return self
 
             self.get_have(config)
             self.log("Current State (have): {0}".format(self.have), "INFO")
             self.log("Desired State (want): {0}".format(self.want), "INFO")
             if not self.have.get("projects"):
-                self.msg = (
-                    "Project(s) are deleted and verified successfully. {0}".format(
-                        self.processed_project
-                    )
-                )
+                self.msg = "Project(s) are deleted and verified successfully. {0}".format(
+                    self.processed_project)
                 self.log(self.msg, "INFO")
-                self.set_operation_result(
-                    "success", True, self.msg, "INFO", config.get("projects")
-                ).check_return_status()
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          config.get("projects")).check_return_status()
                 return self
 
             self.msg = "Unable to delete the following project(s): {0}".format(
-                [project.get("name") for project in self.have.get("projects", [])]
-            )
+                [project.get("name") for project in self.have.get("projects", [])])
             self.log(self.msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, self.msg, "INFO", self.have.get("projects")
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "INFO",
+                                      self.have.get("projects")).check_return_status()
         return self
 
     def reset_values(self):
@@ -7826,24 +7603,17 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
+
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},

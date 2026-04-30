@@ -153,7 +153,7 @@ options:
             required: false
 
 requirements:
-- dnacentersdk >= 2.10.10
+- catalystcentersdk >= 2.10.10
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -9541,13 +9541,11 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not module_supported_network_elements:
             error_msg = "No network elements defined in module schema, cannot process any components"
             self.log(error_msg, "CRITICAL")
-            self.msg = {
-                "message": "YAML config generation failed for module '{0}' - module schema is invalid.".format(
-                    self.module_name
-                ),
-                "error": error_msg
-            }
-            self.set_operation_result("failed", False, self.msg, "CRITICAL")
+            self.msg = "YAML config generation failed for module '{0}' - module schema is invalid.".format(
+                self.module_name
+            )
+            additional_info = {"error": error_msg}
+            self.set_operation_result("failed", False, self.msg, "CRITICAL", additional_info)
             return self
 
         self.log(
@@ -9634,9 +9632,13 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         if not components_list:
             error_msg = "No valid components to process after filtering"
             self.log(error_msg, "ERROR")
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. "
-                "Verify input filters or configuration.".format(self.module_name),
+            self.msg = (
+                "No configurations or components to process for module '{0}'. "
+                "Verify input filters or configuration.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "operation_summary": {
                     "total_sites_processed": 0,
                     "total_components_processed": 0,
@@ -9644,7 +9646,7 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     "total_failed_operations": 0
                 }
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Reset operation tracking for clean state
@@ -9935,12 +9937,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "WARNING"
             )
 
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. "
-                "Verify input filters or configuration.".format(self.module_name),
+            self.msg = (
+                "No configurations or components to process for module '{0}'. "
+                "Verify input filters or configuration.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Create final YAML structure
@@ -9955,11 +9961,16 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         final_dict["config"] = final_list
 
         if not final_list:
-            self.msg = {
-                "message": "No configurations or components to process for module '{0}'. Verify input filters or configuration.".format(self.module_name),
+            self.msg = (
+                "No configurations or components to process for module '{0}'. "
+                "Verify input filters or configuration.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
             return self
 
         # Write to YAML file
@@ -9995,39 +10006,39 @@ class NetworkSettingsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "INFO"
             )
 
-            self.msg = {
-                "message": "YAML config generation succeeded for module '{0}'.".format(
-                    self.module_name
-                ),
+            self.msg = "YAML config generation succeeded for module '{0}'.".format(
+                self.module_name
+            )
+            additional_info = {
+                "status": "success",
+                "message": self.msg,
                 "file_path": file_path,
                 "configurations_generated": len(final_list),
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("success", True, self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO", additional_info)
         else:
-            error_msg = "Failed to write YAML configuration to file: {0}".format(file_path)
-            self.log(error_msg, "ERROR")
-
-            # Exit log with failure summary
+            # write_dict_to_yaml returns False when the existing file content is
+            # identical to the newly generated content (idempotent - no write needed).
+            # This is not a failure; the file is already up-to-date.
             self.log(
-                "YAML playbook configuration generation workflow failed for module '{0}'. "
-                "Processed {1} component(s) successfully but unable to write output file: {2}".format(
-                    self.module_name,
-                    consolidated_operation_summary["total_components_processed"],
-                    file_path
-                ),
-                "ERROR"
+                "YAML configuration file '{0}' content is identical to newly generated "
+                "content. Skipping write (idempotent).".format(file_path),
+                "INFO"
             )
 
-            self.msg = {
-                "message": "YAML config generation failed for module '{0}' - unable to write to file.".format(
-                    self.module_name
-                ),
+            self.msg = (
+                "YAML configuration file already up-to-date for module '{0}'. "
+                "No changes written.".format(self.module_name)
+            )
+            additional_info = {
+                "status": "ok",
+                "message": self.msg,
                 "file_path": file_path,
-                "error": error_msg,
+                "configurations_generated": len(final_list),
                 "operation_summary": slim_operation_summary
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO", additional_info)
 
         return self
 
@@ -10321,7 +10332,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -10330,7 +10341,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -10382,12 +10393,12 @@ def main():
         "catalystcenter_host": {
             "required": True,
             "type": "str",
-            "aliases": ["dnac_host"],
+            "aliases": ["dnac_host"]
         },
         "catalystcenter_port": {
             "type": "str",
             "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "aliases": ["dnac_port", "catalystcenter_api_port"]
         },
         "catalystcenter_username": {
             "type": "str",
@@ -10397,12 +10408,12 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_verify"],
+            "aliases": ["dnac_verify"]
         },
 
         # ============================================
@@ -10411,7 +10422,7 @@ def main():
         "catalystcenter_version": {
             "type": "str",
             "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "aliases": ["dnac_version"]
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -10432,27 +10443,27 @@ def main():
         "catalystcenter_debug": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_debug"],
+            "aliases": ["dnac_debug"]
         },
         "catalystcenter_log_level": {
             "type": "str",
             "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "aliases": ["dnac_log_level"]
         },
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "aliases": ["dnac_log_file_path"]
         },
         "catalystcenter_log_append": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_log_append"],
+            "aliases": ["dnac_log_append"]
         },
         "catalystcenter_log": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_log"],
+            "aliases": ["dnac_log"]
         },
 
         # ============================================

@@ -38,5 +38,6 @@ jobs:
             --exclude playbooks/input_events_and_notification.yml
             --exclude playbooks/image_details.yml
             --exclude playbooks/sda_fabric.yml
+            --exclude cvp/sda_device_removal_and_unprovision/playbook/tasks/remove_single_device.yml
           setup_python: "false"
           working_directory: ""

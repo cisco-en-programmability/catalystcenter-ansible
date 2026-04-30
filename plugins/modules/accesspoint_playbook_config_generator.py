@@ -163,7 +163,7 @@ options:
             elements: str
             required: false
 requirements:
-  - dnacentersdk >= 2.10.10
+  - catalystcentersdk >= 2.10.10
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods

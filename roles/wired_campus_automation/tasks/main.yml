@@ -1,0 +1,22 @@
+---
+# tasks file for wired_campus_automation
+- name: Manage Wired Campus Automation
+  cisco.catalystcenter.wired_campus_automation_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: "{{ catalystcenter_log }}"
+    config_verify: "{{ wired_campus_automation_config_verify }}"
+    state: "{{ wired_campus_automation_state }}"
+    config: "{{ wired_campus_automation_config }}"
+  register: wired_campus_automation_result
+
+- name: Display Wired Campus Automation result
+  ansible.builtin.debug:
+    var: wired_campus_automation_result
+  when: catalystcenter_debug | default(false)

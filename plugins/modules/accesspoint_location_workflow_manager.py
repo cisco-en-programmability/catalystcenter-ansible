@@ -5,7 +5,6 @@
 
 """Ansible module to manage Access Point to the planned locations
 in Cisco Catalyst Center, and assign the access point to floor plans."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -211,7 +210,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -649,25 +648,17 @@ class AccessPointLocation(CatalystCenterBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.location_created, self.location_updated, self.location_deleted = [], [], []
-        (
-            self.location_not_created,
-            self.location_not_updated,
-            self.location_not_deleted,
-        ) = ([], [], [])
+        self.location_not_created, self.location_not_updated, self.location_not_deleted = [], [], []
         self.location_exist, self.location_already_deleted = [], []
-        (
-            self.location_assigned,
-            self.location_not_assigned,
-            self.location_already_assigned,
-        ) = ([], [], [])
+        self.location_assigned, self.location_not_assigned, self.location_already_assigned = [], [], []
 
         self.result_response = {
             "accesspoint_creation": [],
-            "accesspoint_update": [],
+            "accesspoint_updation": [],
             "accesspoint_assignment": [],
             "accesspoint_deletion": [],
             "unprocessed": self.location_not_created,
-            "already_processed": self.location_exist,
+            "already_processed": self.location_exist
         }
 
         self.keymap = {
@@ -685,7 +676,7 @@ class AccessPointLocation(CatalystCenterBase):
             "antenna": "antenna",
             "antenna_name": "name",
             "azimuth": "azimuth",
-            "elevation": "elevation",
+            "elevation": "elevation"
         }
 
     def validate_input(self):
@@ -716,15 +707,13 @@ class AccessPointLocation(CatalystCenterBase):
         """
         self.log(
             "Starting comprehensive playbook configuration validation for access point positioning",
-            "INFO",
+            "INFO"
         )
 
         config_size = len(self.config) if self.config else 0
         self.log(
-            "Processing access point position validation with config size: {0}".format(
-                config_size
-            ),
-            "DEBUG",
+            "Processing access point position validation with config size: {0}".format(config_size),
+            "DEBUG"
         )
 
         temp_spec = {
@@ -733,56 +722,28 @@ class AccessPointLocation(CatalystCenterBase):
                 "type": "list",
                 "elements": "dict",
                 "accesspoint_name": {"type": "str", "required": True},
-                "action": {
-                    "type": "str",
-                    "required": False,
-                    "choices": ["assign_planned_ap", "manage_real_ap"],
-                },
+                "action": {"type": "str", "required": False,
+                           "choices": ["assign_planned_ap", "manage_real_ap"]},
                 "mac_address": {"type": "str"},
                 "serial_number": {"type": "str"},
                 "accesspoint_model": {"type": "str", "required": False},
                 "position": {
                     "type": "dict",
-                    "x_position": {
-                        "type": "float",
-                        "required": False,
-                    },  # 0.0-100.0 range
-                    "y_position": {
-                        "type": "float",
-                        "required": False,
-                    },  # 0.0-100.0 range
-                    "z_position": {
-                        "type": "float",
-                        "required": False,
-                    },  # 3.0-10.0 range
+                    "x_position": {"type": "float", "required": False},  # 0.0-100.0 range
+                    "y_position": {"type": "float", "required": False},  # 0.0-100.0 range
+                    "z_position": {"type": "float", "required": False},  # 3.0-10.0 range
                 },
                 "radios": {
                     "type": "list",
                     "elements": "dict",
-                    "bands": {
-                        "type": "list",
-                        "elements": "str",
-                        "required": False,
-                    },  # 2.4, 5, 6
-                    "channel": {
-                        "type": "int",
-                        "required": False,
-                    },  # Band-specific channels
-                    "tx_power": {
-                        "type": "int",
-                        "required": False,
-                    },  # Transmission power (dBm)
+                    "bands": {"type": "list", "elements": "str", "required": False},  # 2.4, 5, 6
+                    "channel": {"type": "int", "required": False},  # Band-specific channels
+                    "tx_power": {"type": "int", "required": False},  # Transmission power (dBm)
                     "antenna": {
                         "type": "dict",
-                        "antenna_name": {
-                            "type": "str",
-                            "required": False,
-                        },  # Model-specific antenna
+                        "antenna_name": {"type": "str", "required": False},  # Model-specific antenna
                         "azimuth": {"type": "int", "required": False},  # 1-360 degrees
-                        "elevation": {
-                            "type": "int",
-                            "required": False,
-                        },  # -90 to 90 degrees
+                        "elevation": {"type": "int", "required": False},  # -90 to 90 degrees
                     },
                 },
             },
@@ -795,7 +756,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.log(
             "Executing configuration structure validation against access point positioning specification",
-            "DEBUG",
+            "DEBUG"
         )
         # Validate configuration against the specification
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -838,7 +799,7 @@ class AccessPointLocation(CatalystCenterBase):
         self.log(
             "Starting additional input data validation for access point position "
             "configuration compliance",
-            "INFO",
+            "INFO"
         )
 
         config_keys = list(config.keys()) if isinstance(config, dict) else []
@@ -846,42 +807,39 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing additional validation for config with sections: {0}".format(
                 config_keys
             ),
-            "DEBUG",
+            "DEBUG"
         )
-        self.log(f"Validating input data from Playbook config: {config}", "INFO")
+        self.log(
+            f"Validating input data from Playbook config: {config}", "INFO"
+        )
         errormsg = []
 
         floor_site_hierarchy = config.get("floor_site_hierarchy", "")
         if floor_site_hierarchy:
             param_spec = dict(type="str", length_max=200)
-            validate_str(
-                floor_site_hierarchy, param_spec, "floor_site_hierarchy", errormsg
-            )
+            validate_str(floor_site_hierarchy, param_spec, "floor_site_hierarchy", errormsg)
             self.log(
                 "Floor site hierarchy validation passed for: {0}".format(
                     floor_site_hierarchy
                 ),
-                "DEBUG",
+                "DEBUG"
             )
         else:
-            errormsg.append(
-                "floor_site_hierarchy: Floor Site Hierarchy is missing in playbook."
-            )
+            errormsg.append("floor_site_hierarchy: Floor Site Hierarchy is missing in playbook.")
 
         access_points = config.get("access_points", [])
         if not access_points:
             errormsg.append("access_points: Access Points list is missing in playbook.")
             self.log(
-                "Validation failed - no access points provided for positioning", "ERROR"
+                "Validation failed - no access points provided for positioning",
+                "ERROR"
             )
             return errormsg
         elif len(access_points) > 100:
-            errormsg.append(
-                "access_points: Maximum of 100 Access Points are allowed in playbook."
-            )
+            errormsg.append("access_points: Maximum of 100 Access Points are allowed in playbook.")
             self.log(
                 "Validation failed - access points list exceeds maximum limit of 100",
-                "ERROR",
+                "ERROR"
             )
             return errormsg
 
@@ -889,7 +847,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing {0} access points for additional validation".format(
                 len(access_points)
             ),
-            "DEBUG",
+            "DEBUG"
         )
         duplicate_name = self.find_duplicate_value(access_points, "accesspoint_name")
         if duplicate_name:
@@ -900,25 +858,22 @@ class AccessPointLocation(CatalystCenterBase):
         for idx, each_access_point in enumerate(access_points):
             self.log(
                 "Validating access point {0}/{1}: {2}".format(
-                    idx + 1,
-                    len(access_points),
-                    each_access_point.get("accesspoint_name", "Unknown"),
+                    idx + 1, len(access_points),
+                    each_access_point.get("accesspoint_name", "Unknown")
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             accesspoint_name = each_access_point.get("accesspoint_name")
             if accesspoint_name:
                 param_spec = dict(type="str", length_max=255)
                 validate_str(accesspoint_name, param_spec, "accesspoint_name", errormsg)
             else:
-                errormsg.append(
-                    "accesspoint_name: Access Point Name is missing in playbook."
-                )
+                errormsg.append("accesspoint_name: Access Point Name is missing in playbook.")
 
             if self.params.get("state") == "deleted":
                 self.log(
                     "Skipping detailed field validation for deletion state operation",
-                    "DEBUG",
+                    "DEBUG"
                 )
                 continue
 
@@ -939,59 +894,35 @@ class AccessPointLocation(CatalystCenterBase):
 
             if each_access_point.get("action") == "assign_planned_ap":
                 if not mac_address:
-                    errormsg.append(
-                        "mac_address: MAC Address required for assign planned access point in playbook."
-                    )
+                    errormsg.append("mac_address: MAC Address required for assign planned access point in playbook.")
                 continue
 
             accesspoint_model = each_access_point.get("accesspoint_model")
             if accesspoint_model:
                 param_spec = dict(type="str", length_max=50)
-                validate_str(
-                    accesspoint_model, param_spec, "accesspoint_model", errormsg
-                )
+                validate_str(accesspoint_model, param_spec, "accesspoint_model", errormsg)
             else:
-                errormsg.append(
-                    "accesspoint_model: Access Point Model is missing in playbook."
-                )
+                errormsg.append("accesspoint_model: Access Point Model is missing in playbook.")
 
             position = each_access_point.get("position")
             if position and isinstance(position, dict):
                 x_position = position.get("x_position")
                 if x_position is None:
                     errormsg.append("x_position: X Position is missing in playbook.")
-                elif (
-                    x_position
-                    and isinstance(x_position, (int, float))
-                    and not (0 < x_position <= 100)
-                ):
-                    errormsg.append(
-                        "x_position: X Position must be between 0.0 and 100.0."
-                    )
+                elif x_position and isinstance(x_position, (int, float)) and not (0 < x_position <= 100):
+                    errormsg.append("x_position: X Position must be between 0.0 and 100.0.")
 
                 y_position = position.get("y_position")
                 if y_position is None:
                     errormsg.append("y_position: Y Position is missing in playbook.")
-                elif (
-                    y_position
-                    and isinstance(y_position, (int, float))
-                    and not (0 < y_position <= 100)
-                ):
-                    errormsg.append(
-                        "y_position: Y Position must be between 0.0 and 100.0."
-                    )
+                elif y_position and isinstance(y_position, (int, float)) and not (0 < y_position <= 100):
+                    errormsg.append("y_position: Y Position must be between 0.0 and 100.0.")
 
                 z_position = position.get("z_position")
                 if z_position is None:
                     errormsg.append("z_position: Z Position is missing in playbook.")
-                elif (
-                    z_position
-                    and isinstance(z_position, (int, float))
-                    and not (3 <= z_position <= 10)
-                ):
-                    errormsg.append(
-                        "z_position: Z Position must be between 3.0 and 10.0."
-                    )
+                elif z_position and isinstance(z_position, (int, float)) and not (3 <= z_position <= 10):
+                    errormsg.append("z_position: Z Position must be between 3.0 and 10.0.")
 
             radios = each_access_point.get("radios")
             if not radios:
@@ -1036,10 +967,8 @@ class AccessPointLocation(CatalystCenterBase):
 
         radio_count = len(radios_param) if radios_param else 0
         self.log(
-            "Processing radio validation for {0} radio configurations".format(
-                radio_count
-            ),
-            "DEBUG",
+            "Processing radio validation for {0} radio configurations".format(radio_count),
+            "DEBUG"
         )
 
         if len(radios_param) > 4:
@@ -1050,18 +979,18 @@ class AccessPointLocation(CatalystCenterBase):
         channel_ranges = {
             "2.4GHz": list(range(1, 15)),  # Channels 1-14
             "5GHz": (
-                list(range(36, 65, 4))
-                + list(range(100, 145, 4))
-                + [149, 153, 157, 161, 165, 169, 173]
+                list(range(36, 65, 4)) +
+                list(range(100, 145, 4)) +
+                [149, 153, 157, 161, 165, 169, 173]
             ),
-            "6GHz": list(range(1, 234, 4)),  # Channels 1, 5, 9, ... 233
+            "6GHz": list(range(1, 234, 4))  # Channels 1, 5, 9, ... 233
         }
         for radio_idx, radio in enumerate(radios_param):
             self.log(
                 "Validating radio configuration {0}/{1}".format(
                     radio_idx + 1, len(radios_param)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate radio structure
@@ -1082,7 +1011,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Validating band '{0}' configuration for radio {1}".format(
                     bands, radio_idx + 1
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             if bands and isinstance(bands, list):
@@ -1090,7 +1019,9 @@ class AccessPointLocation(CatalystCenterBase):
                     param_spec = dict(type="str", length_max=3)
                     validate_str(str(band), param_spec, "bands", errormsg)
                     if band not in ["2.4", "5", "6"]:
-                        errormsg.append("bands: Bands list must be '2.4', '5', or '6'.")
+                        errormsg.append(
+                            "bands: Bands list must be '2.4', '5', or '6'."
+                        )
             else:
                 errormsg.append("bands: Bands is missing in playbook.")
 
@@ -1115,7 +1046,9 @@ class AccessPointLocation(CatalystCenterBase):
                 errormsg.append("tx_power: Tx Power is missing in playbook.")
             elif isinstance(tx_power, int):
                 if not (0 < tx_power < 101):
-                    errormsg.append("tx_power: Tx Power must be between 1 and 100 dBm.")
+                    errormsg.append(
+                        "tx_power: Tx Power must be between 1 and 100 dBm."
+                    )
 
             antenna = radio.get("antenna")
             if antenna is None:
@@ -1164,21 +1097,14 @@ class AccessPointLocation(CatalystCenterBase):
                     )
 
         self.log("Radio configuration validation completed.", "DEBUG")
-        error_count = len(
-            [
-                msg
-                for msg in errormsg
-                if any(
-                    field in msg
-                    for field in ["bands", "channel", "tx_power", "antenna"]
-                )
-            ]
-        )
+        error_count = len([msg for msg in errormsg if any(
+            field in msg for field in ["bands", "channel", "tx_power", "antenna"]
+        )])
 
         self.log(
             "Radio configuration validation completed - {0} radios processed, "
             "{1} errors found".format(len(radios_param), error_count),
-            "DEBUG",
+            "DEBUG"
         )
         return errormsg
 
@@ -1210,13 +1136,11 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.log(
             f"Processing want state collection for config sections: {config_keys} with {access_points_count} access points",
-            "DEBUG",
+            "DEBUG"
         )
 
         if not config:
-            error_msg = (
-                "Configuration dictionary is empty or missing for want state collection"
-            )
+            error_msg = "Configuration dictionary is empty or missing for want state collection"
             self.log(error_msg, "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             self.check_return_status()
@@ -1235,10 +1159,8 @@ class AccessPointLocation(CatalystCenterBase):
             want["ap_location"] = config
 
         self.want = want
-        self.log(
-            f"Desired State (want) prepared for access point positioning: {self.pprint(self.want)}",
-            "INFO",
-        )
+        self.log(f"Desired State (want) prepared for access point positioning: {self.pprint(self.want)}",
+                 "INFO")
 
         return self
 
@@ -1284,7 +1206,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Collecting state for site '{0}' with {1} access points".format(
                 site_hierarchy, access_points_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         response = self.get_site(config.get("floor_site_hierarchy"))
@@ -1301,7 +1223,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.log(
             "Site information retrieved successfully - ID: {0}".format(site["id"]),
-            "DEBUG",
+            "DEBUG"
         )
         have = {
             "site_id": site["id"],
@@ -1309,37 +1231,31 @@ class AccessPointLocation(CatalystCenterBase):
             "selected_ap_model": [],
         }
 
-        self.log("Validating access point models and antenna compatibility", "DEBUG")
+        self.log(
+            "Validating access point models and antenna compatibility",
+            "DEBUG"
+        )
         for access_point in config.get("access_points", []):
 
             if self.params.get("state") == "deleted":
-                self.log(
-                    "Skipping antenna validation for deletion operation: {0}".format(
-                        access_point.get("accesspoint_name")
-                    ),
-                    "INFO",
+                self.log("Skipping antenna validation for deletion operation: {0}".format(
+                    access_point.get("accesspoint_name")), "INFO"
                 )
                 continue
 
             if access_point.get("action") == "assign_planned_ap":
-                self.log(
-                    f"Access point marked for Assign Planned AP: {access_point}", "INFO"
-                )
+                self.log(f"Access point marked for Assign Planned AP: {access_point}", "INFO")
                 continue
 
             have["antenna_patterns"] = self.get_supported_antenna_patterns()
             selected_ap_model = self.find_dict_by_key_value(
-                have["antenna_patterns"],
-                "apType",
-                access_point.get("accesspoint_model"),
+                have["antenna_patterns"], "apType", access_point.get("accesspoint_model")
             )
             if not selected_ap_model:
                 msg = f"No supported access point model found for: {access_point.get('accesspoint_model')}"
                 self.log(msg, "WARNING")
                 self.fail_and_exit(msg)
-            self.log(
-                f"Supported AP Model found: {self.pprint(selected_ap_model)}", "INFO"
-            )
+            self.log(f"Supported AP Model found: {self.pprint(selected_ap_model)}", "INFO")
 
             radios = access_point.get("radios")
             for radio in radios:
@@ -1349,8 +1265,7 @@ class AccessPointLocation(CatalystCenterBase):
                 antenna_name = radio.get("antenna", {}).get("antenna_name")
 
                 self.log(
-                    f"Validating radio band '{band}' compatibility with AP model",
-                    "DEBUG",
+                    f"Validating radio band '{band}' compatibility with AP model", "DEBUG"
                 )
                 band_exist = self.find_dict_by_key_value(
                     selected_ap_model.get("antennaPatterns"), "band", band
@@ -1361,15 +1276,9 @@ class AccessPointLocation(CatalystCenterBase):
                     self.fail_and_exit(msg)
                 self.log(f"Band exist: {self.pprint(band_exist)}", "DEBUG")
 
-                self.log(
-                    f"Finding antenna name exist on supported AP model for: {antenna_name}.",
-                    "INFO",
-                )
+                self.log(f"Finding antenna name exist on supported AP model for: {antenna_name}.", "INFO")
                 if len(radio.get("bands", [])) > 1:
-                    antenna_exist = any(
-                        name.startswith(antenna_name)
-                        for name in band_exist.get("names", [])
-                    )
+                    antenna_exist = any(name.startswith(antenna_name) for name in band_exist.get("names", []))
                     if not antenna_exist:
                         msg = f"No supported antenna name found for dual band: {antenna_exist}"
                         self.log(msg, "WARNING")
@@ -1379,10 +1288,7 @@ class AccessPointLocation(CatalystCenterBase):
                     self.log(msg, "WARNING")
                     self.fail_and_exit(msg)
 
-                self.log(
-                    f"Antenna name exist: {antenna_name} in {selected_ap_model.get('name')}",
-                    "DEBUG",
-                )
+                self.log(f"Antenna name exist: {antenna_name} in {selected_ap_model.get('name')}", "DEBUG")
 
             have["selected_ap_model"].append(selected_ap_model)
 
@@ -1393,24 +1299,17 @@ class AccessPointLocation(CatalystCenterBase):
         update_real_accesspoint = []
 
         for access_point in config.get("access_points", []):
-            ap_name = access_point.get("accesspoint_name")
+            ap_name = access_point.get('accesspoint_name')
             self.log(
                 "Processing access point state analysis for: {0}".format(ap_name),
-                "DEBUG",
+                "DEBUG"
             )
 
             ap_device_details = None
             if access_point.get("mac_address"):
-                self.log(
-                    f"Retrieving accesspoint details for MAC Address: {access_point.get('mac_address')}",
-                    "INFO",
-                )
-                ap_device_details = self.get_access_point_device_details(
-                    access_point.get("mac_address")
-                )
-                access_point["eth_mac_address"] = ap_device_details.get(
-                    "apEthernetMacAddress"
-                )
+                self.log(f"Retrieving accesspoint details for MAC Address: {access_point.get('mac_address')}", "INFO")
+                ap_device_details = self.get_access_point_device_details(access_point.get("mac_address"))
+                access_point["eth_mac_address"] = ap_device_details.get("apEthernetMacAddress")
 
             # Check if access point exist in the planned position
             ap_details = self.get_access_point_posisiton(
@@ -1422,36 +1321,24 @@ class AccessPointLocation(CatalystCenterBase):
                     have["site_id"], have["site_name"], access_point, True
                 )
                 if ap_details:
-                    self.log(
-                        f"Access point found in real position for analysis: {ap_name}",
-                        "INFO",
-                    )
+                    self.log(f"Access point found in real position for analysis: {ap_name}", "INFO")
                     if self.params.get("state") == "deleted":
                         ap_details[0]["action"] = access_point.get("action")
                         delete_accesspoint.append(ap_details[0])
                     else:
-                        self.log(
-                            f"Access point already assigned to real position: {ap_name}",
-                            "INFO",
-                        )
+                        self.log(f"Access point already assigned to real position: {ap_name}", "INFO")
                         assigned_accesspoint.append(ap_details[0])
                     continue
 
             if ap_details:
                 if self.params.get("state") == "deleted":
-                    self.log(
-                        f"Access point marked for deletion from planned position: {ap_name}",
-                        "INFO",
-                    )
+                    self.log(f"Access point marked for deletion from planned position: {ap_name}", "INFO")
                     ap_details[0]["action"] = access_point.get("action")
                     delete_accesspoint.append(ap_details[0])
                     continue
 
                 if access_point.get("action") == "assign_planned_ap":
-                    self.log(
-                        f"Access point marked for Assign Planned AP: {access_point}",
-                        "INFO",
-                    )
+                    self.log(f"Access point marked for Assign Planned AP: {access_point}", "INFO")
                     ap_details[0]["action"] = access_point.get("action")
                     ap_details[0]["mac_address"] = access_point.get("mac_address")
                     assign_accesspoint.append(ap_details[0])
@@ -1464,61 +1351,50 @@ class AccessPointLocation(CatalystCenterBase):
                     continue
 
                 ap_status, ap_update = self.compare_access_point_configurations(
-                    ap_details[0], access_point
-                )
+                    ap_details[0], access_point)
                 if ap_status:
-                    self.log(
-                        f"Access point configuration matches desired state: {ap_name}",
-                        "INFO",
-                    )
+                    self.log(f"Access point configuration matches desired state: {ap_name}", "INFO")
                     accesspoint_exists.append(access_point)
                 else:
                     if access_point.get("action") == "manage_real_ap":
-                        self.log(
-                            f"Real access point position requires update: {ap_name}",
-                            "INFO",
-                        )
+                        self.log(f"Real access point position requires update: {ap_name}", "INFO")
                         update_real_accesspoint.append(access_point)
                         continue
                     else:
-                        self.log(
-                            f"Planned access point position requires update: {ap_name}",
-                            "INFO",
-                        )
+                        self.log(f"Planned access point position requires update: {ap_name}", "INFO")
                         update_accesspoint.append(access_point)
             else:
-                self.log(f"New access point position to be created: {ap_name}", "INFO")
+                self.log(
+                    f"New access point position to be created: {ap_name}",
+                    "INFO"
+                )
                 new_accesspoint.append(access_point)
 
-        have.update(
-            {
-                "accesspoint_devices": access_point_devices,
-                "new_accesspoint": new_accesspoint,
-                "update_accesspoint": update_accesspoint,
-                "update_real_accesspoint": update_real_accesspoint,
-                "existing_accesspoint": accesspoint_exists,
-                "delete_accesspoint": delete_accesspoint,
-                "assign_accesspoint": assign_accesspoint,
-                "already_assigned_accesspoint": assigned_accesspoint,
-            }
-        )
+        have.update({
+            "accesspoint_devices": access_point_devices,
+            "new_accesspoint": new_accesspoint,
+            "update_accesspoint": update_accesspoint,
+            "update_real_accesspoint": update_real_accesspoint,
+            "existing_accesspoint": accesspoint_exists,
+            "delete_accesspoint": delete_accesspoint,
+            "assign_accesspoint": assign_accesspoint,
+            "already_assigned_accesspoint": assigned_accesspoint,
+        })
         self.have = have
         self.log(
             "Current state collection completed - new: {0}, update: {1}, "
             "delete: {2}, existing: {3}".format(
-                len(new_accesspoint),
-                len(update_accesspoint),
-                len(delete_accesspoint),
-                len(accesspoint_exists),
+                len(new_accesspoint), len(update_accesspoint),
+                len(delete_accesspoint), len(accesspoint_exists)
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Current State (have) collected for access point positioning: {0}".format(
                 self.pprint(self.have)
             ),
-            "INFO",
+            "INFO"
         )
 
         return self
@@ -1563,21 +1439,16 @@ class AccessPointLocation(CatalystCenterBase):
                 self.log(error_msg, "WARNING")
                 self.fail_and_exit(error_msg)
 
-            self.log(
-                f"Supported Access Point Antenna Patterns API Response: {self.pprint(response)}",
-                "DEBUG",
-            )
+            self.log(f"Supported Access Point Antenna Patterns API Response: {self.pprint(response)}", "DEBUG")
 
             return response
 
         except Exception as e:
-            self.msg = "An error occurred during get supported AP antenna patterns. "
+            self.msg = 'An error occurred during get supported AP antenna patterns. '
             self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
-    def get_access_point_posisiton(
-        self, floor_id, floor_name, ap_details, recheck=False
-    ):
+    def get_access_point_posisiton(self, floor_id, floor_name, ap_details, recheck=False):
         """
         Retrieve access point position information from Cisco Catalyst Center.
 
@@ -1605,28 +1476,27 @@ class AccessPointLocation(CatalystCenterBase):
             "INFO",
         )
 
-        ap_name = (
-            ap_details.get("accesspoint_name", "Unknown") if ap_details else "None"
-        )
-        operation_type = (
-            ap_details.get("action", "planned") if ap_details else "planned"
-        )
+        ap_name = ap_details.get("accesspoint_name", "Unknown") if ap_details else "None"
+        operation_type = ap_details.get("action", "planned") if ap_details else "planned"
 
         self.log(
             "Retrieving position for floor '{0}', access point '{1}', operation '{2}', "
             "recheck: {3}".format(floor_name, ap_name, operation_type, recheck),
-            "DEBUG",
+            "DEBUG"
         )
 
         payload = {
             "offset": 1,
             "limit": 500,
             "floor_id": floor_id,
-            "name": ap_details["accesspoint_name"],
+            "name": ap_details["accesspoint_name"]
         }
 
         function_name = None
-        if ap_details.get("action") in ["manage_real_ap"] or recheck:
+        if (
+            ap_details.get("action") in ["manage_real_ap"]
+            or recheck
+        ):
             function_name = "get_access_points_positions"
             position_type = "real"
         else:
@@ -1637,7 +1507,9 @@ class AccessPointLocation(CatalystCenterBase):
                 payload["type"] = ap_details["accesspoint_model"]
 
         try:
-            response = self.execute_get_request("site_design", function_name, payload)
+            response = self.execute_get_request(
+                "site_design", function_name, payload
+            )
             if not response:
                 msg = f"No response received from API for the planned access point position: {ap_details}"
                 self.log(msg, "WARNING")
@@ -1651,14 +1523,11 @@ class AccessPointLocation(CatalystCenterBase):
                 self.log(warning_msg, "WARNING")
                 return None
 
-            self.log(
-                f"{position_type} Access Point Position API Response: {response}",
-                "DEBUG",
-            )
+            self.log(f"{position_type} Access Point Position API Response: {response}", "DEBUG")
             return response.get("response")
 
         except Exception as e:
-            self.msg = "An error occurred during get planned AP position. "
+            self.msg = 'An error occurred during get planned AP position. '
             self.log(self.msg + str(e), "ERROR")
             return None
 
@@ -1697,7 +1566,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.log(
             f"Comparing desired configuration for AP '{ap_name}' against existing ID '{existing_id}'",
-            "DEBUG",
+            "DEBUG"
         )
 
         # Initialize comparison state tracking
@@ -1709,7 +1578,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         self.log(
             "Validating basic access point attributes for configuration consistency",
-            "DEBUG",
+            "DEBUG"
         )
 
         for field_name in basic_ap_fields:
@@ -1720,39 +1589,35 @@ class AccessPointLocation(CatalystCenterBase):
                 "Comparing field '{0}': desired='{1}', existing='{2}'".format(
                     field_name, desired_value, existing_value
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             if field_name == "mac_address":
-                if access_point.get(
-                    "mac_address"
-                ) and existing_value != access_point.get("eth_mac_address"):
+                if access_point.get("mac_address") and existing_value != access_point.get("eth_mac_address"):
                     self.log(
                         "MAC address mismatch detected: desired='{0}', existing='{1}'".format(
                             desired_value, existing_value
                         ),
-                        "INFO",
+                        "INFO"
                     )
-                    configuration_differences.append(
-                        (field_name, desired_value, existing_value)
-                    )
+                    configuration_differences.append((
+                        field_name, desired_value, existing_value
+                    ))
                     configurations_match = False
 
             elif desired_value != existing_value:
                 self.log(
-                    "Configuration mismatch detected for field '{0}'".format(
-                        field_name
-                    ),
-                    "INFO",
+                    "Configuration mismatch detected for field '{0}'".format(field_name),
+                    "INFO"
                 )
-                configuration_differences.append(
-                    (field_name, desired_value, existing_value)
-                )
+                configuration_differences.append((
+                    field_name, desired_value, existing_value
+                ))
                 configurations_match = False
 
         self.log(
             "Validating access point position coordinates for configuration consistency",
-            "DEBUG",
+            "DEBUG"
         )
 
         desired_position = access_point.get("position", {})
@@ -1767,37 +1632,37 @@ class AccessPointLocation(CatalystCenterBase):
                 "Comparing position '{0}': desired={1}, existing={2}".format(
                     position_field, desired_coord, existing_coord
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate coordinate values exist before comparison
-            if existing_coord is not None and desired_coord is not None:
+            if (existing_coord is not None and desired_coord is not None):
                 try:
                     if float(desired_coord) != float(existing_coord):
                         self.log(
                             "Position coordinate mismatch for field '{0}'".format(
                                 position_field
                             ),
-                            "INFO",
+                            "INFO"
                         )
-                        configuration_differences.append(
-                            (position_field, desired_coord, existing_coord)
-                        )
+                        configuration_differences.append((
+                            position_field, desired_coord, existing_coord
+                        ))
                         configurations_match = False
 
                 except (ValueError, TypeError) as e:
                     self.log(
                         "Invalid coordinate values for comparison: {0}".format(str(e)),
-                        "WARNING",
+                        "WARNING"
                     )
-                    configuration_differences.append(
-                        (position_field, "invalid_coordinate", str(e))
-                    )
+                    configuration_differences.append((
+                        position_field, "invalid_coordinate", str(e)
+                    ))
                     configurations_match = False
 
         self.log(
             "Validating radio configurations for antenna and transmission settings",
-            "DEBUG",
+            "DEBUG"
         )
 
         desired_radios = access_point.get("radios", [])
@@ -1807,7 +1672,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing {0} desired radios against {1} existing radio configurations".format(
                 len(desired_radios), len(existing_radios)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         for radio_config in desired_radios:
@@ -1822,7 +1687,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Invalid band values in desired radio configuration: {0}".format(
                         radio_config.get("bands")
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
                 continue
 
@@ -1840,7 +1705,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Comparing radio bands - desired: {0}, existing: {1}".format(
                         desired_bands, existing_bands
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 # Match radios by band configuration
@@ -1850,10 +1715,8 @@ class AccessPointLocation(CatalystCenterBase):
 
                     # Compare radio transmission settings
                     radio_comparison_result = self._compare_radio_settings(
-                        radio_config,
-                        existing_radio,
-                        configuration_differences,
-                        access_point.get("action"),
+                        radio_config, existing_radio, configuration_differences,
+                        access_point.get("action")
                     )
 
                     if not radio_comparison_result:
@@ -1866,11 +1729,11 @@ class AccessPointLocation(CatalystCenterBase):
                     "No matching existing radio found for bands: {0}".format(
                         desired_bands
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
-                configuration_differences.append(
-                    ("radio_bands", desired_bands, "no_matching_radio")
-                )
+                configuration_differences.append((
+                    "radio_bands", desired_bands, "no_matching_radio"
+                ))
                 configurations_match = False
 
         # Update access point configuration for potential updates
@@ -1881,7 +1744,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Configuration differences detected - {0} mismatches found".format(
                     len(configuration_differences)
                 ),
-                "WARNING",
+                "WARNING"
             )
 
             for field, desired, existing in configuration_differences:
@@ -1889,23 +1752,19 @@ class AccessPointLocation(CatalystCenterBase):
                     "Difference - field: {0}, desired: {1}, existing: {2}".format(
                         field, desired, existing
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
         comparison_status = "match" if configurations_match else "mismatch"
         self.log(
             "Access point configuration comparison completed - result: {0}, "
-            "differences: {1}".format(
-                comparison_status, len(configuration_differences)
-            ),
-            "INFO",
+            "differences: {1}".format(comparison_status, len(configuration_differences)),
+            "INFO"
         )
 
         return configurations_match, configuration_differences
 
-    def _compare_radio_settings(
-        self, desired_radio, existing_radio, differences_list, action
-    ):
+    def _compare_radio_settings(self, desired_radio, existing_radio, differences_list, action):
         """
         Helper method to compare radio transmission and antenna settings.
 
@@ -1929,7 +1788,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Skipping radio field '{0}' comparison for action '{1}'".format(
                         field_name, action
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 continue
 
@@ -1941,11 +1800,9 @@ class AccessPointLocation(CatalystCenterBase):
                     "Radio setting mismatch for field '{0}': {1} != {2}".format(
                         field_name, desired_value, existing_value
                     ),
-                    "INFO",
+                    "INFO"
                 )
-                differences_list.append(
-                    ("radio_" + field_name, desired_value, existing_value)
-                )
+                differences_list.append(("radio_" + field_name, desired_value, existing_value))
                 radio_settings_match = False
 
         # Compare antenna configuration
@@ -1963,9 +1820,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         return radio_settings_match
 
-    def _compare_antenna_configuration(
-        self, desired_antenna, existing_antenna, differences_list
-    ):
+    def _compare_antenna_configuration(self, desired_antenna, existing_antenna, differences_list):
         """
         Helper method to compare antenna configuration parameters.
 
@@ -1988,29 +1843,25 @@ class AccessPointLocation(CatalystCenterBase):
             # Handle numeric fields with type conversion
             if field_name in ["azimuth", "elevation"]:
                 try:
-                    if (
-                        desired_value is not None
-                        and existing_value is not None
-                        and int(desired_value) != int(existing_value)
-                    ):
+                    if (desired_value is not None and
+                       existing_value is not None and
+                       int(desired_value) != int(existing_value)):
 
                         self.log(
                             "Antenna {0} mismatch: {1} != {2}".format(
                                 field_name, desired_value, existing_value
                             ),
-                            "INFO",
+                            "INFO"
                         )
-                        differences_list.append(
-                            ("antenna_" + field_name, desired_value, existing_value)
-                        )
+                        differences_list.append((
+                            "antenna_" + field_name, desired_value, existing_value
+                        ))
                         antenna_config_match = False
 
                 except (ValueError, TypeError) as e:
                     self.log(
-                        "Invalid {0} values for comparison: {1}".format(
-                            field_name, str(e)
-                        ),
-                        "WARNING",
+                        "Invalid {0} values for comparison: {1}".format(field_name, str(e)),
+                        "WARNING"
                     )
                     antenna_config_match = False
 
@@ -2020,11 +1871,11 @@ class AccessPointLocation(CatalystCenterBase):
                     "Antenna {0} mismatch: '{1}' != '{2}'".format(
                         field_name, desired_value, existing_value
                     ),
-                    "INFO",
+                    "INFO"
                 )
-                differences_list.append(
-                    ("antenna_" + field_name, desired_value, existing_value)
-                )
+                differences_list.append((
+                    "antenna_" + field_name, desired_value, existing_value
+                ))
                 antenna_config_match = False
 
         return antenna_config_match
@@ -2050,15 +1901,17 @@ class AccessPointLocation(CatalystCenterBase):
             - Retrieves first matching device from response for position operations
             - Handles device not found scenarios with appropriate logging
         """
-        input_param = {"macAddress": mac_address}
+        input_param = {
+            "macAddress": mac_address
+        }
         self.log(
             "Starting device details retrieval for access point position management",
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Retrieving device details for MAC address: {0}".format(mac_address),
-            "DEBUG",
+            "DEBUG"
         )
 
         try:
@@ -2070,8 +1923,10 @@ class AccessPointLocation(CatalystCenterBase):
             )
 
             if not ap_response:
-                warning_msg = "No response received from device list API for MAC address: {0}".format(
-                    mac_address
+                warning_msg = (
+                    "No response received from device list API for MAC address: {0}".format(
+                        mac_address
+                    )
                 )
                 self.log(warning_msg, "WARNING")
                 return None
@@ -2081,8 +1936,10 @@ class AccessPointLocation(CatalystCenterBase):
 
             # Validate response structure and content
             if not device_data_list:
-                warning_msg = "Empty response received from device query for MAC address: {0}".format(
-                    mac_address
+                warning_msg = (
+                    "Empty response received from device query for MAC address: {0}".format(
+                        mac_address
+                    )
                 )
                 self.log(warning_msg, "WARNING")
                 return None
@@ -2096,8 +1953,8 @@ class AccessPointLocation(CatalystCenterBase):
                 return None
 
             if len(device_data_list) == 0:
-                warning_msg = "No device found with MAC address: {0}".format(
-                    mac_address
+                warning_msg = (
+                    "No device found with MAC address: {0}".format(mac_address)
                 )
                 self.log(warning_msg, "WARNING")
                 return None
@@ -2122,7 +1979,7 @@ class AccessPointLocation(CatalystCenterBase):
             self.log(
                 "Device details retrieved successfully - ID: {0}, hostname: {1}, "
                 "MAC: {2}".format(device_id, device_hostname, mac_address),
-                "INFO",
+                "INFO"
             )
 
             # Debug logging for device details analysis
@@ -2130,20 +1987,24 @@ class AccessPointLocation(CatalystCenterBase):
                 "Retrieved device details for position management: {0}".format(
                     self.pprint(device_details)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             return device_details
 
         except Exception as e:
-            error_msg = f"An error occurred during device details retrieval for MAC address: {mac_address}"
-            self.log(f"{error_msg}: {str(e)}", "WARNING")
+            error_msg = (
+                f"An error occurred during device details retrieval for MAC address: {mac_address}"
+            )
+            self.log(
+                f"{error_msg}: {str(e)}",
+                "WARNING"
+            )
 
             # Set instance message for error context
             self.msg = (
                 f"The provided device with MAC '{mac_address}' is either invalid or not "
-                "present in the Cisco Catalyst Center"
-            )
+                "present in the Cisco Catalyst Center")
 
             return None
 
@@ -2176,7 +2037,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Transforming configuration for AP '{0}', has_id: {1}, radios: {2}".format(
                 ap_name, has_planned_id, radio_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Initialize API payload structure
@@ -2186,16 +2047,16 @@ class AccessPointLocation(CatalystCenterBase):
             api_payload["id"] = accesspoint.get("planned_id")
             self.log(
                 "Including planned ID '{0}' for update operation".format(
-                    api_payload["id"]
-                ),
-                "DEBUG",
-            )
+                    api_payload["id"]), "DEBUG")
 
         api_payload["name"] = accesspoint.get("accesspoint_name")
 
         if accesspoint.get("mac_address"):
             api_payload["macAddress"] = accesspoint.get("mac_address")
-            self.log("Including MAC address for access point identification", "DEBUG")
+            self.log(
+                "Including MAC address for access point identification",
+                "DEBUG"
+            )
 
         # Add access point model type
         api_payload["type"] = accesspoint.get("accesspoint_model")
@@ -2213,13 +2074,14 @@ class AccessPointLocation(CatalystCenterBase):
                 "Transformed position coordinates - x:{0}, y:{1}, z:{2}".format(
                     position_config.get("x_position"),
                     position_config.get("y_position"),
-                    position_config.get("z_position"),
+                    position_config.get("z_position")
                 ),
-                "DEBUG",
+                "DEBUG"
             )
         else:
             self.log(
-                "Position configuration not available or invalid format", "WARNING"
+                "Position configuration not available or invalid format",
+                "WARNING"
             )
             api_payload["position"] = {"x": None, "y": None, "z": None}
 
@@ -2231,16 +2093,14 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing {0} radio configurations for API transformation".format(
                 len(radio_configurations)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         for radio_idx, radio_config in enumerate(radio_configurations):
             if not isinstance(radio_config, dict):
                 self.log(
-                    "Skipping invalid radio configuration at index {0}".format(
-                        radio_idx
-                    ),
-                    "WARNING",
+                    "Skipping invalid radio configuration at index {0}".format(radio_idx),
+                    "WARNING"
                 )
                 continue
 
@@ -2262,12 +2122,10 @@ class AccessPointLocation(CatalystCenterBase):
             else:
                 self.log(
                     "Antenna configuration missing for radio {0}".format(radio_idx),
-                    "WARNING",
+                    "WARNING"
                 )
                 transformed_radio["antenna"] = {
-                    "name": None,
-                    "azimuth": None,
-                    "elevation": None,
+                    "name": None, "azimuth": None, "elevation": None
                 }
 
             # Preserve radio ID for update operations
@@ -2277,7 +2135,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Preserving radio ID '{0}' for update operation".format(
                         radio_config.get("id")
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
             transformed_radios.append(transformed_radio)
@@ -2288,20 +2146,18 @@ class AccessPointLocation(CatalystCenterBase):
         payload_fields = list(api_payload.keys())
         self.log(
             f"API payload transformation completed successfully - fields: {payload_fields}, radios: {len(transformed_radios)}",
-            "INFO",
+            "INFO"
         )
 
         # Debug logging for complete payload structure
         self.log(
             f"Generated API payload for access point positioning: {self.pprint(api_payload)}",
-            "DEBUG",
+            "DEBUG"
         )
 
         return api_payload
 
-    def process_access_point_position_operations(
-        self, function_name, floor_id, payloads, state
-    ):
+    def process_access_point_position_operations(self, function_name, floor_id, payloads, state):
         """
         Executes create, update, or assignment operations for access point positions through
         the Catalyst Center site design API with comprehensive task status monitoring and
@@ -2331,9 +2187,10 @@ class AccessPointLocation(CatalystCenterBase):
 
         try:
             task_id = self.get_taskid_post_api_call(
-                "site_design",
-                function_name,
-                {"floor_id": floor_id, "payload": payloads},
+                "site_design", function_name,
+                {
+                    "floor_id": floor_id, "payload": payloads
+                }
             )
             if not task_id:
                 msg = f"No response received from API for creating/updating/assigning Access Point Location: {self.have.get('site_name')}"
@@ -2345,10 +2202,7 @@ class AccessPointLocation(CatalystCenterBase):
                 else:
                     self.location_not_created.append(self.have.get("site_name"))
 
-            self.log(
-                f"{state} planned Access Point location API Response: {task_id}",
-                "DEBUG",
-            )
+            self.log(f"{state} planned Access Point location API Response: {task_id}", "DEBUG")
             self.get_task_status_from_tasks_by_id(task_id, function_name, "SUCCESS")
             if self.msg == "SUCCESS":
                 self.log(f"Task '{task_id}' completed successfully.", "INFO")
@@ -2358,7 +2212,7 @@ class AccessPointLocation(CatalystCenterBase):
                 return "FAILURE"
 
         except Exception as e:
-            self.msg = "An error occurred during get task details. "
+            self.msg = 'An error occurred during get task details. '
             self.log(self.msg + str(e), "ERROR")
             return None
 
@@ -2391,22 +2245,15 @@ class AccessPointLocation(CatalystCenterBase):
             non_created_positions = []
             for access_point in self.have.get("new_accesspoint"):
                 if access_point.get("action") == "assign_planned_ap":
-                    self.log(
-                        f"Skipping creation for access point marked for Assign Planned AP: {self.pprint(access_point)}",
-                        "INFO",
-                    )
+                    self.log(f"Skipping creation for access point marked for Assign Planned AP: {self.pprint(access_point)}",
+                             "INFO")
                     non_created_positions.append(access_point.get("accesspoint_name"))
                     continue
-                self.log(
-                    f"Processing new access point: {self.pprint(access_point)}", "INFO"
-                )
+                self.log(f"Processing new access point: {self.pprint(access_point)}", "INFO")
                 parsed_ap_details = self.transform_access_point_payload(access_point)
 
                 create_payload.append(parsed_ap_details)
-                self.log(
-                    f"Parsed planned Access Point Payload: {self.pprint(parsed_ap_details)}",
-                    "DEBUG",
-                )
+                self.log(f"Parsed planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
 
             if non_created_positions:
@@ -2420,14 +2267,11 @@ class AccessPointLocation(CatalystCenterBase):
             )
 
             process_response = self.process_access_point_position_operations(
-                "add_planned_access_points_positions",
-                floor_id,
-                create_payload,
-                "create",
+                "add_planned_access_points_positions", floor_id, create_payload, "create"
             )
             if process_response == "SUCCESS":
                 self.msg = "The access point positions have been successfully created."
-                self.log(self.msg, "INFO")
+                self.log(self.msg , "INFO")
                 self.location_created.append(collect_ap_list)
             elif process_response == "FAILURE":
                 self.msg = f"Failed to create planned access point positions {collect_ap_list} "
@@ -2440,32 +2284,21 @@ class AccessPointLocation(CatalystCenterBase):
                 self.location_not_created.append(collect_ap_list)
 
         if self.have.get("update_accesspoint"):
-            self.log(
-                f"Updating planned Access Point position with payload: {self.pprint(self.have.get('update_accesspoint'))}",
-                "DEBUG",
-            )
+            self.log(f"Updating planned Access Point position with payload: {self.pprint(self.have.get('update_accesspoint'))}", "DEBUG")
 
             for access_point in self.have.get("update_accesspoint"):
-                self.log(
-                    f"Processing update planned access point: {self.pprint(access_point)}",
-                    "INFO",
-                )
+                self.log(f"Processing update planned access point: {self.pprint(access_point)}", "INFO")
                 parsed_ap_details = self.transform_access_point_payload(access_point)
 
                 # Validate the payload before adding to update list
-                is_valid, validation_errors = self.validate_update_payload(
-                    parsed_ap_details, "update"
-                )
+                is_valid, validation_errors = self.validate_update_payload(parsed_ap_details, "update")
                 if not is_valid:
                     error_msg = f"Invalid update payload for AP '{access_point.get('accesspoint_name')}': {'; '.join(validation_errors)}"
                     self.log(error_msg, "ERROR")
                     self.fail_and_exit(error_msg)
 
                 update_payload.append(parsed_ap_details)
-                self.log(
-                    f"Parsed Planned Access Point Payload: {self.pprint(parsed_ap_details)}",
-                    "DEBUG",
-                )
+                self.log(f"Parsed Planned Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
 
             self.log(
@@ -2474,23 +2307,16 @@ class AccessPointLocation(CatalystCenterBase):
             )
 
             process_response = self.process_access_point_position_operations(
-                "edit_planned_access_points_positions",
-                floor_id,
-                update_payload,
-                "update",
+                "edit_planned_access_points_positions", floor_id, update_payload, "update"
             )
             if process_response == "SUCCESS":
-                self.msg = (
-                    "The planned access point positions have been successfully updated"
-                )
-                self.log(self.msg, "INFO")
+                self.msg = "The planned access point positions have been successfully updated"
+                self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
 
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = (
-                    f"Failed to update planned access point positions {collect_ap_list}"
-                )
+                self.msg = f"Failed to update planned access point positions {collect_ap_list}"
                 self.msg += f" for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
@@ -2500,22 +2326,13 @@ class AccessPointLocation(CatalystCenterBase):
                 self.location_not_updated.append(collect_ap_list)
 
         if self.have.get("update_real_accesspoint"):
-            self.log(
-                f"Updating real Access Point position with payload: {self.pprint(self.have.get('update_real_accesspoint'))}",
-                "DEBUG",
-            )
+            self.log(f"Updating real Access Point position with payload: {self.pprint(self.have.get('update_real_accesspoint'))}", "DEBUG")
 
             for access_point in self.have.get("update_real_accesspoint"):
-                self.log(
-                    f"Processing update real access point: {self.pprint(access_point)}",
-                    "INFO",
-                )
+                self.log(f"Processing update real access point: {self.pprint(access_point)}", "INFO")
                 parsed_ap_details = self.transform_access_point_payload(access_point)
                 update_real_payload.append(parsed_ap_details)
-                self.log(
-                    f"Parsed Real Access Point Payload: {self.pprint(parsed_ap_details)}",
-                    "DEBUG",
-                )
+                self.log(f"Parsed Real Access Point Payload: {self.pprint(parsed_ap_details)}", "DEBUG")
                 collect_ap_list.append(access_point.get("accesspoint_name"))
 
             self.log(
@@ -2524,23 +2341,16 @@ class AccessPointLocation(CatalystCenterBase):
             )
 
             process_response = self.process_access_point_position_operations(
-                "edit_the_access_points_positions",
-                floor_id,
-                update_real_payload,
-                "update",
+                "edit_the_access_points_positions", floor_id, update_real_payload, "update"
             )
             if process_response == "SUCCESS":
                 self.msg = f"The real access point positions for {collect_ap_list} have been successfully updated"
-                self.msg += (
-                    f" and associated with the site {self.have.get('site_name')}."
-                )
-                self.log(self.msg, "INFO")
+                self.msg += f" and associated with the site {self.have.get('site_name')}."
+                self.log(self.msg , "INFO")
                 self.location_updated.append(collect_ap_list)
                 self.log(".", "INFO")
             elif process_response == "FAILURE":
-                self.msg = (
-                    f"Failed to update real access point positions {collect_ap_list}"
-                )
+                self.msg = f"Failed to update real access point positions {collect_ap_list}"
                 self.msg += f" for the site: {self.have.get('site_name')}"
                 self.log(self.msg, "ERROR")
                 self.location_not_updated.append(collect_ap_list)
@@ -2574,7 +2384,7 @@ class AccessPointLocation(CatalystCenterBase):
         """
         self.log(
             "Starting payload validation for access point API operation requirements",
-            "INFO",
+            "INFO"
         )
 
         payload_fields = list(payload.keys()) if isinstance(payload, dict) else []
@@ -2584,14 +2394,14 @@ class AccessPointLocation(CatalystCenterBase):
             "Validating payload for operation '{0}' with fields: {1}, radios: {2}".format(
                 operation, payload_fields, radio_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
         validation_errors = []
 
         if operation == "update":
             self.log(
                 "Validating update operation requirements for access point payload",
-                "DEBUG",
+                "DEBUG"
             )
 
             # For updates, ensure AP has an ID
@@ -2599,14 +2409,14 @@ class AccessPointLocation(CatalystCenterBase):
                 validation_errors.append("Update operation requires 'id' field")
                 self.log(
                     "Missing access point ID for update operation - validation failed",
-                    "WARNING",
+                    "WARNING"
                 )
             else:
                 self.log(
                     "Access point ID '{0}' validated for update operation".format(
                         payload.get("id")
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
             # Validate radio configurations for update operations
@@ -2620,23 +2430,21 @@ class AccessPointLocation(CatalystCenterBase):
                     "Invalid radio configuration format - expected list, got: {0}".format(
                         type(radio_configurations).__name__
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
             else:
                 self.log(
                     "Validating {0} radio configurations for update operation".format(
                         len(radio_configurations)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 # Validate each radio configuration
                 for radio_index, radio_config in enumerate(radio_configurations):
                     if not isinstance(radio_config, dict):
                         validation_errors.append(
-                            "Radio at index {0} must be a dictionary".format(
-                                radio_index
-                            )
+                            "Radio at index {0} must be a dictionary".format(radio_index)
                         )
                         continue
 
@@ -2646,9 +2454,7 @@ class AccessPointLocation(CatalystCenterBase):
                     if not radio_config.get("id"):
                         error_message = (
                             "Radio at index {0} (bands: {1}) is missing required "
-                            "'id' field for update operation".format(
-                                radio_index, radio_bands
-                            )
+                            "'id' field for update operation".format(radio_index, radio_bands)
                         )
                         validation_errors.append(error_message)
 
@@ -2656,19 +2462,19 @@ class AccessPointLocation(CatalystCenterBase):
                             "Radio validation failed - missing ID for radio {0} with bands {1}".format(
                                 radio_index, radio_bands
                             ),
-                            "WARNING",
+                            "WARNING"
                         )
                     else:
                         self.log(
                             "Radio ID '{0}' validated for bands '{1}' at index {2}".format(
                                 radio_config.get("id"), radio_bands, radio_index
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
         elif operation == "create":
             self.log(
                 "Validating create operation requirements for access point payload",
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate required fields for create operations
@@ -2682,15 +2488,9 @@ class AccessPointLocation(CatalystCenterBase):
 
             self.log(
                 "Create operation field validation completed with {0} errors".format(
-                    len(
-                        [
-                            e
-                            for e in validation_errors
-                            if "Create operation requires" in e
-                        ]
-                    )
+                    len([e for e in validation_errors if "Create operation requires" in e])
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         # Determine validation result
@@ -2701,7 +2501,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Payload validation completed - result: {0}, errors: {1}".format(
                 validation_status, len(validation_errors)
             ),
-            "INFO",
+            "INFO"
         )
 
         if validation_errors:
@@ -2709,14 +2509,14 @@ class AccessPointLocation(CatalystCenterBase):
                 "Payload validation errors detected: {0}".format(
                     "; ".join(validation_errors)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
         else:
             self.log(
                 "Payload validation successful - all required fields present for '{0}' operation".format(
                     operation
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         return payload_is_valid, validation_errors
@@ -2741,24 +2541,21 @@ class AccessPointLocation(CatalystCenterBase):
             - Executes assignments through Catalyst Center site design APIs
             - Tracks assignment results for operational reporting and validation
         """
-        self.log(
-            f"Assigning access point to planned position for: {self.have.get('site_name')}",
-            "INFO",
-        )
-        site_name = self.have.get("site_name", "Unknown")
+        self.log(f"Assigning access point to planned position for: {self.have.get('site_name')}", "INFO")
+        site_name = self.have.get('site_name', 'Unknown')
         assignment_count = len(self.have.get("assign_accesspoint", []))
 
         self.log(
             "Processing {0} access point assignments for site '{1}'".format(
                 assignment_count, site_name
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not self.have.get("assign_accesspoint"):
             self.log(
                 "No access point assignments found for processing - operation complete",
-                "INFO",
+                "INFO"
             )
             return self
 
@@ -2769,7 +2566,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing access point assignment operations with {0} device details available".format(
                 len(access_point_devices_details)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         for access_point_config in self.have.get("assign_accesspoint", []):
@@ -2778,7 +2575,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Skipping non-assignment action for AP: {0}".format(
                         access_point_config.get("accesspoint_name", "Unknown")
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 continue
 
@@ -2789,33 +2586,30 @@ class AccessPointLocation(CatalystCenterBase):
                 "Processing assignment operation for AP '{0}' with MAC '{1}'".format(
                     ap_name, mac_address
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Input validation for security
             if not mac_address:
                 error_msg = (
-                    "MAC address is required for assignment operation: {0}".format(
-                        ap_name
-                    )
+                    "MAC address is required for assignment operation: {0}".format(ap_name)
                 )
                 self.log(error_msg, "WARNING")
                 self.fail_and_exit(error_msg)
 
-            self.log(
-                f"Processing assign access point to planned position: {self.pprint(access_point_config)}",
-                "INFO",
-            )
+            self.log(f"Processing assign access point to planned position: {self.pprint(access_point_config)}",
+                     "INFO")
             # Find matching device details using MAC address
             matching_device = self.find_dict_by_key_value(
-                access_point_devices_details,
-                "macAddress",
-                access_point_config.get("mac_address", access_point_config.get("name")),
+                access_point_devices_details, "macAddress",
+                access_point_config.get("mac_address", access_point_config.get("name"))
             )
 
             if not matching_device:
-                error_msg = "No device details found for access point '{0}' with MAC '{1}'".format(
-                    ap_name, mac_address
+                error_msg = (
+                    "No device details found for access point '{0}' with MAC '{1}'".format(
+                        ap_name, mac_address
+                    )
                 )
                 self.log(error_msg, "WARNING")
                 self.fail_and_exit(error_msg)
@@ -2824,7 +2618,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Device details located for AP '{0}' with device ID '{1}'".format(
                     ap_name, matching_device.get("id", "Unknown")
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             ap_details = self.get_access_point_posisiton(
@@ -2834,11 +2628,7 @@ class AccessPointLocation(CatalystCenterBase):
                 msg = f"Check the assignment exist in real position: {ap_name}"
                 self.log(msg, "WARNING")
                 ap_details = self.get_access_point_posisiton(
-                    self.have["site_id"],
-                    self.have["site_name"],
-                    access_point_config,
-                    True,
-                )
+                    self.have["site_id"], self.have["site_name"], access_point_config, True)
                 if ap_details:
                     self.log(f"Access point real position found: {ap_name}", "INFO")
                     self.location_already_assigned.append(ap_name)
@@ -2846,7 +2636,7 @@ class AccessPointLocation(CatalystCenterBase):
 
             ap_payload = {
                 "accessPointId": matching_device.get("id"),
-                "plannedAccessPointId": ap_details[0].get("id"),
+                "plannedAccessPointId": ap_details[0].get("id")
             }
             assignment_payloads.append(ap_payload)
             processed_ap_list.append(ap_name)
@@ -2854,7 +2644,7 @@ class AccessPointLocation(CatalystCenterBase):
         if not assignment_payloads:
             self.log(
                 "No valid access point assignments found for processing - operation complete",
-                "INFO",
+                "INFO"
             )
             return self
 
@@ -2862,29 +2652,25 @@ class AccessPointLocation(CatalystCenterBase):
             "Executing {0} access point assignment operations via Catalyst Center API".format(
                 len(assignment_payloads)
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
-            "Assignment operation payload: {0}".format(
-                self.pprint(assignment_payloads)
-            ),
-            "DEBUG",
+            "Assignment operation payload: {0}".format(self.pprint(assignment_payloads)),
+            "DEBUG"
         )
 
         floor_id = self.have.get("site_id")
         assignment_response = self.process_access_point_position_operations(
             "assign_planned_access_points_to_operations_ones",
-            floor_id,
-            assignment_payloads,
-            "assign_planned_ap",
+            floor_id, assignment_payloads, "assign_planned_ap"
         )
 
         self.log(
             "Assignment operation API response received: {0}".format(
                 self.pprint(assignment_response)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if assignment_response == "SUCCESS":
@@ -2908,19 +2694,17 @@ class AccessPointLocation(CatalystCenterBase):
             self.location_not_assigned.append(processed_ap_list)
 
         else:
-            error_msg = "Unable to process access point assignment operations for site '{0}'".format(
-                site_name
+            error_msg = (
+                "Unable to process access point assignment operations for site '{0}'".format(
+                    site_name
+                )
             )
             self.log(error_msg, "ERROR")
             self.msg = error_msg
             self.location_not_assigned.append(processed_ap_list)
 
-        assigned_count = (
-            len(self.location_assigned[-1]) if self.location_assigned else 0
-        )
-        failed_count = (
-            len(self.location_not_assigned[-1]) if self.location_not_assigned else 0
-        )
+        assigned_count = len(self.location_assigned[-1]) if self.location_assigned else 0
+        failed_count = len(self.location_not_assigned[-1]) if self.location_not_assigned else 0
         already_assigned_count = len(self.location_already_assigned)
 
         self.log(
@@ -2928,7 +2712,7 @@ class AccessPointLocation(CatalystCenterBase):
             "already_assigned: {2}".format(
                 assigned_count, failed_count, already_assigned_count
             ),
-            "INFO",
+            "INFO"
         )
 
         return self
@@ -2955,18 +2739,15 @@ class AccessPointLocation(CatalystCenterBase):
             - Tracks deletion results for operational reporting and validation
             - Supports both individual and batch deletion operations
         """
-        self.log(
-            f"Deleting planned access point positions for: {self.have.get('site_name')}",
-            "INFO",
-        )
-        site_name = self.have.get("site_name", "Unknown")
+        self.log(f"Deleting planned access point positions for: {self.have.get('site_name')}", "INFO")
+        site_name = self.have.get('site_name', 'Unknown')
         deletion_count = len(self.have.get("delete_accesspoint", []))
 
         self.log(
             "Processing {0} access point deletions for site '{1}'".format(
                 deletion_count, site_name
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Process each access point for deletion operations
@@ -2978,7 +2759,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Processing deletion operation for AP '{0}' with type '{1}'".format(
                     ap_name, operation_type
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             if not access_point_config.get("id"):
@@ -3000,7 +2781,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Configured real access point unassignment for device ID: {0}".format(
                         access_point_config.get("id")
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
             else:
                 delete_payload["floor_id"] = self.have.get("site_id")
@@ -3009,13 +2790,11 @@ class AccessPointLocation(CatalystCenterBase):
                     "Configured planned position deletion for floor ID: {0}, position ID: {1}".format(
                         self.have.get("site_id"), access_point_config.get("id")
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
-            self.log(
-                f"Deleting planned access point position Payload: {self.pprint(delete_payload)}",
-                "DEBUG",
-            )
+            self.log(f"Deleting planned access point position Payload: {self.pprint(delete_payload)}",
+                     "DEBUG")
 
             try:
                 task_id = self.get_taskid_post_api_call(
@@ -3041,7 +2820,7 @@ class AccessPointLocation(CatalystCenterBase):
                     self.location_not_deleted.append(ap_name)
 
             except Exception as e:
-                self.msg = "An error occurred during get task details. "
+                self.msg = 'An error occurred during get task details. '
                 self.log(self.msg + str(e), "ERROR")
                 self.location_not_deleted.append(ap_name)
                 continue
@@ -3053,15 +2832,13 @@ class AccessPointLocation(CatalystCenterBase):
             "Access point deletion operations completed - deleted: {0}, failed: {1}".format(
                 deleted_count, failed_count
             ),
-            "INFO",
+            "INFO"
         )
 
         if self.location_deleted:
             self.log(
-                "Successfully deleted access points: {0}".format(
-                    ", ".join(self.location_deleted)
-                ),
-                "INFO",
+                "Successfully deleted access points: {0}".format(", ".join(self.location_deleted)),
+                "INFO"
             )
 
         if self.location_not_deleted:
@@ -3069,7 +2846,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Failed to delete access points: {0}".format(
                     ", ".join(self.location_not_deleted)
                 ),
-                "WARNING",
+                "WARNING"
             )
         return self
 
@@ -3094,8 +2871,7 @@ class AccessPointLocation(CatalystCenterBase):
             - Provides comprehensive status reporting for operational visibility
         """
         self.log(
-            f"Starting to create/update planned or real access point position for: {config}",
-            "INFO",
+            f"Starting to create/update planned or real access point position for: {config}", "INFO"
         )
 
         site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
@@ -3105,7 +2881,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing merge operations for site '{0}' with {1} access point configurations".format(
                 site_hierarchy, access_points_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         self.location_created = []
@@ -3144,7 +2920,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Found {0} existing access point positions - no changes required".format(
                         existing_count
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
                 self.msg = (
@@ -3156,9 +2932,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         if self.have.get("already_assigned_accesspoint"):
             assigned_count = 0
-            for access_point_config in self.have.get(
-                "already_assigned_accesspoint", []
-            ):
+            for access_point_config in self.have.get("already_assigned_accesspoint", []):
                 if isinstance(access_point_config, dict):
                     ap_name = access_point_config.get("name", "Unknown")
                     self.location_exist.append(ap_name)
@@ -3167,7 +2941,7 @@ class AccessPointLocation(CatalystCenterBase):
             if assigned_count > 0:
                 self.log(
                     f"Found {assigned_count} already assigned access point positions - no changes required",
-                    "INFO",
+                    "INFO"
                 )
 
                 self.msg = (
@@ -3179,9 +2953,9 @@ class AccessPointLocation(CatalystCenterBase):
 
         # Process create/update operations
         creation_update_required = (
-            self.have.get("new_accesspoint")
-            or self.have.get("update_accesspoint")
-            or self.have.get("update_real_accesspoint")
+            self.have.get("new_accesspoint") or
+            self.have.get("update_accesspoint") or
+            self.have.get("update_real_accesspoint")
         )
         if creation_update_required:
             new_count = len(self.have.get("new_accesspoint", []))
@@ -3193,19 +2967,22 @@ class AccessPointLocation(CatalystCenterBase):
                 "update_real: {2}".format(
                     new_count, update_planned_count, update_real_count
                 ),
-                "INFO",
+                "INFO"
             )
 
             creation_update_response = self.manage_access_point_positions()
 
             if not creation_update_response:
-                error_msg = "No response received from access point position creation/update operations"
+                error_msg = (
+                    "No response received from access point position creation/update operations"
+                )
                 self.log(error_msg, "ERROR")
                 self.fail_and_exit(error_msg)
 
             operations_performed.append("create_update_operations")
             self.log(
-                "Position creation/update operations completed successfully", "DEBUG"
+                "Position creation/update operations completed successfully",
+                "DEBUG"
             )
 
         # Process assignment operations
@@ -3213,10 +2990,8 @@ class AccessPointLocation(CatalystCenterBase):
             assignment_count = len(self.have.get("assign_accesspoint", []))
 
             self.log(
-                "Executing {0} access point assignment operations".format(
-                    assignment_count
-                ),
-                "INFO",
+                "Executing {0} access point assignment operations".format(assignment_count),
+                "INFO"
             )
 
             assignment_response = self.assign_access_point_to_planned_position()
@@ -3247,7 +3022,7 @@ class AccessPointLocation(CatalystCenterBase):
 
             self.log(failed_msg, "WARNING")
 
-            if hasattr(self, "msg"):
+            if hasattr(self, 'msg'):
                 self.msg += " " + failed_msg
             else:
                 self.msg = failed_msg
@@ -3258,10 +3033,7 @@ class AccessPointLocation(CatalystCenterBase):
 
         # Prepare operation results for response
         processed_locations = self.location_created + self.location_updated
-        location_results = [
-            "Access point positions created/updated successfully: " + str(item)
-            for item in processed_locations
-        ]
+        location_results = ["Access point positions created/updated successfully: " + str(item) for item in processed_locations]
 
         self.log(
             "Merge operation completed - operations: {0}, processed: {1}, "
@@ -3269,12 +3041,12 @@ class AccessPointLocation(CatalystCenterBase):
                 operations_performed,
                 len(location_results),
                 len(self.location_exist),
-                len(self.location_not_created),
+                len(self.location_not_created)
             ),
-            "INFO",
+            "INFO"
         )
 
-        if hasattr(self, "msg"):
+        if hasattr(self, 'msg'):
             self.log(self.msg, "INFO")
         else:
             self.msg = "Access point position merge operations completed"
@@ -3282,26 +3054,20 @@ class AccessPointLocation(CatalystCenterBase):
 
         if not self.params.get("config_verify"):
             if self.location_created:
-                self.result_response["accesspoint_creation"].append(
-                    "The access point positions for "
-                    + str(self.location_created)
-                    + " have been successfully created and associated with the site "
-                    + self.have.get("site_name")
-                )
+                self.result_response['accesspoint_creation'].append(
+                    "The access point positions for " + str(self.location_created) +
+                    " have been successfully created and associated with the site " +
+                    self.have.get("site_name"))
             if self.location_updated:
-                self.result_response["accesspoint_update"].append(
-                    "The access point positions for "
-                    + str(self.location_updated)
-                    + " have been successfully updated and associated with the site "
-                    + self.have.get("site_name")
-                )
+                self.result_response['accesspoint_updation'].append(
+                    "The access point positions for " + str(self.location_updated) +
+                    " have been successfully updated and associated with the site " +
+                    self.have.get("site_name"))
             if self.location_assigned:
-                self.result_response["accesspoint_assignment"].append(
-                    "The access point positions for "
-                    + str(self.location_assigned)
-                    + " have been successfully assigned and associated with the site "
-                    + self.have.get("site_name")
-                )
+                self.result_response['accesspoint_assignment'].append(
+                    "The access point positions for " + str(self.location_assigned) +
+                    " have been successfully assigned and associated with the site " +
+                    self.have.get("site_name"))
         self.set_operation_result(
             self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
@@ -3343,7 +3109,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Verifying merge operations for site '{0}' with {1} expected access points".format(
                 site_hierarchy, expected_ap_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         self.changed = False
@@ -3362,15 +3128,10 @@ class AccessPointLocation(CatalystCenterBase):
             "Operation statistics - created: {0}, updated: {1}, existing: {2}, "
             "assigned: {3}, failed_creation: {4}, failed_update: {5}, "
             "failed_assignment: {6}".format(
-                created_count,
-                updated_count,
-                existing_count,
-                assigned_count,
-                failed_creation_count,
-                failed_update_count,
-                failed_assignment_count,
+                created_count, updated_count, existing_count, assigned_count,
+                failed_creation_count, failed_update_count, failed_assignment_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Verify creation operations
@@ -3387,12 +3148,8 @@ class AccessPointLocation(CatalystCenterBase):
             verification_operations.append("creation_verification")
 
         # Verify idempotent behavior for existing positions
-        elif (
-            self.location_exist
-            and not self.location_created
-            and not self.location_updated
-            and existing_count == expected_ap_count
-        ):
+        elif (self.location_exist and not self.location_created and
+              not self.location_updated and existing_count == expected_ap_count):
             idempotent_msg = (
                 "No changes required - access point positions already exist"
             )
@@ -3416,16 +3173,12 @@ class AccessPointLocation(CatalystCenterBase):
             verification_operations.append("update_verification")
 
         # Verify mixed create/update operations
-        elif (
-            self.location_created
-            and self.location_updated
-            and (created_count + updated_count) == expected_ap_count
-        ):
+        elif (self.location_created and self.location_updated and
+              (created_count + updated_count) == expected_ap_count):
             combined_operations = self.location_created + self.location_updated
             mixed_msg = (
-                f"The access point positions for {combined_operations} have been successfully created "
-                + f"and associated with the site {site_hierarchy}."
-            )
+                f"The access point positions for {combined_operations} have been successfully created " +
+                f"and associated with the site {site_hierarchy}.")
             self.log(mixed_msg, "INFO")
             self.msg = mixed_msg
             self.changed = True
@@ -3441,7 +3194,7 @@ class AccessPointLocation(CatalystCenterBase):
                 )
             )
 
-            if hasattr(self, "msg"):
+            if hasattr(self, 'msg'):
                 self.msg += assignment_msg
             else:
                 self.msg = "Assignment operations completed." + assignment_msg
@@ -3451,18 +3204,20 @@ class AccessPointLocation(CatalystCenterBase):
                 "Assignment verification completed successfully with {0} assignments".format(
                     assigned_count
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             verification_operations.append("assignment_verification")
 
         # Handle assignment failures
         if self.location_not_assigned:
             not_assigned_list = [str(item) for item in self.location_not_assigned]
-            assignment_failure_msg = " Following access points not assigned to planned positions: {0}.".format(
-                ", ".join(not_assigned_list)
+            assignment_failure_msg = (
+                " Following access points not assigned to planned positions: {0}.".format(
+                    ", ".join(not_assigned_list)
+                )
             )
 
-            if hasattr(self, "msg"):
+            if hasattr(self, 'msg'):
                 self.msg += assignment_failure_msg
             else:
                 self.msg = "Assignment failures detected." + assignment_failure_msg
@@ -3471,7 +3226,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Assignment verification detected {0} failures".format(
                     failed_assignment_count
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             verification_operations.append("assignment_failure_tracking")
 
@@ -3484,7 +3239,7 @@ class AccessPointLocation(CatalystCenterBase):
                 )
             )
 
-            if hasattr(self, "msg"):
+            if hasattr(self, 'msg'):
                 self.msg += update_failure_msg
             else:
                 self.msg = "Update failures detected." + update_failure_msg
@@ -3492,7 +3247,7 @@ class AccessPointLocation(CatalystCenterBase):
             self.status = "failed"
             self.log(
                 "Update verification detected {0} failures".format(failed_update_count),
-                "WARNING",
+                "WARNING"
             )
             verification_operations.append("update_failure_tracking")
 
@@ -3505,7 +3260,7 @@ class AccessPointLocation(CatalystCenterBase):
                 )
             )
 
-            if hasattr(self, "msg"):
+            if hasattr(self, 'msg'):
                 self.msg += creation_failure_msg
             else:
                 self.msg = "Creation failures detected." + creation_failure_msg
@@ -3515,7 +3270,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Creation verification detected {0} failures".format(
                     failed_creation_count
                 ),
-                "WARNING",
+                "WARNING"
             )
             verification_operations.append("creation_failure_tracking")
 
@@ -3524,51 +3279,42 @@ class AccessPointLocation(CatalystCenterBase):
             self.location_created + self.location_updated + self.location_assigned
         )
         unique_operations = [
-            "Access point positions created/updated successfully: " + str(operation)
-            for operation in set(map(tuple, successful_operations))
+            "Access point positions created/updated successfully: " + str(operation) for operation in set(map(tuple, successful_operations))
         ]
 
-        verification_status = getattr(self, "status", "unknown")
+        verification_status = getattr(self, 'status', 'unknown')
         self.log(
             "Merge verification completed - status: {0}, operations: {1}, "
             "successful: {2}, unique_results: {3}".format(
-                verification_status,
-                verification_operations,
-                len(successful_operations),
-                len(unique_operations),
+                verification_status, verification_operations,
+                len(successful_operations), len(unique_operations)
             ),
-            "INFO",
+            "INFO"
         )
 
-        if hasattr(self, "msg"):
+        if hasattr(self, 'msg'):
             self.log(self.msg, "INFO")
         else:
             self.msg = "Access point position verification completed"
             self.log(self.msg, "INFO")
 
         if self.location_created:
-            self.result_response["accesspoint_creation"].append(
-                "The access point positions for "
-                + str(self.location_created)
-                + " have been successfully created and associated with the site "
-                + self.have.get("site_name")
-            )
+            self.result_response['accesspoint_creation'].append(
+                "The access point positions for " + str(self.location_created) +
+                " have been successfully created and associated with the site " +
+                self.have.get("site_name"))
 
         if self.location_updated:
-            self.result_response["accesspoint_update"].append(
-                "The access point positions for "
-                + str(self.location_updated)
-                + " have been successfully updated and associated with the site "
-                + self.have.get("site_name")
-            )
+            self.result_response['accesspoint_updation'].append(
+                "The access point positions for " + str(self.location_updated) +
+                " have been successfully updated and associated with the site " +
+                self.have.get("site_name"))
 
         if self.location_assigned:
-            self.result_response["accesspoint_assignment"].append(
-                "The access point positions for "
-                + str(self.location_assigned)
-                + " have been successfully assigned and associated with the site "
-                + self.have.get("site_name")
-            )
+            self.result_response['accesspoint_assignment'].append(
+                "The access point positions for " + str(self.location_assigned) +
+                " have been successfully assigned and associated with the site " +
+                self.have.get("site_name"))
 
         if unique_operations:
             self.msg = "Access point positions processed successfully."
@@ -3601,9 +3347,7 @@ class AccessPointLocation(CatalystCenterBase):
             - Tracks deletion results with detailed success/failure categorization
             - Provides comprehensive status reporting for operational visibility
         """
-        self.log(
-            f"Starting to delete planned Access Point position(s) for: {config}", "INFO"
-        )
+        self.log(f"Starting to delete planned Access Point position(s) for: {config}", "INFO")
         site_hierarchy = config.get("floor_site_hierarchy", "Unknown")
         access_points_count = len(config.get("access_points", []))
         self.location_deleted = []
@@ -3614,7 +3358,7 @@ class AccessPointLocation(CatalystCenterBase):
             "Processing deletion operations for site '{0}' with {1} access point configurations".format(
                 site_hierarchy, access_points_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
         self.changed = False
         self.status = "failed"
@@ -3633,10 +3377,12 @@ class AccessPointLocation(CatalystCenterBase):
                     "Found {0} non-existent access point positions - no deletion required".format(
                         non_existent_count
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
-                idempotent_msg = "No changes required - access point positions do not exist for deletion"
+                idempotent_msg = (
+                    "No changes required - access point positions do not exist for deletion"
+                )
                 self.log(idempotent_msg, "INFO")
                 self.msg = idempotent_msg
                 self.changed = False
@@ -3651,7 +3397,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Executing {0} access point position deletion operations".format(
                     deletion_targets_count
                 ),
-                "INFO",
+                "INFO"
             )
 
             deletion_response = self.delete_access_point_positions()
@@ -3662,7 +3408,9 @@ class AccessPointLocation(CatalystCenterBase):
 
             # Validate deletion operation response
             if not deletion_response:
-                error_msg = "No response received from access point position deletion operations"
+                error_msg = (
+                    "No response received from access point position deletion operations"
+                )
                 self.log(error_msg, "ERROR")
                 self.fail_and_exit(error_msg)
 
@@ -3671,8 +3419,8 @@ class AccessPointLocation(CatalystCenterBase):
             # Process successful deletions
             if self.location_deleted:
                 deleted_count = len(self.location_deleted)
-                success_msg = "Access point positions deleted successfully: {0}".format(
-                    self.location_deleted
+                success_msg = (
+                    "Access point positions deleted successfully."
                 )
                 self.log(success_msg, "INFO")
                 self.msg = success_msg
@@ -3683,11 +3431,13 @@ class AccessPointLocation(CatalystCenterBase):
             # Handle deletion failures
             if self.location_not_deleted:
                 failed_deletions = [str(item) for item in self.location_not_deleted]
-                failure_msg = " Unable to delete the following access point positions: {0}.".format(
-                    ", ".join(failed_deletions)
+                failure_msg = (
+                    " Unable to delete the following access point positions: {0}.".format(
+                        ", ".join(failed_deletions)
+                    )
                 )
 
-                if hasattr(self, "msg"):
+                if hasattr(self, 'msg'):
                     self.msg += failure_msg
                 else:
                     self.msg = "Deletion failures detected." + failure_msg
@@ -3696,7 +3446,7 @@ class AccessPointLocation(CatalystCenterBase):
                     "Deletion operation failed for {0} positions".format(
                         len(failed_deletions)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 self.changed = False
                 self.status = "failed"
@@ -3704,21 +3454,17 @@ class AccessPointLocation(CatalystCenterBase):
 
             # Handle already deleted positions
             if self.location_already_deleted:
-                already_deleted_list = [
-                    str(item) for item in self.location_already_deleted
-                ]
+                already_deleted_list = [str(item) for item in self.location_already_deleted]
                 already_deleted_msg = (
                     " Access point positions already deleted: {0}.".format(
                         ", ".join(already_deleted_list)
                     )
                 )
 
-                if hasattr(self, "msg"):
+                if hasattr(self, 'msg'):
                     self.msg += already_deleted_msg
                 else:
-                    self.msg = (
-                        "Previously deleted positions found." + already_deleted_msg
-                    )
+                    self.msg = "Previously deleted positions found." + already_deleted_msg
 
                 # Don't change status to failed if some positions were already deleted
                 if not self.location_not_deleted:
@@ -3736,17 +3482,34 @@ class AccessPointLocation(CatalystCenterBase):
             "failed: {2}, already_deleted: {3}".format(
                 deletion_operations, deleted_count, failed_count, already_deleted_count
             ),
-            "INFO",
+            "INFO"
         )
 
-        if hasattr(self, "msg"):
+        if hasattr(self, 'msg'):
             self.log(self.msg, "INFO")
         else:
             self.msg = "Access point position deletion workflow completed"
             self.log(self.msg, "INFO")
 
+        if self.location_deleted:
+            self.result_response['accesspoint_deletion'].append(
+                "The access point positions for {0}".format(", ".join(self.location_deleted)) +
+                " have been successfully deleted from the site " + site_hierarchy)
+
+        if self.location_already_deleted:
+            self.result_response['already_processed'].append(
+                "No changes required - access point positions already deleted and "
+                "verified successfully: {0}".format(", ".join(self.location_already_deleted)) +
+                " from the site " + site_hierarchy)
+
+        if self.location_not_deleted:
+            self.result_response['unprocessed'].append(
+                f"Unable to delete the following access point positions: {self.location_not_deleted}" +
+                " from the site " + site_hierarchy)
+
+        # Set verification results and validate return status
         self.set_operation_result(
-            self.status, self.changed, self.msg, "INFO"
+            self.status, self.changed, self.msg, "INFO", self.result_response
         ).check_return_status()
 
         return self
@@ -3782,11 +3545,11 @@ class AccessPointLocation(CatalystCenterBase):
             "Verifying deletion operations for site '{0}' with {1} expected deletions".format(
                 site_hierarchy, expected_deletion_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Initialize message attribute if not present
-        if not hasattr(self, "msg"):
+        if not hasattr(self, 'msg'):
             self.msg = ""
 
         # Collect deletion operation statistics for verification
@@ -3798,12 +3561,14 @@ class AccessPointLocation(CatalystCenterBase):
             "Deletion statistics - deleted: {0}, failed: {1}, already_deleted: {2}".format(
                 deleted_count, failed_deletion_count, already_deleted_count
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Handle deletion failures
         if failed_deletion_count > 0:
-            failure_msg = "Unable to delete the following access point positions."
+            failure_msg = (
+                "Unable to delete the following access point positions."
+            )
 
             if self.msg:
                 self.msg += " " + failure_msg
@@ -3817,7 +3582,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Deletion verification failed - {0} positions could not be deleted".format(
                     failed_deletion_count
                 ),
-                "WARNING",
+                "WARNING"
             )
 
         # Verify idempotent behavior for non-existent positions
@@ -3832,7 +3597,7 @@ class AccessPointLocation(CatalystCenterBase):
                 "Deletion verification confirmed idempotent behavior for {0} positions".format(
                     already_deleted_count
                 ),
-                "INFO",
+                "INFO"
             )
 
             self.msg = idempotent_msg
@@ -3841,13 +3606,15 @@ class AccessPointLocation(CatalystCenterBase):
 
         # Verify successful deletion operations
         elif deleted_count == expected_deletion_count:
-            success_msg = "Access point positions deleted and verified successfully."
+            success_msg = (
+                "Access point positions deleted and verified successfully."
+            )
 
             self.log(
                 "Deletion verification confirmed successful removal of {0} positions".format(
                     deleted_count
                 ),
-                "INFO",
+                "INFO"
             )
 
             self.msg = success_msg
@@ -3872,16 +3639,14 @@ class AccessPointLocation(CatalystCenterBase):
             self.status = "failed"
 
         self.log(self.msg, "INFO")
-        verification_status = getattr(self, "status", "unknown")
+        verification_status = getattr(self, 'status', 'unknown')
         self.log(
             "Deletion verification completed - status: {0}, deleted: {1}, "
             "failed: {2}, already_deleted: {3}".format(
-                verification_status,
-                deleted_count,
-                failed_deletion_count,
-                already_deleted_count,
+                verification_status, deleted_count, failed_deletion_count,
+                already_deleted_count
             ),
-            "INFO",
+            "INFO"
         )
 
         if self.msg:
@@ -3891,30 +3656,20 @@ class AccessPointLocation(CatalystCenterBase):
             self.log(self.msg, "INFO")
 
         if self.location_deleted:
-            self.result_response["accesspoint_deletion"].append(
-                "The access point positions for {0}".format(
-                    ", ".join(self.location_deleted)
-                )
-                + " have been successfully deleted from the site "
-                + site_hierarchy
-            )
+            self.result_response['accesspoint_deletion'].append(
+                "The access point positions for {0}".format(", ".join(self.location_deleted)) +
+                " have been successfully deleted from the site " + site_hierarchy)
 
         if self.location_already_deleted:
-            self.result_response["already_processed"].append(
+            self.result_response['already_processed'].append(
                 "No changes required - access point positions already deleted and "
-                "verified successfully: {0}".format(
-                    ", ".join(self.location_already_deleted)
-                )
-                + " from the site "
-                + site_hierarchy
-            )
+                "verified successfully: {0}".format(", ".join(self.location_already_deleted)) +
+                " from the site " + site_hierarchy)
 
         if self.location_not_deleted:
-            self.result_response["unprocessed"].append(
-                f"Unable to delete the following access point positions: {self.location_not_deleted}"
-                + " from the site "
-                + site_hierarchy
-            )
+            self.result_response['unprocessed'].append(
+                f"Unable to delete the following access point positions: {self.location_not_deleted}" +
+                " from the site " + site_hierarchy)
 
         # Set verification results and validate return status
         self.set_operation_result(
@@ -3931,22 +3686,14 @@ def main():
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -3989,7 +3736,9 @@ def main():
         ccc_ap_location.get_have(config).check_return_status()
         ccc_ap_location.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            ccc_ap_location.verify_diff_state_apply[state](config).check_return_status()
+            ccc_ap_location.verify_diff_state_apply[state](
+                config
+            ).check_return_status()
 
     module.exit_json(**ccc_ap_location.result)
 

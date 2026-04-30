@@ -33,10 +33,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     tags_playbook_config_generator,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacTagsPlaybookConfigGenerator(TestDnacModule):
+class TestDnacTagsPlaybookConfigGenerator(TestCatalystModule):
 
     module = tags_playbook_config_generator
     test_data = loadPlaybookData("tags_playbook_config_generator")

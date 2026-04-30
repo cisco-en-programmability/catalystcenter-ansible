@@ -1,0 +1,23 @@
+---
+# tasks file for ise_radius_integration_config_generator
+- name: Generate ISE Radius Integration playbook configuration
+  cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify }}"
+    catalystcenter_port: "{{ catalystcenter_port }}"
+    catalystcenter_version: "{{ catalystcenter_version }}"
+    catalystcenter_debug: "{{ catalystcenter_debug }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+    catalystcenter_log: "{{ catalystcenter_log }}"
+    state: "{{ ise_radius_integration_config_generator_state }}"
+    file_path: "{{ ise_radius_integration_config_generator_file_path if ise_radius_integration_config_generator_file_path is not none else omit }}"
+    file_mode: "{{ ise_radius_integration_config_generator_file_mode }}"
+    config: "{{ ise_radius_integration_config_generator_config if ise_radius_integration_config_generator_config is not none else omit }}"
+  register: ise_radius_integration_config_generator_result
+
+- name: Display ISE Radius Integration generator result
+  ansible.builtin.debug:
+    var: ise_radius_integration_config_generator_result
+  when: catalystcenter_debug | default(false)
