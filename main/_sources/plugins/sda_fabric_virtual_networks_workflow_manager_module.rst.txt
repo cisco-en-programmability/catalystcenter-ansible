@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager module -- Conf
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.6.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1571,7 +1571,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the VLAN for the anycast gateway. The allowed VLAN range is 2-4093, except for reserved VLANs 1002-1005, 2046, and 4094. If deploying an anycast gateway on a fabric zone, this 'vlan\_id' must match the 'vlan\_id' of the corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto\_generate\_vlan\_name' is set to true. Updating this field is not allowed.
+      ID of the VLAN for the anycast gateway. Allowed VLAN range is 2-4093. Reserved VLANs are 1002-1005 and 2046. We do not allow users to create anycast gateways with reserved VLANs, but we accept reserved VLANs to support idempotent behavior. If deploying an anycast gateway on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto\_generate\_vlan\_name' is set to true. Updating this field is not allowed.
 
 
       .. raw:: html
@@ -1981,6 +1981,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/multiple_ip_to_mac_addresses"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/multiple_ip_to_mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **multiple_ip_to_mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/multiple_ip_to_mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether multiple IPs can be associated with a single MAC address for the layer2 fabric VLAN. By default, it is set to false when associated with a layer 3 virtual network and cannot be used when not associated with a layer 3 virtual network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/resource_guard_enable"></div>
 
       .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/resource_guard_enable:
@@ -2081,7 +2123,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And update of this field is not allowed.
+      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093. Reserved VLANs are 1002-1005 and 2046. We do not allow users to create fabric VLANs with reserved VLANs, but we accept reserved VLANs to support idempotent behavior. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And update of this field is not allowed.
 
 
       .. raw:: html
@@ -2445,7 +2487,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time.
+      Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time. Valid range is from 1 to 20.
 
 
       .. rst-class:: ansible-option-line
@@ -2483,7 +2525,45 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time.
+      Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 fabric VLANs at a time. Valid range is from 1 to 20.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`20`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sda_virtual_network_limit"></div>
+
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager_module__parameter-sda_virtual_network_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **sda_virtual_network_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sda_virtual_network_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the maximum number of layer3 virtual networks that can be created or updated at a time via the SDA API, aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 virtual networks at a time. Valid range is from 1 to 20.
 
 
       .. rst-class:: ansible-option-line
@@ -2978,6 +3058,33 @@ Examples
                   fabric_type: "fabric_site"
                 ip_pool_name: "IP_Pool_1"
 
+    - name: Create fabric VLAN with multiple IP to MAC enabled
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        state: merged
+        config:
+          - fabric_vlan:
+              - vlan_name: "vlan_multi_ip"
+                vlan_id: 1944
+                traffic_type: "DATA"
+                associated_layer3_virtual_network: "L3_VN_1"
+                multiple_ip_to_mac_addresses: true
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Fabric_Test"
+                    fabric_type: "fabric_site"
+
+    - name: Create fabric VLAN without multiple_ip_to_mac_addresses (omitted)
+      cisco.catalystcenter.sda_fabric_virtual_networks_workflow_manager:
+        state: merged
+        config:
+          - fabric_vlan:
+              - vlan_name: "vlan_default_multi_ip"
+                vlan_id: 1945
+                traffic_type: "DATA"
+                associated_layer3_virtual_network: "L3_VN_1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Fabric_Test"
+                    fabric_type: "fabric_site"
+
 
 
 
@@ -3054,7 +3161,9 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
+- Abhishek Maheshwari (@abmahesh)
+- Sunil Shatagopa (@shatagopasunil)
+- Madhan Sankaranarayanan (@madhansansel)
 
 
 

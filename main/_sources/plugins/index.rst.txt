@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.6.0
+Collection version 2.7.0
 
 .. contents::
    :local:
@@ -15,7 +15,7 @@ Collection version 2.6.0
 Description
 -----------
 
-Ansible Modules for Cisco CATALYST Center
+Ansible Modules, Roles, and Cisco Validated Playbooks (CVP) for Cisco CATALYST Center automation
 
 **Authors:**
 
@@ -25,6 +25,7 @@ Ansible Modules for Cisco CATALYST Center
 * Bryan Vargas <bvargas@cloverhound.com>
 * Francisco Muñoz <fmunoz@cloverhound.com>
 * Madhan Sankaranarayanan <madsanka@cisco.com>
+* Pawan Singh <pawansi@cisco.com>
 * Rishita Chowdhary (@rishitachowdhary)
 * Muthu Rakesh Babu <mutbabu@cisco.com>
 * Akash Bhaskaran <akabhask@cisco.com>
@@ -521,7 +522,7 @@ Modules
 * :ref:`interfaces_query module <ansible_collections.cisco.catalystcenter.interfaces_query_module>` -- Resource module for Interfaces Query
 * :ref:`interfaces_query_count module <ansible_collections.cisco.catalystcenter.interfaces_query_count_module>` -- Resource module for Interfaces Query Count
 * :ref:`inventory_intent module <ansible_collections.cisco.catalystcenter.inventory_intent_module>` -- Resource module for Network Device
-* :ref:`inventory_playbook_config_generator module <ansible_collections.cisco.catalystcenter.inventory_playbook_config_generator_module>` -- Generate YAML playbook input for 'inventory\_workflow\_manager' module.
+* :ref:`inventory_playbook_config_generator module <ansible_collections.cisco.catalystcenter.inventory_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`inventory\_workflow\_manager`\  module.
 * :ref:`inventory_workflow_manager module <ansible_collections.cisco.catalystcenter.inventory_workflow_manager_module>` -- Comprehensive network device inventory management for Cisco Catalyst Center
 * :ref:`iot_fabric_rep_rings module <ansible_collections.cisco.catalystcenter.iot_fabric_rep_rings_module>` -- Resource module for Iot Fabric Rep Rings
 * :ref:`iot_fabric_rep_rings_delete module <ansible_collections.cisco.catalystcenter.iot_fabric_rep_rings_delete_module>` -- Resource module for Iot Fabric Rep Rings Delete

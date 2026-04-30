@@ -42,7 +42,7 @@ cisco.catalystcenter.ise_radius_integration_playbook_config_generator module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.6.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -83,7 +83,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.10.10
+- catalystcentersdk \>= 2.10.10
 - python \>= 3.9
 
 
@@ -733,7 +733,7 @@ Parameters
 
       Filters specify which components to include in the YAML configuration file.
 
-      When \ :literal:`components\_list`\  is provided, only those components are included, regardless of other filters or \ :literal:`generate\_all\_configurations`\ .
+      When \ :literal:`components\_list`\  is provided, only those components are included.
 
 
       .. raw:: html
@@ -793,7 +793,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -803,7 +803,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Authentication and policy server filter with server\_type and server\_ip\_address.
+      List of filter criteria for authentication and policy servers.
+
+      Each entry is a dictionary that can filter by server\_type and/or server\_ip\_address.
+
+      Multiple entries are evaluated with OR logic (a server matches if it satisfies any entry).
+
+      Within a single entry, all specified fields are applied with AND logic.
 
 
       .. raw:: html
@@ -1140,7 +1146,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Generate YAML Configuration with File Path specified for all components
+    - name: Generate YAML Configuration with default file path for all components
       cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -1152,8 +1158,6 @@ Examples
         catalystcenter_log: true
         catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         state: gathered
-        config:
-          generate_all_configurations: true
 
     - name: Generate YAML Configuration for all components with File Path specified
       cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
@@ -1169,10 +1173,8 @@ Examples
         state: gathered
         file_path: "/tmp/ise_radius_integration_config.yaml"
         file_mode: "overwrite"
-        config:
-          generate_all_configurations: true
 
-    - name: Generate YAML Configuration for mentioned components without File Path specified
+    - name: Generate YAML Configuration for mentioned components without component filter
       cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -1188,9 +1190,10 @@ Examples
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["authentication_policy_server"]
+            components_list:
+              - authentication_policy_server
 
-    - name: Generate YAML Configuration for mentioned components with component and specific server_type filter
+    - name: Generate YAML Configuration for mentioned components with specific server_type filter
       cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -1206,11 +1209,12 @@ Examples
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["authentication_policy_server"]
+            components_list:
+              - authentication_policy_server
             authentication_policy_server:
-              server_type: "ISE"
+              - server_type: "ISE"
 
-    - name: Generate YAML Configuration for mentioned components with component and specific server_ip_address filter
+    - name: Generate YAML Configuration for mentioned components with specific server_ip_address filter
       cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -1226,11 +1230,12 @@ Examples
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["authentication_policy_server"]
+            components_list:
+              - authentication_policy_server
             authentication_policy_server:
-              server_ip_address: 10.197.156.10
+              - server_ip_address: 10.197.156.10
 
-    - name: Generate YAML Configuration for mentioned components with component and specific server_type and server_ip_address filter
+    - name: Generate YAML Configuration for mentioned components with specific server_type and server_ip_address filter
       cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -1246,10 +1251,33 @@ Examples
         file_mode: "append"
         config:
           component_specific_filters:
-            components_list: ["authentication_policy_server"]
+            components_list:
+              - authentication_policy_server
             authentication_policy_server:
-              server_type: "ISE"
-              server_ip_address: 10.197.156.10
+              - server_type: "ISE"
+                server_ip_address: 10.197.156.10
+
+    - name: Generate YAML Configuration with multiple server filters (OR logic)
+      cisco.catalystcenter.ise_radius_integration_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+        state: gathered
+        file_path: "/tmp/ise_radius_integration_config.yaml"
+        file_mode: "append"
+        config:
+          component_specific_filters:
+            components_list:
+              - authentication_policy_server
+            authentication_policy_server:
+              - server_ip_address: 10.197.156.10
+              - server_ip_address: 10.197.156.11
 
 
 
@@ -1355,7 +1383,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["{\\n    \\"msg\\": \\"Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key\\n            when 'generate\_all\_configurations' is set to False.\\"", "\\n    \\"response\\": \\"Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key\\n                 when 'generate\_all\_configurations' is set to False.\\"\\n}\\n"]`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`["{\\n    \\"msg\\": \\"Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key.\\"", "\\n    \\"response\\": \\"Validation Error: 'component\_specific\_filters' must be provided with 'components\_list' key.\\"\\n}\\n"]`
 
 
       .. raw:: html
