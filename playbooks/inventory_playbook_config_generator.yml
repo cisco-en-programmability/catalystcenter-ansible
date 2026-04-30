@@ -5,34 +5,52 @@
   gather_facts: false
   vars_files:
     - "credentials.yml"
-  module_defaults:
-    cisco.catalystcenter.inventory_playbook_config_generator:
-      catalystcenter_host: "{{ catalystcenter_host }}"
-      catalystcenter_username: "{{ catalystcenter_username }}"
-      catalystcenter_password: "{{ catalystcenter_password }}"
-      catalystcenter_verify: "{{ catalystcenter_verify }}"
-      catalystcenter_port: "{{ catalystcenter_port }}"
-      catalystcenter_version: "{{ catalystcenter_version }}"
-      catalystcenter_debug: "{{ catalystcenter_debug }}"
-      catalystcenter_log: true
-      catalystcenter_log_level: DEBUG
-      state: gathered
 
   tasks:
     # Example 1: Auto-discovery mode (no config)
     - name: Generate inventory playbook config for all discovered devices using default file path
       cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
         # No config provided - generates all inventory configurations
 
     # Example 2: Auto-discovery mode with custom output file
     - name: Generate inventory playbook config with custom file path and overwrite mode
       cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
         file_path: "tmp/catc_inventory_config.yml"
         file_mode: "overwrite"
 
     # Example 3: Filter by device roles
     - name: Generate inventory playbook config filtered by role
       cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
         file_path: "tmp/catc_filtered_inventory_config.yml"
         file_mode: "overwrite"
         config:
@@ -43,6 +61,16 @@
     # Example 4: Filter using explicit device identifiers
     - name: Generate inventory playbook config for selected devices by IP and serial number
       cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
         file_path: "tmp/catc_inventory_selected_devices.yml"
         file_mode: "append"
         config:
@@ -54,6 +82,16 @@
     # Example 5: Filter by role only with default device identifier
     - name: Generate inventory playbook config for distribution and border devices
       cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
         file_path: "tmp/catc_inventory_roles_only.yml"
         file_mode: "overwrite"
         config:
@@ -63,6 +101,16 @@
     # Example 6: Filter by role with serial number as identifier list
     - name: Generate inventory playbook config for unknown role devices
       cisco.catalystcenter.inventory_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
         file_path: "tmp/catc_inventory_roles_serial.yml"
         file_mode: "overwrite"
         config:
