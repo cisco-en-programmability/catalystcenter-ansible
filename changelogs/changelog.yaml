@@ -256,7 +256,7 @@ releases:
       bugfixes:
         - Fixed port parameter naming inconsistency - renamed catalystcenter_api_port to catalystcenter_port in module_utils argument spec to match internal code usage (catalystcenter_api_port preserved as alias)
   2.7.0:
-    release_date: "2026-04-29"
+    release_date: "2026-04-30"
     changes:
       release_summary: Added 69 Ansible roles and 70+ Cisco Validated Playbooks (CVP) for comprehensive Catalyst Center automation. Synced workflow manager modules and playbook config generators with cisco.dnac v6.50.0 and v6.51.0 - changes across 43 modules, new tags_workflow_manager playbook, and REST API helper in module_utils.
       major_changes:
