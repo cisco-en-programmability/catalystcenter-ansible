@@ -53,11 +53,34 @@ build_ignore:
   - run_tests.sh
 
   - Pipfile
+  - Pipfile.lock
   - requirements.txt
   - test-requirements.txt
 
-  - cisco-catalystcenter-*.tar.gz
-  
+  - "*.tar.gz"
+
   - cvp/*/tmp/
   - cvp/*/*.log
-  - cvp/*/.DS_Store
+  - cvp/**/.DS_Store
+
+  - cvp/**/images/**
+  - cvp/**/*.png
+  - cvp/**/*.jpg
+  - cvp/**/*.jpeg
+  - cvp/**/*.svg
+  - cvp/**/*.pdf
+  - cvp/**/*.gif
+
+  - roles/**/images/**
+  - roles/**/*.png
+  - roles/**/*.jpg
+  - roles/**/*.jpeg
+  - roles/**/*.svg
+  - roles/**/*.pdf
+  - roles/**/*.gif
+
+  - "**/__pycache__"
+  - "**/*.pyc"
+  - "**/*.pyo"
+
+  - "**/.DS_Store"
