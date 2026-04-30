@@ -520,7 +520,7 @@
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_module.html">cisco.catalystcenter.interfaces_query module -- Resource module for Interfaces Query</a></li>
 <li class="toctree-l4"><a class="reference internal" href="interfaces_query_count_module.html">cisco.catalystcenter.interfaces_query_count module -- Resource module for Interfaces Query Count</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_intent_module.html">cisco.catalystcenter.inventory_intent module -- Resource module for Network Device</a></li>
-<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.catalystcenter.inventory_playbook_config_generator module -- Generate YAML playbook input for 'inventory_workflow_manager' module.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="inventory_playbook_config_generator_module.html">cisco.catalystcenter.inventory_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">inventory_workflow_manager</span></code> module.</a></li>
 <li class="toctree-l4"><a class="reference internal" href="inventory_workflow_manager_module.html">cisco.catalystcenter.inventory_workflow_manager module -- Comprehensive network device inventory management for Cisco Catalyst Center</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_module.html">cisco.catalystcenter.iot_fabric_rep_rings module -- Resource module for Iot Fabric Rep Rings</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iot_fabric_rep_rings_delete_module.html">cisco.catalystcenter.iot_fabric_rep_rings_delete module -- Resource module for Iot Fabric Rep Rings Delete</a></li>
@@ -1237,7 +1237,7 @@
 <h1>cisco.catalystcenter.sda_fabric_virtual_networks_playbook_config_generator module -- Generate YAML playbook for <code class="docutils literal notranslate"><span class="pre">sda_fabric_virtual_networks_workflow_manager</span></code> module.<a class="headerlink" href="#cisco-catalystcenter-sda-fabric-virtual-networks-playbook-config-generator-module-generate-yaml-playbook-for-sda-fabric-virtual-networks-workflow-manager-module" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.6.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/catalystcenter">cisco.catalystcenter collection</a> (version 2.7.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.catalystcenter</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-catalystcenter-sda-fabric-virtual-networks-playbook-config-generator-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1266,7 +1266,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-catalystcente
 <span id="ansible-collections-cisco-catalystcenter-sda-fabric-virtual-networks-playbook-config-generator-module-requirements"></span><h2><a class="toc-backref" href="#id52" role="doc-backlink">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
 <p>The below requirements are needed on the host that executes this module.</p>
 <ul class="simple">
-<li><p>dnacentersdk &gt;= 2.3.7.9</p></li>
+<li><p>catalystcentersdk &gt;= 2.3.7.9</p></li>
 <li><p>python &gt;= 3.9</p></li>
 </ul>
 </section>
@@ -1627,11 +1627,11 @@ If 'component_specific_filters' is provided, at least one of the following must 
 If neither condition is met, the module will fail with a validation error.</p></li>
 <li><p>Module result behavior (changed/ok/failed):
 The module result reflects local file state only, not Catalyst Center state.
-In overwrite mode, the full file content is compared (excluding volatile
-fields like timestamps and playbook path). In append mode, only the last
-YAML document in the file is compared against the newly generated
-configuration. If a file contains multiple config entries from previous
-appends, only the most recent entry is used for the idempotency check.
+In overwrite mode, the full generated YAML content is compared against the
+existing file after excluding generated header comment lines. In append mode,
+only the last YAML document in the file is compared against the newly generated
+configuration. If a file contains multiple config entries from previous appends,
+only the most recent entry is used for the idempotency check.
 - changed=true (status: success): The generated YAML configuration differs</p>
 <blockquote>
 <div><p>from the existing output file (or the file does not exist). The file was
@@ -1645,7 +1645,12 @@ already up-to-date.</p></li>
 API failure, or file write error. No file was written or modified.</p></li>
 </ul>
 <p>Note: Re-running with identical inputs and unchanged Catalyst Center state
-will produce changed=false, ensuring idempotent playbook behavior.</p>
+will produce changed=false, ensuring idempotent playbook behavior.
+Note: If append mode creates multiple config entries in the
+generated file, replaying the file as config in the workflow
+manager module applies only the last config entry because
+yaml.safe_load uses last-key-wins semantics for duplicate
+keys in a single YAML document.</p>
 </li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
@@ -1761,7 +1766,7 @@ will produce changed=false, ensuring idempotent playbook behavior.</p>
 <span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tmp/catc_fabric_vlans_components_config.yml&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_vlan&quot;</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Optional</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fabric_vlan&quot;</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Optional</span>
 <span class="w">        </span><span class="nt">fabric_vlan</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_1&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_2&quot;</span>
@@ -1883,7 +1888,7 @@ will produce changed=false, ensuring idempotent playbook behavior.</p>
 <span class="w">    </span><span class="nt">file_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tmp/catc_anycast_gateways_components_config.yml&quot;</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">component_specific_filters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;anycast_gateways&quot;</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># Optional</span>
+<span class="w">        </span><span class="nt">components_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;anycast_gateways&quot;</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Optional</span>
 <span class="w">        </span><span class="nt">anycast_gateways</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chennai_VN1&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Chennai_VN3&quot;</span>

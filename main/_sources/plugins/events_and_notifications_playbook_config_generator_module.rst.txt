@@ -42,7 +42,7 @@ cisco.catalystcenter.events_and_notifications_playbook_config_generator module -
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.6.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- catalystcentersdk \>= 2.7.2
 - python \>= 3.9
 
 
@@ -911,6 +911,8 @@ Parameters
 
       List of exact destination names to filter from retrieved configurations.
 
+      When \ :literal:`destination\_names`\  is provided, you must target at least one destination component using either \ :literal:`destination\_types`\  or \ :literal:`components\_list`\  with one or more of \ :literal:`webhook\_destinations`\ , \ :literal:`email\_destinations`\ , \ :literal:`syslog\_destinations`\ , \ :literal:`snmp\_destinations`\ .
+
       Names must match exactly as configured in Catalyst Center (case-sensitive).
 
       Only components listed in components\_list are retrieved. The destination\_names filter is applied only within those selected component types. Names belonging to a component type that is not in components\_list are completely ignored.
@@ -1178,6 +1180,8 @@ Parameters
 
       List of exact event subscription names to filter from retrieved configurations.
 
+      When \ :literal:`subscription\_names`\  is provided, you must target at least one notification component using either \ :literal:`notification\_types`\  or \ :literal:`components\_list`\  with one or more of \ :literal:`webhook\_event\_notifications`\ , \ :literal:`email\_event\_notifications`\ , \ :literal:`syslog\_event\_notifications`\ .
+
       Names must match exactly as configured in Catalyst Center event subscriptions.
 
       Filters webhook, email, and syslog event notifications based on subscription name.
@@ -1382,13 +1386,13 @@ Notes
 
 .. note::
    - SDK Methods used are - event\_management.Events.get\_webhook\_destination - event\_management.Events.get\_email\_destination - event\_management.Events.get\_syslog\_destination - event\_management.Events.get\_snmp\_destination - event\_management.Events.get\_all\_itsm\_integration\_settings - event\_management.Events.get\_rest\_webhook\_event\_subscriptions - event\_management.Events.get\_email\_event\_subscriptions - event\_management.Events.get\_syslog\_event\_subscriptions - event\_management.Events.get\_event\_artifacts - sites.Sites.get\_site
-   - Paths used are - GET /dna/system/api/v1/event/webhook - GET /dna/system/api/v1/event/email-config - GET /dna/system/api/v1/event/syslog-config - GET /dna/system/api/v1/event/snmp-config - GET /dna/system/api/v1/event/itsm-integration-setting - GET /dna/system/api/v1/event/subscription/rest - GET /dna/system/api/v1/event/subscription/email - GET /dna/system/api/v1/event/subscription/syslog - GET /dna/intent/api/v1/event-artifact - GET /dna/intent/api/v1/site
+   - Paths used are - GET /dna/intent/api/v1/event/webhook - GET /dna/intent/api/v1/event/email-config - GET /dna/intent/api/v1/event/syslog-config - GET /dna/intent/api/v1/dna-event/snmp-config - GET /dna/intent/api/v1/integration-settings/itsm/instances - GET /dna/intent/api/v1/event/subscription/rest - GET /dna/intent/api/v1/event/subscription/email - GET /dna/intent/api/v1/event/subscription/syslog - GET /dna/system/api/v1/event/artifact - GET /dna/intent/api/v1/sites
    - Minimum Catalyst Center version required is 2.3.5.3 for events and notifications APIs.
    - Module performs read-only operations and does not modify Catalyst Center configurations.
    - Generated YAML files contain password placeholders marked as "\*\*\*REDACTED\*\*\*" for security.
    - Site IDs are automatically resolved to hierarchical site names for readability.
    - Event IDs are automatically resolved to event names using Event Artifacts API.
-   - Pagination is automatically handled for large datasets in webhook, SNMP, and event subscriptions.
+   - Pagination is automatically handled for large datasets in webhook, syslog, SNMP destinations, ITSM settings and webhook, email, syslog notifications.
    - Generated playbooks are compatible with events\_and\_notifications\_workflow\_manager module.
    - When filter blocks (\ :literal:`destination\_filters`\ , \ :literal:`notification\_filters`\ , \ :literal:`itsm\_filters`\ ) are provided, the corresponding components are automatically added to \ :literal:`components\_list`\  if not already present. This means \ :literal:`components\_list`\  is optional when filter blocks are provided.
    - If no filter blocks are provided, \ :literal:`components\_list`\  is mandatory and must be non-empty.
@@ -1506,6 +1510,60 @@ Examples
           component_specific_filters:
             itsm_filters:
               instance_names: ["ServiceNow Instance 1", "BMC Remedy Prod"]
+
+    # destination_names with destination_types (new filter in isolation)
+    - name: Generate config filtering specific destinations by name and type
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        component_specific_filters:
+          destination_filters:
+            destination_names:
+              - "Scale Syslog 7"
+              - "Prod Webhook Endpoint"
+            destination_types:        # Required when destination_names is specified
+              - "syslog"
+              - "webhook"
+
+    # subscription_names with notification_types (new filter in isolation)
+    - name: Generate config filtering specific subscriptions by name and type
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        component_specific_filters:
+          notification_filters:
+            subscription_names:
+              - "Critical Email Alerts"
+              - "Syslog Infra Events"
+            notification_types:       # Required when subscription_names is specified
+              - "email"
+              - "syslog"
+
+    # Combined filters with components_list as the targeting mechanism (multi-entry, mixed)
+    - name: Generate config with name filters targeted via components_list
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        component_specific_filters:
+          components_list:
+            - "syslog_destinations"          # Targets destination_names filter
+            - "email_event_notifications"    # Targets subscription_names filter
+            - "itsm_settings"                # No name filter, retrieves all
+          destination_filters:
+            destination_names:
+              - "Scale Syslog 7"             # Filtered — only syslog destinations matched
+          notification_filters:
+            subscription_names:
+              - "Critical Email Alerts"      # Filtered — only email notifications matched
+          itsm_filters:
+            instance_names:
+              - "ServiceNow Prod"
 
 
 

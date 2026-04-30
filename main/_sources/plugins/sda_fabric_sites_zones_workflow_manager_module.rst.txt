@@ -42,7 +42,7 @@ cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager module -- Manage fa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.6.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -1066,17 +1066,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/enable_bpu_guard"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/enable_bpdu_guard"></div>
 
-      .. _ansible_collections.cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/enable_bpu_guard:
+      .. _ansible_collections.cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/enable_bpdu_guard:
 
       .. rst-class:: ansible-option-title
 
-      **enable_bpu_guard**
+      **enable_bpdu_guard**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/enable_bpu_guard" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/enable_bpdu_guard" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -1776,6 +1776,32 @@ Examples
                   dot1x_fallback_timeout: 28
                   wake_on_lan: false
                   number_of_hosts: "Single"
+
+    - name: Update BPDU Guard in the Closed Authentication
+        profile template for a fabric zone.
+      cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
+        catalystcenter_host: "{{catalystcenter_host}}"
+        catalystcenter_username: "{{catalystcenter_username}}"
+        catalystcenter_password: "{{catalystcenter_password}}"
+        catalystcenter_verify: "{{catalystcenter_verify}}"
+        catalystcenter_port: "{{catalystcenter_port}}"
+        catalystcenter_version: "{{catalystcenter_version}}"
+        catalystcenter_debug: "{{catalystcenter_debug}}"
+        catalystcenter_log_level: "{{catalystcenter_log_level}}"
+        catalystcenter_log: false
+        state: merged
+        config:
+          - fabric_sites:
+              - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+                fabric_type: "fabric_zone"
+                authentication_profile: "Closed Authentication"
+                update_authentication_profile:
+                  authentication_order: "dot1x"
+                  dot1x_fallback_timeout: 28
+                  wake_on_lan: false
+                  number_of_hosts: "Single"
+                  enable_bpdu_guard: false
+
     - name: Deleting/removing fabric site from sda from
         Cisco Catalyst Center
       cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:

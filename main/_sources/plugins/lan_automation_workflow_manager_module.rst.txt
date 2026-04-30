@@ -42,7 +42,7 @@ cisco.catalystcenter.lan_automation_workflow_manager module -- Automate network 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.6.0).
+    This module is part of the `cisco.catalystcenter collection <https://galaxy.ansible.com/cisco/catalystcenter>`_ (version 2.7.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.catalystcenter`.
     You need further requirements to be able to use this module,
@@ -135,7 +135,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The maximum time to wait for a task to complete on Cisco Catalyst Center for LAN Automation.
+      The maximum time to wait for a task to complete on Cisco DNA Center for LAN Automation.
 
 
       .. rst-class:: ansible-option-line
@@ -1450,7 +1450,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Site hierarchy where the discovered devices will be placed. Required only in merged state.
+      - Site hierarchy where the discovered
+            devices will be placed.
+          - Required only in merged state.
+          
 
 
       .. raw:: html
@@ -1761,7 +1764,10 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of IP pools used during the LAN Automation session. Required only in merged state.
+      - A list of IP pools used during
+            the LAN Automation session.
+          - Required only in merged state.
+          
 
 
       .. raw:: html
@@ -2066,7 +2072,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A list of interface names on the primary device to be used for LAN automation. Required only in merged state.
+      - A list of interface names on
+            the primary device to be used for LAN
+            automation.
+          - Required only in merged state.
+          
 
 
       .. raw:: html
@@ -2698,6 +2708,8 @@ Notes
    - Port Channel operations integrate with existing LAN Automation device lifecycle management and appear in standard Catalyst Center interface topology views.
    - When updating Port Channels, at least one existing link must be provided to identify the Port Channel between the same endpoints unless port\_channel\_number is specified for direct identification.
    - Links from different Port Channels cannot be mixed during update operations. Each physical link can belong to only one Port Channel at any given time.
+   - To run multiple LAN Automation sessions in parallel, use Ansible asynchronous tasks within a single playbook. This allows multiple LAN session start tasks to execute concurrently. Cisco Catalyst Center supports up to 5 concurrent LAN Automation sessions.
+   - For parallel execution, add async, poll, and register on each LAN Automation task, then add a final async\_status task that loops over the registered jobs and waits for completion. Check the examples section for a complete parallel execution playbook.
    - SDK Method used are lan\_automation.LanAutomation.lan\_automation\_start\_v2 lan\_automation.LanAutomation.lan\_automation\_stop lan\_automation.LanAutomation.lan\_automation\_device\_update lan\_automation.LanAutomation.lan\_automation\_active\_sessions lan\_automation.LanAutomation.lan\_automation\_status lan\_automation.LanAutomation.lan\_automation\_log lan\_automation.LanAutomation.get\_port\_channels lan\_automation.LanAutomation.create\_a\_new\_port\_channel\_between\_devices lan\_automation.LanAutomation.add\_a\_lan\_automated\_link\_to\_a\_port\_channel lan\_automation.LanAutomation.delete\_port\_channel lan\_automation.LanAutomation.remove\_a\_link\_from\_port\_channel devices.Devices.get\_interface\_details devices.Devices.get\_device\_list device\_onboarding\_pnp.DeviceOnboardingPnp.authorize\_device device\_onboarding\_pnp.DeviceOnboardingPnp.get\_device\_list
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
@@ -2810,6 +2822,70 @@ Examples
               device_serial_number_authorization:
                 - "FJC27172JDW"
                 - "FJC2721261A"
+
+    - name: Start multiple LAN Automation sessions in parallel
+      hosts: catalystcenter_servers
+      gather_facts: false
+      connection: local
+      tasks:
+        - name: Start LAN Automation session 1 asynchronously
+          cisco.catalystcenter.lan_automation_workflow_manager:
+            catalystcenter_host: "{{catalystcenter_host}}"
+            catalystcenter_username: "{{catalystcenter_username}}"
+            catalystcenter_password: "{{catalystcenter_password}}"
+            catalystcenter_verify: "{{catalystcenter_verify}}"
+            catalystcenter_port: "{{catalystcenter_port}}"
+            catalystcenter_version: "{{catalystcenter_version}}"
+            catalystcenter_debug: "{{catalystcenter_debug}}"
+            state: merged
+            config:
+              - lan_automation:
+                  primary_device_management_ip_address: "204.1.1.1"
+                  discovered_device_site_name_hierarchy: "Global/USA/SAN JOSE"
+                  primary_device_interface_names:
+                    - "HundredGigE1/0/2"
+                  ip_pools:
+                    - ip_pool_name: "underlay_sub_sj"
+                      ip_pool_role: "MAIN_POOL"
+                  launch_and_wait: false
+            async: 3600
+            poll: 0
+            register: lan_job_1
+
+        - name: Start LAN Automation session 2 asynchronously
+          cisco.catalystcenter.lan_automation_workflow_manager:
+            catalystcenter_host: "{{catalystcenter_host}}"
+            catalystcenter_username: "{{catalystcenter_username}}"
+            catalystcenter_password: "{{catalystcenter_password}}"
+            catalystcenter_verify: "{{catalystcenter_verify}}"
+            catalystcenter_port: "{{catalystcenter_port}}"
+            catalystcenter_version: "{{catalystcenter_version}}"
+            catalystcenter_debug: "{{catalystcenter_debug}}"
+            state: merged
+            config:
+              - lan_automation:
+                  primary_device_management_ip_address: "204.1.1.2"
+                  discovered_device_site_name_hierarchy: "Global/USA/SAN FRANCISCO"
+                  primary_device_interface_names:
+                    - "HundredGigE1/0/29"
+                  ip_pools:
+                    - ip_pool_name: "underlay_sub_sf"
+                      ip_pool_role: "MAIN_POOL"
+                  launch_and_wait: false
+          async: 3600
+          poll: 0
+          register: lan_job_2
+
+        - name: Wait for all asynchronous LAN Automation jobs
+          ansible.builtin.async_status:
+            jid: "{{ item.ansible_job_id }}"
+          register: lan_job_status
+          until: lan_job_status.finished
+          retries: 300
+          delay: 10
+          loop:
+            - "{{ lan_job_1 }}"
+            - "{{ lan_job_2 }}"
 
     - name: Stop a LAN Automation session
       cisco.catalystcenter.lan_automation_workflow_manager:
