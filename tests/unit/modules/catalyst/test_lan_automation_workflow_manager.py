@@ -32,10 +32,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     lan_automation_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacLanAutomationWorkflow(TestDnacModule):
+class TestDnacLanAutomationWorkflow(TestCatalystModule):
 
     module = lan_automation_workflow_manager
     test_data = loadPlaybookData("lan_automation_workflow_manager")

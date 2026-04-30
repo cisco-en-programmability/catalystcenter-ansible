@@ -64,7 +64,7 @@ Output Format:
 
 Minimum Requirements:
     - Cisco Catalyst Center version 2.3.7.9 or higher for PnP APIs
-    - Catalyst Center SDK 2.9.3 or higher for API compatibility
+    - DNA Center SDK 2.9.3 or higher for API compatibility
     - Python 3.9 or higher for OrderedDict and type hint support
     - Read access to PnP and Sites APIs in Catalyst Center
     - Network connectivity to Catalyst Center management interface
@@ -196,7 +196,7 @@ options:
             required: false
             choices: ["Unclaimed", "Planned", "Onboarding", "Provisioned", "Error"]
 requirements:
-- dnacentersdk >= 2.9.3
+- catalystcentersdk >= 2.9.3
 - python >= 3.9
 notes:
 - SDK Methods used are
@@ -303,24 +303,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 )
 import time
 
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-    yaml = None
-
 from collections import OrderedDict
-
-
-if HAS_YAML:
-    class OrderedDumper(yaml.Dumper):
-        def represent_dict(self, data):
-            return self.represent_mapping("tag:yaml.org,2002:map", data.items())
-
-    OrderedDumper.add_representer(OrderedDict, OrderedDumper.represent_dict)
-else:
-    OrderedDumper = None
 
 
 class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
@@ -401,7 +384,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     Minimum Requirements:
         - Cisco Catalyst Center version 2.3.7.9 or higher
-        - Catalyst Center SDK 2.9.3 or higher for API compatibility
+        - DNA Center SDK 2.9.3 or higher for API compatibility
         - Python 3.9 or higher for OrderedDict and type hint support
         - Read access to PnP APIs in Catalyst Center
         - Network connectivity to Catalyst Center management interface
@@ -437,7 +420,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         get_diff_gathered(): Processes gathered state for YAML generation
 
     Inheritance:
-        CatalystCenterBase: Provides core Catalyst Center SDK integration and helper methods
+        CatalystCenterBase: Provides core DNA Center SDK integration and helper methods
         BrownFieldHelper: Provides YAML generation utilities and file operations
 
     Returns:
@@ -1350,49 +1333,53 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Write to YAML file
-        success = self.write_dict_to_yaml([output_structure], file_path, file_mode=file_mode)
+        file_written = self.write_dict_to_yaml(
+            [output_structure],
+            file_path,
+            file_mode=file_mode,
+        )
 
-        if success:
-            # Component successfully processed
-            components_processed = components_requested
-            components_skipped = 0
+        components_processed = components_requested
+        components_skipped = 0
 
-            self.msg = "YAML config generation succeeded for module '{0}'.".format(self.module_name)
-            self.result["msg"] = self.msg
-            self.result["response"] = {
-                "status": "success",
-                "message": self.msg,
-                "file_path": file_path,
-                "configurations_count": sum(len(g["device_info"]) for g in grouped_configs),
-                "components_processed": components_processed,
-                "components_skipped": components_skipped
-            }
-            self.log(
-                "{0} File path: {1}, Configurations count: {2}, "
-                "Components processed: {3}, Components skipped: {4}".format(
-                    self.msg,
-                    file_path,
-                    sum(len(g["device_info"]) for g in grouped_configs),
-                    components_processed,
-                    components_skipped
-                ),
-                "INFO"
+        configurations_count = sum(len(g["device_info"]) for g in grouped_configs)
+
+        if file_written:
+            self.msg = "YAML config generation succeeded for module '{0}'.".format(
+                self.module_name
             )
-            self.result["changed"] = True
-            self.status = "success"
+            response_status = "success"
         else:
-            failure_message = "Failed to write YAML configuration file to path: {0}".format(
-                file_path
+            self.msg = (
+                "YAML configuration file already up-to-date for module '{0}'. "
+                "No changes written.".format(self.module_name)
             )
-            self.log(
-                "YAML file write operation failed. Unable to write configuration to file: {0}. "
-                "Check file permissions, disk space, and parent directory existence.".format(
-                    file_path
-                ),
-                "ERROR"
-            )
-            self.fail_and_exit(failure_message)
+            response_status = "ok"
+
+        self.result["msg"] = self.msg
+        self.result["response"] = {
+            "status": response_status,
+            "message": self.msg,
+            "file_path": file_path,
+            "file_mode": file_mode,
+            "configurations_count": configurations_count,
+            "components_processed": components_processed,
+            "components_skipped": components_skipped,
+        }
+        self.log(
+            "{0} File path: {1}, Configurations count: {2}, "
+            "Components processed: {3}, Components skipped: {4}, Local file changed: {5}".format(
+                self.msg,
+                file_path,
+                configurations_count,
+                components_processed,
+                components_skipped,
+                file_written
+            ),
+            "INFO"
+        )
+        self.result["changed"] = bool(file_written)
+        self.status = "success"
 
         return self
 
@@ -1728,6 +1715,7 @@ def main():
     module_start_time = time.time()
 
     element_spec = {
+
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},

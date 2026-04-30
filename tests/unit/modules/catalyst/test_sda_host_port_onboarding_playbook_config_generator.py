@@ -19,10 +19,10 @@ __metaclass__ = type
 from unittest.mock import patch, mock_open
 import yaml
 from ansible_collections.cisco.catalystcenter.plugins.modules import sda_host_port_onboarding_playbook_config_generator
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestDnacModule):
+class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
     module = sda_host_port_onboarding_playbook_config_generator
     test_data = loadPlaybookData("sda_host_port_onboarding_playbook_config_generator")
 

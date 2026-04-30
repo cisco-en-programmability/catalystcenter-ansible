@@ -175,7 +175,7 @@ options:
                   the network access and maintaining
                   security.
                 type: str
-              enable_bpu_guard:
+              enable_bpdu_guard:
                 description: A boolean setting that
                   enables or disables BPDU Guard. BPDU
                   Guard provides a security mechanism
@@ -461,6 +461,32 @@ EXAMPLES = r"""
               dot1x_fallback_timeout: 28
               wake_on_lan: false
               number_of_hosts: "Single"
+
+- name: Update BPDU Guard in the Closed Authentication
+    profile template for a fabric zone.
+  cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
+    catalystcenter_host: "{{catalystcenter_host}}"
+    catalystcenter_username: "{{catalystcenter_username}}"
+    catalystcenter_password: "{{catalystcenter_password}}"
+    catalystcenter_verify: "{{catalystcenter_verify}}"
+    catalystcenter_port: "{{catalystcenter_port}}"
+    catalystcenter_version: "{{catalystcenter_version}}"
+    catalystcenter_debug: "{{catalystcenter_debug}}"
+    catalystcenter_log_level: "{{catalystcenter_log_level}}"
+    catalystcenter_log: false
+    state: merged
+    config:
+      - fabric_sites:
+          - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+            fabric_type: "fabric_zone"
+            authentication_profile: "Closed Authentication"
+            update_authentication_profile:
+              authentication_order: "dot1x"
+              dot1x_fallback_timeout: 28
+              wake_on_lan: false
+              number_of_hosts: "Single"
+              enable_bpdu_guard: false
+
 - name: Deleting/removing fabric site from sda from
     Cisco Catalyst Center
   cisco.catalystcenter.sda_fabric_sites_zones_workflow_manager:
@@ -573,7 +599,7 @@ class FabricSitesZones(CatalystCenterBase):
                     "dot1x_fallback_timeout": {"type": "int"},
                     "wake_on_lan": {"type": "bool"},
                     "number_of_hosts": {"type": "str"},
-                    "enable_bpu_guard": {"type": "bool"},
+                    "enable_bpdu_guard": {"type": "bool"},
                     "pre_auth_acl": {
                         "type": "dict",
                         "enabled": {"type": "bool"},
@@ -1388,7 +1414,7 @@ class FabricSitesZones(CatalystCenterBase):
                 is needed. Returns `False` if the settings match and no update is required.
         Description:
             This method compares the provided authentication profile settings (`auth_profile_dict`) with the current settings retrieved from
-            the Cisco Catalyst Center (`auth_profile_in_ccc`). It considers the possibility of an additional setting "enable_bpu_guard" if
+            the Cisco Catalyst Center (`auth_profile_in_ccc`). It considers the possibility of an additional setting "enable_bpdu_guard" if
             the current profile is "Closed Authentication".
             It iterates through a mapping of profile settings and checks if any of the settings require an update. If any discrepancies are
             found, the method returns `True`. If all settings match, it returns `False`.
@@ -1402,7 +1428,7 @@ class FabricSitesZones(CatalystCenterBase):
         }
         profile_name = auth_profile_in_ccc.get("authenticationProfileName")
         if profile_name == "Closed Authentication":
-            profile_key_mapping["enable_bpu_guard"] = "isBpduGuardEnabled"
+            profile_key_mapping["enable_bpdu_guard"] = "isBpduGuardEnabled"
 
         for key, ccc_key in profile_key_mapping.items():
             desired_value = auth_profile_dict.get(key)
@@ -1421,8 +1447,7 @@ class FabricSitesZones(CatalystCenterBase):
 
         if (
             profile_name == "Low Impact"
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
-            >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
             acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
@@ -1524,19 +1549,18 @@ class FabricSitesZones(CatalystCenterBase):
             )
 
         if profile_name == "Closed Authentication":
-            if auth_profile_dict.get("enable_bpu_guard") is None:
+            if auth_profile_dict.get("enable_bpdu_guard") is None:
                 authentications_params_dict["isBpduGuardEnabled"] = (
                     auth_profile_in_ccc.get("isBpduGuardEnabled", True)
                 )
             else:
                 authentications_params_dict["isBpduGuardEnabled"] = (
-                    auth_profile_dict.get("enable_bpu_guard")
+                    auth_profile_dict.get("enable_bpdu_guard")
                 )
 
         if (
             profile_name == "Low Impact"
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
-            >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
             acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
@@ -1658,7 +1682,7 @@ class FabricSitesZones(CatalystCenterBase):
             )
             if auth_profile_name == "Low Impact":
                 self.log(
-                    "Site '{0}' uses 'Low Impact' authentication profile (with with pre-authentication access control list configuration).".format(
+                    "Site '{0}' uses 'Low Impact' authentication profile (with pre-authentication access control list configuration).".format(
                         site_name
                     ),
                     "DEBUG",
@@ -2158,7 +2182,7 @@ class FabricSitesZones(CatalystCenterBase):
         Returns:
             self (object): Returns the instance of the class to allow method chaining.
         Description:
-            This function applies a pending fabric event to a specific site within Cisco Catalyst Center. It constructs a payload
+            This function applies a pending fabric event to a specific site within Cisco DNA Center. It constructs a payload
             containing the `fabricId` and `eventId`, then initiates the API call to apply the event.
             The function logs the payload details and checks for the task ID to confirm the event application process
             initiation. If the task ID retrieval fails, it logs an error and marks the operation as failed. Upon successfully
@@ -2248,10 +2272,7 @@ class FabricSitesZones(CatalystCenterBase):
 
         try:
             current_version = self.get_ccc_version()
-            if (
-                not self.compare_catalystcenter_versions(current_version, "2.3.7.9")
-                >= 0
-            ):
+            if not self.compare_catalystcenter_versions(current_version, "2.3.7.9") >= 0:
                 self.log(
                     "Reconfiguring fabric pending events is supported only from Cisco Catalyst Center version 2.3.7.9 onwards."
                     " Current version: {0}".format(current_version),
@@ -2887,23 +2908,16 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
+
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},

@@ -1,0 +1,22 @@
+---
+# tasks file for site
+- name: Manage Site Configuration
+  cisco.catalystcenter.site_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
+    catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    state: "{{ site_state | default('merged') }}"
+    config_verify: "{{ site_config_verify | default(false) }}"
+    config: "{{ site_config }}"
+  register: site_result
+
+- name: Display Site Result
+  ansible.builtin.debug:
+    var: site_result
+  when: catalystcenter_debug | default(false)

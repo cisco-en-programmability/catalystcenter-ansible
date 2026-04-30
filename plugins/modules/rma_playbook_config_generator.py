@@ -150,7 +150,7 @@ options:
         type: dict
         required: false
 requirements:
-- dnacentersdk >= 2.9.3
+- catalystcentersdk >= 2.9.3
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.5.3
 

@@ -74,7 +74,7 @@ def load_fixture(module_name, name, device=""):
     return data
 
 
-class TestDnacModule(ModuleTestCase):
+class TestCatalystModule(ModuleTestCase):
     def execute_module_devices(
         self, failed=False, changed=False, response=None, sort=True, defaults=False
     ):

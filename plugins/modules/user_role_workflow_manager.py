@@ -75,9 +75,10 @@ options:
               - The password for the user account, which
                 must adhere to specified complexity
                 requirements.
-              - Must contain at least one special character,
-                one capital letter, one lowercase letter,
-                and a minimum length of 8 characters.
+              - Must be at least 9 characters long and include
+                at least three of the following character
+                types - lowercase letters, uppercase letters,
+                digits, and special characters.
               - Required for creating a new user account.
             type: str
           password_update:
@@ -93,7 +94,7 @@ options:
                 or set it to `false`.
               - Ensure this parameter is correctly set
                 to avoid unnecessary updates or errors.
-            type: str
+            type: bool
           role_list:
             description:
               - A list of role names to be assigned
@@ -1178,6 +1179,23 @@ class UserandRole(CatalystCenterBase):
 
                     user["password"] = encrypt_password_response.get("encrypt_password")
 
+            # Validate password_update type before validate_list_of_dicts
+            # coerces string values to bool silently
+            for user in user_role_details:
+                pw_update = user.get("password_update")
+                if pw_update is not None and not isinstance(pw_update, bool):
+                    self.msg = (
+                        "Invalid type for 'password_update': expected bool "
+                        "(true/false), got '{0}' of type '{1}'. "
+                        "Please use an unquoted boolean in the playbook "
+                        "(e.g., password_update: true).".format(
+                            pw_update, type(pw_update).__name__
+                        )
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    return self
+
             if (
                 user_role_details[0].get("username") is not None
                 or user_role_details[0].get("email") is not None
@@ -1254,24 +1272,24 @@ class UserandRole(CatalystCenterBase):
         Returns:
             None: This function does not return a value, but it may append an error message to `error_messages` if the password is invalid.
         Criteria:
-            - The password must be 9 to 20 characters long.
+            - The password must be at least 9 characters long.
             - The password must include characters from at least three of the following classes:
               lowercase letters, uppercase letters, digits, and special characters.
         """
         meets_character_requirements = False
         password_criteria_message = (
-            "The password must be 9 to 20 characters long and include at least three of the following "
+            "The password must be at least 9 characters long and include at least three of the following "
             "character types: lowercase letters, uppercase letters, digits, and special characters. "
             "Additionally, the password must not contain repetitive or sequential characters."
         )
 
         self.log(password_criteria_message, "DEBUG")
         password_regexs = [
-            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,20}$"),
-            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,20}$"),
-            re.compile(r"^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,20}$"),
-            re.compile(r"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,20}$"),
-            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,20}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?!.*[\W_]).{9,}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])(?!.*\d).{9,}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*\d)(?=.*[\W_])(?!.*[A-Z]).{9,}$"),
+            re.compile(r"^(?=.*[A-Z])(?=.*\d)(?=.*[\W_])(?!.*[a-z]).{9,}$"),
+            re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{9,}$"),
         ]
 
         self.log("Password meets character type and length requirements.", "INFO")
@@ -1554,12 +1572,15 @@ class UserandRole(CatalystCenterBase):
         self.status = "success"
         return self
 
-    def valid_user_config_parameters(self, user_config):
+    def valid_user_config_parameters(self, user_config, is_create=False):
         """
         Additional validation for the create user configuration payload.
         Parameters:
           - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
           - user_config (dict): A dictionary containing the input configuration details.
+          - is_create (bool): When True, enforces that the password field is
+            present and meets minimum-length requirements (API mandates
+            password for new user creation).
         Returns:
           The method returns an instance of the class with updated attributes:
                 - self.msg: A message describing the validation result.
@@ -1593,6 +1614,20 @@ class UserandRole(CatalystCenterBase):
         )
 
         password = user_config.get("password")
+
+        self.log(
+            "Checking whether password is required for user creation.", "DEBUG"
+        )
+
+        if is_create and not password:
+            error_messages.append(
+                "password: A password is required when creating a new user "
+                "account. Please provide a password that is at least 9 "
+                "characters long and includes at least three of the following "
+                "character types: lowercase letters, uppercase letters, digits, "
+                "and special characters. Additionally, the password must not "
+                "contain repetitive or sequential characters."
+            )
 
         if password:
             decrypt_password_response = self.decrypt_password(
@@ -1631,15 +1666,38 @@ class UserandRole(CatalystCenterBase):
                 "Password decrypted, validated, and re-encrypted successfully.", "DEBUG"
             )
 
-        username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
-        username_regex_msg = "The username must not contain any special characters and must be 3 to 50 characters long."
         username = user_config.get("username")
-        self.validate_string_field(
-            username,
-            username_regex,
-            "username: '{0}' {1}".format(username, username_regex_msg),
-            error_messages,
-        )
+        self.log("Validating username field presence and format.", "DEBUG")
+        if not username:
+            error_messages.append(
+                "username: The 'username' field is required for user "
+                "create, update, and delete operations. Please provide "
+                "a valid username in the playbook."
+            )
+        else:
+            username_regex = re.compile(r"^[A-Za-z0-9@._-]{3,50}$")
+            username_regex_msg = (
+                "The username must not contain any special characters "
+                "and must be 3 to 50 characters long."
+            )
+            self.validate_string_field(
+                username,
+                username_regex,
+                "username: '{0}' {1}".format(username, username_regex_msg),
+                error_messages,
+            )
+
+        password_update = user_config.get("password_update")
+        self.log("Validating password_update field type.", "DEBUG")
+
+        if password_update is not None and not isinstance(password_update, bool):
+            error_messages.append(
+                "password_update: Expected a boolean value (true/false), "
+                "but got '{0}' of type '{1}'. Please use a boolean value "
+                "without quotes in the playbook (e.g., password_update: true).".format(
+                    password_update, type(password_update).__name__
+                )
+            )
 
         if user_config.get("role_list"):
             param_spec = dict(type="list", elements="str")
@@ -1824,20 +1882,15 @@ class UserandRole(CatalystCenterBase):
             # update the user if role exists
             if self.have.get("user_exists"):
                 self.valid_user_config_parameters(config).check_return_status()
-                consolidated_data, update_required_param = self.user_requires_update(
+                (consolidated_data, update_required_param) = self.user_requires_update(
                     self.have["current_user_config"],
                     self.have["current_role_id_config"],
                 )
 
                 if self.want.get("password_update"):
                     if update_required_param.get("role_list"):
-                        if (
-                            self.want["username"].lower()
-                            not in self.have["current_user_config"]["username"]
-                        ):
-                            task_response = {
-                                "error_message": "Username for an existing user cannot be updated."
-                            }
+                        if self.want["username"].lower() not in self.have["current_user_config"]["username"]:
+                            task_response = {"error_message": "Username for an existing user cannot be updated."}
                         else:
                             self.get_diff_deleted(self.want)
                             update_required_param["password"] = self.want.get(
@@ -1867,13 +1920,8 @@ class UserandRole(CatalystCenterBase):
 
                     if update_required_param.get("role_list"):
 
-                        if (
-                            self.want["username"].lower()
-                            not in self.have["current_user_config"]["username"]
-                        ):
-                            task_response = {
-                                "error_message": "Username for an existing user cannot be updated."
-                            }
+                        if self.want["username"].lower() not in self.have["current_user_config"]["username"]:
+                            task_response = {"error_message": "Username for an existing user cannot be updated."}
                         else:
                             user_in_have = self.have["current_user_config"]
                             update_param = update_required_param
@@ -1887,7 +1935,7 @@ class UserandRole(CatalystCenterBase):
                         }
             else:
                 # Create the user
-                self.valid_user_config_parameters(config).check_return_status()
+                self.valid_user_config_parameters(config, is_create=True).check_return_status()
                 self.log("Creating user with config {0}".format(str(config)), "DEBUG")
                 user_params = self.want
 
@@ -1926,7 +1974,7 @@ class UserandRole(CatalystCenterBase):
                     }
 
         if task_response and "error_message" not in task_response:
-            self.log("Task respoonse {0}".format(str(task_response)), "INFO")
+            self.log("Task response {0}".format(str(task_response)), "INFO")
             responses["operation"] = {"response": task_response}
             self.msg = responses
             self.result["response"] = self.msg
@@ -2011,12 +2059,7 @@ class UserandRole(CatalystCenterBase):
 
             for user in users:
                 if input_config.get("username") is not None:
-                    if (
-                        self.compare_catalystcenter_versions(
-                            self.get_ccc_version(), "2.3.7.9"
-                        )
-                        <= 0
-                    ):
+                    if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
                         if user.get("username") == input_config.get("username").lower():
                             current_user_configuration = user
                             user_exists = True
@@ -2399,8 +2442,9 @@ class UserandRole(CatalystCenterBase):
 
                 if resource_name == "overall" or resource_name == "data_access":
                     new_entry = {
+
                         "type": "Network Analytics.Data Access",
-                        "operations": operations,
+                        "operations": operations
                     }
                     unique_types[new_entry["type"]] = new_entry
                     self.log(
@@ -2988,7 +3032,7 @@ class UserandRole(CatalystCenterBase):
             self.add_entries(entry_types, ["gRead"], unique_types)
             new_entry = {
                 "type": "System.Basic",
-                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"],
+                "operations": ["gRead", "gUpdate", "gCreate", "gRemove"]
             }
             unique_types[new_entry["type"]] = new_entry
             self.log("Added entry for resource basic: {0}".format(new_entry), "DEBUG")
@@ -4120,7 +4164,7 @@ class UserandRole(CatalystCenterBase):
                 )
 
             desired_role = self.generate_role_payload(self.want, "update")
-            require_update, updated_role_info = self.role_requires_update(
+            (require_update, updated_role_info) = self.role_requires_update(
                 self.have["current_role_config"], desired_role
             )
             if not require_update:
@@ -4156,7 +4200,7 @@ class UserandRole(CatalystCenterBase):
                     "INFO",
                 )
 
-            require_update, updated_user_info = self.user_requires_update(
+            (require_update, updated_user_info) = self.user_requires_update(
                 self.have["current_user_config"], self.have["current_role_id_config"]
             )
             if not require_update:
@@ -4431,22 +4475,14 @@ def main():
     user_role_details = {
         "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -4462,9 +4498,7 @@ def main():
     state = ccc_user_role.params.get("state")
 
     if (
-        ccc_user_role.compare_catalystcenter_versions(
-            ccc_user_role.get_ccc_version(), "2.3.5.3"
-        )
+        ccc_user_role.compare_catalystcenter_versions(ccc_user_role.get_ccc_version(), "2.3.5.3")
         < 0
     ):
         ccc_user_role.msg = (

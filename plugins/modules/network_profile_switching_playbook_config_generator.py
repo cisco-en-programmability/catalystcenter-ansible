@@ -126,7 +126,7 @@ options:
             elements: str
             required: false
 requirements:
-  - dnacentersdk >= 2.10.10
+  - catalystcentersdk >= 2.10.10
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods
@@ -398,11 +398,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         # Expected schema for configuration parameters
         # Define expected schema for configuration parameters
         temp_spec = {
-            "generate_all_configurations": {
-                "type": "bool",
-                "required": False,
-                "default": False
-            },
             "global_filters": {
                 "type": "dict",
                 "required": False
@@ -412,15 +407,6 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
         # Validate the config dict using helper
         valid_temp = self.validate_config_dict(self.config, temp_spec)
         self.validate_invalid_params(self.config, set(temp_spec.keys()))
-
-        if valid_temp.get("generate_all_configurations"):
-            self.msg = (
-                "generate_all_configurations cannot be used when config is provided. "
-                "Omit config to generate all switch profile configurations."
-            )
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
 
         if not valid_temp.get("global_filters"):
             self.msg = (
@@ -457,8 +443,9 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
 
             if not provided_filters:
                 self.msg = (
-                    "global_filters provided but no valid filter lists have values. "
-                    "At least one of {0} must contain values.".format(valid_filter_keys)
+                    f"Invalid filter key '{', '.join(global_filters.keys())}' in global_filters "
+                    f"or no filter values for {', '.join(global_filters.keys())} provided. "
+                    f"Supported keys are: {', '.join(valid_filter_keys)}"
                 )
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -476,21 +463,20 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
+                valid_temp["global_filters"][filter_key] = list(dict.fromkeys(filter_value))
+
         # Set validated configuration and return success
         self.validated_config = valid_temp
 
         self.msg = (
-            "Successfully validated configuration for network profile switching playbook "
-            "generation. Validated configuration: {0}".format(str(valid_temp))
+            f"Successfully validated configuration for network profile switching playbook "
+            f"generation. Validated configuration: {str(valid_temp)}"
         )
 
         self.log(
-            "Input validation completed successfully. generate_all: {0}, "
-            "has_global_filters: {1}, file_mode: {2}".format(
-                bool(valid_temp.get("generate_all_configurations")),
-                bool(valid_temp.get("global_filters")),
-                self.params.get("file_mode", "overwrite")
-            ),
+            "Input validation completed successfully. "
+            f"has_global_filters: {bool(valid_temp.get('global_filters'))}, "
+            f"file_mode: {self.params.get('file_mode', 'overwrite')}",
             "INFO"
         )
 
@@ -1821,11 +1807,10 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
                 "WARNING"
             )
             self.msg = (
-                "No configurations or components to process for module '{0}'. Verify input "
-                "filters (global_filters) or configuration (generate_all_configurations). "
-                "Check that switch profiles exist in Catalyst Center and match filter criteria.".format(
-                    self.module_name
-                )
+                f"No configurations to process for the module '{self.module_name}'. Verify input "
+                "of (global_filters) to ensure it matches existing switch profiles in Catalyst Center. "
+                "If filters are correct, "
+                "check that switch profiles exist in Catalyst Center and match filter criteria."
             )
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
@@ -1875,25 +1860,17 @@ class NetworkProfileSwitchingPlaybookGenerator(NetworkProfileFunctions, BrownFie
             self.set_operation_result("success", True, self.msg, "INFO")
         else:
             self.log(
-                "YAML configuration file write FAILED for path: {0}. write_dict_to_yaml() returned "
-                "False indicating file creation or serialization error. Verify file path permissions, "
-                "directory existence, and disk space availability.".format(file_path),
-                "ERROR"
+                f"YAML configuration file is already up-to-date at: {file_path}. "
+                f"No write operation performed.",
+                "INFO"
             )
             self.msg = {
-                "YAML config generation Task failed for module '{0}'.".format(
-                    self.module_name
-                ): {"file_path": file_path}
+                f"YAML configuration file already up-to-date for module '{self.module_name}'.  "
+                f"No changes required.": {
+                    "file_path": file_path
+                }
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
-
-        self.log(
-            "Completed yaml_config_generator operation. Operation status: {0}, Changed: {1}, "
-            "File path: {2}. Returning control to calling function.".format(
-                self.status, self.result.get("changed"), file_path
-            ),
-            "INFO"
-        )
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
         return self
 
@@ -2399,7 +2376,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -2408,7 +2385,7 @@ def main():
             - catalystcenter_debug (bool, default=False): Debug mode
             - catalystcenter_log (bool, default=False): Enable file logging
             - catalystcenter_log_level (str, default="WARNING"): Log level
-            - catalystcenter_log_file_path (str, default="catalystcenter.log"): Log file path
+            - catalystcenter_log_file_path (str, default="dnac.log"): Log file path
             - catalystcenter_log_append (bool, default=True): Append to log file
 
         Playbook Configuration:
@@ -2461,12 +2438,12 @@ def main():
         "catalystcenter_host": {
             "required": True,
             "type": "str",
-            "aliases": ["dnac_host"],
+            "aliases": ["dnac_host"]
         },
         "catalystcenter_port": {
             "type": "str",
             "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "aliases": ["dnac_port", "catalystcenter_api_port"]
         },
         "catalystcenter_username": {
             "type": "str",
@@ -2476,12 +2453,12 @@ def main():
         "catalystcenter_password": {
             "type": "str",
             "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "aliases": ["dnac_password"]
         },
         "catalystcenter_verify": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_verify"],
+            "aliases": ["dnac_verify"]
         },
 
         # ============================================
@@ -2490,7 +2467,7 @@ def main():
         "catalystcenter_version": {
             "type": "str",
             "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "aliases": ["dnac_version"]
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -2511,27 +2488,27 @@ def main():
         "catalystcenter_debug": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_debug"],
+            "aliases": ["dnac_debug"]
         },
         "catalystcenter_log_level": {
             "type": "str",
             "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "aliases": ["dnac_log_level"]
         },
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "aliases": ["dnac_log_file_path"]
         },
         "catalystcenter_log_append": {
             "type": "bool",
             "default": True,
-            "aliases": ["dnac_log_append"],
+            "aliases": ["dnac_log_append"]
         },
         "catalystcenter_log": {
             "type": "bool",
             "default": False,
-            "aliases": ["dnac_log"],
+            "aliases": ["dnac_log"]
         },
 
         # ============================================

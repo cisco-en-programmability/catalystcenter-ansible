@@ -3,7 +3,6 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on SDA fabric devices in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -1649,7 +1648,7 @@ class FabricDevices(CatalystCenterBase):
             "DEBUG",
         )
         try:
-            site_exists, site_id = self.get_site_id(fabric_name)
+            (site_exists, site_id) = self.get_site_id(fabric_name)
             self.log(
                 "The site with the name '{site_name} exists in Cisco Catalyst Center is '{site_exists}'".format(
                     site_name=fabric_name, site_exists=site_exists
@@ -2708,7 +2707,7 @@ class FabricDevices(CatalystCenterBase):
             ),
             "INFO",
         )
-        site_exists, site_id = self.get_site_id(fabric_name)
+        (site_exists, site_id) = self.get_site_id(fabric_name)
         self.log(
             "Retrieved site ID: {site_id}. Site exists: {site_exists}.".format(
                 site_id=site_id, site_exists=site_exists
@@ -4140,7 +4139,7 @@ class FabricDevices(CatalystCenterBase):
                 internal_vlan_id, external_vlan_id, device_ip
             )
             if error:
-                self.msg, self.status = error
+                (self.msg, self.status) = error
                 self.log(
                     "Validation error for device IP {ip}: {msg}".format(
                         ip=device_ip, msg=self.msg
@@ -4791,6 +4790,13 @@ class FabricDevices(CatalystCenterBase):
             current_site = self.get_site(site_name).get("response", [])
 
             child_sites_response = self.get_site(site_name + "/.*")
+            if not child_sites_response:
+                self.log(
+                    f"No child sites found for site '{site_name}'.",
+                    "DEBUG",
+                )
+                continue
+
             child_sites = child_sites_response.get("response", [])
             self.log(
                 f"Found {len(child_sites)} child site(s) for site '{site_name}'.",
@@ -5658,7 +5664,7 @@ class FabricDevices(CatalystCenterBase):
         Returns:
             self (object): The current object with added L2 Handoff information.
         Description:
-            Seperate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
+            Separate the L2 Handoffs which need to be created and the rest. Since L2 Handoff can
             only be created not updated. Call the API 'add_fabric_devices_layer2_handoffs' to
             create the L2 Handoff in the provided device.
         """
@@ -7143,7 +7149,7 @@ class FabricDevices(CatalystCenterBase):
         Returns:
             self (object): The current object with deleted L2 Handoffs information.
         Description:
-            Seperate which L2 Handoff exist and which are not. If there are L2 Handoff,
+            Separate which L2 Handoff exist and which are not. If there are L2 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer2_handoff_by_id'.
         """
 
@@ -7344,7 +7350,7 @@ class FabricDevices(CatalystCenterBase):
         Returns:
             self (object): The current object with deleted IP L3 Handoffs information.
         Description:
-            Seperate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
+            Separate which IP L3 Handoff exist and which are not. If there are IP L3 Handoff,
             which needs to be deleted. Call the API 'delete_fabric_device_layer3_handoff_with_ip_transit_by_id'.
         """
 
@@ -8235,22 +8241,14 @@ def main():
     element_spec = {
         "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
         "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
         "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
         "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
         "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
         "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
         "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
         "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
