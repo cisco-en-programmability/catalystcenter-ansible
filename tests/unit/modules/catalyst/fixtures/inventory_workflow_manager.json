@@ -14256,6 +14256,22 @@
     ],
     "version": "1.0"
   },
+  "retrieve_network_devices_udf": {
+    "response": [
+      {
+        "id": "e6d3dd02-0a02-433a-aa2d-a84c138ae02a",
+        "managementAddress": "204.1.2.3",
+        "hostname": "SJ-BN-9300.cisco.local",
+        "macAddress": "90:88:55:88:83:80",
+        "serialNumbers": ["FJC272121AG"],
+        "type": "Cisco Catalyst 9300 Switch",
+        "family": "Switches and Hubs",
+        "status": "MANAGED",
+        "userDefinedFields": {}
+      }
+    ],
+    "version": "1.0"
+  },
   "add_user_defined_field_to_device1": {
     "response": {
       "taskId": "01921919-5ee1-74a0-96bc-a5a949735829",

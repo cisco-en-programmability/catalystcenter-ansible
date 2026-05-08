@@ -19,36 +19,42 @@ options:
           - The Cisco Catalyst Center hostname.
         type: str
         required: true
+        aliases: [ dnac_host ]
     catalystcenter_port:
         description:
           - The Cisco Catalyst Center port.
         type: str
         default: '443'
+        aliases: [ dnac_port, catalystcenter_api_port ]
     catalystcenter_username:
         description:
           - The Cisco Catalyst Center username to authenticate.
         type: str
         default: admin
-        aliases: [ user ]
+        aliases: [ dnac_username, user ]
     catalystcenter_password:
         description:
           - The Cisco Catalyst Center password to authenticate.
         type: str
+        aliases: [ dnac_password ]
     catalystcenter_verify:
         description:
           - Flag to enable or disable SSL certificate verification.
         type: bool
         default: true
+        aliases: [ dnac_verify ]
     catalystcenter_version:
         description:
           - Informs the SDK which version of Cisco Catalyst Center to use.
         type: str
         default: 2.3.7.6
+        aliases: [ dnac_version ]
     catalystcenter_debug:
         description:
           - Flag for Cisco Catalyst Center SDK to enable debugging.
         type: bool
         default: false
+        aliases: [ dnac_debug ]
     catalystcenter_log:
         description:
           - Flag to enable/disable playbook execution logging.
@@ -64,6 +70,7 @@ options:
             - It is overwritten or appended based on the "catalystcenter_log_append" flag.
         type: bool
         default: false
+        aliases: [ dnac_log ]
     catalystcenter_log_level:
         description:
           - Sets the threshold for log level. Messages with a level equal to or higher than
@@ -75,6 +82,7 @@ options:
           - DEBUG provides detailed diagnostic info. Displays all log messages.
         type: str
         default: WARNING
+        aliases: [ dnac_log_level ]
     catalystcenter_log_file_path:
         description:
         - Governs logging. Logs are recorded if catalystcenter_log is True.
@@ -92,10 +100,12 @@ options:
             (to overwrite); for subsequent modules, set append to True.
         type: str
         default: catalystcenter.log
+        aliases: [ dnac_log_file_path ]
     catalystcenter_log_append:
         description: Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
         type: bool
         default: True
+        aliases: [ dnac_log_append ]
     catalystcenter_api_task_timeout:
       description:  Defines the timeout in seconds for API calls to retrieve task details. If the task details
           are not received within this period, the process will end, and a timeout notification will be logged.

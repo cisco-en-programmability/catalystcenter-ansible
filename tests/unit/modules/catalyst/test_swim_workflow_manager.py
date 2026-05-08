@@ -18,10 +18,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     swim_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestswimWorkflowManager(TestDnacModule):
+class TestswimWorkflowManager(TestCatalystModule):
 
     module = swim_workflow_manager
     test_data = loadPlaybookData("swim_workflow_manager")

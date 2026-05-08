@@ -1,0 +1,103 @@
+---
+- name: This playbook manages enabling and disabling SDA fabric multicast on Cisco Catalyst Center.
+  hosts: catalyst_center_hosts
+  connection: local
+  gather_facts: no
+
+
+  vars:
+    state: deleted
+    catalyst_center_login: &catalyst_center_login
+      catalystcenter_host: "{{ catalyst_center_host | default(catalystcenter_host) }}"
+      catalystcenter_username: "{{ catalyst_center_username | default(catalystcenter_username) }}"
+      catalystcenter_password: "{{ catalyst_center_password | default(catalystcenter_password) }}"
+      catalystcenter_version: "{{ catalyst_center_version  | default(catalystcenter_version) }}"
+      catalystcenter_port: "{{ catalyst_center_port | default(443) }}"
+      catalystcenter_verify: "{{ catalyst_center_verify | default(catalystcenter_verify) }}"
+      config_verify: "{{ catalyst_center_config_verify | default(False) }}"
+      catalystcenter_debug: "{{ catalyst_center_debug | default(False) }}"
+      catalystcenter_log: "{{ catalyst_center_log | default(False) }}"
+      catalystcenter_log_level: "{{ catalyst_center_log_level | default('INFO') }}"
+      catalystcenter_log_file_path: "{{ catalyst_center_log_file_path |  default(omit) }}"
+      catalystcenter_log_append: "{{ catalyst_center_log_append |  default(False) }}"
+      catalystcenter_api_task_timeout: "{{ catalyst_center_api_task_timeout |  default(1200) }}"
+
+  tasks:
+    # =========================================================================
+    # Input loading: vars file (VARS_FILE_PATH) or inventory variables
+    # =========================================================================
+    - name: Load input variables from vars file when VARS_FILE_PATH is provided
+      ansible.builtin.include_vars:
+        file: "{{ VARS_FILE_PATH }}"
+      when:
+        - VARS_FILE_PATH is defined
+        - VARS_FILE_PATH | length > 0
+
+    - name: Print input source
+      ansible.builtin.debug:
+        msg: >-
+          {{
+            'Input source: vars file ' ~ VARS_FILE_PATH
+            if (VARS_FILE_PATH is defined and VARS_FILE_PATH | length > 0)
+            else 'Input source: inventory / host variables (VARS_FILE_PATH not provided)'
+          }}
+
+    - name: Validate that fabric_multicast_details is defined
+      ansible.builtin.fail:
+        msg: >-
+          Variable 'fabric_multicast_details' is not defined.
+          Provide it via VARS_FILE_PATH or as an inventory/host variable.
+      when: fabric_multicast_details is not defined
+
+    - name: SDA Fabric Multicast Playbook start time
+      set_fact:
+        long_op_start: "{{ now() }}"
+
+    # Create a Jinja-based template file if enabled
+    - name: Create Template
+      template: 
+        src: "{{ jinjatemplate_file }}"
+        dest: ../tmp/template_generated_file.yaml
+      when: jinjatemplate is defined and jinjatemplate | bool and jinjatemplate_file is defined
+
+    # Include variables from the generated template file
+    - name: Include the variables file ../tmp/template_generated_file.yaml
+      include_vars:
+        file: ../tmp/template_generated_file.yaml
+      when: jinjatemplate is defined and jinjatemplate | bool and jinjatemplate_file is defined
+
+    # Manage SDA fabric devices
+    - name: Create or Update SDA fabric multicast 
+      cisco.catalystcenter.sda_fabric_multicast_workflow_manager:
+        <<: *catalyst_center_login
+        state: "{{ state }}"
+        config: "{{ fabric_multicast_details }}"
+      register: fabric_multicast_output
+      when: fabric_multicast_details is defined and fabric_multicast_details | length > 0
+
+    # Print SDA Fabric Multicast Output
+    - name: Print SDA Fabric Multicast Output
+      debug:
+        msg: "{{ fabric_multicast_output }}"
+      when: fabric_multicast_output is defined
+
+    #Delete the template file after use
+    - name: Delete the template file
+      ansible.builtin.command: rm ../tmp/template_generated_file.yaml
+      when: jinjatemplate is defined and jinjatemplate | bool and jinjatemplate_file is defined
+
+    # Record the playbook end time
+    - name: SDA Fabric Multicast Playbook end time
+      set_fact:
+        long_op_end: "{{ now() }}"
+
+    # Display Playbook Execution Time
+    - name: Display Playbook Execution Time
+      debug:
+        msg: "SDA Fabric Multicast Role playbook runtime: Start {{ long_op_start }}, End {{ long_op_end }}"
+  post_tasks:
+    - name: Verify Python version on Catalyst Center host
+      ansible.builtin.command: which python
+      register: ansible_play_path
+      delegate_to: catalyst_center_hosts
+      connection: local

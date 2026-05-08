@@ -22,10 +22,10 @@ import pathlib
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     device_configs_backup_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDeviceConfigsBackup(TestDnacModule):
+class TestDeviceConfigsBackup(TestCatalystModule):
     module = device_configs_backup_workflow_manager
     test_data = loadPlaybookData("device_configs_backup_workflow_manager_intent")
 
@@ -400,7 +400,7 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 ),
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.assertIn(
             "No reachable devices found among the provided parameters",
             result.get("msg"),

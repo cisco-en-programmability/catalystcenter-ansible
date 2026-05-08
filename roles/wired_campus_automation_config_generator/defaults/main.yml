@@ -1,0 +1,15 @@
+---
+# defaults file for wired_campus_automation_config_generator
+catalystcenter_host: ""
+catalystcenter_username: ""
+catalystcenter_password: ""
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
+catalystcenter_debug: false
+catalystcenter_log_level: "INFO"
+catalystcenter_log: false
+
+wired_campus_automation_config_generator_config_verify: false
+wired_campus_automation_config_generator_state: "gathered"
+wired_campus_automation_config_generator_config: null

@@ -1,0 +1,15 @@
+---
+# defaults file for assurance_icap_settings
+catalystcenter_host: ""
+catalystcenter_username: ""
+catalystcenter_password: ""
+catalystcenter_verify: false
+catalystcenter_port: 443
+catalystcenter_version: "2.3.7.9"
+catalystcenter_debug: false
+catalystcenter_log_level: "INFO"
+catalystcenter_log: false
+
+assurance_icap_settings_state: merged
+assurance_icap_settings_config_verify: true
+assurance_icap_settings_config: []

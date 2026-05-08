@@ -5,7 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Abhishek Maheshwari, Madhan Sankaranarayanan"
+__author__ = "Abhishek Maheshwari, Priyadharshini B, Madhan Sankaranarayanan"
 DOCUMENTATION = r"""
 ---
 module: events_and_notifications_workflow_manager
@@ -32,7 +32,7 @@ description:
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan
+author: Abhishek Maheshwari (@abmahesh) Priyadharshini B(@pbalaku2) Madhan Sankaranarayanan
   (@madhansansel)
 options:
   config_verify:
@@ -996,7 +996,7 @@ EXAMPLES = r"""
             subscription"
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash", "Device
-              Updation"]
+              Update"]
           destination: "Webhook Demo"
 - name: Updating Webhook Notification with the list
     of names of subscribed events in the system.
@@ -1059,12 +1059,12 @@ EXAMPLES = r"""
       - email_event_notification:
           name: "Email Notification"
           description: "Notification description for
-            email subscription updation"
+            email subscription update"
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash"]
           sender_email: "catalyst@cisco.com"
           recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
-          subject: "Mail test for updation"
+          subject: "Mail test for update"
           instance: Email Instance test
 - name: Creating Syslog Notification with the list of
     names of subscribed events in the system.
@@ -1173,7 +1173,7 @@ EXAMPLES = r"""
           name: "Syslog Notification"
 """
 RETURN = r"""
-dnac_response:
+catalystcenter_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
@@ -1192,6 +1192,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
     CatalystCenterBase,
     validate_list_of_dicts,
 )
+import ipaddress
 import re
 import time
 
@@ -1877,6 +1878,57 @@ class Events(CatalystCenterBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
+    def validate_ip_literal_or_fail(self, server_address, destination_name):
+        """
+        Validate whether the given server address is a valid IPv4 or IPv6
+        literal.  If the address looks like an IP literal (rather than an
+        FQDN) but is malformed, the method sets the module status to
+        *failed* and calls ``check_return_status`` so execution stops
+        immediately.
+
+        If ``server_address`` is ``None``/empty or is not an IP literal
+        (e.g. it is an FQDN), the method returns without taking any
+        action.
+
+        Args:
+            server_address (str): The server address string to validate.
+            destination_name (str): A human-readable destination label
+                (e.g. ``"SNMP"`` or ``"Syslog"``) used in error messages.
+
+        Returns:
+            None
+        """
+        if not server_address:
+            return
+
+        is_ipv4_literal = bool(re.match(r'^\d+\.\d+\.\d+\.\d+$', server_address))
+        is_ipv6_literal = (
+            ":" in server_address
+            and bool(re.match(r'^[0-9A-Fa-f:.]+$', server_address))
+        )
+
+        if not (is_ipv4_literal or is_ipv6_literal):
+            return
+
+        try:
+            ipaddress.ip_address(server_address)
+        except ValueError:
+            if is_ipv6_literal:
+                self.msg = (
+                    "Invalid IPv6 address '{0}' given in the playbook for configuring "
+                    "{1} destination. Please provide a valid IPv6 address "
+                    "(e.g., 2001:db8::1)."
+                ).format(server_address, destination_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if is_ipv4_literal:
+                self.msg = (
+                    "Invalid IPv4 address '{0}' given in the playbook for configuring "
+                    "{1} destination. Please provide a valid IPv4 address "
+                    "(e.g., 10.0.0.1). Each octet must be between 0 and 255."
+                ).format(server_address, destination_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
     def collect_snmp_playbook_params(self, snmp_details):
         """
         Collect the SNMP playbook parameters based on the provided SNMP details.
@@ -1910,14 +1962,18 @@ class Events(CatalystCenterBase):
             self.result["response"] = self.msg
             self.check_return_status()
 
-        if server_address and not self.is_valid_server_address(server_address):
-            self.status = "failed"
-            self.msg = "Invalid server address '{0}' given in the playbook for configuring SNMP destination".format(
-                server_address
-            )
-            self.log(self.msg, "ERROR")
-            self.result["response"] = self.msg
-            self.check_return_status()
+        if server_address:
+            if not self.is_valid_server_address(server_address):
+                self.msg = (
+                    "Invalid server address '{0}' given in the playbook for configuring "
+                    "SNMP destination. Please provide a valid FQDN, IPv4, or IPv6 address."
+                ).format(server_address)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            try:
+                self.validate_ip_literal_or_fail(server_address, "SNMP")
+            except Exception:
+                return self
 
         if snmp_version == "V2C":
             playbook_params["community"] = snmp_details.get("community")
@@ -2352,11 +2408,32 @@ class Events(CatalystCenterBase):
 
         if webhook_details.get("headers") == []:
             playbook_params["headers"] = []
+            self.log(
+                "Webhook headers explicitly set to empty list in playbook - "
+                "existing headers will be removed during update.",
+                "DEBUG",
+            )
         elif webhook_details.get("headers"):
             custom_header = webhook_details["headers"]
             playbook_params["headers"] = []
             for header in custom_header:
                 playbook_params["headers"].append(header)
+            self.log(
+                "Webhook headers collected from playbook: {0}".format(
+                    playbook_params["headers"]
+                ),
+                "DEBUG",
+            )
+        else:
+            # Headers not specified in playbook — set to empty list so that
+            # any existing headers on the destination are detected as a change
+            # and removed during update.
+            playbook_params["headers"] = []
+            self.log(
+                "No webhook headers specified in playbook - defaulting to empty list. "
+                "Any existing headers on the destination will be removed during update.",
+                "DEBUG",
+            )
 
         return playbook_params
 
@@ -2452,6 +2529,15 @@ class Events(CatalystCenterBase):
             If they are not identical, it sets the update_needed flag to True.
         """
 
+        # Normalize null/empty header payloads so comparisons handle API responses
+        # where headers may be returned as None instead of [].
+        playbook_header = playbook_header or []
+        ccc_header = ccc_header or []
+        self.log(
+            "Comparing playbook headers: {0} with CCC headers: {1} to determine if update is needed.".format(
+                playbook_header, ccc_header), "DEBUG"
+        )
+
         if len(playbook_header) == 0 and ccc_header:
             return True
 
@@ -2485,7 +2571,7 @@ class Events(CatalystCenterBase):
         for key, value in webhook_params.items():
             if isinstance(value, list):
                 update_needed = self.webhook_header_needs_update(
-                    value, webhook_dest_detail_in_ccc[key]
+                    value, webhook_dest_detail_in_ccc.get(key)
                 )
                 if update_needed:
                     break
@@ -6031,14 +6117,19 @@ class Events(CatalystCenterBase):
                 self.result["response"] = self.msg
                 return self
 
-            if server_address and not self.is_valid_server_address(server_address):
-                self.status = "failed"
-                self.msg = "Invalid server address '{0}' given in the playbook for configuring Syslog destination".format(
-                    server_address
-                )
-                self.log(self.msg, "ERROR")
-                self.result["response"] = self.msg
-                return self
+            if server_address:
+                if not self.is_valid_server_address(server_address):
+                    self.msg = (
+                        "Invalid server address '{0}' given in the playbook for configuring "
+                        "Syslog destination. Please provide a valid FQDN, IPv4, or IPv6 address."
+                    ).format(server_address)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                try:
+                    self.validate_ip_literal_or_fail(server_address, "Syslog")
+                except Exception:
+                    return self
 
             syslog_details_in_ccc = self.have.get("syslog_destinations")
 
@@ -6666,14 +6757,14 @@ class Events(CatalystCenterBase):
             if destinations_in_ccc:
                 self.status = "success"
                 msg = """Requested Syslog Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     syslog_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that the Syslog destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         syslog_name
                     ),
                     "INFO",
@@ -6686,14 +6777,14 @@ class Events(CatalystCenterBase):
             if self.have.get("snmp_destinations"):
                 self.status = "success"
                 msg = """Requested SNMP Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     snmp_dest_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that the SNMP destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         snmp_dest_name
                     ),
                     "INFO",
@@ -6706,14 +6797,14 @@ class Events(CatalystCenterBase):
             if self.have.get("webhook_destinations"):
                 self.status = "success"
                 msg = """Requested Rest Webhook Destination '{0}' have been successfully added/updated to the Cisco Catalyst Center and their
-                    addition/updation has been verified.""".format(
+                    addition/update has been verified.""".format(
                     webhook_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Rest Webhook destination with name
-                        '{0}' addition/updation task may not have executed successfully.""".format(
+                        '{0}' addition/update task may not have executed successfully.""".format(
                         webhook_name
                     ),
                     "INFO",
@@ -6741,14 +6832,14 @@ class Events(CatalystCenterBase):
             if itsm_detail_in_ccc:
                 self.status = "success"
                 msg = """Requested ITSM Integration setting '{0}' have been successfully added/updated to the Cisco Catalyst Center
-                    and their addition/updation has been verified.""".format(
+                    and their addition/update has been verified.""".format(
                     itsm_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
-                        name '{0}' addition/updation task may not have executed successfully.""".format(
+                        name '{0}' addition/update task may not have executed successfully.""".format(
                         itsm_name
                     ),
                     "INFO",
@@ -6761,14 +6852,14 @@ class Events(CatalystCenterBase):
             if self.have.get("webhook_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Webhook Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     web_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         web_notification_name
                     ),
                     "INFO",
@@ -6781,14 +6872,14 @@ class Events(CatalystCenterBase):
             if self.have.get("email_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Email Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     email_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Email Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         email_notification_name
                     ),
                     "INFO",
@@ -6801,14 +6892,14 @@ class Events(CatalystCenterBase):
             if self.have.get("syslog_subscription_notifications"):
                 self.status = "success"
                 msg = """Requested Syslog Events Subscription Notification '{0}' have been successfully created/updated to the Cisco Catalyst Center
-                    and their creation/updation has been verified.""".format(
+                    and their creation/update has been verified.""".format(
                     syslog_notification_name
                 )
                 self.log(msg, "INFO")
             else:
                 self.log(
                     """Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Event Subscription Notification with
-                        name '{0}' creation/updation task may not have executed successfully.""".format(
+                        name '{0}' creation/update task may not have executed successfully.""".format(
                         syslog_notification_name
                     ),
                     "INFO",
@@ -6921,24 +7012,18 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -6958,12 +7043,7 @@ def main():
         ccc_events.check_return_status()
 
     ccc_events.validate_input().check_return_status()
-    if (
-        ccc_events.compare_catalystcenter_versions(
-            ccc_events.get_ccc_version(), "2.3.5.3"
-        )
-        < 0
-    ):
+    if ccc_events.compare_catalystcenter_versions(ccc_events.get_ccc_version(), "2.3.5.3") < 0:
         ccc_events.msg = (
             "The specified version '{0}' does not support the events and notifications workflow. "
             "Supported versions start from '2.3.5.3' onwards.".format(

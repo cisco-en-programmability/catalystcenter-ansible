@@ -1,0 +1,163 @@
+---
+# ============================================================================
+# Cisco Catalyst Center Network Profile Wireless Config Generator
+# ============================================================================
+#
+# Usage:
+#   ansible-playbook -i inventory/demo_lab/hosts.yaml \
+#     workflows/network_profile_wireless_config_generator/playbook/network_profile_wireless_config_generator.yml \
+#     --extra-vars VARS_FILE_PATH=./workflows/network_profile_wireless_config_generator/vars/network_profile_wireless_config_generator_inputs.yml
+#
+# Notes:
+# - Omit `config` to retrieve all wireless profiles.
+# - When `config` is provided, `global_filters` is mandatory.
+# - Filter processing is priority-based (only one filter type is applied per item):
+#   profile_name_list > day_n_template_list > site_list > ssid_list >
+#   ap_zone_list > feature_template_list > additional_interface_list
+# ============================================================================
+
+network_profile_wireless_config:
+
+  # Filter by wireless profile names (Priority 1 - HIGHEST)
+  - file_path: "network_profile_wireless/profile_name_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        profile_name_list:
+          - "Campus_Wireless_Profile"
+          - "Enterprise_Wireless_Profile"
+
+  # Filter by Day-N templates (Priority 2)
+  - file_path: "network_profile_wireless/day_n_template_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        day_n_template_list:
+          - "Periodic_Config_Audit"
+          - "Security_Compliance_Check"
+
+  # Filter by site hierarchies (Priority 3)
+  - file_path: "network_profile_wireless/site_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        site_list:
+          - "Global/India/Chennai/Main_Office"
+          - "Global/USA/San_Francisco/Regional_HQ"
+
+  # Filter by SSIDs (Priority 4)
+  - file_path: "network_profile_wireless/ssid_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        ssid_list:
+          - "Guest_WiFi"
+          - "Corporate_WiFi"
+
+  # Filter by AP zones (Priority 5)
+  - file_path: "network_profile_wireless/ap_zone_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        ap_zone_list:
+          - "Branch_AP_Zone"
+          - "HQ_AP_Zone"
+
+  # Filter by feature templates (Priority 6)
+  - file_path: "network_profile_wireless/feature_template_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        feature_template_list:
+          - "Default AAA_Radius_Attributes_Configuration"
+          - "Default CleanAir 6GHz Design"
+
+  # Filter by additional interfaces (Priority 7 - LOWEST)
+  - file_path: "network_profile_wireless/additional_interface_list.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        additional_interface_list:
+          - "VLAN_22"
+          - "GigabitEthernet0/2"
+
+  # Filter priority behavior example:
+  # profile_name_list is applied, site_list is ignored for this item.
+  - file_path: "network_profile_wireless/priority_behavior.yml"
+    file_mode: "overwrite"
+    config:
+      global_filters:
+        profile_name_list:
+          - "Campus_Wireless_Profile"
+        site_list:
+          - "Global/USA/SAN JOSE/SJ_BLD20/FLOOR3"
+
+# ============================================================================
+# Additional Configuration Examples
+# ============================================================================
+
+# Example 1: Generate all wireless profiles (auto filename)
+# network_profile_wireless_config:
+#   - {}
+
+# Example 2: Generate all wireless profiles to a custom path
+# network_profile_wireless_config:
+#   - file_path: "/tmp/complete_wireless_profile_config.yml"
+#     file_mode: "overwrite"
+
+# Example 3: Profile name filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/profile_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         profile_name_list:
+#           - "Campus_Wireless_Profile"
+#           - "Enterprise_Wireless_Profile"
+
+# Example 4: Day-N template filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/day_n_template_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         day_n_template_list:
+#           - "Wireless_Controller_Config"
+
+# Example 5: Site filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/site_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         site_list:
+#           - "Global/USA/SAN JOSE/SJ_BLD20/FLOOR3"
+
+# Example 6: SSID filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/ssid_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         ssid_list:
+#           - "Guest_WiFi"
+
+# Example 7: AP zone filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/ap_zone_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         ap_zone_list:
+#           - "Branch_AP_Zone"
+
+# Example 8: Feature template filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/feature_template_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         feature_template_list:
+#           - "Default CleanAir 6GHz Design"
+
+# Example 9: Additional interface filter
+# network_profile_wireless_config:
+#   - file_path: "/tmp/interface_based_wireless_profiles.yml"
+#     config:
+#       global_filters:
+#         additional_interface_list:
+#           - "VLAN_22"

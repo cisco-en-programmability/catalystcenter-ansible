@@ -1,0 +1,17 @@
+---
+#Select Catalyst Cennter version, this one overwrite the default version from host file
+catalyst_center_version: 2.3.7.6
+# This file contains the variables for the inventory workflow
+inventory_details:
+  network_devices:
+  - ip_address_list: ["204.101.16.1", "204.101.16.2"]
+    device_resync: True
+    # Make this True if you want to force resync the device
+    force_sync: False
+    # Maximum number of devices to include per resync API call
+    resync_device_count: 200
+    # Maximum time (in seconds) to wait for the resync operation to finish
+    resync_max_timeout: 600
+    # Make this True if you want to reboot the device
+    # Reboot will work only for Access point(AP) devices
+    reboot_device: True

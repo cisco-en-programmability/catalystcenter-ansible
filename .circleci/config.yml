@@ -70,7 +70,7 @@ parameters:
   run-networkcompliance:
     type: boolean
     default: false
-  ansible_cisco_dnac_version:
+  ansible_cisco_catalystcenter_version:
     type: string
     default: "6.17.0"
 
@@ -123,10 +123,11 @@ jobs:
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
           command: |
-            # Install ansible, dnacentersdk
+            # Install ansible, catalystcentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
-            # Build collection and store resulting tarball in directory $HOME/.cache/v<< pipeline.parameters.ansible_cisco_dnac_version >>/collection-tarballs
+            # Build collection and store resulting tarball
+            # in $HOME/.cache/v<< pipeline.parameters.ansible_cisco_catalystcenter_version >>/collection-tarballs
             ansible-galaxy collection build --force --output-path workspace/
       - save_cache:
           key: collection-<< pipeline.git.revision >>
@@ -310,7 +311,7 @@ jobs:
       - run:
           name: Activate Virtual Environment, Install ansible and Build collection tarball
           command: |
-            # Install ansible, dnacentersdk
+            # Install ansible, catalystcentersdk
             pip install --upgrade pip
             pip install -r test-requirements.txt
             ansible --version
@@ -325,8 +326,8 @@ jobs:
           command: |
             mkdir -p group_vars
             cp roles-file/ccc_roles.yml ccc_roles.yml
-            echo ${GROUP_VARS} | base64 -d > group_vars/dnac_servers.yml
-            echo ${DNAC_HOSTS} | base64 -d > hosts
+            echo ${GROUP_VARS} | base64 -d > group_vars/catalystcenter_servers.yml
+            echo ${CATALYSTCENTER_HOSTS} | base64 -d > hosts
       - run:
           name: Run sanity tests
           command: |
@@ -423,7 +424,7 @@ workflows:
           requires:
             - addrole
           context:
-            - dnac-servers
+            - catalystcenter-servers
             # - logs-vm
 
             # - post_pnp_testing:

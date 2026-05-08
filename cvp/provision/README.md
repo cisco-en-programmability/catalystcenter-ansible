@@ -1,0 +1,721 @@
+# Provision Workflow Playbook
+This workflow playbook automates the process of assigning devices to sites, provisioning, reprovisioning, deleting, and enabling/disabling telemetry on devices in the Cisco Catalyst Center (Catalyst Center) inventory.
+It is supported from Catalyst Center Release version 2.3.7.6
+
+## Workflow Main Tasks
+- **Site Assignment**: Assign a device to a site_hierarchy without provisioning.
+- **Device Provision**: Assign a device to site and provision.
+- **Device Re-Provision**: Re-provision an already provisioned device.
+- **Device Un-Provision**: Remove a provisioned device from the inventory.
+- **Application Telemetry**: Configure application telemetry to gather detailed insights such as latency, jitter, packet loss and throughput for monitored applications. (Supported from Catalyst Center version 2.3.7.9)
+
+## Workflow Steps
+## User Flow (3 Steps)
+
+```mermaid
+flowchart TD
+  A[Start] --> B[Step 1: Create virtual env and install dependencies]
+  B --> C[Step 2: Provide workflow inputs]
+  C --> D{Choose input location}
+  D -->|Option A| E[Update inventory hosts.yaml]
+  D -->|Option B| F[Update vars input file]
+  E --> G[Step 3: Export env vars]
+  F --> G
+  G --> H[Run ansible-playbook]
+  H --> I[Review playbook summary output]
+  I --> J[Done]
+```
+
+### Installation and Run (Aligned)
+
+1. Create and activate a Python virtual environment, then install dependencies.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+ansible-galaxy collection install cisco.catalystcenter --force
+```
+
+2. Provide workflow inputs in either inventory (`inventory/demo_lab/hosts.yaml`) or the workflow `vars/` file.
+
+3. Export Catalyst Center environment variables and run the playbook.
+
+```bash
+export HOSTIP=<catalyst-center-ip-or-fqdn>
+export CATALYST_CENTER_USERNAME=<username>
+export CATALYST_CENTER_PASSWORD='<password>'
+ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/provision/playbook/provision_workflow_playbook.yml -vvvv
+```
+
+### This workflow typically involves the following steps:
+
+### Step 1: Install and Configure Host Inventory
+
+1.  **Install Ansible:** Follow the official Ansible documentation for installation instructions.
+2.  **Install Cisco Catalyst Center Collection:**
+    ```bash
+    ansible-galaxy collection install cisco.catalystcenter
+    ```
+3.  **Generate Inventory:** Create an Ansible inventory file (e.g., `inventory.yml`) that includes your Cisco Catalyst Center appliance details. You will need to define variables such as the host, username, and password (or other authentication methods).
+    ```yaml
+    catalyst_center_hosts:
+        hosts:
+            your_catalyst_center_instance_name:
+                catalyst_center_host: xx.xx.xx.xx
+                catalyst_center_password: XXXXXXXX
+                catalyst_center_port: 443
+                catalyst_center_timeout: 60
+                catalyst_center_username: admin
+                catalyst_center_verify: false # Set to true for production with valid certificates
+                catalyst_center_version: 2.3.7.9 # Specify your Catalyst Center version
+                catalyst_center_debug: true
+                catalyst_center_log_level: INFO
+                catalyst_center_log: true
+    ```
+
+### Step 2: Define Inputs and Schema Overview
+
+This step involves preparing the input data for creating and managing provision workflow manager and validating your setup.
+
+1.  **Define Input Variables:** Create variable files (e.g., `vars/provision_workflow_inputs.yml`) that define the desired state of your provision workflow, including details for provision, unprovision, reprovision, site assignment, and application telemetry.
+
+#### **Schema for Provision Workflow Manager**
+The schema file (e.g., `schema/provision_workflow_schema.yml`) defines the structure and validation rules for the input variables. It includes details such as required fields, data types, and constraints.
+
+**provision_details_type**
+
+| **Parameter**                  | **Type**   | **Required** | **Description**                                         |
+|-------------------------------|------------|--------------|---------------------------------------------------------|
+| site_name_hierarchy           | string     | No           | Site hierarchy (site path)                              |
+| management_ip_address         | string     | Yes          | Management IP address of the device                     |
+| provisioning                  | bool       | No           | True for provisioning, False for site assignment only   |
+| managed_ap_locations          | list       | No           | List of AP site locations (wireless devices)            |
+| dynamic_interfaces            | list       | No           | List of dynamic interface configurations                |
+| force_provisioning            | bool       | No           | Force reprovisioning (wired devices only)               |
+| primary_managed_ap_locations  | list       | No           | Primary AP site locations (wireless devices)            |
+| rolling_ap_upgrade            | dict       | No           | Rolling AP upgrade configuration                        |
+| secondary_managed_ap_locations| list       | No           | Secondary AP site locations (wireless devices)          |
+| skip_ap_provision             | bool       | No           | Skip AP provisioning                                    |
+| ap_authorization_list_name    | bool       | No           | AP authorization list name for WLC provisioning.        |
+| authorize_mesh_and_non_mesh_aps | bool     | No           | Authorize both mesh and non-mesh APs during WLC provisioning.|
+
+**rolling_ap_upgrade_type**
+
+| **Parameter**               | **Type**   | **Required** | **Description**                                      |
+|----------------------------|------------|--------------|------------------------------------------------------|
+| ap_reboot_percentage       | int        | No           | Percentage of APs to reboot at once during upgrade   |
+| enable_rolling_ap_upgrade  | bool       | No           | Enable rolling AP upgrade                            |
+
+**dynamic_interfaces_type**
+
+| **Parameter**                  | **Type**   | **Required** | **Description**                                   |
+|-------------------------------|------------|--------------|---------------------------------------------------|
+| interface_gateway             | string     | No           | Gateway IP address for the interface              |
+| interface_ip_address          | string     | No           | IP address assigned to the interface              |
+| interface_name                | string     | No           | Name of the interface                             |
+| interface_netmask_in_c_i_d_r  | int        | No           | Netmask in CIDR format (e.g., 24)                 |
+| lag_or_port_number            | int        | No           | Port number or LAG identifier                     |
+| vlan_id                       | int        | No           | VLAN ID associated with the
+ 
+**application_telemetry_type**
+
+| **Parameter**         | **Type**   | **Required** | **Description**                                   |
+|----------------------|------------|--------------|---------------------------------------------------|
+| device_ips           | list       | Yes          | List of device IPs                                |
+| telemetry            | string     | Yes          | Telemetry type                                    |
+| wlan_mode            | string     | No           | WLAN mode                                         |
+| include_guest_ssid   | bool       | No           | Include guest SSID in
+
+Can refer to the full workflow specification details here: [Ansible Galaxy - Provision Workflow Manager](https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/provision_workflow_manager/).
+
+
+## Workflow overview with example
+
+## a. **Site Assignment**:
+### Assign a device to a site without provision. set provisioning: False
+
+**prerequisite**: Ensure the device is present in the inventory and that device is neither assigned nor provisioned.
+
+### Example: Wired device
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 2.3.7.6
+provision_details:
+# Wired device controller site assignment
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: XX.XX.XX.XX
+    provisioning: False 
+```
+
+#### Upon successful completion, the device is assigned to a site and you will see an output similar to the following:
+
+![alt text](images/site_assignment_successful.png)
+
+```bash
+"response": [
+        "Wired Device 'XX.XX.XX.XX' is assigned to site Global/USA/SAN JOSE/SJ_BLD21."
+    ],
+"status": "success"
+```
+
+### Notes: 
+- Site Assignment for **wireless device** via playbook is not supported yet (Work in progress).
+- Site Assignment for **bulk wired devices** is supported. Please refer to the "Assign devices to sites without provisioning" section in the provision_workflow_inputs.yml.
+
+## b. Provisioning:
+### Assigns device to a site and configures them.
+
+### Example: Wired device
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 2.3.7.6
+provision_details:
+# Wired device controller provisioning
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: XX.XX.XX.XX
+```
+
+#### Upon successful completion the device is assigned and provisioned and you will see an output similar to the following:
+
+![alt text](images/Device_provisioned.png)
+
+```yml
+"msg": "Provisioning of the device 'xx.xx.xx.xx' completed successfully.",
+"response": "Provisioning of the device 'xx.xx.xx.xx' completed successfully."
+```
+
+### Assigns wireless device to a site and configures them.
+
+### Example: Wireless device
+#### Input (YAML)
+```yml
+---
+provision_details:
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: xx.xx.xx.xx
+    managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR2
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR3
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR4
+```
+
+#### Upon successful completion the device is assigned and provisioned and you will see an output similar to the following:
+
+![alt text](images/wlc_device_provisioned.png)
+
+```yml
+"msg": "Provisioning of the device 'xx.xx.xx.xx' completed successfully.",
+"response": "Provisioning of the device 'xx.xx.xx.xx' completed successfully."
+```
+
+### Notes: 
+- Ensure that the WLC device provision configuration details are added in **provision_workflow_inputs.yml** before running the playbook.
+- Bulk device provision operation can be performed on wired and wireless devices.
+
+## c. Device Re-Provision: 
+#### Re-Provision an already provisioned device by setting re_provisioning: True
+
+### Example: Wired device
+#### Input (YAML) 
+```yml
+---
+#Select Catalyst Center version, this one overwrite the default version from host file
+catalyst_center_version: 2.3.7.6
+provision_details:
+  #Reprovision wired device Hubs and Switches
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: XX.XX.XX.XX
+    force_provisioning: True
+```
+
+#### Upon a successful completion, the device is reprovisioned and you will see an output similar to the following:
+
+![alt text](images/Re_provision_successful.png)
+
+```yml
+"msg": "Re-Provision for device 'xx.xx.xx.xx' done successfully",
+"response": "Wired Device 'xx.xx.xx.xx' re-provisioning completed successfully."
+```
+
+### Reprovisioning for wireless device
+
+### Example: Wireless device
+#### Input (YAML)
+```yml
+---
+#Select Catalyst Center version, this one overwrite the default version from host file
+catalyst_center_version: 2.3.7.6
+#Reprovision wireless device
+provision_details:
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD21
+    management_ip_address: XX.XX.XX.XX
+    managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR1
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR2
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR3
+      - Global/USA/SAN JOSE/SJ_BLD21/FLOOR4
+    force_provisioning: True
+```
+
+#### Upon a successful completion, the device is reprovisioned and you will see an output similar to the following:
+
+![alt text](images/wlc_reprovision_successful.png)
+
+```yml
+"msg": "Wireless Device 'xx.xx.xx.xx' is already provisioned.",
+"response": "Wireless Device 'xx.xx.xx.xx' is already provisioned.",
+```
+
+### Notes: 
+- Ensure that the WLC device re-provision configuration details are added in **provision_workflow_inputs.yml** before running the playbook.
+- Bulk device re-provisioning can be performed on both wired and wireless devices.
+
+## d. Device Un-Provision:
+#### Un-Provision a previously provisioned device, removing it from the inventory.
+
+### Example: Wired device
+#### Input (YAML)
+```bash
+provision_details:
+  - management_ip_address: xx.xx.xx.xx
+```
+
+#### Upon a successful completion, the device will be removed from the inventory and you will see an output similar to the following:
+
+![alt text](images/Device_unprovisioned.png)
+
+```yml
+"msg": "Deletion done Successfully for the device 'xx.xx.xx.xx' ",
+"response": "Deletion done Successfully for the device 'xx.xx.xx.xx' "
+```
+
+### Notes: 
+- Un-provision for wireless device is not supported yet (Work In Progress).
+
+## e. **Application Telemetry**:
+#### Configure application telemetry on devices (enable/disable telemetry). The `telemetry` parameter accepts only `enable` or `disable` values.
+
+### Example: Enable telemetry - Wired device
+
+In this example, we are enabling application telemetry for a wired device. This helps in monitoring detailed telemetry data such as latency, jitter, packet loss etc.
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 2.3.7.9
+provision_details:
+  - application_telemetry:
+    # Define the devices for application telemetry
+    # Application telemetry for wired devices
+    - device_ips: 
+        - "XX.XX.XX.XX"
+      telemetry: enable
+```
+
+#### Upon a successful completion, application telemetry will be enabled and you will see an output similar to the following:
+
+![alt text](images/telemetry_enabled.png)
+
+```yml
+{
+  "msg": "Application telemetry enabling successfully for all devices.",
+  "response": "Application telemetry enabling successfully for all devices.",
+  "status": "success"
+}
+```
+
+#### **Notes**:
+To verify if telemetry is enabled on the **wired device**, you can use the following CLI commands:
+
+```bash
+show run | include ip flow monitor
+sh run | i telemetry
+show running-config | section telemetry
+show run | sec interface
+show telemetry connection all
+```
+
+### Example: Enable telemetry - Wireless device
+
+In this example, we are enabling application telemetry for a wireless device including guest ssid and wlan_mode(Local/NON_LOCAL). This helps in monitoring detailed telemetry data such as latency, jitter, packet loss etc.
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 2.3.7.9
+provision_details:
+# Application telemetry for wireless devices
+  - application_telemetry:
+      - device_ips: 
+          - "XX.XX.XX.XX"  
+        telemetry: enable
+        wlan_mode: "LOCAL"
+        include_guest_ssid: true
+```
+
+#### Upon a successful completion, application telemetry will be enabled and you will see an output similar to the following:
+
+![alt text](images/telemetry_enable_successfully_wlc.png)
+
+```yml
+{
+  "msg": "Application telemetry enabling successfully for all devices.",
+  "response": "Application telemetry enabling successfully for all devices.",
+  "status": "success"
+}
+``` 
+
+#### **Notes**: 
+To verify if telemetry is enabled on the **wireless device**, you can use the following CLI commands
+
+```bash
+show telemetry connection all
+show running-config | include profile
+show running-config | section wireless
+show flow monitor
+show flow exporter
+show wireless profile policy summary
+show run | section wireless profile policy default-policy-profile
+```
+
+### Example: Disable telemetry - Wired device
+
+In this example, we are disabling application telemetry for a wired device. This helps in stopping the collection of telemetry data.
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 2.3.7.9
+provision_details:
+  - application_telemetry:
+    # Define the devices for application telemetry
+    # Application telemetry for wired devices
+    - device_ips: 
+        - "XX.XX.XX.XX"
+      telemetry: disable
+```
+
+#### Upon a successful completion, app telemetry will be disabled and you will see an output similar to the following:
+
+![alt text](images/telemetry_disabled_successfully_wired.png)
+
+```yml
+{
+"msg": "Application telemetry disabling successfully for all devices.",
+"response": "Application telemetry disabling successfully for all devices.",
+"status": "success"
+}
+```        
+
+### Example: Disable telemetry - Wireless device
+
+In this example, we are disabling application telemetry for a wireless device. This helps in stopping the collection of telemetry data.
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 2.3.7.9
+provision_details:
+# Application telemetry for wireless devices
+  - application_telemetry:
+      - device_ips: 
+          - "XX.XX.XX.XX"  
+        telemetry: disable
+        wlan_mode: "LOCAL"
+        include_guest_ssid: true
+```
+
+#### Upon a successful completion, app telemetry will be disabled and you will see an output similar to the following:
+
+![alt text](images/disable_telem_wlc_successfully.png)
+
+```yml
+{
+"msg": "Application telemetry disabling successfully for all devices.",
+"response": "Application telemetry disabling successfully for all devices.",
+"status": "success"
+}
+```
+
+## f. **Provisioning with Feature Template**:
+*Supported from Cisco Catalyst Center release version 3.1.3.0 onwards for wireless controller provisioning*
+
+### Example: Provision with Feature Template (only Wireless)
+
+To provision a device (Wireless Controller) with a feature template, we first need to create Network Profiles with the Wireless type, assign the corresponding site to the site where we will provision the wireless device, and then attach the desired Feature Templates to apply to that network profile.
+
+For example, we will have a network profile attached with the feature template 'CleanAir Configuration'.
+![alt text](./images/nw_profile.png)
+![alt text](./images/nw_profile_feature_template.png)
+
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 3.1.3.0
+provision_details:
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 204.192.4.200
+    primary_managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD23
+    feature_template:
+      - design_name: Default CleanAir 802.11b Design
+    force_provisioning: True
+```
++ The UI workflow:
+![alt text](images/provision_feature_template.png)
+
+#### Upon a successful completion, the configuration from the feature template is automatically pushed down to the device
+![alt text](images/verify_provision_feature_template.png)
+
++ The playbook return:
+```yml
+msg:
+  changed: true
+  diff: []
+  failed: false
+  msg: Wireless device(s) '204.192.4.200' provisioned successfully.
+  response: Wireless device(s) '204.192.4.200' provisioned successfully.
+```
+
+### **Notes**:
+When calling with the above input, not only is `App Name: Model Config Provisioning` provisioned successfully, but other provisioning configurations such as `App Name: Fabric Provisioning, Device Provisioning, AP Provisioning` are also successful.
+
+![alt text](images/history_provision_feature_template.png)
+
+#### If we want to skip AP provisioning during WLC provisioning, we need to provide the `skip_ap_provision` parameter with the value `True`.
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 3.1.3.0
+provision_details:
+  - site_name_hierarchy: Global/USA/SAN JOSE/SJ_BLD23
+    management_ip_address: 204.192.4.200
+    primary_managed_ap_locations:
+      - Global/USA/SAN JOSE/SJ_BLD23
+    feature_template:
+      - design_name: Default CleanAir 802.11b Design
+    force_provisioning: True
+    skip_ap_provision: True
+```
+*Supported in Cisco Catalyst version 2.3.7.6 onwards*
+
++ The UI workflow:
+
+![alt text](images/skip_ap_provision.png)
+
+#### Upon successful completion, the configuration will be pushed to the device similar to the provisioning with the previous feature template; however, there will be no provisioning action for the AP (check `Last Provisioned`).
+![alt text](images/verify_skip_ap_provision.png)
+
++ The playbook return:
+```yml
+msg:
+  msg: Wireless device(s) '204.192.4.200' provisioned successfully.
+  response: Wireless device(s) '204.192.4.200' provisioned successfully.
+```
+
+## g. **AP Provisioning with Authorization**:
+*Supported from Cisco Catalyst Center release version 3.1.3.0 onwards*
+
+### Example 1: Skip AP Provision with Authorization List (Wireless)
+
+To configure a wireless controller with AP authorization policies while skipping immediate AP provisioning.
+
+![alt text](./images/skip_ap_provision.png)
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 3.1.3.0
+provision_details:
+  - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+    management_ip_address: 204.192.3.40
+    primary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor2
+    secondary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor1
+    dynamic_interfaces:
+      - interface_name: "Vlan1866"
+        vlan_id: "1866"
+        interface_ip_address: "204.192.6.200"
+        interface_gateway: "204.192.6.1"
+        interface_netmask_in_c_i_d_r: "24"
+    skip_ap_provision: true
+```
+
+#### Upon a successful completion, the configuration from the catc is automatically pushed down to the device
+
++ The playbook return:
+```yml
+msg:
+  changed: true
+  diff: []
+  failed: false
+  msg: Wireless device(s) '204.192.4.200' provisioned successfully.
+  response: Wireless device(s) '204.192.4.200' provisioned successfully.
+```
+
+### Example 2: AP Provision with Authorization List
+
+To provision both the wireless controller and all associated APs with authorization policies applied in one operation.
+
+**prerequisite**: AP authorization list must exist in Catalyst Center before provisioning.This list can be created under **Design > Network Settings > Wireless > Security Settings > AP Authorization List**.
+
+![alt text](./images/Ap_authorization_list.png)
+![alt text](./images/no_skip_provision.png)
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 3.1.3.0
+provision_details:
+  - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+    management_ip_address: 204.192.3.40
+    primary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor2
+      - Global/USA/San Francisco/BGL_18/Test_Floor3
+    secondary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor1
+    dynamic_interfaces:
+      - interface_name: "Vlan1866"
+        vlan_id: "1866"
+        interface_ip_address: "204.192.6.200"
+        interface_gateway: "204.192.6.1"
+        interface_netmask_in_c_i_d_r: "24"
+    skip_ap_provision: false
+    ap_authorization_list_name: "Corporate-AP-Auth-List"
+```
+
+#### Upon a successful completion, the configuration from the catc is automatically pushed down to the device
+
++ The playbook return:
+```yml
+msg:
+  msg: Wireless device(s) '204.192.4.200' provisioned successfully.
+  response: Wireless device(s) '204.192.4.200' provisioned successfully.
+```
+
+## h. **Provisioning with Rolling AP Upgrade**:
+*Supported from Cisco Catalyst Center release version 3.1.3.0 onwards*
+
+### Example 1: Provision WLC with Rolling AP Upgrade Enabled
+
+Rolling AP upgrade allows you to upgrade Access Points in phases, minimizing network disruption by rebooting only a percentage of APs at a time. This is particularly useful for large deployments with many APs.
+
+**prerequisite**: Wireless controller must be added to inventory and AP locations must be configured.
+
+![alt text](./images/rolling_ap_upgrade.png)
+
+#### Input (YAML)
+```yml
+---
+catalyst_center_version: 3.1.3.0
+provision_details:
+  - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+    management_ip_address: 204.192.3.40
+    primary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor2
+      - Global/USA/San Francisco/BGL_18/Test_Floor3
+      - Global/USA/San Francisco/BGL_18/Test_Floor4
+    secondary_managed_ap_locations:
+      - Global/USA/San Francisco/BGL_18/Test_Floor1
+    dynamic_interfaces:
+      - interface_name: "Vlan1866"
+        vlan_id: "1866"
+        interface_ip_address: "204.192.6.200"
+        interface_gateway: "204.192.6.1"
+        interface_netmask_in_c_i_d_r: "24"
+      - interface_name: "Vlan1867"
+        vlan_id: "1867"
+        interface_ip_address: "204.192.7.200"
+        interface_gateway: "204.192.7.1"
+        interface_netmask_in_c_i_d_r: "24"
+    skip_ap_provision: false
+    rolling_ap_upgrade:
+      enable_rolling_ap_upgrade: true
+      ap_reboot_percentage: 15
+```
+
+### Step 3: Deploy and Verify
+
+a.  **Validate Configuration:** 
+To ensure a successful execution of the playbooks with your specified inputs, follow these steps:
+
+**Input Validation Against Schema**:
+Before executing the playbook, it is essential to validate the input schema. This step ensures that all required parameters are included and correctly formatted. Run the following command `./tools/schemavalidation.sh` to validate the schema using `-s` for the schema path and `-v` (`--vars`) for the vars file path.
+
+```bash
+#validates input file against the schema
+./tools/schemavalidation.sh -s cvp/provision/schema/provision_workflow_schema.yml -v cvp/provision/vars/provision_workflow_inputs.yml 
+```
+
+b.  **Run the Playbook:**
+
+Run the playbook to seamlessly apply the provision configuration defined in your input variables to Cisco Catalyst Center. 
+
+Before proceeding, ensure that the input validation step has been completed successfully, with no errors detected in the provided variables. Once validated, execute the playbook by specifying the input file path using the `--extra-vars` variable as `VARS_FILE_PATH`. `VARS_FILE_PATH` is resolved relative to the playbook directory, so use `../vars/<file>.yml` or the full `${PWD}/cvp/.../vars/<file>.yml` path.
+
+```bash
+ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/provision/playbook/provision_workflow_playbook.yml --extra-vars VARS_FILE_PATH=../vars/provision_workflow_inputs.yml -vvvv  
+```
+
+#### Command to unprovision a device
+To unprovision a device, you can use the following command. Ensure that the input file `un_provision_workflow_inputs.yml` is correctly defined with the management IP address of the device you wish to unprovision.
+
+```bash
+ansible-playbook -i ./inventory/demo_lab/inventory_demo_lab.yml ./cvp/provision/playbook/delete_provision_workflow_playbook.yml --extra-vars VARS_FILE_PATH=../vars/un_provision_workflow_inputs.yml -vvvv
+```
+
+c. **Verify Deployment:** 
+After the playbook execution, you can verify the results in the Cisco Catalyst Center UI under the Assurance section. If catalystcenter_debug is enabled in your inventory, you can also review the Ansible logs for detailed information on the API calls and responses.
+
+## Run line parameters description:
+
+- `-i`: Specifies the inventory file containing host details.  
+- `--e VARS_FILE_PATH`: Path to the variable file containing workflow inputs.  
+- `-vvvv`: Enables verbose mode for detailed output.  
+
+## References
+
+**Environment Details**  
+The following environment was used for testing:  
+
+| **Component**         | **Version** |
+|-----------------------|-------------|
+| Python                | `3.10.10`   |
+| Cisco Catalyst Center | `2.3.7.9`   |
+| Ansible               | `9.9.0`     |
+| cisco.catalystcenter Collection | 2.6.0    |
+| catalystcentersdk          | `2.10.14`   |
+
+For detailed documentation, refer to:  
+- [Ansible Galaxy: Cisco Catalyst Center Collection](https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/provision_workflow_manager/)  
+- [Cisco Catalyst Center Documentation](https://www.cisco.com/c/en/us/support/cloud-systems-management/catalyst-center/series.html)
+- [Provision Workflow Manager Module Documentation](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/plugins/modules/provision_workflow_manager.py)
+
+## Inventory / group_vars Example
+
+You can also run this workflow without `VARS_FILE_PATH` by moving the sample workflow data into inventory, `host_vars`, or `group_vars`.
+
+1. Create an inventory vars file such as `inventory/group_vars/all.yml` or `inventory/host_vars/<host>.yml`.
+2. Copy the sample workflow data from `cvp/provision/vars/provision_workflow_inputs.yml` into that inventory vars file.
+3. Keep the same top-level variable name in inventory: `provision_details`.
+4. Run the playbook without `VARS_FILE_PATH`:
+
+```bash
+ansible-playbook -i <inventory-file> cvp/provision/playbook/provision_workflow_playbook.yml -vvvv
+```
+## VARS_FILE_PATH Path Resolution
+
+Ansible resolves `VARS_FILE_PATH` relative to the playbook directory, not the current working directory.
+
+Use either of these forms:
+
+- Relative to the playbook: `../vars/provision_workflow_inputs.yml`
+- Fully resolved from the repo root: `${PWD}/cvp/provision/vars/provision_workflow_inputs.yml`
+

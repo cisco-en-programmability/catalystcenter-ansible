@@ -1,0 +1,101 @@
+---
+- name: SDA Host Port Onboarding Playbook Generator Example
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - credentials.yml
+  tasks:
+    - name: Generate YAML playbook for host port onboarding workflow manager
+        which includes all fabric sites's host port onboarding details
+      cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
+        file_mode: "overwrite"
+
+    - name: Generate YAML Configuration with File Path specified
+      cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
+        file_path: "host_onboarding_playbook.yml"
+        file_mode: "overwrite"
+
+    - name: Generate YAML Configuration with specific component port assignments filters
+      cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
+        file_path: "host_onboarding_playbook.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["port_assignments"]
+            port_assignments:
+              - fabric_site_name_hierarchy: "Global/California/23"
+                device_ips:
+                  - 10.1.1.1
+
+    - name: Generate YAML Configuration with specific component port channels filters
+      cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
+        file_path: "host_onboarding_playbook.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["port_channels"]
+            port_channels:
+              - fabric_site_name_hierarchy: "Global/Site_India/Karnataka/Bangalore"
+                device_ips:
+                  - 10.1.1.1
+
+    - name: Generate YAML Configuration with specific component wireless ssids filters
+      cisco.catalystcenter.sda_host_port_onboarding_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        state: gathered
+        file_path: "host_onboarding_playbook.yml"
+        file_mode: "overwrite"
+        config:
+          component_specific_filters:
+            components_list: ["wireless_ssids"]
+            wireless_ssids:
+              fabric_site_name_hierarchy:
+                - "Global/Site_India/Karnataka/Bangalore"

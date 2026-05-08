@@ -1,0 +1,52 @@
+# ============================================================================
+# Cisco Catalyst Center SDA Extranet Policies Config Generator
+# ============================================================================
+#
+# Usage:
+#   ansible-playbook -i inventory/demo_lab/hosts.yaml \
+#     workflows/sda_extranet_policies_config_generator/playbook/sda_extranet_policies_config_generator.yml \
+#     --extra-vars VARS_FILE_PATH=./workflows/sda_extranet_policies_config_generator/vars/sda_extranet_policies_config_inputs.yml
+#
+# Module used:
+#   cisco.catalystcenter.sda_extranet_policies_playbook_config_generator
+# ============================================================================
+
+sda_extranet_policies_config:
+  # 1) Generate all SDA extranet policies
+  - file_path: "/tmp/sda_extranet_policies_complete_config.yml"
+
+  # 2) Generate only extranet policy component
+  - file_path: "/tmp/sda_extranet_policies_component_only.yml"
+    config:
+      component_specific_filters:
+        components_list: ["extranet_policies"]
+
+  # 3) Filter by specific extranet policy names
+  - file_path: "/tmp/sda_extranet_policies_by_name.yml"
+    config:
+      component_specific_filters:
+        components_list: ["extranet_policies"]
+        extranet_policies:
+          # Policy names must match the exact names configured in Catalyst Center
+          - extranet_policy_name: "new1"
+          - extranet_policy_name: "Test2_Policy"
+
+  # 4) Append mode for aggregating filtered exports into one file
+  - file_path: "/tmp/sda_extranet_policies_by_name.yml"
+    file_mode: "append"
+    config:
+      component_specific_filters:
+        components_list: ["extranet_policies"]
+        extranet_policies:
+          - extranet_policy_name: "Test1_policy"
+
+# ============================================================================
+# Notes
+# ============================================================================
+# - If config is omitted or empty, the module generates all extranet policies.
+# - If config is provided, component_specific_filters is mandatory.
+# - If extranet_policies filters are provided without components_list, the
+#   module auto-adds extranet_policies to components_list internally.
+# - Generated playbooks include resolved site hierarchy paths for any fabric
+#   site assignments returned by the Catalyst Center APIs.
+# ============================================================================

@@ -23,10 +23,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     provision_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacProvisionWorkflow(TestDnacModule):
+class TestDnacProvisionWorkflow(TestCatalystModule):
 
     module = provision_workflow_manager
 

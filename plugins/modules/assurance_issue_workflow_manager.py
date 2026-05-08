@@ -892,7 +892,7 @@ response_create:
           "lastUpdatedTime": 1672617600
       }
   }
-#Case 2: Successful updation of issue
+#Case 2: Successful update of issue
 response_update:
   description: Details of the response returned by the assurance settings update API.
   returned: always
@@ -2926,7 +2926,6 @@ class AssuranceSettings(CatalystCenterBase):
                 )
                 continue
 
-            self.result["response"][0].setdefault("msg", {}).update({issue_name: {}})
             self.log("Processing issue: {0}".format(issue_name), "DEBUG")
 
             # If the issue exists, add it to the update list and skip further processing
@@ -3336,6 +3335,16 @@ class AssuranceSettings(CatalystCenterBase):
                         ),
                         "DEBUG",
                     )
+                    # Update result with success message and detailed response
+                    deleted_issue = assurance_user_defined_issue_details[assurance_issue_index - 1]
+                    result_assurance_issue.get("response").update(
+                        {"deleted user-defined issue": deleted_issue}
+                    )
+                    result_assurance_issue.get("msg").update(
+                        {name: "Assurance issue deleted successfully"}
+                    )
+                    self.result["changed"] = True
+                    self.log("Assurance Issue '{0}' deleted successfully".format(name), "INFO")
                 except Exception as e:
                     expected_exception_msgs = [
                         "Expecting value: line 1 column 1",
@@ -3353,6 +3362,10 @@ class AssuranceSettings(CatalystCenterBase):
                             )
                         result_assurance_issue = self.result.get("response")[0].get(
                             "assurance_user_defined_issue_settings"
+                        )
+                        deleted_issue = assurance_user_defined_issue_details[assurance_issue_index - 1]
+                        result_assurance_issue.get("response").update(
+                            {"deleted user-defined issue": deleted_issue}
                         )
                         result_assurance_issue.get("msg").update(
                             {name: "Assurance user-defined issue deleted successfully"}
@@ -4181,24 +4194,25 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

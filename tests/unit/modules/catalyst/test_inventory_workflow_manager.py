@@ -23,10 +23,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     inventory_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacInventoryWorkflow(TestDnacModule):
+class TestDnacInventoryWorkflow(TestCatalystModule):
 
     module = inventory_workflow_manager
 
@@ -137,6 +137,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("create_user_defined_field"),
                 self.test_data.get("get_device_list3_add_udf"),
                 self.test_data.get("get_device_list4_add_udf"),
+                self.test_data.get("retrieve_network_devices_udf"),
                 self.test_data.get("add_user_defined_field_to_device1"),
                 self.test_data.get("add_user_defined_field_to_device2"),
                 self.test_data.get("get_device_list5_add_udf"),
