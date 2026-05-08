@@ -1,7 +1,7 @@
 ---
 namespace: cisco
 name: catalystcenter
-version: 2.7.0
+version: 2.7.1
 readme: README.md
 authors:
   - Rafael Campos <rcampos@cloverhound.com>
@@ -21,6 +21,20 @@ authors:
   - Rangaprabhu Deenadayalu <radeenad@cisco.com>
   - Ajith Andrew J <jajandre@cisco.com>
   - Syed Khadeer Ahmed <syedkahm@cisco.com>
+  - A Mohamed Rafeek <mabdulk2@cisco.com>
+  - Trupti A Shetty <trashett@cisco.com>
+  - Sonali Deepthi Kesali <skesali@cisco.com>
+  - Megha Kandari <mekandar@cisco.com>
+  - Archit Soni <arcsoni@cisco.com>
+  - Luna Aliaj <majlona@cisco.com>
+  - Priyadharshini Balakumar <pbalaku2@cisco.com>
+  - Karthick S N <kasn@cisco.com>
+  - Sunil Shatagopa <sshatago@cisco.com>
+  - Vivek Raj Penke <vpenke@cisco.com>
+  - Vidhya Rathinam <virathin@cisco.com>
+  - Mridul Saurabh <msaurabh@cisco.com>
+  - Jeet Ram <jeeram@cisco.com>
+
 description: Ansible Modules, Roles, and Cisco Validated Playbooks (CVP) for Cisco CATALYST Center automation
 license_file: "LICENSE"
 tags:
