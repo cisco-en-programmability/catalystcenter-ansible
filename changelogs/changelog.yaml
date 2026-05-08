@@ -326,3 +326,10 @@ releases:
         - Added tags_workflow_manager.yml playbook example (previously missing from cisco.catalystcenter)
         - Added ccc_sda_fabric_devices_workflow_management integration test suite
         - Added vars_tags_workflow_management.yml to ccc_tags_workflow_management integration tests
+  2.7.1:
+    release_date: "2026-05-08"
+    changes:
+      release_summary: Changes in brownfield helper module
+      minor_changes:
+        - Changes in brownfield_helper module
+ 
