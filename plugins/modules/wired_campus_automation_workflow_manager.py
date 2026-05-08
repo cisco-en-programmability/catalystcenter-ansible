@@ -4,11 +4,10 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage wired campus automation in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan"
+__author__ = "Rugvedi Kapse, Madhan Sankaranarayanan, Vivek Raj"
 
 
 DOCUMENTATION = r"""
@@ -79,6 +78,7 @@ extends_documentation_fragment:
 author:
   - Rugvedi Kapse (@rukapse)
   - Madhan Sankaranarayanan (@madhansansel)
+  - Vivek Raj (@vivekraj2000)
 options:
   config_verify:
     description: Set to true to verify the Cisco Catalyst
@@ -123,6 +123,17 @@ options:
         type: bool
         required: false
         default: true
+      config_verification_wait_time:
+        description:
+          - Time in seconds to wait before verifying the configuration deployment status.
+          - Used when config_verify is enabled to allow sufficient time for configuration to be applied.
+          - Provides a delay between configuration deployment and verification checks.
+          - Useful for large configurations or devices with slower response times.
+          - Minimum recommended value is 10 seconds.
+          - Maximum value depends on network conditions and device performance.
+          - Default behavior uses internal timing based on operation complexity.
+        type: int
+        required: false
       layer2_configuration:
         description:
           - Comprehensive Layer 2 configuration settings for the network device.
@@ -169,8 +180,12 @@ options:
                   - When true, the VLAN is active and can carry traffic.
                   - When false, the VLAN is administratively shut down.
                   - Disabled VLANs do not forward traffic but retain their configuration.
-                  - NOTE - "vlan_admin_status" Can only be modified for VLAN IDs 2-1001.
-                  - Extended range VLANs (1002-4094) do not support admin status updates.
+                  - NOTE - For standard-range VLANs (2-1001), "vlan_admin_status" can be
+                    set to true or false for both create and update operations.
+                  - For extended-range VLANs (1006-4094), "vlan_admin_status" cannot be
+                    set to false. These VLANs must always remain enabled. Setting
+                    "vlan_admin_status" to false for an extended-range VLAN will result
+                    in a validation error.
                 type: bool
                 required: false
                 default: true
@@ -432,7 +447,7 @@ options:
                       - Each VLAN can have its own STP parameters.
                       - VLAN must exist before STP instance configuration.
                     type: int
-                    required: true
+                    required: false
                   stp_instance_priority:
                     description:
                       - Bridge priority for this VLAN's STP instance.
@@ -462,7 +477,7 @@ options:
                     type: int
                     required: false
                     default: 20
-                  stp_instace_hello_interval_timer:
+                  stp_instance_hello_interval_timer:
                     description:
                       - Hello interval timer for this STP instance in seconds.
                       - Must be between 1 and 10 seconds.
@@ -472,7 +487,7 @@ options:
                     type: int
                     required: false
                     default: 2
-                  stp_instace_forward_delay_timer:
+                  stp_instance_forward_delay_timer:
                     description:
                       - Forward delay timer for this STP instance in seconds.
                       - Must be between 4 and 30 seconds.
@@ -559,7 +574,9 @@ options:
                   - When true, restricts flooded traffic to only necessary trunk links.
                   - Reduces unnecessary broadcast traffic in the VTP domain.
                   - Only affects VLANs 2-1001; VLAN 1 and extended VLANs are not pruned.
-                  - Can only be configured when "vtp_mode" is "SERVER".
+                  - VTP pruning can only be enabled when 'vtp_mode' is set to 'SERVER'.
+                  - Setting 'vtp_pruning' to true with any other 'vtp_mode' value will result in a
+                    validation error.
                 type: bool
                 required: false
                 default: false
@@ -730,7 +747,7 @@ options:
                       - VLAN must exist before configuring IGMP Snooping.
                       - Each VLAN can have independent IGMP Snooping settings.
                     type: int
-                    required: true
+                    required: false
                   enable_igmp_snooping:
                     description:
                       - Enable IGMP Snooping for this specific VLAN.
@@ -1932,8 +1949,8 @@ EXAMPLES = r"""
       - ip_address: 204.1.2.3
         layer2_configuration:
           authentication:
-          enable_dot1x_authentication: true
-          authentication_config_mode: NEW_STYLE
+            enable_dot1x_authentication: true
+            authentication_config_mode: NEW_STYLE
 
 - name: Configure LACP and PAGP Port Channels
   cisco.catalystcenter.wired_campus_automation_workflow_manager:
@@ -2310,7 +2327,7 @@ import copy
 
 class WiredCampusAutomation(CatalystCenterBase):
     """
-    A class for managing Wired Campus Automation within the Cisco Catalyst Center.
+    A class for managing Wired Campus Automation within the Cisco DNA Center.
     """
 
     def __init__(self, module):
@@ -2391,7 +2408,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                         "type": "list",
                         "elements": "dict",
                         "suboptions": {
-                            "stp_instance_vlan_id": {"type": "int", "required": True},
+                            "stp_instance_vlan_id": {"type": "int"},
                             "stp_instance_priority": {"type": "int"},
                             "enable_stp": {"type": "bool"},
                             "stp_instance_max_age_timer": {"type": "int"},
@@ -2433,7 +2450,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                         "type": "list",
                         "elements": "dict",
                         "suboptions": {
-                            "igmp_snooping_vlan_id": {"type": "int", "required": True},
+                            "igmp_snooping_vlan_id": {"type": "int"},
                             "enable_igmp_snooping": {"type": "bool"},
                             "igmp_snooping_querier": {"type": "bool"},
                             "igmp_snooping_querier_address": {"type": "str"},
@@ -2981,7 +2998,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "stp_instance_vlan_id": {
                     "type": "int",
                     "range": (1, 4094),
-                    "required": True,
+                    "required": False,
                 },  # Added type: int
                 "stp_instance_priority": {
                     "type": "int",
@@ -3078,7 +3095,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "igmp_snooping_vlan_id": {
                     "type": "int",
                     "range": (1, 4094),
-                    "required": True,
+                    "required": False,
                 },  # Added type: int
                 "enable_igmp_snooping": {"type": "bool", "required": False},
                 "igmp_snooping_immediate_leave": {"type": "bool", "required": False},
@@ -3522,17 +3539,13 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type boolean. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "str" and not isinstance(value, str):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type string. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "int" and (
                     isinstance(value, bool) or not isinstance(value, int)
@@ -3541,25 +3554,19 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type integer. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "list" and not isinstance(value, list):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type list. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
                 elif expected_type == "dict" and not isinstance(value, dict):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be of type dictionary. "
                         "Provided value: '{2}' (type: {3}). Full configuration: {4}"
-                    ).format(
-                        param, config_name, value, type(value).__name__, config_values
-                    )
+                    ).format(param, config_name, value, type(value).__name__, config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate the range of the parameter
@@ -3586,9 +3593,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' must be at least {2} characters long. "
                         "Provided value length: {3}. Full configuration: {4}"
-                    ).format(
-                        param, config_name, rule["minLength"], len(value), config_values
-                    )
+                    ).format(param, config_name, rule["minLength"], len(value), config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate the maximum length of the parameter
@@ -3597,9 +3602,7 @@ class WiredCampusAutomation(CatalystCenterBase):
                     self.msg = (
                         "Parameter '{0}' in configuration '{1}' exceeds maximum length of {2}. "
                         "Provided value length: {3}. Full configuration: {4}"
-                    ).format(
-                        param, config_name, rule["maxLength"], len(value), config_values
-                    )
+                    ).format(param, config_name, rule["maxLength"], len(value), config_values)
                     self.fail_and_exit(self.msg)
 
             # Validate maximum number of items in list
@@ -3718,6 +3721,29 @@ class WiredCampusAutomation(CatalystCenterBase):
                 self.fail_and_exit(self.msg)
 
             self.log("Validating VLAN configuration: {0}".format(vlan), "DEBUG")
+
+            # Check for reserved VLAN IDs (1002-1005 are reserved for legacy protocols)
+            vlan_id = vlan.get("vlan_id")
+            if vlan_id is not None and vlan_id in (1002, 1003, 1004, 1005):
+                self.msg = (
+                    "VLAN ID {0} is reserved for legacy protocols (FDDI, Token Ring). "
+                    "Reserved VLAN IDs 1002-1005 cannot be created, modified, or deleted. "
+                    "Please use a VLAN ID outside the reserved range (2-1001 or 1006-4094).".format(vlan_id)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            # Extended-range VLANs (1006-4094) cannot have admin status set to false
+            vlan_admin_status = vlan.get("vlan_admin_status")
+            if vlan_id is not None and vlan_id >= 1006 and vlan_admin_status is False:
+                self.msg = (
+                    "Cannot set 'vlan_admin_status' to false for VLAN ID {0}. "
+                    "Extended-range VLANs (1006-4094) must always have admin status enabled. "
+                    "Please either set 'vlan_admin_status' to true or remove it from the "
+                    "VLAN {0} configuration.".format(vlan_id)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
 
             # Validate the individual VLAN configuration against the provided rules
             self.validate_config_against_rules("vlans", vlan, rules)
@@ -3885,6 +3911,19 @@ class WiredCampusAutomation(CatalystCenterBase):
         """
         self.log("Starting validation for VTP global configuration", "INFO")
         self.log("Validating VTP configuration: {0}".format(vtp_config), "DEBUG")
+
+        # Validate that vtp_pruning is only enabled when vtp_mode is SERVER
+        vtp_pruning = vtp_config.get("vtp_pruning")
+        vtp_mode = vtp_config.get("vtp_mode")
+        if vtp_pruning is True and vtp_mode != "SERVER":
+            self.msg = (
+                "Invalid configuration: 'vtp_pruning' can only be set to true when "
+                "'vtp_mode' is 'SERVER'. Current 'vtp_mode' is '{0}'. "
+                "Either set 'vtp_mode' to 'SERVER' or remove 'vtp_pruning' "
+                "from the configuration.".format(vtp_mode if vtp_mode is not None else "not specified")
+            )
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
 
         # Validate the VTP configuration against the provided validation rules
         self.validate_config_against_rules("vtp", vtp_config, rules)
@@ -5504,10 +5543,18 @@ class WiredCampusAutomation(CatalystCenterBase):
             self.log("Created STP instances container structure", "DEBUG")
 
             # Process each STP instance
-            for instance in stp_instances:
+            for index, instance in enumerate(stp_instances, start=1):
+                if instance.get("stp_instance_vlan_id") is None:
+                    self.log(
+                        "Skipping STP instance entry at index {0} because 'stp_instance_vlan_id' is not provided. "
+                        "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
+                        "WARNING",
+                    )
+                    continue
+
                 self.log(
-                    "Processing STP instance for VLAN {0}".format(
-                        instance.get("stp_instance_vlan_id")
+                    "Processing STP instance for VLAN {0} at index {1}".format(
+                        instance.get("stp_instance_vlan_id"), index
                     ),
                     "DEBUG",
                 )
@@ -5837,6 +5884,16 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Process each VLAN configuration
                 for vlan_index, vlan_config in enumerate(igmp_snooping_vlans):
+                    if vlan_config.get("igmp_snooping_vlan_id") is None:
+                        self.log(
+                            "Skipping IGMP Snooping VLAN entry at index {0} because 'igmp_snooping_vlan_id' is not provided. "
+                            "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.".format(
+                                vlan_index
+                            ),
+                            "WARNING",
+                        )
+                        continue
+
                     self.log(
                         "Processing IGMP Snooping VLAN configuration at index {0}".format(
                             vlan_index
@@ -7606,7 +7663,7 @@ class WiredCampusAutomation(CatalystCenterBase):
         api_params.update(config_params)
 
         self.log(
-            "Final API parameters for udpate intent operation: {0}".format(api_params),
+            "Final API parameters for update intent operation: {0}".format(api_params),
             "DEBUG",
         )
 
@@ -8138,6 +8195,17 @@ class WiredCampusAutomation(CatalystCenterBase):
             else:
                 # VLAN exists - check if update is needed
                 if self._config_needs_update(desired_vlan, deployed_vlan):
+                    # Validate: admin status cannot be set to false for extended-range VLANs (1006-4094)
+                    if vlan_id >= 1006 and desired_vlan.get("isVlanEnabled") is False:
+                        self.msg = (
+                            "Cannot set 'vlan_admin_status' to false for VLAN ID {0}. "
+                            "Extended-range VLANs (1006-4094) must always have admin status enabled. "
+                            "Please either set 'vlan_admin_status' to true or remove it from the "
+                            "VLAN {0} configuration.".format(vlan_id)
+                        )
+                        self.log(self.msg, "ERROR")
+                        self.fail_and_exit(self.msg)
+
                     # Update existing VLAN with new parameters
                     updated_vlan = deployed_vlan.copy()
                     updated_vlan.update(
@@ -8679,17 +8747,24 @@ class WiredCampusAutomation(CatalystCenterBase):
                 current_by_vlan[vlan_id] = instance
 
         # Check each desired instance
-        for desired_instance in desired_instances:
+        for index, desired_instance in enumerate(desired_instances, start=1):
             vlan_id = desired_instance.get("vlanId")
             if vlan_id is None:
+                self.log(
+                    "Skipping {0} entry at index {1} during comparison because 'vlanId' is not provided. "
+                    "Each instance should specify a VLAN ID for proper configuration.".format(
+                        instance_type, index
+                    ),
+                    "WARNING",
+                )
                 continue
 
             current_instance = current_by_vlan.get(vlan_id)
 
             if not current_instance:
                 self.log(
-                    "VLAN {0} not found in current instances - update needed".format(
-                        vlan_id
+                    "VLAN {0} at index {1} not found in current instances - update needed".format(
+                        vlan_id, index
                     ),
                     "DEBUG",
                 )
@@ -8867,6 +8942,89 @@ class WiredCampusAutomation(CatalystCenterBase):
 
         return False
 
+    def _deep_compare_nested_dict(self, desired_dict, current_dict):
+        """
+        Recursively compare two nested dictionaries to detect
+        configuration differences.
+
+        Iterates over keys in desired_dict and checks whether
+        the corresponding value in current_dict matches. For
+        nested dicts, recurses into _deep_compare_nested_dict.
+        For nested lists, delegates to _deep_compare_nested_list.
+
+        Args:
+            desired_dict (dict): Desired dictionary configuration
+                to compare against the current state.
+            current_dict (dict): Current dictionary configuration
+                retrieved from Catalyst Center.
+
+        Returns:
+            bool: True if any key/value differs between
+                desired_dict and current_dict, False if all
+                present keys match.
+
+        Note:
+            Only keys present in desired_dict are compared.
+            Extra keys in current_dict are ignored.
+        """
+        self.log(
+            "Starting deep nested dict comparison - desired keys: {0}, current keys: {1}".format(
+                list(desired_dict.keys()), list(current_dict.keys())
+            ),
+            "DEBUG",
+        )
+
+        if not isinstance(desired_dict, dict) or not isinstance(current_dict, dict):
+            self.log(
+                "Invalid input types for deep comparison - "
+                "desired_type={0}, current_type={1}. "
+                "Returning True (differs).".format(
+                    type(desired_dict).__name__,
+                    type(current_dict).__name__
+                ),
+                "DEBUG",
+            )
+            return desired_dict != current_dict
+
+        for key, desired_value in desired_dict.items():
+            current_value = current_dict.get(key)
+
+            if isinstance(desired_value, dict) and isinstance(current_value, dict):
+                self.log(
+                    "Key '{0}' is a nested dict - recursing for deep comparison".format(key),
+                    "DEBUG",
+                )
+                if self._deep_compare_nested_dict(desired_value, current_value):
+                    self.log("Nested dict key '{0}' differs".format(key), "DEBUG")
+                    return True
+            elif isinstance(desired_value, list) and isinstance(current_value, list):
+                self.log(
+                    "Key '{0}' is a nested list - desired_len={1}, current_len={2}".format(
+                        key, len(desired_value), len(current_value)
+                    ),
+                    "DEBUG",
+                )
+                if self._deep_compare_nested_list(desired_value, current_value):
+                    self.log("Nested list key '{0}' differs".format(key), "DEBUG")
+                    return True
+            else:
+                if desired_value != current_value:
+                    self.log(
+                        "Dict key '{0}' differs: desired='{1}', current='{2}'".format(
+                            key, desired_value, current_value
+                        ),
+                        "DEBUG",
+                    )
+                    return True
+                else:
+                    self.log(
+                        "Key '{0}' matches: value='{1}'".format(key, desired_value),
+                        "DEBUG",
+                    )
+
+        self.log("Deep nested dict comparison completed - no differences found", "DEBUG")
+        return False
+
     def _deep_compare_nested_list(self, desired_list, current_list):
         """
         Enhanced comparison of nested lists with improved identifier detection.
@@ -9021,9 +9179,7 @@ class WiredCampusAutomation(CatalystCenterBase):
             if i < len(deployed_items):
                 deployed_item = deployed_items[i]
                 self.log(
-                    "Comparing desired and deployed configurations for item at index {0}".format(
-                        i
-                    ),
+                    "Comparing desired and deployed configurations for item at index {0}".format(i),
                     "DEBUG",
                 )
 
@@ -9400,22 +9556,34 @@ class WiredCampusAutomation(CatalystCenterBase):
             )
 
             # Add or update with desired instances
-            for desired_item in desired_items:
+            for index, desired_item in enumerate(desired_items, start=1):
                 vlan_id = desired_item.get("vlanId")
-                if vlan_id:
-                    if vlan_id in merged_by_vlan:
-                        # Update existing instance
-                        merged_by_vlan[vlan_id].update(desired_item)
-                        self.log(
-                            "Updated STP instance for VLAN {0}".format(vlan_id), "DEBUG"
-                        )
-                    else:
-                        # Add new instance
-                        merged_by_vlan[vlan_id] = desired_item
-                        self.log(
-                            "Added new STP instance for VLAN {0}".format(vlan_id),
-                            "DEBUG",
-                        )
+                if not vlan_id:
+                    self.log(
+                        "Skipping STP instance at index {0} during merge because 'vlanId' is not provided. "
+                        "Each STP instance should specify a VLAN ID for proper configuration.".format(index),
+                        "WARNING",
+                    )
+                    continue
+
+                if vlan_id in merged_by_vlan:
+                    # Update existing instance
+                    merged_by_vlan[vlan_id].update(desired_item)
+                    self.log(
+                        "Updated STP instance for VLAN {0} at index {1}".format(
+                            vlan_id, index
+                        ),
+                        "DEBUG"
+                    )
+                else:
+                    # Add new instance
+                    merged_by_vlan[vlan_id] = desired_item
+                    self.log(
+                        "Added new STP instance for VLAN {0} at index {1}".format(
+                            vlan_id, index
+                        ),
+                        "DEBUG",
+                    )
 
             # Convert back to list and sort by VLAN ID for consistency
             merged_instances["items"] = sorted(
@@ -10056,99 +10224,111 @@ class WiredCampusAutomation(CatalystCenterBase):
             "DEBUG",
         )
         # Step 2: Apply user's desired changes ONLY for user-specified VLANs
-        for desired_vlan in desired_vlans:
+        for index, desired_vlan in enumerate(desired_vlans, start=1):
             vlan_id = desired_vlan.get("vlanId")
-            if vlan_id:
-                self.log("Processing user-specified VLAN {0}".format(vlan_id), "DEBUG")
+            if not vlan_id:
+                self.log(
+                    "Skipping IGMP Snooping VLAN entry at index {0} during merge because 'vlanId' is not provided. "
+                    "Each IGMP Snooping VLAN should specify a VLAN ID for proper configuration.".format(index),
+                    "WARNING",
+                )
+                continue
 
-                if vlan_id in final_vlan_dict:
-                    # VLAN exists in current intended config - UPDATE with user's desired parameters
-                    final_vlan = final_vlan_dict[vlan_id]
+            self.log(
+                "Processing user-specified VLAN {0} at index {1}".format(
+                    vlan_id, index
+                ),
+                "DEBUG",
+            )
+
+            if vlan_id in final_vlan_dict:
+                # VLAN exists in current intended config - UPDATE with user's desired parameters
+                final_vlan = final_vlan_dict[vlan_id]
+                self.log(
+                    "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+
+                # Update ONLY the parameters provided by the user
+                igmp_vlan_params = [
+                    "isIgmpSnoopingEnabled",
+                    "isImmediateLeaveEnabled",
+                    "isQuerierEnabled",
+                    "querierAddress",
+                    "querierQueryInterval",
+                    "querierVersion",
+                ]
+
+                for param in igmp_vlan_params:
+                    if param in desired_vlan:
+                        old_value = final_vlan.get(param)
+                        new_value = desired_vlan[param]
+                        # FIX: Only update if values are different
+                        if old_value != new_value:
+                            final_vlan[param] = new_value
+                            parameters_updated += 1
+                            self.log(
+                                "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
+                                    vlan_id, param, old_value, new_value
+                                ),
+                                "DEBUG",
+                            )
+                        else:
+                            self.log(
+                                "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
+                                    vlan_id, param, new_value
+                                ),
+                                "DEBUG",
+                            )
+
+                # Handle mrouter configuration if provided by user
+                if "igmpSnoopingVlanMrouters" in desired_vlan:
+                    final_vlan["igmpSnoopingVlanMrouters"] = copy.deepcopy(
+                        desired_vlan["igmpSnoopingVlanMrouters"]
+                    )
                     self.log(
-                        "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        "VLAN {0}: Applied user's mrouter configuration".format(
                             vlan_id
                         ),
                         "DEBUG",
                     )
-
-                    # Update ONLY the parameters provided by the user
-                    igmp_vlan_params = [
-                        "isIgmpSnoopingEnabled",
-                        "isImmediateLeaveEnabled",
-                        "isQuerierEnabled",
-                        "querierAddress",
-                        "querierQueryInterval",
-                        "querierVersion",
-                    ]
-
-                    for param in igmp_vlan_params:
-                        if param in desired_vlan:
-                            old_value = final_vlan.get(param)
-                            new_value = desired_vlan[param]
-                            # FIX: Only update if values are different
-                            if old_value != new_value:
-                                final_vlan[param] = new_value
-                                parameters_updated += 1
-                                self.log(
-                                    "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
-                                        vlan_id, param, old_value, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-                            else:
-                                self.log(
-                                    "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
-                                        vlan_id, param, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-
-                    # Handle mrouter configuration if provided by user
-                    if "igmpSnoopingVlanMrouters" in desired_vlan:
-                        final_vlan["igmpSnoopingVlanMrouters"] = copy.deepcopy(
-                            desired_vlan["igmpSnoopingVlanMrouters"]
-                        )
-                        self.log(
-                            "VLAN {0}: Applied user's mrouter configuration".format(
-                                vlan_id
-                            ),
-                            "DEBUG",
-                        )
-                    elif "igmpSnoopingVlanMrouters" not in final_vlan:
-                        final_vlan["igmpSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-                        self.log(
-                            "VLAN {0}: Added default mrouter structure".format(vlan_id),
-                            "DEBUG",
-                        )
-
-                else:
-                    # VLAN doesn't exist in current intended config - ADD new VLAN
+                elif "igmpSnoopingVlanMrouters" not in final_vlan:
+                    final_vlan["igmpSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
                     self.log(
-                        "VLAN {0} does not exist in current intended config - adding new VLAN".format(
-                            vlan_id
-                        ),
+                        "VLAN {0}: Added default mrouter structure".format(vlan_id),
                         "DEBUG",
                     )
-                    new_vlan_config = copy.deepcopy(desired_vlan)
 
-                    # Ensure required structure for new VLAN
-                    if "configType" not in new_vlan_config:
-                        new_vlan_config["configType"] = "IGMP_SNOOPING_VLAN"
+            else:
+                # VLAN doesn't exist in current intended config - ADD new VLAN
+                self.log(
+                    "VLAN {0} does not exist in current intended config - adding new VLAN".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+                new_vlan_config = copy.deepcopy(desired_vlan)
 
-                    if "igmpSnoopingVlanMrouters" not in new_vlan_config:
-                        new_vlan_config["igmpSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
+                # Ensure required structure for new VLAN
+                if "configType" not in new_vlan_config:
+                    new_vlan_config["configType"] = "IGMP_SNOOPING_VLAN"
 
-                    final_vlan_dict[vlan_id] = new_vlan_config
-                    self.log(
-                        "Added new VLAN {0} to final intended config".format(vlan_id),
-                        "DEBUG",
-                    )
+                if "igmpSnoopingVlanMrouters" not in new_vlan_config:
+                    new_vlan_config["igmpSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
+
+                final_vlan_dict[vlan_id] = new_vlan_config
+                self.log(
+                    "Added new VLAN {0} to final intended config".format(vlan_id),
+                    "DEBUG",
+                )
 
         # Convert final result back to list format sorted by VLAN ID
         final_vlans = sorted(final_vlan_dict.values(), key=lambda x: x.get("vlanId", 0))
@@ -10586,131 +10766,143 @@ class WiredCampusAutomation(CatalystCenterBase):
         )
 
         # Step 2: Apply user's desired changes ONLY for user-specified VLANs
-        for desired_vlan in desired_vlans:
+        for index, desired_vlan in enumerate(desired_vlans, start=1):
             vlan_id = desired_vlan.get("vlanId")
-            if vlan_id:
-                self.log("Processing user-specified VLAN {0}".format(vlan_id), "DEBUG")
+            if not vlan_id:
+                self.log(
+                    "Skipping MLD Snooping VLAN entry at index {0} during merge because 'vlanId' is not provided. "
+                    "Each MLD Snooping VLAN should specify a VLAN ID for proper configuration.".format(index),
+                    "WARNING",
+                )
+                continue
 
-                if vlan_id in final_vlan_dict:
-                    # VLAN exists in current intended config - UPDATE with user's desired parameters
-                    final_vlan = final_vlan_dict[vlan_id]
+            self.log(
+                "Processing user-specified VLAN {0} at index {1}".format(
+                    vlan_id, index
+                ),
+                "DEBUG",
+            )
+
+            if vlan_id in final_vlan_dict:
+                # VLAN exists in current intended config - UPDATE with user's desired parameters
+                final_vlan = final_vlan_dict[vlan_id]
+                self.log(
+                    "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+
+                # Update ONLY the parameters provided by the user
+                mld_vlan_params = [
+                    "isMldSnoopingEnabled",
+                    "isImmediateLeaveEnabled",
+                    "isQuerierEnabled",
+                    "querierAddress",
+                    "querierQueryInterval",
+                    "querierVersion",
+                ]
+
+                for param in mld_vlan_params:
+                    if param in desired_vlan:
+                        old_value = final_vlan.get(param)
+                        new_value = desired_vlan[param]
+
+                        # FIX: Skip empty querierAddress when querier is disabled
+                        if (
+                            param == "querierAddress"
+                            and not new_value
+                            and not desired_vlan.get("isQuerierEnabled", False)
+                        ):
+                            # Remove empty querierAddress when querier is disabled
+                            if param in final_vlan:
+                                del final_vlan[param]
+                            self.log(
+                                "Removed empty querierAddress for VLAN {0} (querier disabled)".format(
+                                    vlan_id
+                                ),
+                                "DEBUG",
+                            )
+                            continue
+
+                        # Only update if values are different
+                        if old_value != new_value:
+                            final_vlan[param] = new_value
+                            parameters_updated += 1
+                            self.log(
+                                "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
+                                    vlan_id, param, old_value, new_value
+                                ),
+                                "DEBUG",
+                            )
+                        else:
+                            self.log(
+                                "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
+                                    vlan_id, param, new_value
+                                ),
+                                "DEBUG",
+                            )
+
+                # Handle mrouter configuration if provided by user
+                if "mldSnoopingVlanMrouters" in desired_vlan:
+                    final_vlan["mldSnoopingVlanMrouters"] = copy.deepcopy(
+                        desired_vlan["mldSnoopingVlanMrouters"]
+                    )
                     self.log(
-                        "VLAN {0} exists in current intended config - updating with user's desired values".format(
+                        "VLAN {0}: Applied user's mrouter configuration".format(
+                            vlan_id
+                        ),
+                        "DEBUG",
+                    )
+                elif "mldSnoopingVlanMrouters" not in final_vlan:
+                    final_vlan["mldSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
+                    self.log(
+                        "VLAN {0}: Added default mrouter structure".format(vlan_id),
+                        "DEBUG",
+                    )
+
+            else:
+                # VLAN doesn't exist in current intended config - ADD new VLAN
+                self.log(
+                    "VLAN {0} does not exist in current intended config - adding new VLAN".format(
+                        vlan_id
+                    ),
+                    "DEBUG",
+                )
+                new_vlan_config = copy.deepcopy(desired_vlan)
+
+                # Ensure required structure for new VLAN
+                if "configType" not in new_vlan_config:
+                    new_vlan_config["configType"] = "MLD_SNOOPING_VLAN"
+
+                # FIX: Remove empty querierAddress if querier is disabled for new VLANs
+                if (
+                    "querierAddress" in new_vlan_config
+                    and not new_vlan_config["querierAddress"]
+                    and not new_vlan_config.get("isQuerierEnabled", False)
+                ):
+                    del new_vlan_config["querierAddress"]
+                    self.log(
+                        "Removed empty querierAddress from new VLAN {0} (querier disabled)".format(
                             vlan_id
                         ),
                         "DEBUG",
                     )
 
-                    # Update ONLY the parameters provided by the user
-                    mld_vlan_params = [
-                        "isMldSnoopingEnabled",
-                        "isImmediateLeaveEnabled",
-                        "isQuerierEnabled",
-                        "querierAddress",
-                        "querierQueryInterval",
-                        "querierVersion",
-                    ]
+                if "mldSnoopingVlanMrouters" not in new_vlan_config:
+                    new_vlan_config["mldSnoopingVlanMrouters"] = {
+                        "configType": "SET",
+                        "items": [],
+                    }
 
-                    for param in mld_vlan_params:
-                        if param in desired_vlan:
-                            old_value = final_vlan.get(param)
-                            new_value = desired_vlan[param]
-
-                            # FIX: Skip empty querierAddress when querier is disabled
-                            if (
-                                param == "querierAddress"
-                                and not new_value
-                                and not desired_vlan.get("isQuerierEnabled", False)
-                            ):
-                                # Remove empty querierAddress when querier is disabled
-                                if param in final_vlan:
-                                    del final_vlan[param]
-                                self.log(
-                                    "Removed empty querierAddress for VLAN {0} (querier disabled)".format(
-                                        vlan_id
-                                    ),
-                                    "DEBUG",
-                                )
-                                continue
-
-                            # Only update if values are different
-                            if old_value != new_value:
-                                final_vlan[param] = new_value
-                                parameters_updated += 1
-                                self.log(
-                                    "VLAN {0}: Updated parameter '{1}' from current '{2}' to user's desired '{3}' (values differ)".format(
-                                        vlan_id, param, old_value, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-                            else:
-                                self.log(
-                                    "VLAN {0}: Parameter '{1}' already matches desired value '{2}' - no update needed".format(
-                                        vlan_id, param, new_value
-                                    ),
-                                    "DEBUG",
-                                )
-
-                    # Handle mrouter configuration if provided by user
-                    if "mldSnoopingVlanMrouters" in desired_vlan:
-                        final_vlan["mldSnoopingVlanMrouters"] = copy.deepcopy(
-                            desired_vlan["mldSnoopingVlanMrouters"]
-                        )
-                        self.log(
-                            "VLAN {0}: Applied user's mrouter configuration".format(
-                                vlan_id
-                            ),
-                            "DEBUG",
-                        )
-                    elif "mldSnoopingVlanMrouters" not in final_vlan:
-                        final_vlan["mldSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-                        self.log(
-                            "VLAN {0}: Added default mrouter structure".format(vlan_id),
-                            "DEBUG",
-                        )
-
-                else:
-                    # VLAN doesn't exist in current intended config - ADD new VLAN
-                    self.log(
-                        "VLAN {0} does not exist in current intended config - adding new VLAN".format(
-                            vlan_id
-                        ),
-                        "DEBUG",
-                    )
-                    new_vlan_config = copy.deepcopy(desired_vlan)
-
-                    # Ensure required structure for new VLAN
-                    if "configType" not in new_vlan_config:
-                        new_vlan_config["configType"] = "MLD_SNOOPING_VLAN"
-
-                    # FIX: Remove empty querierAddress if querier is disabled for new VLANs
-                    if (
-                        "querierAddress" in new_vlan_config
-                        and not new_vlan_config["querierAddress"]
-                        and not new_vlan_config.get("isQuerierEnabled", False)
-                    ):
-                        del new_vlan_config["querierAddress"]
-                        self.log(
-                            "Removed empty querierAddress from new VLAN {0} (querier disabled)".format(
-                                vlan_id
-                            ),
-                            "DEBUG",
-                        )
-
-                    if "mldSnoopingVlanMrouters" not in new_vlan_config:
-                        new_vlan_config["mldSnoopingVlanMrouters"] = {
-                            "configType": "SET",
-                            "items": [],
-                        }
-
-                    final_vlan_dict[vlan_id] = new_vlan_config
-                    self.log(
-                        "Added new VLAN {0} to final intended config".format(vlan_id),
-                        "DEBUG",
-                    )
+                final_vlan_dict[vlan_id] = new_vlan_config
+                self.log(
+                    "Added new VLAN {0} to final intended config".format(vlan_id),
+                    "DEBUG",
+                )
 
         # Convert final result back to list format sorted by VLAN ID
         final_vlans = sorted(final_vlan_dict.values(), key=lambda x: x.get("vlanId", 0))
@@ -11354,7 +11546,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion using the same pattern as wireless design module
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 # Check the final status
@@ -11459,7 +11651,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor deployment task completion using existing CatalystCenterBase function
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 # Check the final status
@@ -12205,9 +12397,7 @@ class WiredCampusAutomation(CatalystCenterBase):
         Returns:
             bool: True if values match, False otherwise
         """
-        if not isinstance(desired, type(current)) and not isinstance(
-            current, type(desired)
-        ):
+        if not isinstance(desired, current.__class__) and not isinstance(current, desired.__class__):
             self.log(
                 "Type mismatch detected: desired={0}, current={1}".format(
                     type(desired).__name__, type(current).__name__
@@ -13609,7 +13799,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13670,7 +13860,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13731,7 +13921,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion using existing infrastructure
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -13782,7 +13972,7 @@ class WiredCampusAutomation(CatalystCenterBase):
 
                 # Monitor task completion using existing infrastructure
                 self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
+                    task_id, task_name, success_msg, all_reasons=True
                 ).check_return_status()
 
                 if self.status == "success":
@@ -14458,10 +14648,8 @@ class WiredCampusAutomation(CatalystCenterBase):
                 "Initiating post-operation configuration retrieval from Catalyst Center",
                 "DEBUG",
             )
-            post_operation_deployed_configs, post_operation_intended_configs = (
-                self.get_current_configs_for_features(
-                    network_device_id, discovered_features
-                )
+            post_operation_deployed_configs, post_operation_intended_configs = self.get_current_configs_for_features(
+                network_device_id, discovered_features
             )
 
             self.log(
@@ -14610,24 +14798,17 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
-        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

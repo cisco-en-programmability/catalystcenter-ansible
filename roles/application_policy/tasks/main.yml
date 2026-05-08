@@ -1,0 +1,22 @@
+---
+# tasks file for application_policy
+- name: Manage Application Policy Configuration
+  cisco.catalystcenter.application_policy_workflow_manager:
+    catalystcenter_host: "{{ catalystcenter_host }}"
+    catalystcenter_username: "{{ catalystcenter_username }}"
+    catalystcenter_password: "{{ catalystcenter_password }}"
+    catalystcenter_verify: "{{ catalystcenter_verify | default(false) }}"
+    catalystcenter_port: "{{ catalystcenter_port | default(443) }}"
+    catalystcenter_version: "{{ catalystcenter_version | default('2.3.7.9') }}"
+    catalystcenter_debug: "{{ catalystcenter_debug | default(false) }}"
+    catalystcenter_log_level: "{{ catalystcenter_log_level | default('INFO') }}"
+    catalystcenter_log: "{{ catalystcenter_log | default(false) }}"
+    state: "{{ application_policy_state | default('merged') }}"
+    config_verify: "{{ application_policy_config_verify | default(true) }}"
+    config: "{{ application_policy_config }}"
+  register: application_policy_result
+
+- name: Display Application Policy Result
+  ansible.builtin.debug:
+    var: application_policy_result
+  when: catalystcenter_debug | default(false)

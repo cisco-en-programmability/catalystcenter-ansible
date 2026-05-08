@@ -20,10 +20,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     network_settings_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacNetworkSettings(TestDnacModule):
+class TestDnacNetworkSettings(TestCatalystModule):
 
     module = network_settings_workflow_manager
     test_data = loadPlaybookData("network_settings_workflow_manager")

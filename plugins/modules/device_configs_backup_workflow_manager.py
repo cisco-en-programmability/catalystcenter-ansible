@@ -1898,8 +1898,8 @@ class DeviceConfigsBackup(CatalystCenterBase):
             self.msg = (
                 f"No reachable devices found among the provided parameters: {config}"
             )
-            self.set_operation_result("failed", False, self.msg, "WARNING")
-            self.log(f"Process aborted: {self.msg}", "WARNING")
+            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.log(f"Process completed: {self.msg}", "INFO")
             return self
 
         self.log(
@@ -1936,6 +1936,10 @@ class DeviceConfigsBackup(CatalystCenterBase):
         """
         self.log("Executing the get_diff_merged function", "DEBUG")
 
+        if not self.want:
+            self.log("No configuration found to backup. Skipping the operation.", "DEBUG")
+            return self
+
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
             action_map = {
                 "export_device_configurations_params": (
@@ -1967,6 +1971,10 @@ class DeviceConfigsBackup(CatalystCenterBase):
             within a specified time window. It logs the desired state, checks the modification time of files in the specified directory,
             and sets the operation status based on whether recent backup files are found.
         """
+
+        if not self.want:
+            self.log("No configuration found to verify. Skipping the operation.", "DEBUG")
+            return self
 
         file_path = self.want.get("file_path")
         self.log("File Path: {0}".format(file_path))
@@ -2021,24 +2029,25 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str"},
-        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
+        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"],
+            "aliases": ["dnac_username", "user"],
         },
-        "catalystcenter_password": {"type": "str", "no_log": True},
-        "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
-        "catalystcenter_debug": {"type": "bool", "default": False},
-        "catalystcenter_log": {"type": "bool", "default": False},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
+        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
+        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
+        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
         "catalystcenter_log_file_path": {
             "type": "str",
             "default": "catalystcenter.log",
+            "aliases": ["dnac_log_file_path"],
         },
-        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

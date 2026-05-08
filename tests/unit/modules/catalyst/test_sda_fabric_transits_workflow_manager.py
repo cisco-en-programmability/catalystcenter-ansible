@@ -27,10 +27,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     sda_fabric_transits_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacSdaFabricTransits(TestDnacModule):
+class TestDnacSdaFabricTransits(TestCatalystModule):
 
     module = sda_fabric_transits_workflow_manager
     test_data = loadPlaybookData("sda_fabric_transits_workflow_manager")

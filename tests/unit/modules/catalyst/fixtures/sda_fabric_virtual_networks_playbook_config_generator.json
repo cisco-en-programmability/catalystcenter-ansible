@@ -1,0 +1,318 @@
+{
+  "playbook_config_generate_all_configurations": null,
+  "playbook_config_fabric_vlan_by_vlan_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        }
+      ]
+    }
+  },
+  "playbook_config_fabric_vlan_by_vlan_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        },
+        {
+          "vlan_name": "abc"
+        }
+      ]
+    }
+  },
+  "playbook_config_fabric_vlan_by_vlan_id_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_id": 1031
+        }
+      ]
+    }
+  },
+  "playbook_config_fabric_vlan_by_vlan_id_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_id": 1031
+        },
+        {
+          "vlan_id": 1038
+        }
+      ]
+    }
+  },
+  "playbook_config_fabric_vlan_by_vlan_name_and_id": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123",
+          "vlan_id": 1031
+        },
+        {
+          "vlan_name": "Test456"
+        }
+      ]
+    }
+  },
+  "playbook_config_virtual_networks_by_vn_name_single": {
+    "component_specific_filters": {
+      "components_list": [
+        "virtual_networks"
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        }
+      ]
+    }
+  },
+  "playbook_config_virtual_networks_by_vn_name_multiple": {
+    "component_specific_filters": {
+      "components_list": [
+        "virtual_networks"
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        },
+        {
+          "vn_name": "VN3"
+        }
+      ]
+    }
+  },
+  "playbook_config_anycast_gateways_by_vn_name": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vn_name": "Chennai_VN1"
+        }
+      ]
+    }
+  },
+  "playbook_config_anycast_gateways_by_ip_pool_name": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "ip_pool_name": "Chennai-VN1-Pool1"
+        }
+      ]
+    }
+  },
+  "playbook_config_anycast_gateways_by_vlan_id": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_id": 1032
+        }
+      ]
+    }
+  },
+  "playbook_config_anycast_gateways_by_vlan_name": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_name": "Chennai_Vlan"
+        }
+      ]
+    }
+  },
+  "playbook_config_anycast_gateways_by_vlan_name_and_id": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_name": "Chennai_Vlan",
+          "vlan_id": 1032
+        }
+      ]
+    }
+  },
+  "playbook_config_anycast_gateways_all_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "anycast_gateways"
+      ],
+      "anycast_gateways": [
+        {
+          "vlan_name": "Chennai_Vlan",
+          "vlan_id": 1032,
+          "ip_pool_name": "Chennai-VN1-Pool1",
+          "vn_name": "Chennai_VN1"
+        }
+      ]
+    }
+  },
+  "playbook_config_multiple_components": {
+    "component_specific_filters": {
+      "components_list": [
+        "virtual_networks",
+        "anycast_gateways"
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        }
+      ],
+      "anycast_gateways": [
+        {
+          "vn_name": "Chennai_VN1"
+        }
+      ]
+    }
+  },
+  "playbook_config_all_components": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan",
+        "virtual_networks",
+        "anycast_gateways"
+      ],
+      "fabric_vlan": [
+        {
+          "vlan_name": "Test123"
+        }
+      ],
+      "virtual_networks": [
+        {
+          "vn_name": "VN1"
+        }
+      ],
+      "anycast_gateways": [
+        {
+          "ip_pool_name": "Chennai-VN1-Pool1"
+        }
+      ]
+    }
+  },
+  "playbook_config_empty_filters": {
+    "component_specific_filters": {
+      "components_list": [
+        "fabric_vlan"
+      ]
+    }
+  },
+  "playbook_config_empty_config": {},
+  "playbook_config_empty_component_specific_filters": {
+    "component_specific_filters": {}
+  },
+  "playbook_config_invalid_component": {
+    "component_specific_filters": {
+      "invalid_component": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "playbook_config_invalid_component_filters": {
+    "component_specific_filters": {
+      "fabric_vlan": [
+        {
+          "invalid_filter": "Invalid Value"
+        }
+      ]
+    }
+  },
+  "get_site_details": {
+    "response": [
+      {
+        "id": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "parentId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "name": "Fabric_Test",
+        "nameHierarchy": "Global/Fabric_Test",
+        "type": "area"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_fabric_site_details": {
+    "response": [
+      {
+        "id": "879173be-e21f-472d-bc78-06407f9c5091",
+        "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
+        "authenticationProfileName": "No Authentication",
+        "isPubSubEnabled": false
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_fabric_vlan_response": {
+    "response": [
+      {
+        "id": "dd629091-0592-440a-9dd8-e2274327b99c",
+        "fabricId": "879173be-e21f-472d-bc78-06407f9c5091",
+        "vlanName": "Test123",
+        "vlanId": 1031,
+        "trafficType": "DATA",
+        "isFabricEnabledWireless": false
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_virtual_network_response": {
+    "response": [
+      {
+        "id": "93b7a0f0-119e-4115-ad3e-f7bcfdcddbb9",
+        "virtualNetworkName": "VN1",
+        "fabricIds": [
+          "879173be-e21f-472d-bc78-06407f9c5091"
+        ]
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_anycast_gateway_details": {
+    "response": [
+      {
+        "id": "dbbb67b7-820b-40ce-8c51-2eb43b5f8d04",
+        "fabricId": "879173be-e21f-472d-bc78-06407f9c5091",
+        "virtualNetworkName": "Chennai_VN1",
+        "ipPoolName": "Chennai-VN1-Pool1",
+        "tcpMssAdjustment": 581,
+        "vlanName": "Chennai_Vlan",
+        "vlanId": 1032,
+        "trafficType": "VOICE",
+        "isCriticalPool": false,
+        "isLayer2FloodingEnabled": false,
+        "isWirelessPool": false,
+        "isIpDirectedBroadcast": false,
+        "isIntraSubnetRoutingEnabled": true,
+        "isMultipleIpToMacAddresses": false,
+        "isSupplicantBasedExtendedNodeOnboarding": false,
+        "isGroupBasedPolicyEnforcementEnabled": true
+      }
+    ],
+    "version": "1.0"
+  }
+}

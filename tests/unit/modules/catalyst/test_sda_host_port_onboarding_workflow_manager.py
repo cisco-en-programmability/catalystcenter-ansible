@@ -20,10 +20,10 @@ from unittest.mock import patch
 from ansible_collections.cisco.catalystcenter.plugins.modules import (
     sda_host_port_onboarding_workflow_manager,
 )
-from .catalystcenter_module import TestDnacModule, set_module_args, loadPlaybookData
+from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class SDAHostPortOnboarding(TestDnacModule):
+class SDAHostPortOnboarding(TestCatalystModule):
 
     module = sda_host_port_onboarding_workflow_manager
 

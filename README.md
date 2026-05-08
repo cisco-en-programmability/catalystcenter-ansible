@@ -29,9 +29,9 @@ Notes:
 
 ## Requirements
 
-- Python >= 3.9
+- Python >= 3.12
 - [catalystcentersdk](https://github.com/cisco-en-programmability/catalystcentersdk) (see Compatibility Matrix for tested versions)
-- ansible-core >= 2.15
+- ansible-core >= 2.16
 
 > **Note:** ansible-core is provided through Red Hat Ansible Automation Platform Execution Environments or can be installed via standard enterprise channels. Manual installation is not required for certified environments.
 
@@ -159,6 +159,95 @@ ansible-playbook -i hosts myplaybook.yml
 In the `playbooks` [directory](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/playbooks) you can find more examples and use cases.
 
 
+## Ansible Roles
+
+This collection now includes **69 Ansible roles** that provide a higher-level abstraction over the workflow manager modules for simplified playbook development:
+
+- **39 workflow manager roles** - Wrap `*_workflow_manager` modules for streamlined configuration management
+- **30 config generator roles** - Wrap `*_playbook_config_generator` modules for configuration extraction and documentation
+
+### Using Roles
+
+Roles reduce boilerplate by providing sensible defaults for connection parameters and module arguments:
+
+```yaml
+- hosts: localhost
+  roles:
+    - role: cisco.catalystcenter.site
+      vars:
+        catalystcenter_host: "{{ vault_catalystcenter_host }}"
+        catalystcenter_username: "{{ vault_catalystcenter_username }}"
+        catalystcenter_password: "{{ vault_catalystcenter_password }}"
+        site_config:
+          - site_type: area
+            site:
+              area:
+                name: "USA"
+                parent_name: "Global"
+```
+
+### Available Roles
+
+**Workflow Manager Roles**: `accesspoint`, `accesspoint_location`, `application_policy`, `assurance_device_health_score_settings`, `assurance_icap_settings`, `assurance_issue`, `backup_and_restore`, `device_configs_backup`, `device_credential`, `discovery`, `events_and_notifications`, `fabric_devices_info`, `inventory`, `ise_radius_integration`, `lan_automation`, `network_compliance`, `network_devices_info`, `network_profile_switching`, `network_profile_wireless`, `network_settings`, `path_trace`, `pnp`, `provision`, `reports`, `rma`, `sda_extranet_policies`, `sda_fabric_devices`, `sda_fabric_multicast`, `sda_fabric_sites_zones`, `sda_fabric_transits`, `sda_fabric_virtual_networks`, `sda_host_port_onboarding`, `site`, `swim`, `tags`, `template`, `user_role`, `wired_campus_automation`, `wireless_design`
+
+**Config Generator Roles**: Add `_config_generator` suffix to any of the following: `accesspoint`, `accesspoint_location`, `application_policy`, `assurance_device_health_score_settings`, `assurance_issue`, `backup_and_restore`, `device_credential`, `discovery`, `events_and_notifications`, `inventory`, `ise_radius_integration`, `network_profile_switching`, `network_profile_wireless`, `network_settings`, `pnp`, `provision`, `rma`, `sda_extranet_policies`, `sda_fabric_devices`, `sda_fabric_multicast`, `sda_fabric_sites_zones`, `sda_fabric_transits`, `sda_fabric_virtual_networks`, `sda_host_port_onboarding`, `site`, `tags`, `template`, `user_role`, `wired_campus_automation`, `wireless_design`
+
+For detailed role documentation, examples, and best practices, see [ROLES_GUIDE.md](ROLES_GUIDE.md) and the [example roles playbook](playbooks/example_roles_playbook.yml).
+
+
+## CVP - Cisco Validated Playbooks
+
+This collection includes **70+ Cisco Validated Playbooks (CVP)** - production-ready, comprehensive automation solutions validated by Cisco.
+
+### What is CVP?
+
+CVP provides complete automation solutions including:
+- ✅ Ready-to-run Ansible playbooks
+- ✅ Example variable files with realistic configurations
+- ✅ YAML schemas for input validation
+- ✅ Detailed documentation with screenshots
+- ✅ Jinja2 templates for bulk operations
+- ✅ Cisco validation and testing
+
+### Quick Start with CVP
+
+```bash
+# Install collection (includes CVPs)
+ansible-galaxy collection install cisco.catalystcenter
+
+# CVPs are installed to:
+# ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/
+
+# Copy a CVP to your project
+cp -r ~/.ansible/collections/ansible_collections/cisco/catalystcenter/cvp/site_hierarchy my-project/
+
+# Customize and run
+cd my-project/site_hierarchy
+vi vars/site_hierarchy_design_vars.yml
+ansible-playbook playbook/site_hierarchy_playbook.yml
+```
+
+### CVP Categories
+
+- **Network Design**: Site hierarchy, network settings, wireless design
+- **Device Management**: Discovery, credentials, inventory, provisioning
+- **SDA Fabric**: Fabric sites, host onboarding, virtual networks, transits
+- **Assurance**: Issue management, path trace, health scores
+- **Security**: ISE integration, application policies
+- **Operations**: Backup/restore, compliance, SWIM, RMA
+
+### CVP vs Roles vs Playbooks
+
+| Approach | Use Case | Location |
+|----------|----------|----------|
+| **Modules** | Custom automation | Direct module calls |
+| **Roles** | Reusable components | `roles/site` |
+| **Playbooks** | Quick examples | `playbooks/tag.yml` |
+| **CVP** | Production deployments | `cvp/site_hierarchy/` ⭐ |
+
+For complete CVP documentation, catalog, and usage examples, see [CVP_GUIDE.md](CVP_GUIDE.md) and [cvp/README.md](cvp/README.md).
+
+
 ## Use Cases
 
 
@@ -176,8 +265,8 @@ This collection supports automation scenarios such as:
 This collection is validated against the following environments:
 
 - Cisco CATALYST Center: 2.3.7.6, 2.3.7.9, 3.1.3.0, 3.1.6.0
-- ansible-core: >= 2.15
-- Python: >= 3.9
+- ansible-core: >= 2.16
+- Python: >= 3.12
 
 Known limitations and compatibility notes are documented in the [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml). For platform-specific issues, consult the official documentation or open a support case as appropriate.
 
@@ -202,8 +291,8 @@ This collection is available on both Ansible Galaxy and Red Hat Automation Hub.
 For certified content obtained from Red Hat Automation Hub, support is provided through Red Hat Ansible Automation Platform according to your subscription agreement.
 
 For content obtained from Ansible Galaxy, community support may be available via:
-- https://forum.ansible.com/
-- https://github.com/cisco-en-programmability/catalystcenter-ansible/issues
+- [Ansible Forum](https://forum.ansible.com/)
+- [GitHub Issues](https://github.com/cisco-en-programmability/catalystcenter-ansible/issues)
 
 Please consult your platform documentation for support eligibility and procedures.
 
@@ -212,8 +301,7 @@ Please consult your platform documentation for support eligibility and procedure
 
 ## Release Notes and Roadmap
 
-Release notes are maintained in the public changelog:
-https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml
+Release notes are maintained in the public [changelog](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/changelogs/changelog.yaml).
 
 This collection follows [Semantic Versioning](https://semver.org/). For roadmap information, refer to the repository or contact Cisco for enterprise roadmap details.
 
@@ -222,9 +310,9 @@ This collection follows [Semantic Versioning](https://semver.org/). For roadmap 
 
 ## Related Information
 
-- https://github.com/cisco-en-programmability/catalystcentersdk
-- https://docs.ansible.com/ansible/latest/user_guide/collections_using.html
-- https://github.com/cisco-en-programmability/catalystcenter-ansible
+- [Catalyst Center Python SDK](https://github.com/cisco-en-programmability/catalystcentersdk)
+- [Using Ansible Collections](https://docs.ansible.com/ansible/latest/user_guide/collections_using.html)
+- [Catalyst Center Ansible Collection](https://github.com/cisco-en-programmability/catalystcenter-ansible)
 
 ---
 
@@ -233,7 +321,6 @@ This collection follows [Semantic Versioning](https://semver.org/). For roadmap 
 
 This collection is licensed under the Cisco Sample Code License.
 
-The full license text is available at:
-https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE
+The full license text is available in the [LICENSE](https://github.com/cisco-en-programmability/catalystcenter-ansible/blob/main/LICENSE) file.
 
 The license is included in the distributed collection artifact.

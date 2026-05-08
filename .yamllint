@@ -1,0 +1,9 @@
+---
+extends: default
+
+ignore: |
+  cvp/sda_device_removal_and_unprovision/playbook/tasks/remove_single_device.yml
+
+rules:
+  # Disable anchor checking - anchors are defined in parent playbooks
+  anchors: disable
