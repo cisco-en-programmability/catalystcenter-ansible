@@ -2771,7 +2771,7 @@ class BrownFieldHelper:
                     )
 
                     # Execute the API call
-                    response = self.dnac._exec(
+                    response = self.catalystcenter._exec(
                         family=api_family,
                         function=api_function,
                         op_modifies=False,
@@ -2877,7 +2877,7 @@ class BrownFieldHelper:
             function_name = "get_fabric_zones"
 
         try:
-            response = self.dnac._exec(
+            response = self.catalystcenter._exec(
                 family="sda",
                 function=function_name,
                 op_modifies=False,
@@ -3048,7 +3048,7 @@ class BrownFieldHelper:
             site_id = site.get("id")
             if site_id:
                 if (
-                    self.compare_dnac_versions(ccc_version, "2.3.7.9") <= 0
+                    self.compare_catalystcenter_versions(ccc_version, "2.3.7.9") <= 0
                     and site.get("type") == "global"
                 ):
                     # For versions <= 2.3.7.9
