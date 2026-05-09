@@ -551,7 +551,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
   **Example Command to Run the SDA Fabric Virtual Networks Playbook with Merged Method:**
   ```bash
   ansible-playbook 
-    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to Catalyst Center to run
     ./cvp/sda_virtual_networks_l2l3_gateways/playbook/sda_virtual_networks_l2_l3_gateways_playbook.yml # Playbook that will execute
     --extra-vars VARS_FILE_PATH=../vars/sda_virtual_networks_l2_l3_gateways_input.yml # Location of the input file for playbook execution
     -vvv # Returns detailed information about the message; the more 'v', the more detail

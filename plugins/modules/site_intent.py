@@ -1136,7 +1136,7 @@ class DnacSite(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for merged state
+        # Code to validate Catalyst Center config for merged state
         site_exist = self.have.get("site_exists")
         site_name = self.want.get("site_name")
 
@@ -1186,7 +1186,7 @@ class DnacSite(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for delete state
+        # Code to validate Catalyst Center config for delete state
         site_exist = self.have.get("site_exists")
 
         if not site_exist:

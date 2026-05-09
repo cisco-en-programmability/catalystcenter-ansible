@@ -1372,11 +1372,11 @@ requirements:
   - catalystcentersdk >= 2.7.2
   - python >= 3.8
 seealso:
-  - name: Cisco DNAC Ansible Collection Documentation
-    description: Complete guide to using the Cisco DNAC Ansible collection.
-    link: https://docs.ansible.com/ansible/latest/collections/cisco/dnac/index.html
-  - name: Cisco DNAC API Documentation
-    description: Official API documentation for Cisco DNAC.
+  - name: Cisco Catalyst Center Ansible Collection Documentation
+    description: Complete guide to using the Cisco Catalyst Center Ansible collection.
+    link: https://docs.ansible.com/ansible/latest/collections/cisco/catalystcenter/index.html
+  - name: Cisco Catalyst Center API Documentation
+    description: Official API documentation for Cisco Catalyst Center.
     link: https://developer.cisco.com/docs/dna-center/
 notes:
   - Make sure to install the required Python dependencies by executing pip install

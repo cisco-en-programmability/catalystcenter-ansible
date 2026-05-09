@@ -92,7 +92,7 @@ python -m pip install --upgrade pip setuptools wheel
 # Install Python dependencies (includes ansible and catalystcentersdk)
 pip install -r requirements.txt
 
-# Install/upgrade Cisco DNAC Ansible collection
+# Install/upgrade Cisco Catalyst Center Ansible collection
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 

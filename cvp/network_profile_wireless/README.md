@@ -287,7 +287,7 @@ wireless_nw_profiles_details:
 ```
 
 ##### 4. **Create Wireless Network Profile with Feature Template Designs**
-*Only supports the API for DNAC version 3.1.3 and above*
+*Only supports the API for Catalyst Center version 3.1.3 and above*
 
 a. *Example*: Configure wireless profile with AAA RADIUS Attributes Configuration
 

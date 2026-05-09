@@ -7,7 +7,7 @@
 # Example 1: Generate all configurations (default behavior when config is omitted)
 # ====================================================================================
 - name: Generate complete SDA extranet policies configuration
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -33,7 +33,7 @@
 # Tests behavior when file_path is specified but no config filters are provided
 # ====================================================================================
 - name: Generate all extranet policies with custom file path
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -60,7 +60,7 @@
 # Tests component specific filters with a single policy
 # ====================================================================================
 - name: Generate configuration for specific extranet policy
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -92,7 +92,7 @@
 # Tests behavior when component filters are provided without explicit components_list
 # ====================================================================================
 - name: Generate configuration with auto-populated components_list
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -124,7 +124,7 @@
 # Tests file append mode to combine multiple configurations
 # ====================================================================================
 - name: Generate and append SDA extranet policies configuration
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   vars_files:
     - credentials.yml
   gather_facts: false

@@ -15,16 +15,16 @@ catalyst_center_hosts:
     hosts:
         catalyst_center220:
             #(Mandatory) CatC Ip address
-            catalyst_center_host:  <DNAC IP Address>
+            catalyst_center_host:  <Catalyst Center IP Address>
             #(Mandatory) CatC UI admin Password
-            catalyst_center_password: <DNAC UI admin Password>
+            catalyst_center_password: <Catalyst Center UI admin Password>
             catalyst_center_port: 443
             catalyst_center_timeout: 60
             #(Mandatory) CatC UI admin username
-            catalyst_center_username: <DNAC UI admin username> 
+            catalyst_center_username: <Catalyst Center UI admin username> 
             catalyst_center_verify: false
-            #(Mandatory) DNAC Release version
-            catalyst_center_version: <DNAC Release version>
+            #(Mandatory) Catalyst Center Release version
+            catalyst_center_version: <Catalyst Center Release version>
             catalyst_center_debug: true
             catalyst_center_log_level: INFO
             catalyst_center_log: true
@@ -137,7 +137,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
         trusted_server: True
         ise_integration_wait_time: 60
   ```
-  We can only add one ISE for each DNAC.
+  We can only add one ISE for each Catalyst Center.
 
   Update ISE server (we can only update with retries, timeout, protocol|add more, pxgrid_enabled, fqdn, user_name, password|if fail):
   ```yaml
@@ -245,7 +245,7 @@ ansible-playbook -i host_inventory_dnac1/hosts.yml cvp/ise_radius_integration/pl
   Example command to run the ise_radius_integration playbook:
   ```bash
   ansible-playbook 
-    -i ./inventory/demo_lab/inventory_demo_lab.yml # refer to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml # refer to Catalyst Center to run
     ./cvp/ise_radius_integration/playbook/ise_radius_integration_workflow_playbook.yml # playbook will run this
     --extra-vars VARS_FILE_PATH=< Full Path to vars file># location of the input file for the playbook to execute
     -vvv # return detailed information about the message; the more 'v', more detailed

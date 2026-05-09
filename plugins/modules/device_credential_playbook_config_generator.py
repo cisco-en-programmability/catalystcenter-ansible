@@ -2502,7 +2502,7 @@ def main():
         catalystcenter_debug (bool, default=False): Debug mode flag for detailed logging
         catalystcenter_log_level (str, default='WARNING'): Logging level (DEBUG, INFO,
                                                 WARNING, ERROR)
-        catalystcenter_log_file_path (str, default='dnac.log'): Log file path for
+        catalystcenter_log_file_path (str, default='catalystcenter.log'): Log file path for
                                                     persistent logging
         catalystcenter_log_append (bool, default=True): Append mode for log file
         catalystcenter_log (bool, default=False): Enable file logging flag

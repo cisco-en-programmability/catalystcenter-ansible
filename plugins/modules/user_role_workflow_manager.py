@@ -3550,7 +3550,7 @@ class UserandRole(CatalystCenterBase):
         Description:
             - This method sends a request to update a role in Cisco Catalyst Center using the provided
               role parameters. It first logs the role parameters at the "DEBUG" level. Then it calls the"_exec" method
-              of the "dnac" object to perform the API request. The API request is specified with the "user_and_roles" family
+              of the "catalystcenter" object to perform the API request. The API request is specified with the "user_and_roles" family
               and the "update_role_api" function. The method logs the received API response at the "DEBUG" level and
               finally returns the response.
         """

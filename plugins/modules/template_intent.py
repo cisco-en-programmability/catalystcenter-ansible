@@ -2175,7 +2175,7 @@ class DnacTemplate(CatalystCenterBase):
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
-        # This check will fail if specified template is there not committed in dnac
+        # This check will fail if specified template is there not committed in Catalyst Center
         if template_list and isinstance(template_list, list):
             template_info = get_dict_result(template_list, "name", templateName)
             if template_info:
@@ -2201,7 +2201,7 @@ class DnacTemplate(CatalystCenterBase):
 
         self.have_template = have_template
         self.msg = (
-            "Successfully collected all template parameters from dnac for comparison"
+            "Successfully collected all template parameters from Catalyst Center for comparison"
         )
         self.status = "success"
         return self
@@ -2227,7 +2227,7 @@ class DnacTemplate(CatalystCenterBase):
                 self.get_have_template(config, template_available)
 
         self.msg = "Successfully collected all project and template \
-                    parameters from dnac for comparison"
+                    parameters from Catalyst Center for comparison"
         self.status = "success"
         return self
 
