@@ -671,7 +671,7 @@ response_1:
                 "catalystcenter_host": "10.22.40.214",
                 "catalystcenter_log": true,
                 "catalystcenter_log_append": true,
-                "catalystcenter_log_file_path": "dnac.log",
+                "catalystcenter_log_file_path": "catalystcenter.log",
                 "catalystcenter_log_level": "DEBUG",
                 "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
                 "catalystcenter_port": "443",

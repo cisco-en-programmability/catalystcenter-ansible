@@ -1,6 +1,6 @@
 # Cisco Catalyst Center Switch Network Profile Playbooks
 
-This module manages switch network profiles in Cisco Catalyst Center (DNAC), a platform for intent-based networking. It automates the creation, deletion, and assignment of switch profiles to sites and templates.
+This module manages switch network profiles in Cisco Catalyst Center (formerly DNAC), a platform for intent-based networking. It automates the creation, deletion, and assignment of switch profiles to sites and templates.
 
 **Description:**
 - Create and delete switch network profiles.

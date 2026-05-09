@@ -6337,7 +6337,7 @@ class Inventory(CatalystCenterBase):
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
 
-                # Check if the same role of device is present in dnac then no need to change the state
+                # Check if the same role of device is present in Catalyst Center then no need to change the state
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_list",

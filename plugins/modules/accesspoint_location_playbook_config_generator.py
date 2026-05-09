@@ -3667,7 +3667,7 @@ def main():
 
         Logging Parameters:
             - catalystcenter_log_level (str, optional): Log level (default: "WARNING")
-            - catalystcenter_log_file_path (str, optional): Log file path (default: "dnac.log")
+            - catalystcenter_log_file_path (str, optional): Log file path (default: "catalystcenter.log")
             - catalystcenter_log_append (bool, optional): Append to log file (default: True)
             - catalystcenter_log (bool, optional): Enable file logging (default: False)
 

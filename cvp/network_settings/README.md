@@ -463,7 +463,7 @@ network_settings_details:
   **Command to Run:**
   ```bash
   ansible-playbook \
-    -i ./inventory/demo_lab/inventory_demo_lab.yml \ # refer to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml \ # refer to Catalyst Center to run
     ./cvp/network_settings/playbook/network_settings_playbook.yml \ # playbook will run this
     --extra-vars VARS_FILE_PATH=../vars/network_settings_vars.yml \ # location of the input file for the playbook to execute
     -vvv # return detailed information about the message; the more 'v', the more detailed
@@ -1060,7 +1060,7 @@ This task reserves sub-pools from a global IP address pool for specific sites in
   **Example Command to Run the IP Pool Playbook with Merged Method:**
   ```bash
   ansible-playbook 
-    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to Catalyst Center to run
     ./cvp/network_settings/playbook/network_settings_playbook.yml # Playbook that will execute
     --extra-vars VARS_FILE_PATH=../vars/global_pool_and_reserve_pools_on_sites.yml # Location of the input file for playbook execution
     -vvv # Returns detailed information about the message; the more 'v', the more detail
