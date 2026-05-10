@@ -25,7 +25,7 @@ options:
     type: bool
     default: false
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Catalyst Center after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -166,7 +166,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 )
 
 
-class Dnacprovision(CatalystCenterBase):
+class CatalystCenterProvision(CatalystCenterBase):
     """
     Class containing member attributes for provision intent module
     """
@@ -483,8 +483,14 @@ class Dnacprovision(CatalystCenterBase):
                     family="sda",
                     function="get_provisioned_wired_device",
                     op_modifies=True,
-                    params={"device_management_\
-                        ip_address": self.validated_config[0]["management_ip_address"]},
+                    params={
+                        "device_management_\
+                        ip_address": self.validated_config[
+                            0
+                        ][
+                            "management_ip_address"
+                        ]
+                    },
                 )
             except Exception:
                 status_response = {}
@@ -552,8 +558,14 @@ class Dnacprovision(CatalystCenterBase):
                 family="sda",
                 function="get_provisioned_wired_device",
                 op_modifies=True,
-                params={"device_management_\
-                    ip_address": self.validated_config[0]["management_ip_address"]},
+                params={
+                    "device_management_\
+                    ip_address": self.validated_config[
+                        0
+                    ][
+                        "management_ip_address"
+                    ]
+                },
             )
 
         except Exception:
@@ -570,8 +582,14 @@ class Dnacprovision(CatalystCenterBase):
             family="sda",
             function="delete_provisioned_wired_device",
             op_modifies=True,
-            params={"device_management_\
-                ip_address": self.validated_config[0]["management_ip_address"]},
+            params={
+                "device_management_\
+                ip_address": self.validated_config[
+                    0
+                ][
+                    "management_ip_address"
+                ]
+            },
         )
 
         task_id = response.get("taskId")
@@ -590,25 +608,17 @@ def main():
     """
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
@@ -617,22 +627,22 @@ def main():
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
-    dnac_provision = Dnacprovision(module)
+    catalystcenter_provision = CatalystCenterProvision(module)
 
-    state = dnac_provision.params.get("state")
-    if state not in dnac_provision.supported_states:
-        dnac_provision.status = "invalid"
-        dnac_provision.msg = "State {0} is invalid".format(state)
-        dnac_provision.check_return_status()
+    state = catalystcenter_provision.params.get("state")
+    if state not in catalystcenter_provision.supported_states:
+        catalystcenter_provision.status = "invalid"
+        catalystcenter_provision.msg = "State {0} is invalid".format(state)
+        catalystcenter_provision.check_return_status()
 
-    dnac_provision.validate_input().check_return_status()
+    catalystcenter_provision.validate_input().check_return_status()
 
-    for config in dnac_provision.validated_config:
-        dnac_provision.reset_values()
-        dnac_provision.get_want().check_return_status()
-        dnac_provision.get_diff_state_apply[state]().check_return_status()
+    for config in catalystcenter_provision.validated_config:
+        catalystcenter_provision.reset_values()
+        catalystcenter_provision.get_want().check_return_status()
+        catalystcenter_provision.get_diff_state_apply[state]().check_return_status()
 
-    module.exit_json(**dnac_provision.result)
+    module.exit_json(**catalystcenter_provision.result)
 
 
 if __name__ == "__main__":

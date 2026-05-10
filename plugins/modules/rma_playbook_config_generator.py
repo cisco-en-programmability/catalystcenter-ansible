@@ -1685,7 +1685,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
+            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -1742,28 +1742,24 @@ def main():
         # ============================================
         "catalystcenter_host": {
             "required": True,
-            "type": "str",
-            "aliases": ["dnac_host"],
+            "type": "str"
         },
         "catalystcenter_port": {
             "type": "str",
-            "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "default": "443"
         },
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["dnac_username", "user"]
+            "aliases": ["user"]
         },
         "catalystcenter_password": {
             "type": "str",
-            "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "no_log": True  # Prevent password from appearing in logs
         },
         "catalystcenter_verify": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_verify"],
+            "default": True
         },
 
         # ============================================
@@ -1771,8 +1767,7 @@ def main():
         # ============================================
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "default": "2.2.3.3"
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -1792,28 +1787,23 @@ def main():
         # ============================================
         "catalystcenter_debug": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_debug"],
+            "default": False
         },
         "catalystcenter_log_level": {
             "type": "str",
-            "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "default": "WARNING"
         },
         "catalystcenter_log_file_path": {
             "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "default": "catalystcenter.log"
         },
         "catalystcenter_log_append": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_log_append"],
+            "default": True
         },
         "catalystcenter_log": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_log"],
+            "default": False
         },
 
         # ============================================

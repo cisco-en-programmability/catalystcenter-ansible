@@ -1229,12 +1229,12 @@ class Swim(CatalystCenterBase):
             return self
 
         temp_spec = dict(
-            image_name=dict(type="list", elements="str"),
-            sync_cco=dict(type="bool", default=False),
-            import_image_details=dict(type="dict"),
-            tagging_details=dict(type="dict"),
-            image_distribution_details=dict(type="dict"),
-            image_activation_details=dict(type="dict"),
+            image_name=dict(type='list', elements='str'),
+            sync_cco=dict(type='bool', default=False),
+            import_image_details=dict(type='dict'),
+            tagging_details=dict(type='dict'),
+            image_distribution_details=dict(type='dict'),
+            image_activation_details=dict(type='dict'),
         )
 
         # Validate swim params
@@ -1348,10 +1348,7 @@ class Swim(CatalystCenterBase):
             images are found with the same name, it raises an exception.
         """
 
-        self.log(
-            "Attempting to find image ID for image with name: '{0}'".format(name),
-            "DEBUG",
-        )
+        self.log("Attempting to find image ID for image with name: '{0}'".format(name), "DEBUG")
         try:
             image_response = self.catalystcenter._exec(
                 family="software_image_management_swim",
@@ -1360,36 +1357,17 @@ class Swim(CatalystCenterBase):
                 params={"image_name": name},
             )
 
-            self.log(
-                "Received API response from 'get_software_image_details': {0}".format(
-                    str(image_response)
-                ),
-                "DEBUG",
-            )
+            self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
 
-            image_list = (
-                image_response.get("response", [])
-                if isinstance(image_response, dict)
-                else []
-            )
+            image_list = image_response.get("response", []) if isinstance(image_response, dict) else []
 
             if len(image_list) == 1:
                 image_id = image_list[0].get("imageUuid")
                 if image_id:
-                    self.log(
-                        "Successfully found SWIM image '{0}' with ID: {1}".format(
-                            name, image_id
-                        ),
-                        "INFO",
-                    )
+                    self.log("Successfully found SWIM image '{0}' with ID: {1}".format(name, image_id), "INFO")
                     return image_id
                 else:
-                    self.log(
-                        "Image found but missing imageUuid field for '{0}'".format(
-                            name
-                        ),
-                        "WARNING",
-                    )
+                    self.log("Image found but missing imageUuid field for '{0}'".format(name), "WARNING")
                     return None
 
             if len(image_list) == 0:
@@ -1397,20 +1375,13 @@ class Swim(CatalystCenterBase):
                 return None
 
             self.log(
-                "Multiple SWIM images ({0}) found with name '{1}' - unable to uniquely identify".format(
-                    len(image_list), name
-                ),
+                "Multiple SWIM images ({0}) found with name '{1}' - unable to uniquely identify".format(len(image_list), name),
                 "WARNING",
             )
             return None
 
         except Exception as e:
-            self.log(
-                "An exception occurred while retrieving image ID for '{0}': {1}".format(
-                    name, str(e)
-                ),
-                "ERROR",
-            )
+            self.log("An exception occurred while retrieving image ID for '{0}': {1}".format(name, str(e)), "ERROR")
             return None
 
     def get_cco_image_id(self, cco_image_name):
@@ -1467,9 +1438,9 @@ class Swim(CatalystCenterBase):
                         return image_id
             return None
         except Exception as e:
-            dnac_host = self.params.get("catalystcenter_host")
+            catalystcenter_host = self.params.get("catalystcenter_host")
             self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(
-                cco_image_name, dnac_host
+                cco_image_name, catalystcenter_host
             )
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR"
@@ -1584,14 +1555,14 @@ class Swim(CatalystCenterBase):
         self.log(
             "Checking if device is an Access Point for SWIM eligibility - "
             "device_info: {0}".format(device),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not isinstance(device, dict):
             self.log(
                 "Device validation failed - expected dict but received {0}, "
                 "treating as non-AP device".format(type(device).__name__),
-                "WARNING",
+                "WARNING"
             )
             return False
 
@@ -1603,7 +1574,7 @@ class Swim(CatalystCenterBase):
             self.log(
                 "Device identified as Access Point based on family field '{0}' - "
                 "excluding from SWIM operations".format(device.get("family")),
-                "INFO",
+                "INFO"
             )
             return True
 
@@ -1612,7 +1583,7 @@ class Swim(CatalystCenterBase):
             self.log(
                 "Device identified as Access Point based on role field '{0}' - "
                 "excluding from SWIM operations".format(device.get("role")),
-                "INFO",
+                "INFO"
             )
             return True
 
@@ -1621,7 +1592,7 @@ class Swim(CatalystCenterBase):
             self.log(
                 "Device identified as Access Point based on series field '{0}' - "
                 "excluding from SWIM operations".format(device.get("series")),
-                "INFO",
+                "INFO"
             )
             return True
 
@@ -1630,19 +1601,17 @@ class Swim(CatalystCenterBase):
             self.log(
                 "Device identified as Access Point based on type field '{0}' - "
                 "excluding from SWIM operations".format(device.get("type")),
-                "INFO",
+                "INFO"
             )
             return True
 
         self.log(
             "Device is not an Access Point - eligible for SWIM operations based on "
             "family: '{0}', role: '{1}', series: '{2}', type: '{3}'".format(
-                device.get("family"),
-                device.get("role"),
-                device.get("series"),
-                device.get("type"),
+                device.get("family"), device.get("role"),
+                device.get("series"), device.get("type")
             ),
-            "DEBUG",
+            "DEBUG"
         )
         return False
 
@@ -1737,22 +1706,18 @@ class Swim(CatalystCenterBase):
                 site_name = "Global/.*"
                 self.log(
                     "Catalyst Center version {0} (≤2.3.5.3) detected - using wildcard pattern 'Global/.*' "
-                    "to fetch devices from Global site and all child sites via legacy API".format(
-                        current_version
-                    ),
+                    "to fetch devices from Global site and all child sites via legacy API".format(current_version),
                     "INFO",
                 )
             else:
                 site_name = "Global"
                 self.log(
                     "Catalyst Center version {0} (>2.3.5.3) detected - using 'Global' site name "
-                    "to fetch devices via enhanced site hierarchy API".format(
-                        current_version
-                    ),
+                    "to fetch devices via enhanced site hierarchy API".format(current_version),
                     "INFO",
                 )
 
-        site_exists, site_id = self.site_exists(site_name)
+        (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
             self.log(
                 """Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
@@ -1810,155 +1775,89 @@ class Swim(CatalystCenterBase):
                         site_response_list.append(item_dict)
         else:
             if site_name:
-                self.log("Fetching devices for site '{0}'".format(site_name), "DEBUG")
+                self.log(
+                    "Fetching devices for site '{0}'".format(site_name), "DEBUG"
+                )
                 site_type = self.get_sites_type(site_name)
                 self.log("Determined site type: {0}".format(site_type), "DEBUG")
                 site_info = {}
 
-                self.log(
-                    "Starting site hierarchy processing for: '{0}' (Type: {1})".format(
-                        site_name, site_type
-                    ),
-                    "INFO",
-                )
+                self.log("Starting site hierarchy processing for: '{0}' (Type: {1})".format(site_name, site_type), "INFO")
                 if site_type == "building":
                     self.log(
-                        "Processing site as a building: {site_name}".format(
-                            site_name=site_name
-                        ),
+                        "Processing site as a building: {site_name}".format(site_name=site_name),
                         "DEBUG",
                     )
                     site_info = {}
 
-                    self.log(
-                        "Fetching parent site data for building: {0}".format(site_name),
-                        "DEBUG",
-                    )
+                    self.log("Fetching parent site data for building: {0}".format(site_name), "DEBUG")
                     parent_site_data = self.get_site(site_name)
 
                     if parent_site_data.get("response"):
                         self.log(
                             "Parent site data found for building: '{0}'. Processing {1} items.".format(
-                                site_name, len(parent_site_data.get("response") or [])
+                                site_name,
+                                len(parent_site_data.get('response') or [])
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         for item in parent_site_data["response"]:
                             if "nameHierarchy" in item and "id" in item:
                                 site_info[item["nameHierarchy"]] = item["id"]
-                                self.log(
-                                    "Added parent site '{0}' with ID '{1}' to site_info.".format(
-                                        item["nameHierarchy"], item["id"]
-                                    ),
-                                    "DEBUG",
-                                )
+                                self.log("Added parent site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
                             else:
                                 self.log(
-                                    "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(
-                                        str(item)
-                                    ),
-                                    "WARNING",
+                                    "Missing 'nameHierarchy' or 'id' in parent site item: {0}".format(str(item)),
+                                    "WARNING"
                                 )
-                        self.log(
-                            "Parent site data: {0}".format(str(parent_site_data)),
-                            "DEBUG",
-                        )
+                        self.log("Parent site data: {0}".format(str(parent_site_data)), "DEBUG")
                     else:
-                        self.log(
-                            "No data found for parent site: {0}".format(site_name),
-                            "WARNING",
-                        )
+                        self.log("No data found for parent site: {0}".format(site_name), "WARNING")
 
-                    self.log(
-                        "Current site_info after parent processing: {0}".format(
-                            site_info
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Current site_info after parent processing: {0}".format(site_info), "DEBUG")
                     wildcard_site_name = site_name + "/.*"
-                    self.log(
-                        "Attempting to fetch child sites for building with wildcard: {0}".format(
-                            wildcard_site_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Attempting to fetch child sites for building with wildcard: {0}".format(wildcard_site_name), "DEBUG")
                     child_site_data = self.get_site(wildcard_site_name)
 
                     if child_site_data and child_site_data.get("response"):
                         self.log(
                             "Child site data found for building: '{0}'. Processing {1} items.".format(
                                 wildcard_site_name,
-                                len(child_site_data.get("response") or []),
+                                len(child_site_data.get('response') or [])
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         for item in child_site_data["response"]:
                             if "nameHierarchy" in item and "id" in item:
                                 site_info[item["nameHierarchy"]] = item["id"]
-                                self.log(
-                                    "Added child site '{0}' with ID '{1}' to site_info.".format(
-                                        item["nameHierarchy"], item["id"]
-                                    ),
-                                    "DEBUG",
-                                )
+                                self.log("Added child site '{0}' with ID '{1}' to site_info.".format(item['nameHierarchy'], item['id']), "DEBUG")
                             else:
                                 self.log(
-                                    "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(
-                                        str(item)
-                                    ),
-                                    "WARNING",
+                                    "Missing 'nameHierarchy' or 'id' in child site item: {0}".format(str(item)),
+                                    "WARNING"
                                 )
-                        self.log(
-                            "Child site data found and logged for: {0}".format(
-                                wildcard_site_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Child site data found and logged for: {0}".format(wildcard_site_name), "DEBUG")
                         site_names = wildcard_site_name
                     else:
-                        self.log(
-                            "No child site data found under: {0}".format(
-                                wildcard_site_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("No child site data found under: {0}".format(wildcard_site_name), "DEBUG")
                         site_names = site_name
 
                 elif site_type in ["area", "global"]:
                     self.log(
-                        "Processing site as an area: {site_name}".format(
-                            site_name=site_name
-                        ),
+                        "Processing site as an area: {site_name}".format(site_name=site_name),
                         "DEBUG",
                     )
 
                     wildcard_site_name = site_name + "/.*"
-                    self.log(
-                        "Attempting to fetch child sites for area using wildcard:: {0}".format(
-                            wildcard_site_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Attempting to fetch child sites for area using wildcard:: {0}".format(wildcard_site_name), "DEBUG")
                     child_site_data = self.get_site(wildcard_site_name)
-                    self.log(
-                        "Child site data: {0}".format(str(child_site_data)), "DEBUG"
-                    )
+                    self.log("Child site data: {0}".format(str(child_site_data)), "DEBUG")
 
                     if child_site_data and child_site_data.get("response"):
-                        self.log(
-                            "Child sites found for area: '{0}'. Setting site_names to wildcard.".format(
-                                wildcard_site_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Child sites found for area: '{0}'. Setting site_names to wildcard.".format(wildcard_site_name), "DEBUG")
                         site_names = wildcard_site_name
                     else:
-                        self.log(
-                            "No child sites found under area: '{0}'. Using original site name: '{1}'.".format(
-                                wildcard_site_name, site_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("No child sites found under area: '{0}'. Using original site name: '{1}'.".format(wildcard_site_name, site_name), "DEBUG")
                         site_names = site_name
 
                 elif site_type == "floor":
@@ -1979,28 +1878,19 @@ class Swim(CatalystCenterBase):
                     )
 
                 if site_type in ["area", "floor", "global"]:
-                    self.log(
-                        "Fetching site names for pattern: {0}".format(site_names),
-                        "DEBUG",
-                    )
+                    self.log("Fetching site names for pattern: {0}".format(site_names), "DEBUG")
                     get_site_names = self.get_site(site_names)
-                    self.log(
-                        "Fetched site names: {0}".format(str(get_site_names)), "DEBUG"
-                    )
+                    self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
 
-                    for item in get_site_names.get("response", []):
-                        if "nameHierarchy" in item and "id" in item:
-                            site_info[item["nameHierarchy"]] = item["id"]
+                    for item in get_site_names.get('response', []):
+                        if 'nameHierarchy' in item and 'id' in item:
+                            site_info[item['nameHierarchy']] = item['id']
                         else:
                             self.log(
-                                "Missing 'nameHierarchy' or 'id' in site item: {0}".format(
-                                    str(item)
-                                ),
-                                "WARNING",
+                                "Missing 'nameHierarchy' or 'id' in site item: {0}".format(str(item)),
+                                "WARNING"
                             )
-                self.log(
-                    "Site information retrieved: {0}".format(str(site_info)), "DEBUG"
-                )
+                self.log("Site information retrieved: {0}".format(str(site_info)), "DEBUG")
 
                 for site_name, site_id in site_info.items():
                     offset = 1
@@ -2067,9 +1957,7 @@ class Swim(CatalystCenterBase):
                         device_response = device_list_response.get("response")
                         if not device_response:
                             self.log(
-                                "No device data found for device_id: {0}".format(
-                                    device_id
-                                ),
+                                "No device data found for device_id: {0}".format(device_id),
                                 "INFO",
                             )
                             continue
@@ -2151,7 +2039,7 @@ class Swim(CatalystCenterBase):
                                 "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
                                     item.get("managementIpAddress", "Unknown"),
                                     item.get("family", "N/A"),
-                                    item.get("role", "N/A"),
+                                    item.get("role", "N/A")
                                 ),
                                 "INFO",
                             )
@@ -2161,8 +2049,7 @@ class Swim(CatalystCenterBase):
                             self.log(
                                 """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
                                         process.""".format(
-                                    item["managementIpAddress"],
-                                    item["reachabilityStatus"],
+                                    item["managementIpAddress"], item["reachabilityStatus"]
                                 ),
                                 "INFO",
                             )
@@ -2183,7 +2070,7 @@ class Swim(CatalystCenterBase):
                                 "Skipping Access Point device '{0}' (Family: {1}, Role: {2}) - APs are not eligible for SWIM operations.".format(
                                     item.get("managementIpAddress", "Unknown"),
                                     item.get("family", "N/A"),
-                                    item.get("role", "N/A"),
+                                    item.get("role", "N/A")
                                 ),
                                 "INFO",
                             )
@@ -2193,8 +2080,7 @@ class Swim(CatalystCenterBase):
                             self.log(
                                 """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
                                         '{1}'.""".format(
-                                    item["managementIpAddress"],
-                                    item["reachabilityStatus"],
+                                    item["managementIpAddress"], item["reachabilityStatus"]
                                 ),
                                 "INFO",
                             )
@@ -2271,9 +2157,7 @@ class Swim(CatalystCenterBase):
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "3.1.3.0") >= 0:
             if not family_name:
                 self.msg = "Device family name is required for Catalyst Center version 3.1.3.0 or higher"
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if device_family_db:
             device_family_details = get_dict_result(
@@ -2309,10 +2193,7 @@ class Swim(CatalystCenterBase):
             device families, distribution devices, and activation devices based on user-provided data in the 'want' dictionary.
             It validates and retrieves the necessary information from Cisco Catalyst Center to support later actions.
         """
-        self.log(
-            "Retrieving and storing software image and device details from Cisco Catalyst Center",
-            "DEBUG",
-        )
+        self.log("Retrieving and storing software image and device details from Cisco Catalyst Center", "DEBUG")
 
         if self.want.get("image_name") and self.state == "merged":
             self.log("Processing bulk image names for ID resolution", "DEBUG")
@@ -2324,34 +2205,20 @@ class Swim(CatalystCenterBase):
                 image_id = self.get_image_id(name)
                 if image_id:
                     image_id_map[name] = image_id
-                    self.log(
-                        "Successfully resolved image ID for '{0}': {1}".format(
-                            name, image_id
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Successfully resolved image ID for '{0}': {1}".format(name, image_id), "DEBUG")
                 else:
-                    self.log(
-                        "Failed to resolve image ID for '{0}'".format(name), "WARNING"
-                    )
+                    self.log("Failed to resolve image ID for '{0}'".format(name), "WARNING")
 
             have["image_ids"] = image_id_map
             self.have.update(have)
-            self.log(
-                "Processed {0} image names for bulk operations".format(
-                    len(image_id_map)
-                ),
-                "INFO",
-            )
+            self.log("Processed {0} image names for bulk operations".format(len(image_id_map)), "INFO")
 
         if self.want.get("tagging_details"):
             have = {}
             tagging_details = self.want.get("tagging_details")
             have["device_tags"] = tagging_details.get("device_tags")
             have["product_name_ordinal"] = tagging_details.get("product_name_ordinal")
-            have["supervisor_product_name_ordinal"] = tagging_details.get(
-                "supervisor_product_name_ordinal"
-            )
+            have["supervisor_product_name_ordinal"] = tagging_details.get("supervisor_product_name_ordinal")
             if tagging_details.get("image_name"):
                 name = tagging_details.get("image_name").split("/")[-1]
                 image_id = self.get_image_id(name)
@@ -2371,7 +2238,7 @@ class Swim(CatalystCenterBase):
             site_name = tagging_details.get("site_name")
             if site_name and site_name != "Global":
                 site_exists = False
-                site_exists, site_id = self.site_exists(site_name)
+                (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -2396,7 +2263,7 @@ class Swim(CatalystCenterBase):
             site_name = distribution_details.get("site_name")
             if site_name:
                 site_exists = False
-                site_exists, site_id = self.site_exists(site_name)
+                (site_exists, site_id) = self.site_exists(site_name)
 
                 if site_exists:
                     have["site_id"] = site_id
@@ -2479,7 +2346,7 @@ class Swim(CatalystCenterBase):
             site_name = activation_details.get("site_name")
             if site_name:
                 site_exists = False
-                site_exists, site_id = self.site_exists(site_name)
+                (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -2884,9 +2751,9 @@ class Swim(CatalystCenterBase):
                     for image_name in images_to_import:
                         cco_image_id = self.get_cco_image_id(image_name)
                         if not cco_image_id:
-                            dnac_host = self.params.get("catalystcenter_host")
+                            catalystcenter_host = self.params.get("catalystcenter_host")
                             self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(
-                                image_name, dnac_host
+                                image_name, catalystcenter_host
                             )
                             self.set_operation_result(
                                 "failed", False, self.msg, "ERROR"
@@ -3176,9 +3043,7 @@ class Swim(CatalystCenterBase):
                 image_params = {
                     "image_id": self.have.get("tagging_image_id"),
                     "site_id": self.have.get("site_id"),
-                    "device_family_identifier": self.have.get(
-                        "device_family_identifier"
-                    ),
+                    "device_family_identifier": self.have.get("device_family_identifier"),
                     "device_role": role.upper(),
                 }
 
@@ -3215,9 +3080,7 @@ class Swim(CatalystCenterBase):
                         )
                         self.log(msg, "INFO")
                         already_un_tagged_device_role.append(role)
-                self.log(
-                    "Verifying if all roles are in the desired tag status...", "DEBUG"
-                )
+                self.log("Verifying if all roles are in the desired tag status...", "DEBUG")
 
             # Check if all roles are tagged as Golden
             if tag_image_golden:
@@ -3248,9 +3111,7 @@ class Swim(CatalystCenterBase):
                     image_params = dict(
                         imageId=self.have.get("tagging_image_id"),
                         siteId=self.have.get("site_id"),
-                        deviceFamilyIdentifier=self.have.get(
-                            "device_family_identifier"
-                        ),
+                        deviceFamilyIdentifier=self.have.get("device_family_identifier"),
                         deviceRole=role.upper(),
                     )
                     self.log(
@@ -3434,7 +3295,7 @@ class Swim(CatalystCenterBase):
 
             self.log(
                 "Normalized device roles for golden tagging: {0}".format(desired_roles),
-                "DEBUG",
+                "DEBUG"
             )
 
             tag_action = "tag" if tag_image_golden else "untag"
@@ -3452,22 +3313,19 @@ class Swim(CatalystCenterBase):
 
             self.log("Received images response: {0}".format(images_response), "DEBUG")
             if not images_response or "response" not in images_response:
-                self.msg = (
-                    "Failed to retrieve software images from Cisco Catalyst Center"
-                )
+                self.msg = "Failed to retrieve software images from Cisco Catalyst Center"
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             image_list = images_response.get("response", [])
 
             matching_image = next(
-                (img for img in image_list if img.get("id") == image_id), None
+                (img for img in image_list if img.get("id") == image_id),
+                None
             )
 
             if not matching_image:
-                self.msg = "Image ID {0} not found in Cisco Catalyst Center.".format(
-                    image_id
-                )
+                self.msg = "Image ID {0} not found in Cisco Catalyst Center.".format(image_id)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -3489,30 +3347,31 @@ class Swim(CatalystCenterBase):
             self.log("Existing golden roles: {0}".format(existing_roles), "DEBUG")
 
             # -----------------------------------------------------
-            # STEP 3: Idempotency check (DNAC-safe)
+            # STEP 3: Idempotency check (CatalystCenter-safe)
             # -----------------------------------------------------
             if tag_image_golden and current_golden:
-                self.msg = "SWIM Image '{0}' is already Golden tagged. Skipping operation.".format(
-                    image_name
+                self.msg = (
+                    "SWIM Image '{0}' is already Golden tagged. Skipping operation."
+                    .format(image_name)
                 )
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             if not tag_image_golden and not current_golden:
-                self.msg = "SWIM Image '{0}' is already not Golden tagged. Skipping operation.".format(
-                    image_name
+                self.msg = (
+                    "SWIM Image '{0}' is already not Golden tagged. Skipping operation."
+                    .format(image_name)
                 )
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             if not tagging_details.get("device_image_family_name"):
                 self.msg = "Device image family name is required in tagging details from the version 3.1.3.0."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             product_name_ordinal = self.get_product_name_ordinal_from_image_name(
-                tagging_details.get("device_image_family_name"), image_id
+                tagging_details.get("device_image_family_name"),
+                image_id
             )
             self.log("Product name ordinal: {0}".format(product_name_ordinal), "DEBUG")
 
@@ -3527,11 +3386,9 @@ class Swim(CatalystCenterBase):
             # -----------------------------------------------------
             payload = {
                 "productNameOrdinal": product_name_ordinal,
-                "supervisorProductNameOrdinal": tagging_details.get(
-                    "supervisor_product_name_ordinal"
-                ),
+                "supervisorProductNameOrdinal": tagging_details.get("supervisor_product_name_ordinal"),
                 "deviceRoles": desired_roles,
-                "deviceTags": device_tags_ids,
+                "deviceTags": device_tags_ids
             }
 
             # Remove None values
@@ -3545,30 +3402,19 @@ class Swim(CatalystCenterBase):
             try:
                 api_response = self.catalystcenter._exec(
                     family="software_image_management_swim",
-                    function=(
-                        "tagging_golden_image"
-                        if tag_image_golden
-                        else "untagging_golden_image"
-                    ),
+                    function="tagging_golden_image" if tag_image_golden else "untagging_golden_image",
                     op_modifies=True,
                     params={
                         "id": image_id,
-                        "site_id": self.have.get("site_id"),
-                        "payload": payload,
-                    },
+                        "site_id" : self.have.get("site_id"),
+                        "payload": payload
+                    }
                 )
 
-                self.log(
-                    "Golden image {0} API response: {1}".format(
-                        tag_action, api_response
-                    ),
-                    "DEBUG",
-                )
+                self.log("Golden image {0} API response: {1}".format(tag_action, api_response), "DEBUG")
 
             except Exception as e:
-                self.msg = "Exception occurred during golden image {0}: {1}".format(
-                    tag_action, str(e)
-                )
+                self.msg = "Exception occurred during golden image {0}: {1}".format(tag_action, str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -3583,19 +3429,20 @@ class Swim(CatalystCenterBase):
             device_family = tagging_details.get("device_image_family_name") or "Unknown"
 
             action = "Tagging" if tag_image_golden else "Un-Tagging"
-            success_msg = "{0} image {1} golden for site {2}, family {3}, device roles {4} successful.".format(
-                action, image_name, site_name, device_family, device_role
+            success_msg = (
+                "{0} image {1} golden for site {2}, family {3}, device roles {4} successful."
+                .format(action, image_name, site_name, device_family, device_role)
             )
 
             self.get_task_status_from_tasks_by_id(
-                task_id, "golden_image_{0}".format(tag_action), success_msg
+                task_id,
+                "golden_image_{0}".format(tag_action),
+                success_msg
             )
 
             return self
 
-    def get_product_name_ordinal_from_image_name(
-        self, device_image_family_name, image_id
-    ):
+    def get_product_name_ordinal_from_image_name(self, device_image_family_name, image_id):
         """
         Retrieve the product name ordinal for a given device image family and image name.
         Parameters:
@@ -3766,7 +3613,7 @@ class Swim(CatalystCenterBase):
         """
         self.log(
             "Starting device UUID filtering based on tag criteria for SWIM operations",
-            "INFO",
+            "INFO"
         )
 
         self.log(
@@ -3774,7 +3621,7 @@ class Swim(CatalystCenterBase):
             "device_uuid_list: {0} devices, device_tag: '{1}'".format(
                 len(device_uuid_list), device_tag
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not device_uuid_list:
@@ -3789,18 +3636,16 @@ class Swim(CatalystCenterBase):
 
         # Statistics tracking
         statistics = {
-            "devices_processed": 0,
-            "devices_with_matching_tags": 0,
-            "devices_without_tags": 0,
-            "devices_with_api_errors": 0,
-            "invalid_uuids": 0,
+            'devices_processed': 0,
+            'devices_with_matching_tags': 0,
+            'devices_without_tags': 0,
+            'devices_with_api_errors': 0,
+            'invalid_uuids': 0
         }
 
         try:
             # Get the tag ID from the tag name
-            self.log(
-                "Retrieving tag ID for tag name: '{0}'".format(device_tag), "DEBUG"
-            )
+            self.log("Retrieving tag ID for tag name: '{0}'".format(device_tag), "DEBUG")
 
             tag_id = self.get_network_device_tag_id(device_tag)
 
@@ -3809,21 +3654,16 @@ class Swim(CatalystCenterBase):
                     "Tag '{0}' not found in Cisco Catalyst Center. Unable to filter devices.".format(
                         device_tag
                     ),
-                    "ERROR",
+                    "ERROR"
                 )
                 return []
 
-            self.log(
-                "Successfully retrieved tag ID '{0}' for tag '{1}'".format(
-                    tag_id, device_tag
-                ),
-                "DEBUG",
-            )
+            self.log("Successfully retrieved tag ID '{0}' for tag '{1}'".format(tag_id, device_tag), "DEBUG")
 
             # Fetch all tag associations from the API with pagination
             self.log(
                 "Fetching all tag associations using 'retrieve_tags_associated_with_network_devices' API with pagination",
-                "DEBUG",
+                "DEBUG"
             )
 
             limit = 500
@@ -3836,24 +3676,22 @@ class Swim(CatalystCenterBase):
                         family="tag",
                         function="retrieve_tags_associated_with_network_devices",
                         op_modifies=True,
-                        params={"offset": offset, "limit": limit},
+                        params={"offset": offset, "limit": limit}
                     )
 
                     self.log(
                         "Received API response from 'retrieve_tags_associated_with_network_devices' (offset: {0}, limit: {1}): {2}".format(
                             offset, limit, str(response)
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
 
                     tag_associations = response.get("response", [])
 
                     if not tag_associations:
                         self.log(
-                            "No more device-tag associations returned at offset {0}".format(
-                                offset
-                            ),
-                            "DEBUG",
+                            "No more device-tag associations returned at offset {0}".format(offset),
+                            "DEBUG"
                         )
                         break
 
@@ -3863,7 +3701,7 @@ class Swim(CatalystCenterBase):
                         "Retrieved {0} device-tag association entries in this batch (offset: {1})".format(
                             len(tag_associations), offset
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
 
                     # Check if we received fewer results than the limit (indicates last page)
@@ -3872,7 +3710,7 @@ class Swim(CatalystCenterBase):
                             "Received fewer associations ({0}) than limit ({1}), reached end of results".format(
                                 len(tag_associations), limit
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         break
 
@@ -3884,14 +3722,14 @@ class Swim(CatalystCenterBase):
                         "Exception occurred while fetching tag associations at offset {0}: {1}".format(
                             offset, str(e)
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
                     break
 
             if not all_tag_associations:
                 self.log(
                     "No device-tag associations found in Cisco Catalyst Center after fetching all pages",
-                    "INFO",
+                    "INFO"
                 )
                 return []
 
@@ -3899,7 +3737,7 @@ class Swim(CatalystCenterBase):
                 "Successfully retrieved {0} total device-tag association entries from API".format(
                     len(all_tag_associations)
                 ),
-                "INFO",
+                "INFO"
             )
 
             # Build a mapping of device IDs to their associated tag IDs
@@ -3911,10 +3749,8 @@ class Swim(CatalystCenterBase):
 
                 if not device_id:
                     self.log(
-                        "Skipping association entry with missing device ID: {0}".format(
-                            association
-                        ),
-                        "WARNING",
+                        "Skipping association entry with missing device ID: {0}".format(association),
+                        "WARNING"
                     )
                     continue
 
@@ -3931,7 +3767,7 @@ class Swim(CatalystCenterBase):
                 "Built device-to-tags mapping for {0} unique devices".format(
                     len(device_tag_map)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Create a set of device IDs that have the target tag
@@ -3944,18 +3780,18 @@ class Swim(CatalystCenterBase):
                 "Found {0} devices associated with tag '{1}' (ID: {2})".format(
                     len(tagged_device_ids), device_tag, tag_id
                 ),
-                "INFO",
+                "INFO"
             )
 
             # Filter the provided device UUIDs against the tagged device IDs
             for device_index, device_uuid in enumerate(device_uuid_list, start=1):
-                statistics["devices_processed"] += 1
+                statistics['devices_processed'] += 1
 
                 self.log(
                     "Processing device {0}/{1} - UUID: {2}".format(
                         device_index, len(device_uuid_list), device_uuid
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 # Validate device UUID format
@@ -3964,9 +3800,9 @@ class Swim(CatalystCenterBase):
                         "Skipping invalid device UUID at index {0}: {1}".format(
                             device_index, device_uuid
                         ),
-                        "WARNING",
+                        "WARNING"
                     )
-                    statistics["invalid_uuids"] += 1
+                    statistics['invalid_uuids'] += 1
                     continue
 
                 # Check if this device UUID is in the tagged devices set
@@ -3974,24 +3810,22 @@ class Swim(CatalystCenterBase):
                     self.log(
                         "Device UUID {0} matches the specified tag '{1}' - "
                         "adding to filtered results".format(device_uuid, device_tag),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     filtered_device_uuids.append(device_uuid)
-                    statistics["devices_with_matching_tags"] += 1
+                    statistics['devices_with_matching_tags'] += 1
                 else:
                     self.log(
                         "Device UUID {0} does not contain the specified tag '{1}' - "
-                        "excluding from filtered results".format(
-                            device_uuid, device_tag
-                        ),
-                        "DEBUG",
+                        "excluding from filtered results".format(device_uuid, device_tag),
+                        "DEBUG"
                     )
-                    statistics["devices_without_tags"] += 1
+                    statistics['devices_without_tags'] += 1
 
         except Exception as e:
             self.log(
                 "Exception occurred while filtering devices by tag: {0}".format(str(e)),
-                "ERROR",
+                "ERROR"
             )
             return []
 
@@ -3999,12 +3833,12 @@ class Swim(CatalystCenterBase):
         self.log(
             "Device tag filtering completed - "
             "processed: {0}, matching tags: {1}, without tags: {2}, invalid UUIDs: {3}".format(
-                statistics["devices_processed"],
-                statistics["devices_with_matching_tags"],
-                statistics["devices_without_tags"],
-                statistics["invalid_uuids"],
+                statistics['devices_processed'],
+                statistics['devices_with_matching_tags'],
+                statistics['devices_without_tags'],
+                statistics['invalid_uuids']
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
@@ -4012,16 +3846,16 @@ class Swim(CatalystCenterBase):
             "out of {2} total devices processed".format(
                 device_tag, len(filtered_device_uuids), len(device_uuid_list)
             ),
-            "INFO",
+            "INFO"
         )
 
         # Log warnings for problematic scenarios
-        if statistics["invalid_uuids"] > 0:
+        if statistics['invalid_uuids'] > 0:
             self.log(
                 "Warning: {0} invalid device UUIDs were skipped during filtering".format(
-                    statistics["invalid_uuids"]
+                    statistics['invalid_uuids']
                 ),
-                "WARNING",
+                "WARNING"
             )
 
         if len(filtered_device_uuids) == 0:
@@ -4030,14 +3864,14 @@ class Swim(CatalystCenterBase):
                 "Consider checking if the tag exists or if devices are properly tagged.".format(
                     device_tag
                 ),
-                "WARNING",
+                "WARNING"
             )
 
         self.log(
             "Final filtered device UUIDs based on tag '{0}': {1}".format(
                 device_tag, filtered_device_uuids
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         return filtered_device_uuids
@@ -4165,7 +3999,7 @@ class Swim(CatalystCenterBase):
                     "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
                         image_name, device_ip
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 self.log("Convert to WLC is set to False", "DEBUG")
                 elg_device_ip, device_id = self.check_device_compliance(
@@ -4176,13 +4010,13 @@ class Swim(CatalystCenterBase):
                         "Device {0} passed compliance validation for image '{1}'".format(
                             elg_device_ip, image_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
             else:
                 self.log(
                     "WLC conversion mode enabled - bypassing compliance validation "
                     "for image '{0}' on device {1}".format(image_name, device_ip),
-                    "WARNING",
+                    "WARNING"
                 )
                 # When convert_to_wlc is True, skip compliance check and use the device as eligible
                 elg_device_ip = device_ip
@@ -4262,20 +4096,22 @@ class Swim(CatalystCenterBase):
 
                     while True:
                         task_details = self.get_task_details(task_id)
-                        self.log(
-                            "Task details received: {0}".format(task_details), "DEBUG"
-                        )
+                        self.log("Task details received: {0}".format(task_details), "DEBUG")
 
                         if not task_details.get(
                             "isError"
                         ) and "completed successfully" in task_details.get("progress"):
                             if image_id:
-                                success_msg = "'{0}' (ID: {1}) successfully distributed for device {2}.".format(
-                                    image_name, image_id, elg_device_ip
+                                success_msg = (
+                                    "'{0}' (ID: {1}) successfully distributed for device {2}.".format(
+                                        image_name, image_id, elg_device_ip
+                                    )
                                 )
                             else:
-                                success_msg = "Golden image successfully distributed to device {0}.".format(
-                                    elg_device_ip
+                                success_msg = (
+                                    "Golden image successfully distributed to device {0}.".format(
+                                        elg_device_ip
+                                    )
                                 )
                             success_msg_parts.append(success_msg)
                             success_distribution_list.append(image_name)
@@ -4304,7 +4140,7 @@ class Swim(CatalystCenterBase):
                     {
                         "id": distribution_device_id,
                         "distributedImages": distributed_images,
-                        "networkValidationIds": None,  # Update after confirmation from DNAC team
+                        "networkValidationIds": None  # Update after confirmation from CatalystCenter team
                     }
                 ]
 
@@ -4318,7 +4154,7 @@ class Swim(CatalystCenterBase):
                         function="distribute_images_on_the_network_device",
                         op_modifies=True,
                         id=distribution_device_id,
-                        params=payload,
+                        params=payload
                     )
 
                     self.log(
@@ -4342,8 +4178,8 @@ class Swim(CatalystCenterBase):
 
                     if self.status == "failed":
                         fail_reason = self.msg
-                        self.msg = "Image distribution failed due to - {0}".format(
-                            fail_reason
+                        self.msg = (
+                            "Image distribution failed due to - {0}".format(fail_reason)
                         )
                         self.set_operation_result(
                             "failed", False, self.msg, "ERROR"
@@ -4426,19 +4262,15 @@ class Swim(CatalystCenterBase):
                             "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
                                 image_name, device_ip
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         self.log("Convert to WLC is set to False", "DEBUG")
-                        elg_device_ip, device_id = self.check_device_compliance(
-                            device_uuid, img_name
-                        )
+                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, img_name)
                     else:
                         self.log(
                             "WLC conversion mode enabled - bypassing compliance validation "
-                            "for image '{0}' on device {1}".format(
-                                image_name, device_ip
-                            ),
-                            "WARNING",
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
                         )
                         # When convert_to_wlc is True, skip compliance check and use the device as eligible
                         elg_device_ip = device_ip
@@ -4446,29 +4278,14 @@ class Swim(CatalystCenterBase):
 
                     if not elg_device_ip:
                         device_ip_for_not_elg_list.append(device_ip)
-                        self.log(
-                            "Device {0} is not eligible for image '{1}'".format(
-                                device_ip, img_name
-                            ),
-                            "WARNING",
-                        )
+                        self.log("Device {0} is not eligible for image '{1}'".format(device_ip, img_name), "WARNING")
                         continue
 
-                    self.log(
-                        "Device {0} is eligible for distribution of image {1}".format(
-                            elg_device_ip, img_name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Device {0} is eligible for distribution of image {1}".format(elg_device_ip, img_name), "INFO")
                     elg_device_list.append(elg_device_ip)
 
-                    distribution_params = {
-                        "payload": [{"deviceUuid": device_id, "imageUuid": img_id}]
-                    }
-                    self.log(
-                        "Distribution Params: {0}".format(str(distribution_params)),
-                        "INFO",
-                    )
+                    distribution_params = {"payload": [{"deviceUuid": device_id, "imageUuid": img_id}]}
+                    self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
 
                     response = self.catalystcenter._exec(
                         family="software_image_management_swim",
@@ -4476,9 +4293,7 @@ class Swim(CatalystCenterBase):
                         op_modifies=True,
                         params=distribution_params,
                     )
-                    self.log(
-                        "Received API response: {0}".format(str(response)), "DEBUG"
-                    )
+                    self.log("Received API response: {0}".format(str(response)), "DEBUG")
 
                     if response:
                         task_id = response.get("response", {}).get("taskId")
@@ -4491,13 +4306,9 @@ class Swim(CatalystCenterBase):
             # -------- Task Status Tracking --------
             for (device_ip, img_name), task_id in distribution_task_dict.items():
                 task_name = "Distribution to {0}".format(device_ip)
-                success_msg = "Successfully distributed image {0} to device {1}".format(
-                    img_name, device_ip
-                )
+                success_msg = "Successfully distributed image {0} to device {1}".format(img_name, device_ip)
 
-                status_check = self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
-                )
+                status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
                 if status_check.status == "success":
                     success_distribution_list.append((device_ip, img_name))
@@ -4520,17 +4331,15 @@ class Swim(CatalystCenterBase):
                         "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
                             image_name, device_ip
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     self.log("Convert to WLC is set to False", "DEBUG")
-                    elg_device_ip, elg_device_uuid = self.check_device_compliance(
-                        device_uuid
-                    )
+                    elg_device_ip, elg_device_uuid = self.check_device_compliance(device_uuid)
                 else:
                     self.log(
                         "WLC conversion mode enabled - bypassing compliance validation "
                         "for image '{0}' on device {1}".format(image_name, device_ip),
-                        "WARNING",
+                        "WARNING"
                     )
                     # When convert_to_wlc is True, skip compliance check and use the device as eligible
                     elg_device_ip = device_ip
@@ -4538,22 +4347,12 @@ class Swim(CatalystCenterBase):
 
                 if not elg_device_ip:
                     device_ip_for_not_elg_list.append(device_ip)
-                    self.log(
-                        "Device {0} is not eligible for image distribution".format(
-                            device_ip
-                        ),
-                        "WARNING",
-                    )
+                    self.log("Device {0} is not eligible for image distribution".format(device_ip), "WARNING")
                     continue
 
                 for img_name, img_id in image_ids.items():
 
-                    self.log(
-                        "Device {0} is eligible for bulk image distribution of '{1}'".format(
-                            elg_device_ip, img_name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Device {0} is eligible for bulk image distribution of '{1}'".format(elg_device_ip, img_name), "INFO")
                     elg_device_list.append(elg_device_ip)
 
                     device_distributed_images.append({"id": img_id})
@@ -4564,9 +4363,7 @@ class Swim(CatalystCenterBase):
                     bulk_payload_entry["id"] = device_uuid
                 if device_distributed_images:
                     bulk_payload_entry["distributedImages"] = device_distributed_images
-                network_validation_ids = distribution_details.get(
-                    "network_validation_ids"
-                )
+                network_validation_ids = distribution_details.get("network_validation_ids")
                 if network_validation_ids:
                     bulk_payload_entry["networkValidationIds"] = network_validation_ids
 
@@ -4578,20 +4375,14 @@ class Swim(CatalystCenterBase):
                     self.msg = "No eligible devices for bulk distribution. Devices not eligible: {0}".format(
                         ", ".join(device_ip_for_not_elg_list)
                     )
-                    self.set_operation_result(
-                        "success", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
                 else:
                     self.msg = "No images or devices to distribute (empty payload)."
-                    self.set_operation_result(
-                        "success", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
                 return self
 
             # -------- Bulk API Call --------
-            self.log(
-                "Bulk Payload for Distribution: {0}".format(str(bulk_payload)), "DEBUG"
-            )
+            self.log("Bulk Payload for Distribution: {0}".format(str(bulk_payload)), "DEBUG")
             try:
                 response = self.catalystcenter._exec(
                     family="software_image_management_swim",
@@ -4600,12 +4391,7 @@ class Swim(CatalystCenterBase):
                     params={"payload": bulk_payload},
                 )
 
-                self.log(
-                    "API response from 'bulk_distribute_images_on_network_devices': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
+                self.log("API response from 'bulk_distribute_images_on_network_devices': {0}".format(str(response)), "DEBUG")
 
                 self.check_swim_tasks_response_status(
                     response, "bulk_distribute_images_on_network_devices"
@@ -4614,32 +4400,18 @@ class Swim(CatalystCenterBase):
                 if response and self.status not in ["failed", "exited"]:
                     device_ip = ", ".join(elg_device_list)
                     self.bulk_distribution_success_ips = device_ip
-                    self.msg = (
-                        "Bulk image distribution completed successfully - {0}.".format(
-                            device_ip
-                        )
-                    )
+                    self.msg = "Bulk image distribution completed successfully - {0}.".format(device_ip)
                     self.bulk_distribution_success = True
-                    success_distribution_list.extend(
-                        [(ip, None) for ip in elg_device_list]
-                    )
+                    success_distribution_list.extend([(ip, None) for ip in elg_device_list])
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
                 else:
                     self.msg = "Bulk image distribution failed."
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
-                self.msg = (
-                    "Exception occurred during bulk image distribution: {0}".format(
-                        str(e)
-                    )
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Exception occurred during bulk image distribution: {0}".format(str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 self.log(self.msg, "ERROR")
 
         # -------- Final Summary Logging --------
@@ -4688,9 +4460,7 @@ class Swim(CatalystCenterBase):
             self.set_operation_result("success", True, self.msg, "INFO")
             self.partial_successful_distribution = True
         elif device_ip_for_not_elg_list:
-            self.msg = "Devices not eligible for image distribution: " + ", ".join(
-                device_ip_for_not_elg_list
-            )
+            self.msg = "Devices not eligible for image distribution: " + ", ".join(device_ip_for_not_elg_list)
             self.set_operation_result("success", False, self.msg, "WARNING")
         else:
             self.msg = final_msg
@@ -4855,9 +4625,7 @@ class Swim(CatalystCenterBase):
 
         if image_ids and not (len(image_ids) == 1 and None in image_ids):
             self.log(
-                "Images identified for activation: {0}".format(
-                    ", ".join(str(k) for k in image_ids.keys())
-                ),
+                "Images identified for activation: {0}".format(", ".join(str(k) for k in image_ids.keys())),
                 "INFO",
             )
 
@@ -4881,7 +4649,7 @@ class Swim(CatalystCenterBase):
                     "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
                         image_name, device_ip
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 self.log("Convert to WLC is set to False", "DEBUG")
                 elg_device_ip, device_id = self.check_device_compliance(
@@ -4891,7 +4659,7 @@ class Swim(CatalystCenterBase):
                 self.log(
                     "WLC conversion mode enabled - bypassing compliance validation "
                     "for image '{0}' on device {1}".format(image_name, device_ip),
-                    "WARNING",
+                    "WARNING"
                 )
                 # When convert_to_wlc is True, skip compliance check and use the device as eligible
                 elg_device_ip = device_ip
@@ -4916,38 +4684,25 @@ class Swim(CatalystCenterBase):
 
             activation_payload_list = []
 
-            # OLD FLOW (for DNAC < 2.3.7.9)
-            if (
-                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
-                <= 0
-            ):
+            # OLD FLOW (for CatalystCenter < 2.3.7.9)
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
                 for image_name, image_id in image_ids.items():
                     payload = [
                         {
-                            "activateLowerImageVersion": activation_details.get(
-                                "activate_lower_image_version"
-                            ),
-                            "deviceUpgradeMode": activation_details.get(
-                                "device_upgrade_mode"
-                            ),
-                            "distributeIfNeeded": activation_details.get(
-                                "distribute_if_needed"
-                            ),
+                            "activateLowerImageVersion": activation_details.get("activate_lower_image_version"),
+                            "deviceUpgradeMode": activation_details.get("device_upgrade_mode"),
+                            "distributeIfNeeded": activation_details.get("distribute_if_needed"),
                             "deviceUuid": self.have.get("activation_device_id"),
                             "imageUuidList": [image_id] if image_id else [],
                         }
                     ]
 
                     activation_params = {
-                        "schedule_validate": activation_details.get(
-                            "schedule_validate"
-                        ),
+                        "schedule_validate": activation_details.get("schedule_validate"),
                         "payload": payload,
                     }
 
-                    self.log(
-                        "Activation Params: {0}".format(str(activation_params)), "INFO"
-                    )
+                    self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
                     response = self.catalystcenter._exec(
                         family="software_image_management_swim",
@@ -4956,24 +4711,11 @@ class Swim(CatalystCenterBase):
                         params=activation_params,
                     )
 
-                    self.log(
-                        "Received API response from 'trigger_software_image_activation': {0}".format(
-                            str(response)
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
 
-                    if (
-                        not response
-                        or "response" not in response
-                        or "taskId" not in response["response"]
-                    ):
+                    if not response or "response" not in response or "taskId" not in response["response"]:
                         failed_msg = "Failed to initiate activation for image '{0}' (ID: {1}) on device with IP {2}.".format(
-                            image_name,
-                            image_id,
-                            self.get_device_ip_from_id(
-                                self.have.get("activation_device_id")
-                            ),
+                            image_name, image_id, self.get_device_ip_from_id(self.have.get("activation_device_id"))
                         )
                         failed_msg_parts.append(failed_msg)
                         failed_activation_list.append(image_name)
@@ -4981,35 +4723,23 @@ class Swim(CatalystCenterBase):
                         continue
 
                     task_id = response["response"]["taskId"]
-                    self.log(
-                        "Tracking activation task with Task ID: {0}".format(task_id),
-                        "INFO",
-                    )
+                    self.log("Tracking activation task with Task ID: {0}".format(task_id), "INFO")
 
                     while True:
                         task_details = self.get_task_details(task_id)
 
-                        if not task_details.get(
-                            "isError"
-                        ) and "completed successfully" in task_details.get("progress"):
+                        if not task_details.get("isError") and "completed successfully" in task_details.get("progress"):
                             success_msg = "'{0}' (ID: {1})".format(image_name, image_id)
                             success_msg_parts.append(success_msg)
                             success_activation_list.append(image_name)
-                            self.log(
-                                "Image '{0}' (ID: {1}) activation success.".format(
-                                    image_name, image_id
-                                ),
-                                "INFO",
-                            )
+                            self.log("Image '{0}' (ID: {1}) activation success.".format(image_name, image_id), "INFO")
                             break
 
                         if task_details.get("isError"):
                             failed_msg = "Activation of image '{0}' (ID: {1}) to the device with IP {2} has failed. Error: {3}".format(
                                 image_name,
                                 image_id,
-                                self.get_device_ip_from_id(
-                                    self.have.get("activation_device_id")
-                                ),
+                                self.get_device_ip_from_id(self.have.get("activation_device_id")),
                                 task_details.get("progress", "Unknown error"),
                             )
                             failed_msg_parts.append(failed_msg)
@@ -5019,20 +4749,18 @@ class Swim(CatalystCenterBase):
 
             # NEW FLOW (for Catalyst Center > 2.3.7.9)
             else:
-                self.log(
-                    "Using new SWIM API for image activation (after 2.3.7.9)", "INFO"
-                )
+                self.log("Using new SWIM API for image activation (after 2.3.7.9)", "INFO")
 
                 activation_device_id = self.have.get("activation_device_id")
 
                 # Correct: Combine all image IDs into one installedImages list
-                activation_payload = {"id": activation_device_id}
+                activation_payload = {
+                    "id": activation_device_id
+                }
 
                 # Add installedImages only if image_ids has values
                 if image_ids:
-                    activation_payload["installedImages"] = [
-                        {"id": image_id} for image_id in image_ids.values() if image_id
-                    ]
+                    activation_payload["installedImages"] = [{"id": image_id} for image_id in image_ids.values() if image_id]
 
                 # Add compatibleFeatures only if available
                 compatible_features = activation_details.get("compatible_features")
@@ -5040,56 +4768,34 @@ class Swim(CatalystCenterBase):
                     activation_payload["compatibleFeatures"] = compatible_features
 
                 # Add networkValidationIds only if available
-                network_validation_ids = activation_details.get(
-                    "network_validation_ids"
-                )
+                network_validation_ids = activation_details.get("network_validation_ids")
                 if network_validation_ids:
                     activation_payload["networkValidationIds"] = network_validation_ids
 
-                self.log(
-                    "Payload for 'update_images_on_the_network_device': {0}".format(
-                        str(activation_payload)
-                    ),
-                    "DEBUG",
-                )
+                self.log("Payload for 'update_images_on_the_network_device': {0}".format(str(activation_payload)), "DEBUG")
 
                 try:
                     response = self.catalystcenter._exec(
                         family="software_image_management_swim",
                         function="update_images_on_the_network_device",
                         op_modifies=True,
-                        params=activation_payload,
+                        params=activation_payload
                     )
 
-                    self.log(
-                        "API response from 'update_images_on_the_network_device': {0}".format(
-                            str(response)
-                        ),
-                        "DEBUG",
-                    )
-                    self.check_swim_tasks_response_status(
-                        response, "update_images_on_the_network_device"
-                    )
+                    self.log("API response from 'update_images_on_the_network_device': {0}".format(str(response)), "DEBUG")
+                    self.check_swim_tasks_response_status(response, "update_images_on_the_network_device")
 
                     device_ip = self.get_device_ip_from_id(activation_device_id)
                     if response and self.status not in ["failed", "exited"]:
-                        success_msg_parts = [
-                            "All images activated successfully on device {0}".format(
-                                device_ip
-                            )
-                        ]
+                        success_msg_parts = ["All images activated successfully on device {0}".format(device_ip)]
                         success_activation_list = list(image_ids.keys())
                     else:
-                        failed_msg_parts = [
-                            "Image activation failed on device {0}".format(device_ip)
-                        ]
+                        failed_msg_parts = ["Image activation failed on device {0}".format(device_ip)]
                         failed_activation_list = list(image_ids.keys())
 
                 except Exception as e:
                     self.log("Exception during activation: {0}".format(str(e)), "ERROR")
-                    failed_msg_parts = [
-                        "Exception during activation: {0}".format(str(e))
-                    ]
+                    failed_msg_parts = ["Exception during activation: {0}".format(str(e))]
                     failed_activation_list = list(image_ids.keys())
 
             # Final status summary
@@ -5142,7 +4848,7 @@ class Swim(CatalystCenterBase):
         elg_device_list = []
         device_ip_for_not_elg_list = []
 
-        # OLD FLOW (for DNAC <= 2.3.7.9)
+        # OLD FLOW (for CatalystCenter <= 2.3.7.9)
         if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") <= 0:
             self.log(
                 "Using old version of SWIM API for image activation (<= 2.3.7.9)",
@@ -5163,19 +4869,15 @@ class Swim(CatalystCenterBase):
                             "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
                                 image_name, device_ip
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         self.log("Convert to WLC is set to False", "DEBUG")
-                        elg_device_ip, device_id = self.check_device_compliance(
-                            device_uuid, image_name
-                        )
+                        elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
                     else:
                         self.log(
                             "WLC conversion mode enabled - bypassing compliance validation "
-                            "for image '{0}' on device {1}".format(
-                                image_name, device_ip
-                            ),
-                            "WARNING",
+                            "for image '{0}' on device {1}".format(image_name, device_ip),
+                            "WARNING"
                         )
                         # When convert_to_wlc is True, skip compliance check and use the device as eligible
                         elg_device_ip = device_ip
@@ -5184,40 +4886,19 @@ class Swim(CatalystCenterBase):
                     if not elg_device_ip:
                         device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
                         device_ip_for_not_elg_list.append(device_ip_for_not_elg)
-                        self.log(
-                            "Device {0} is not eligible for activation of image '{1}'".format(
-                                device_ip, image_name
-                            ),
-                            "WARNING",
-                        )
+                        self.log("Device {0} is not eligible for activation of image '{1}'".format(device_ip, image_name), "WARNING")
                         continue
 
-                    self.log(
-                        "Device {0} is eligible for activation of image {1}".format(
-                            elg_device_ip, image_name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Device {0} is eligible for activation of image {1}".format(elg_device_ip, image_name), "INFO")
                     elg_device_list.append(elg_device_ip)
 
-                    self.log(
-                        "Starting activation of image '{0}' on device {1}".format(
-                            image_name, device_ip
-                        ),
-                        "INFO",
-                    )
+                    self.log("Starting activation of image '{0}' on device {1}".format(image_name, device_ip), "INFO")
 
                     payload = [
                         dict(
-                            activateLowerImageVersion=activation_details.get(
-                                "activate_lower_image_version"
-                            ),
-                            deviceUpgradeMode=activation_details.get(
-                                "device_upgrade_mode"
-                            ),
-                            distributeIfNeeded=activation_details.get(
-                                "distribute_if_needed"
-                            ),
+                            activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+                            deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+                            distributeIfNeeded=activation_details.get("distribute_if_needed"),
                             deviceUuid=device_id,
                             imageUuidList=[image_id] if image_id else [],
                         )
@@ -5227,9 +4908,7 @@ class Swim(CatalystCenterBase):
                         schedule_validate=activation_details.get("schedule_validate"),
                         payload=payload,
                     )
-                    self.log(
-                        "Activation Params: {0}".format(str(activation_params)), "INFO"
-                    )
+                    self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
                     response = self.catalystcenter._exec(
                         family="software_image_management_swim",
@@ -5237,64 +4916,32 @@ class Swim(CatalystCenterBase):
                         op_modifies=True,
                         params=activation_params,
                     )
-                    self.log(
-                        "Received API from from 'trigger_software_image_activation': {0}".format(
-                            str(response)
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Received API from from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
 
                     if response:
                         task_id = response.get("response", {}).get("taskId")
                         activation_task_dict[(device_ip, image_name)] = task_id
-                        self.log(
-                            "Task ID {0} assigned for image {1} activation on device {2}".format(
-                                task_id, image_name, device_ip
-                            ),
-                            "INFO",
-                        )
+                        self.log("Task ID {0} assigned for image {1} activation on device {2}".format(task_id, image_name, device_ip), "INFO")
                         activated = True
 
                 if not activated:
                     already_activated_devices.append(device_ip)
-                    self.log(
-                        "Image already activated on device {0}".format(device_ip),
-                        "INFO",
-                    )
+                    self.log("Image already activated on device {0}".format(device_ip), "INFO")
 
             # Check activation status sequentially
             for (device_ip, img_name), task_id in activation_task_dict.items():
                 task_name = "Activation for {0}".format(device_ip)
-                self.log(
-                    "Checking activation status for device {0}, image {1}, Task ID {2}".format(
-                        device_ip, img_name, task_id
-                    ),
-                    "INFO",
-                )
-                success_msg = "Successfully activated image {0} on device {1}".format(
-                    img_name, device_ip
-                )
+                self.log("Checking activation status for device {0}, image {1}, Task ID {2}".format(device_ip, img_name, task_id), "INFO")
+                success_msg = "Successfully activated image {0} on device {1}".format(img_name, device_ip)
 
-                status_check = self.get_task_status_from_tasks_by_id(
-                    task_id, task_name, success_msg
-                )
+                status_check = self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
                 if status_check.status == "success":
                     success_activation_list.append((device_ip, img_name))
-                    self.log(
-                        "Activation successful for device {0}, image {1}".format(
-                            device_ip, img_name
-                        ),
-                        "INFO",
-                    )
+                    self.log("Activation successful for device {0}, image {1}".format(device_ip, img_name), "INFO")
                 else:
                     failed_activation_list.append((device_ip, img_name))
-                    self.log(
-                        "Activation failed for device {0}, image {1}".format(
-                            device_ip, img_name
-                        ),
-                        "ERROR",
-                    )
+                    self.log("Activation failed for device {0}, image {1}".format(device_ip, img_name), "ERROR")
 
             success_image_map = {}
             failed_image_map = {}
@@ -5306,24 +4953,18 @@ class Swim(CatalystCenterBase):
                 failed_image_map.setdefault(img_name, []).append(device_ip)
 
             success_msg_parts = [
-                "{} to {}".format(img, ", ".join(devices))
-                for img, devices in success_image_map.items()
+                "{} to {}".format(img, ", ".join(devices)) for img, devices in success_image_map.items()
             ]
 
             failed_msg_parts = [
-                "{} to {}".format(img, ", ".join(devices))
-                for img, devices in failed_image_map.items()
+                "{} to {}".format(img, ", ".join(devices)) for img, devices in failed_image_map.items()
             ]
 
-        # NEW FLOW (for DNAC > 2.3.7.9)
+        # NEW FLOW (for CatalystCenter > 2.3.7.9)
         else:
             image_id_base = self.have.get("activation_image_id")
             # Resolve sub-package ids (if any)
-            sub_image_ids = (
-                [self.get_image_id_v1(pkg) for pkg in sub_package_images]
-                if sub_package_images
-                else []
-            )
+            sub_image_ids = [self.get_image_id_v1(pkg) for pkg in sub_package_images] if sub_package_images else []
             device_ips = []
             activation_payload_list = []
             device_ip_for_not_elg_list = []
@@ -5351,27 +4992,22 @@ class Swim(CatalystCenterBase):
                         "Standard mode - performing compliance validation for image '{0}' on device {1}".format(
                             image_name, device_ip
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     self.log("Convert to WLC is set to False", "DEBUG")
-                    elg_device_ip, device_id = self.check_device_compliance(
-                        device_uuid, image_name
-                    )
+                    elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
                 else:
                     self.log(
                         "WLC conversion mode enabled - bypassing compliance validation "
                         "for image '{0}' on device {1}".format(image_name, device_ip),
-                        "WARNING",
+                        "WARNING"
                     )
                     # When convert_to_wlc is True, skip compliance check and use the device as eligible
                     elg_device_ip = device_ip
                     device_id = device_uuid
 
                 if not elg_device_ip:
-                    self.log(
-                        "Device not eligible for activation: {0}".format(device_ip),
-                        "INFO",
-                    )
+                    self.log("Device not eligible for activation: {0}".format(device_ip), "INFO")
                     device_ip_for_not_elg_list.append(device_ip)
                     continue
 
@@ -5381,34 +5017,23 @@ class Swim(CatalystCenterBase):
                 if device_id:
                     activation_payload["id"] = device_id
 
-                activation_payload["installedImages"] = [
-                    {"id": iid} for iid in installed_image_ids
-                ]
+                activation_payload["installedImages"] = [{"id": iid} for iid in installed_image_ids]
 
-                compatible_features = (
-                    activation_details.get("compatible_features") or []
-                )
+                compatible_features = activation_details.get("compatible_features") or []
                 if compatible_features:
                     activation_payload["compatibleFeatures"] = compatible_features
 
-                network_validation_ids = (
-                    activation_details.get("network_validation_ids") or []
-                )
+                network_validation_ids = activation_details.get("network_validation_ids") or []
                 if network_validation_ids:
                     activation_payload["networkValidationIds"] = network_validation_ids
 
                 activation_payload_list.append(activation_payload)
 
-            self.log(
-                "Activation Payload List: {0}".format(str(activation_payload_list)),
-                "DEBUG",
-            )
+            self.log("Activation Payload List: {0}".format(str(activation_payload_list)), "DEBUG")
 
             if not activation_payload_list:
                 self.msg = "No eligible devices found for activation. Devices not eligible: {0}".format(
-                    ", ".join(device_ip_for_not_elg_list)
-                    if device_ip_for_not_elg_list
-                    else "None"
+                    ", ".join(device_ip_for_not_elg_list) if device_ip_for_not_elg_list else "None"
                 )
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", False, self.msg, "ERROR")
@@ -5421,37 +5046,20 @@ class Swim(CatalystCenterBase):
                     op_modifies=True,
                     params={"payload": activation_payload_list},
                 )
-                self.log(
-                    "API response from 'bulk_update_images_on_network_devices': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
-                self.check_swim_tasks_response_status(
-                    response, "bulk_update_images_on_network_devices"
-                )
+                self.log("API response from 'bulk_update_images_on_network_devices': {0}".format(str(response)), "DEBUG")
+                self.check_swim_tasks_response_status(response, "bulk_update_images_on_network_devices")
 
                 if response and self.status not in ["failed", "exited"]:
-                    self.msg = "All eligible images activated successfully on the devices {0}.".format(
-                        ", ".join(device_ips)
-                    )
+                    self.msg = "All eligible images activated successfully on the devices {0}.".format(", ".join(device_ips))
                     self.set_operation_result("success", True, self.msg, "INFO")
                     return self
                 else:
-                    self.msg = "Some or all image activations failed for the devices {0}.".format(
-                        ", ".join(device_ips)
-                    )
+                    self.msg = "Some or all image activations failed for the devices {0}.".format(", ".join(device_ips))
                     failed_activation_list = device_ips
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             except Exception as e:
-                self.log(
-                    "Exception during bulk activation: {0}".format(str(e)), "ERROR"
-                )
-                failed_msg_parts = [
-                    "Exception during bulk activation: {0}".format(str(e))
-                ]
+                self.log("Exception during bulk activation: {0}".format(str(e)), "ERROR")
+                failed_msg_parts = ["Exception during bulk activation: {0}".format(str(e))]
                 failed_activation_list = device_ips
                 self.msg = "Exception during bulk activation: {0}".format(str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -5468,32 +5076,16 @@ class Swim(CatalystCenterBase):
         if device_ip_for_not_elg_list:
             if final_msg:
                 final_msg += ". "
-            final_msg += (
-                "Devices not eligible for activation: "
-                + ", ".join(device_ip_for_not_elg_list)
-                + "."
-            )
+            final_msg += "Devices not eligible for activation: " + ", ".join(device_ip_for_not_elg_list) + "."
 
         self.msg = final_msg
         self.log("Final activation status: {0}".format(final_msg), "INFO")
 
-        if (
-            not success_activation_list
-            and failed_activation_list
-            and not device_ip_for_not_elg_list
-        ):
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
-        elif (
-            failed_activation_list
-            and not success_activation_list
-            and device_ip_for_not_elg_list
-        ):
+        if not success_activation_list and failed_activation_list and not device_ip_for_not_elg_list:
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        elif failed_activation_list and not success_activation_list and device_ip_for_not_elg_list:
             self.set_operation_result("failed", False, self.msg, "ERROR")
-        elif (
-            success_activation_list and failed_activation_list
-        ) or device_ip_for_not_elg_list:
+        elif (success_activation_list and failed_activation_list) or device_ip_for_not_elg_list:
             self.set_operation_result("success", True, self.msg, "INFO")
             self.partial_successful_activation = True
         else:
@@ -5515,19 +5107,9 @@ class Swim(CatalystCenterBase):
             state or till it reaches the maximum timeout.
             Log the task details and return self.
         """
-        self.log(
-            "Starting SWIM task status monitoring for API operation: {0}".format(
-                api_name
-            ),
-            "DEBUG",
-        )
+        self.log("Starting SWIM task status monitoring for API operation: {0}".format(api_name), "DEBUG")
         self.log("Input response: {0}".format(response), "DEBUG")
-        self.log(
-            "Max timeout for task monitoring is set to {0} seconds.".format(
-                self.max_timeout
-            ),
-            "DEBUG",
-        )
+        self.log("Max timeout for task monitoring is set to {0} seconds.".format(self.max_timeout), "DEBUG")
         if not response:
             self.msg = "response is empty"
             self.status = "exited"
@@ -5549,25 +5131,16 @@ class Swim(CatalystCenterBase):
         while True:
             elapsed_time = time.time() - start_time
             if elapsed_time >= self.max_timeout:
-                self.msg = (
-                    "Max timeout of {0} sec has reached for the task id '{1}'. ".format(
-                        self.max_timeout, task_id
-                    )
-                    + "Exiting the loop due to unexpected API '{0}' status.".format(
-                        api_name
-                    )
-                )
+                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
+                           .format(self.max_timeout, task_id) + \
+                           "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
 
             task_details = self.get_tasks_by_id(task_id)
-            self.log(
-                "Getting tasks details from task ID {0}: {1}".format(
-                    task_id, task_details
-                ),
-                "DEBUG",
-            )
+            self.log('Getting tasks details from task ID {0}: {1}'
+                     .format(task_id, task_details), "DEBUG")
 
             task_status = task_details.get("status")
             if task_status == "FAILURE":
@@ -5578,17 +5151,12 @@ class Swim(CatalystCenterBase):
 
             elif task_status == "SUCCESS":
                 self.result["changed"] = True
-                self.log(
-                    "The task with task ID '{0}' is executed successfully.".format(
-                        task_id
-                    ),
-                    "INFO",
-                )
+                self.log("The task with task ID '{0}' is executed successfully."
+                         .format(task_id), "INFO")
                 break
 
-            self.log(
-                "Progress is {0} for task ID: {1}".format(task_status, task_id), "DEBUG"
-            )
+            self.log("Progress is {0} for task ID: {1}"
+                     .format(task_status, task_id), "DEBUG")
 
         return self
 
@@ -5640,13 +5208,8 @@ class Swim(CatalystCenterBase):
         self.log("CCO synchronization configuration: {0}".format(sync_cco), "DEBUG")
 
         if not sync_cco:
-            self.log(
-                "No CCO synchronization details found. Skipping synchronization.",
-                "INFO",
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.log("No CCO synchronization details found. Skipping synchronization.", "INFO")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return None
         try:
             response = self.catalystcenter._exec(
@@ -5654,40 +5217,24 @@ class Swim(CatalystCenterBase):
                 function="initiates_sync_of_software_images_from_cisco_com_v1",
                 op_modifies=True,
             )
-            self.log(
-                "Received API response from 'initiates_sync_of_software_images_from_cisco_com_v1' for Update: {0}".format(
-                    response
-                ),
-                "DEBUG",
-            )
-            self.check_tasks_response_status(
-                response, "initiates_sync_of_software_images_from_cisco_com_v1"
-            )
+            self.log("Received API response from 'initiates_sync_of_software_images_from_cisco_com_v1' for Update: {0}".format(response), "DEBUG")
+            self.check_tasks_response_status(response, "initiates_sync_of_software_images_from_cisco_com_v1")
 
             # Handle successful update
             if self.status not in ["failed", "exited"]:
-                self.msg = "Synchronization of software images from Cisco CCO initiated successfully, Fetched recommended image(s) from cisco.com"
+                self.msg = ("Synchronization of software images from Cisco CCO initiated successfully, Fetched recommended image(s) from cisco.com")
                 self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             # Handle failed update
             if self.status == "failed":
                 fail_reason = self.msg
-                self.msg = "Synchronization of software images from Cisco CCO failed: {}".format(
-                    fail_reason
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Synchronization of software images from Cisco CCO failed: {}".format(fail_reason)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = (
-                "Error occurred during CCO image synchronization: {}".format(e),
-                "ERROR",
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = ("Error occurred during CCO image synchronization: {}".format(e), "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return self
 
     def verify_diff_imported(self, import_type):
@@ -5909,9 +5456,7 @@ class Swim(CatalystCenterBase):
                 )
             else:
                 self.msg = """The golden image has been successfully distributed
-                  to all specified devices '{0}' in the Cisco Catalyst Center.""".format(
-                    self.bulk_distribution_success_ips
-                )
+                  to all specified devices '{0}' in the Cisco Catalyst Center.""".format(self.bulk_distribution_success_ips)
 
             self.log(self.msg, "INFO")
 
@@ -6061,18 +5606,13 @@ class Swim(CatalystCenterBase):
                 - Summarize the results into success and failure messages.
                 - Set final operation result status (`success` or `failed`) based on outcomes.
         """
-        self.log(
-            "Initiating software image deletion process from Cisco Catalyst Center",
-            "DEBUG",
-        )
+        self.log("Initiating software image deletion process from Cisco Catalyst Center", "DEBUG")
         image_names = config.get("image_name", [])
         self.log("Image names to be deleted: {0}".format(image_names), "INFO")
 
         if not image_names:
             self.msg = "No image names provided for deletion."
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         results = []
         success_deletions = []
@@ -6080,92 +5620,57 @@ class Swim(CatalystCenterBase):
         non_existent_images = []
 
         for image_name in image_names:
-            self.log(
-                "Processing deletion request for image: '{0}'".format(image_name),
-                "DEBUG",
-            )
+            self.log("Processing deletion request for image: '{0}'".format(image_name), "DEBUG")
             image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
-                msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(
-                    image_name
-                )
+                msg = "Image '{0}' does not exist in Cisco Catalyst Center.".format(image_name)
                 non_existent_images.append(image_name)
-                results.append(
-                    {"image": image_name, "status": "failed", "message": msg}
-                )
+                results.append({"image": image_name, "status": "failed", "message": msg})
                 continue
 
             try:
-                self.log(
-                    "Attempting to delete image '{0}' with ID '{1}'.".format(
-                        image_name, image_id
-                    ),
-                    "INFO",
-                )
+                self.log("Attempting to delete image '{0}' with ID '{1}'.".format(image_name, image_id), "INFO")
                 response = self.catalystcenter._exec(
                     family="software_image_management_swim",
-                    function="delete_image",
+                    function='delete_image',
                     op_modifies=True,
-                    params={"id": image_id},
+                    params={"id": image_id}
                 )
 
                 self.check_tasks_response_status(response, "delete_image")
-                self.log(
-                    "Received API response from 'delete_image': {0}".format(
-                        str(response)
-                    ),
-                    "DEBUG",
-                )
+                self.log("Received API response from 'delete_image': {0}".format(str(response)), "DEBUG")
 
                 if self.status not in ["failed", "exited"]:
                     msg = "Image '{0}' deleted successfully.".format(image_name)
                     success_deletions.append(image_name)
-                    results.append(
-                        {"image": image_name, "status": "success", "message": msg}
-                    )
+                    results.append({"image": image_name, "status": "success", "message": msg})
                 else:
-                    msg = "Image '{0}' failed to delete: {1}".format(
-                        image_name, self.msg
-                    )
+                    msg = "Image '{0}' failed to delete: {1}".format(image_name, self.msg)
                     failed_deletions.append(image_name)
-                    results.append(
-                        {"image": image_name, "status": "failed", "message": msg}
-                    )
+                    results.append({"image": image_name, "status": "failed", "message": msg})
 
             except Exception as e:
-                msg = "Image '{0}' failed to delete due to exception: {1}".format(
-                    image_name, str(e)
-                )
+                msg = "Image '{0}' failed to delete due to exception: {1}".format(image_name, str(e))
                 failed_deletions.append(image_name)
-                results.append(
-                    {"image": image_name, "status": "failed", "message": msg}
-                )
+                results.append({"image": image_name, "status": "failed", "message": msg})
 
         # Summarize results
-        self.log(
-            "Image deletion process completed - generating final status report", "DEBUG"
-        )
+        self.log("Image deletion process completed - generating final status report", "DEBUG")
 
         success_count = len(success_deletions)
         failed_count = len(failed_deletions)
         total_count = len(image_names)
 
-        self.log(
-            "Deletion summary: {0} successful, {1} failed out of {2} total images".format(
-                success_count, failed_count, total_count
-            ),
-            "INFO",
-        )
+        self.log("Deletion summary: {0} successful, {1} failed out of {2} total images".format(
+            success_count, failed_count, total_count), "INFO")
 
         # Build final status message
         status_parts = []
 
         if success_deletions:
             success_list = "', '".join(success_deletions)
-            status_parts.append(
-                "Successfully deleted image(s): '{0}'".format(success_list)
-            )
+            status_parts.append("Successfully deleted image(s): '{0}'".format(success_list))
 
         if failed_deletions:
             failed_list = "', '".join(failed_deletions)
@@ -6173,11 +5678,7 @@ class Swim(CatalystCenterBase):
 
         if non_existent_images:
             non_existent_list = "', '".join(non_existent_images)
-            status_parts.append(
-                "Image(s) not found and could not be deleted: '{0}'".format(
-                    non_existent_list
-                )
-            )
+            status_parts.append("Image(s) not found and could not be deleted: '{0}'".format(non_existent_list))
 
         final_message = ". ".join(status_parts) + "."
 
@@ -6199,18 +5700,14 @@ class Swim(CatalystCenterBase):
         if not success_deletions and non_existent_images and not failed_deletions:
             # Only non-existent images (nothing to delete)
             self.msg = final_message
-            self.log(
-                "No images were deleted as all specified images do not exist", "WARNING"
-            )
+            self.log("No images were deleted as all specified images do not exist", "WARNING")
             self.set_operation_result("success", False, self.msg, "WARNING")
             return self
 
         # All deletions failed
         self.msg = final_message
         self.log("All image deletion operations failed", "ERROR")
-        self.set_operation_result(
-            "failed", False, self.msg, "ERROR"
-        ).check_return_status()
+        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return self
 
     def verify_diff_deleted(self, config):
@@ -6226,81 +5723,46 @@ class Swim(CatalystCenterBase):
             by checking their existence status. It processes multiple images and provides comprehensive verification
             results, logging the status of each image and providing a final summary of the verification process.
         """
-        self.log(
-            "Initiating verification process for deleted software images from Cisco Catalyst Center",
-            "DEBUG",
-        )
+        self.log("Initiating verification process for deleted software images from Cisco Catalyst Center", "DEBUG")
 
         image_names = config.get("image_name", [])
-        self.log(
-            "Processing deletion verification for {0} image(s): {1}".format(
-                len(image_names), image_names
-            ),
-            "INFO",
-        )
+        self.log("Processing deletion verification for {0} image(s): {1}".format(len(image_names), image_names), "INFO")
 
         verified_deleted = []
         still_existing = []
 
         for image_name in image_names:
-            self.log(
-                "Verifying deletion status for image: '{0}'".format(image_name), "DEBUG"
-            )
+            self.log("Verifying deletion status for image: '{0}'".format(image_name), "DEBUG")
 
             image_id = self.get_image_id_v1(image_name)
 
             if not image_id:
-                self.log(
-                    "Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(
-                        image_name
-                    ),
-                    "INFO",
-                )
+                self.log("Verification successful: Image '{0}' no longer exists in Cisco Catalyst Center".format(image_name), "INFO")
                 verified_deleted.append(image_name)
             else:
-                self.log(
-                    "Verification failed: Image '{0}' still exists in Cisco Catalyst Center with ID '{1}'".format(
-                        image_name, image_id
-                    ),
-                    "ERROR",
-                )
+                self.log("Verification failed: Image '{0}' still exists in Cisco Catalyst Center with ID '{1}'".format(image_name, image_id), "ERROR")
                 still_existing.append(image_name)
 
         # Generate comprehensive verification summary
-        self.log(
-            "Deletion verification process completed - generating final status report",
-            "DEBUG",
-        )
+        self.log("Deletion verification process completed - generating final status report", "DEBUG")
 
         verified_count = len(verified_deleted)
         existing_count = len(still_existing)
         total_count = len(image_names)
 
-        self.log(
-            "Verification summary: {0} confirmed deleted, {1} still existing out of {2} total images".format(
-                verified_count, existing_count, total_count
-            ),
-            "INFO",
-        )
+        self.log("Verification summary: {0} confirmed deleted, {1} still existing out of {2} total images".format(
+            verified_count, existing_count, total_count), "INFO")
 
         # Build final status message
         status_parts = []
 
         if verified_deleted:
             verified_list = "', '".join(verified_deleted)
-            status_parts.append(
-                "Successfully verified deletion of image(s): '{0}'".format(
-                    verified_list
-                )
-            )
+            status_parts.append("Successfully verified deletion of image(s): '{0}'".format(verified_list))
 
         if still_existing:
             existing_list = "', '".join(still_existing)
-            status_parts.append(
-                "Image(s) still exist and deletion not verified: '{0}'".format(
-                    existing_list
-                )
-            )
+            status_parts.append("Image(s) still exist and deletion not verified: '{0}'".format(existing_list))
 
         final_message = ". ".join(status_parts) + "."
 
@@ -6308,25 +5770,18 @@ class Swim(CatalystCenterBase):
         if verified_deleted and not still_existing:
             # All deletions verified successfully
             self.msg = final_message
-            self.log(
-                "All image deletion operations have been successfully verified", "INFO"
-            )
+            self.log("All image deletion operations have been successfully verified", "INFO")
             return self
 
         if verified_deleted and still_existing:
             # Partial verification success
             self.msg = final_message
-            self.log(
-                "Image deletion verification completed with partial success", "WARNING"
-            )
+            self.log("Image deletion verification completed with partial success", "WARNING")
             return self
 
         # All verifications failed (all images still exist)
         self.msg = final_message
-        self.log(
-            "All image deletion verification attempts failed - no images were successfully deleted",
-            "ERROR",
-        )
+        self.log("All image deletion verification attempts failed - no images were successfully deleted", "ERROR")
         return self
 
     def update_swim_profile_messages(self):
@@ -6376,69 +5831,46 @@ class Swim(CatalystCenterBase):
 
 
 def main():
-    """main entry point for module execution"""
 
-    element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "merged", "choices": ["merged", "deleted"]},
-    }
+    """ main entry point for module execution """
+
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": False},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
     ccc_swims = Swim(module)
     state = ccc_swims.params.get("state")
 
-    if (
-        ccc_swims.compare_catalystcenter_versions(
-            ccc_swims.get_ccc_version(), "2.3.5.3"
-        )
-        < 0
-    ):
+    if ccc_swims.compare_catalystcenter_versions(ccc_swims.get_ccc_version(), "2.3.5.3") < 0:
         ccc_swims.msg = """The specified version '{0}' does not support the 'swim_workflow_manager' feature.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_swims.get_ccc_version()
         )
         ccc_swims.status = "failed"
         ccc_swims.check_return_status()
-    if (
-        ccc_swims.compare_catalystcenter_versions(
-            ccc_swims.get_ccc_version(), "2.3.7.6"
-        )
-        <= 0
-        and state == "deleted"
-    ):
+    if ccc_swims.compare_catalystcenter_versions(ccc_swims.get_ccc_version(), "2.3.7.6") <= 0 and state == "deleted":
         ccc_swims.msg = (
             "The 'deleted' state is not supported in version '{0}' and earlier. "
-            "Please use version '2.3.7.9' or latest.".format(
-                ccc_swims.get_ccc_version()
-            )
+            "Please use version '2.3.7.9' or latest.".format(ccc_swims.get_ccc_version())
         )
-        ccc_swims.set_operation_result(
-            "failed", False, ccc_swims.msg, "ERROR"
-        ).check_return_status()
+        ccc_swims.set_operation_result("failed", False, ccc_swims.msg, "ERROR").check_return_status()
     if state not in ccc_swims.supported_states:
         ccc_swims.status = "invalid"
         ccc_swims.msg = "State {0} is invalid".format(state)

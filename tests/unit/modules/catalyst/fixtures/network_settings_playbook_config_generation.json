@@ -1,14 +1,16 @@
 {
-
   "playbook_config_generate_all_configurations": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details"]
+      "components_list": [
+        "global_pool_details"
+      ]
     }
   },
-
   "playbook_config_global_pools_single": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details"],
+      "components_list": [
+        "global_pool_details"
+      ],
       "global_pool_details": [
         {
           "pool_name": "Global_Pool_1"
@@ -16,10 +18,11 @@
       ]
     }
   },
-
   "playbook_config_global_pools_multiple": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details"],
+      "components_list": [
+        "global_pool_details"
+      ],
       "global_pool_details": [
         {
           "pool_name": "Global_Pool_1"
@@ -30,10 +33,11 @@
       ]
     }
   },
-
   "playbook_config_reserve_pools_by_site_single": {
     "component_specific_filters": {
-      "components_list": ["reserve_pool_details"],
+      "components_list": [
+        "reserve_pool_details"
+      ],
       "reserve_pool_details": [
         {
           "site_name": "Global/India/Mumbai"
@@ -41,10 +45,11 @@
       ]
     }
   },
-
   "playbook_config_reserve_pools_by_pool_name": {
     "component_specific_filters": {
-      "components_list": ["reserve_pool_details"],
+      "components_list": [
+        "reserve_pool_details"
+      ],
       "reserve_pool_details": [
         {
           "site_name": "Global/India/Mumbai"
@@ -55,30 +60,63 @@
       ]
     }
   },
-
   "playbook_config_network_management_by_site": {
     "component_specific_filters": {
-      "components_list": ["network_management_details"],
+      "components_list": [
+        "network_management_details"
+      ],
       "network_management_details": [
         {
-          "site_name_list": ["Global/India/Mumbai"]
+          "site_name_list": [
+            "Global/India/Mumbai"
+          ]
         },
         {
-          "site_name_list": ["Global/India/Delhi"]
+          "site_name_list": [
+            "Global/India/Delhi"
+          ]
         }
       ]
     }
   },
-
-  "playbook_config_device_controllability_by_site": {
+  "playbook_config_network_management_by_server_types": {
     "component_specific_filters": {
-      "components_list": ["device_controllability_details"]
+      "components_list": [
+        "network_management_details"
+      ],
+      "network_management_details": [
+        {
+          "site_name_list": [
+            "Global/Fabric_Test"
+          ],
+          "server_types": [
+            "dhcp_server",
+            "dns_server",
+            "ntp_server",
+            "network_aaa",
+            "client_and_endpoint_aaa",
+            "netflow_collector",
+            "snmp_server",
+            "syslog_server",
+            "timezone",
+            "message_of_the_day"
+          ]
+        }
+      ]
     }
   },
-
+  "playbook_config_device_controllability_by_site": {
+    "component_specific_filters": {
+      "components_list": [
+        "device_controllability_details"
+      ]
+    }
+  },
   "playbook_config_aaa_settings_by_network": {
     "component_specific_filters": {
-      "components_list": ["aaa_settings"],
+      "components_list": [
+        "aaa_settings"
+      ],
       "aaa_settings": [
         {
           "network": "network_aaa"
@@ -86,10 +124,11 @@
       ]
     }
   },
-
   "playbook_config_aaa_settings_by_server_type": {
     "component_specific_filters": {
-      "components_list": ["aaa_settings"],
+      "components_list": [
+        "aaa_settings"
+      ],
       "aaa_settings": [
         {
           "server_type": "ISE"
@@ -100,48 +139,59 @@
       ]
     }
   },
-
   "playbook_config_global_filters_by_site": {
     "global_filters": {
-      "site_name_list": ["Global/India/Mumbai", "Global/India/Delhi"]
+      "site_name_list": [
+        "Global/India/Mumbai",
+        "Global/India/Delhi"
+      ]
     }
   },
-
   "playbook_config_global_filters_by_pool_name": {
     "generate_all_configurations": true
   },
-
   "playbook_config_global_filters_by_pool_type": {
     "unexpected_key": "invalid"
   },
-
   "playbook_config_multiple_components": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details"]
+      "components_list": [
+        "global_pool_details",
+        "reserve_pool_details",
+        "network_management_details"
+      ]
     }
   },
-
   "playbook_config_all_components": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details", "reserve_pool_details", "network_management_details", "device_controllability_details"]
+      "components_list": [
+        "global_pool_details",
+        "reserve_pool_details",
+        "network_management_details",
+        "device_controllability_details"
+      ]
     }
   },
-
   "playbook_config_combined_filters": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details", "reserve_pool_details"]
+      "components_list": [
+        "global_pool_details",
+        "reserve_pool_details"
+      ]
     }
   },
-
   "playbook_config_empty_filters": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details"]
+      "components_list": [
+        "global_pool_details"
+      ]
     }
   },
-
   "playbook_config_no_file_path": {
     "component_specific_filters": {
-      "components_list": ["global_pool_details"],
+      "components_list": [
+        "global_pool_details"
+      ],
       "global_pool_details": [
         {
           "pool_name": "Global_Pool_1"
@@ -149,23 +199,18 @@
       ]
     }
   },
-  
-
   "get_empty_global_pool_response": {
     "response": [],
     "version": "1.0"
   },
-
   "get_empty_reserve_pool_response": {
     "response": [],
     "version": "1.0"
   },
-
   "get_empty_network_management_response": {
     "response": [],
     "version": "1.0"
   },
-
   "get_site_details": {
     "response": [
       {
@@ -178,7 +223,6 @@
     ],
     "version": "1.0"
   },
-
   "get_zone_site_details": {
     "response": [
       {
@@ -191,7 +235,6 @@
     ],
     "version": "1.0"
   },
-
   "get_fabric_site_details": {
     "response": [
       {
@@ -203,7 +246,6 @@
     ],
     "version": "1.0"
   },
-
   "get_fabric_zone_details": {
     "response": [
       {
@@ -214,7 +256,6 @@
     ],
     "version": "1.0"
   },
-
   "response_get_task_id_success": {
     "response": {
       "taskId": "0195fb85-4869-7f1d-8665-590d552534a5",
@@ -222,7 +263,6 @@
     },
     "version": "1.0"
   },
-
   "response_get_task_status_by_id_success": {
     "response": {
       "endTime": 1743681571226,
@@ -233,7 +273,6 @@
     },
     "version": "1.0"
   },
-
   "response_get_task_status_by_id_failed_anchored_vn": {
     "response": {
       "endTime": 1744200848242,
@@ -244,8 +283,7 @@
       "id": "01961a78-d03b-7a3d-8d16-8d665ddefcef"
     },
     "version": "1.0"
-  },  
-
+  },
   "get_global_pool_response": {
     "response": [
       {
@@ -257,12 +295,17 @@
           "subnet": "10.1.1.0",
           "prefixLength": 24,
           "gatewayIpAddress": "10.1.1.1",
-          "dhcpServers": ["10.1.1.10"],
-          "dnsServers": ["8.8.8.8", "8.8.4.4"]
+          "dhcpServers": [
+            "10.1.1.10"
+          ],
+          "dnsServers": [
+            "8.8.8.8",
+            "8.8.4.4"
+          ]
         },
         "context": [
           {
-            "owner": "DNAC",
+            "owner": "CatalystCenter",
             "contextKey": "pool_type",
             "contextValue": "Generic"
           }
@@ -271,7 +314,17 @@
     ],
     "version": "1.0"
   },
-  
+  "get_dhcp_for_site_response": {
+    "response": {
+      "dhcp": {
+        "servers": [
+          "10.1.1.10",
+          "10.1.1.11"
+        ]
+      }
+    },
+    "version": "1.0"
+  },
   "get_network_management_response": {
     "response": [
       {
@@ -279,14 +332,23 @@
         "siteId": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
         "settings": {
           "dhcp": {
-            "servers": ["10.1.1.10", "10.1.1.11"]
+            "servers": [
+              "10.1.1.10",
+              "10.1.1.11"
+            ]
           },
           "dns": {
             "domainName": "example.com",
-            "dnsServers": ["8.8.8.8", "8.8.4.4"]
+            "dnsServers": [
+              "8.8.8.8",
+              "8.8.4.4"
+            ]
           },
           "ntp": {
-            "servers": ["pool.ntp.org", "time.google.com"]
+            "servers": [
+              "pool.ntp.org",
+              "time.google.com"
+            ]
           },
           "timeZone": {
             "identifier": "America/New_York"
@@ -316,11 +378,15 @@
             },
             "snmpTraps": {
               "useBuiltinTrapServer": true,
-              "externalTrapServers": ["10.1.1.250"]
+              "externalTrapServers": [
+                "10.1.1.250"
+              ]
             },
             "syslogs": {
               "useBuiltinSyslogServer": false,
-              "externalSyslogServers": ["10.1.1.251"]
+              "externalSyslogServers": [
+                "10.1.1.251"
+              ]
             },
             "wiredDataCollection": {
               "enableWiredDataCollection": true
@@ -334,7 +400,6 @@
     ],
     "version": "1.0"
   },
-
   "get_device_controllability_response": {
     "response": {
       "deviceControllability": true,
@@ -342,7 +407,6 @@
     },
     "version": "1.0"
   },
-  
   "get_aaa_settings_response": {
     "response": [
       {
@@ -362,7 +426,6 @@
     ],
     "version": "1.0"
   },
-
   "get_reserve_ip_pool_details": {
     "response": [
       {
@@ -372,13 +435,15 @@
           {
             "ipPoolName": "Reserve_Ip_pool",
             "dhcpServerIps": [],
-            "gateways": ["204.1.208.129"],
+            "gateways": [
+              "204.1.208.129"
+            ],
             "createTime": 1744195422930,
             "lastUpdateTime": 1744195422940,
             "totalIpAddressCount": 128,
             "usedIpAddressCount": 0,
             "parentUuid": "767f0f96-2279-4aab-8b05-94e855e62d28",
-            "owner": "DNAC",
+            "owner": "CatalystCenter",
             "shared": true,
             "overlapping": false,
             "configureExternalDhcp": false,
@@ -393,12 +458,12 @@
             "defaultAssignedIpAddressCount": 3,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "reserved_by",
-                "contextValue": "DNAC"
+                "contextValue": "CatalystCenter"
               },
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "siteId",
                 "contextValue": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b"
               }
@@ -412,20 +477,154 @@
         "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
         "siteHierarchy": "Global/Fabric_Test",
         "type": "generic",
-        "groupOwner": "DNAC"
+        "groupOwner": "CatalystCenter"
       }
     ],
     "version": "1.0"
   },
-
-
-
-  "get_invalid_pool_type":{
+  "get_invalid_pool_type": {
     "message": "Invalid pool_type 'InvalidType' given in the playbook. Allowed pool types are ['Generic', 'LAN', 'WAN', 'Management']."
   },
-
-  "get_invalid_testbed_release":{
+  "get_invalid_testbed_release": {
     "message": "The specified version '2.3.5.3' does not support the network settings feature. Supported versions start from '2.3.7.6' onwards."
+  },
+  "playbook_config_network_management_by_ip_address": {
+    "component_specific_filters": {
+      "components_list": [
+        "network_management_details"
+      ],
+      "network_management_details": [
+        {
+          "ip_address_list": [
+            "10.1.1.10"
+          ]
+        }
+      ]
+    }
+  },
+  "playbook_config_network_management_by_ip_address_no_match": {
+    "component_specific_filters": {
+      "components_list": [
+        "network_management_details"
+      ],
+      "network_management_details": [
+        {
+          "ip_address_list": [
+            "192.0.2.99"
+          ]
+        }
+      ]
+    }
+  },
+  "playbook_config_network_management_combined_ip_filter": {
+    "component_specific_filters": {
+      "components_list": [
+        "network_management_details"
+      ],
+      "network_management_details": [
+        {
+          "site_name_list": [
+            "Global"
+          ],
+          "server_types": [
+            "dhcp_server",
+            "dns_server"
+          ],
+          "ip_address_list": [
+            "10.1.1.10"
+          ]
+        }
+      ]
+    }
+  },
+  "get_site_details_with_global": {
+    "response": [
+      {
+        "id": "50f15f14-4c73-47a7-9dc3-cb10eb9508bd",
+        "parentId": null,
+        "name": "Global",
+        "nameHierarchy": "Global",
+        "type": "global"
+      }
+    ],
+    "version": "1.0"
+  },
+  "get_dhcp_settings_for_site_response": {
+    "response": {
+      "dhcp": {
+        "servers": [
+          "10.1.1.10",
+          "10.1.1.11"
+        ]
+      }
+    },
+    "version": "1.0"
+  },
+  "get_aaa_settings_for_site_response": {
+    "response": {
+      "aaaNetwork": {},
+      "aaaClient": {}
+    },
+    "version": "1.0"
+  },
+  "get_dns_settings_for_site_response": {
+    "response": {
+      "dns": {
+        "domainName": "example.com",
+        "dnsServers": [
+          "8.8.8.8",
+          "8.8.4.4"
+        ]
+      }
+    },
+    "version": "1.0"
+  },
+  "get_telemetry_settings_for_site_response": {
+    "response": {
+      "telemetry": {
+        "applicationVisibility": {
+          "collector": {
+            "address": "10.1.1.200",
+            "port": 9995
+          }
+        },
+        "snmpTraps": {
+          "useBuiltinTrapServer": true,
+          "externalTrapServers": []
+        },
+        "syslogs": {
+          "useBuiltinSyslogServer": false,
+          "externalSyslogServers": []
+        }
+      }
+    },
+    "version": "1.0"
+  },
+  "get_ntp_settings_for_site_response": {
+    "response": {
+      "ntp": {
+        "servers": [
+          "pool.ntp.org"
+        ]
+      }
+    },
+    "version": "1.0"
+  },
+  "get_timezone_settings_for_site_response": {
+    "response": {
+      "timeZone": {
+        "identifier": "America/New_York"
+      }
+    },
+    "version": "1.0"
+  },
+  "get_banner_settings_for_site_response": {
+    "response": {
+      "banner": {
+        "message": "Authorized Use Only",
+        "retainExistingBanner": false
+      }
+    },
+    "version": "1.0"
   }
-
 }

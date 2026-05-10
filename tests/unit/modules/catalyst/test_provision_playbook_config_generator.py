@@ -24,7 +24,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import provision_p
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacProvisionPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterProvisionPlaybookGenerator(TestCatalystModule):
 
     module = provision_playbook_config_generator
 
@@ -52,21 +52,21 @@ class TestDnacProvisionPlaybookGenerator(TestCatalystModule):
         return generator
 
     def setUp(self):
-        super(TestDnacProvisionPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterProvisionPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacProvisionPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterProvisionPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -74,7 +74,7 @@ class TestDnacProvisionPlaybookGenerator(TestCatalystModule):
         """
 
         if "playbook_global_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites"),
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
@@ -184,7 +184,7 @@ class TestDnacProvisionPlaybookGenerator(TestCatalystModule):
                 state="gathered",
                 catalystcenter_version="2.3.7.9",
                 file_path=(
-                    "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
+                    "/Users/syedkahm/ansible/catalystcenter/work/collections/ansible_collections/cisco/catalystcenter/"
                     "playbooks/brownfield_provision_workflow_playbook.yml"
                 ),
                 file_mode="overwrite",
@@ -192,7 +192,7 @@ class TestDnacProvisionPlaybookGenerator(TestCatalystModule):
         )
         result = self.execute_module(changed=True, failed=False)
         expected_file_path = (
-            "/Users/syedkahm/ansible/dnac/work/collections/ansible_collections/cisco/dnac/"
+            "/Users/syedkahm/ansible/catalystcenter/work/collections/ansible_collections/cisco/catalystcenter/"
             "playbooks/brownfield_provision_workflow_playbook.yml"
         )
         self.assertEqual(

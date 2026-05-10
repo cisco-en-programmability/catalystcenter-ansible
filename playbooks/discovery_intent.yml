@@ -2,9 +2,11 @@
 - name: Discover devices using multiple discovery specific credentials and delete all the discoveries
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
+
   vars_files:
     - "{{ CLUSTERFILE }}"
+
   vars:
     catalystcenter_login: &catalystcenter_login
       catalystcenter_host: "{{ catalystcenter_host }}"
@@ -16,10 +18,12 @@
       catalystcenter_debug: "{{ catalystcenter_debug }}"
       catalystcenter_log: true
       catalystcenter_log_level: DEBUG
+
   tasks:
+
     - name: Execute discovery devices using MULTI RANGE with various global credentials
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
@@ -48,9 +52,10 @@
                 - description: snmpV3
                   username: snmpV3
             protocol_order: ssh
+
     - name: Execute discovery of single device using various discovery specific credentials and all the global credentials
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
@@ -62,7 +67,7 @@
               cli_credentials_list:
                 - username: cisco
                   password: Cisco#123
-                  enablepassword: Cisco#123
+                  enable_password: Cisco#123
               http_read_credential:
                 username: string
                 password: Lablab#123
@@ -78,13 +83,14 @@
                 username: v3Public2
                 snmp_mode: AUTHPRIV
                 auth_type: SHA
-                authpassword: Lablab#1234
+                auth_password: Lablab#1234
                 privacy_type: AES256
-                privacypassword: Lablab#1234
+                privacy_password: Lablab#1234
             protocol_order: ssh
+
     - name: Execute discovery of single device using various discovery specific credentials only
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
@@ -97,7 +103,7 @@
               cli_credentials_list:
                 - username: cisco
                   password: Cisco#123
-                  enablepassword: Cisco#123
+                  enable_password: Cisco#123
               http_read_credential:
                 username: string
                 password: Lablab#123
@@ -113,13 +119,14 @@
                 username: v3Public2
                 snmp_mode: AUTHPRIV
                 auth_type: SHA
-                authpassword: Lablab#1234
+                auth_password: Lablab#1234
                 privacy_type: AES256
-                privacypassword: Lablab#1234
+                privacy_password: Lablab#1234
             protocol_order: ssh
+
     - name: Execute discovery devices using MULTI RANGE with various discovery specific credentials and all global credentials (max 5 allowed)
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
@@ -134,7 +141,7 @@
               cli_credentials_list:
                 - username: admin
                   password: maglev123
-                  enablepassword: maglev123
+                  enable_password: maglev123
               http_read_credential:
                 username: admin
                 password: maglev123
@@ -146,41 +153,44 @@
               snmp_v3_credential:
                 username: administrator
                 snmp_mode: AUTHPRIV
-                authpassword: admin123
+                auth_password: admin123
                 auth_type: SHA
                 privacy_type: AES192
-                privacypassword: cisco#123
+                privacy_password: cisco#123
             protocol_order: ssh
             start_index: 1
             records_to_return: 1000
-            snmpversion: v2
+            snmp_version: v2
+
     - name: Execute discovery devices using CDP/LLDP/CIDR leveraging discovery specific credentials and all the global credentials
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: merged
         config_verify: true
         config:
           - discovery_name: CDP_Test_1
             discovery_type: "CDP"  # Can be LLDP and CIDR
-            ip_address_list:  # List length should be one
+            ip_address_list:   # List length should be one
               - 204.1.2.1
             cdp_level: 2  # Instead use lldp_level for LLDP and prefix length for CIDR
             discovery_specific_credentials:
               cli_credentials_list:
                 - username: admin
                   password: maglev123
-                  enablepassword: maglev123
+                  enable_password: maglev123
             protocol_order: ssh
+
     - name: Execute deletion of single discovery from the dashboard
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: deleted
         config_verify: true
         config:
           - discovery_name: CDP_Test_1
+
     - name: Execute deletion of all the discoveries from the dashboard
       cisco.catalystcenter.discovery_intent:
-        !!merge <<: *catalystcenter_login
+        <<: *catalystcenter_login
         state: deleted
         config_verify: true
         config:

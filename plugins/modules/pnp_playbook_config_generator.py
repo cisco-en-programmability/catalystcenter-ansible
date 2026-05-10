@@ -64,7 +64,7 @@ Output Format:
 
 Minimum Requirements:
     - Cisco Catalyst Center version 2.3.7.9 or higher for PnP APIs
-    - DNA Center SDK 2.9.3 or higher for API compatibility
+    - Catalyst Center SDK 2.9.3 or higher for API compatibility
     - Python 3.9 or higher for OrderedDict and type hint support
     - Read access to PnP and Sites APIs in Catalyst Center
     - Network connectivity to Catalyst Center management interface
@@ -384,7 +384,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
     Minimum Requirements:
         - Cisco Catalyst Center version 2.3.7.9 or higher
-        - DNA Center SDK 2.9.3 or higher for API compatibility
+        - Catalyst Center SDK 2.9.3 or higher for API compatibility
         - Python 3.9 or higher for OrderedDict and type hint support
         - Read access to PnP APIs in Catalyst Center
         - Network connectivity to Catalyst Center management interface
@@ -420,7 +420,7 @@ class PnPPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         get_diff_gathered(): Processes gathered state for YAML generation
 
     Inheritance:
-        CatalystCenterBase: Provides core DNA Center SDK integration and helper methods
+        CatalystCenterBase: Provides core Catalyst Center SDK integration and helper methods
         BrownFieldHelper: Provides YAML generation utilities and file operations
 
     Returns:
@@ -1670,7 +1670,7 @@ def main():
         device discovery and playbook generation for brownfield environments.
 
     Workflow:
-        1. Define argument specification with DNAC connection and playbook parameters
+        1. Define argument specification with Catalyst Center connection and playbook parameters
         2. Initialize AnsibleModule with argument spec and check mode enabled
         3. Create PnPPlaybookGenerator instance with module configuration
         4. Log initialization with current state and version information
@@ -1715,18 +1715,17 @@ def main():
     module_start_time = time.time()
 
     element_spec = {
-
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
@@ -1748,7 +1747,7 @@ def main():
     # Version check
     pnp_generator.log(
         "Starting Catalyst Center version compatibility check. Retrieving current version "
-        "from DNAC instance.",
+        "from Catalyst Center instance.",
         "DEBUG"
     )
     current_version = pnp_generator.get_ccc_version()

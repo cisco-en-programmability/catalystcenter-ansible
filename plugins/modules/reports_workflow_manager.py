@@ -4,9 +4,7 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to manage Report configurations in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ["Megha Kandari, Madhan Sankaranarayanan"]
 
@@ -164,7 +162,7 @@ options:
                     - Uses standard time zone identifiers like C(Asia/Calcutta),
                       C(America/New_York), etc. For a complete list of supported time zones,
                       please refer to the time_zone field in the Inventory Workflow Manager documentation
-                      https://galaxy.ansible.com/ui/repo/published/cisco/dnac/content/module/inventory_workflow_manager.
+                      https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/inventory_workflow_manager.
                   type: str
                   required: true
                 recurrence:
@@ -559,22 +557,27 @@ Threat Detail                                   TimeRange                       
 New Threat                                      TimeRange                           Location, ThreatLevel, ThreatType, TimeRange
 Rogue Additional Detail                         TimeRange                           Location, ThreatType, ThreatLevel, TimeRange
 Security Advisories Data                        N/A                                 DeviceType, Location, Impact
+Audit Log                                       TimeRange                           domain, category, sortBy, order, TimeRange
+Network Device Compliance                        N/A                                complianceStatus, complianceType, family, DeviceType
+Configuration Archive                           N/A                                 configChangeType, family, DeviceType
+EoX Data                                        N/A                                 DeviceType, Location
+All Data (swim)                                 N/A                                 Location, DeviceFamily, DeviceRole
+All Data Version 2.0 (swim)                     N/A                                 Location1, DeviceFamily, DeviceRole
+Busiest Client                                 Location, TimeRange                  Location, clientMacAddress, DeviceType, SSID, Band, SortBy, Limit, TimeRange
+Client Detail                                  Location, TimeRange                  Location, clientMacAddress, DeviceType, SSID, Band, TimeRange
+Client Session                                 Location, TimeRange                  Location, clientMacAddress, SSID, Band, TimeRange
+Client Summary                                 Location, GroupBy, TimeRange         Location, clientMacAddress, DeviceType, SSID, Band, GroupBy, TimeRange
+Client Trend                                   Location, TimeRange                  Location, clientMacAddress, ConnectionType, SSID, Band, TimeRange
+Top N Summary                                  Location, GroupBy, TimeRange         Location, clientMacAddress, DeviceType, SSID, Band, GroupBy, TimeRange
+Unique Clients and Users Summary               Location, TimeRange                  Location, clientMacAddress, ConnectionType, SSID, Band, TimeRange
+AireOS Controllers Licenses                     N/A                                 N/A
+License Usage Upload Details                    N/A                                 N/A
+Non Compliance Summary                          N/A                                 N/A
+Non Compliant Devices                           N/A                                 N/A
+License Historical Usage                        All                                 smartaccountuser, smartaccountname, Mode, TimeRange
 
 # The above available filters are for according to the Inspected UI api payload data as of Jan 2026.
-
 # Following are additional view names and their filters according to UI data as of Jan 2026.
-Audit Log                                       N/A                                 Domain, Category, Sort By, Order By, Time Range
-Client Summary                                  Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
-Top N Summary                                   Location, Group By, Time Range      Location, Client MAC, Device Type, SSID, Band, Group By, Time Range
-Client Detail                                   Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
-Client Trend                                    Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
-Client Session                                  Location, Time Range                Location, Client MAC, SSID, Band, Time Range
-Busiest Client                                 Location, Time Range, Sort By, Limit Location, Client MAC, Device Type, SSID, Band, Sort By, Limit, Time Range
-Unique Clients and Users Summary                Location, Time Range                Location, Client MAC, Device Type, SSID, Band, Time Range
-Network Device Compliance                        N/A                                Compliance Status, Compliance Category, Device Family,
-                                                                                    Device Type, Compliance Status
-Configuration Archive                            N/A                                Category, Device Family, Device Type
-EoX Data                                         N/A                                Device Type, Location
 
 # Group Communication Summary and Analytics Reports
 Host Group to Host Group                        All                               Host Group Name, Direction, Time Range
@@ -587,22 +590,15 @@ ISE Endpoint Profile Group to Host Group        Endpoint Profile, Host Group    
 Security Group to Security Group                Source/Destination SGT            SGT, VN, Time Range
 Security Group to ISE Endpoint Profile Group    SGT, Endpoint Profile             SGT, Endpoint Profile, VN, Time Range
 Security Group to Host Group                    SGT, Host Group                   SGT, Host Group, VN, Time Range
-Non Compliant Devices                           N/A                               N/A
-Non Compliance Summary                          N/A                               N/A
-AireOS Controllers Licenses                     N/A                               N/A
-License Usage Upload Details                    N/A                               N/A
-License Historical Usage                        All                               Smart Account User, Frequency, Time Range
-AP Performance Report                           Location                          Location, AP Name, Time Range
+#Long Term Reports
+AP Performance Report                           Location                            Location, AP Name, Time Range
 Long Term AP Detail                             Location                          Location, AP Name, Controller, Time Range
 Long Term AP Radio                              Location                          Location, AP Name, Radio Band, Time Range
 Long Term AP Usage and Client Breakdown         Location, AP Name                 Location, AP Name, Time Range
 Long Term Client Detail                         Location, Time Range              Location, Client MAC, User Name, Time Range
 Long Term Client Session                        Location, Time Range              Location, Client MAC, Session ID, Time Range
 Long Term Network Device Availability           Location                          Location, Device Type, Time Range
-All Data (swim)                                 N/A                               Location, Device Family, Device Role
-All Data Version 2.0 (swim)                     N/A                               Location, Device Family, Device Role
 Device Lifecycle Information                    Location                          Location, Device Type, Hardware Info
-
 # Group Pair Communication Analytics Reports
 Security Group to Security Groups               SGT                               SGT, VN, Time Range
 Security Group to ISE Endpoint Profile Groups  SGT, Endpoint Profile              SGT, Endpoint Profile, VN, Time Range
@@ -627,6 +623,10 @@ Filter Name: Location
 Filter Name: Device Type
     Filter Type: MULTI_SELECT
     Description: Selection of device categories (Switch, Router, AP, etc.)
+
+Filter Name: Device Family
+    Filter Type: MULTI_SELECT
+    Description: Device family classification
 
 Filter Name: Time Range
     Filter Type: TIME_RANGE
@@ -660,9 +660,9 @@ Filter Name: Controller
     Filter Type: MULTI_SELECT
     Description: Wireless controller names
 
-Filter Name: Radio Band
+Filter Name: Band
     Filter Type: MULTI_SELECT
-    Description: Wireless radio frequency bands (2.4GHz, 5GHz, 6GHz)
+    Description: Wireless frequency bands (2.4GHz, 5GHz, 6GHz)
 
 Filter Name: SSID
     Filter Type: MULTI_SELECT
@@ -714,7 +714,11 @@ Filter Name: License Type
 
 Filter Name: Compliance Status
     Filter Type: MULTI_SELECT
-    Description: License compliance states
+    Description: Compliance or license compliance states
+
+Filter Name: Compliance Category
+    Filter Type: MULTI_SELECT
+    Description: Compliance category classification
 
 Filter Name: Status
     Filter Type: MULTI_SELECT
@@ -722,7 +726,7 @@ Filter Name: Status
 
 Filter Name: Upload Date
     Filter Type: TIME_RANGE
-    Description: File upload date ranges
+    Description: File or image upload date ranges
 
 Filter Name: Usage Type
     Filter Type: MULTI_SELECT
@@ -739,6 +743,14 @@ Filter Name: User Name
 Filter Name: Event Category
     Filter Type: MULTI_SELECT
     Description: Audit log event categories
+
+Filter Name: Domain
+    Filter Type: MULTI_SELECT
+    Description: Audit log domain classification
+
+Filter Name: Category
+    Filter Type: MULTI_SELECT
+    Description: Audit or configuration category
 
 Filter Name: Object Type
     Filter Type: MULTI_SELECT
@@ -760,9 +772,21 @@ Filter Name: Connection Status
     Filter Type: MULTI_SELECT
     Description: Client connection states
 
-Filter Name: Metric Type
-    Filter Type: MULTI_SELECT
-    Description: Performance metric categories
+Filter Name: Group By
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Aggregation key for report results
+
+Filter Name: Sort By
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Field used to sort report output
+
+Filter Name: Order By
+    Filter Type: SINGLE_SELECT_ARRAY
+    Description: Sorting order (Ascending / Descending)
+
+Filter Name: Limit
+    Filter Type: REGULAR
+    Description: Maximum number of records to return
 
 Filter Name: Session ID
     Filter Type: MULTI_SELECT
@@ -772,14 +796,40 @@ Filter Name: Traffic Type
     Filter Type: MULTI_SELECT
     Description: Network traffic categories
 
+Filter Name: Client MAC
+    Filter Type: SINGLE_INPUT
+    Description: Comma-separated client MAC addresses (max 100)
+
+Filter Name: MAC Address
+    Filter Type: SINGLE_INPUT
+    Description: Comma-separated device MAC addresses
+
+Filter Name: IP Address
+    Filter Type: SINGLE_INPUT
+    Description: Device or client IP address input
+
+Filter Name: Serial Number
+    Filter Type: SINGLE_INPUT
+    Description: Device serial number input
+
+Filter Name: User Defined Tags
+    Filter Type: SINGLE_INPUT
+    Description: Free-text license or device tags
+
+Filter Name: Reason
+    Filter Type: SINGLE_INPUT
+    Description: Reason or remarks field
+
 Note:
 - MULTI_SELECT: Allows selection of multiple discrete values
 - MULTI_SELECT_TREE: Allows hierarchical multi-selection (like site locations)
 - SINGLE_SELECT_ARRAY: Allows single value selection from an array
+- REGULAR: Accepts scalar input values (e.g., limit)
 - TIME_RANGE: Allows date/time range specification with start_date_time, end_date_time, and time_zone
+- SINGLE_INPUT: Accepts comma-separated values in a single string input, which will be parsed into a list by the module
 """
 
-REPORT_TYPES_AND_FORMATS = r"""
+REPORT_TYPES_AND_FORMATS = r'''
 Report Types with View Names and Eligible Format Types:
 
 COMPLIANCE REPORTS:
@@ -1035,10 +1085,6 @@ CONFIGURATION ARCHIVE REPORTS:
 - Available Formats: CSV, PDF, JSON
 
 CLIENT REPORTS:
-- View Name: "Client"
-- View Group: "Client"
-- Available Formats: CSV, PDF, JSON, TDE
-
 - View Name: "Client Summary"
 - View Group: "Client"
 - Available Formats: PDF
@@ -1109,333 +1155,591 @@ To verify this information, search the code for:
 **OPTIONAL FILTERS** can be omitted or provided as empty arrays.
 
 1. EXECUTIVE SUMMARY VIEW GROUP:
-   -------------------------------
-   View Name: "Executive Summary"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - TimeRange (TIME_RANGE): Date/time range for data collection
-     - SSID (MULTI_SELECT): Wireless network identifiers
-     - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
-     - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
-   Required Filters: None - All filters are optional
-   Field Groups: Not applicable for Executive Summary
-   Supported Formats: CSV, PDF, JSON
+-------------------------------
+View Name: "Executive Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - TimeRange (TIME_RANGE): Date/time range for data collection
+  - SSID (MULTI_SELECT): Wireless network identifiers
+  - Band (MULTI_SELECT): Radio frequency bands (2.4GHz, 5GHz, 6GHz)
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+Required Filters: None - All filters are optional
+Field Groups: Not applicable for Executive Summary
+Supported Formats: PDF
 
 2. SECURITY ADVISORIES VIEW GROUP:
-   --------------------------------
-   View Name: "Security Advisories Data"
-   Allowed Filters:
-     - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - psirtAllData:
-       Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+--------------------------------
+View Name: "Security Advisories Data"
+Allowed Filters:
+  - DeviceType (MULTI_SELECT): Device categories (Switch, Router, AP, etc.)
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Impact (MULTI_SELECT): Advisory impact levels (Critical, High, Medium, Low)
+Required Filters: None - All filters are optional
+Field Groups:
+  - psirtAllData:
+     Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
               deviceImageVersion, deviceSite, advisoryId, advisoryCvssScore,
               advisoryImpact, advisoryMatchType, advisoryLastScanTime,
               firstFixedVersion, scanCriteria, scanStatus
-   Supported Formats: CSV, PDF, TDE
+Supported Formats: CSV, PDF, TDE
 
 3. INVENTORY VIEW GROUP:
-   ----------------------
+----------------------
 
-   3.1 View Name: "All Data"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - DeviceType (MULTI_SELECT): Device type classifications
-     - SoftwareVersion (MULTI_SELECT): Firmware/software versions
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - inventoryAllData:
-       Fields: family, type, hostname, serialNumber, ipAddress, status,
+3.1 View Name: "All Data"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceType (MULTI_SELECT): Device type classifications
+  - SoftwareVersion (MULTI_SELECT): Firmware/software versions
+Required Filters: None - All filters are optional
+Field Groups:
+  - inventoryAllData:
+     Fields: family, type, hostname, serialNumber, ipAddress, status,
               softwareVersion, upTime, partNumber, site, numberofUsers,
               numberofethernetports, timeSinceCodeUpgrade, licenseDnaLevel,
               networkLicense, fabricRole
-   Supported Formats: CSV, PDF, TDE, JSON
+Supported Formats: CSV, PDF, TDE
 
-   3.2 View Name: "All Data Version 2.0"
-   Allowed Filters:
-     - Device Type (MULTI_SELECT): Device categories
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Device Role (MULTI_SELECT): Device roles (Core, Distribution, Access, etc.)
-     - Product Family (MULTI_SELECT): Product family classifications
-     - Connectivity Status (MULTI_SELECT): Device connectivity states
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - inventory:
-       Fields: hostName, ipAddress, deviceType, softwareVersion, platformId,
-              macAddress, upTime, serialNumber, deviceRoles, family,
-              deviceSeries, managementIpAddress, softwareType, lastUpdateTime,
-              lastBootTime, location, memorySize, connectivityStatus,
-              connectedInterface, apManagerIpAddress, deviceUuid, productFamily
-   Supported Formats: CSV, PDF, TDE, JSON
+3.2 View Name: "All Data Version 2.0"
+Allowed Filters:
+  - siteId (MULTI_SELECT_TREE): Site identifier hierarchy
+  - deviceType (MULTI_SELECT): Device type classifications
+  - deviceFamily (MULTI_SELECT): Device family categories
+  - softwareVersion (MULTI_SELECT): Software/firmware versions
+Required Filters: None - All filters are optional
+Field Groups:
+  - inventory_fields:
+     Fields: rownum, deviceFamily, deviceType, name, serialNumber,
+              managementIpAddress, communicationState, softwareVersion,
+              upTime, platformId, siteHierarchy, clientCount, portCount,
+              completionTime, dnaLevel, networkLicense, uxLevel, fabricRole
+Supported Formats: CSV, PDF, TDE
 
-   3.3 View Name: "Port Reclaim View"
-   Allowed Filters:
-     - family (REGULAR): Device family identifier
-     - hostname (REGULAR): Device hostname pattern
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - PortReclaimFieldGroup:
-       Fields: rownum, hostname, family, type, managementIpAddress, portname,
+3.3 View Name: "Port Reclaim View"
+Allowed Filters:
+  - family (REGULAR): Device family identifier
+  - hostname (REGULAR): Device hostname pattern
+Required Filters: None - All filters are optional
+Field Groups:
+  - PortReclaimFieldGroup:
+     Fields: rownum, hostname, family, type, managementIpAddress, portname,
               description, macAddress, adminStatus, status, lastInput, lastOutput
-   Supported Formats: CSV, TDE
+Supported Formats: CSV, TDE, JSON
 
 4. ROGUE AND AWIPS VIEW GROUP:
-   ----------------------------
+----------------------------
 
-   4.1 View Name: "New Threat"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - ThreatLevel (MULTI_SELECT): Threat severity levels
-     - ThreatType (MULTI_SELECT): Types of identified threats
-     - TimeRange (TIME_RANGE): Date/time range for threat data
-   Required Filters: TimeRange
-   Field Groups:
-     - rogue_details:
-       Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+4.1 View Name: "New Threat"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatLevel (MULTI_SELECT): Threat severity levels
+  - ThreatType (MULTI_SELECT): Types of identified threats
+  - TimeRange (TIME_RANGE): Date/time range for threat data
+Required Filters: TimeRange
+Field Groups:
+  - rogue_details:
+     Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
               rssi, ssid, vendor, lastUpdated
-   Supported Formats: CSV, TDE, JSON
+Supported Formats: CSV, TDE, JSON
 
-   4.2 View Name: "Rogue Additional Detail"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - ThreatType (MULTI_SELECT): Threat classifications
-     - ThreatLevel (MULTI_SELECT): Severity assessments
-     - TimeRange (TIME_RANGE): Analysis time period
-   Required Filters: TimeRange
-   Field Groups:
-     - rogue_ap_bssid_details:
-       Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
+4.2 View Name: "Rogue Additional Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatType (MULTI_SELECT): Threat classifications
+  - ThreatLevel (MULTI_SELECT): Severity assessments
+  - TimeRange (TIME_RANGE): Analysis time period
+Required Filters: TimeRange
+Field Groups:
+  - rogue_ap_bssid_details:
+     Fields: macAddress, lastUpdated, firstSeen, mldMacAddress, apName,
               radioType, controllerIp, siteNameHierarchy, ssid, channelNumber,
               channelWidth, threatLevel, containment, threatType, encryption,
               switchIp, switchName, portDescription
-   Supported Formats: CSV, TDE, JSON
+Supported Formats: CSV, TDE, JSON
 
-   4.3 View Name: "Threat Detail"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - ThreatType (MULTI_SELECT): Threat categories
-     - ThreatLevel (MULTI_SELECT): Risk severity levels
-     - TimeRange (TIME_RANGE): Threat analysis timeframe
-   Required Filters: TimeRange
-   Field Groups: Varies based on threat type
-   Supported Formats: CSV, TDE, JSON
+4.3 View Name: "Threat Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - ThreatType (MULTI_SELECT): Threat categories
+  - ThreatLevel (MULTI_SELECT): Risk severity levels
+  - TimeRange (TIME_RANGE): Threat analysis timeframe
+Required Filters: TimeRange
+Field Groups:
+  - rogue_details:
+     Fields: threatLevel, macAddress, threatType, apName, siteHierarchyName,
+              rssi, ssid, vendor, lastUpdated
+Supported Formats: CSV, TDE, JSON
 
 5. ACCESS POINT VIEW GROUP:
-   -------------------------
+-------------------------
 
-   5.1 View Name: "AP"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Wireless LAN Controllers
-     - AP (MULTI_SELECT): Access Point identifiers
-     - TimeRange (TIME_RANGE): Data collection period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - apDetailByAP:
-       Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
+5.1 View Name: "AP"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Wireless LAN Controllers
+  - AP (MULTI_SELECT): Access Point identifiers
+  - TimeRange (TIME_RANGE): Data collection period
+Required Filters: Location, TimeRange
+Field Groups:
+  - apDetailByAP:
+     Fields: macAddress, ethernetMac, nwDeviceName, managementIpAddress,
               osVersion, nwDeviceType, platformId, serialNumber, deviceFamily,
               siteHierarchy, upTime, mode, adminState, opState, overallScore,
               clCount_avg, cpu, memory, clCount_max, wlcName, powerStatus,
               regulatoryDomain, cdp, location, flexGroup, apGroup, siteTagName,
               policyTagName, rfTagName, rxBytes, txBytes, rxRate, txRate
-   Supported Formats: CSV, TDE, JSON
+Supported Formats: CSV, TDE, JSON
 
-   5.2 View Name: "AP - Usage and Client Breakdown"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller selection
-     - AP (MULTI_SELECT): Access Point selection
-     - TimeRange (TIME_RANGE): Usage analysis period
-   Required Filters: Location, AP, TimeRange
-   Field Groups:
-     - apBreakdown:
-       Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
+5.2 View Name: "AP - Usage and Client Breakdown"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller selection
+  - AP (MULTI_SELECT): Access Point selection
+  - TimeRange (TIME_RANGE): Usage analysis period
+Required Filters: Location, AP, TimeRange
+Field Groups:
+  - apBreakdown:
+     Fields: apName, kpiType, kpiName, clientCount, clientPercentage,
               traffic, trafficPercentage, ethernetMac, location
-   Supported Formats: CSV, TDE, JSON, PDF
+Supported Formats: CSV, TDE, JSON, PDF
 
-   5.3 View Name: "AP Radios"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller identifiers
-     - AP (MULTI_SELECT): Access Point names
-     - Band (MULTI_SELECT): Radio frequency bands
-     - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
-     - Limit (SINGLE_SELECT_ARRAY): Result count limit
-     - TimeRange (TIME_RANGE): Performance data period
-   Required Filters: Location, SortBy, Limit, TimeRange
-   Field Groups:
-     - apDetailByRadio:
-       Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
+5.3 View Name: "AP Radio"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller identifiers
+  - AP (MULTI_SELECT): Access Point names
+  - Band (MULTI_SELECT): Radio frequency bands
+  - SortBy (SINGLE_SELECT_ARRAY): Sorting criteria
+  - Limit (SINGLE_SELECT_ARRAY): Result count limit
+  - TimeRange (TIME_RANGE): Performance data period
+Required Filters: Location, SortBy, Limit, TimeRange
+Field Groups:
+  - apDetailByRadio:
+     Fields: ethernetMac, apMac, slot, name, radioMode, adminState, operState,
               frequency, siteHierarchy, channels, txPower, memory, osVersion,
               cpu, managementIpAddress, deviceModel, deviceFamily, platformId,
               nwDeviceType, upTime, wlcName, wlcIpAddr, radioNoiseMax_max,
               radioUtil_max, txUtilPct_max, rxUtilPct_max, radioIntf_max,
               radioClientCount_max, radioClientCount_avg, txBytes_sum,
               rxBytes_sum, radioAirQualMax_max, txUtil_avg, rxUtil_avg
-   Supported Formats: CSV
+Supported Formats: CSV, JSON and TDE
 
-   5.4 View Name: "AP RRM Events"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller selection
-     - AP (MULTI_SELECT): Access Point identifiers
-     - eventType (MULTI_SELECT): RRM event categories
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Event monitoring period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - apRRMEventsByAPMac:
-       Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
+5.4 View Name: "AP RRM Events"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller selection
+  - AP (MULTI_SELECT): Access Point identifiers
+  - eventType (MULTI_SELECT): RRM event categories
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Event monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+  - apRRMEventsByAPMac:
+     Fields: time, eventTime, apName, ethernetMac, apMac, managementIpAddr,
               slotId, wlcName, frequency, eventType, prevChannels, currChannels,
               prevPower, currPower, oldWidthValue, newWidthValue, reasonType,
               lastFailureReason, dcaReasonCode, location
-   Supported Formats: CSV
+Supported Formats: CSV, TDE and JSON
 
-   5.5 View Name: "Worst Interferers"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Wlc (MULTI_SELECT): Controller identifiers
-     - AP (MULTI_SELECT): Access Point names
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Interference analysis period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - worstInterferers:
-       Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
+5.5 View Name: "Worst Interferers"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - Wlc (MULTI_SELECT): Controller identifiers
+  - AP (MULTI_SELECT): Access Point names
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Interference analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - worstInterferers:
+     Fields: deviceType, severity, worstSevTime, deviceMac, rssi, dutyCycle,
               affectedChannels, apName, slot, band, siteHierarchy, discoveredTime
-   Supported Formats: CSV, PDF
+Supported Formats: TDE, JSON and CSV
 
 6. NETWORK DEVICES VIEW GROUP:
-   ----------------------------
+----------------------------
 
-   6.1 View Name: "Device CPU and Memory"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - DeviceRole (MULTI_SELECT): Network device roles
-     - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
-     - Limit (SINGLE_SELECT_ARRAY): Result count limits
-     - TimeRange (TIME_RANGE): Performance monitoring period
-   Required Filters: Location, SortBy, Limit, TimeRange
-   Field Groups:
-     - Device_Health_Details:
-       Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
-              minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
-   Supported Formats: CSV, PDF
+6.1 View Name: "Device CPU and Memory Utilization"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - DeviceRole (MULTI_SELECT): Network device roles
+    - SortBy (SINGLE_SELECT_ARRAY): Result sorting options
+    - Limit (SINGLE_SELECT_ARRAY): Result count limits
+    - TimeRange (TIME_RANGE): Performance monitoring period
+Required Filters: [REQUIRED] Location, SortBy, Limit, TimeRange
+Field Groups:
+    - Device_Health_Details:
+        Fields: deviceName, ipAddr, deviceFamily, deviceRole, deviceModel,
+                minCPU, maxCPU, avgCPU, minMemory, maxMemory, avgMemory
+Supported Formats: CSV, TDE, JSON
 
-   6.2 View Name: "Energy Management"
-   Allowed Filters:
-     - Locations (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
-     - TimeRange (TIME_RANGE): Energy consumption analysis period
-   Required Filters: TimeRange
-   Field Groups:
-     - response:
-       Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
-              estimatedCost, measured
-   Supported Formats: CSV, PDF
+6.2 View Name: "Energy Management"
+Allowed Filters:
+    - Locations (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceCategory (SINGLE_SELECT_ARRAY): Device category classification
+    - TimeRange (TIME_RANGE): Energy consumption analysis period
+Required Filters: TimeRange
+Field Groups:
+    - response:
+        Fields: timeVal, energyConsumed, carbonIntensity, estimatedEmission,
+                estimatedCost, measured
+Supported Formats: CSV, PDF
 
-   6.3 View Name: "Network Device Availability"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - NwDeviceType (MULTI_SELECT): Network device classifications
-     - TimeRange (TIME_RANGE): Availability monitoring period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - response:
-       Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
-              siteHierarchy, softwareVersion, availability
-   Supported Formats: CSV, PDF
+6.3 View Name: "Network Device Availability"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - NwDeviceType (MULTI_SELECT): Network device classifications
+    - TimeRange (TIME_RANGE): Availability monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - response:
+        Fields: nwDeviceFamily, nwDeviceRole, nwDeviceName, managementIpAddr,
+                siteHierarchy, softwareVersion, availability
+Supported Formats: CSV, TDE, JSON
 
-   6.4 View Name: "Network Interface Utilization"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
-     - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
-     - Limit (SINGLE_SELECT_ARRAY): Maximum result count
-     - TimeRange (TIME_RANGE): Interface monitoring period
-   Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
-   Field Groups:
-     - Interface_Utilization_Details:
-       Fields: deviceName, managementIpAddress, location, interfaceName,
-              minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
-              avgRx, rxErrors, rxPacketDrops
-   Supported Formats: CSV, PDF
+6.4 View Name: "Network Interface Utilization"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - SortBy (SINGLE_SELECT_ARRAY): Data sorting criteria
+    - SortOrder (SINGLE_SELECT_ARRAY): Sort direction (ascending/descending)
+    - Limit (SINGLE_SELECT_ARRAY): Maximum result count
+    - TimeRange (TIME_RANGE): Interface monitoring period
+Required Filters: [REQUIRED] All filters (Location, SortBy, SortOrder, Limit, TimeRange)
+Field Groups:
+    - Interface_Utilization_Details:
+        Fields: deviceName, managementIpAddress, location, interfaceName,
+                minTx, maxTx, avgTx, txErrors, txPacketDrops, minRx, maxRx,
+                avgRx, rxErrors, rxPacketDrops
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-   6.5 View Name: "PoE"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-   Required Filters: [REQUIRED] Location
-   Field Groups:
-     - response:
-       Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
-              powerConsumed, powerConsumedPercentage, poeUsedPortCount,
-              fastPoeEnabledCount, perpetualPoeEnabledCount,
-              PolicePoeEnabledCount, poeOperPriorityHighCount
-   Supported Formats: CSV, PDF
+6.5 View Name: "PoE"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+Required Filters: [REQUIRED] Location
+Field Groups:
+    - response:
+        Fields: managementIpAddr, nwDeviceName, date, site, powerBudget,
+                powerConsumed, powerConsumedPercentage, poeUsedPortCount,
+                fastPoeEnabledCount, perpetualPoeEnabledCount,
+                PolicePoeEnabledCount, poeOperPriorityHighCount
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-   6.6 View Name: "Port Capacity"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - Devicerole (MULTI_SELECT): Device role classifications
-     - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
-   Required Filters: utilizationLevel
-   Field Groups:
-     - Port Capacity:
-       Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
-              connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
-   Supported Formats: CSV, PDF
+6.6 View Name: "Port Capacity"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - Devicerole (MULTI_SELECT): Device role classifications
+    - utilizationLevel (SINGLE_SELECT_ARRAY): Port utilization thresholds
+Required Filters: utilizationLevel
+Field Groups:
+    - Port Capacity:
+        Fields: deviceIp, deviceName, location, deviceFamily, deviceRole,
+                connectedPorts, freePorts, downPorts, totalPorts, usagePercentage
+Supported Formats: CSV, Tableau Data Extract (TDE)
 
-   6.7 View Name: "Transmit Power Change Count"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Power change monitoring period
-   Required Filters: Location, TimeRange
-   Field Groups:
-     - response:
-       Fields: apName, apMac, slotId, frequency, upCount, downCount,
-              totalChangeCount, powerRange, location
-   Supported Formats: CSV, PDF
+6.7 View Name: "Transmit Power Change Count"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Power change monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+    - response:
+        Fields: apName, apMac, slotId, frequency, upCount, downCount,
+                totalChangeCount, powerRange, location
+Supported Formats: CSV, Tableau Data Extract (TDE), JSON
 
-   6.8 View Name: "Channel Change Count"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Band (MULTI_SELECT): Radio frequency bands
-     - TimeRange (TIME_RANGE): Power change monitoring period
-   Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
-   Field Groups:
-     - response:
-       Fields: apName, apMac, slotId, frequency, changeCount, location
-   Supported Formats: CSV, PDF
+6.8 View Name: "Channel Change Count"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - Band (MULTI_SELECT): Radio frequency bands
+    - TimeRange (TIME_RANGE): Channel change monitoring period
+Required Filters: [REQUIRED] Location, TimeRange (Band is optional)
+Field Groups:
+    - response:
+        Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
+                totalChangeCount, channelsCount, location
+Supported Formats: CSV, TDE, JSON
 
-   6.9 View Name: "VLAN"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - DeviceFamily (MULTI_SELECT): Device family categories
-     - DeviceType (MULTI_SELECT): Device type classifications
-   Required Filters: None - All filters are optional
-   Field Groups:
-     - VLAN Details:
-       Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
-              vlanId, vlanName, interfacename, adminStatus, operStatus
-   Supported Formats: CSV, PDF
+6.9 View Name: "VLAN"
+Allowed Filters:
+    - Location (MULTI_SELECT_TREE): Network location hierarchy
+    - DeviceFamily (MULTI_SELECT): Device family categories
+    - DeviceType (MULTI_SELECT): Device type classifications
+Required Filters: None - All filters are optional
+Field Groups:
+    - VLAN Details:
+        Fields: ipAddress, deviceName, location, deviceFamily, deviceType,
+                vlanId, vlanName, interfacename, adminStatus, operStatus
+Supported Formats: CSV, TDE
 
-   6.9 View Name: "Channel Change Count"
-   Allowed Filters:
-     - Location (MULTI_SELECT_TREE): Network location hierarchy
-     - Band (MULTI_SELECT): Radio frequency bands (optional)
-     - TimeRange (TIME_RANGE): Channel change monitoring period
-   Field Groups:
-     - response:
-       Fields: apName, apMac, slotId, frequency, DCA, DFS, ED-RRM,
-              totalChangeCount, channelsCount, location
-   Supported Formats: CSV, PDF
+7. AUDIT LOG VIEW GROUP:
+----------------------
+View Name: "Audit Log"
+Allowed Filters:
+  - domain (MULTI_SELECT): System domain classifications
+  - category (MULTI_SELECT): Audit event categories (must be UPPERCASE)
+  - sortBy (REGULAR): Field to sort results by
+  - order (REGULAR): Sort order ('asc' only supported)
+  - TimeRange (TIME_RANGE): Audit log time period
+Required Filters: TimeRange
+Field Groups:
+  - audit_log:
+     Fields: eventId, namespace, name, description, type, category, domain,
+              subDomain, severity, timestamp, details, ciscoDnaEventLink, note,
+              userId, i18n, eventHierarchy, message, messageParams,
+              parentInstanceId, network, startTime, childCount
+Supported Formats: CSV, JSON
+
+8. COMPLIANCE VIEW GROUP:
+-----------------------
+View Name: "Network Device Compliance"
+Allowed Filters:
+  - complianceStatus (REGULAR): Compliance status (must be UPPERCASE)
+  - complianceType (REGULAR): Type of compliance check (must be UPPERCASE)
+  - family (REGULAR): Device family identifier
+  - DeviceType (REGULAR): Device type classification
+Required Filters: None - All filters are optional
+Field Groups:
+  - Compliance:
+     Fields: rownum, hostname, family, type, managementIpAddress,
+              complianceStatus, IMAGE, RUNNING_CONFIG, PSIRT, NETWORK_PROFILE,
+              NETWORK_SETTINGS, EOX, FABRIC, APPLICATION_VISIBILITY,
+              CUSTOMIZATION_PROFILE
+Supported Formats: CSV, PDF, JSON
+
+9. CONFIGURATION ARCHIVE VIEW GROUP:
+----------------------------------
+View Name: "Configuration Archive"
+Allowed Filters:
+  - configChangeType (REGULAR): Configuration change type (must be UPPERCASE)
+  - family (REGULAR): Device family identifier
+  - DeviceType (REGULAR): Device type classification
+Required Filters: None - All filters are optional
+Field Groups:
+  - ConfigArchive:
+     Fields: rownum, deviceName, family, type, managementIpAddress,
+              createdTime, createdBy, configChangeType, userName, configMethod,
+              loginIpAddress
+Supported Formats: CSV, PDF, JSON
+
+10. EOX VIEW GROUP:
+---------------
+View Name: "EoX Data"
+Allowed Filters:
+  - DeviceType (MULTI_SELECT): Device type classifications
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+Required Filters: None - All filters are optional
+Field Groups:
+  - eoxAllData:
+     Fields: deviceName, deviceIpAddress, deviceType, deviceSerialNumber,
+              deviceImageVersion, deviceSite, deviceModelName, deviceImageType,
+              eoxScanStatus, eoxType, endOfLifeExternalAnnouncementDate,
+              endOfSaleDate, endOfLastHardwareShipDate,
+              endOfSoftwareMaintenanceReleasesDate,
+              endOfHardwareNewServiceAttachmentDate,
+              endOfSoftwareVulnerabilityOrSecuritySupportDate,
+              endOfHardwareServiceContractRenewalDate, lastDateOfSupport,
+              eoxLastScanTime
+Supported Formats: CSV, PDF, TDE
+
+11. SWIM VIEW GROUP:
+----------------
+
+11.1 View Name: "All Data"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceRole (MULTI_SELECT): Network device roles
+Required Filters: None - All filters are optional
+Field Groups:
+  - swimAllData:
+     Fields: hostname, family, type, role, ipAddress, site, serialNumber,
+              softwareVersion, codeUpgradeDate, previousUpgradeDate,
+              currentSMU, currentSMUUpgradeDate, upgradeFailureReason
+Supported Formats: CSV, PDF, TDE
+
+11.2 View Name: "All Data Version 2.0"
+Allowed Filters:
+  - Location1 (MULTI_SELECT_TREE): Network location hierarchy
+  - DeviceFamily (MULTI_SELECT): Device family categories
+  - DeviceRole (MULTI_SELECT): Network device roles
+Required Filters: None - All filters are optional
+Field Groups:
+  - swimAllData Version 2.0:
+     Fields: deviceName, deviceFamily, deviceType, deviceRole, ipAddress,
+              location, serialNumber, currentVersion, codeUpgradeDate,
+              priorUpgradeDate, currentSMU, currentSMUUpgradeDate,
+              upgradeFailureReason
+Supported Formats: CSV, TDE, JSON
+
+12. CLIENT VIEW GROUP:
+------------------
+
+12.1 View Name: "Busiest Client"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - SortBy (SINGLE_SELECT_ARRAY): Result sorting criteria
+  - Limit (SINGLE_SELECT_ARRAY): Result count limit
+  - TimeRange (TIME_RANGE): Performance monitoring period
+Required Filters: Location, TimeRange
+Field Groups:
+  - response:
+     Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
+              connectionStatus, averageHealthScore_min, averageHealthScore_max,
+              averageHealthScore_median, usage_sum, connectedDeviceName,
+              frequency, rssi_median, snr_median, site, lastUpdated, apGroup,
+              ssid, vlan, vnid, onboardingEventTime, assocDoneTimestamp,
+              authDoneTimestamp, aaaServerIp, dhcpDoneTimestamp,
+              maxDhcpDuration_max, dhcpServerIp, linkSpeed, txRate_min,
+              txRate_max, txRate_avg, rxRate_min, rxRate_max, rxRate_avg,
+              txBytes_sum, rxBytes_sum, dataRate_median, dot11Protocol
+Supported Formats: CSV, JSON, TDE
+
+12.2 View Name: "Client Detail"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - client_details:
+     Fields: hostName, username, macAddress, ipv4, ipv6, deviceType,
+              deviceForm, deviceVendor, remoteEndDuplexMode, hostOS,
+              firmwareVersion, connectionStatus, averageHealthScore_min,
+              averageHealthScore_max, averageHealthScore_median, usage_sum,
+              duration_latest, connectedDeviceName, frequency, rssi_median,
+              snr_median, site, lastUpdated, connectedDeviceId, apGroup, ssid,
+              ethernetMac, slotId, vlan, vnid, port, portDescription, channel,
+              onboardingEventTime, assocDoneTimestamp, authDoneTimestamp,
+              aaaServerIp, dhcpDoneTimestamp, maxDhcpDuration_max, dhcpServerIp,
+              wlcName, linkSpeed, txRate_min, txRate_max, txRate_avg,
+              rxRate_min, rxRate_max, rxRate_avg, txBytes_sum, rxBytes_sum,
+              dataRate_median, dot11Protocol
+Supported Formats: CSV, JSON, TDE
+
+12.3 View Name: "Client Session"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Session analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - client_sessions:
+     Fields: macAddress, sessionStartTime, sessionEndTime, duration, apMac,
+              ssid, siteHierarchy
+Supported Formats: CSV, JSON, TDE
+
+12.4 View Name: "Client Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, GroupBy, TimeRange
+Field Groups:
+  - locationCountGraph, devTypeCountGraph, bandCountGraph, ssidCountGraph,
+     protocolCountGraph, clientTrafficTotalByBand, clientTrafficTotalBySsid,
+     clientTrafficTotalByProtocol, clientSessionDurationByBand,
+     clientSessionDurationBySsid, clientSessionDurationByProtocol,
+     clientCountOverTime, healthScoreOverTime, sessionInfo
+Supported Formats: PDF
+
+12.5 View Name: "Client Trend"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Trend analysis period
+Required Filters: Location, TimeRange
+Field Groups:
+  - clientTrend, clienTraffic, assocClientHealthTrendTable,
+     authClientHealthTrendTable
+Supported Formats: PDF
+
+12.6 View Name: "Top N Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddress (SINGLE_INPUT): Client MAC addresses (max 100)
+  - DeviceType (SINGLE_SELECT_ARRAY): Device type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - GroupBy (SINGLE_SELECT_ARRAY): Data grouping options
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, GroupBy, TimeRange
+Field Groups:
+  - topLocationsGraph, topWorstLocationsGraph
+Supported Formats: PDF
+
+12.7 View Name: "Unique Clients and Users Summary"
+Allowed Filters:
+  - Location (MULTI_SELECT_TREE): Network location hierarchy
+  - clientMacAddresses (SINGLE_INPUT): Client MAC addresses (max 100)
+  - ConnectionType (SINGLE_SELECT_ARRAY): Connection type selection
+  - SSID (MULTI_SELECT): Wireless network identifiers (max 25)
+  - Band (MULTI_SELECT): Radio frequency bands
+  - TimeRange (TIME_RANGE): Summary period
+Required Filters: Location, TimeRange
+Field Groups:
+  - overview, ap, throughput, protocolBreakdown, ssidBreakdown,
+     vlanBreakdown, vendorBreakdown
+Supported Formats: PDF
+
+13. LICENSING VIEW GROUP:
+---------------------
+
+13.1 View Name: "AireOS Controllers Licenses"
+No filters are supported for this view
+Field Groups:
+  - virtual_assignment_devices
+Supported Formats: CSV, PDF
+
+13.2 View Name: "License Usage Upload Details"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - license_usage_upload_details
+Supported Formats: CSV, PDF
+
+13.3 View Name: "Non Compliance Summary"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - non_compliance_summary
+Supported Formats: CSV, PDF
+
+13.4 View Name: "Non Compliant Devices"
+Allowed Filters: None (filters not supported for this report)
+Required Filters: N/A
+Field Groups:
+  - non_compliant_devices
+Supported Formats: CSV, PDF
+
+13.5 View Name: "License Historical Usage"
+Allowed Filters:
+  - smartaccountuser (SINGLE_SELECT_ARRAY): Smart account user selection
+  - smartaccountname (SINGLE_SELECT_ARRAY): Smart account name selection
+  - Mode (SINGLE_SELECT_ARRAY): License mode selection
+  - TimeRange (TIME_RANGE): Historical analysis period (CUSTOM only)
+Required Filters: [REQUIRED] All filters (smartaccountuser, smartaccountname, Mode, TimeRange)
+Field Groups:
+  - license_historical_data
+Supported Formats: CSV
 
 FILTER TYPE SPECIFICATIONS:
 ===========================
@@ -1465,6 +1769,12 @@ REGULAR:
   - Simple string pattern matching
   - Value format: List of dictionaries with 'value' and 'displayValue'
 
+SINGLE_INPUT:
+  - Used for comma-separated input values
+  - Automatically parsed into lists by the module
+  - Common for MAC addresses, IP addresses, device names
+  - Value format: String with comma-separated values
+
 VALIDATION NOTES:
 ================
 - All filters and field groups are optional unless explicitly marked as required
@@ -1474,9 +1784,14 @@ VALIDATION NOTES:
 - DisplayName and displayValue are auto-populated if not provided
 - Boolean validation functions return True for success, False for failure
 - Error messages are set via self.set_operation_result() for consistent handling
-"""
+- For REGULAR filters with UPPERCASE validation (e.g., complianceStatus, complianceType, configChangeType),
+  values must be provided in uppercase format
+- For Client reports, clientMacAddress and clientMacAddresses have different limits:
+  clientMacAddress supports max 100 addresses, SSID supports max 25 values
+'''
 
-EXAMPLES = r"""
+
+EXAMPLES = r'''
 - name: Create/Schedule a Sample Inventory Report and Download It
   cisco.catalystcenter.reports_workflow_manager:
     catalystcenter_host: "{{ catalystcenter_host }}"
@@ -1780,7 +2095,7 @@ EXAMPLES = r"""
             view_group_name: "Compliance"  # Required for identification
             view:
               view_name: "Network Device Compliance"  # Required for identification
-"""
+'''
 
 RETURN = r"""
 # Case 1: Successful Report Creation/Scheduling
@@ -1980,10 +2295,10 @@ import time
 import os
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter import (
-    CatalystCenterBase,
+    CatalystCenterBase
 )
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
-    validate_list_of_dicts,
+    validate_list_of_dicts
 )
 import json
 import re
@@ -2019,9 +2334,7 @@ class Reports(CatalystCenterBase):
         Returns:
             self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
-        self.log(
-            "Starting playbook configuration validation for reports workflow", "INFO"
-        )
+        self.log("Starting playbook configuration validation for reports workflow", "INFO")
 
         config_spec = {
             "generate_report": {
@@ -2035,32 +2348,17 @@ class Reports(CatalystCenterBase):
                     "type": "str",
                     "required": False,
                     "choices": [
-                        "Compliance",
-                        "Executive Summary",
-                        "Inventory",
-                        "SWIM",
-                        "Access Point",
-                        "Long Term",
-                        "Network Devices",
-                        "Group Pair Communication Analytics",
-                        "Telemetry",
-                        "Group Communication Summary",
-                        "EoX",
-                        "Rogue and aWIPS",
-                        "Licensing",
-                        "AI Endpoint Analytics",
-                        "Audit Log",
-                        "Configuration Archive",
-                        "Client",
-                        "Security Advisories",
-                    ],
+                        "Compliance", "Executive Summary", "Inventory", "SWIM",
+                        "Access Point", "Long Term", "Network Devices",
+                        "Group Pair Communication Analytics", "Telemetry",
+                        "Group Communication Summary", "EoX", "Rogue and aWIPS",
+                        "Licensing", "AI Endpoint Analytics", "Audit Log",
+                        "Configuration Archive", "Client", "Security Advisories"
+                    ]
                 },
                 "tags": {"type": "list", "elements": "str", "default": []},
-                "view_group_version": {
-                    "type": "str",
-                    "required": False,
-                    "default": "2.0.0",
-                },
+                "view_group_version": {"type": "str", "required": False, "default": "2.0.0"},
+
                 "schedule": {
                     "type": "dict",
                     "required": False,
@@ -2068,11 +2366,7 @@ class Reports(CatalystCenterBase):
                         "type": "str",
                         "element": "str",
                         "required": True,
-                        "choices": [
-                            "SCHEDULE_NOW",
-                            "SCHEDULE_LATER",
-                            "SCHEDULE_RECURRENCE",
-                        ],
+                        "choices": ["SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRENCE"],
                     },
                     "date_time": {"type": "str", "required": False},
                     "time_zone": {"type": "str", "required": True},
@@ -2091,6 +2385,7 @@ class Reports(CatalystCenterBase):
                     "time": {"type": "int", "required": False},
                     "start_date": {"type": "int", "required": False},
                 },
+
                 "deliveries": {
                     "type": "list",
                     "elements": "dict",
@@ -2105,41 +2400,32 @@ class Reports(CatalystCenterBase):
                         "type": "list",
                         "elements": "dict",
                         "required": False,
-                        "email_addresses": {
-                            "type": "list",
-                            "elements": "str",
-                            "required": False,
-                        },
+                        "email_addresses": {"type": "list", "elements": "str", "required": False},
                     },
-                    "email_attach": {
-                        "type": "bool",
-                        "required": False,
-                        "default": False,
-                    },
+                    "email_attach": {"type": "bool", "required": False, "default": False},
                     "notify": {
                         "type": "list",
                         "elements": "str",
                         "required": False,
-                        "choices": [
-                            ["IN_QUEUE"],
-                            ["IN_PROGRESS"],
-                            ["COMPLETED"],
-                            ["IN_QUEUE", "IN_PROGRESS"],
-                            ["IN_PROGRESS", "IN_QUEUE"],
-                            ["IN_QUEUE", "COMPLETED"],
-                            ["COMPLETED", "IN_QUEUE"],
-                            ["IN_PROGRESS", "COMPLETED"],
-                            ["COMPLETED", "IN_PROGRESS"],
-                            ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
-                            ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
-                            ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
-                            ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
-                            ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
-                            ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"],
-                        ],
+                        "choices": [["IN_QUEUE"],
+                                    ["IN_PROGRESS"],
+                                    ["COMPLETED"],
+                                    ["IN_QUEUE", "IN_PROGRESS"],
+                                    ["IN_PROGRESS", "IN_QUEUE"],
+                                    ["IN_QUEUE", "COMPLETED"],
+                                    ["COMPLETED", "IN_QUEUE"],
+                                    ["IN_PROGRESS", "COMPLETED"],
+                                    ["COMPLETED", "IN_PROGRESS"],
+                                    ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"],
+                                    ["IN_QUEUE", "COMPLETED", "IN_PROGRESS"],
+                                    ["IN_PROGRESS", "IN_QUEUE", "COMPLETED"],
+                                    ["IN_PROGRESS", "COMPLETED", "IN_QUEUE"],
+                                    ["COMPLETED", "IN_QUEUE", "IN_PROGRESS"],
+                                    ["COMPLETED", "IN_PROGRESS", "IN_QUEUE"]],
                     },
                     "webhook_name": {"type": "str", "required": False},
                 },
+
                 "view": {
                     "type": "dict",
                     "required": False,
@@ -2164,7 +2450,7 @@ class Reports(CatalystCenterBase):
                         "format_type": {
                             "type": "str",
                             "required": True,
-                            "choices": ["CSV", "PDF", "JSON", "TDE"],
+                            "choices": ["CSV", "PDF", "JSON", "TDE"]
                         },
                     },
                     "filters": {
@@ -2175,15 +2461,12 @@ class Reports(CatalystCenterBase):
                         "filter_type": {
                             "type": "str",
                             "required": False,
-                            "choices": [
-                                "MULTI_SELECT",
-                                "MULTI_SELECT_TREE",
-                                "SINGLE_SELECT_ARRAY",
-                                "TIME_RANGE",
-                                "REGULAR",
-                            ],
+                            "choices": ["MULTI_SELECT", "MULTI_SELECT_TREE", "SINGLE_SELECT_ARRAY", "TIME_RANGE", "REGULAR", "SINGLE_INPUT"],
                         },
-                        "value": {"type": "raw", "required": False},
+                        "value": {
+                            "type": "raw",
+                            "required": False
+                        },
                     },
                 },
             }
@@ -2196,30 +2479,19 @@ class Reports(CatalystCenterBase):
 
         self.log("Validating configuration structure against specification", "DEBUG")
 
-        valid_config, invalid_params = validate_list_of_dicts(self.config, config_spec)
+        valid_config, invalid_params = validate_list_of_dicts(
+            self.config, config_spec
+        )
 
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if not valid_config:
-            self.log(
-                "Configuration validation failed. No valid config found: {0}".format(
-                    valid_config
-                )
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.log("Configuration validation failed. No valid config found: {0}".format(valid_config))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log(
-            "Configuration validated successfully: {0}".format(
-                self.pprint(valid_config)
-            ),
-            "INFO",
-        )
+        self.log("Configuration validated successfully: {0}".format(self.pprint(valid_config)), "INFO")
         self.validated_config = valid_config
         return self
 
@@ -2253,7 +2525,7 @@ class Reports(CatalystCenterBase):
             "Starting input data validation for report configuration with {0} entries".format(
                 len(config.get("generate_report", []))
             ),
-            "INFO",
+            "INFO"
         )
         # Clean entry in place (remove null fields at all levels)
         self.log("Removing null values from configuration data", "DEBUG")
@@ -2263,30 +2535,17 @@ class Reports(CatalystCenterBase):
         self.log("Cleaned input data: {0}".format(self.pprint(config)), "DEBUG")
         generate_report = config.get("generate_report", [])
         if not generate_report:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.log(
-                "Configuration validation failed - no generate_report entries found",
-                "ERROR",
-            )
+            self.log("Configuration validation failed - no generate_report entries found", "ERROR")
             return self
 
-        self.log(
-            "Validating {0} report entries for required fields and structure".format(
-                len(generate_report)
-            ),
-            "DEBUG",
-        )
+        self.log("Validating {0} report entries for required fields and structure".format(
+            len(generate_report)), "DEBUG")
 
         for entry_index, entry in enumerate(generate_report):
-            self.log(
-                "Processing report entry {0}: {1}".format(
-                    entry_index + 1, entry.get("name", "unnamed")
-                ),
-                "DEBUG",
-            )
+            self.log("Processing report entry {0}: {1}".format(
+                entry_index + 1, entry.get("name", "unnamed")), "DEBUG")
 
             if not isinstance(entry, dict):
                 self.msg = "Each entry in 'generate_report' must be a dictionary."
@@ -2297,9 +2556,7 @@ class Reports(CatalystCenterBase):
             required_fields = ["view_group_name", "view", "schedule", "deliveries"]
             for field in required_fields:
                 if field not in entry:
-                    self.msg = "Missing required field '{0}' in 'generate_report' entry.".format(
-                        field
-                    )
+                    self.msg = "Missing required field '{0}' in 'generate_report' entry.".format(field)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
@@ -2309,19 +2566,15 @@ class Reports(CatalystCenterBase):
                 entry["name"] = "{0} - {1} - {2}".format(
                     entry.get("data_category", "Report"),
                     entry.get("view", {}).get("view_name", "View"),
-                    timestamp,
+                    timestamp
                 )
                 self.log("Generated report name: {0}".format(entry["name"]), "DEBUG")
 
             # Validate deliveries
             deliveries = entry.get("deliveries", {})
             if deliveries:
-                self.log(
-                    "Validating delivery configuration for report: {0}".format(
-                        entry.get("name")
-                    ),
-                    "DEBUG",
-                )
+                self.log("Validating delivery configuration for report: {0}".format(
+                    entry.get("name")), "DEBUG")
                 if not self.validate_deliveries(deliveries):
                     return self
 
@@ -2340,10 +2593,7 @@ class Reports(CatalystCenterBase):
             if not self._validate_view_configuration(entry):
                 return self
 
-        self.log(
-            "Completed input data validation for all report entries successfully",
-            "INFO",
-        )
+        self.log("Completed input data validation for all report entries successfully", "INFO")
         return self
 
     def _validate_schedule_configuration(self, entry):
@@ -2356,12 +2606,8 @@ class Reports(CatalystCenterBase):
         Returns:
             bool: True if validation succeeds, False if validation fails.
         """
-        self.log(
-            "Validating schedule configuration for report: {0}".format(
-                entry.get("name")
-            ),
-            "DEBUG",
-        )
+        self.log("Validating schedule configuration for report: {0}".format(
+            entry.get("name")), "DEBUG")
 
         schedule = entry.get("schedule", {})
         # Validate timezone
@@ -2372,10 +2618,8 @@ class Reports(CatalystCenterBase):
             return False
 
         if time_zone not in pytz.all_timezones:
-            self.msg = (
-                f"Invalid time_zone '{time_zone}'."
-                "Please provide a valid timezone as per the timezone database (e.g., 'Asia/Calcutta')."
-            )
+            self.msg = (f"Invalid time_zone '{time_zone}'."
+                        "Please provide a valid timezone as per the timezone database (e.g., 'Asia/Calcutta').")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -2387,16 +2631,13 @@ class Reports(CatalystCenterBase):
         valid_schedule_types = ["SCHEDULE_NOW", "SCHEDULE_LATER", "SCHEDULE_RECURRENCE"]
 
         if not schedule_type:
-            self.msg = (
-                "Missing required field 'schedule.type' in 'generate_report' entry."
-            )
+            self.msg = "Missing required field 'schedule.type' in 'generate_report' entry."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
         if schedule_type not in valid_schedule_types:
             self.msg = "Invalid schedule type '{0}'. Must be one of {1}.".format(
-                schedule_type, valid_schedule_types
-            )
+                schedule_type, valid_schedule_types)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -2408,12 +2649,8 @@ class Reports(CatalystCenterBase):
         if schedule_type == "SCHEDULE_RECURRENCE":
             return self._validate_schedule_recurrence(entry)
 
-        self.log(
-            "Schedule configuration validated successfully for type: {0}".format(
-                schedule_type
-            ),
-            "DEBUG",
-        )
+        self.log("Schedule configuration validated successfully for type: {0}".format(
+            schedule_type), "DEBUG")
         return True
 
     def _validate_schedule_later(self, entry):
@@ -2444,15 +2681,11 @@ class Reports(CatalystCenterBase):
         """
         date_time = entry.get("schedule", {}).get("date_time")
         if not date_time:
-            self.msg = (
-                "Missing required field 'schedule.date_time' for 'SCHEDULE_LATER'."
-            )
+            self.msg = "Missing required field 'schedule.date_time' for 'SCHEDULE_LATER'."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        epoch_time = self.convert_to_epoch(
-            date_time, entry["schedule"].get("time_zone", "UTC")
-        )
+        epoch_time = self.convert_to_epoch(date_time, entry["schedule"].get("time_zone", "UTC"))
         if epoch_time is None:
             self.msg = "Invalid date_time format. Expected 'YYYY-MM-DD HH:MM AM/PM'."
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -2465,16 +2698,12 @@ class Reports(CatalystCenterBase):
                 f"Invalid schedule: The provided date_time '{date_time}' is in the past. "
                 "Please provide a future date and time for 'SCHEDULE_LATER' and 'SCHEDULE_RECURRENCE'."
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return False
 
         entry["schedule"]["date_time"] = epoch_time
-        self.log(
-            "Converted date_time to epoch for SCHEDULE_LATER: {0}".format(epoch_time),
-            "DEBUG",
-        )
+        self.log("Converted date_time to epoch for SCHEDULE_LATER: {0}".format(
+            epoch_time), "DEBUG")
         return True
 
     def _validate_schedule_recurrence(self, entry):
@@ -2534,9 +2763,7 @@ class Reports(CatalystCenterBase):
                 f"Invalid schedule: The provided date_time '{date_time}' is in the past. "
                 "Please provide a future date and time for 'SCHEDULE_LATER' and 'SCHEDULE_RECURRENCE'."
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return False
 
         schedule.pop("date_time")
@@ -2587,8 +2814,7 @@ class Reports(CatalystCenterBase):
             return self._validate_monthly_recurrence(recurrence)
         else:
             self.msg = "Recurrence type '{0}' is not supported in this module.".format(
-                recurrence_type
-            )
+                recurrence_type)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -2621,15 +2847,8 @@ class Reports(CatalystCenterBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        expected_days = {
-            "MONDAY",
-            "TUESDAY",
-            "WEDNESDAY",
-            "THURSDAY",
-            "FRIDAY",
-            "SATURDAY",
-            "SUNDAY",
-        }
+        expected_days = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY",
+                         "FRIDAY", "SATURDAY", "SUNDAY"}
 
         # Normalize input (uppercase for consistency)
         recurrence_days = [d.upper() for d in recurrence_days]
@@ -2640,9 +2859,7 @@ class Reports(CatalystCenterBase):
         else:
             # Validate input
             if not set(recurrence_days).issubset(expected_days):
-                self.msg = (
-                    "Invalid recurrence days. Must be DAILY or any of: MONDAY–SUNDAY."
-                )
+                self.msg = "Invalid recurrence days. Must be DAILY or any of: MONDAY–SUNDAY."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -2688,9 +2905,7 @@ class Reports(CatalystCenterBase):
                 return False
         else:
             if "dayOfMonth" in recurrence:
-                self.log(
-                    "'dayOfMonth' ignored because 'lastDayOfMonth' is true.", "DEBUG"
-                )
+                self.log("'dayOfMonth' ignored because 'lastDayOfMonth' is true.", "DEBUG")
                 recurrence.pop("dayOfMonth")
 
         self.log("Monthly recurrence validated successfully", "DEBUG")
@@ -2722,10 +2937,7 @@ class Reports(CatalystCenterBase):
             return epoch_ms
 
         except ValueError:
-            self.log(
-                f"exception occurred while converting date string to epoch time: {ValueError}",
-                "ERROR",
-            )
+            self.log(f"exception occurred while converting date string to epoch time: {ValueError}", "ERROR")
             return None
 
     def validate_deliveries(self, deliveries):
@@ -2752,14 +2964,14 @@ class Reports(CatalystCenterBase):
             - Logs all major validation steps and decision points for traceability
         """
         self.log(
-            "Starting delivery configuration validation for {0} delivery entries".format(
-                len(deliveries) if isinstance(deliveries, list) else "invalid"
-            ),
-            "INFO",
+            "Starting delivery configuration validation for {0} delivery entries".format(len(deliveries) if isinstance(deliveries, list) else "invalid"),
+            "INFO"
         )
         # 1. Check it's a list with exactly one object
         if not isinstance(deliveries, list) or len(deliveries) != 1:
-            self.msg = "'deliveries' must be a list containing exactly one delivery type object."
+            self.msg = (
+                "'deliveries' must be a list containing exactly one delivery type object."
+            )
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -2782,17 +2994,12 @@ class Reports(CatalystCenterBase):
 
         # 2. Type-specific validations
         if delivery_type == "DOWNLOAD":
-            self.log(
-                "Processing DOWNLOAD delivery type - no additional validation required",
-                "DEBUG",
-            )
+            self.log("Processing DOWNLOAD delivery type - no additional validation required", "DEBUG")
             # No extra validation needed; default case
             pass
 
         elif delivery_type == "NOTIFICATION":
-            self.log(
-                "Processing NOTIFICATION delivery type with email validation", "DEBUG"
-            )
+            self.log("Processing NOTIFICATION delivery type with email validation", "DEBUG")
             # Must have notification_endpoints with EMAIL type
             endpoints = delivery.get("notification_endpoints", [])
             if not isinstance(endpoints, list) or len(endpoints) != 1:
@@ -2809,22 +3016,18 @@ class Reports(CatalystCenterBase):
                 return False
 
             email_addresses = endpoint.get("email_addresses", [])
-            if not isinstance(email_addresses, list) or not all(
-                isinstance(e, str) for e in email_addresses
-            ):
+            if not isinstance(email_addresses, list) or not all(isinstance(e, str) for e in email_addresses):
                 self.msg = "'email_addresses' must be a list of valid email strings."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
-            self.log(
-                "Validated {0} email addresses for notification".format(
-                    len(email_addresses)
-                ),
-                "DEBUG",
-            )
+            self.log("Validated {0} email addresses for notification".format(len(email_addresses)), "DEBUG")
 
             # Map to API format
-            api_endpoint = {"type": "EMAIL", "emailAddresses": email_addresses}
+            api_endpoint = {
+                "type": "EMAIL",
+                "emailAddresses": email_addresses
+            }
 
             # Optional email_attach
             email_attach = delivery.get("email_attach", False)
@@ -2836,10 +3039,7 @@ class Reports(CatalystCenterBase):
             # Optional notify array
             notify_values = ["IN_QUEUE", "IN_PROGRESS", "COMPLETED"]
             notify = delivery.get("notify", [])
-            if notify and (
-                not isinstance(notify, list)
-                or not all(n in notify_values for n in notify)
-            ):
+            if notify and (not isinstance(notify, list) or not all(n in notify_values for n in notify)):
                 self.msg = f"'notify' must be a list containing only: {notify_values}."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
@@ -2849,20 +3049,16 @@ class Reports(CatalystCenterBase):
                 "type": "NOTIFICATION",
                 "notificationEndpoints": [api_endpoint],
                 "emailAttach": email_attach,
-                "notify": notify,
+                "notify": notify
             }
 
             # Replace original delivery with normalized one
             delivery.clear()
             delivery.update(normalized_delivery)
-            self.log(
-                "Successfully normalized NOTIFICATION delivery configuration", "DEBUG"
-            )
+            self.log("Successfully normalized NOTIFICATION delivery configuration", "DEBUG")
 
         elif delivery_type == "WEBHOOK":
-            self.log(
-                "Processing WEBHOOK delivery type with webhook name validation", "DEBUG"
-            )
+            self.log("Processing WEBHOOK delivery type with webhook name validation", "DEBUG")
             webhook_name = delivery.get("webhook_name")
             if not webhook_name or not isinstance(webhook_name, str):
                 self.msg = "'webhook_name' is required for WEBHOOK delivery type."
@@ -2871,10 +3067,8 @@ class Reports(CatalystCenterBase):
             self.log("Validated webhook name: {0}".format(webhook_name), "DEBUG")
 
         self.log(
-            "Completed delivery configuration validation successfully for type: {0}".format(
-                delivery_type
-            ),
-            "INFO",
+            "Completed delivery configuration validation successfully for type: {0}".format(delivery_type),
+            "INFO"
         )
         return True
 
@@ -2920,10 +3114,8 @@ class Reports(CatalystCenterBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        self.log(
-            "Processing {0} filter(s) for view configuration".format(len(filters)),
-            "DEBUG",
-        )
+        self.log("Processing {0} filter(s) for view configuration".format(
+            len(filters)), "DEBUG")
 
         view_name = view.get("view_name") or view.get("name")
 
@@ -3143,10 +3335,7 @@ class Reports(CatalystCenterBase):
                 filter_entry["type"] = filter_entry.pop("filter_type")
 
             # Process location filters
-            if (
-                filter_entry.get("name") == "Location"
-                or filter_entry.get("name") == "siteId"
-            ):
+            if filter_entry.get("name") == "Location" or filter_entry.get("name") == "siteId":
                 if not self._process_location_filter(filter_entry, filter_index):
                     return False
 
@@ -3174,7 +3363,7 @@ class Reports(CatalystCenterBase):
 
         This method validates the structure of the 'Wlc' filter, ensures that
         the values are formatted correctly, and resolves each WLC hostname to
-        its corresponding device ID using DNAC device lookup APIs. If validation
+        its corresponding device ID using Catalyst Center device lookup APIs. If validation
         or resolution fails, the operation result is marked as failed.
 
         Parameters:
@@ -3193,11 +3382,14 @@ class Reports(CatalystCenterBase):
             "Processing Wlc filter {0} with filter entry as {1}".format(
                 filter_index + 1, self.pprint(filter_entry)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         filter_value = filter_entry.get("value")
-        self.log("Current Wlc filter value: {0}".format(filter_value), "DEBUG")
+        self.log(
+            "Current Wlc filter value: {0}".format(filter_value),
+            "DEBUG"
+        )
 
         # Set default display_value if missing
         if not filter_entry.get("display_value"):
@@ -3213,7 +3405,7 @@ class Reports(CatalystCenterBase):
         processing_stats = {
             "total_hostnames": len(filter_value),
             "successful_resolutions": 0,
-            "failed_resolutions": 0,
+            "failed_resolutions": 0
         }
 
         for item_index, item in enumerate(filter_value):
@@ -3221,13 +3413,11 @@ class Reports(CatalystCenterBase):
                 "Processing WLC hostname entry {0}/{1}".format(
                     item_index + 1, len(filter_value)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             # Validate structure
             if not isinstance(item, dict) or "value" not in item:
-                self.msg = (
-                    "Each item in 'Wlc' filter value must contain 'value' (hostname)."
-                )
+                self.msg = "Each item in 'Wlc' filter value must contain 'value' (hostname)."
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
@@ -3238,27 +3428,31 @@ class Reports(CatalystCenterBase):
             display_value = item.get("display_value", hostname)
 
             self.log(
-                "Resolving WLC device ID for hostname: {0}".format(hostname), "DEBUG"
+                "Resolving WLC device ID for hostname: {0}".format(hostname),
+                "DEBUG"
             )
 
             # Resolve hostname → device ID
             device_id = self.get_device_id_by_hostname(hostname)
             if not device_id:
                 processing_stats["failed_resolutions"] += 1
-                self.msg = "Failed to retrieve device ID for WLC hostname: {0}".format(
-                    hostname
+                self.msg = (
+                    "Failed to retrieve device ID for WLC hostname: {0}".format(hostname)
                 )
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
-            updated_values.append({"value": device_id, "display_value": display_value})
+            updated_values.append({
+                "value": device_id,
+                "display_value": display_value
+            })
 
             self.log(
                 "Resolved WLC hostname '{0}' to device ID: {1}".format(
                     hostname, device_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         # Replace original filter values with resolved device IDs
@@ -3269,9 +3463,9 @@ class Reports(CatalystCenterBase):
             "resolved: {1}, failed: {2}".format(
                 processing_stats["total_hostnames"],
                 processing_stats["successful_resolutions"],
-                processing_stats["failed_resolutions"],
+                processing_stats["failed_resolutions"]
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         return True
@@ -3287,7 +3481,10 @@ class Reports(CatalystCenterBase):
             str: The deviceId for the given hostname.
             None: If the device is not found or an error occurs.
         """
-        self.log("Starting device ID resolution for hostname lookup operations", "INFO")
+        self.log(
+            "Starting device ID resolution for hostname lookup operations",
+            "INFO"
+        )
 
         if not hostname:
             msg = "Hostname is required to fetch the device ID."
@@ -3295,7 +3492,8 @@ class Reports(CatalystCenterBase):
             return None
 
         self.log(
-            "Performing device ID lookup for hostname: {0}".format(hostname), "DEBUG"
+            "Performing device ID lookup for hostname: {0}".format(hostname),
+            "DEBUG"
         )
 
         # Prepare API params
@@ -3305,12 +3503,11 @@ class Reports(CatalystCenterBase):
 
         try:
             response = self.catalystcenter._exec(
-                family="devices", function="get_device_list", params=params
+                family="devices",
+                function="get_device_list",
+                params=params
             )
-            self.log(
-                f"API response for device list with hostname '{hostname}': {self.pprint(response)}",
-                "DEBUG",
-            )
+            self.log(f"API response for device list with hostname '{hostname}': {self.pprint(response)}", "DEBUG")
         except Exception as e:
             msg = f"API call failed while retrieving device information: {e}"
             self.set_operation_result("failed", False, msg, "ERROR")
@@ -3329,7 +3526,7 @@ class Reports(CatalystCenterBase):
                 "No devices found for hostname '{0}' in device inventory".format(
                     hostname
                 ),
-                "WARNING",
+                "WARNING"
             )
             return None
 
@@ -3339,7 +3536,7 @@ class Reports(CatalystCenterBase):
         if not device_id:
             self.log(
                 "Device ID not found in response for hostname '{0}'".format(hostname),
-                "WARNING",
+                "WARNING"
             )
             return None
 
@@ -3347,7 +3544,7 @@ class Reports(CatalystCenterBase):
             "Successfully resolved hostname '{0}' to device ID: {1}".format(
                 hostname, device_id
             ),
-            "INFO",
+            "INFO"
         )
         return device_id
 
@@ -3376,7 +3573,7 @@ class Reports(CatalystCenterBase):
             "Processing AP filter {0} with filter entry as {1}".format(
                 filter_index + 1, self.pprint(filter_entry)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         filter_value = filter_entry.get("value")
@@ -3387,9 +3584,7 @@ class Reports(CatalystCenterBase):
 
         # Handle empty AP list
         if not filter_value:
-            self.log(
-                "No AP hostnames provided in filter; initializing empty list", "DEBUG"
-            )
+            self.log("No AP hostnames provided in filter; initializing empty list", "DEBUG")
             filter_entry["value"] = []
             return True
 
@@ -3399,7 +3594,7 @@ class Reports(CatalystCenterBase):
             "successful_resolutions": 0,
             "failed_resolutions": 0,
             "device_id_lookups": 0,
-            "mac_address_retrievals": 0,
+            "mac_address_retrievals": 0
         }
 
         for item_index, item in enumerate(filter_value):
@@ -3407,7 +3602,7 @@ class Reports(CatalystCenterBase):
                 "Processing AP hostname entry {0}/{1} for MAC address resolution".format(
                     item_index + 1, len(filter_value)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate entry format
@@ -3421,14 +3616,17 @@ class Reports(CatalystCenterBase):
             display_value = item.get("display_value", hostname)
 
             self.log(
-                "Resolving AP hostname to MAC address: {0}".format(hostname), "DEBUG"
+                "Resolving AP hostname to MAC address: {0}".format(hostname),
+                "DEBUG"
             )
 
             # Step 1: Resolve hostname to device ID
             device_id = self.get_device_id_by_hostname(hostname)
             if not device_id:
-                self.msg = "Failed to resolve AP hostname '{0}' as no device ID was found.".format(
-                    hostname
+                self.msg = (
+                    "Failed to resolve AP hostname '{0}' as no device ID was found.".format(
+                        hostname
+                    )
                 )
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -3436,7 +3634,7 @@ class Reports(CatalystCenterBase):
 
             self.log(
                 "Resolved hostname '{0}' to device ID: {1}".format(hostname, device_id),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Step 2: Retrieve MAC address from device details
@@ -3444,19 +3642,19 @@ class Reports(CatalystCenterBase):
                 "Fetching device details for MAC address extraction: {0}".format(
                     device_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             try:
                 device_details = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_detail",
-                    params={"identifier": "uuid", "search_by": device_id},
+                    params={"identifier": "uuid", "search_by": device_id}
                 )
                 self.log(
                     "Device details for hostname '{0}': {1}".format(
                         hostname, self.pprint(device_details)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
             except Exception as e:
                 processing_stats["failed_resolutions"] += 1
@@ -3477,27 +3675,30 @@ class Reports(CatalystCenterBase):
                 mac_addr = None
 
             if not mac_addr:
-                self.msg = "Failed to retrieve MAC address for AP hostname '{0}' from device details.".format(
-                    hostname
+                self.msg = (
+                    "Failed to retrieve MAC address for AP hostname '{0}' from device details.".format(
+                        hostname
+                    )
                 )
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
             self.log(
-                "Resolved AP hostname '{0}' to MAC address: {1}".format(
-                    hostname, mac_addr
-                ),
-                "DEBUG",
+                "Resolved AP hostname '{0}' to MAC address: {1}".format(hostname, mac_addr),
+                "DEBUG"
             )
             processing_stats["successful_resolutions"] += 1
 
-            updated_values.append({"value": mac_addr, "display_value": display_value})
+            updated_values.append({
+                "value": mac_addr,
+                "display_value": display_value
+            })
             self.log(
                 "Successfully resolved AP hostname '{0}' to MAC address: {1}".format(
                     hostname, mac_addr
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         filter_entry["value"] = updated_values
@@ -3508,9 +3709,9 @@ class Reports(CatalystCenterBase):
                 processing_stats["successful_resolutions"],
                 processing_stats["failed_resolutions"],
                 processing_stats["device_id_lookups"],
-                processing_stats["mac_address_retrievals"],
+                processing_stats["mac_address_retrievals"]
             ),
-            "DEBUG",
+            "DEBUG"
         )
         return True
 
@@ -3522,7 +3723,7 @@ class Reports(CatalystCenterBase):
             "TimeRange": "TIME_RANGE",
             "SSID": "MULTI_SELECT",
             "Band": "MULTI_SELECT",
-            "GroupBy": "SINGLE_SELECT_ARRAY",
+            "GroupBy": "SINGLE_SELECT_ARRAY"
         }
 
         # Only validate if filters are provided and not empty
@@ -3566,9 +3767,7 @@ class Reports(CatalystCenterBase):
                         return False
 
                 if name in ["SSID", "Band", "GroupBy"] and not isinstance(val, list):
-                    self.msg = (
-                        "{0} filter must contain a list of value entries.".format(name)
-                    )
+                    self.msg = "{0} filter must contain a list of value entries.".format(name)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
@@ -3644,17 +3843,13 @@ class Reports(CatalystCenterBase):
                         if f_type in ("MULTI_SELECT", "MULTI_SELECT_TREE"):
                             if not isinstance(value, list):
                                 self.msg = f"Filter '{fname}' value must be a list."
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
-                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
                                 return False
 
                             for v in value:
                                 if not isinstance(v, dict):
                                     self.msg = f"Invalid value entry in filter '{fname}'. Expected dict."
-                                    self.set_operation_result(
-                                        "failed", False, self.msg, "ERROR"
-                                    )
+                                    self.set_operation_result("failed", False, self.msg, "ERROR")
                                     return False
 
                                 v.setdefault("displayValue", v.get("value"))
@@ -3677,7 +3872,7 @@ class Reports(CatalystCenterBase):
                 "advisoryLastScanTime",
                 "firstFixedVersion",
                 "scanCriteria",
-                "scanStatus",
+                "scanStatus"
             ]
         }
 
@@ -3705,9 +3900,7 @@ class Reports(CatalystCenterBase):
                 fg.setdefault("fieldGroupDisplayName", fg_name)
 
                 fields = fg.get("fields", [])
-                if fields and not isinstance(
-                    fields, list
-                ):  # Only validate if fields are provided
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
                     self.msg = "fieldGroups -> fields must be a list."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
@@ -3724,9 +3917,7 @@ class Reports(CatalystCenterBase):
                                 f"Invalid field '{f_name}' in fieldGroup '{fg_name}'. "
                                 f"Allowed fields: {allowed_fields}"
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
                         # Auto-fill displayName
@@ -3816,12 +4007,8 @@ class Reports(CatalystCenterBase):
                     values = entry.get("value", [])
                     if values:  # Only validate if values are provided and not empty
                         if not isinstance(values, list):
-                            self.msg = (
-                                f"Filter '{filter_name}' must contain a list of values."
-                            )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.msg = f"Filter '{filter_name}' must contain a list of values."
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
                         # Normalize dict values
@@ -3830,9 +4017,7 @@ class Reports(CatalystCenterBase):
                                 v.setdefault("displayValue", v.get("value"))
                             else:
                                 self.msg = f"Invalid value in filter '{filter_name}'. Expected list of dicts."
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
-                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
                                 return False
 
                     # Auto populate displayName
@@ -3862,9 +4047,7 @@ class Reports(CatalystCenterBase):
                 fg.setdefault("fieldGroupDisplayName", fg_name)
 
                 fields = fg.get("fields", [])
-                if fields and not isinstance(
-                    fields, list
-                ):  # Only validate if fields are provided
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
                     self.msg = "fieldGroups → fields must be a list."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
@@ -3880,9 +4063,7 @@ class Reports(CatalystCenterBase):
                                 f"Invalid field '{fname}' in Inventory All Data view. "
                                 f"Allowed fields: {list(allowed_fields)}"
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
                         # Auto populate displayName
@@ -3910,10 +4091,22 @@ class Reports(CatalystCenterBase):
         # 1. Allowed filter definitions
         # ----------------------------
         allowed_filters = {
-            "siteId": {"type": "MULTI_SELECT_TREE", "value_type": "list"},
-            "deviceFamily": {"type": "MULTI_SELECT", "value_type": "list"},
-            "deviceType": {"type": "MULTI_SELECT", "value_type": "list"},
-            "softwareVersion": {"type": "MULTI_SELECT", "value_type": "list"},
+            "siteId": {
+                "type": "MULTI_SELECT_TREE",
+                "value_type": "list"
+            },
+            "deviceFamily": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "deviceType": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            },
+            "softwareVersion": {
+                "type": "MULTI_SELECT",
+                "value_type": "list"
+            }
         }
 
         # ----------------------------
@@ -3938,7 +4131,7 @@ class Reports(CatalystCenterBase):
                 "dnaLevel",
                 "networkLicense",
                 "uxLevel",
-                "fabricRole",
+                "fabricRole"
             ]
         }
 
@@ -3949,9 +4142,7 @@ class Reports(CatalystCenterBase):
 
         for f in filters:
             fname = f.get("name")
-            ftype = f.get(
-                "filter_type"
-            )  # <-- Updated from filter_type in earlier version
+            ftype = f.get("filter_type")    # <-- Updated from filter_type in earlier version
 
             # Missing filter name
             if not fname:
@@ -3972,9 +4163,7 @@ class Reports(CatalystCenterBase):
             # Validate values
             fvalue = f.get("value")
 
-            if allowed_filters[fname]["value_type"] == "list" and not isinstance(
-                fvalue, list
-            ):
+            if allowed_filters[fname]["value_type"] == "list" and not isinstance(fvalue, list):
                 self.msg = f"Filter '{fname}' must have list value"
                 return self.set_operation_result("failed", False, self.msg, "ERROR")
 
@@ -4001,9 +4190,7 @@ class Reports(CatalystCenterBase):
                             f"Invalid field '{fname}' in fieldGroup '{fg_name}'. "
                             f"Allowed fields: {allowed_fields}"
                         )
-                        return self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        )
+                        return self.set_operation_result("failed", False, self.msg, "ERROR")
 
         # ----------------------------
         # 5. All validations passed
@@ -4025,16 +4212,14 @@ class Reports(CatalystCenterBase):
         filters = view_data.get("filters", [])
         field_groups = view_data.get("field_groups", [])
 
-        self.log(
-            "Validating Inventory Port Reclaim View filters and fieldGroups", "DEBUG"
-        )
+        self.log("Validating Inventory Port Reclaim View filters and fieldGroups", "DEBUG")
 
         # ----------------------------------------------------------------------
         # Expected Filters & Allowed Types
         # ----------------------------------------------------------------------
         expected_filters = {
-            "family": ["REGULAR"],  # Device Family
-            "hostname": ["REGULAR"],  # Device Name
+            "family": ["REGULAR"],     # Device Family
+            "hostname": ["REGULAR"],   # Device Name
         }
 
         # Only validate filters if provided
@@ -4077,20 +4262,16 @@ class Reports(CatalystCenterBase):
                     value = flt.get("value", [])
                     if value:  # Only validate if value is provided and not empty
                         if not isinstance(value, list):
-                            self.msg = (
-                                f"Filter '{filter_name}' must contain a list of values."
-                            )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.msg = f"Filter '{filter_name}' must contain a list of values."
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
                         for v in value:
                             if not isinstance(v, dict):
-                                self.msg = f"Entries in filter '{filter_name}' must be dicts with value/displayValue."
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
+                                self.msg = (
+                                    f"Entries in filter '{filter_name}' must be dicts with value/displayValue."
                                 )
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
                                 return False
                             v.setdefault("displayValue", v.get("value"))
 
@@ -4126,16 +4307,16 @@ class Reports(CatalystCenterBase):
 
                 fg_name = fg.get("field_group_name")
                 if fg_name != expected_field_group:
-                    self.msg = f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                    self.msg = (
+                        f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                    )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
                 fg.setdefault("field_group_display_name", fg_name)
 
                 fields = fg.get("fields", [])
-                if fields and not isinstance(
-                    fields, list
-                ):  # Only validate if fields are provided
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
                     self.msg = "'fields' must be a list inside fieldGroups."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
@@ -4147,9 +4328,7 @@ class Reports(CatalystCenterBase):
                     # --------------------------------------------------------------
                     # Reject unexpected fields
                     # --------------------------------------------------------------
-                    unexpected_fields = [
-                        f for f in field_names if f not in valid_fields
-                    ]
+                    unexpected_fields = [f for f in field_names if f not in valid_fields]
                     if unexpected_fields:
                         self.msg = (
                             f"Unexpected fields in Port Reclaim View: {unexpected_fields}. "
@@ -4184,9 +4363,7 @@ class Reports(CatalystCenterBase):
         filters = view_data.get("filters", [])
         field_groups = view_data.get("field_groups", [])
 
-        self.log(
-            "Validating Rogue & aWIPS - New Threat filters and fieldGroups", "DEBUG"
-        )
+        self.log("Validating Rogue & aWIPS - New Threat filters and fieldGroups", "DEBUG")
 
         # ----------------------------------------------------------------------
         # Expected Filters & Allowed Types
@@ -4241,17 +4418,13 @@ class Reports(CatalystCenterBase):
                         if val:  # Only validate if value is provided and not empty
                             if not isinstance(val, list):
                                 self.msg = f"Filter '{flt_name}' must contain a list of values."
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
-                                )
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
                                 return False
 
                             for v in val:
                                 if not isinstance(v, dict):
                                     self.msg = f"Each entry in filter '{flt_name}' must be a dict."
-                                    self.set_operation_result(
-                                        "failed", False, self.msg, "ERROR"
-                                    )
+                                    self.set_operation_result("failed", False, self.msg, "ERROR")
                                     return False
 
                                 v.setdefault("displayValue", v.get("value"))
@@ -4260,12 +4433,8 @@ class Reports(CatalystCenterBase):
                         val = flt.get("value", {})
                         if val:  # Only validate if value is provided and not empty
                             if not isinstance(val, dict):
-                                self.msg = (
-                                    "TimeRange filter must contain a dictionary value."
-                                )
-                                self.set_operation_result(
-                                    "failed", False, self.msg, "ERROR"
-                                )
+                                self.msg = "TimeRange filter must contain a dictionary value."
+                                self.set_operation_result("failed", False, self.msg, "ERROR")
                                 return False
 
         # ----------------------------------------------------------------------
@@ -4304,9 +4473,7 @@ class Reports(CatalystCenterBase):
 
                 fg.setdefault("field_group_display_name", fg_name)
                 fields = fg.get("fields", [])
-                if fields and not isinstance(
-                    fields, list
-                ):  # Only validate if fields are provided
+                if fields and not isinstance(fields, list):  # Only validate if fields are provided
                     self.msg = "'fields' must be a list inside fieldGroups."
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
@@ -4446,9 +4613,7 @@ class Reports(CatalystCenterBase):
                                 f"Invalid field '{fld.get('name')}' in '{fg_name}'. "
                                 f"Allowed: {allowed_fields}"
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
                         fld.setdefault("displayName", fld.get("name"))
@@ -4616,39 +4781,14 @@ class Reports(CatalystCenterBase):
         allowed_field_group_name = "apDetailByAP"
 
         allowed_fields = {
-            "macAddress",
-            "ethernetMac",
-            "nwDeviceName",
-            "managementIpAddress",
-            "osVersion",
-            "nwDeviceType",
-            "platformId",
-            "serialNumber",
-            "deviceFamily",
-            "siteHierarchy",
-            "upTime",
-            "mode",
-            "adminState",
-            "opState",
-            "overallScore",
-            "clCount_avg",
-            "cpu",
-            "memory",
-            "clCount_max",
-            "wlcName",
-            "powerStatus",
-            "regulatoryDomain",
-            "cdp",
-            "location",
-            "flexGroup",
-            "apGroup",
-            "siteTagName",
-            "policyTagName",
-            "rfTagName",
-            "rxBytes",
-            "txBytes",
-            "rxRate",
-            "txRate",
+            "macAddress", "ethernetMac", "nwDeviceName", "managementIpAddress",
+            "osVersion", "nwDeviceType", "platformId", "serialNumber",
+            "deviceFamily", "siteHierarchy", "upTime", "mode", "adminState",
+            "opState", "overallScore", "clCount_avg", "cpu", "memory",
+            "clCount_max", "wlcName", "powerStatus", "regulatoryDomain",
+            "cdp", "location", "flexGroup", "apGroup", "siteTagName",
+            "policyTagName", "rfTagName", "rxBytes", "txBytes",
+            "rxRate", "txRate"
         }
 
         # -------------------------------------
@@ -4750,7 +4890,7 @@ class Reports(CatalystCenterBase):
             "traffic",
             "trafficPercentage",
             "ethernetMac",
-            "location",
+            "location"
         }
 
         # ------------------------------------------------------------
@@ -4838,7 +4978,7 @@ class Reports(CatalystCenterBase):
             "Band",
             "SortBy",
             "Limit",
-            "TimeRange",
+            "TimeRange"
         }
 
         allowed_filter_types = {
@@ -4920,7 +5060,7 @@ class Reports(CatalystCenterBase):
             "rxBytes_sum",
             "radioAirQualMax_max",
             "txUtil_avg",
-            "rxUtil_avg",
+            "rxUtil_avg"
         }
 
         fg_list = view.get("field_groups", [])
@@ -4979,7 +5119,7 @@ class Reports(CatalystCenterBase):
             "AP": "MULTI_SELECT",
             "eventType": "MULTI_SELECT",
             "Band": "MULTI_SELECT",
-            "TimeRange": "TIME_RANGE",
+            "TimeRange": "TIME_RANGE"
         }
 
         # Only validate filters if provided
@@ -5024,7 +5164,7 @@ class Reports(CatalystCenterBase):
             "6": "Radio Recovered",
             "77": "AP Refresh",
             "78": "AP RMA",
-            "-1": "Unknown",
+            "-1": "Unknown"
         }
 
         for flt in filters:
@@ -5040,7 +5180,10 @@ class Reports(CatalystCenterBase):
 
                 # Case 1: If displayValue is "Unknown" → always use -1
                 if display_val == "Unknown":
-                    normalized_values.append({"value": "-1", "displayValue": "Unknown"})
+                    normalized_values.append({
+                        "value": "-1",
+                        "displayValue": "Unknown"
+                    })
                     continue
 
                 # Case 2: If displayValue matches known set, fix the value
@@ -5052,31 +5195,35 @@ class Reports(CatalystCenterBase):
 
                 if mapped_val:
                     # Normalize the value to the correct canonical number
-                    normalized_values.append(
-                        {"value": mapped_val, "displayValue": display_val}
-                    )
+                    normalized_values.append({
+                        "value": mapped_val,
+                        "displayValue": display_val
+                    })
                     continue
 
                 # Case 3: If value is valid but display text wrong
                 if raw_val in VALID_EVENT_TYPES:
-                    normalized_values.append(
-                        {"value": raw_val, "displayValue": VALID_EVENT_TYPES[raw_val]}
-                    )
+                    normalized_values.append({
+                        "value": raw_val,
+                        "displayValue": VALID_EVENT_TYPES[raw_val]
+                    })
                     continue
 
                 # Case 3.5: value is given as display text (e.g. "AP Down")
                 if raw_val in VALID_EVENT_TYPES.values():
                     for key, text in VALID_EVENT_TYPES.items():
                         if raw_val == text:
-                            normalized_values.append(
-                                {"value": key, "displayValue": text}
-                            )
+                            normalized_values.append({
+                                "value": key,
+                                "displayValue": text
+                            })
                             break
                     continue
 
                 # Case 4: Completely invalid event type
                 self.msg = (
-                    f"Invalid eventType value: '{display_val}' " f"(value={raw_val})"
+                    f"Invalid eventType value: '{display_val}' "
+                    f"(value={raw_val})"
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
@@ -5087,7 +5234,9 @@ class Reports(CatalystCenterBase):
         # ------------------------------------------------------------
         # Validate Field Groups & Fields only if provided
         # ------------------------------------------------------------
-        allowed_field_groups = {"apRRMEventsByAPMac"}
+        allowed_field_groups = {
+            "apRRMEventsByAPMac"
+        }
 
         field_groups = view.get("field_groups", [])
         if field_groups:
@@ -5098,7 +5247,9 @@ class Reports(CatalystCenterBase):
 
             invalid_fg = provided_fg_names - allowed_field_groups
             if invalid_fg:
-                self.msg = f"Invalid field groups: {', '.join(sorted(invalid_fg))}"
+                self.msg = (
+                    f"Invalid field groups: {', '.join(sorted(invalid_fg))}"
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -5123,7 +5274,7 @@ class Reports(CatalystCenterBase):
                 "reasonType",
                 "lastFailureReason",
                 "dcaReasonCode",
-                "location",
+                "location"
             }
 
             for fg in field_groups:
@@ -5139,9 +5290,7 @@ class Reports(CatalystCenterBase):
                                 f"Unexpected fields: {sorted(invalid_fields)}. "
                                 f"Allowed fields: {sorted(allowed_fields)}"
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
         return True
@@ -5163,7 +5312,13 @@ class Reports(CatalystCenterBase):
         # ------------------------------------------------------------
         # 1. Allowed Filters
         # ------------------------------------------------------------
-        allowed_filters = {"Location", "Wlc", "AP", "Band", "TimeRange"}
+        allowed_filters = {
+            "Location",
+            "Wlc",
+            "AP",
+            "Band",
+            "TimeRange"
+        }
 
         # Only validate filters if provided
         filters = view.get("filters", [])
@@ -5182,13 +5337,14 @@ class Reports(CatalystCenterBase):
         # ------------------------------------------------------------
         # 2. Validate Field Groups & Fields only if provided
         # ------------------------------------------------------------
-        allowed_field_groups = {"worstInterferers"}
+        allowed_field_groups = {
+            "worstInterferers"
+        }
 
         field_groups = view.get("field_groups", [])
         if field_groups:
             provided_field_groups = {
-                fg.get("fieldGroupName") or fg.get("field_group_name")
-                for fg in field_groups
+                fg.get("fieldGroupName") or fg.get("field_group_name") for fg in field_groups
             }
 
             extra_fg = provided_field_groups - allowed_field_groups
@@ -5210,7 +5366,7 @@ class Reports(CatalystCenterBase):
                 "slot",
                 "band",
                 "siteHierarchy",
-                "discoveredTime",
+                "discoveredTime"
             }
 
             for fg in field_groups:
@@ -5227,9 +5383,7 @@ class Reports(CatalystCenterBase):
                                 f"Unexpected fields: {sorted(extra_fields)}. "
                                 f"Allowed fields: {sorted(allowed_fields)}"
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
         return True
@@ -5251,9 +5405,16 @@ class Reports(CatalystCenterBase):
         # ------------------------------------------------------------
         # 1. Allowed Filters
         # ------------------------------------------------------------
-        allowed_filters = {"Location", "Band", "TimeRange"}
+        allowed_filters = {
+            "Location",
+            "Band",
+            "TimeRange"
+        }
 
-        required_filters = {"Location", "TimeRange"}
+        required_filters = {
+            "Location",
+            "TimeRange"
+        }
 
         # Only validate filters if provided
         filters = view.get("filters", [])
@@ -5283,30 +5444,22 @@ class Reports(CatalystCenterBase):
 
                 elif name == "Band":
                     if flt.get("filter_type") != "MULTI_SELECT":
-                        self.msg = (
-                            "Channel Change Count 'Band' filter must be MULTI_SELECT"
-                        )
+                        self.msg = "Channel Change Count 'Band' filter must be MULTI_SELECT"
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
                     if not isinstance(flt.get("value", []), list):
-                        self.msg = (
-                            "Channel Change Count 'Band' filter value must be a list"
-                        )
+                        self.msg = "Channel Change Count 'Band' filter value must be a list"
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
 
                 elif name == "TimeRange":
                     if flt.get("filter_type") != "TIME_RANGE":
-                        self.msg = (
-                            "Channel Change Count 'TimeRange' filter must be TIME_RANGE"
-                        )
+                        self.msg = "Channel Change Count 'TimeRange' filter must be TIME_RANGE"
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
                     tr_val = flt.get("value", {})
                     if "time_range_option" not in tr_val:
-                        self.msg = (
-                            "Channel Change Count 'TimeRange' missing time_range_option"
-                        )
+                        self.msg = "Channel Change Count 'TimeRange' missing time_range_option"
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
 
@@ -5320,7 +5473,9 @@ class Reports(CatalystCenterBase):
         # ------------------------------------------------------------
         # 2. Validate Field Groups & Fields only if provided
         # ------------------------------------------------------------
-        allowed_field_groups = {"response"}
+        allowed_field_groups = {
+            "response"
+        }
 
         field_groups = view.get("field_groups", [])
         if field_groups:
@@ -5334,9 +5489,7 @@ class Reports(CatalystCenterBase):
             # Handle both camelCase and snake_case
             fg_name = fg.get("field_group_name")
             if fg_name not in allowed_field_groups:
-                self.msg = (
-                    f"Invalid field group '{fg_name}'. Allowed: {allowed_field_groups}"
-                )
+                self.msg = f"Invalid field group '{fg_name}'. Allowed: {allowed_field_groups}"
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -5351,7 +5504,7 @@ class Reports(CatalystCenterBase):
                 "ED-RRM",
                 "totalChangeCount",
                 "channelsCount",
-                "location",
+                "location"
             }
 
             fields = fg.get("fields", [])
@@ -5390,9 +5543,7 @@ class Reports(CatalystCenterBase):
         filters = view_data.get("filters", [])
         field_groups = view_data.get("field_groups", [])
 
-        self.log(
-            "Validating Network Devices → Device CPU & Memory Utilization", "DEBUG"
-        )
+        self.log("Validating Network Devices → Device CPU & Memory Utilization", "DEBUG")
 
         # ----------------------------------------------------------------------
         # Expected Filters & Allowed Types
@@ -5455,7 +5606,9 @@ class Reports(CatalystCenterBase):
 
                 for v in value:
                     if not isinstance(v, dict):
-                        self.msg = f"Entries in filter '{filter_name}' must be dicts with value/displayValue."
+                        self.msg = (
+                            f"Entries in filter '{filter_name}' must be dicts with value/displayValue."
+                        )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
                     v.setdefault("displayValue", v.get("value"))
@@ -5494,7 +5647,9 @@ class Reports(CatalystCenterBase):
 
             fg_name = fg.get("field_group_name")
             if fg_name != expected_field_group:
-                self.msg = f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                self.msg = (
+                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -5604,7 +5759,9 @@ class Reports(CatalystCenterBase):
 
                 for v in value:
                     if not isinstance(v, dict):
-                        self.msg = "Entries in filter 'Locations' must be dicts with value/displayValue."
+                        self.msg = (
+                            "Entries in filter 'Locations' must be dicts with value/displayValue."
+                        )
                         self.set_operation_result("failed", False, self.msg, "ERROR")
                         return False
 
@@ -5641,7 +5798,9 @@ class Reports(CatalystCenterBase):
 
                 fg_name = fg.get("field_group_name")
                 if fg_name != expected_field_group:
-                    self.msg = f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                    self.msg = (
+                        f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_field_group}'."
+                    )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
@@ -5685,10 +5844,7 @@ class Reports(CatalystCenterBase):
             - Allowed field groups and fields
         """
 
-        self.log(
-            "Validating Network Device Availability View filters and fieldGroups",
-            "DEBUG",
-        )
+        self.log("Validating Network Device Availability View filters and fieldGroups", "DEBUG")
 
         filters = view_data.get("filters", [])
         field_groups = view_data.get("field_groups", [])
@@ -5731,9 +5887,9 @@ class Reports(CatalystCenterBase):
 
             # Validate type
             if f_type not in allowed_types:
-                self.msg = ("Invalid filter type '{0}' for '{1}'. Allowed: {2}").format(
-                    f_type, filter_name, allowed_types
-                )
+                self.msg = (
+                    "Invalid filter type '{0}' for '{1}'. Allowed: {2}"
+                ).format(f_type, filter_name, allowed_types)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -5754,10 +5910,10 @@ class Reports(CatalystCenterBase):
 
                     for entry in value:
                         if not isinstance(entry, dict) or "value" not in entry:
-                            self.msg = "Each entry in 'Location' must be a dict containing 'value' and optionally 'displayValue'."
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
+                            self.msg = (
+                                "Each entry in 'Location' must be a dict containing 'value' and optionally 'displayValue'."
                             )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return False
 
                         entry.setdefault("displayValue", entry.get("value"))
@@ -5797,7 +5953,9 @@ class Reports(CatalystCenterBase):
                 # Handle both camelCase and snake_case
                 fg_name = group.get("fieldGroupName") or group.get("field_group_name")
                 if fg_name != expected_group:
-                    self.msg = f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_group}'."
+                    self.msg = (
+                        f"Unexpected fieldGroup '{fg_name}'. Allowed: '{expected_group}'."
+                    )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
@@ -5842,10 +6000,7 @@ class Reports(CatalystCenterBase):
             - Filter types match allowed definitions
             - Field groups and fields are valid
         """
-        self.log(
-            "Validating Network Interface Utilization report filters and field groups",
-            "DEBUG",
-        )
+        self.log("Validating Network Interface Utilization report filters and field groups", "DEBUG")
 
         filters = view.get("filters", [])
         field_groups = view.get("field_groups", [])
@@ -5931,7 +6086,9 @@ class Reports(CatalystCenterBase):
                 fg_name = group.get("fieldGroupName") or group.get("field_group_name")
 
                 if fg_name != expected_group_name:
-                    self.msg = f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    self.msg = (
+                        f"Unexpected field group '{fg_name}'. Allowed: '{expected_group_name}'."
+                    )
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
@@ -6192,7 +6349,9 @@ class Reports(CatalystCenterBase):
             fg_name = fg.get("fieldGroupName") or fg.get("field_group_name")
 
             if fg_name != allowed_group_name:
-                self.msg = f"Unexpected fieldGroup '{fg_name}'. Allowed: '{allowed_group_name}'."
+                self.msg = (
+                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{allowed_group_name}'."
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -6234,10 +6393,7 @@ class Reports(CatalystCenterBase):
             Sub template: Transmit Power Change Count
         """
 
-        self.log(
-            "Validating Transmit Power Change Count report filters and field groups",
-            "DEBUG",
-        )
+        self.log("Validating Transmit Power Change Count report filters and field groups", "DEBUG")
 
         filters = view.get("filters", [])
         field_groups = view.get("field_groups", [])
@@ -6317,7 +6473,9 @@ class Reports(CatalystCenterBase):
             fg_name = fg.get("field_group_name")
 
             if fg_name != allowed_group_name:
-                self.msg = f"Unexpected fieldGroup '{fg_name}'. Allowed: '{allowed_group_name}'."
+                self.msg = (
+                    f"Unexpected fieldGroup '{fg_name}'. Allowed: '{allowed_group_name}'."
+                )
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -6357,9 +6515,7 @@ class Reports(CatalystCenterBase):
         Template: Network Devices
         Sub template: VLAN
         """
-        self.log(
-            "Validating Network Devices → VLAN report filters and field groups", "DEBUG"
-        )
+        self.log("Validating Network Devices → VLAN report filters and field groups", "DEBUG")
 
         # --------------------------------------------------------------------
         # VALID FILTERS FOR VLAN REPORT
@@ -6367,7 +6523,7 @@ class Reports(CatalystCenterBase):
         allowed_filters = {
             "Location": ["MULTI_SELECT_TREE"],
             "DeviceFamily": ["MULTI_SELECT"],
-            "DeviceType": ["MULTI_SELECT"],
+            "DeviceType": ["MULTI_SELECT"]
         }
 
         # Extract filters list from view
@@ -6423,9 +6579,7 @@ class Reports(CatalystCenterBase):
             field_group = field_groups[0]
 
             # Validate fieldGroupName (handle both camelCase and snake_case)
-            fg_name = field_group.get("fieldGroupName") or field_group.get(
-                "field_group_name"
-            )
+            fg_name = field_group.get("fieldGroupName") or field_group.get("field_group_name")
             if fg_name != allowed_field_group_name:
                 self.msg = (
                     f"Invalid fieldGroupName '{fg_name}'. "
@@ -8652,7 +8806,7 @@ class Reports(CatalystCenterBase):
         This method:
         - Validates the presence and format of `start_date_time`, `end_date_time`, and `time_zone`.
         - Converts readable date strings (e.g., "2025-10-09 07:30 PM") to epoch milliseconds.
-        - Updates the filter value to match the format expected by the DNAC API.
+        - Updates the filter value to match the format expected by the Catalyst Center API.
 
         Parameters:
             filter_entry (dict): Filter configuration containing 'value' with date/time fields.
@@ -8663,39 +8817,27 @@ class Reports(CatalystCenterBase):
         """
         self.log(
             f"Processing time range filter {filter_index + 1} with filter entry: {self.pprint(filter_entry)}",
-            "DEBUG",
+            "DEBUG"
         )
 
         filter_value = filter_entry.get("value")
         if not filter_value:
-            self.log(
-                "No time range provided, please provide a valid time range.", "DEBUG"
-            )
+            self.log("No time range provided, please provide a valid time range.", "DEBUG")
             self.msg = "No time range provided in 'Time Range' filter."
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return False
 
         # Expecting a single dict, not a list
         item = filter_value[0] if isinstance(filter_value, list) else filter_value
         time_range_option = item.get("time_range_option")
         if not time_range_option:
-            self.msg = (
-                "Missing required field 'time_range_option' in 'Time Range' filter."
-            )
+            self.msg = "Missing required field 'time_range_option' in 'Time Range' filter."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
         predefined_time_ranges = [
-            "LAST_7_DAYS",
-            "LAST_24_HOURS",
-            "LAST_3_HOURS",
-            "LAST_6_HOURS",
-            "LAST_9_HOURS",
-            "LAST_12_HOURS",
-            "LAST_30_DAYS",
-            "LAST_90_DAYS",
+            "LAST_7_DAYS", "LAST_24_HOURS", "LAST_3_HOURS", "LAST_6_HOURS",
+            "LAST_9_HOURS", "LAST_12_HOURS", "LAST_30_DAYS", "LAST_90_DAYS"
         ]
         if time_range_option in predefined_time_ranges:
             updated_value = {
@@ -8703,10 +8845,7 @@ class Reports(CatalystCenterBase):
                 "displayValue": filter_entry.get("display_value", filter_entry["name"]),
             }
             filter_entry["value"] = updated_value
-            self.log(
-                f"Time range option '{time_range_option}' does not require further processing.",
-                "DEBUG",
-            )
+            self.log(f"Time range option '{time_range_option}' does not require further processing.", "DEBUG")
             return True  # No further processing needed for these options
 
         required_fields = ["start_date_time", "end_date_time", "time_zone"]
@@ -8752,13 +8891,11 @@ class Reports(CatalystCenterBase):
         }
 
         filter_entry["value"] = updated_value
-        filter_entry["display_value"] = filter_entry.get(
-            "display_value", filter_entry["name"]
-        )
+        filter_entry["display_value"] = filter_entry.get("display_value", filter_entry["name"])
 
         self.log(
             f"Successfully processed time range filter: start={start_epoch}, end={end_epoch}, zone={time_zone}",
-            "DEBUG",
+            "DEBUG"
         )
         return True
 
@@ -8795,12 +8932,7 @@ class Reports(CatalystCenterBase):
             - Logs detailed debug information at each step for traceability.
             - Updates the operation result with clear error messages when validation fails.
         """
-        self.log(
-            "Processing location filter {0} with filter entry as {1}".format(
-                filter_index + 1, self.pprint(filter_entry)
-            ),
-            "DEBUG",
-        )
+        self.log("Processing location filter {0} with filter entry as {1}".format(filter_index + 1, self.pprint(filter_entry)), "DEBUG")
 
         filter_value = filter_entry.get("value")
         self.log("Current location filter value: {0}".format(filter_value), "DEBUG")
@@ -8808,9 +8940,7 @@ class Reports(CatalystCenterBase):
             filter_entry["display_value"] = filter_entry["name"]
 
         if not filter_value:
-            self.log(
-                "No locations provided in filter; initializing empty list", "DEBUG"
-            )
+            self.log("No locations provided in filter; initializing empty list", "DEBUG")
             filter_entry["value"] = []
             return True
 
@@ -8825,36 +8955,28 @@ class Reports(CatalystCenterBase):
             display_value = item.get("display_value", item["value"])
 
             # Resolve site hierarchy ID
-            self.log(
-                "Resolving site hierarchy for location: {0}".format(item["value"]),
-                "DEBUG",
-            )
+            self.log("Resolving site hierarchy for location: {0}".format(
+                item["value"]), "DEBUG")
 
             site_exist, site_id = self.get_site_id(item["value"])
             if not site_exist:
                 self.msg = "Failed to retrieve site information for location as site doesn't exist: {0}".format(
-                    item["value"]
-                )
+                    item["value"])
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
-            updated_values.append({"value": site_id, "display_value": display_value})
+            updated_values.append({
+                "value": site_id,
+                "display_value": display_value
+            })
 
-            self.log(
-                "Resolved location '{0}' to site ID: {1}".format(
-                    item["value"], site_id
-                ),
-                "DEBUG",
-            )
+            self.log("Resolved location '{0}' to site ID: {1}".format(
+                item["value"], site_id), "DEBUG")
 
         filter_entry["value"] = updated_values
-        self.log(
-            "Successfully processed location filter with {0} locations".format(
-                len(updated_values)
-            ),
-            "DEBUG",
-        )
+        self.log("Successfully processed location filter with {0} locations".format(
+            len(updated_values)), "DEBUG")
         return True
 
     def get_webhook_destination_in_ccc(self, name):
@@ -8876,7 +8998,8 @@ class Reports(CatalystCenterBase):
         """
 
         self.log(
-            "Starting webhook destination retrieval for name='{0}'".format(name), "INFO"
+            "Starting webhook destination retrieval for name='{0}'".format(name),
+            "INFO"
         )
         try:
             offset = 0
@@ -8889,7 +9012,7 @@ class Reports(CatalystCenterBase):
                     "Fetching webhook destinations with offset={0}, limit={1}, attempt={2}".format(
                         offset * limit, limit, retry_count + 1
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 try:
                     response = self.catalystcenter._exec(
@@ -8924,9 +9047,7 @@ class Reports(CatalystCenterBase):
                             return destination
 
                     self.log(
-                        "Webhook Destination '{0}' not found in Cisco Catalyst Center. Retrying after 1 second...".format(
-                            name
-                        ),
+                        "Webhook Destination '{0}' not found in Cisco Catalyst Center. Retrying after 1 second...".format(name),
                         "WARNING",
                     )
                     offset += 1
@@ -8950,16 +9071,12 @@ class Reports(CatalystCenterBase):
                             )
                             return None
             self.log(
-                "Webhook destination '{0}' not found after checking all available destinations".format(
-                    name
-                ),
-                "WARNING",
+                "Webhook destination '{0}' not found after checking all available destinations".format(name),
+                "WARNING"
             )
             self.log(
-                "Completed webhook destination retrieval for name='{0}' - not found after exhaustive search".format(
-                    name
-                ),
-                "INFO",
+                "Completed webhook destination retrieval for name='{0}' - not found after exhaustive search".format(name),
+                "INFO"
             )
             return None
 
@@ -8991,18 +9108,11 @@ class Reports(CatalystCenterBase):
             - Logs all major decision points and validation steps for traceability
             - Provides foundation for state-based configuration management
         """
-        self.log(
-            "Retrieving 'want' attributes from configuration: {0}".format(
-                self.pprint(config)
-            ),
-            "DEBUG",
-        )
+        self.log("Retrieving 'want' attributes from configuration: {0}".format(self.pprint(config)), "DEBUG")
 
         want = {"generate_report": config.get("generate_report", [])}
         if not want["generate_report"]:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -9035,21 +9145,13 @@ class Reports(CatalystCenterBase):
             - Logs all major decision points and API interactions for traceability
             - Returns structured data for further report configuration processing
         """
-        self.log(
-            "Retrieving all view groups for view_group_name: {0}".format(
-                self.pprint(view_group_name)
-            ),
-            "DEBUG",
-        )
+        self.log("Retrieving all view groups for view_group_name: {0}".format(self.pprint(view_group_name)), "DEBUG")
         try:
             response = self.catalystcenter._exec(
                 family="reports",
                 function="get_all_view_groups",
             )
-            self.log(
-                "Response from get_all_view_groups: {0}".format(self.pprint(response)),
-                "DEBUG",
-            )
+            self.log("Response from get_all_view_groups: {0}".format(self.pprint(response)), "DEBUG")
             if not response:
                 self.msg = "Failed to retrieve view groups from Cisco Catalyst Center."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -9059,55 +9161,40 @@ class Reports(CatalystCenterBase):
                 "Processing {0} view groups to find match for '{1}'".format(
                     len(response), view_group_name
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             view_group_id = None
             data_category = None
             for view_group_detail in response:
                 if view_group_detail.get("name") == view_group_name:
-                    self.log(
-                        "Found data_category '{0}' in view groups.".format(
-                            view_group_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Found data_category '{0}' in view groups.".format(view_group_name), "DEBUG")
                     view_group_id = view_group_detail.get("viewGroupId")
                     data_category = view_group_detail.get("category")
-                    self.log(
-                        "View group ID and data_category for view_group_name '{0}': {1}, {2}".format(
-                            view_group_name, view_group_id, data_category
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("View group ID and data_category for view_group_name '{0}': {1}, {2}"
+                             .format(view_group_name, view_group_id, data_category), "DEBUG")
                     break
 
             if not view_group_id:
-                self.msg = "No view group found for view_group_name '{0}'.".format(
-                    view_group_name
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "No view group found for view_group_name '{0}'.".format(view_group_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return self
 
             self.log(
                 "Successfully retrieved view group details for '{0}' - ID: {1}, category: {2}".format(
                     view_group_name, view_group_id, data_category
                 ),
-                "INFO",
+                "INFO"
             )
             self.log(
                 "Completed view groups retrieval and search for view_group_name='{0}'".format(
                     view_group_name
                 ),
-                "INFO",
+                "INFO"
             )
             return view_group_id, data_category
         except Exception as e:
-            self.msg = "An error occurred while retrieving all view groups: {0}".format(
-                str(e)
-            )
+            self.msg = "An error occurred while retrieving all view groups: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -9140,44 +9227,26 @@ class Reports(CatalystCenterBase):
             "Starting view retrieval for view_group_id='{0}', view_name='{1}'".format(
                 view_group_id, view_name
             ),
-            "INFO",
+            "INFO"
         )
         try:
-            self.log(
-                "Fetching views from Cisco Catalyst Center for view group ID: {0}".format(
-                    view_group_id
-                ),
-                "DEBUG",
-            )
+            self.log("Fetching views from Cisco Catalyst Center for view group ID: {0}".format(
+                     view_group_id), "DEBUG")
             response = self.catalystcenter._exec(
                 family="reports",
                 function="get_views_for_a_given_view_group",
                 params={"view_group_id": view_group_id},
             )
-            self.log(
-                "Response from get_views_for_a_given_view_group: {0}".format(
-                    self.pprint(response)
-                ),
-                "DEBUG",
-            )
+            self.log("Response from get_views_for_a_given_view_group: {0}".format(self.pprint(response)), "DEBUG")
             if not response:
-                self.msg = "Failed to retrieve views for view group ID '{0}'.".format(
-                    view_group_id
-                )
+                self.msg = "Failed to retrieve views for view group ID '{0}'.".format(view_group_id)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             all_views_detail = response.get("views")
-            self.log(
-                "All views detail for view group ID '{0}': {1}".format(
-                    view_group_id, self.pprint(all_views_detail)
-                ),
-                "DEBUG",
-            )
+            self.log("All views detail for view group ID '{0}': {1}".format(view_group_id, self.pprint(all_views_detail)), "DEBUG")
             if not all_views_detail:
-                self.msg = "No views found for view group ID '{0}'.".format(
-                    view_group_id
-                )
+                self.msg = "No views found for view group ID '{0}'.".format(view_group_id)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -9187,59 +9256,46 @@ class Reports(CatalystCenterBase):
                 for view in all_views_detail:
                     if view.get("viewName") == view_name:
                         views_detail = view
-                        self.log(
-                            "Found matching view '{0}' with ID='{1}' in view group '{2}'".format(
-                                view_name, views_detail.get("viewId"), view_group_id
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Found matching view '{0}' with ID='{1}' in view group '{2}'".format(
+                                 view_name, views_detail.get("viewId"), view_group_id
+                                 ),
+                                 "DEBUG"
+                                 )
                         break
                 if not views_detail:
-                    self.msg = (
-                        "No views found with name '{0}' in view group ID '{1}'.".format(
-                            view_name, view_group_id
-                        )
-                    )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.msg = "No views found with name '{0}' in view group ID '{1}'.".format(view_name, view_group_id)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
 
                 view_id = views_detail.get("viewId")
                 if not view_id:
-                    self.msg = (
-                        "No views found with name '{0}' in view group ID '{1}'.".format(
-                            view_name, view_group_id
-                        )
+                    self.msg = "No views found with name '{0}' in view group ID '{1}'.".format(
+                        view_name, view_group_id
                     )
                     self.log(
                         "View search failed - '{0}' not found in view group ID '{1}'".format(
                             view_name, view_group_id
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
 
                 self.log(
                     "Successfully retrieved view ID '{0}' for view_name '{1}' in view group '{2}'".format(
                         view_id, view_name, view_group_id
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 self.log(
                     "Completed view retrieval for view_group_id='{0}', view_name='{1}'".format(
                         view_group_id, view_name
                     ),
-                    "INFO",
+                    "INFO"
                 )
                 return view_id
         except Exception as e:
-            self.msg = "An error occurred while retrieving views for view group ID '{0}': {1}".format(
-                view_group_id, str(e)
-            )
+            self.msg = "An error occurred while retrieving views for view group ID '{0}': {1}".format(view_group_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -9265,35 +9321,21 @@ class Reports(CatalystCenterBase):
             - Logs all major decision points and API interactions for traceability
             - Provides view metadata for report configuration validation and processing
         """
-        self.log(
-            "Fetching view details for view group ID: {0}, view ID: {1}".format(
-                view_group_id, view_id
-            ),
-            "DEBUG",
-        )
+        self.log("Fetching view details for view group ID: {0}, view ID: {1}".format(view_group_id, view_id), "DEBUG")
         try:
             response = self.catalystcenter._exec(
                 family="reports",
                 function="get_view_details_for_a_given_view_group_and_view",
                 params={"view_group_id": view_group_id, "view_id": view_id},
             )
-            self.log(
-                "Response from get_view_details_for_a_given_view_group_and_view: {0}".format(
-                    self.pprint(response)
-                ),
-                "DEBUG",
-            )
+            self.log("Response from get_view_details_for_a_given_view_group_and_view: {0}".format(self.pprint(response)), "DEBUG")
             if not response:
-                self.msg = "Failed to fetch view details for view group ID '{0}' and view ID '{1}'.".format(
-                    view_group_id, view_id
-                )
+                self.msg = "Failed to fetch view details for view group ID '{0}' and view ID '{1}'.".format(view_group_id, view_id)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             # Validate response structure
-            self.log(
-                "Validating response structure and extracting view metadata", "DEBUG"
-            )
+            self.log("Validating response structure and extracting view metadata", "DEBUG")
 
             # Log key view details for debugging
             view_name = response.get("name", "unknown")
@@ -9303,12 +9345,9 @@ class Reports(CatalystCenterBase):
 
             self.log(
                 "View details retrieved - name: '{0}', field_groups: {1}, filters: {2}, format: {3}".format(
-                    view_name,
-                    field_groups_count,
-                    filters_count,
-                    format_info.get("name", "unknown"),
+                    view_name, field_groups_count, filters_count, format_info.get("name", "unknown")
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Store view details for further processing
@@ -9318,19 +9357,17 @@ class Reports(CatalystCenterBase):
                 "Successfully stored view details for view_group_id='{0}', view_id='{1}'".format(
                     view_group_id, view_id
                 ),
-                "INFO",
+                "INFO"
             )
             self.log(
                 "Completed view details retrieval for view_group_id='{0}', view_id='{1}'".format(
                     view_group_id, view_id
                 ),
-                "INFO",
+                "INFO"
             )
 
         except Exception as e:
-            self.msg = "An error occurred while fetching view details: {0}".format(
-                str(e)
-            )
+            self.msg = "An error occurred while fetching view details: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -9358,32 +9395,20 @@ class Reports(CatalystCenterBase):
             - Fetches detailed view metadata for non-deleted states
             - Logs all major decision points and API interactions for traceability
         """
-        self.log(
-            "Retrieving 'have' attributes from configuration: {0}".format(
-                self.pprint(config)
-            ),
-            "DEBUG",
-        )
+        self.log("Retrieving 'have' attributes from configuration: {0}".format(self.pprint(config)), "DEBUG")
         generate_report = config.get("generate_report", [])
 
         if not generate_report:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.log(
-                "Current state retrieval failed - no generate_report entries found",
-                "ERROR",
-            )
+            self.log("Current state retrieval failed - no generate_report entries found", "ERROR")
             return self
 
         for entry_index, report_entry in enumerate(generate_report):
             report_name = report_entry.get("name", "unnamed")
             self.log(
-                "Processing current state for report entry {0}: '{1}'".format(
-                    entry_index + 1, report_name
-                ),
-                "DEBUG",
+                "Processing current state for report entry {0}: '{1}'".format(entry_index + 1, report_name),
+                "DEBUG"
             )
 
             # Validate webhook destinations for WEBHOOK delivery type
@@ -9400,10 +9425,7 @@ class Reports(CatalystCenterBase):
 
         # Fetch view details for non-deleted states
         if self.state != "deleted":
-            self.log(
-                "Fetching detailed view metadata for report configuration validation",
-                "DEBUG",
-            )
+            self.log("Fetching detailed view metadata for report configuration validation", "DEBUG")
             for report_entry in generate_report:
                 view_group_id = report_entry.get("view_group_id")
                 view_id = report_entry.get("view", {}).get("view_id")
@@ -9415,12 +9437,10 @@ class Reports(CatalystCenterBase):
         self.have = have
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
 
-        self.log(
-            "Current State (have): {0}".format(str(self.pprint(self.have))), "INFO"
-        )
+        self.log("Current State (have): {0}".format(str(self.pprint(self.have))), "INFO")
         self.log(
             "Completed current state retrieval from Catalyst Center successfully",
-            "INFO",
+            "INFO"
         )
         return self
 
@@ -9446,9 +9466,7 @@ class Reports(CatalystCenterBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return False
 
-                self.log(
-                    "Validating webhook destination: {0}".format(webhook_name), "DEBUG"
-                )
+                self.log("Validating webhook destination: {0}".format(webhook_name), "DEBUG")
 
                 webhook_destinations = self.get_webhook_destination_in_ccc(webhook_name)
                 if not webhook_destinations:
@@ -9461,12 +9479,8 @@ class Reports(CatalystCenterBase):
                 webhook_id = webhook_destinations.get("webhookId")
                 delivery["webhook_id"] = webhook_id
 
-                self.log(
-                    "Successfully validated webhook destination '{0}' with ID: {1}".format(
-                        webhook_name, webhook_id
-                    ),
-                    "DEBUG",
-                )
+                self.log("Successfully validated webhook destination '{0}' with ID: {1}".format(
+                    webhook_name, webhook_id), "DEBUG")
 
         return True
 
@@ -9482,15 +9496,11 @@ class Reports(CatalystCenterBase):
         """
         view_group_name = report_entry.get("view_group_name")
         if not view_group_name:
-            self.msg = (
-                "Mandatory parameter 'view_group_name' not found in report entry."
-            )
+            self.msg = "Mandatory parameter 'view_group_name' not found in report entry."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        self.log(
-            "Resolving view group details for: {0}".format(view_group_name), "DEBUG"
-        )
+        self.log("Resolving view group details for: {0}".format(view_group_name), "DEBUG")
 
         view_group_id, data_category = self.get_all_view_groups(view_group_name)
         if not view_group_id:
@@ -9499,12 +9509,8 @@ class Reports(CatalystCenterBase):
         report_entry["view_group_id"] = view_group_id
         report_entry["data_category"] = data_category
 
-        self.log(
-            "Resolved view group '{0}' to ID: {1}, category: {2}".format(
-                view_group_name, view_group_id, data_category
-            ),
-            "DEBUG",
-        )
+        self.log("Resolved view group '{0}' to ID: {1}, category: {2}".format(
+            view_group_name, view_group_id, data_category), "DEBUG")
 
         # Resolve view ID within the view group
         view_name = report_entry.get("view", {}).get("view_name")
@@ -9519,12 +9525,8 @@ class Reports(CatalystCenterBase):
 
         report_entry["view"]["view_id"] = view_id
 
-        self.log(
-            "Resolved view '{0}' to ID: {1} in view group '{2}'".format(
-                view_name, view_id, view_group_name
-            ),
-            "DEBUG",
-        )
+        self.log("Resolved view '{0}' to ID: {1} in view group '{2}'".format(
+            view_name, view_id, view_group_name), "DEBUG")
 
         return True
 
@@ -9543,54 +9545,35 @@ class Reports(CatalystCenterBase):
         report_name = report_entry.get("name")
 
         if not report_name:
-            self.msg = (
-                "The 'name' field is mandatory in the 'generate_report' configuration."
-            )
+            self.msg = "The 'name' field is mandatory in the 'generate_report' configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
-        self.log(
-            "Checking for existing scheduled reports for: {0}".format(report_name),
-            "DEBUG",
-        )
+        self.log("Checking for existing scheduled reports for: {0}".format(report_name), "DEBUG")
 
         try:
             response = self.catalystcenter._exec(
                 family="reports",
                 function="get_list_of_scheduled_reports",
-                params={"viewGroupId": view_group_id, "viewId": view_id},
+                params={"viewGroupId": view_group_id, "viewId": view_id}
             )
-            self.log(
-                "Response from get_list_of_scheduled_reports: {0}".format(
-                    self.pprint(response)
-                ),
-                "DEBUG",
-            )
+            self.log("Response from get_list_of_scheduled_reports: {0}".format(
+                self.pprint(response)), "DEBUG")
 
         except Exception as e:
             error_str = str(e)
-            if "status_code: 404" in error_str or '"status":404' in error_str:
-                self.log(
-                    "No existing reports found (404 response) for report: {0}".format(
-                        report_name
-                    ),
-                    "DEBUG",
-                )
+            if "status_code: 404" in error_str or "\"status\":404" in error_str:
+                self.log("No existing reports found (404 response) for report: {0}".format(
+                    report_name), "DEBUG")
                 report_entry["exists"] = False
                 return True
             else:
-                self.msg = (
-                    "An error occurred while checking for existing reports: {0}".format(
-                        str(e)
-                    )
-                )
+                self.msg = "An error occurred while checking for existing reports: {0}".format(str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
         if not response:
-            self.log(
-                "No scheduled reports found for view group/view combination", "DEBUG"
-            )
+            self.log("No scheduled reports found for view group/view combination", "DEBUG")
             report_entry["exists"] = False
             return True
 
@@ -9600,12 +9583,8 @@ class Reports(CatalystCenterBase):
 
         for report in get_list_of_scheduled_reports:
             if report.get("name") == report_name:
-                self.log(
-                    "Found existing report '{0}' with ID: {1}".format(
-                        report_name, report.get("reportId")
-                    ),
-                    "DEBUG",
-                )
+                self.log("Found existing report '{0}' with ID: {1}".format(
+                    report_name, report.get("reportId")), "DEBUG")
 
                 report_entry["report_id"] = report.get("reportId")
                 report_entry["view_group_id"] = report.get("viewGroupId")
@@ -9615,10 +9594,7 @@ class Reports(CatalystCenterBase):
                 break
 
         if not report_found:
-            self.log(
-                "Report '{0}' does not exist in current state".format(report_name),
-                "DEBUG",
-            )
+            self.log("Report '{0}' does not exist in current state".format(report_name), "DEBUG")
             report_entry["exists"] = False
 
         return True
@@ -9650,26 +9626,22 @@ class Reports(CatalystCenterBase):
             "Starting parallel report creation workflow with {0} reports using two-phase approach".format(
                 len(generate_report) if generate_report else 0
             ),
-            "DEBUG",
+            "DEBUG"
         )
         if not generate_report:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Phase 1: Create/Schedule all reports (parallel processing)
-        created_entries = []  # list of tuples: (report_entry, report_id)
-        pending_downloads = (
-            []
-        )  # same shape for both newly created and existing entries that require download
+        created_entries = []    # list of tuples: (report_entry, report_id)
+        pending_downloads = []  # same shape for both newly created and existing entries that require download
 
         self.log(
             "Phase 1: Starting parallel report creation for {0} reports".format(
                 len(generate_report)
             ),
-            "INFO",
+            "INFO"
         )
         try:
             for report_index, report_entry in enumerate(generate_report):
@@ -9678,7 +9650,7 @@ class Reports(CatalystCenterBase):
                     "Processing report {0}/{1}: '{2}' (phase 1 - trigger)".format(
                         report_index + 1, len(generate_report), report_name
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 # Validate required fields
@@ -9687,27 +9659,22 @@ class Reports(CatalystCenterBase):
                         "Phase 1: Field validation failed for report '{0}' - terminating workflow".format(
                             report_name
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
                     return self
 
                 self.log(
-                    "Phase 1: Field validation successful for report '{0}'".format(
-                        report_name
-                    ),
-                    "DEBUG",
+                    "Phase 1: Field validation successful for report '{0}'".format(report_name),
+                    "DEBUG"
                 )
 
                 # Handle existing reports (do NOT trigger download here)
-                if (
-                    report_entry.get("exists")
-                    and report_entry.get("new_report") is False
-                ):
+                if report_entry.get("exists") and report_entry.get("new_report") is False:
                     self.log(
                         "Phase 1: Processing existing report '{0}' without immediate download".format(
                             report_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     # Build same result structure as _handle_existing_report but DO NOT download yet
                     report_id = report_entry.get("report_id")
@@ -9727,35 +9694,32 @@ class Reports(CatalystCenterBase):
                         "Phase 1: Existing report '{0}' added to results with ID: {1}".format(
                             report_name, report_id
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     # If download requested and immediate, schedule download in phase 2
-                    if self._is_download_requested(
-                        report_entry
-                    ) and self._should_download_immediately(report_entry):
+                    if (self._is_download_requested(report_entry) and
+                       self._should_download_immediately(report_entry)):
                         pending_downloads.append((report_entry, report_id))
                         self.log(
                             "Phase 1: Existing report '{0}' scheduled for Phase 2 download".format(
                                 report_name
                             ),
-                            "INFO",
+                            "INFO"
                         )
                     else:
                         self.log(
                             "Phase 1: No immediate download required for existing report '{0}'".format(
                                 report_name
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
 
                     continue
 
                 # Create new report (non-blocking API call)
                 self.log(
-                    "Phase 1: Creating new report '{0}' via API call".format(
-                        report_name
-                    ),
-                    "INFO",
+                    "Phase 1: Creating new report '{0}' via API call".format(report_name),
+                    "INFO"
                 )
                 report_id = self._create_new_report(report_entry)
                 if not report_id:
@@ -9764,11 +9728,11 @@ class Reports(CatalystCenterBase):
                         "Phase 1: Report creation failed for '{0}' - error already logged by creation method".format(
                             report_name
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
                     self.log(
                         "Phase 1: Terminating workflow due to report creation failure",
-                        "ERROR",
+                        "ERROR"
                     )
                     return self
 
@@ -9776,7 +9740,7 @@ class Reports(CatalystCenterBase):
                     "Phase 1: Successfully created report '{0}' with ID: {1}".format(
                         report_name, report_id
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
                 # Collect for potential download in phase 2
@@ -9785,16 +9749,14 @@ class Reports(CatalystCenterBase):
                     "Phase 1: Report '{0}' added to created entries for Phase 2 processing".format(
                         report_name
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
             self.log(
                 "Phase 1 completed successfully: {0} reports created, {1} existing reports processed, {2} pending downloads".format(
-                    len(created_entries),
-                    len(generate_report) - len(created_entries),
-                    len(pending_downloads),
+                    len(created_entries), len(generate_report) - len(created_entries), len(pending_downloads)
                 ),
-                "INFO",
+                "INFO"
             )
 
             # Phase 2: perform downloads only for those needing immediate download
@@ -9803,29 +9765,21 @@ class Reports(CatalystCenterBase):
                 "Phase 2: Starting download processing for {0} total candidates".format(
                     len(all_download_candidates)
                 ),
-                "INFO",
+                "INFO"
             )
 
             if not all_download_candidates:
-                self.log(
-                    "Phase 2: No download candidates found - skipping download phase",
-                    "DEBUG",
-                )
+                self.log("Phase 2: No download candidates found - skipping download phase", "DEBUG")
 
             download_count = 0
             # Combine created entries and pending existing reports
-            for candidate_index, (entry, report_id) in enumerate(
-                all_download_candidates
-            ):
+            for candidate_index, (entry, report_id) in enumerate(all_download_candidates):
                 report_name = entry.get("name", "unnamed")
                 self.log(
                     "Phase 2: Processing download candidate {0}/{1}: '{2}' (report_id={3})".format(
-                        candidate_index + 1,
-                        len(all_download_candidates),
-                        report_name,
-                        report_id,
+                        candidate_index + 1, len(all_download_candidates), report_name, report_id
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 try:
                     if not self._should_download_immediately(entry):
@@ -9833,7 +9787,7 @@ class Reports(CatalystCenterBase):
                             "Phase 2: No immediate download required for report '{0}' - skipping".format(
                                 report_name
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
 
                         continue
@@ -9842,7 +9796,7 @@ class Reports(CatalystCenterBase):
                         "Phase 2: Immediate download required for report '{0}' - initiating download".format(
                             report_name
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     success = self._download_report_if_needed(entry, report_id)
                     if not success:
@@ -9851,11 +9805,11 @@ class Reports(CatalystCenterBase):
                             "Phase 2: Download failed for report '{0}' - error already logged by download method".format(
                                 report_name
                             ),
-                            "ERROR",
+                            "ERROR"
                         )
                         self.log(
                             "Phase 2: Terminating workflow due to download failure",
-                            "ERROR",
+                            "ERROR"
                         )
                         return self
                     download_count += 1
@@ -9863,43 +9817,35 @@ class Reports(CatalystCenterBase):
                         "Phase 2: Download completed successfully for report '{0}'".format(
                             report_name
                         ),
-                        "INFO",
+                        "INFO"
                     )
 
                 except Exception as e:
-                    self.msg = "Exception during post-create download handling for report '{0}': {1}".format(
-                        entry.get("name"), str(e)
-                    )
+                    self.msg = "Exception during post-create download handling for report '{0}': {1}".format(entry.get("name"), str(e))
                     self.set_operation_result("failed", False, self.msg, "ERROR")
-                    self.log(
-                        "Exception during phase 2 downloads: {0}".format(str(e)),
-                        "ERROR",
-                    )
+                    self.log("Exception during phase 2 downloads: {0}".format(str(e)), "ERROR")
                     return self
 
                 self.log(
                     "Phase 2 completed: {0} downloads processed successfully".format(
                         download_count
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
                 self.log(
                     "Completed report creation and scheduling workflow successfully for {0} reports".format(
                         len(generate_report)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         except Exception as e:
-            self.msg = (
-                "An error occurred while creating or scheduling reports: {0}".format(
-                    str(e)
-                )
-            )
+            self.msg = "An error occurred while creating or scheduling reports: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(
-                "Exception during report creation workflow: {0}".format(str(e)), "ERROR"
+                "Exception during report creation workflow: {0}".format(str(e)),
+                "ERROR"
             )
             return self
 
@@ -9952,7 +9898,7 @@ class Reports(CatalystCenterBase):
             self.log(
                 f"Report with name '{report_name}' already exists. "
                 f"Updating name to '{new_report_name}' to ensure uniqueness.",
-                "DEBUG",
+                "DEBUG"
             )
             report_entry["name"] = new_report_name
             report_name = report_entry.get("name")
@@ -9963,28 +9909,21 @@ class Reports(CatalystCenterBase):
             return False
 
         try:
-            self.log(
-                "Sending report creation request to Catalyst Center API with payload: {0}".format(
-                    self.pprint(report_payload)
-                ),
-                "DEBUG",
-            )
+            self.log("Sending report creation request to Catalyst Center API with payload: {0}".format(self.pprint(report_payload)), "DEBUG")
             response = self.catalystcenter._exec(
                 family="reports",
                 function="create_or_schedule_a_report",
-                params=report_payload,
+                params=report_payload
             )
             self.log(
                 "Received response from create_or_schedule_a_report: {0}".format(
                     self.pprint(response)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             if not response:
-                self.msg = "Failed to create or schedule report '{0}'.".format(
-                    report_name
-                )
+                self.msg = "Failed to create or schedule report '{0}'.".format(report_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return False
 
@@ -9992,9 +9931,7 @@ class Reports(CatalystCenterBase):
             return self._process_creation_response(report_entry, response)
 
         except Exception as e:
-            self.msg = "API call failed for report '{0}': {1}".format(
-                report_name, str(e)
-            )
+            self.msg = "API call failed for report '{0}': {1}".format(report_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return False
 
@@ -10015,7 +9952,7 @@ class Reports(CatalystCenterBase):
             "Report '{0}' with ID '{1}' already exists - skipping creation".format(
                 report_name, report_id
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         result = {
@@ -10032,14 +9969,12 @@ class Reports(CatalystCenterBase):
         self.result["response"].append({"create_report": result})
 
         # Handle download for existing reports if requested
-        if self._is_download_requested(
-            report_entry
-        ) and self._should_download_immediately(report_entry):
+        if self._is_download_requested(report_entry) and self._should_download_immediately(report_entry):
             self.log(
                 "Download requested for existing report '{0}' - proceeding to download".format(
                     report_name
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             return self._download_report_if_needed(report_entry, report_id)
 
@@ -10060,13 +9995,8 @@ class Reports(CatalystCenterBase):
             report_payload = self.convert_keys_to_camel_case(report_entry)
 
             # Transform specific fields for API requirements
-            if (
-                "schedule" in report_payload
-                and "timeZone" in report_payload["schedule"]
-            ):
-                report_payload["schedule"]["timeZoneId"] = report_payload[
-                    "schedule"
-                ].pop("timeZone")
+            if "schedule" in report_payload and "timeZone" in report_payload["schedule"]:
+                report_payload["schedule"]["timeZoneId"] = report_payload["schedule"].pop("timeZone")
 
             if "view" in report_payload and "format" in report_payload["view"]:
                 format_dict = report_payload["view"]["format"]
@@ -10115,7 +10045,7 @@ class Reports(CatalystCenterBase):
                             # Handle null/None values
                             flt["value"] = []
                         elif isinstance(raw_values, dict):
-                            # TIME_RANGE uses dict, not list -> keep as is
+                            # TIME_RANGE uses dict, not list → keep as is
                             # Also handle any other dict-based filter values
                             flt["value"] = raw_values
                         elif isinstance(raw_values, str):
@@ -10125,12 +10055,10 @@ class Reports(CatalystCenterBase):
                                 flt["value"] = []
                             else:
                                 # Non-empty string - treat as single value
-                                flt["value"] = [
-                                    {
-                                        "value": raw_values,
-                                        "displayValue": raw_values,
-                                    }
-                                ]
+                                flt["value"] = [{
+                                    "value": raw_values,
+                                    "displayValue": raw_values
+                                }]
                         elif isinstance(raw_values, list):
                             # Handle list values - could be empty list or list with various content
                             if not raw_values:
@@ -10141,50 +10069,40 @@ class Reports(CatalystCenterBase):
                                 for v in raw_values:
                                     if isinstance(v, dict):
                                         # Already in correct format or needs normalization
-                                        new_values.append(
-                                            {
-                                                "value": v.get("value"),
-                                                "displayValue": v.get(
-                                                    "displayValue", v.get("value")
-                                                ),
-                                            }
-                                        )
+                                        new_values.append({
+                                            "value": v.get("value"),
+                                            "displayValue": v.get("displayValue", v.get("value"))
+                                        })
                                     elif isinstance(v, str):
                                         # String value in list
-                                        new_values.append(
-                                            {"value": v, "displayValue": v}
-                                        )
+                                        new_values.append({
+                                            "value": v,
+                                            "displayValue": v
+                                        })
                                     elif v is None:
-                                        # None value in list - skip
+                                        # None value in list - skip or handle as needed
                                         continue
                                     else:
                                         # Other types (int, bool, etc.) - convert to string
                                         str_value = str(v)
-                                        new_values.append(
-                                            {
-                                                "value": str_value,
-                                                "displayValue": str_value,
-                                            }
-                                        )
+                                        new_values.append({
+                                            "value": str_value,
+                                            "displayValue": str_value
+                                        })
                                 flt["value"] = new_values
                         else:
                             # Handle other data types (int, bool, float, etc.)
                             str_value = str(raw_values)
-                            flt["value"] = [
-                                {
-                                    "value": str_value,
-                                    "displayValue": str_value,
-                                }
-                            ]
+                            flt["value"] = [{
+                                "value": str_value,
+                                "displayValue": str_value
+                            }]
 
                     fixed_filters.append(flt)
+
                 report_payload["view"]["filters"] = fixed_filters
 
-            # NEW SECTION — FIELD GROUP NORMALIZATION (REQUESTED)
-            self.log(
-                "Starting field group normalization for report payload API compatibility",
-                "DEBUG",
-            )
+            # Field group normalization remains the same
             fixed_field_groups = []
             if "view" in report_payload and "fieldGroups" in report_payload["view"]:
                 field_groups = report_payload["view"]["fieldGroups"]
@@ -10193,7 +10111,7 @@ class Reports(CatalystCenterBase):
                     "Processing {0} field groups for display name normalization".format(
                         len(field_groups)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 for fg in field_groups:
@@ -10202,13 +10120,14 @@ class Reports(CatalystCenterBase):
                             "Skipping invalid field group - expected dict, got {0}".format(
                                 type(fg).__name__
                             ),
-                            "WARNING",
+                            "WARNING"
                         )
                         continue
 
                     # Auto-populate group display name from group name if missing
                     fg["fieldGroupDisplayName"] = fg.get(
-                        "fieldGroupDisplayName", fg.get("fieldGroupName")
+                        "fieldGroupDisplayName",
+                        fg.get("fieldGroupName")
                     )
 
                     # Normalize fields list with display name population
@@ -10218,7 +10137,7 @@ class Reports(CatalystCenterBase):
                         "Normalizing {0} fields in group '{1}'".format(
                             len(fields), fg.get("fieldGroupName", "Unknown")
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
 
                     for f in fields:
@@ -10233,14 +10152,12 @@ class Reports(CatalystCenterBase):
                     "Field group normalization completed - processed {0} groups".format(
                         len(fixed_field_groups)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
             self.log(
-                "Prepared API payload for report '{0}'".format(
-                    report_entry.get("name")
-                ),
-                "DEBUG",
+                "Prepared API payload for report '{0}'".format(report_entry.get("name")),
+                "DEBUG"
             )
             return report_payload
 
@@ -10275,19 +10192,13 @@ class Reports(CatalystCenterBase):
                 "view_id": response.get("view", {}).get("viewId"),
                 "view_name": view_name,
             },
-            "msg": "Successfully created or scheduled report '{0}'.".format(
-                report_name
-            ),
+            "msg": "Successfully created or scheduled report '{0}'.".format(report_name)
         }
 
         # Append to overall result list
         self.result["response"].append({"create_report": result})
-        self.log(
-            "Successfully created report '{0}' with ID: {1}".format(
-                report_name, report_id
-            ),
-            "INFO",
-        )
+        self.log("Successfully created report '{0}' with ID: {1}".format(
+            report_name, report_id), "INFO")
 
         # mark success/change
         self.status = "success"
@@ -10306,8 +10217,8 @@ class Reports(CatalystCenterBase):
     def _should_download_immediately(self, report_entry):
         """Check if report should be downloaded immediately."""
         return (
-            self._is_download_requested(report_entry)
-            and report_entry.get("schedule", {}).get("type") == "SCHEDULE_NOW"
+            self._is_download_requested(report_entry) and
+            report_entry.get("schedule", {}).get("type") == "SCHEDULE_NOW"
         )
 
     def _download_report_if_needed(self, report_entry, report_id):
@@ -10359,13 +10270,11 @@ class Reports(CatalystCenterBase):
             "Starting merged state difference generation and application for {0} report entries".format(
                 len(config.get("generate_report", []))
             ),
-            "INFO",
+            "INFO"
         )
         generate_report = config.get("generate_report", [])
         if not generate_report:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -10373,7 +10282,7 @@ class Reports(CatalystCenterBase):
             "Processing {0} report configurations for merged state operations".format(
                 len(generate_report)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Log summary of reports to be processed
@@ -10386,7 +10295,7 @@ class Reports(CatalystCenterBase):
                 "Report {0}/{1}: '{2}' - action: {3}".format(
                     report_index + 1, len(generate_report), report_name, action
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         # Delegate to report creation and scheduling method
@@ -10395,7 +10304,7 @@ class Reports(CatalystCenterBase):
 
         self.log(
             "Completed merged state difference generation and application successfully",
-            "INFO",
+            "INFO"
         )
         return self
 
@@ -10437,9 +10346,7 @@ class Reports(CatalystCenterBase):
                 executions = response.get("executions", []) if response else []
                 if not executions:
                     self.log(
-                        "No executions found yet for report ID '{0}'.".format(
-                            report_id
-                        ),
+                        "No executions found yet for report ID '{0}'.".format(report_id),
                         "WARNING",
                     )
                 else:
@@ -10449,9 +10356,7 @@ class Reports(CatalystCenterBase):
                         status = execution.get("processStatus")
 
                         self.log(
-                            "Execution ID: {0}, Status: {1}".format(
-                                execution_id, status
-                            ),
+                            "Execution ID: {0}, Status: {1}".format(execution_id, status),
                             "DEBUG",
                         )
 
@@ -10509,27 +10414,25 @@ class Reports(CatalystCenterBase):
 
         self.log(
             f"Attempting to download report with report_id={report_id}, execution_id={execution_id}",
-            "INFO",
+            "INFO"
         )
 
         start_time = time.time()
         retry_interval = int(self.payload.get("catalystcenter_task_poll_interval", 5))
-        resync_retry_count = int(
-            self.payload.get("catalystcenter_api_task_timeout", 100)
-        )
+        resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout", 100))
 
         while True:
             try:
                 download_response = self.catalystcenter._exec(
                     family="reports",
                     function="download_report_content",
-                    params={"report_id": report_id, "execution_id": execution_id},
+                    params={"report_id": report_id, "execution_id": execution_id}
                 )
 
                 download_data = download_response.data
                 self.log(
                     "Response from download_report_content: {0}".format(download_data),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 # If data is present and not error, return it
@@ -10542,7 +10445,7 @@ class Reports(CatalystCenterBase):
                 error_msg = None
 
                 # Try to extract JSON part from exception
-                match = re.search(r"(\{.*\})", err_str)
+                match = re.search(r'(\{.*\})', err_str)
                 if match:
                     try:
                         err_json = json.loads(match.group(1))
@@ -10555,25 +10458,21 @@ class Reports(CatalystCenterBase):
                 if error_code == 4002:
                     self.log(
                         f"Report not ready yet (error {error_code}: {error_msg}), retrying...",
-                        "WARNING",
+                        "WARNING"
                     )
                 else:
                     self.msg = f"Exception during report download with retry: {err_str}"
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Timeout check
             if time.time() - start_time >= resync_retry_count:
                 self.msg = f"Max retries reached. Report file not available (report_id={report_id}, execution_id={execution_id})."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Wait before retry
             self.log(
                 f"Waiting {retry_interval} seconds before retrying report download (report_id={report_id}, execution_id={execution_id})",
-                "DEBUG",
+                "DEBUG"
             )
             time.sleep(retry_interval)
 
@@ -10602,12 +10501,7 @@ class Reports(CatalystCenterBase):
             - Logs all major decision points and download progress for traceability
             - Updates operation results with success or failure status
         """
-        self.log(
-            "Downloading report content for report entry: {0}".format(
-                self.pprint(report_entry)
-            ),
-            "DEBUG",
-        )
+        self.log("Downloading report content for report entry: {0}".format(self.pprint(report_entry)), "DEBUG")
 
         if not report_entry:
             self.msg = "Report entry configuration is required for download operation."
@@ -10627,7 +10521,7 @@ class Reports(CatalystCenterBase):
             "Starting report download workflow for report_id='{0}', report_name='{1}'".format(
                 report_id, report_name
             ),
-            "INFO",
+            "INFO"
         )
 
         try:
@@ -10639,9 +10533,7 @@ class Reports(CatalystCenterBase):
 
             execution_id = self.get_execution_id_for_report(report_id)
             if not execution_id:
-                self.msg = "Failed to retrieve execution ID for report '{0}'.".format(
-                    report_entry.get("name")
-                )
+                self.msg = "Failed to retrieve execution ID for report '{0}'.".format(report_entry.get("name"))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -10654,22 +10546,14 @@ class Reports(CatalystCenterBase):
             default_format = ".csv"  # Default file format if not specified
 
             for delivery in deliveries:
-                if (
-                    delivery.get("type", "").upper() == "DOWNLOAD"
-                    and "file_path" in delivery
-                ):
+                if delivery.get("type", "").upper() == "DOWNLOAD" and "file_path" in delivery:
                     file_path = delivery["file_path"]
                     break  # Found it, no need to continue
 
             if not file_path:
-                self.log(
-                    "No 'file_path' provided. Cannot save the downloaded file.",
-                    "WARNING",
-                )
+                self.log("No 'file_path' provided. Cannot save the downloaded file.", "WARNING")
                 self.msg = "File path is required for saving the downloaded report."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             # Determine file format
             if not file_format.startswith("."):
@@ -10690,35 +10574,24 @@ class Reports(CatalystCenterBase):
             except Exception as e:
                 self.msg = "Failed to save the downloaded file: {0}".format(str(e))
                 self.log(self.msg, "ERROR")
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return self
 
             result = {
                 "response": {
                     "report_id": report_id,
                     "report_name": report_entry.get("name"),
-                    "file_path": file_path,
+                    "file_path": file_path
                 },
-                "msg": "Successfully downloaded report '{0}' to '{1}'.".format(
-                    report_entry.get("name"), file_path
-                ),
+                "msg": "Successfully downloaded report '{0}' to '{1}'.".format(report_entry.get("name"), file_path),
             }
             self.result["response"].append({"download_report": result})
-            self.log(
-                "Successfully downloaded report: {0}".format(report_entry.get("name")),
-                "INFO",
-            )
+            self.log("Successfully downloaded report: {0}".format(report_entry.get("name")), "INFO")
             self.status = "success"
             self.result["changed"] = True
         except Exception as e:
-            self.msg = "An error occurred while downloading the report: {0}".format(
-                str(e)
-            )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.msg = "An error occurred while downloading the report: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         return self
 
     def get_diff_deleted(self, config):
@@ -10744,15 +10617,10 @@ class Reports(CatalystCenterBase):
             - Logs all major decision points and deletion steps for traceability
             - Ensures complete cleanup for deleted state operations
         """
-        self.log(
-            "Starting deletion from configuration: {0}".format(self.pprint(config)),
-            "DEBUG",
-        )
+        self.log("Starting deletion from configuration: {0}".format(self.pprint(config)), "DEBUG")
         generate_report = config.get("generate_report", [])
         if not generate_report:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -10760,7 +10628,7 @@ class Reports(CatalystCenterBase):
             "Processing {0} report configurations for deletion state operations".format(
                 len(generate_report)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         try:
@@ -10769,28 +10637,16 @@ class Reports(CatalystCenterBase):
                 report_name = report_entry.get("name", "unnamed")
             for report_entry in generate_report:
                 report_name = report_entry.get("name")
-                self.log(
-                    "Attempting to delete report: {0}".format(report_name), "DEBUG"
-                )
+                self.log("Attempting to delete report: {0}".format(report_name), "DEBUG")
                 if not report_entry.get("exists", False):
-                    self.log(
-                        "Report '{0}' does not exist, skipping deletion.".format(
-                            report_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
                     result = {
                         "response": {},
                         "msg": "Report '{0}' does not exist.".format(report_name),
                     }
                     self.result["response"].append({"delete_report": result})
                     self.msg = "Report '{0}' does not exist.".format(report_name)
-                    self.log(
-                        "Report '{0}' does not exist, skipping deletion.".format(
-                            report_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Report '{0}' does not exist, skipping deletion.".format(report_name), "DEBUG")
                     continue
                 if not report_entry.get("report_id"):
                     self.msg = "The 'report_id' field is mandatory in the 'generate_report' configuration for deletion."
@@ -10802,32 +10658,21 @@ class Reports(CatalystCenterBase):
                     function="delete_a_scheduled_report",
                     params={"report_id": report_entry.get("report_id")},
                 )
-                self.log(
-                    "Response from delete_a_scheduled_report: {0}".format(
-                        self.pprint(response)
-                    ),
-                    "DEBUG",
-                )
+                self.log("Response from delete_a_scheduled_report: {0}".format(self.pprint(response)), "DEBUG")
                 if not response.get("status") == 200:
-                    self.msg = "Failed to delete report with ID '{0}'.".format(
-                        report_entry.get("report_id")
-                    )
+                    self.msg = "Failed to delete report with ID '{0}'.".format(report_entry.get("report_id"))
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
                 result = {
                     "response": {
                         "report_id": report_entry.get("report_id"),
-                        "report_name": report_entry.get("name"),
+                        "report_name": report_entry.get("name")
                     },
-                    "msg": "Report '{0}' has been successfully deleted.".format(
-                        report_entry.get("name")
-                    ),
+                    "msg": "Report '{0}' has been successfully deleted.".format(report_entry.get("name")),
                 }
                 self.result["response"].append({"delete_report": result})
-                self.msg = "Successfully deleted report with ID: {0}".format(
-                    report_entry.get("report_id")
-                )
+                self.msg = "Successfully deleted report with ID: {0}".format(report_entry.get("report_id"))
                 self.log(self.msg, "INFO")
                 self.status = "success"
                 self.result["changed"] = True
@@ -10837,7 +10682,7 @@ class Reports(CatalystCenterBase):
 
         self.log(
             "Completed deleted state difference generation and processing successfully",
-            "INFO",
+            "INFO"
         )
         return self
 
@@ -10873,7 +10718,7 @@ class Reports(CatalystCenterBase):
             "Starting merged state verification for {0} report entries against Catalyst Center".format(
                 len(config.get("generate_report", []))
             ),
-            "INFO",
+            "INFO"
         )
         getattr(self, "get_have")(self.validated_config[0])
         generate_report = self.have.get("generate_report", [])
@@ -10887,7 +10732,7 @@ class Reports(CatalystCenterBase):
             "Processing {0} report configurations for merged state verification".format(
                 len(generate_report)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Log summary of reports to be verified
@@ -10897,7 +10742,7 @@ class Reports(CatalystCenterBase):
             "new_reports": 0,
             "webhook_deliveries": 0,
             "notification_deliveries": 0,
-            "download_deliveries": 0,
+            "download_deliveries": 0
         }
         for report_index, report_entry in enumerate(generate_report):
             report_name = report_entry.get("name", "unnamed")
@@ -10925,7 +10770,7 @@ class Reports(CatalystCenterBase):
                 "Report {0}/{1}: '{2}' - {3}".format(
                     report_index + 1, len(generate_report), report_name, status
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         self.log(
@@ -10935,15 +10780,13 @@ class Reports(CatalystCenterBase):
                 verification_summary["new_reports"],
                 verification_summary["webhook_deliveries"],
                 verification_summary["notification_deliveries"],
-                verification_summary["download_deliveries"],
+                verification_summary["download_deliveries"]
             ),
-            "INFO",
+            "INFO"
         )
 
         # Validate configuration integrity before verification
-        self.log(
-            "Validating configuration integrity before state verification", "DEBUG"
-        )
+        self.log("Validating configuration integrity before state verification", "DEBUG")
 
         validation_errors = []
         for report_entry in generate_report:
@@ -10951,55 +10794,44 @@ class Reports(CatalystCenterBase):
 
             # Validate required fields for verification
             if not report_entry.get("view_group_name"):
-                validation_errors.append(
-                    "Report '{0}' missing view_group_name".format(report_name)
-                )
+                validation_errors.append("Report '{0}' missing view_group_name".format(report_name))
 
             if not report_entry.get("view", {}).get("view_name"):
-                validation_errors.append(
-                    "Report '{0}' missing view.view_name".format(report_name)
-                )
+                validation_errors.append("Report '{0}' missing view.view_name".format(report_name))
 
             if not report_entry.get("deliveries"):
-                validation_errors.append(
-                    "Report '{0}' missing deliveries configuration".format(report_name)
-                )
+                validation_errors.append("Report '{0}' missing deliveries configuration".format(report_name))
 
         if validation_errors:
-            self.msg = "Configuration validation failed: {0}".format(
-                "; ".join(validation_errors)
-            )
+            self.msg = "Configuration validation failed: {0}".format("; ".join(validation_errors))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(
                 "Merged state verification failed - configuration validation errors: {0}".format(
                     "; ".join(validation_errors)
                 ),
-                "ERROR",
+                "ERROR"
             )
             return self
 
         self.log("Configuration integrity validation passed successfully", "DEBUG")
 
         # Delegate to report verification workflow
-        self.log(
-            "Delegating to report verification workflow for detailed state comparison",
-            "DEBUG",
-        )
+        self.log("Delegating to report verification workflow for detailed state comparison", "DEBUG")
 
         try:
             self.log(
                 "Report verification workflow completed - checking operation status",
-                "DEBUG",
+                "DEBUG"
             )
 
             # Log verification results summary
-            if hasattr(self, "result") and self.result.get("response"):
+            if hasattr(self, 'result') and self.result.get("response"):
                 verification_results = len(self.result["response"])
                 self.log(
                     "Verification completed with {0} result entries processed".format(
                         verification_results
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         except Exception as e:
@@ -11007,7 +10839,7 @@ class Reports(CatalystCenterBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(
                 "Exception during report verification workflow: {0}".format(str(e)),
-                "ERROR",
+                "ERROR"
             )
             return self
 
@@ -11015,12 +10847,12 @@ class Reports(CatalystCenterBase):
             "Completed merged state verification for {0} report entries successfully".format(
                 len(generate_report)
             ),
-            "INFO",
+            "INFO"
         )
         return self
 
     def verify_diff_deleted(self, config):
-        """Verify deleted state configuration against current state in Cisco Catalyst Center.
+        """ Verify deleted state configuration against current state in Cisco Catalyst Center.
 
         This method validates that reports marked for deletion have been successfully
         removed from Catalyst Center, ensuring complete cleanup and confirming the
@@ -11050,26 +10882,21 @@ class Reports(CatalystCenterBase):
             "Starting deleted state verification for {0} report entries against Catalyst Center".format(
                 len(config.get("generate_report", []))
             ),
-            "INFO",
+            "INFO"
         )
 
         generate_report = config.get("generate_report", [])
         if not generate_report:
-            self.msg = (
-                "The 'generate_report' field is missing or empty in the configuration."
-            )
+            self.msg = "The 'generate_report' field is missing or empty in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.log(
-                "Deleted state verification failed - no generate_report entries found",
-                "ERROR",
-            )
+            self.log("Deleted state verification failed - no generate_report entries found", "ERROR")
             return self
 
         self.log(
             "Processing {0} report configurations for deleted state verification".format(
                 len(generate_report)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Log summary of reports to be verified for deletion
@@ -11079,7 +10906,7 @@ class Reports(CatalystCenterBase):
             "already_absent": 0,
             "webhook_deliveries": 0,
             "notification_deliveries": 0,
-            "download_deliveries": 0,
+            "download_deliveries": 0
         }
 
         for report_index, report_entry in enumerate(generate_report):
@@ -11109,7 +10936,7 @@ class Reports(CatalystCenterBase):
                 "Report {0}/{1}: '{2}' - {3}".format(
                     report_index + 1, len(generate_report), report_name, status
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
         self.log(
@@ -11119,16 +10946,13 @@ class Reports(CatalystCenterBase):
                 verification_summary["already_absent"],
                 verification_summary["webhook_deliveries"],
                 verification_summary["notification_deliveries"],
-                verification_summary["download_deliveries"],
+                verification_summary["download_deliveries"]
             ),
-            "INFO",
+            "INFO"
         )
 
         # Validate configuration integrity before deletion verification
-        self.log(
-            "Validating configuration integrity before deletion state verification",
-            "DEBUG",
-        )
+        self.log("Validating configuration integrity before deletion state verification", "DEBUG")
 
         validation_errors = []
         for report_entry in generate_report:
@@ -11136,44 +10960,30 @@ class Reports(CatalystCenterBase):
 
         # Validate required fields for deletion verification
         if not report_name or report_name == "unnamed":
-            validation_errors.append(
-                "Report entry missing valid name for deletion verification"
-            )
+            validation_errors.append("Report entry missing valid name for deletion verification")
 
         if validation_errors:
-            self.msg = (
-                "Configuration validation failed for deletion verification: {0}".format(
-                    "; ".join(validation_errors)
-                )
-            )
+            self.msg = "Configuration validation failed for deletion verification: {0}".format("; ".join(validation_errors))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(
                 "Deleted state verification failed - configuration validation errors: {0}".format(
                     "; ".join(validation_errors)
                 ),
-                "ERROR",
+                "ERROR"
             )
             return self
 
-        self.log(
-            "Configuration integrity validation passed for deletion verification",
-            "DEBUG",
-        )
+        self.log("Configuration integrity validation passed for deletion verification", "DEBUG")
 
         # Verify current state to confirm deletions
-        self.log(
-            "Checking current state in Catalyst Center to verify report deletions",
-            "DEBUG",
-        )
+        self.log("Checking current state in Catalyst Center to verify report deletions", "DEBUG")
 
         try:
             # Get current state to verify deletions
             current_state_config = {"generate_report": generate_report}
             self.get_have(current_state_config)
 
-            self.log(
-                "Current state retrieval completed for deletion verification", "DEBUG"
-            )
+            self.log("Current state retrieval completed for deletion verification", "DEBUG")
 
             # Analyze deletion verification results
             deletion_verification_results = []
@@ -11183,15 +10993,11 @@ class Reports(CatalystCenterBase):
 
                 if currently_exists:
                     deletion_verification_results.append(
-                        "Report '{0}' still exists - deletion not completed".format(
-                            report_name
-                        )
+                        "Report '{0}' still exists - deletion not completed".format(report_name)
                     )
                 else:
                     deletion_verification_results.append(
-                        "Report '{0}' successfully deleted or already absent".format(
-                            report_name
-                        )
+                        "Report '{0}' successfully deleted or already absent".format(report_name)
                     )
 
             # Log deletion verification results
@@ -11203,8 +11009,7 @@ class Reports(CatalystCenterBase):
 
             # Check if any reports still exist that shouldn't
             remaining_reports = [
-                entry.get("name", "unnamed")
-                for entry in generate_report
+                entry.get("name", "unnamed") for entry in generate_report
                 if entry.get("exists", False)
             ]
 
@@ -11213,50 +11018,40 @@ class Reports(CatalystCenterBase):
                     "Deletion verification found {0} reports still existing: {1}".format(
                         len(remaining_reports), ", ".join(remaining_reports)
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
             else:
                 self.log(
                     "Deletion verification confirmed all {0} reports are successfully deleted or absent".format(
                         len(generate_report)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
         except Exception as e:
-            self.msg = "Error during deletion verification state check: {0}".format(
-                str(e)
-            )
+            self.msg = "Error during deletion verification state check: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
             self.log(
-                "Exception during deletion verification state check: {0}".format(
-                    str(e)
-                ),
-                "ERROR",
+                "Exception during deletion verification state check: {0}".format(str(e)),
+                "ERROR"
             )
             return self
 
         # Update result with verification summary
-        if hasattr(self, "result") and "response" in self.result:
+        if hasattr(self, 'result') and 'response' in self.result:
             verification_result = {
                 "verification_type": "deleted_state",
                 "total_reports_checked": len(generate_report),
-                "reports_verified_deleted": len(
-                    [r for r in generate_report if not r.get("exists", False)]
-                ),
-                "reports_still_existing": len(
-                    [r for r in generate_report if r.get("exists", False)]
-                ),
+                "reports_verified_deleted": len([r for r in generate_report if not r.get("exists", False)]),
+                "reports_still_existing": len([r for r in generate_report if r.get("exists", False)])
             }
-            self.result["response"].append(
-                {"deletion_verification": verification_result}
-            )
+            self.result["response"].append({"deletion_verification": verification_result})
 
         self.log(
             "Completed deleted state verification for {0} report entries successfully".format(
                 len(generate_report)
             ),
-            "INFO",
+            "INFO"
         )
         return self
 
@@ -11264,25 +11059,17 @@ class Reports(CatalystCenterBase):
 def main():
     """main entry point for module execution"""
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

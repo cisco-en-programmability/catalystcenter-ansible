@@ -35,7 +35,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacLanAutomationWorkflow(TestCatalystModule):
+class TestCatalystCenterLanAutomationWorkflow(TestCatalystModule):
 
     module = lan_automation_workflow_manager
     test_data = loadPlaybookData("lan_automation_workflow_manager")
@@ -72,7 +72,7 @@ class TestDnacLanAutomationWorkflow(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacLanAutomationWorkflow, self).setUp()
+        super(TestCatalystCenterLanAutomationWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
@@ -86,7 +86,7 @@ class TestDnacLanAutomationWorkflow(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacLanAutomationWorkflow, self).tearDown()
+        super(TestCatalystCenterLanAutomationWorkflow, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 

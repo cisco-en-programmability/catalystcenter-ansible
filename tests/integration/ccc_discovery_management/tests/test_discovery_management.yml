@@ -3,13 +3,13 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load vars and declare dnac vars
+  - name: Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_discovery_management.yml"
       name: vars_map
 
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -44,8 +44,8 @@
 #############################################
 
   - name: Delete discoveries before test
-    cisco.dnac.discovery_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.discovery_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -56,8 +56,8 @@
 #############################################
 
   # - name: Discover a single IP Address
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -80,8 +80,8 @@
 #############################################
 
   # - name: Discover an IP Address Range
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -104,8 +104,8 @@
 #############################################
 
   # - name: Discover Multi IP Address Ranges
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -128,8 +128,8 @@
 #############################################
 
   # - name: Discover using CDP 
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -152,8 +152,8 @@
 #############################################
 
   # - name: Discover using LLDP
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -176,8 +176,8 @@
 #############################################
 
   # - name: Discover using CIDR 
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -220,8 +220,8 @@
   #   tags: multiple_discoveries
 
   # - name: Create multiple Discoveries
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ vars_map_multiple[item][0]  }}"
@@ -247,8 +247,8 @@
 #############################################
 
   # - name: Delete all discovery
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #         - "{{ item }}"
@@ -273,8 +273,8 @@
 ############################################
 
   # - name: Delete all discoveries that were created
-  #   cisco.dnac.discovery_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.discovery_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - delete_all: True

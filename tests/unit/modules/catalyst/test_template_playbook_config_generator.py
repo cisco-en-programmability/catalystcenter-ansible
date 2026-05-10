@@ -53,20 +53,20 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
 
     def setUp(self):
         super(TestTemplatePlaybookConfigGenerator, self).setUp()
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
         super(TestTemplatePlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -74,63 +74,63 @@ class TestTemplatePlaybookConfigGenerator(TestCatalystModule):
         """
 
         if "generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_projects"),
                 self.test_data.get("get_all_templates"),
             ]
         elif "template_projects_by_name_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_projects"),
             ]
         elif "template_projects_by_name_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_projects"),
                 self.test_data.get("get_all_projects")
             ]
         elif "template_by_name_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
             ]
         elif "template_by_name_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
                 self.test_data.get("get_all_templates")
             ]
         elif "template_by_name_and_id" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
             ]
         elif "template_projects_empty_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_projects"),
             ]
         elif "templates_empty_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
             ]
         elif "templates_includes_uncommitted_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
             ]
         elif "template_by_project_name_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
                 self.test_data.get("get_all_templates"),
             ]
         elif "template_by_template_name_and_project_name" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
                 self.test_data.get("get_all_templates"),
             ]
         elif "template_all_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_all_templates"),
             ]
         elif "invalid_project_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
             ]
         elif "invalid_template_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
             ]
         elif "empty_config" in self._testMethodName:
             # No side effects needed - validation happens before API calls

@@ -10,7 +10,7 @@ module: wireless_provision_ssid_delete_reprovision
 short_description: Resource module for Wireless Provision Ssid Delete Reprovision
 description:
   - Manage operation delete of the resource Wireless Provision Ssid Delete Reprovision.
-  - Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from DNA Center.
+  - Removes SSID or WLAN from the network profile, reprovision the devices and deletes the SSID or WLAN from Catalyst Center.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.catalystcenter.module

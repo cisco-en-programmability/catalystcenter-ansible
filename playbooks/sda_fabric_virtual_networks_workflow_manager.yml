@@ -61,5 +61,6 @@
                 intra_subnet_routing_enabled: true
                 multiple_ip_to_mac_addresses: false
                 auto_generate_vlan_name: true
+
       tags:
         - fabric_virtual_network_testing

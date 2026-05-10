@@ -2,7 +2,7 @@
 - name: Configure channels and create events in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_events_and_notification.yml"
     - vars/credentials.yml
@@ -46,13 +46,13 @@
               description: "{{ item.snmp_destination.description }}"
               server_address: "{{ item.snmp_destination.server_address }}"
               port: "{{ item.snmp_destination.port }}"
-              snmpversion: "{{ item.snmp_destination.snmp_version }}"
+              snmp_version: "{{ item.snmp_destination.snmp_version }}"
               username: "{{ item.snmp_destination.username }}"
               mode: "{{ item.snmp_destination.mode }}"
               auth_type: "{{ item.snmp_destination.auth_type }}"
-              authpassword: "{{ item.snmp_destination.auth_password }}"
+              auth_password: "{{ item.snmp_destination.auth_password }}"
               privacy_type: "{{ item.snmp_destination.privacy_type }}"
-              privacypassword: "{{ item.snmp_destination.privacy_password }}"
+              privacy_password: "{{ item.snmp_destination.privacy_password }}"
             itsm_setting:
               instance_name: "{{ item.itsm_setting.instance_name }}"
               description: "{{ item.itsm_setting.description }}"
@@ -82,6 +82,7 @@
               sites: "{{ item.syslog_event_notification.sites }}"
               events: "{{ item.syslog_event_notification.events }}"
               destination: "{{ item.syslog_event_notification.destination }}"
+
       with_items: "{{ events_notification }}"
       tags:
         - events_testing

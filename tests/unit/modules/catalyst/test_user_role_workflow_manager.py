@@ -31,7 +31,7 @@ INVALID_MISSING_CONFIG_MSG = (
 )
 
 
-class TestDnacUserRoleWorkflowManager(TestCatalystModule):
+class TestCatalystCenterUserRoleWorkflowManager(TestCatalystModule):
 
     module = user_role_workflow_manager
 
@@ -59,171 +59,247 @@ class TestDnacUserRoleWorkflowManager(TestCatalystModule):
     playbook_config_for_creating_default_role = test_data.get("playbook_config_for_creating_default_role")
     playbook_config_invalid_invalid_param_state = test_data.get("playbook_config_invalid_invalid_param_state")
     playbook_new_version_user_create = test_data.get("playbook_new_version_user_create")
+    playbook_create_access_group = test_data.get("playbook_create_access_group")
+    playbook_already_exists = test_data.get("playbook_already_exists")
+    playbook_update_access_group = test_data.get("playbook_update_access_group")
+    negative_scenario_nonexisting_site = test_data.get("negative_scenario_nonexisting_site")
+    negative_scenario_nonexisting_role = test_data.get("negative_scenario_nonexisting_role")
+    playbook_delete_access_group = test_data.get("playbook_delete_access_group")
+    playbook_delete_nonexisting_access_group = test_data.get("playbook_delete_nonexisting_access_group")
+    playbook_invalid_name_access_group = test_data.get("playbook_invalid_name_access_group")
+    playbook_missing_role_access_group = test_data.get("playbook_missing_role_access_group")
 
     def setUp(self):
-        super(TestDnacUserRoleWorkflowManager, self).setUp()
+        super(TestCatalystCenterUserRoleWorkflowManager, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacUserRoleWorkflowManager, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterUserRoleWorkflowManager, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
         """
         if "create_user" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("create_get_user_response"),
                 self.test_data.get("create_user_get_role_response"),
                 self.test_data.get("create_user_response")
             ]
         elif "user_update_needed" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("update_needed_get_user_response"),
                 self.test_data.get("update_user_needed_get_role_response"),
                 self.test_data.get("update_needed_user_response")
             ]
         elif "user_update_not_needed" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_user_response"),
                 self.test_data.get("update_user_not_needed_get_role_response"),
                 self.test_data.get("update_not_needed_user_response")
             ]
         elif "delete_existing_user" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_existing_get_user_response"),
                 self.test_data.get("delete_existing_user_get_role_response"),
                 self.test_data.get("delete_existing_user_response")
             ]
         elif "delete_non_existing_user" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_non_existing_get_user_response"),
                 self.test_data.get("delete_non_existing_user_get_role_response"),
                 self.test_data.get("delete_non_existing_user_response")
             ]
         elif "user_invalid_mandatory_field_not_present_param" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_mandatory_field_not_present_get_user_response"),
                 self.test_data.get("invalid_param_mandatory_field_not_present_get_role_response"),
                 Exception(),
                 self.test_data.get("user_invalid_mandatory_field_not_present_param_responce")
             ]
         elif "user_invalid_username_email_not_present_param" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("user_invalid_username_email_not_present_param_responce")
             ]
         elif "user_invalid_param_not_correct_formate" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_not_correct_formate_get_user_response"),
                 self.test_data.get("invalid_param_not_correct_formate_get_role_response"),
                 self.test_data.get("user_invalid_param_not_correct_formate_responce")
             ]
         elif "user_invalid_param_not_type_list" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("user_invalid_param_not_type_list_response")
             ]
         elif "user_invalid_param_rolelist_not_found" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_rolelist_not_found_get_user_response"),
                 self.test_data.get("invalid_param_rolelist_not_found_get_role_response"),
                 self.test_data.get("user_invalid_param_rolelist_not_found_responce")
             ]
         elif "user_invalid_param_update_rolelist_not_found" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_update_rolelist_not_found_get_user_response"),
                 self.test_data.get("invalid_param_rolelist_not_found_get_role_response"),
                 self.test_data.get("user_invalid_param_update_rolelist_not_found_responce")
             ]
         elif "create_role" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("create_get_role_response"),
                 self.test_data.get("create_role_response")
             ]
         elif "create_1_role" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("create_1_get_role_response"),
                 self.test_data.get("create_1_role_response")
             ]
         elif "role_update_needed" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("update_needed_get_role_response"),
                 self.test_data.get("update_needed_role_response")
             ]
         elif "role_update_not_needed" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_role_response"),
                 self.test_data.get("update_not_needed_role_response")
             ]
         elif "delete_existing_role" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_existing_get_role_response"),
                 self.test_data.get("delete_existing_role_response")
             ]
         elif "delete_non_existing_role" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_non_existing_get_role_response"),
                 self.test_data.get("delete_non_existing_role_response")
             ]
         elif "role_invalid_param_rolename_not_present" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("role_invalid_rolename_not_present_param_response")
             ]
         elif "role_invalid_param_not_type_list" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("role_invalid_param_not_type_list_response")
             ]
         elif "role_param_with_all_permision_deny" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("role_param_with_all_permision_deny_get_role_responce"),
                 Exception(),
                 self.test_data.get("role_param_with_all_permision_deny_responce")
             ]
         elif "role_invalid_param_rolename_not_correct_formate" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_rolename_not_correct_formate_get_role_responce"),
                 self.test_data.get("role_invalid_param_rolename_not_correct_formate_responce")
             ]
         elif "invalid_param_type_list_missing" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_type_list_missing_response")
             ]
         elif "invalid_param_role_invalid_permission" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_invalid_permission_role_get_response"),
                 self.test_data.get("invalid_param_role_invalid_permission_response")
             ]
         elif "invalid_param_role_update_invalid_permission" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_invalid_permission_update_role_get_response"),
                 self.test_data.get("invalid_param_role_update_invalid_permission_response")
             ]
         elif "create_default_role" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("create_default_get_role_response"),
                 self.test_data.get("create_default_role_response")
             ]
         elif "invalid_param_state" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("invalid_param_state_responce"),
             ]
 
         elif "playbook_new_version_user_create" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_users_api"),
                 self.test_data.get("get_roles_api"),
                 self.test_data.get("create_user"),
                 self.test_data.get("get_users_api1"),
                 self.test_data.get("get_roles_api2"),
+            ]
+
+        elif "playbook_create_access_group" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups"),
+                self.test_data.get("get_sites"),
+                self.test_data.get("get_roles"),
+                self.test_data.get("add_access_group"),
+                self.test_data.get("get_access_groups1"),
+            ]
+
+        elif "playbook_already_exists" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups2"),
+                self.test_data.get("get_sites1"),
+                self.test_data.get("get_roles1"),
+                self.test_data.get("get_access_groups2"),
+            ]
+
+        elif "playbook_update_access_group" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups4"),
+                self.test_data.get("get_sites2"),
+                self.test_data.get("get_roles2"),
+                self.test_data.get("update_access_group"),
+                self.test_data.get("get_access_groups5"),
+            ]
+
+        elif "negative_scenario_nonexisting_site" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups6"),
+                self.test_data.get("get_sites3"),
+                self.test_data.get("get_access_groups7")
+            ]
+
+        elif "negative_scenario_nonexisting_role" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups8"),
+                self.test_data.get("get_sites4"),
+                self.test_data.get("get_roles4"),
+                self.test_data.get("get_access_groups9")
+            ]
+
+        elif "version_check" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = []
+
+        elif "playbook_delete_access_group" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups10"),
+                self.test_data.get("delete_access_group"),
+                self.test_data.get("get_access_groups11")
+            ]
+
+        elif "playbook_delete_nonexisting_access_group" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups12"),
+                self.test_data.get("get_access_groups13")
+            ]
+
+        elif "playbook_invalid_name_access_group" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups14"),
+            ]
+
+        elif "playbook_missing_role_access_group" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("get_access_groups15"),
             ]
 
     def test_user_role_workflow_manager_create_user(self):
@@ -398,9 +474,15 @@ class TestDnacUserRoleWorkflowManager(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
+        expected_msg = (
+            "'Configuration parameters such as 'username', 'email', "
+            "'role_name', or 'name' (for access groups) are missing "
+            "from the playbook' or "
+            "'The key used is invalid for the intended operation'"
+        )
         self.assertEqual(
             result.get("msg"),
-            INVALID_MISSING_CONFIG_MSG
+            expected_msg
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(self):
@@ -668,9 +750,15 @@ class TestDnacUserRoleWorkflowManager(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
+        expected_msg = (
+            "'Configuration parameters such as 'username', 'email', "
+            "'role_name', or 'name' (for access groups) are missing "
+            "from the playbook' or "
+            "'The key used is invalid for the intended operation'"
+        )
         self.assertEqual(
             result.get('msg'),
-            INVALID_MISSING_CONFIG_MSG
+            expected_msg
         )
 
     def test_user_role_workflow_manager_role_invalid_param_not_type_list(self):
@@ -923,3 +1011,278 @@ numbers, periods, underscores, and hyphens."
         self.assertIn(
             "expected bool", result.get("msg", "")
         )
+
+    def test_user_role_workflow_manager_playbook_create_access_group(self):
+        """
+        Test case for successful access group creation operation in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly creates access group 'Test_access_group_new' with proper configuration.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_create_access_group
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Access group(s) 'Test_access_group_new' created successfully in Cisco Catalyst Center."
+        )
+
+    def test_user_role_workflow_manager_playbook_already_exists(self):
+        """
+        Test case for successful no update operation in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly identifies that access group 'Test_access_group_new' needs no update.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_already_exists
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Access group(s) 'Test_access_group_new' need no update in Cisco Catalyst Center."
+        )
+
+    def test_user_role_workflow_manager_playbook_update_access_group(self):
+        """
+        Test case for successful access group update operation in Cisco Catalyst Center.
+        Verifies that the workflow manager correctly updates access group 'Test_access_group_new' with proper configuration.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_update_access_group
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Access group(s) 'Test_access_group_new' updated successfully in Cisco Catalyst Center."
+        )
+
+    def test_user_role_workflow_manager_negative_scenario_nonexisting_site(self):
+        """
+        Test case for negative scenario in access group update operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles non-existing site correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.negative_scenario_nonexisting_site
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Site 'Global/Austalia' not found in Cisco Catalyst Center. Please provide a valid site_hierarchy."
+        )
+
+    def test_user_role_workflow_manager_negative_scenario_nonexisting_role(self):
+        """
+        Test case for negative scenario in access group update operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles non-existing role correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.negative_scenario_nonexisting_role
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "No role exists with the name 'role_3' in Cisco Catalyst Center. Please create the role first and then assign it to the access group."
+        )
+
+    def test_user_role_workflow_manager_version_check(self):
+        """
+        Test case for version check in access group operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles version check correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.3.0",
+                config=self.playbook_create_access_group
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Access group operations are not supported on Cisco Catalyst Center version '3.1.3.0'. Minimum supported version is '3.1.6.0'."
+        )
+
+    def test_user_role_workflow_manager_playbook_delete_access_group(self):
+        """
+        Test case for delete access group operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles delete access group correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_delete_access_group
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Access group(s) 'Test_access_group_new' deleted successfully from the Cisco Catalyst Center."
+        )
+
+    def test_user_role_workflow_manager_playbook_delete_nonexisting_access_group(self):
+        """
+        Test case for delete non-existing access group operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles delete non-existing access group correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="deleted",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_delete_nonexisting_access_group
+            )
+        )
+        result = self.execute_module(changed=False, failed=False)
+        print(result)
+        expected_response = (
+            "Access group(s) 'Test_access_group_new' is already absent in Cisco Catalyst Center. Nothing to delete."
+        )
+        self.assertEqual(
+            result.get("response"),
+            expected_response
+        )
+
+    def test_user_role_workflow_manager_playbook_invalid_name_access_group(self):
+        """
+        Test case for invalid name in access group operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles invalid name in access group correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_invalid_name_access_group
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        expected_response = (
+            "Invalid parameters in playbook config: name: Access group name 'Te' must be 3 to 25 "
+            "characters long and contain only letters, numbers, periods, underscores, hyphens, or spaces."
+        )
+        self.assertEqual(
+            result.get("response"),
+            expected_response
+        )
+
+    def test_user_role_workflow_manager_playbook_missing_role_access_group(self):
+        """
+        Test case for missing role in access group operation in Cisco Catalyst Center.
+        Verifies that the workflow manager handles missing role in access group correctly.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=True,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_missing_role_access_group
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "Invalid parameters in playbook config: role_name: Required when creating a new access group."
+        )
+
+    def test_user_role_workflow_manager_resolve_role_api_failure(self):
+        """
+        Verify that when get_roles raises an exception during
+        access group creation, the module fails gracefully with
+        a clear error instead of passing 'self' as a role ID.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_log=True,
+                state="merged",
+                config_verify=False,
+                catalystcenter_version="3.1.6.0",
+                config=self.playbook_create_access_group,
+            )
+        )
+        # Mock get_access_groups to return no match,
+        # get_sites to succeed, get_roles to raise
+        self.run_catalystcenter_exec.side_effect = [
+            self.test_data.get("get_access_groups"),
+            self.test_data.get("get_sites"),
+            Exception("Connection timeout"),
+        ]
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("role", result.get("msg", "").lower())

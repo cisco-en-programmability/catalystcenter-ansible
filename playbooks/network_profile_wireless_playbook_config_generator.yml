@@ -19,7 +19,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_mode: "overwrite"
         file_path: "tmp/network_profile_wireless_workflow_playbook.yml"
@@ -37,7 +37,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_profilebase.yml"
         file_mode: "append"
@@ -60,7 +60,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_ssidbase.yml"
         file_mode: "overwrite"
@@ -83,7 +83,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_apzonebase.yml"
         file_mode: "append"
@@ -106,7 +106,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_feature_template_base.yml"
         file_mode: "append"
@@ -129,7 +129,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_templatebase.yml"
         file_mode: "overwrite"
@@ -151,7 +151,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_interfacebase.yml"
         file_mode: "overwrite"
@@ -173,7 +173,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/network_profile_wireless_workflow_playbook_sitebase.yml"
         file_mode: "overwrite"

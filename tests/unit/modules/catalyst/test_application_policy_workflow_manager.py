@@ -24,7 +24,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import application
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
+class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
 
     module = application_policy_workflow_manager
 
@@ -121,21 +121,21 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         return manager
 
     def setUp(self):
-        super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
+        super(TestCatalystCenterApplicationPolicyWorkflowManager, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacApplicationPolicyWorkflowManager, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterApplicationPolicyWorkflowManager, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -143,7 +143,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         """
 
         if "playbook_create_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile"),
                 self.test_data.get("create_application_policy_queuing_profile"),
                 self.test_data.get("task_details"),
@@ -153,7 +153,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_for_profile_dscp" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_70"),
                 self.test_data.get("create_application_policy_queuing_profile_70"),
                 self.test_data.get("task_details_70"),
@@ -163,7 +163,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_for_application_queuing_profile_delete" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_5"),
                 self.test_data.get("delete_application_policy_queuing_profile"),
                 self.test_data.get("task_details_5"),
@@ -173,7 +173,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_create_profile_1" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_10"),
                 self.test_data.get("create_application_policy_queuing_profile_10"),
                 self.test_data.get("task_details_10"),
@@ -183,7 +183,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_all_speed_update_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_all_speed_15"),
                 self.test_data.get("update_application_policy_queuing_profile_all_speed_15"),
                 self.test_data.get("task_details_for_all_speed_15"),
@@ -193,7 +193,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_update_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_20"),
                 self.test_data.get("update_application_policy_queuing_profile_20"),
                 self.test_data.get("task_details_20"),
@@ -203,7 +203,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_dscp_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_75"),
                 self.test_data.get("update_application_policy_queuing_profile"),
                 self.test_data.get("task_details_75"),
@@ -213,7 +213,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_for_application_policy_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_33"),
                 self.test_data.get("get_application_policy_10"),
                 self.test_data.get("get_sites"),
@@ -227,7 +227,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_for_application_policy_delete" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_20"),
                 self.test_data.get("get_application_policy_21"),
                 self.test_data.get("application_policy_intent_30"),
@@ -239,19 +239,19 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_for_queuing_profiletrue_noupdate" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_50"),
                 self.test_data.get("get_application_policy_queuing_profile_51"),
                 self.test_data.get("queuing_profile_noupdate_response"),
             ]
 
         elif "playbook_noprofname" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response_noprofname_error"),
             ]
 
         elif "playbook_delete_application" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications"),
                 self.test_data.get("delete_application"),
                 self.test_data.get("task_details_80"),
@@ -261,13 +261,13 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_failure_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_profile"),
                 self.test_data.get("failure_profile_response"),
             ]
 
         elif "playbook_create_policy_wired_error" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_80"),
                 self.test_data.get("get_application_policy_80"),
                 self.test_data.get("get_sites_80"),
@@ -287,7 +287,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_profile_namedesc_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_100"),
                 self.test_data.get("update_application_policy_queuing_profile_100"),
                 self.test_data.get("task_details_100"),
@@ -297,7 +297,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_create_application_servername" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_20"),
                 self.test_data.get("get_application_sets_20"),
                 self.test_data.get("get_application_sets_21"),
@@ -311,7 +311,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_create_application_serverip" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_5"),
                 self.test_data.get("get_application_set_9"),
                 self.test_data.get("get_application_set_10"),
@@ -325,7 +325,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_update_application_serveriptoname" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_v2"),
                 self.test_data.get("get_application_sets_v2"),
                 self.test_data.get("edit_applications_v2"),
@@ -336,7 +336,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_update_application_nametourl" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_35"),
                 self.test_data.get("get_application_sets_35"),
                 self.test_data.get("edit_applications_35"),
@@ -348,7 +348,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_multiple_profile_delete" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_delete"),
                 self.test_data.get("get_application_policy_queuing_profile_delete2"),
                 self.test_data.get("delete_application_policy_queuing_profile_1"),
@@ -359,7 +359,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_application_delete" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_v2_delete"),
                 self.test_data.get("get_applications_v2_delete1"),
                 self.test_data.get("delete_application_v2"),
@@ -370,22 +370,22 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_error_1" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1"),
             ]
 
         elif "playbook_error_2" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1"),
             ]
 
         elif "playbook_error_3" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response3"),
             ]
 
         elif "playbook_application_noupdate" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_applications_v2_noupdate"),
                 self.test_data.get("get_application_sets_noupdate"),
                 self.test_data.get("get_applications_v2_noupdate1"),
@@ -394,7 +394,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_policy_noupdate" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_noupdate"),
                 self.test_data.get("get_application_policy_noupdate"),
                 self.test_data.get("site_design_noupdate"),
@@ -405,7 +405,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_policy_alreadydeleted" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_alreadydeleted"),
                 self.test_data.get("get_application_policy_alreadydeleted"),
                 self.test_data.get("get_application_policy_alreadydeleted1"),
@@ -415,41 +415,41 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_application_alreadydeleted" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_alreadydeleted"),
                 self.test_data.get("get_applications_v2_alreadydeleted"),
                 self.test_data.get("response8"),
             ]
 
         elif "playbook_profile_alreadydeleted" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_alreadydeleted1"),
                 self.test_data.get("get_application_policy_queuing_profile_alreadydeleted2"),
                 self.test_data.get("response9"),
             ]
 
         elif "playbook_error_4" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_error"),
                 self.test_data.get("get_application_policy_error"),
                 self.test_data.get("response10"),
             ]
 
         elif "playbook_error_5" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_error1"),
                 self.test_data.get("response11"),
             ]
 
         elif "playbook_error_6" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_error1"),
                 self.test_data.get("get_application_policy_error2"),
                 self.test_data.get("response12"),
             ]
 
         elif "playbook_error_7" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_error2"),
                 self.test_data.get("get_application_policy_error3"),
                 self.test_data.get("site_design_error"),
@@ -458,7 +458,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             ]
 
         elif "playbook_error_8" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_error4"),
                 self.test_data.get("get_application_policy_error4"),
                 self.test_data.get("site_design_error1"),

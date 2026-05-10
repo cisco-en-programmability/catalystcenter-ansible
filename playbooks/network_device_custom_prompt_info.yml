@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Network device custom prompt info
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
@@ -15,6 +15,7 @@
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
       register: network_device_custom_prompt_result
+
     - name: Show all network_device_custom_prompt
       ansible.builtin.debug:
         msg: "{{ network_device_custom_prompt_result }}"

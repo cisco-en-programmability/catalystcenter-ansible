@@ -3,7 +3,6 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on SDA fabric transits in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -668,7 +667,7 @@ class FabricTransit(CatalystCenterBase):
                           of SDA fabric transits.
             want (dict): Users provided information from the playbook
             obj_params (list of tuples) - A list of parameter mappings specifying which
-                                          Cisco Catalyst Center parameters (dnac_param) correspond to
+                                          Cisco Catalyst Center parameters (catalystcenter_param) correspond to
                                           the user-provided parameters (ansible_param).
         Returns:
             bool - True if any parameter specified in obj_params differs between
@@ -695,9 +694,9 @@ class FabricTransit(CatalystCenterBase):
 
         return any(
             not catalystcenter_compare_equality(
-                current_obj.get(dnac_param), requested_obj.get(ansible_param)
+                current_obj.get(catalystcenter_param), requested_obj.get(ansible_param)
             )
-            for (dnac_param, ansible_param) in obj_params
+            for (catalystcenter_param, ansible_param) in obj_params
         )
 
     def get_obj_params(self, get_object):
@@ -829,7 +828,10 @@ class FabricTransit(CatalystCenterBase):
                 family="sda",
                 function="get_transit_networks",
                 op_modifies=True,
-                params={"name": name, "offset": offset},
+                params={
+                    "name": name,
+                    "offset": offset
+                },
             )
             if not isinstance(response, dict):
                 self.msg = (
@@ -1396,38 +1398,20 @@ class FabricTransit(CatalystCenterBase):
         self.log("Initiating fabric transit update requirement evaluation", "DEBUG")
         name = want_fabric_transit.get("name")
         if not name:
-            self.log(
-                "Fabric transit name is missing from desired configuration - cannot evaluate update requirement",
-                "ERROR",
-            )
+            self.log("Fabric transit name is missing from desired configuration - cannot evaluate update requirement", "ERROR")
             return False
 
         transit_type = want_fabric_transit.get("type")
         current_details = have_fabric_transit.get("details")
 
-        self.log(
-            "Evaluating update requirement for fabric transit '{0}' with type '{1}'".format(
-                name, transit_type
-            ),
-            "DEBUG",
-        )
+        self.log("Evaluating update requirement for fabric transit '{0}' with type '{1}'".format(name, transit_type), "DEBUG")
         if not current_details:
-            self.log(
-                "No current fabric transit details found for '{0}' - update evaluation not possible".format(
-                    name
-                ),
-                "WARNING",
-            )
+            self.log("No current fabric transit details found for '{0}' - update evaluation not possible".format(name), "WARNING")
             return False
 
         # IP_BASED_TRANSIT cannot be updated
         if transit_type == "IP_BASED_TRANSIT":
-            self.log(
-                "Fabric transit '{0}' is of type 'IP_BASED_TRANSIT' - updates are not supported for this transit type".format(
-                    name
-                ),
-                "INFO",
-            )
+            self.log("Fabric transit '{0}' is of type 'IP_BASED_TRANSIT' - updates are not supported for this transit type".format(name), "INFO")
             return False
 
         # For SDA transit types, compare sdaTransitSettings
@@ -1435,65 +1419,36 @@ class FabricTransit(CatalystCenterBase):
         desired_sda_settings = want_fabric_transit.get("sdaTransitSettings")
 
         if not current_sda_settings and not desired_sda_settings:
-            self.log(
-                "Both current and desired SDA transit settings are empty for '{0}' - no update required".format(
-                    name
-                ),
-                "DEBUG",
-            )
+            self.log("Both current and desired SDA transit settings are empty for '{0}' - no update required".format(name), "DEBUG")
             return False
 
         if not current_sda_settings:
-            self.log(
-                "Current SDA transit settings are missing for '{0}' but desired settings exist - update required".format(
-                    name
-                ),
-                "INFO",
-            )
+            self.log("Current SDA transit settings are missing for '{0}' but desired settings exist - update required".format(name), "INFO")
             return True
 
         if not desired_sda_settings:
             self.log(
                 "Desired SDA transit settings are missing for '{0}' but current settings exist"
                 " - using current settings, no update required".format(name),
-                "DEBUG",
+                "DEBUG"
             )
             return False
 
-        self.log(
-            "Comparing current SDA transit settings with desired settings for '{0}'".format(
-                name
-            ),
-            "DEBUG",
-        )
-        self.log(
-            "Current SDA settings: {0}".format(self.pprint(current_sda_settings)),
-            "DEBUG",
-        )
-        self.log(
-            "Desired SDA settings: {0}".format(self.pprint(desired_sda_settings)),
-            "DEBUG",
-        )
+        self.log("Comparing current SDA transit settings with desired settings for '{0}'".format(name), "DEBUG")
+        self.log("Current SDA settings: {0}".format(self.pprint(current_sda_settings)), "DEBUG")
+        self.log("Desired SDA settings: {0}".format(self.pprint(desired_sda_settings)), "DEBUG")
 
         update_required = self.requires_update(
-            current_sda_settings, desired_sda_settings, self.fabric_transits_obj_params
+            current_sda_settings,
+            desired_sda_settings,
+            self.fabric_transits_obj_params
         )
 
         if update_required:
-            self.log(
-                "Fabric transit '{0}' requires an update - differences found between current and desired SDA transit settings".format(
-                    name
-                ),
-                "INFO",
-            )
+            self.log("Fabric transit '{0}' requires an update - differences found between current and desired SDA transit settings".format(name), "INFO")
             return True
 
-        self.log(
-            "Fabric transit '{0}' does not require an update - current and desired SDA transit settings are equivalent".format(
-                name
-            ),
-            "INFO",
-        )
+        self.log("Fabric transit '{0}' does not require an update - current and desired SDA transit settings are equivalent".format(name), "INFO")
 
         return False
 
@@ -1542,46 +1497,26 @@ class FabricTransit(CatalystCenterBase):
                     ),
                     "DEBUG",
                 )
-                self.log(
-                    "Initiating SDA fabric transit creation and update workflow processing",
-                    "DEBUG",
-                )
+                self.log("Initiating SDA fabric transit creation and update workflow processing", "DEBUG")
                 current_version = self.get_ccc_version()
-                if (
-                    self.compare_catalystcenter_versions(current_version, "3.1.3.0")
-                    >= 0
-                ):
+                if self.compare_catalystcenter_versions(current_version, "3.1.3.0") >= 0:
                     transit_site_hierarchy = item.get("transit_site_hierarchy")
                     if transit_site_hierarchy:
-                        self.log(
-                            "Processing site name hierarchy '{0}' for fabric transit '{1}'".format(
-                                transit_site_hierarchy, name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Processing site name hierarchy '{0}' for fabric transit '{1}'".format(transit_site_hierarchy, name), "DEBUG")
                         site_exists, site_id = self.get_site_id(transit_site_hierarchy)
                         if site_exists:
                             self.log(
-                                "Successfully resolved site ID '{0}' for site hierarchy '{1}' in fabric transit '{2}'".format(
+                                "Successfully resolved site ID '{0}' for site hierarchy '{1}' in fabric transit '{2}'"
+                                .format(
                                     site_id, transit_site_hierarchy, name
                                 ),
-                                "INFO",
+                                "INFO"
                             )
                             want_fabric_transit["siteId"] = site_id
                         else:
-                            self.log(
-                                "No site with name '{0}' found in the Cisco Catalyst Center.".format(
-                                    transit_site_hierarchy
-                                ),
-                                "ERROR",
-                            )
+                            self.log("No site with name '{0}' found in the Cisco Catalyst Center.".format(transit_site_hierarchy), "ERROR")
 
-                self.log(
-                    "Creating new SDA fabric transit '{0}' with configuration: {1}".format(
-                        name, want_fabric_transit
-                    ),
-                    "DEBUG",
-                )
+                self.log("Creating new SDA fabric transit '{0}' with configuration: {1}".format(name, want_fabric_transit), "DEBUG")
                 payload = {"payload": [want_fabric_transit]}
                 task_name = "add_transit_networks"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
@@ -1613,26 +1548,15 @@ class FabricTransit(CatalystCenterBase):
                 continue
 
             # Handle fabric transit update evaluation
-            self.log(
-                "SDA fabric transit '{0}' exists - evaluating update requirements".format(
-                    name
-                ),
-                "DEBUG",
-            )
-            transit_need_update = self.fabric_transit_need_update(
-                want_fabric_transit, have_fabric_transit
-            )
+            self.log("SDA fabric transit '{0}' exists - evaluating update requirements".format(name), "DEBUG")
+            transit_need_update = self.fabric_transit_need_update(want_fabric_transit, have_fabric_transit)
             site_id = None
             if not transit_need_update:
                 current_version = self.get_ccc_version()
-                if (
-                    self.compare_catalystcenter_versions(current_version, "3.1.3.0")
-                    >= 0
-                ):
+                if self.compare_catalystcenter_versions(current_version, "3.1.3.0") >= 0:
                     self.log(
                         "Evaluating site hierarchy changes for fabric transit '{0}' (version {1} supports"
-                        " site hierarchy)".format(name, current_version),
-                        "DEBUG",
+                        " site hierarchy)".format(name, current_version), "DEBUG"
                     )
                     transit_site_hierarchy = item.get("transit_site_hierarchy")
                     if not transit_site_hierarchy:
@@ -1643,25 +1567,17 @@ class FabricTransit(CatalystCenterBase):
                             "INFO",
                         )
                         result_fabric_transit.get("msg").update(
-                            {
-                                name: f"SDA fabric transit '{name}' doesn't require an update."
-                            }
+                            {name: f"SDA fabric transit '{name}' doesn't require an update."}
                         )
                         continue
 
-                    self.log(
-                        "Processing site hierarchy '{0}' for existing fabric transit '{1}'".format(
-                            transit_site_hierarchy, name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Processing site hierarchy '{0}' for existing fabric transit '{1}'".format(transit_site_hierarchy, name), "DEBUG")
                     site_exists, site_id = self.get_site_id(transit_site_hierarchy)
                     if not site_exists:
                         self.msg = (
                             "Failed to resolve site ID for site hierarchy '{0}' in fabric transit '{1}'. "
-                            "Verify site exists in Cisco Catalyst Center.".format(
-                                transit_site_hierarchy, name
-                            )
+                            "Verify site exists in Cisco Catalyst Center."
+                            .format(transit_site_hierarchy, name)
                         )
                         self.set_operation_result(
                             "failed", False, self.msg, "ERROR"
@@ -1678,7 +1594,7 @@ class FabricTransit(CatalystCenterBase):
                         self.log(
                             "Site ID '{0}' for fabric transit '{1}' matches current assignment - no site "
                             "change required".format(site_id, name),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         self.log(
                             "SDA fabric transit '{name}' doesn't require a update".format(
@@ -1687,16 +1603,14 @@ class FabricTransit(CatalystCenterBase):
                             "INFO",
                         )
                         result_fabric_transit.get("msg").update(
-                            {
-                                name: f"SDA fabric transit '{name}' doesn't require an update."
-                            }
+                            {name: f"SDA fabric transit '{name}' doesn't require an update."}
                         )
                         continue
                     else:
                         self.log(
                             "Site ID change detected for fabric transit '{0}': current='{1}', desired='{2}' "
                             "- update required".format(name, current_site_id, site_id),
-                            "INFO",
+                            "INFO"
                         )
                 else:
                     self.log(
@@ -1706,15 +1620,11 @@ class FabricTransit(CatalystCenterBase):
                         "INFO",
                     )
                     result_fabric_transit.get("msg").update(
-                        {
-                            name: f"SDA fabric transit '{name}' doesn't require an update."
-                        }
+                        {name: f"SDA fabric transit '{name}' doesn't require an update."}
                     )
                     continue
 
-            payload_site_id = site_id or have_fabric_transit.get("details").get(
-                "siteId"
-            )
+            payload_site_id = site_id or have_fabric_transit.get("details").get("siteId")
             if payload_site_id:
                 want_fabric_transit.update({"siteId": payload_site_id})
 
@@ -2034,25 +1944,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

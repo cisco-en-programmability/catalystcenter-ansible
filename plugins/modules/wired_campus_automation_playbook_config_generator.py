@@ -671,7 +671,7 @@ response_1:
                 "catalystcenter_host": "10.22.40.214",
                 "catalystcenter_log": true,
                 "catalystcenter_log_append": true,
-                "catalystcenter_log_file_path": "dnac.log",
+                "catalystcenter_log_file_path": "catalystcenter.log",
                 "catalystcenter_log_level": "DEBUG",
                 "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
                 "catalystcenter_port": "443",
@@ -3056,7 +3056,7 @@ class WiredCampusAutomationPlaybookGenerator(CatalystCenterBase, BrownFieldHelpe
         Retrieves layer2 configurations for a specific device by making API calls for each requested feature.
         Handles special processing for port configurations which require multiple API calls and consolidation.
         Args:
-            device_id (str): Unique identifier for the device in DNA Center.
+            device_id (str): Unique identifier for the device in Catalyst Center.
             device_ip (str): IP address of the device for logging and identification purposes.
             layer2_features (list): List of layer2 feature names to retrieve configurations for.
             feature_to_api_mapping (dict): Mapping dictionary from feature names to corresponding API feature identifiers.
@@ -3315,7 +3315,7 @@ class WiredCampusAutomationPlaybookGenerator(CatalystCenterBase, BrownFieldHelpe
         """
         Processes standard features using normal API call flow with single API endpoint per feature.
         Args:
-            device_id (str): Unique identifier for the device in DNA Center.
+            device_id (str): Unique identifier for the device in Catalyst Center.
             device_ip (str): IP address of the device for logging purposes.
             feature (str): Feature name being processed.
             api_features (list): List of API feature names (typically single item for standard features).
@@ -3512,7 +3512,7 @@ class WiredCampusAutomationPlaybookGenerator(CatalystCenterBase, BrownFieldHelpe
         """
         Processes port configuration feature by retrieving all interface-related API responses and merging them.
         Args:
-            device_id (str): Unique identifier for the device in DNA Center.
+            device_id (str): Unique identifier for the device in Catalyst Center.
             device_ip (str): IP address of the device for logging purposes.
             api_features (list): List of API feature names for port configuration.
             component_specific_filters (dict): Filters to apply to configuration data.
@@ -3669,7 +3669,7 @@ class WiredCampusAutomationPlaybookGenerator(CatalystCenterBase, BrownFieldHelpe
         """
         Retrieves configurations for all port-related API features from a device.
         Args:
-            device_id (str): Unique identifier for the device in DNA Center.
+            device_id (str): Unique identifier for the device in Catalyst Center.
             device_ip (str): IP address of the device for logging purposes.
             api_features (list): List of API feature names to retrieve.
             api_family (str): API family name for making requests.
@@ -3757,7 +3757,7 @@ class WiredCampusAutomationPlaybookGenerator(CatalystCenterBase, BrownFieldHelpe
         """
         Retrieves configuration for a single port-related API feature from a device.
         Args:
-            device_id (str): Unique identifier for the device in DNA Center.
+            device_id (str): Unique identifier for the device in Catalyst Center.
             device_ip (str): IP address of the device for logging purposes.
             api_feature (str): Specific API feature name to retrieve.
             api_family (str): API family name for making requests.
@@ -4725,17 +4725,17 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

@@ -48,21 +48,21 @@ class TestAccesspointLocationPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestAccesspointLocationPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestAccesspointLocationPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -75,7 +75,7 @@ class TestAccesspointLocationPlaybookConfigGenerator(TestCatalystModule):
                                  "generate_global_filter_model",
                                  "generate_global_filter_mac"]:
             if each_filter_type in self._testMethodName:
-                self.run_dnac_exec.side_effect = [
+                self.run_catalystcenter_exec.side_effect = [
                     self.test_data.get("all_site_details"),
                     self.test_data.get("site_floor_response_planned_1"),
                     self.test_data.get("site_floor_response_real_1"),

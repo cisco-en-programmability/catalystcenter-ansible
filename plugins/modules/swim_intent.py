@@ -733,7 +733,7 @@ import os
 import time
 
 
-class DnacSwims(CatalystCenterBase):
+class CatalystCenterSwims(CatalystCenterBase):
     """Class containing member attributes for Swim intent module"""
 
     def __init__(self, module):
@@ -1020,7 +1020,7 @@ class DnacSwims(CatalystCenterBase):
                 "INFO",
             )
 
-        site_exists, site_id = self.site_exists(site_name)
+        (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
             self.log(
                 """Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
@@ -1263,7 +1263,7 @@ class DnacSwims(CatalystCenterBase):
             site_name = tagging_details.get("site_name")
             if site_name and site_name != "Global":
                 site_exists = False
-                site_exists, site_id = self.site_exists(site_name)
+                (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -1288,7 +1288,7 @@ class DnacSwims(CatalystCenterBase):
             site_name = distribution_details.get("site_name")
             if site_name:
                 site_exists = False
-                site_exists, site_id = self.site_exists(site_name)
+                (site_exists, site_id) = self.site_exists(site_name)
 
                 if site_exists:
                     have["site_id"] = site_id
@@ -1355,7 +1355,7 @@ class DnacSwims(CatalystCenterBase):
             site_name = activation_details.get("site_name")
             if site_name:
                 site_exists = False
-                site_exists, site_id = self.site_exists(site_name)
+                (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
                     self.log(
@@ -2504,25 +2504,17 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -2533,27 +2525,27 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
-    dnac_swims = DnacSwims(module)
-    state = dnac_swims.params.get("state")
+    catalystcenter_swims = CatalystCenterSwims(module)
+    state = catalystcenter_swims.params.get("state")
 
-    if state not in dnac_swims.supported_states:
-        dnac_swims.status = "invalid"
-        dnac_swims.msg = "State {0} is invalid".format(state)
-        dnac_swims.check_return_status()
+    if state not in catalystcenter_swims.supported_states:
+        catalystcenter_swims.status = "invalid"
+        catalystcenter_swims.msg = "State {0} is invalid".format(state)
+        catalystcenter_swims.check_return_status()
 
-    dnac_swims.validate_input().check_return_status()
-    config_verify = dnac_swims.params.get("config_verify")
+    catalystcenter_swims.validate_input().check_return_status()
+    config_verify = catalystcenter_swims.params.get("config_verify")
 
-    for config in dnac_swims.validated_config:
-        dnac_swims.reset_values()
-        dnac_swims.get_want(config).check_return_status()
-        dnac_swims.get_diff_import().check_return_status()
-        dnac_swims.get_have().check_return_status()
-        dnac_swims.get_diff_state_apply[state](config).check_return_status()
+    for config in catalystcenter_swims.validated_config:
+        catalystcenter_swims.reset_values()
+        catalystcenter_swims.get_want(config).check_return_status()
+        catalystcenter_swims.get_diff_import().check_return_status()
+        catalystcenter_swims.get_have().check_return_status()
+        catalystcenter_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_swims.verify_diff_state_apply[state](config).check_return_status()
+            catalystcenter_swims.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_swims.result)
+    module.exit_json(**catalystcenter_swims.result)
 
 
 if __name__ == "__main__":

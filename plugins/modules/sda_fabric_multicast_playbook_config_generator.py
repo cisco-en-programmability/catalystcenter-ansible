@@ -679,7 +679,7 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
             dict: A dictionary containing the workflow filters schema with the following structure:
                 - network_elements (dict): Contains configuration for different network element types
                     - fabric_multicast (dict): Configuration for fabric multicast operations
-                        - filters (list): List of filter parameters (fabric_name, layer3_virtual_network)
+                        - filters (dict): Dict of filter parameters with type/required specs (fabric_name, layer3_virtual_network)
                         - reverse_mapping_function (method): Function to map fabric multicast specifications
                         - api_function (str): API function name for retrieving fabric multicast
                         - api_family (str): API family identifier
@@ -697,7 +697,10 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
         schema = {
             "network_elements": {
                 "fabric_multicast": {
-                    "filters": ["fabric_name", "layer3_virtual_network"],
+                    "filters": {
+                        "fabric_name": {"type": "str", "required": False},
+                        "layer3_virtual_network": {"type": "str", "required": False},
+                    },
                     "reverse_mapping_function": self.fabric_multicast_temp_spec,
                     "api_function": "get_multicast_virtual_networks",
                     "api_family": "sda",
@@ -727,6 +730,8 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
         Returns:
             dict: Dictionary with 'fabric_multicast' key containing list of processed multicast
                   configurations modified according to fabric_multicast_temp_spec template.
+            None: If no multicast configurations are found for processing, or if transformation
+                produces no valid output.
 
         Description:
             Fetches fabric multicast details using component-specific filters or retrieves all
@@ -904,10 +909,10 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
 
         if not all_multicast_configs:
             self.log(
-                "No multicast configurations to process. Returning empty fabric_multicast list.",
+                "No multicast configurations to process. Returning None.",
                 "WARNING",
             )
-            return {"fabric_multicast": []}
+            return None
 
         # Modify multicast details using temp_spec
         self.log(
@@ -923,6 +928,13 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
         multicast_details = self.modify_parameters(
             fabric_multicast_temp_spec, all_multicast_configs
         )
+
+        if not multicast_details:
+            self.log(
+                "No multicast configurations were transformed successfully, returning None",
+                "WARNING",
+            )
+            return None
 
         self.log(
             f"Successfully transformed {len(multicast_details)} multicast configuration(s)",
@@ -1473,6 +1485,8 @@ class SdaFabricMulticastPlaybookConfigGenerator(CatalystCenterBase, BrownFieldHe
 
         self.log(f"Creating Parameters for API Calls with state: {state}", "INFO")
 
+        self.validate_params(config)
+
         want = {}
 
         # Add yaml_config_generator to want
@@ -1566,17 +1580,17 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
