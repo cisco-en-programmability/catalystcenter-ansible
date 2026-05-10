@@ -955,7 +955,7 @@ class Site(CatalystCenterBase):
 
         if typeinfo not in ["area", "building", "floor"]:
             self.status = "failed"
-            self.msg = "Given bulk site create playbook is only applicable to DNAC version 2.3.7.6"
+            self.msg = "Given bulk site create playbook is only applicable to Catalyst Center version 2.3.7.6"
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -1015,7 +1015,7 @@ class Site(CatalystCenterBase):
 
         Description:
         This method constructs the site name by combining the parent name and site name.
-        It handles single site operations based on the Cisco DNAC version.
+        It handles single site operations based on the Cisco Catalyst Center version.
         """
         try:
             self.log("Retrieving site name for site data: {}".format(site), "DEBUG")
@@ -1869,6 +1869,10 @@ class Site(CatalystCenterBase):
         task_name = "create_sites"
         success_msg = "Site created successfully."
         self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg, True)
+
+        if self.status == "failed":
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         for site in process_config:
             site_name = site.get("name")
@@ -2854,25 +2858,24 @@ class Site(CatalystCenterBase):
 def main():
     """ main entry point for module execution
     """
-    element_spec = {
-        'catalystcenter_host': {'required': True, 'type': 'str', "aliases": ["dnac_host"]},
-        'catalystcenter_port': {'type': 'str', 'default': '443', "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['dnac_username', 'user']},
-        'catalystcenter_password': {'type': 'str', 'no_log': True, "aliases": ["dnac_password"]},
-        'catalystcenter_verify': {'type': 'bool', 'default': 'True', "aliases": ["dnac_verify"]},
-        'catalystcenter_version': {'type': 'str', 'default': '2.3.7.6', "aliases": ["dnac_version"]},
-        'catalystcenter_debug': {'type': 'bool', 'default': False, "aliases": ["dnac_debug"]},
-        'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING', "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log', "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": 'bool', "default": True, "aliases": ["dnac_log_append"]},
-        'catalystcenter_log': {'type': 'bool', 'default': False, "aliases": ["dnac_log"]},
-        'validate_response_schema': {'type': 'bool', 'default': True},
-        'config_verify': {'type': 'bool', "default": False},
-        'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
-        'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
-        'config': {'required': True, 'type': 'list', 'elements': 'dict'},
-        'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
-    }
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': 'True'},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.2.3.3'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": False},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'merged', 'choices': ['merged', 'deleted']}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)

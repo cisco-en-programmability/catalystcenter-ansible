@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name:  Load vars and declare dnac vars
+  - name:  Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_pnp_management.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -34,24 +34,24 @@
 #############################################
 
   - name: Delete PnP devices
-    cisco.dnac.pnp_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.pnp_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
     loop: "{{ vars_map.pnp_delete.delete }}"
 
   - name: Delete PnP devices
-    cisco.dnac.pnp_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.pnp_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
     loop: "{{ vars_map.bulk.add }}"
 
   # - name: Delete device from Inventory
-  #   cisco.dnac.inventory_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.inventory_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - "{{ item }}"
@@ -62,8 +62,8 @@
 #############################################
 
   - name: Adding devices but not claiming
-    cisco.dnac.pnp_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.pnp_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -89,8 +89,8 @@
 #############################################
 
   - name: Delete PnP devices
-    cisco.dnac.pnp_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.pnp_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -116,8 +116,8 @@
 #############################################
 
   - name: Bulk Adding devices but not claiming
-    cisco.dnac.pnp_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.pnp_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -143,8 +143,8 @@
 #############################################
 
   - name: Delete Bulk Unclaimed PnP devices
-    cisco.dnac.pnp_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.pnp_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -170,8 +170,8 @@
 #############################################
 
   # - name: Add and Claim PnP devices
-  #   cisco.dnac.pnp_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.pnp_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: merged
   #     config:
   #       - "{{ item }}"
@@ -205,8 +205,8 @@
 #############################################
 
   # - name: Delete device
-  #   cisco.dnac.inventory_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.inventory_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - "{{ item }}"

@@ -562,7 +562,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
             "file_path": {"type": "str", "required": False, "default": "tmp"},
             "file_password": {"type": "str", "required": False},
             "unzip_backup": {"type": "bool", "required": False, "default": True},
-            "config_file_types": {"type": "list", "elements": "str", "required": False},
+            "config_file_types": {"type": "list", "elements": "str", "required": False}
         }
 
         # Validate device_configs_backup params
@@ -626,12 +626,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         for parameter, parameter_name in parameters_list.items():
             param_value = config.get(parameter)
             if param_value:
-                self.log(
-                    "Parameter '{}' found in config with value: {}".format(
-                        parameter, param_value
-                    ),
-                    "DEBUG",
-                )
+                self.log("Parameter '{}' found in config with value: {}".format(parameter, param_value), "DEBUG")
 
                 # If the parameter is serial_number_list, modify each serial number
                 if parameter == "serial_number_list":
@@ -650,27 +645,14 @@ class DeviceConfigsBackup(CatalystCenterBase):
                         serial_with_wildcard = ".*" + serial_number + ".*"
                         serial_numbers_with_wildcards.append(serial_with_wildcard)
 
-                    get_device_list_params[parameter_name] = (
-                        serial_numbers_with_wildcards
-                    )
-                    self.log(
-                        "Modified serial_number_list with wildcards: {}".format(
-                            serial_numbers_with_wildcards
-                        ),
-                        "DEBUG",
-                    )
+                    get_device_list_params[parameter_name] = serial_numbers_with_wildcards
+                    self.log("Modified serial_number_list with wildcards: {}".format(serial_numbers_with_wildcards), "DEBUG")
                 else:
                     get_device_list_params[parameter_name] = param_value
             else:
-                self.log(
-                    "Parameter '{}' not found in config or is empty.".format(parameter),
-                    "DEBUG",
-                )
+                self.log("Parameter '{}' not found in config or is empty.".format(parameter), "DEBUG")
 
-        self.log(
-            "Final get_device_list_params output: {}".format(get_device_list_params),
-            "DEBUG",
-        )
+        self.log("Final get_device_list_params output: {}".format(get_device_list_params), "DEBUG")
         self.log("Completed get_device_list_params function.", "DEBUG")
         return get_device_list_params
 
@@ -690,11 +672,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         processed_device_count = 0
         skipped_device_count = 0
         # Define device families to skip
-        skipped_device_families = {
-            "Unified AP",
-            "Wireless Sensor",
-            "Third Party Device",
-        }
+        skipped_device_families = {"Unified AP", "Wireless Sensor", "Third Party Device"}
 
         try:
             offset = 1
@@ -737,10 +715,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
                     collection_status = device_info.get("collectionStatus")
                     device_family = device_info.get("family")
 
-                    if reachability == "Reachable" and collection_status in [
-                        "Managed",
-                        "In Progress",
-                    ]:
+                    if reachability == "Reachable" and collection_status in ["Managed", "In Progress"]:
                         # Skip Unified AP devices
                         if device_family not in skipped_device_families:
                             device_id = device_info["id"]
@@ -749,10 +724,8 @@ class DeviceConfigsBackup(CatalystCenterBase):
                             skipped_device_count += 1
                             self.skipped_devices_list.append(device_ip)
                             self.log(
-                                "Skipping device {0} as its family is: {1}.".format(
-                                    device_ip, device_family
-                                ),
-                                "INFO",
+                                "Skipping device {0} as its family is: {1}.".format(device_ip, device_family),
+                                "INFO"
                             )
                     else:
                         skipped_device_count += 1
@@ -761,7 +734,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
                             "Skipping device {0} as its reachabilityStatus is '{1}' or collectionStatus is '{2}'.".format(
                                 device_ip, reachability, collection_status
                             ),
-                            "INFO",
+                            "INFO"
                         )
 
                 # Check if the response size is less than the limit
@@ -1347,21 +1320,14 @@ class DeviceConfigsBackup(CatalystCenterBase):
                 - Invalid file types are specified.
                 - An unexpected exception occurs during processing.
         """
-        self.log(
-            "Retrieving latest configuration file details for network devices.", "INFO"
-        )
+        self.log("Retrieving latest configuration file details for network devices.", "INFO")
 
         valid_file_types = ["VLAN", "STARTUPCONFIG", "RUNNINGCONFIG"]
         input_file_types = self.want.get("file_types")
 
         if not input_file_types or not isinstance(input_file_types, list):
             file_types = valid_file_types
-            self.log(
-                "No file_types specified in the playbook. Defaulting to {0}".format(
-                    file_types
-                ),
-                "INFO",
-            )
+            self.log("No file_types specified in the playbook. Defaulting to {0}".format(file_types), "INFO")
         else:
             file_types = []
             for ftype in input_file_types:
@@ -1376,32 +1342,19 @@ class DeviceConfigsBackup(CatalystCenterBase):
         self.log("Validated file_types received: {0}".format(file_types), "DEBUG")
 
         try:
-            self.log(
-                "Processing device list to retrieve configuration file details.",
-                "DEBUG",
-            )
+            self.log("Processing device list to retrieve configuration file details.", "DEBUG")
 
             filter_file_ids = []
 
             for ip_address in self.want.get("mgmt_ip_to_instance_id_map"):
                 device_id = mgmt_ip_to_instance_id_map.get(ip_address)
-                self.log(
-                    "Processing device IP: {0}, Device ID: {1}".format(
-                        ip_address, device_id
-                    ),
-                    "DEBUG",
-                )
+                self.log("Processing device IP: {0}, Device ID: {1}".format(ip_address, device_id), "DEBUG")
 
                 file_ids = []
                 collected_types = []
 
                 for file_type in file_types:
-                    self.log(
-                        "Fetching latest '{0}' config for Device ID: {1}".format(
-                            file_type, device_id
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Fetching latest '{0}' config for Device ID: {1}".format(file_type, device_id), "DEBUG")
 
                     response = self.execute_get_request(
                         "configuration_archive",
@@ -1410,8 +1363,8 @@ class DeviceConfigsBackup(CatalystCenterBase):
                             "networkDeviceId": device_id,
                             "fileType": file_type,
                             "offset": 1,
-                            "limit": 1,
-                        },
+                            "limit": 1
+                        }
                     )
 
                     if response and response.get("response"):
@@ -1419,52 +1372,32 @@ class DeviceConfigsBackup(CatalystCenterBase):
                         if file_id:
                             file_ids.append(file_id)
                             collected_types.append(file_type)
-                            self.log(
-                                "Retrieved File ID: {0} for Device ID: {1}, Type: {2}".format(
-                                    file_id, device_id, file_type
-                                ),
-                                "DEBUG",
-                            )
+                            self.log("Retrieved File ID: {0} for Device ID: {1}, Type: {2}".format(
+                                file_id, device_id, file_type), "DEBUG")
                         else:
-                            self.log(
-                                "No File ID in response for Device ID: {0}, Type: {1}".format(
-                                    device_id, file_type
-                                ),
-                                "WARNING",
-                            )
+                            self.log("No File ID in response for Device ID: {0}, Type: {1}".format(
+                                device_id, file_type), "WARNING")
                     else:
-                        self.log(
-                            "No config files found for Device ID: {0}, Type: {1}".format(
-                                device_id, file_type
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("No config files found for Device ID: {0}, Type: {1}".format(
+                            device_id, file_type), "DEBUG")
 
-                filter_file_ids.append(
-                    {
-                        "device_id": device_id,
-                        "ip_address": ip_address,
-                        "file_ids": file_ids,
-                        "file_types": collected_types,
-                    }
-                )
+                filter_file_ids.append({
+                    "device_id": device_id,
+                    "ip_address": ip_address,
+                    "file_ids": file_ids,
+                    "file_types": collected_types
+                })
 
             if filter_file_ids:
-                self.log(
-                    "Final configuration file details retrieved:\n{0}".format(
-                        self.pprint(filter_file_ids)
-                    ),
-                    "INFO",
-                )
+                self.log("Final configuration file details retrieved:\n{0}".format(
+                    self.pprint(filter_file_ids)), "INFO")
                 return filter_file_ids
 
             self.log("No configuration files found for any device.", "WARNING")
             return None
 
         except Exception as e:
-            msg = "An error occurred in get_network_device_configuration_file_details: {0}".format(
-                str(e)
-            )
+            msg = "An error occurred in get_network_device_configuration_file_details: {0}".format(str(e))
             self.log(msg, "ERROR")
             self.fail_and_exit(msg)
 
@@ -1479,32 +1412,19 @@ class DeviceConfigsBackup(CatalystCenterBase):
         Returns:
             list: List of 'id' strings extracted from the configuration file details response.
         """
-        self.log(
-            "Retrieving configuration file IDs from the configuration file details.",
-            "INFO",
-        )
+        self.log("Retrieving configuration file IDs from the configuration file details.", "INFO")
 
-        response = self.get_network_device_configuration_file_details(
-            mgmt_ip_to_instance_id_map
-        )
+        response = self.get_network_device_configuration_file_details(mgmt_ip_to_instance_id_map)
 
         if not response or not isinstance(response, list):
-            self.log(
-                "No configuration file details found or invalid format returned.",
-                "WARNING",
-            )
+            self.log("No configuration file details found or invalid format returned.", "WARNING")
             return []
 
         id_list = []
 
         for item in response:
             if not isinstance(item, dict):
-                self.log(
-                    "Skipping invalid item. Expected a dictionary but got {}...".format(
-                        type(item).__name__
-                    ),
-                    "WARNING",
-                )
+                self.log("Skipping invalid item. Expected a dictionary but got {}...".format(type(item).__name__), "WARNING")
                 continue
 
             file_ids = item.get("file_ids", [])
@@ -1512,39 +1432,21 @@ class DeviceConfigsBackup(CatalystCenterBase):
             ip_address = item.get("ip_address")
 
             if file_ids and isinstance(file_ids, list):
-                self.log(
-                    f"Processing file IDs: {file_ids} with types: {file_types} for device {ip_address}.",
-                    "DEBUG",
-                )
+                self.log(f"Processing file IDs: {file_ids} with types: {file_types} for device {ip_address}.", "DEBUG")
                 id_list.extend(file_ids)
 
-                self.log(
-                    "Processing file IDs: {0} with types: {1}".format(
-                        file_ids, file_types
-                    ),
-                    "DEBUG",
-                )
-                unmasked_params = self.download_unmasked_raw_device_configuration(
-                    file_ids, file_types, file_password
-                )
+                self.log("Processing file IDs: {0} with types: {1}".format(file_ids, file_types), "DEBUG")
+                unmasked_params = self.download_unmasked_raw_device_configuration(file_ids, file_types, file_password)
 
-                self.log(
-                    f"Unmasked parameters retrieved for device {ip_address}: {unmasked_params}",
-                    "INFO",
-                )
+                self.log(f"Unmasked parameters retrieved for device {ip_address}: {unmasked_params}", "INFO")
                 self.log("Added file IDs: {0}".format(file_ids), "DEBUG")
             else:
-                self.log(
-                    "No valid file_ids list found in item: {0}".format(item), "DEBUG"
-                )
+                self.log("No valid file_ids list found in item: {0}".format(item), "DEBUG")
 
         if id_list:
             self.log("Extracted file IDs successfully: {0}".format(id_list), "INFO")
         else:
-            self.log(
-                "No valid file IDs extracted from configuration file details.",
-                "WARNING",
-            )
+            self.log("No valid file IDs extracted from configuration file details.", "WARNING")
 
         return id_list
 
@@ -1579,32 +1481,25 @@ class DeviceConfigsBackup(CatalystCenterBase):
                     family="configuration_archive",
                     function="download_unmaskedraw_device_configuration_as_zip",
                     op_modifies=True,
-                    params=payload,
+                    params=payload
                 )
 
                 if response and getattr(response, "data", None):
                     self.log(
                         f"Received data for file ID {file_id}: type={response.data.__class__.__name__}, size={len(response.data)}",
-                        "DEBUG",
+                        "DEBUG"
                     )
                     return response.data
                 else:
-                    self.log(
-                        f"No valid data received for file ID: {file_id}", "WARNING"
-                    )
+                    self.log(f"No valid data received for file ID: {file_id}", "WARNING")
 
-            self.log(
-                "No valid unmasked configuration file received for any file ID.",
-                "WARNING",
-            )
+            self.log("No valid unmasked configuration file received for any file ID.", "WARNING")
             return None
 
         except Exception as e:
             error_msg = f"Error in download_unmasked_raw_device_configuration: {e}"
             self.log(error_msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, error_msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
             return None
 
     def download_masked_device_configuration(self, id_list):
@@ -1627,41 +1522,28 @@ class DeviceConfigsBackup(CatalystCenterBase):
         try:
             for file_id in id_list:
                 payload = {"id": file_id}
-                self.log(
-                    f"Requesting download for file ID: {file_id} with payload: {payload}",
-                    "INFO",
-                )
+                self.log(f"Requesting download for file ID: {file_id} with payload: {payload}", "INFO")
 
                 response = self.catalystcenter._exec(
                     family="configuration_archive",
                     function="download_masked_device_configuration",
                     op_modifies=True,
-                    params=payload,
+                    params=payload
                 )
 
                 if response and hasattr(response, "data") and response.data:
-                    self.log(
-                        f"Received data for file ID {file_id}: type={response.data.__class__.__name__}, length={len(response.data)}",
-                        "DEBUG",
-                    )
+                    self.log(f"Received data for file ID {file_id}: type={response.data.__class__.__name__}, length={len(response.data)}", "DEBUG")
                     return response.data
                 else:
-                    self.log(
-                        f"No valid data received for file ID: {file_id}", "WARNING"
-                    )
+                    self.log(f"No valid data received for file ID: {file_id}", "WARNING")
 
-            self.log(
-                "No valid masked configuration file received for any file ID.",
-                "WARNING",
-            )
+            self.log("No valid masked configuration file received for any file ID.", "WARNING")
             return None
 
         except Exception as e:
             error_msg = f"Error in download_masked_device_configuration: {e}"
             self.log(error_msg, "ERROR")
-            self.set_operation_result(
-                "failed", False, error_msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, error_msg, "ERROR").check_return_status()
             return None
 
     def download_unmasked_and_masked_configuration(self):
@@ -1697,27 +1579,18 @@ class DeviceConfigsBackup(CatalystCenterBase):
         os.makedirs(base_backup_path, exist_ok=True)
 
         mgmt_ip_to_instance_id_map = params.get("mgmt_ip_to_instance_id_map", {})
-        self.log(
-            "Management IP to Instance ID Map: {}".format(mgmt_ip_to_instance_id_map),
-            "DEBUG",
-        )
+        self.log("Management IP to Instance ID Map: {}".format(mgmt_ip_to_instance_id_map), "DEBUG")
 
         self.log("Retrieving configuration file details for the devices...", "INFO")
         try:
-            file_details_list = self.get_network_device_configuration_file_details(
-                mgmt_ip_to_instance_id_map
-            )
-            self.log(
-                f"Configuration file details retrieved: {file_details_list}", "DEBUG"
-            )
+            file_details_list = self.get_network_device_configuration_file_details(mgmt_ip_to_instance_id_map)
+            self.log(f"Configuration file details retrieved: {file_details_list}", "DEBUG")
         except Exception as e:
             self.log(f"Error retrieving configuration file details: {e}", "ERROR")
             return
 
         if not file_details_list:
-            self.log(
-                "No configuration file details found. Aborting the operation.", "ERROR"
-            )
+            self.log("No configuration file details found. Aborting the operation.", "ERROR")
             return
 
         for device_files in file_details_list:
@@ -1725,64 +1598,41 @@ class DeviceConfigsBackup(CatalystCenterBase):
             file_ids = device_files.get("file_ids")
 
             if not file_ids:
-                self.log(
-                    "No file IDs found for IP {}, skipping this device.".format(
-                        ip_address
-                    ),
-                    "WARNING",
-                )
+                self.log("No file IDs found for IP {}, skipping this device.".format(ip_address), "WARNING")
                 continue
 
             date_str = datetime.datetime.now().strftime("%d_%b_%Y")
-            ip_folder_name = "{}_{}".format(date_str, ip_address.replace(".", "_"))
+            ip_folder_name = "{}_{}".format(date_str, ip_address.replace('.', '_'))
             target_dir = os.path.join(base_backup_path, ip_folder_name)
             os.makedirs(target_dir, exist_ok=True)
 
             for file_id in file_ids:
-                self.log(
-                    f"Downloading configuration data for file ID {file_id} (Device IP: {ip_address})...",
-                    "INFO",
-                )
+                self.log(f"Downloading configuration data for file ID {file_id} (Device IP: {ip_address})...", "INFO")
                 if not isinstance(file_id, str) or len(file_id) < 36:
                     self.log(f"Invalid file ID: {file_id}, skipping.", "WARNING")
                     continue
 
                 if unzip_required:
-                    config_data = self.download_masked_device_configuration(
-                        id_list=[file_id]
-                    )
+                    config_data = self.download_masked_device_configuration(id_list=[file_id])
                     if not config_data:
-                        self.log(
-                            "No configuration data for file ID {} (masked), skipping.".format(
-                                file_id
-                            ),
-                            "WARNING",
-                        )
+                        self.log("No configuration data for file ID {} (masked), skipping.".format(file_id), "WARNING")
                         continue
 
                     output_file = os.path.join(target_dir, f"{file_id}.txt")
                     try:
                         with open(output_file, "wb") as f:
                             f.write(config_data)
-                        self.log(
-                            "Masked configuration saved: {}".format(output_file), "INFO"
-                        )
+                        self.log("Masked configuration saved: {}".format(output_file), "INFO")
                     except Exception as e:
-                        self.log(
-                            f"Error writing masked config for {file_id}: {e}", "ERROR"
-                        )
+                        self.log(f"Error writing masked config for {file_id}: {e}", "ERROR")
 
                 else:
                     config_data = self.download_unmasked_raw_device_configuration(
-                        id_list=[file_id], file_password=file_password
+                        id_list=[file_id],
+                        file_password=file_password
                     )
                     if not config_data:
-                        self.log(
-                            "No configuration data for file ID {} (unmasked), skipping.".format(
-                                file_id
-                            ),
-                            "WARNING",
-                        )
+                        self.log("No configuration data for file ID {} (unmasked), skipping.".format(file_id), "WARNING")
                         continue
 
                     original_file_path = params.get("file_path")
@@ -1793,12 +1643,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
                         self.want["file_path"] = original_file_path
 
                     if not success:
-                        self.log(
-                            "Failed to process ZIP for file ID {} at IP {}".format(
-                                file_id, ip_address
-                            ),
-                            "ERROR",
-                        )
+                        self.log("Failed to process ZIP for file ID {} at IP {}".format(file_id, ip_address), "ERROR")
 
         total_devices = len(mgmt_ip_to_instance_id_map)
         processed_devices = len(file_details_list)
@@ -1813,10 +1658,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
         if not unzip_required and file_password:
             log_msg += f" Password to unzip files: '{file_password}'."
 
-        self.log(
-            "Completed the process of downloading and saving unmasked and masked configuration files",
-            "INFO",
-        )
+        self.log("Completed the process of downloading and saving unmasked and masked configuration files", "INFO")
         self.set_operation_result("success", True, log_msg, "INFO")
 
     def get_want(self, config):
@@ -1831,17 +1673,12 @@ class DeviceConfigsBackup(CatalystCenterBase):
             It validates the IP address list and file password, generates a new password if none is provided,
             retrieves device IDs, and updates the desired state with necessary parameters.
         """
-        self.log(
-            "Starting the process to prepare the desired state (want) based on the provided configuration.",
-            "INFO",
-        )
+        self.log("Starting the process to prepare the desired state (want) based on the provided configuration.", "INFO")
 
         self.want = {}
 
         # Retrieve and log configuration parameters
-        file_path = config.get(
-            "file_path", "backup"
-        )  # Default to 'backup' if not provided
+        file_path = config.get("file_path", "backup")  # Default to 'backup' if not provided
         file_password = config.get("file_password")
         ip_address_list = config.get("ip_address_list")
         file_types = config.get("config_file_types")
@@ -1869,10 +1706,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
 
             # If 'ALL' is selected, expand to all supported file types
             if "ALL" in file_types:
-                self.log(
-                    "Expanding 'ALL' to include all supported file types: VLAN, STARTUPCONFIG, RUNNINGCONFIG.",
-                    "DEBUG",
-                )
+                self.log("Expanding 'ALL' to include all supported file types: VLAN, STARTUPCONFIG, RUNNINGCONFIG.", "DEBUG")
                 file_types = ["VLAN", "STARTUPCONFIG", "RUNNINGCONFIG"]
 
         # Validate the IP address list if provided
@@ -1889,30 +1723,23 @@ class DeviceConfigsBackup(CatalystCenterBase):
             file_password = self.password_generator()
             self.log("No file password provided. Generated a new password.", "INFO")
 
-        self.log(
-            "Retrieving the device ID list based on the provided IP addresses.", "INFO"
-        )
+        self.log("Retrieving the device ID list based on the provided IP addresses.", "INFO")
         mgmt_ip_to_instance_id_map = self.get_device_id_list(config)
 
         if not mgmt_ip_to_instance_id_map:
-            self.msg = (
-                f"No reachable devices found among the provided parameters: {config}"
-            )
+            self.msg = f"No reachable devices found among the provided parameters: {config}"
             self.set_operation_result("ok", False, self.msg, "INFO")
             self.log(f"Process completed: {self.msg}", "INFO")
             return self
 
         self.log(
             f"Retrieved {len(mgmt_ip_to_instance_id_map)} device(s) with their corresponding instance IDs: "
-            f"{mgmt_ip_to_instance_id_map}",
-            "INFO",
+            f"{mgmt_ip_to_instance_id_map}", "INFO"
         )
 
         self.log("Preparing the desired state (want).", "INFO")
-        self.want["export_device_configurations_params"] = (
-            self.export_device_configurations_params(
-                file_password, mgmt_ip_to_instance_id_map
-            )
+        self.want["export_device_configurations_params"] = self.export_device_configurations_params(
+            file_password, mgmt_ip_to_instance_id_map
         )
         self.want["mgmt_ip_to_instance_id_map"] = mgmt_ip_to_instance_id_map
         self.want["file_password"] = file_password
@@ -1953,10 +1780,7 @@ class DeviceConfigsBackup(CatalystCenterBase):
                     result_task_id = action_func(self.want.get(action_param))
                     status_func(result_task_id).check_return_status()
         else:
-            self.log(
-                "Detected DNAC version newer than 2.3.7.6 — running download_unmasked_and_masked_configuration()",
-                "INFO",
-            )
+            self.log("Detected Catalyst Center version newer than 2.3.7.6 — running download_unmasked_and_masked_configuration()", "INFO")
             self.download_unmasked_and_masked_configuration()
 
         return self
@@ -2029,25 +1853,17 @@ def main():
     """
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

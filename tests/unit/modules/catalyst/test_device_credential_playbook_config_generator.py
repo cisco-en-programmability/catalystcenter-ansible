@@ -32,26 +32,26 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestDeviceCredentialPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestDeviceCredentialPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
-        def mock_dnac_exec(family, function, op_modifies=False, params=None):
+        def mock_catalystcenter_exec(family, function, op_modifies=False, params=None):
             if function == "get_all_global_credentials":
                 return self.test_data.get("get_all_global_credentials_response")
             elif function == "get_sites":
@@ -61,7 +61,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
             else:
                 return {"response": []}
 
-        self.run_dnac_exec.side_effect = mock_dnac_exec
+        self.run_catalystcenter_exec.side_effect = mock_catalystcenter_exec
 
     def _get_written_yaml(self, mock_file):
         """Collect the YAML string written to the mocked file handle."""
@@ -97,7 +97,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         self.assertIn("global_credential_details", first_block)
         self.assertIsInstance(first_block.get("global_credential_details"), dict)
         # Verify SDK was called expected number of times (current flow uses 2)
-        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_global_credentials_filtered(self, mock_file):
@@ -124,7 +124,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         self.assertIn("global_credential_details", first_block)
         self.assertIsInstance(first_block.get("global_credential_details"), dict)
         # SDK call count should match current sequence
-        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_assign_credentials_to_site_filtered(self, mock_file):
@@ -142,7 +142,7 @@ class TestDeviceCredentialPlaybookConfigGenerator(TestCatalystModule):
         # Module writes YAML with site assignment data
         self.assertIn("message", result.get("response", {}))
         # Verify SDK was called
-        self.assertGreater(self.run_dnac_exec.call_count, 0)
+        self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_no_file_path_generates_default(self, mock_file):

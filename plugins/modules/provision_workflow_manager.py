@@ -497,7 +497,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   tasks:
     - name: Enable application telemetry on specified
         network devices
@@ -527,7 +527,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: false
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   tasks:
     - name: Disable application telemetry on specified
         network devices
@@ -693,11 +693,7 @@ class Provision(CatalystCenterBase):
             "skip_ap_provision": {"type": "bool", "required": False},
             "rolling_ap_upgrade": {"type": "dict", "required": False},
             "ap_authorization_list_name": {"type": "str", "required": False},
-            "authorize_mesh_and_non_mesh_aps": {
-                "type": "bool",
-                "required": False,
-                "default": False,
-            },
+            "authorize_mesh_and_non_mesh_aps": {"type": "bool", "required": False, "default": False},
             "provisioning": {"type": "bool", "required": False, "default": True},
             "force_provisioning": {"type": "bool", "required": False, "default": False},
             "clean_config": {"type": "bool", "required": False, "default": False},
@@ -728,7 +724,7 @@ class Provision(CatalystCenterBase):
                         "required": False,
                     },
                 },
-            },
+            }
         }
 
         if state == "merged":
@@ -821,13 +817,9 @@ class Provision(CatalystCenterBase):
                         if provisioning_value not in valid_bools:
                             self.msg = (
                                 "Invalid value '{0}' for 'provisioning' in config. "
-                                "Expected a boolean-compatible value.".format(
-                                    provisioning_value
-                                )
+                                "Expected a boolean-compatible value.".format(provisioning_value)
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if missing_params:
                     self.msg = "Missing or invalid required parameter(s): {0}".format(
@@ -842,9 +834,7 @@ class Provision(CatalystCenterBase):
         if invalid_params:
             self.log(
                 "Invalid parameters found in the playbook configuration: {0}".format(
-                    "\n".join(invalid_params)
-                ),
-                "ERROR",
+                    "\n".join(invalid_params)), "ERROR"
             )
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
@@ -989,7 +979,7 @@ class Provision(CatalystCenterBase):
             "Fetching device UUID for application telemetry for IP: {}".format(
                 self.validated_config.get("management_ip_address", "N/A")
             ),
-            "DEBUG",
+            "DEBUG"
         )
         try:
             dev_response = self.catalystcenter_apply["exec"](
@@ -1006,8 +996,10 @@ class Provision(CatalystCenterBase):
             )
             dev_dict = dev_response.get("response")
             if not dev_dict:
-                self.msg = "No device response found for IP address {0} from Cisco Catalyst Center.".format(
-                    self.validated_config.get("management_ip_address")
+                self.msg = (
+                    "No device response found for IP address {0} from Cisco Catalyst Center.".format(
+                        self.validated_config.get("management_ip_address")
+                    )
                 )
                 self.log(self.msg, "ERROR")
                 return None
@@ -1180,7 +1172,9 @@ class Provision(CatalystCenterBase):
         except Exception:
             self.log(
                 "Exception occurred as \
-                site '{0}' was not found".format(site_name_hierarchy),
+                site '{0}' was not found".format(
+                    site_name_hierarchy
+                ),
                 "CRITICAL",
             )
             self.module.fail_json(msg="Site not found", response=[])
@@ -1188,7 +1182,9 @@ class Provision(CatalystCenterBase):
         if response:
             self.log(
                 "Received site details\
-                for '{0}': {1}".format(site_name_hierarchy, str(response)),
+                for '{0}': {1}".format(
+                    site_name_hierarchy, str(response)
+                ),
                 "DEBUG",
             )
             site = response.get("response")
@@ -1362,7 +1358,7 @@ class Provision(CatalystCenterBase):
 
         site_name = self.validated_config.get("site_name_hierarchy")
 
-        site_exits, site_id = self.get_site_id(site_name)
+        (site_exits, site_id) = self.get_site_id(site_name)
 
         if site_exits is False:
             msg = "Site {0} doesn't exist".format(site_name)
@@ -1544,13 +1540,9 @@ class Provision(CatalystCenterBase):
             rolling_ap_upgrade = self.validated_config["rolling_ap_upgrade"]
             wireless_params[0]["rolling_ap_upgrade"] = rolling_ap_upgrade
         if self.validated_config.get("ap_authorization_list_name"):
-            wireless_params[0]["ap_authorization_list_name"] = (
-                self.validated_config.get("ap_authorization_list_name")
-            )
+            wireless_params[0]["ap_authorization_list_name"] = self.validated_config.get("ap_authorization_list_name")
         if self.validated_config.get("authorize_mesh_and_non_mesh_aps") is not None:
-            wireless_params[0]["authorize_mesh_and_non_mesh_aps"] = (
-                self.validated_config.get("authorize_mesh_and_non_mesh_aps")
-            )
+            wireless_params[0]["authorize_mesh_and_non_mesh_aps"] = self.validated_config.get("authorize_mesh_and_non_mesh_aps")
 
         response = self.catalystcenter_apply["exec"](
             family="devices",
@@ -1574,18 +1566,11 @@ class Provision(CatalystCenterBase):
         )
 
         if self.validated_config.get("feature_template"):
-            self.log(
-                "Processing feature template configuration for wireless device provisioning",
-                "DEBUG",
-            )
+            self.log("Processing feature template configuration for wireless device provisioning", "DEBUG")
             feature_templates = self.validated_config.get("feature_template")
             if not isinstance(feature_templates, list):
-                self.msg = "Feature template configuration must be a list. Received: {0}".format(
-                    type(feature_templates).__name__
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Feature template configuration must be a list. Received: {0}".format(type(feature_templates).__name__)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if not feature_templates:
                 self.log("Empty feature template list provided", "WARNING")
@@ -1595,202 +1580,102 @@ class Provision(CatalystCenterBase):
             self.log("Processing feature template(s)", "INFO")
 
             for template_index, template in enumerate(feature_templates):
-                self.log(
-                    "Processing feature template {0}".format(template_index + 1),
-                    "DEBUG",
-                )
+                self.log("Processing feature template {0}".format(template_index + 1), "DEBUG")
                 design_name = template.get("design_name")
 
                 if not design_name:
-                    self.msg = "Feature template 'design_name' is required but not provided for template at index {0}".format(
-                        template_index
-                    )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
-                self.log(
-                    "Processing feature template with design name: '{0}' at index {1}".format(
-                        design_name, template_index
-                    ),
-                    "DEBUG",
-                )
+                    self.msg = "Feature template 'design_name' is required but not provided for template at index {0}".format(template_index)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.log("Processing feature template with design name: '{0}' at index {1}".format(design_name, template_index), "DEBUG")
 
                 attributes = template.get("attributes", [])
                 cleaned_attributes = []
 
                 if attributes:
-                    self.log(
-                        "Processing template attributes for template '{0}'".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Processing template attributes for template '{0}'".format(design_name), "DEBUG")
 
                     if isinstance(attributes, dict):
                         for key, value in attributes.items():
                             if value is not None:
-                                cleaned_attributes.append({"name": key, "value": value})
-                                self.log(
-                                    "Added template attribute for '{0}': '{1}' = '{2}'".format(
-                                        design_name, key, value
-                                    ),
-                                    "DEBUG",
-                                )
+                                cleaned_attributes.append({
+                                    "name": key,
+                                    "value": value
+                                })
+                                self.log("Added template attribute for '{0}': '{1}' = '{2}'".format(design_name, key, value), "DEBUG")
                     elif isinstance(attributes, list):
-                        self.log(
-                            "Attributes provided as list for template '{0}', using directly".format(
-                                design_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Attributes provided as list for template '{0}', using directly".format(design_name), "DEBUG")
                         cleaned_attributes = attributes
                     else:
-                        self.log(
-                            "Invalid 'attributes' format for template '{0}'. Expected dict or list, got: {1}".format(
-                                design_name, type(attributes).__name__
-                            ),
-                            "WARNING",
-                        )
+                        self.log("Invalid 'attributes' format for template '{0}'. Expected dict or list, got: {1}".format(
+                            design_name, type(attributes).__name__), "WARNING")
                 else:
-                    self.log(
-                        "No attributes provided for feature template '{0}'".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("No attributes provided for feature template '{0}'".format(design_name), "DEBUG")
 
                 excluded_attributes = template.get("excluded_attributes", [])
                 if excluded_attributes:
-                    self.log(
-                        "Processing {0} excluded attributes for template '{1}': {2}".format(
-                            len(excluded_attributes), design_name, excluded_attributes
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Processing {0} excluded attributes for template '{1}': {2}".format(
+                        len(excluded_attributes), design_name, excluded_attributes), "DEBUG")
                     if not isinstance(excluded_attributes, list):
-                        self.log(
-                            "Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
-                                design_name, type(excluded_attributes).__name__
-                            ),
-                            "WARNING",
-                        )
+                        self.log("Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
+                            design_name, type(excluded_attributes).__name__), "WARNING")
                         excluded_attributes = []
                 else:
-                    self.log(
-                        "No excluded attributes specified for feature template '{0}'".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("No excluded attributes specified for feature template '{0}'".format(design_name), "DEBUG")
 
                 additional_identifiers = template.get("additional_identifiers", {})
 
                 if additional_identifiers:
-                    self.log(
-                        "Processing additional identifiers for template '{0}'".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Processing additional identifiers for template '{0}'".format(
+                        design_name), "DEBUG")
                     for idx, identifier in enumerate(additional_identifiers):
                         if isinstance(identifier, dict):
                             wlan_profile = identifier.get("wlan_profile_name")
                             site_hierarchy = identifier.get("site_name_hierarchy")
                             if wlan_profile:
-                                self.log(
-                                    "Template '{0}' - Additional identifier {1}: WLAN profile = '{2}'".format(
-                                        design_name, idx + 1, wlan_profile
-                                    ),
-                                    "DEBUG",
-                                )
+                                self.log("Template '{0}' - Additional identifier {1}: WLAN profile = '{2}'".format(
+                                    design_name, idx + 1, wlan_profile), "DEBUG")
                             if site_hierarchy:
-                                self.log(
-                                    "Template '{0}' - Additional identifier {1}: Site hierarchy = '{2}'".format(
-                                        design_name, idx + 1, site_hierarchy
-                                    ),
-                                    "DEBUG",
-                                )
+                                self.log("Template '{0}' - Additional identifier {1}: Site hierarchy = '{2}'".format(
+                                    design_name, idx + 1, site_hierarchy), "DEBUG")
                         else:
-                            self.log(
-                                "Invalid additional identifier format for template '{0}' at index {1}. Expected dict, got: {2}".format(
-                                    design_name, idx, type(identifier).__name__
-                                ),
-                                "WARNING",
-                            )
+                            self.log("Invalid additional identifier format for template '{0}' at index {1}. Expected dict, got: {2}".format(
+                                design_name, idx, type(identifier).__name__), "WARNING")
 
                 else:
-                    self.log(
-                        "No additional identifiers provided for feature template '{0}'".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("No additional identifiers provided for feature template '{0}'".format(design_name), "DEBUG")
 
                     if excluded_attributes:
-                        self.log(
-                            "Processing excluded attributes for template '{0}': {1}".format(
-                                design_name, excluded_attributes
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Processing excluded attributes for template '{0}': {1}".format(
+                            design_name, excluded_attributes), "DEBUG")
                         if not isinstance(excluded_attributes, list):
-                            self.log(
-                                "Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
-                                    design_name, type(excluded_attributes).__name__
-                                ),
-                                "WARNING",
-                            )
+                            self.log("Invalid 'excluded_attributes' format for template '{0}'. Expected list, got: {1}".format(
+                                design_name, type(excluded_attributes).__name__), "WARNING")
                             excluded_attributes = []
                     else:
-                        self.log(
-                            "No excluded attributes specified for feature template '{0}'".format(
-                                design_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("No excluded attributes specified for feature template '{0}'".format(design_name), "DEBUG")
 
                 ft_entry = {
                     "design_name": design_name,
                 }
                 if cleaned_attributes:
                     ft_entry["attributes"] = cleaned_attributes
-                    self.log(
-                        "Added cleaned attributes to feature template '{0}' entry".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Added cleaned attributes to feature template '{0}' entry".format(
+                        design_name), "DEBUG")
 
                 if additional_identifiers:
                     ft_entry["additional_identifiers"] = additional_identifiers
-                    self.log(
-                        "Added additional identifiers to feature template '{0}' entry".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Added additional identifiers to feature template '{0}' entry".format(design_name), "DEBUG")
 
                 if excluded_attributes:
                     ft_entry["excluded_attributes"] = excluded_attributes
-                    self.log(
-                        "Added excluded attributes to feature template '{0}' entry".format(
-                            design_name
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Added excluded attributes to feature template '{0}' entry".format(
+                        design_name), "DEBUG")
 
                 wireless_params[0]["feature_template"].append(ft_entry)
-                self.log(
-                    "Successfully configured feature template '{0}' for wireless device provisioning".format(
-                        design_name
-                    ),
-                    "INFO",
-                )
+                self.log("Successfully configured feature template '{0}' for wireless device provisioning".format(design_name), "INFO")
 
         self.log(
-            "Parameters collected for the provisioning of wireless device: {0}".format(
-                wireless_params
-            ),
+            "Parameters collected for the provisioning of wireless device: {0}".format(wireless_params),
             "INFO",
         )
         return wireless_params
@@ -1810,138 +1695,67 @@ class Provision(CatalystCenterBase):
         Returns:
             str or None: The featureTemplateId if found, else None.
         """
-        self.log(
-            "Initiating feature template ID resolution for design name: '{0}'".format(
-                design_name
-            ),
-            "DEBUG",
-        )
+        self.log("Initiating feature template ID resolution for design name: '{0}'".format(design_name), "DEBUG")
 
         if not design_name:
-            self.log(
-                "Design name is empty or None - cannot resolve template ID", "ERROR"
-            )
+            self.log("Design name is empty or None - cannot resolve template ID", "ERROR")
             return None
 
         if not isinstance(design_name, str):
-            self.log(
-                "Design name must be a string, received: {0}".format(
-                    type(design_name).__name__
-                ),
-                "ERROR",
-            )
+            self.log("Design name must be a string, received: {0}".format(type(design_name).__name__), "ERROR")
             return None
 
-        self.log(
-            "Querying Cisco Catalyst Center for feature template with design name: '{0}'".format(
-                design_name
-            ),
-            "INFO",
-        )
+        self.log("Querying Cisco Catalyst Center for feature template with design name: '{0}'".format(design_name), "INFO")
 
         try:
             ft_response = self.catalystcenter_apply["exec"](
                 family="wireless",
                 function="get_feature_template_summary",
-                params={"designName": design_name},
+                params={'designName': design_name}
             )
 
-            self.log(
-                "Received feature template API response from 'get_feature_template_summary': {0}".format(
-                    str(ft_response)
-                ),
-                "DEBUG",
-            )
+            self.log("Received feature template API response from 'get_feature_template_summary': {0}".format(str(ft_response)), "DEBUG")
 
             template_groups = ft_response.get("response", [])
             if not template_groups:
                 self.log("No template groups found in API response", "WARNING")
                 return None
 
-            self.log(
-                "Processing {0} template group(s) for design name: '{1}'".format(
-                    len(template_groups), design_name
-                ),
-                "DEBUG",
-            )
+            self.log("Processing {0} template group(s) for design name: '{1}'".format(len(template_groups), design_name), "DEBUG")
 
             for group_index, template_group in enumerate(template_groups):
-                self.log(
-                    "Processing template group {0} of {1}".format(
-                        group_index + 1, len(template_groups)
-                    ),
-                    "DEBUG",
-                )
+                self.log("Processing template group {0} of {1}".format(group_index + 1, len(template_groups)), "DEBUG")
 
                 instances = template_group.get("instances", [])
                 if not instances:
-                    self.log(
-                        "No instances found in template group {0}".format(
-                            group_index + 1
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("No instances found in template group {0}".format(group_index + 1), "DEBUG")
                     continue
 
-                self.log(
-                    "Found {0} template instance(s) in group {1}".format(
-                        len(instances), group_index + 1
-                    ),
-                    "DEBUG",
-                )
+                self.log("Found {0} template instance(s) in group {1}".format(len(instances), group_index + 1), "DEBUG")
 
                 for instance_index, instance in enumerate(instances):
                     instance_design_name = instance.get("designName")
                     instance_id = instance.get("id")
                     is_system_template = instance.get("systemTemplate", False)
 
-                    self.log(
-                        "Evaluating template instance {0}: design_name='{1}', id='{2}', system_template={3}".format(
-                            instance_index + 1,
-                            instance_design_name,
-                            instance_id,
-                            is_system_template,
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("Evaluating template instance {0}: design_name='{1}', id='{2}', system_template={3}".format(
+                        instance_index + 1, instance_design_name, instance_id, is_system_template), "DEBUG")
 
                     if instance_design_name == design_name and not is_system_template:
-                        self.log(
-                            "Successfully resolved feature template ID: '{0}' for design name: '{1}'".format(
-                                instance_id, design_name
-                            ),
-                            "INFO",
-                        )
+                        self.log("Successfully resolved feature template ID: '{0}' for design name: '{1}'".format(instance_id, design_name), "INFO")
                         return instance_id
 
                     if instance_design_name == design_name and is_system_template:
-                        self.log(
-                            "Found matching design name '{0}' but it's a system template - skipping".format(
-                                design_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Found matching design name '{0}' but it's a system template - skipping".format(design_name), "DEBUG")
 
                     if instance_design_name != design_name:
-                        self.log(
-                            "Design name mismatch: expected '{0}', found '{1}' - skipping".format(
-                                design_name, instance_design_name
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Design name mismatch: expected '{0}', found '{1}' - skipping".format(design_name, instance_design_name), "DEBUG")
 
-            self.log(
-                "Feature template with design name '{0}' not found after searching all template groups and instances".format(
-                    design_name
-                ),
-                "WARNING",
-            )
+            self.log("Feature template with design name '{0}' not found after searching all template groups and instances".format(design_name), "WARNING")
             return None
 
         except Exception as e:
-            msg = "Exception occurred while resolving feature template ID for design name '{0}': {1}".format(
-                design_name, str(e)
-            )
+            msg = "Exception occurred while resolving feature template ID for design name '{0}': {1}".format(design_name, str(e))
             self.log(msg, "ERROR")
             return None
 
@@ -1975,12 +1789,7 @@ class Provision(CatalystCenterBase):
             "Current Catalyst Center version is {0}".format(current_version), "DEBUG"
         )
         if application_telemetry:
-            if (
-                self.compare_catalystcenter_versions(
-                    current_version, MIN_SUPPORTED_VERSION
-                )
-                >= 0
-            ):
+            if self.compare_catalystcenter_versions(current_version, MIN_SUPPORTED_VERSION) >= 0:
                 self.log(
                     "Current Catalyst Center version ({0}) supports application telemetry.".format(
                         current_version
@@ -2195,9 +2004,9 @@ class Provision(CatalystCenterBase):
         ccc_version = self.get_ccc_version()
         self.log("Fetched CCC version: {0}".format(ccc_version), "DEBUG")
 
-        # Check if provisioning should be handled based on DNAC version:
-        # - If DNAC version is ≤ 2.3.5.3, always proceed with provisioning logic.
-        # - If DNAC version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
+        # Check if provisioning should be handled based on Catalyst Center version:
+        # - If Catalyst Center version is ≤ 2.3.5.3, always proceed with provisioning logic.
+        # - If Catalyst Center version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
 
         if self.compare_catalystcenter_versions(ccc_version, "2.3.5.3") <= 0 or (
             self.compare_catalystcenter_versions(ccc_version, "2.3.7.6") >= 0
@@ -2302,16 +2111,12 @@ class Provision(CatalystCenterBase):
             - Handles and logs any exceptions that may occur during the API execution.
         """
 
-        application_telemetry_details = telemetry_config.get(
-            "application_telemetry", []
-        )
+        application_telemetry_details = telemetry_config.get("application_telemetry", [])
 
         if not application_telemetry_details:
             self.msg = "No application telemetry configuration entries found in telemetry config."
             self.log(self.msg, "WARNING")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return self
 
         enable_payload = []
@@ -2319,40 +2124,27 @@ class Provision(CatalystCenterBase):
 
         telemetry_api_map = {
             "enable": "enable_application_telemetry_feature_on_multiple_network_devices",
-            "disable": "disable_application_telemetry_feature_on_multiple_network_devices",
+            "disable": "disable_application_telemetry_feature_on_multiple_network_devices"
         }
 
         self.log("Starting application telemetry configuration process", "DEBUG")
-        self.log(
-            "Received telemetry configuration: {0}".format(telemetry_config), "DEBUG"
-        )
+        self.log("Received telemetry configuration: {0}".format(telemetry_config), "DEBUG")
 
-        application_telemetry_details = telemetry_config.get(
-            "application_telemetry", []
-        )
+        application_telemetry_details = telemetry_config.get("application_telemetry", [])
         if not application_telemetry_details:
             self.msg = "No application telemetry configuration entries found in telemetry config."
             self.log(self.msg, "WARNING")
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             return self
 
-        self.log(
-            "Processing {0} telemetry configuration entries".format(
-                len(application_telemetry_details)
-            ),
-            "INFO",
-        )
+        self.log("Processing {0} telemetry configuration entries".format(len(application_telemetry_details)), "INFO")
 
         for detail in application_telemetry_details:
             device_ips = detail.get("device_ips", [])
             self.log("Processing device IPs: {0}".format(device_ips), "DEBUG")
             if device_ips is None or len(device_ips) == 0:
                 self.msg = "No valid device IPs provided for application telemetry."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return self
 
             all_empty = True
@@ -2364,61 +2156,35 @@ class Provision(CatalystCenterBase):
 
             if all_empty:
                 self.msg = "No valid device IPs provided for application telemetry."
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return self
 
             telemetry = detail.get("telemetry")  # "enable" or "disable"
             if telemetry not in ["enable", "disable"]:
-                self.msg = "Invalid telemetry action '{0}'. Expected 'enable' or 'disable'.".format(
-                    telemetry
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Invalid telemetry action '{0}'. Expected 'enable' or 'disable'.".format(telemetry)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             wlan_mode = detail.get("wlan_mode")
             include_guest_ssid = detail.get("include_guest_ssid", False)
-            self.log(
-                "Telemetry action: {0}, WLAN mode: {1}, Include guest SSID: {2}".format(
-                    telemetry, wlan_mode, include_guest_ssid
-                ),
-                "DEBUG",
-            )
+            self.log("Telemetry action: {0}, WLAN mode: {1}, Include guest SSID: {2}".format(
+                telemetry, wlan_mode, include_guest_ssid
+            ), "DEBUG")
             for ip in device_ips:
                 self.validated_config["management_ip_address"] = ip
                 device_type, device_family = self.get_device_type_and_family(ip)
-                self.log(
-                    "Device type: {0}, Device family: {1} for IP: {2}".format(
-                        device_type, device_family, ip
-                    ),
-                    "DEBUG",
-                )
+                self.log("Device type: {0}, Device family: {1} for IP: {2}".format(
+                    device_type, device_family, ip
+                ), "DEBUG")
 
                 unsupported_devices = [
                     "Cisco Catalyst 9500 Switch",
-                    "Cisco Catalyst 9600 Switch",
+                    "Cisco Catalyst 9600 Switch"
                 ]
 
-                if (device_type and device_type in unsupported_devices) or (
-                    device_family
-                    and device_family.lower()
-                    not in [
-                        "routers",
-                        "wireless lan controllers",
-                        "switches and hubs",
-                        "wireless controller",
-                    ]
-                ):
-                    self.msg = (
-                        "No telemetry-applicable interfaces/WLANs found. "
-                        "device : {0} Telemetry not supported for device type: {1}, family: {2}".format(
-                            ip, device_type, device_family
-                        )
-                    )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                if (device_type and device_type in unsupported_devices) or \
+                   (device_family and device_family.lower() not in ["routers", "wireless lan controllers", "switches and hubs", "wireless controller"]):
+                    self.msg = ("No telemetry-applicable interfaces/WLANs found. "
+                                "device : {0} Telemetry not supported for device type: {1}, family: {2}".format(ip, device_type, device_family))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
 
                 device_type = self.get_dev_type()
@@ -2426,34 +2192,21 @@ class Provision(CatalystCenterBase):
                 device_id = self.get_device_id_for_app_telemetry()
 
                 if not device_id:
-                    self.log(
-                        "Skipping IP {0} due to missing device_id".format(ip), "WARNING"
-                    )
+                    self.log("Skipping IP {0} due to missing device_id".format(ip), "WARNING")
                     continue
 
                 is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
-                self.log(
-                    "Device with IP {0} is assigned to site: {1}".format(
-                        ip, is_device_assigned_to_site
-                    ),
-                    "DEBUG",
-                )
+                self.log("Device with IP {0} is assigned to site: {1}".format(ip, is_device_assigned_to_site), "DEBUG")
                 if not is_device_assigned_to_site:
-                    self.msg = "Device with IP {0} is not assigned to any site. Telemetry cannot be enabled/disabled.".format(
-                        ip
-                    )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.msg = "Device with IP {0} is not assigned to any site. Telemetry cannot be enabled/disabled.".format(ip)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if telemetry == "enable":
                     device_data = {"id": device_id}
                     if device_type != "wired":
                         if not wlan_mode:
                             self.msg = "wlan_mode is mandatory when the device type is wireless"
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                         if wlan_mode:
                             device_data["includeWlanModes"] = [wlan_mode]
                         if include_guest_ssid:
@@ -2473,30 +2226,22 @@ class Provision(CatalystCenterBase):
                     family="application_policy",
                     function=api_function,
                     op_modifies=True,
-                    params={"payload": payload},
+                    params={"payload": payload}
                 )
-                self.log(
-                    "Received API response for enable: {0}".format(response), "DEBUG"
-                )
+                self.log("Received API response for enable: {0}".format(response), "DEBUG")
                 self.enable_application_telemetry.append(ip)
                 self.check_tasks_response_status(response, api_function)
 
                 if self.status not in ["failed", "exited"]:
-                    self.msg = (
-                        "Application telemetry enabled successfully for all devices."
-                    )
+                    self.msg = "Application telemetry enabled successfully for all devices."
                     self.set_operation_result("success", True, self.msg, "INFO")
                 else:
                     self.msg = "Enabling telemetry failed: {0}".format(self.msg)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
                 self.msg = "Exception while enabling telemetry: {0}".format(e)
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Disable telemetry
         if disable_ids:
@@ -2510,31 +2255,23 @@ class Provision(CatalystCenterBase):
                     family="application_policy",
                     function=api_function,
                     op_modifies=True,
-                    params={"payload": payload},
+                    params={"payload": payload}
                 )
-                self.log(
-                    "Received API response for Disable: {0}".format(response), "DEBUG"
-                )
+                self.log("Received API response for Disable: {0}".format(response), "DEBUG")
                 self.disable_application_telemetry.append(ip)
                 self.check_tasks_response_status(response, api_function)
 
                 if self.status not in ["failed", "exited"]:
-                    self.msg = (
-                        "Application telemetry disabled successfully for all devices."
-                    )
+                    self.msg = "Application telemetry disabled successfully for all devices."
                     self.set_operation_result("success", True, self.msg, "INFO")
                 else:
                     self.msg = "Disabling telemetry failed: {0}".format(self.msg)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
                 self.msg = "Exception while disabling telemetry: {0}".format(e)
-                self.result["response"] = self.msg
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.result['response'] = self.msg
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
@@ -2560,49 +2297,31 @@ class Provision(CatalystCenterBase):
             - Handles scenarios where the device response is empty or an exception occurs during the API call.
             - Ensures that all operations are logged with appropriate context for easier debugging and traceability.
         """
-        self.log(
-            "Starting device type/family retrieval for IP: {0}".format(device_ip),
-            "INFO",
-        )
+        self.log("Starting device type/family retrieval for IP: {0}".format(device_ip), "INFO")
 
         try:
-            dev_response = self.catalystcenter_apply["exec"](
+            dev_response = self.catalystcenter_apply['exec'](
                 family="devices",
-                function="get_network_device_by_ip",
-                params={"ip_address": device_ip},
+                function='get_network_device_by_ip',
+                params={"ip_address": device_ip}
             )
 
-            self.log(
-                "API response for device IP {0}: {1}".format(
-                    device_ip, str(dev_response)
-                ),
-                "DEBUG",
-            )
+            self.log("API response for device IP {0}: {1}".format(device_ip, str(dev_response)), "DEBUG")
 
             device = dev_response.get("response", {})
             if not device:
-                self.log(
-                    "Device response empty or missing for IP: {0}".format(device_ip),
-                    "WARNING",
-                )
+                self.log("Device response empty or missing for IP: {0}".format(device_ip), "WARNING")
                 return None, None
 
             device_type = device.get("type", "")
             device_family = device.get("family", "")
 
-            self.log(
-                "Device type: '{0}', family: '{1}' for IP: {2}".format(
-                    device_type, device_family, device_ip
-                ),
-                "INFO",
-            )
+            self.log("Device type: '{0}', family: '{1}' for IP: {2}".format(device_type, device_family, device_ip), "INFO")
 
             return device_type, device_family
 
         except Exception as e:
-            msg = "Failed to get device details for IP {0}: {1}".format(
-                device_ip, str(e)
-            )
+            msg = "Failed to get device details for IP {0}: {1}".format(device_ip, str(e))
             self.log(msg, "ERROR")
             return None, None
 
@@ -2718,9 +2437,7 @@ class Provision(CatalystCenterBase):
                     "Site type '{0}' is not supported for provisioning. "
                     "Please use a site type of 'building' or 'floor'.".format(site_type)
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
             network_device_id = self.get_device_ids_from_device_ips([device_ip]).get(
                 device_ip
             )
@@ -2745,9 +2462,7 @@ class Provision(CatalystCenterBase):
             to_provisioning = config.get("provisioning", False)
 
             if not to_provisioning and status != "success":
-                is_assigned, current_site = self.is_device_assigned_to_site_v1(
-                    network_device_id
-                )
+                is_assigned, current_site = self.is_device_assigned_to_site_v1(network_device_id)
 
                 if is_assigned and current_site == site_name:
                     self.log(
@@ -3160,10 +2875,7 @@ class Provision(CatalystCenterBase):
             )
             self.assign_device_to_site([device_id], self.site_name, site_id)
         else:
-            if (
-                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
-                <= 0
-            ):
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.log(
                     "Catalyst Center Version is 2.3.5.3 or earlier; directly initializing provisioning with parameters.",
                     "INFO",
@@ -3422,7 +3134,9 @@ class Provision(CatalystCenterBase):
                         success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(
                             device_ips
                         )
-                        self.provisioned_wired_device.append(device_ips)
+                        self.provisioned_wired_device.append(
+                            device_ips
+                        )
                         self.set_operation_result("success", True, self.msg, "INFO")
 
                     if self.status in ["failed", "exited"]:
@@ -3738,76 +3452,50 @@ class Provision(CatalystCenterBase):
             allowed_ap_reboot_percentages = {5, 10, 25}
 
             if "rolling_ap_upgrade" in prov_params:
-                self.log(
-                    "Found 'rolling_ap_upgrade' in provisioning parameters", "DEBUG"
-                )
+                self.log("Found 'rolling_ap_upgrade' in provisioning parameters", "DEBUG")
 
                 rolling_upgrade_config = {}
                 rolling_upgrade_data = prov_params["rolling_ap_upgrade"]
 
                 if "ap_reboot_percentage" in rolling_upgrade_data:
-                    reboot_percentage_value = rolling_upgrade_data[
-                        "ap_reboot_percentage"
-                    ]
+                    reboot_percentage_value = rolling_upgrade_data["ap_reboot_percentage"]
 
-                    if (
-                        reboot_percentage_value is None
-                        or not str(reboot_percentage_value).isdigit()
-                    ):
+                    if reboot_percentage_value is None or not str(reboot_percentage_value).isdigit():
                         self.msg = (
                             "Error: Invalid percentage value '{0}'. Must be an integer. "
-                            "Supported values are 5, 10, and 25.".format(
-                                reboot_percentage_value
-                            )
+                            "Supported values are 5, 10, and 25.".format(reboot_percentage_value)
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     reboot_percentage_value = int(reboot_percentage_value)
                     if reboot_percentage_value not in allowed_ap_reboot_percentages:
                         self.msg = (
                             "Error: Invalid percentage value '{0}'. "
-                            "Supported values are 5, 10, and 25.".format(
-                                reboot_percentage_value
-                            )
+                            "Supported values are 5, 10, and 25.".format(reboot_percentage_value)
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                    rolling_upgrade_config["ap_reboot_percentage"] = (
-                        reboot_percentage_value
-                    )
+                    rolling_upgrade_config["ap_reboot_percentage"] = reboot_percentage_value
                     self.log(
-                        "Processed 'ap_reboot_percentage': {0}".format(
-                            reboot_percentage_value
-                        ),
+                        "Processed 'ap_reboot_percentage': {0}".format(reboot_percentage_value),
                         "DEBUG",
                     )
 
                 # Process remaining keys in 'rolling_ap¿_upgrade'
                 for key, value in rolling_upgrade_data.items():
                     if key == "ap_reboot_percentage":
-                        self.log(
-                            "Skipping already processed key 'ap_reboot_percentage'",
-                            "DEBUG",
-                        )
+                        self.log("Skipping already processed key 'ap_reboot_percentage'", "DEBUG")
                         continue
 
                     if value is not None:
                         rolling_upgrade_config[key] = value
                         self.log(
-                            "Processed 'rolling_ap_upgrade' key '{0}': {1}".format(
-                                key, value
-                            ),
+                            "Processed 'rolling_ap_upgrade' key '{0}': {1}".format(key, value),
                             "DEBUG",
                         )
                     else:
                         self.log(
-                            "No '{0}' found in rolling_ap_upgrade, skipping".format(
-                                key
-                            ),
+                            "No '{0}' found in rolling_ap_upgrade, skipping".format(key),
                             "DEBUG",
                         )
 
@@ -3816,73 +3504,36 @@ class Provision(CatalystCenterBase):
             # Process AP authorization list configuration if provided
             if "ap_authorization_list_name" in prov_params:
                 ap_auth_list = prov_params.get("ap_authorization_list_name")
-                self.log(
-                    "Adding AP authorization list name to payload: '{0}'".format(
-                        ap_auth_list
-                    ),
-                    "DEBUG",
-                )
+                self.log("Adding AP authorization list name to payload: '{0}'".format(ap_auth_list), "DEBUG")
                 payload["apAuthorizationListName"] = ap_auth_list
             else:
-                self.log(
-                    "No AP authorization list name provided in provisioning parameters",
-                    "DEBUG",
-                )
+                self.log("No AP authorization list name provided in provisioning parameters", "DEBUG")
 
             # Process mesh and non-mesh AP authorization configuration if provided
             if "authorize_mesh_and_non_mesh_aps" in prov_params:
                 authorize_aps = prov_params.get("authorize_mesh_and_non_mesh_aps")
-                self.log(
-                    "Adding mesh and non-mesh AP authorization flag to payload: '{0}'".format(
-                        authorize_aps
-                    ),
-                    "DEBUG",
-                )
+                self.log("Adding mesh and non-mesh AP authorization flag to payload: '{0}'".format(authorize_aps), "DEBUG")
                 payload["authorizeMeshAndNonMeshAPs"] = authorize_aps
             else:
-                self.log(
-                    "No mesh and non-mesh AP authorization flag provided in provisioning parameters",
-                    "DEBUG",
-                )
+                self.log("No mesh and non-mesh AP authorization flag provided in provisioning parameters", "DEBUG")
 
             current_version = self.get_ccc_version()
             if self.compare_catalystcenter_versions(current_version, "3.1.3.0") >= 0:
-                self.log(
-                    "Cisco Catalyst Center version '{0}' supports feature template functionality (>= 3.1.3.0)".format(
-                        current_version
-                    ),
-                    "INFO",
-                )
+                self.log("Cisco Catalyst Center version '{0}' supports feature template functionality (>= 3.1.3.0)".format(current_version), "INFO")
                 self.log(prov_params)
                 if "feature_template" in prov_params:
-                    self.log(
-                        "Processing feature template configuration from provisioning parameters",
-                        "INFO",
-                    )
+                    self.log("Processing feature template configuration from provisioning parameters", "INFO")
 
                     feature_templates = prov_params.get("feature_template", [])
                     self.log(feature_templates)
                     if not feature_templates:
-                        self.log(
-                            "Empty feature template list found in provisioning parameters",
-                            "WARNING",
-                        )
+                        self.log("Empty feature template list found in provisioning parameters", "WARNING")
                     else:
-                        self.log(
-                            "Found {0} feature template(s) to process".format(
-                                len(feature_templates)
-                            ),
-                            "DEBUG",
-                        )
-                        payload = self.process_feature_template_configuration(
-                            feature_templates, payload
-                        )
+                        self.log("Found {0} feature template(s) to process".format(len(feature_templates)), "DEBUG")
+                        payload = self.process_feature_template_configuration(feature_templates, payload)
 
                 else:
-                    self.log(
-                        "No feature template configuration found in provisioning parameters",
-                        "DEBUG",
-                    )
+                    self.log("No feature template configuration found in provisioning parameters", "DEBUG")
 
             import json
 
@@ -3964,23 +3615,13 @@ class Provision(CatalystCenterBase):
             appropriate payload structure for the provisioning API, and ensures all mandatory fields
             are present and properly formatted before adding the template configuration to the payload.
         """
-        self.log(
-            "Processing feature template configuration with {0} templates".format(
-                len(feature_templates) if feature_templates else 0
-            ),
-            "DEBUG",
-        )
-        self.log(
-            "Input feature_templates: {0}".format(self.pprint(feature_templates)),
-            "DEBUG",
-        )
+        self.log("Processing feature template configuration with {0} templates".format(
+            len(feature_templates) if feature_templates else 0), "DEBUG")
+        self.log("Input feature_templates: {0}".format(self.pprint(feature_templates)), "DEBUG")
         self.log("Input payload structure: {0}".format(self.pprint(payload)), "DEBUG")
 
         if not feature_templates:
-            self.log(
-                "No feature templates provided; returning original payload unchanged",
-                "DEBUG",
-            )
+            self.log("No feature templates provided; returning original payload unchanged", "DEBUG")
             return payload
 
         self.initialize_feature_template_payload_structure(payload)
@@ -3988,68 +3629,44 @@ class Provision(CatalystCenterBase):
         processing_stats = {"processed": 0, "skipped": 0, "errors": 0}
 
         for template_index, feature_template in enumerate(feature_templates):
-            self.log(
-                "Processing feature template #{0}: {1}".format(
-                    template_index + 1, self.pprint(feature_template)
-                ),
-                "DEBUG",
-            )
+            self.log("Processing feature template #{0}: {1}".format(
+                template_index + 1, self.pprint(feature_template)), "DEBUG")
 
             if not isinstance(feature_template, dict):
                 message = "Feature template entry #{0} must be a dictionary. Skipping invalid entry.".format(
-                    template_index + 1
-                )
+                    template_index + 1)
                 self.log(message, "WARNING")
                 processing_stats["skipped"] += 1
                 continue
 
             try:
                 template_entry = self.process_individual_feature_template(
-                    template_index, feature_template
-                )
+                    template_index, feature_template)
 
                 if template_entry:
-                    payload["featureTemplatesOverridenAttributes"][
-                        "editFeatureTemplates"
-                    ].append(template_entry)
+                    payload["featureTemplatesOverridenAttributes"]["editFeatureTemplates"].append(
+                        template_entry)
                     processing_stats["processed"] += 1
-                    self.log(
-                        "Successfully added feature template entry for templateId '{0}'".format(
-                            template_entry.get("featureTemplateId")
-                        ),
-                        "INFO",
-                    )
+                    self.log("Successfully added feature template entry for templateId '{0}'".format(
+                        template_entry.get("featureTemplateId")), "INFO")
                 else:
                     processing_stats["skipped"] += 1
 
             except Exception as exception:
                 processing_stats["errors"] += 1
                 error_message = "Failed to process feature template #{0}: {1}".format(
-                    template_index + 1, str(exception)
-                )
+                    template_index + 1, str(exception))
                 self.log(error_message, "ERROR")
 
                 if hasattr(self, "set_operation_result"):
-                    self.set_operation_result(
-                        "failed", False, error_message, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, error_message, "ERROR").check_return_status()
                     return payload
 
-        self.log(
-            "Feature template processing completed - Processed: {0}, Skipped: {1}, Errors: {2}".format(
-                processing_stats["processed"],
-                processing_stats["skipped"],
-                processing_stats["errors"],
-            ),
-            "INFO",
-        )
+        self.log("Feature template processing completed - Processed: {0}, Skipped: {1}, Errors: {2}".format(
+            processing_stats["processed"], processing_stats["skipped"], processing_stats["errors"]), "INFO")
 
-        self.log(
-            "Final payload with feature templates: {0}".format(
-                self.pprint(payload["featureTemplatesOverridenAttributes"])
-            ),
-            "DEBUG",
-        )
+        self.log("Final payload with feature templates: {0}".format(
+            self.pprint(payload["featureTemplatesOverridenAttributes"])), "DEBUG")
 
         return payload
 
@@ -4064,17 +3681,14 @@ class Provision(CatalystCenterBase):
         self.log("Initializing feature template payload structure", "DEBUG")
 
         if "featureTemplatesOverridenAttributes" not in payload:
-            payload["featureTemplatesOverridenAttributes"] = {
-                "editFeatureTemplates": []
-            }
-            self.log(
-                "Created new featureTemplatesOverridenAttributes structure", "DEBUG"
-            )
+            payload["featureTemplatesOverridenAttributes"] = {"editFeatureTemplates": []}
+            self.log("Created new featureTemplatesOverridenAttributes structure", "DEBUG")
             return
 
         feature_template_attributes = payload["featureTemplatesOverridenAttributes"]
-        if "editFeatureTemplates" not in feature_template_attributes or not isinstance(
-            feature_template_attributes["editFeatureTemplates"], list
+        if (
+            "editFeatureTemplates" not in feature_template_attributes
+            or not isinstance(feature_template_attributes["editFeatureTemplates"], list)
         ):
             feature_template_attributes["editFeatureTemplates"] = []
             self.log("Initialized editFeatureTemplates as empty list", "DEBUG")
@@ -4090,12 +3704,7 @@ class Provision(CatalystCenterBase):
         Returns:
             dict or None: Formatted template entry for API payload, or None if skipped
         """
-        self.log(
-            "Processing individual feature template at index {0}".format(
-                template_index
-            ),
-            "DEBUG",
-        )
+        self.log("Processing individual feature template at index {0}".format(template_index), "DEBUG")
 
         normalized_params = self.normalize_feature_template_input(feature_template)
         feature_template_id = normalized_params["feature_template_id"]
@@ -4103,68 +3712,43 @@ class Provision(CatalystCenterBase):
 
         if not feature_template_id and not design_name:
             message = "Feature template #{0} missing both 'featureTemplateId' and 'design_name'. Skipping entry.".format(
-                template_index + 1
-            )
+                template_index + 1)
             self.log(message, "WARNING")
             return None
 
         # Resolve template ID if only design name provided
         if not feature_template_id and design_name:
-            self.log(
-                "Resolving feature template ID for design name '{0}'".format(
-                    design_name
-                ),
-                "DEBUG",
-            )
+            self.log("Resolving feature template ID for design name '{0}'".format(design_name), "DEBUG")
             try:
                 feature_template_id = self.resolve_template_id(design_name)
                 if not feature_template_id:
-                    message = "Failed to resolve template ID for design '{0}'. Skipping entry.".format(
-                        design_name
-                    )
+                    message = "Failed to resolve template ID for design '{0}'. Skipping entry.".format(design_name)
                     self.log(message, "WARNING")
                     return None
 
-                self.log(
-                    "Resolved template ID '{0}' for design '{1}'".format(
-                        feature_template_id, design_name
-                    ),
-                    "DEBUG",
-                )
+                self.log("Resolved template ID '{0}' for design '{1}'".format(
+                    feature_template_id, design_name), "DEBUG")
 
             except Exception as exception:
-                error_message = (
-                    "Exception resolving template ID for design '{0}': {1}".format(
-                        design_name, str(exception)
-                    )
-                )
+                error_message = "Exception resolving template ID for design '{0}': {1}".format(
+                    design_name, str(exception))
                 self.log(error_message, "ERROR")
                 raise
 
         template_entry = {
             "featureTemplateId": feature_template_id,
-            "attributes": (
-                normalized_params["attributes"]
-                if normalized_params["attributes"]
-                else {}
-            ),
+            "attributes": normalized_params["attributes"] if normalized_params["attributes"] else {}
         }
 
         # Only include additionalIdentifiers if user actually provided something
         if normalized_params["additional_identifiers"]:
-            template_entry["additionalIdentifiers"] = normalized_params[
-                "additional_identifiers"
-            ]
+            template_entry["additionalIdentifiers"] = normalized_params["additional_identifiers"]
 
         # Include excludedAttributes if provided
         if normalized_params["excluded_attributes"]:
-            template_entry["excludedAttributes"] = normalized_params[
-                "excluded_attributes"
-            ]
+            template_entry["excludedAttributes"] = normalized_params["excluded_attributes"]
 
-        self.log(
-            "Built template entry: {0}".format(self.pprint(template_entry)), "DEBUG"
-        )
+        self.log("Built template entry: {0}".format(self.pprint(template_entry)), "DEBUG")
         return template_entry
 
     def normalize_feature_template_input(self, feature_template):
@@ -4178,9 +3762,10 @@ class Provision(CatalystCenterBase):
         self.log("Normalizing feature template input parameters", "DEBUG")
 
         # Extract template identifiers with fallbacks
-        feature_template_id = feature_template.get(
-            "featureTemplateId"
-        ) or feature_template.get("feature_template_id")
+        feature_template_id = (
+            feature_template.get("featureTemplateId")
+            or feature_template.get("feature_template_id")
+        )
 
         design_name = (
             feature_template.get("design_name")
@@ -4189,9 +3774,7 @@ class Provision(CatalystCenterBase):
         )
 
         # Extract configuration parameters
-        attributes = (
-            feature_template.get("attributes") or feature_template.get("attrs") or {}
-        )
+        attributes = feature_template.get("attributes") or feature_template.get("attrs") or {}
         if attributes is None:
             attributes = {}
 
@@ -4214,12 +3797,9 @@ class Provision(CatalystCenterBase):
         if not additional_identifiers_input:
             additional_identifiers_input = {}
             identifier_keys = [
-                "wlan_profile_name",
-                "wlanProfileName",
-                "site_name_hierarchy",
-                "siteHierarchy",
-                "siteUuid",
-                "site_uuid",
+                "wlan_profile_name", "wlanProfileName",
+                "site_name_hierarchy", "siteHierarchy",
+                "siteUuid", "site_uuid"
             ]
             for key in identifier_keys:
                 if key in feature_template:
@@ -4230,12 +3810,10 @@ class Provision(CatalystCenterBase):
             "design_name": design_name,
             "attributes": attributes,
             "excluded_attributes": excluded_attributes,
-            "additional_identifiers": additional_identifiers_input,
+            "additional_identifiers": additional_identifiers_input
         }
 
-        self.log(
-            "Normalized parameters: {0}".format(self.pprint(normalized_result)), "DEBUG"
-        )
+        self.log("Normalized parameters: {0}".format(self.pprint(normalized_result)), "DEBUG")
         return normalized_result
 
     def get_diff_deleted(self):
@@ -4313,10 +3891,10 @@ class Provision(CatalystCenterBase):
                     "failed", False, self.msg, "ERROR"
                 ).check_return_status()
 
-        elif (
-            self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0
-        ):
-            self.log("Detected Catalyst Center version <= 2.3.7.6")
+        elif self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+            self.log(
+                "Detected Catalyst Center version <= 2.3.7.6"
+            )
             try:
                 response = self.catalystcenter._exec(
                     family="sda",
@@ -4403,9 +3981,7 @@ class Provision(CatalystCenterBase):
                 self.check_tasks_response_status(response, api_name=device_id)
 
                 if self.status not in ["failed", "exited"]:
-                    self.device_deleted.append(
-                        self.validated_config["management_ip_address"]
-                    )
+                    self.device_deleted.append(self.validated_config["management_ip_address"])
                     self.msg = (
                         "Deletion done Successfully for the device '{0}' ".format(
                             self.validated_config["management_ip_address"]
@@ -4453,9 +4029,7 @@ class Provision(CatalystCenterBase):
             logs the states, and validates whether the specified device(s) exists in the DNA
             Center configuration's Inventory Database in the provisioned state.
         """
-        if self.compare_catalystcenter_versions(
-            self.get_ccc_version(), "2.3.5.3"
-        ) <= 0 or (
+        if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0 or (
             self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0
             and self.device_type == "wireless"
         ):
@@ -4627,7 +4201,7 @@ class Provision(CatalystCenterBase):
         """
 
         self.log("Aggregating all final status messages for the module run.", "DEBUG")
-        self.result = self.result if hasattr(self, "result") else {}
+        self.result = self.result if hasattr(self, 'result') else {}
         self.result["changed"] = False
         result_msg_list_changed = []
         result_msg_list_not_changed = []
@@ -4713,21 +4287,15 @@ class Provision(CatalystCenterBase):
             # Get original config from params to extract IPs
             original_config = self.params.get("config", [])
             if isinstance(original_config, list):
-                ips = [
-                    item.get("management_ip_address")
-                    for item in original_config
-                    if isinstance(item, dict) and item.get("management_ip_address")
-                ]
+                ips = [item.get("management_ip_address") for item in original_config if isinstance(item, dict) and item.get("management_ip_address")]
                 ip_list_str = ", ".join(ips) if ips else "N/A"
             else:
                 ip_list_str = "N/A"
 
-            self.msg = (
-                "No provisioning operations were executed for these IPs: {0}".format(
-                    ip_list_str
-                )
+            self.msg = "No provisioning operations were executed for these IPs: {0}".format(ip_list_str)
+            self.set_operation_result(
+                "success", False, self.msg, "INFO"
             )
-            self.set_operation_result("success", False, self.msg, "INFO")
 
         self.result["msg"] = self.msg
         self.result["response"] = self.msg
@@ -4744,25 +4312,17 @@ def main():
     """
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
@@ -4776,9 +4336,7 @@ def main():
     provision_performed = False
 
     if (
-        ccc_provision.compare_catalystcenter_versions(
-            ccc_provision.get_ccc_version(), "2.3.5.3"
-        )
+        ccc_provision.compare_catalystcenter_versions(ccc_provision.get_ccc_version(), "2.3.5.3")
         < 0
     ):
         ccc_provision.msg = """The specified version '{0}' does not support the 'provision_workflow_manager' feature.
@@ -4797,9 +4355,7 @@ def main():
     ccc_provision.validate_input(state=state).check_return_status()
 
     is_version_valid = (
-        ccc_provision.compare_catalystcenter_versions(
-            ccc_provision.get_ccc_version(), "2.3.7.6"
-        )
+        ccc_provision.compare_catalystcenter_versions(ccc_provision.get_ccc_version(), "2.3.7.6")
         >= 0
     )
 

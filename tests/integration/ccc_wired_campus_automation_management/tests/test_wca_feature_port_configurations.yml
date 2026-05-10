@@ -8,7 +8,7 @@
 #       file: "{{ role_path }}/vars/vars_wca_test_feature_port_configuration.yml"
 #       name: port_config_vars_map
 #     vars:
-#       catalyst_login: &catalyst_login
+#       catalystcenter_login: &catalystcenter_login
 #         catalystcenter_host: "{{ catalystcenter_host }}"
 #         catalystcenter_username: "{{ catalystcenter_username }}"
 #         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -19,8 +19,8 @@
 #         catalystcenter_log: true
 #         catalystcenter_log_level: DEBUG
 #         config_verify: true
-#         dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-#         dnac_log_append: false
+#         catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+#         catalystcenter_log_append: false
 
 #   #############################################
 #   #        Port Configuration Test Summary   #
@@ -73,8 +73,8 @@
 #   # - name: "NEGATIVE TEST - Port Configuration Structure Tests"
 #   #   block:
 #       # - name: "TEST 1: Invalid port configuration - string instead of list"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_invalid_list_type }}"
@@ -92,8 +92,8 @@
 #       #   tags: [negative, structure, port_config_invalid_list_type]
 
 #       # - name: "TEST 2: Invalid port configuration - dictionary instead of list"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_invalid_dict_type }}"
@@ -111,8 +111,8 @@
 #       #   tags: [negative, structure, port_config_invalid_dict_type]
 
 #       # - name: "TEST 3: Invalid port configuration item - string instead of dictionary"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_item_invalid_dict_type }}"
@@ -130,8 +130,8 @@
 #       #   tags: [negative, structure, port_config_item_invalid_dict]
 
 #       # - name: "TEST 4: Missing interface_name - required field"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_missing_interface_name }}"
@@ -149,8 +149,8 @@
 #       #   tags: [negative, structure, missing_interface_name]
 
 #       # - name: "TEST 5: Invalid interface_name - integer instead of string"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_interface_name_integer }}"
@@ -168,8 +168,8 @@
 #       #   tags: [negative, structure, interface_name_integer]
 
 #       # - name: "TEST 6: Invalid interface_name - empty string"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_interface_name_empty }}"
@@ -193,8 +193,8 @@
 #   # - name: "NEGATIVE TEST - Switchport Interface Config Tests"
 #   #   block:
 #       # - name: "TEST 7: Invalid switchport_interface_config - string instead of dict"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_switchport_config_invalid_dict_type }}"
@@ -212,8 +212,8 @@
 #       #   tags: [negative, switchport, config_invalid_dict]
 
 #       # - name: "TEST 8: Invalid switchport_description - integer instead of string"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_switchport_description_integer }}"
@@ -231,8 +231,8 @@
 #       #   tags: [negative, switchport, description_integer]
 
 #       # - name: "TEST 9: Invalid switchport_description - exceeds maximum length"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_switchport_description_max_length }}"
@@ -250,8 +250,8 @@
 #       #   tags: [negative, switchport, description_max_length]
 
 #       # - name: "TEST 10: Invalid switchport_mode - invalid choice"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_switchport_mode_invalid }}"
@@ -269,8 +269,8 @@
 #       #   tags: [negative, switchport, mode_invalid]
 
 #       # - name: "TEST 11: Invalid switchport_mode - integer instead of string"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_switchport_mode_integer }}"
@@ -288,8 +288,8 @@
 #       #   tags: [negative, switchport, mode_integer]
 
 #       # - name: "TEST 12: Invalid access_vlan - string instead of integer"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_access_vlan_string }}"
@@ -307,8 +307,8 @@
 #       #   tags: [negative, switchport, access_vlan_string]
 
 #       # - name: "TEST 13: Invalid access_vlan - negative value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_access_vlan_negative }}"
@@ -326,8 +326,8 @@
 #       #   tags: [negative, switchport, access_vlan_negative]
 
 #       # - name: "TEST 14: Invalid access_vlan - exceeds maximum value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_access_vlan_max }}"
@@ -345,8 +345,8 @@
 #       #   tags: [negative, switchport, access_vlan_max]
 
 #       # - name: "TEST 15: Invalid access_vlan - zero value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_access_vlan_zero }}"
@@ -364,8 +364,8 @@
 #       #   tags: [negative, switchport, access_vlan_zero]
 
 #       # - name: "TEST 16: Invalid admin_status - string instead of boolean"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_admin_status_string }}"
@@ -383,8 +383,8 @@
 #       #   tags: [negative, switchport, admin_status_string]
 
 #       # - name: "TEST 17: Invalid admin_status - integer instead of boolean"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_admin_status_integer }}"
@@ -402,8 +402,8 @@
 #       #   tags: [negative, switchport, admin_status_integer]
 
 #       # - name: "TEST 17: Invalid voice_vlan - string instead of integer"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_voice_vlan_string }}"
@@ -421,8 +421,8 @@
 #       #   tags: [negative, switchport, voice_vlan_string]
 
 #       # - name: "TEST 18: Invalid voice_vlan - negative value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_voice_vlan_negative }}"
@@ -440,8 +440,8 @@
 #       #   tags: [negative, switchport, voice_vlan_negative]
 
 #       # - name: "TEST 19: Invalid voice_vlan - exceeds maximum value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_voice_vlan_max }}"
@@ -459,8 +459,8 @@
 #       #   tags: [negative, switchport, voice_vlan_max]
 
 #       # - name: "TEST 20: Invalid voice_vlan - zero value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_voice_vlan_zero }}"
@@ -478,8 +478,8 @@
 #       #   tags: [negative, switchport, voice_vlan_zero]
 
 #       # - name: "TEST 21: Invalid allowed_vlans - string instead of list"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_allowed_vlans_string }}"
@@ -497,8 +497,8 @@
 #       #   tags: [negative, switchport, allowed_vlans_string]
 
 #       # - name: "TEST 22: Invalid allowed_vlans - non-integer elements"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_allowed_vlans_non_integer }}"
@@ -516,8 +516,8 @@
 #       #   tags: [negative, switchport, allowed_vlans_non_integer]
 
 #       # - name: "TEST 23: Invalid allowed_vlans - out of range values"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_allowed_vlans_out_of_range }}"
@@ -535,8 +535,8 @@
 #       #   tags: [negative, switchport, allowed_vlans_out_of_range]
 
 #       # - name: "TEST 24: Invalid native_vlan_id - string instead of integer"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_native_vlan_id_string }}"
@@ -554,8 +554,8 @@
 #       #   tags: [negative, switchport, native_vlan_id_string]
 
 #       # - name: "TEST 25: Invalid native_vlan_id - negative value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_native_vlan_id_negative }}"
@@ -573,8 +573,8 @@
 #       #   tags: [negative, switchport, native_vlan_id_negative]
 
 #       # - name: "TEST 26: Invalid native_vlan_id - exceeds maximum value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_native_vlan_id_max }}"
@@ -592,8 +592,8 @@
 #       #   tags: [negative, switchport, native_vlan_id_max]
 
 #       # - name: "TEST 27: Invalid native_vlan_id - zero value"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_native_vlan_id_zero }}"
@@ -617,8 +617,8 @@
 #   # - name: "NEGATIVE TEST - VLAN Trunking Interface Config Tests"
 #   #   block:
 #   #     - name: "TEST 28: Invalid vlan_trunking_interface_config - string instead of dict"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_vlan_trunking_config_invalid_dict_type }}"
@@ -636,8 +636,8 @@
 #   #       tags: [negative, vlan_trunking, config_invalid_dict]
 
 #   #     - name: "TEST 29: Invalid dtp_negotiation - str instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_dtp_negotiation_invalid }}"
@@ -655,8 +655,8 @@
 #   #       tags: [negative, vlan_trunking, dtp_negotiation_invalid]
 
 #   #     - name: "TEST 30: Invalid dtp_negotiation - integer instead of bool"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_dtp_negotiation_integer }}"
@@ -674,8 +674,8 @@
 #   #       tags: [negative, vlan_trunking, dtp_negotiation_integer]
 
 #   #     - name: "TEST 31: Invalid protected - string instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_protected_string }}"
@@ -693,8 +693,8 @@
 #   #       tags: [negative, vlan_trunking, protected_string]
 
 #   #     - name: "TEST 32: Invalid protected - integer instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_protected_integer }}"
@@ -712,8 +712,8 @@
 #   #       tags: [negative, vlan_trunking, protected_integer]
 
 #   #     - name: "TEST 33: Invalid pruning_vlan_ids - string instead of list"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_pruning_vlan_ids_string }}"
@@ -731,8 +731,8 @@
 #   #       tags: [negative, vlan_trunking, pruning_vlan_ids_string]
 
 #   #     - name: "TEST 35: Invalid pruning_vlan_ids - out of range values"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_pruning_vlan_ids_out_of_range }}"
@@ -756,8 +756,8 @@
 #   # - name: "NEGATIVE TEST - 802.1X Interface Config Tests"
 #   #   block:
 #   #     - name: "TEST 22: Invalid authentication_order - string instead of list"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_authentication_order_string }}"
@@ -775,8 +775,8 @@
 #   #       tags: [negative, dot1x, auth_order_string]
 
 #   #     - name: "TEST 23: Invalid authentication_order - exceeds maximum items"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_authentication_order_max_items }}"
@@ -794,8 +794,8 @@
 #   #       tags: [negative, dot1x, auth_order_max]
 
 #   #     - name: "TEST 24: Invalid dot1x_interface_config - string instead of dict"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_dot1x_config_invalid_dict_type }}"
@@ -813,8 +813,8 @@
 #   #       tags: [negative, dot1x, config_invalid_dict]
 
 #   #     - name: "TEST 25: Invalid authentication_order - invalid choice in list"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_authentication_order_invalid_choice }}"
@@ -832,8 +832,8 @@
 #   #       tags: [negative, dot1x, auth_order_invalid_choice]
 
 #   #     - name: "TEST 26: Invalid authentication_order - non-string elements"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_authentication_order_non_string }}"
@@ -851,8 +851,8 @@
 #   #       tags: [negative, dot1x, auth_order_non_string]
 
 #   #     - name: "TEST 27: Invalid authentication mode choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_invalid_authentication_mode }}"
@@ -870,8 +870,8 @@
 #   #       tags: [negative, dot1x, invalid_auth_mode]
 
 #   #     - name: "TEST 28: Authentication mode as non-string"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_authentication_mode_non_string }}"
@@ -889,8 +889,8 @@
 #   #       tags: [negative, dot1x, auth_mode_non_string]
 
 #   #     - name: "TEST 29: Invalid PAE type choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_invalid_pae_type }}"
@@ -908,8 +908,8 @@
 #   #       tags: [negative, dot1x, invalid_pae_type]
 
 #   #     - name: "TEST 30: Invalid control direction choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_invalid_control_direction }}"
@@ -927,8 +927,8 @@
 #   #       tags: [negative, dot1x, invalid_control_direction]
 
 #   #     - name: "TEST 31: Invalid host mode choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_invalid_host_mode }}"
@@ -946,8 +946,8 @@
 #   #       tags: [negative, dot1x, invalid_host_mode]
 
 #   #     - name: "TEST 32: Invalid port control choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_invalid_port_control }}"
@@ -965,8 +965,8 @@
 #   #       tags: [negative, dot1x, invalid_port_control]
 
 #   #     - name: "TEST 33: Invalid inactivity timer - below range"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_inactivity_timer_below_range }}"
@@ -984,8 +984,8 @@
 #   #       tags: [negative, dot1x, inactivity_timer_below]
 
 #   #     - name: "TEST 34: Invalid inactivity timer - above range"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_inactivity_timer_above_range }}"
@@ -1003,8 +1003,8 @@
 #   #       tags: [negative, dot1x, inactivity_timer_above]
 
 #   #     - name: "TEST 35: Invalid max reauth requests - below range"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_max_reauth_below_range }}"
@@ -1022,8 +1022,8 @@
 #   #       tags: [negative, dot1x, max_reauth_below]
 
 #   #     - name: "TEST 36: Invalid reauth timer - below range"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_reauth_timer_below_range }}"
@@ -1041,8 +1041,8 @@
 #   #       tags: [negative, dot1x, reauth_timer_below]
 
 #   #     - name: "TEST 37: Invalid tx period - below range"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_tx_period_below_range }}"
@@ -1060,8 +1060,8 @@
 #   #       tags: [negative, dot1x, tx_period_below]
 
 #   #     - name: "TEST 38: Boolean parameter as string"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_boolean_as_string }}"
@@ -1079,8 +1079,8 @@
 #   #       tags: [negative, dot1x, boolean_as_string]
 
 #   #     - name: "TEST 39: Boolean parameter as integer"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_boolean_as_integer }}"
@@ -1098,8 +1098,8 @@
 #   #       tags: [negative, dot1x, boolean_as_integer]
 
 #   #     - name: "TEST 40: Invalid priority - exceeds max items"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_priority_max_items }}"
@@ -1117,8 +1117,8 @@
 #   #       tags: [negative, dot1x, priority_max_items]
 
 #   #     - name: "TEST 41: Invalid priority - invalid choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_priority_invalid_choice }}"
@@ -1142,8 +1142,8 @@
 #   # - name: "NEGATIVE TEST - MAB Interface Config Tests"
 #   #   block:
 #   #     - name: "TEST 42: Invalid mab_interface_config - string instead of dict"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_mab_config_invalid_dict_type }}"
@@ -1161,8 +1161,8 @@
 #   #       tags: [negative, mab, config_invalid_dict]
 
 #   #     - name: "TEST 43: Invalid enable_mab - string instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_enable_mab_string }}"
@@ -1180,8 +1180,8 @@
 #   #       tags: [negative, mab, enable_mab_string]
 
 #   #     - name: "TEST 44: Invalid enable_mab - integer instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_enable_mab_integer }}"
@@ -1205,8 +1205,8 @@
 #   # - name: "NEGATIVE TEST - STP Interface Config Tests"
 #   #   block:
 #   #     - name: "TEST 45: Invalid stp_interface_config - string instead of dict"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_config_invalid_dict_type }}"
@@ -1224,8 +1224,8 @@
 #   #       tags: [negative, stp, config_invalid_dict]
 
 #   #     - name: "TEST 46: Invalid stp_interface_portfast_mode - invalid choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_portfast_mode_invalid }}"
@@ -1243,8 +1243,8 @@
 #   #       tags: [negative, stp, portfast_mode_invalid]
 
 #   #     - name: "TEST 47: Invalid stp_interface_portfast_mode - integer instead of string"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_portfast_mode_integer }}"
@@ -1262,8 +1262,8 @@
 #   #       tags: [negative, stp, portfast_mode_integer]
 
 #   #     - name: "TEST 48: Invalid stp_interface_bpdu_filter - string instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_bpdu_filter_string }}"
@@ -1281,8 +1281,8 @@
 #   #       tags: [negative, stp, bpdu_filter_string]
 
 #   #     - name: "TEST 49: Invalid stp_interface_bpdu_guard - string instead of boolean"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_bpdu_guard_string }}"
@@ -1300,8 +1300,8 @@
 #   #       tags: [negative, stp, bpdu_guard_string]
 
 #   #     - name: "TEST 50: Invalid stp_interface_cost - string instead of integer"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_cost_string }}"
@@ -1319,8 +1319,8 @@
 #   #       tags: [negative, stp, cost_string]
 
 #   #     - name: "TEST 51: Invalid stp_interface_cost - negative value"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_cost_negative }}"
@@ -1338,8 +1338,8 @@
 #   #       tags: [negative, stp, cost_negative]
 
 #   #     - name: "TEST 52: Invalid stp_interface_cost - exceeds maximum value"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_cost_max }}"
@@ -1357,8 +1357,8 @@
 #   #       tags: [negative, stp, cost_max]
 
 #   #     - name: "TEST 53: Invalid stp_interface_guard - invalid choice"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_guard_invalid }}"
@@ -1376,8 +1376,8 @@
 #   #       tags: [negative, stp, guard_invalid]
 
 #   #     - name: "TEST 54: Invalid stp_interface_priority - string instead of integer"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_priority_string }}"
@@ -1395,8 +1395,8 @@
 #   #       tags: [negative, stp, priority_string]
 
 #   #     - name: "TEST 55: Invalid stp_interface_priority - negative value"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_priority_negative }}"
@@ -1414,8 +1414,8 @@
 #   #       tags: [negative, stp, priority_negative]
 
 #   #     - name: "TEST 56: Invalid stp_interface_priority - exceeds maximum value"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_priority_max }}"
@@ -1433,8 +1433,8 @@
 #   #       tags: [negative, stp, priority_max]
 
 #   #     - name: "TEST 57: Invalid stp_interface_priority - not multiple of 16"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_priority_not_multiple }}"
@@ -1452,8 +1452,8 @@
 #   #       tags: [negative, stp, priority_multiple]
 
 #   #     - name: "TEST 58: Invalid stp_interface_per_vlan_cost - string instead of dict"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_cost_invalid_dict }}"
@@ -1471,8 +1471,8 @@
 #   #       tags: [negative, stp, per_vlan_cost_invalid_dict]
 
 #   #     - name: "TEST 59: Invalid stp_interface_per_vlan_cost priority - string instead of integer"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_cost_priority_string }}"
@@ -1490,8 +1490,8 @@
 #   #       tags: [negative, stp, per_vlan_cost_priority_string]
 
 #   #     - name: "TEST 60: Invalid stp_interface_per_vlan_cost vlan_ids - string instead of list"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_cost_vlan_ids_string }}"
@@ -1509,8 +1509,8 @@
 #   #       tags: [negative, stp, per_vlan_cost_vlan_ids_string]
 
 #   #     - name: "TEST 61: Invalid stp_interface_per_vlan_priority - string instead of dict"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_stp_interface_per_vlan_priority_invalid_dict }}"
@@ -1534,8 +1534,8 @@
 # #   - name: "NEGATIVE TEST - DHCP Snooping Interface Config Tests"
 # #     block:
 # #       - name: "TEST 62: Invalid dhcp_snooping_interface_config - string instead of dict"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_config_invalid_dict_type }}"
@@ -1553,8 +1553,8 @@
 # #         tags: [negative, dhcp_snooping, config_invalid_dict]
 
 # #       - name: "TEST 63: Invalid dhcp_snooping_interface_rate - string instead of integer"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_rate_string }}"
@@ -1572,8 +1572,8 @@
 # #         tags: [negative, dhcp_snooping, rate_string]
 
 # #       - name: "TEST 64: Invalid dhcp_snooping_interface_rate - negative value"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_rate_negative }}"
@@ -1591,8 +1591,8 @@
 # #         tags: [negative, dhcp_snooping, rate_negative]
 
 # #       - name: "TEST 65: Invalid dhcp_snooping_interface_rate - exceeds maximum value"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_rate_max }}"
@@ -1610,8 +1610,8 @@
 # #         tags: [negative, dhcp_snooping, rate_max]
 
 # #       - name: "TEST 66: Invalid dhcp_snooping_interface_trust - string instead of boolean"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_dhcp_snooping_interface_trust_string }}"
@@ -1635,8 +1635,8 @@
 # #   - name: "NEGATIVE TEST - CDP Interface Config Tests"
 # #     block:
 # #       - name: "TEST 67: Invalid cdp_interface_config - string instead of dict"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_cdp_interface_config_invalid_dict_type }}"
@@ -1654,8 +1654,8 @@
 # #         tags: [negative, cdp, config_invalid_dict]
 
 # #       - name: "TEST 68: Invalid cdp_interface_admin_status - string instead of boolean"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_cdp_interface_admin_status_string }}"
@@ -1673,8 +1673,8 @@
 # #         tags: [negative, cdp, admin_status_string]
 
 # #       - name: "TEST 69: Invalid cdp_interface_log_duplex_mismatch - string instead of boolean"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_cdp_interface_log_duplex_mismatch_string }}"
@@ -1698,8 +1698,8 @@
 # #   - name: "NEGATIVE TEST - LLDP Interface Config Tests"
 # #     block:
 # #       - name: "TEST 70: Invalid lldp_interface_config - string instead of dict"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_lldp_interface_config_invalid_dict_type }}"
@@ -1717,8 +1717,8 @@
 # #         tags: [negative, lldp, config_invalid_dict]
 
 # #       - name: "TEST 71: Invalid lldp_interface_receive_transmit - invalid choice"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_lldp_interface_receive_transmit_invalid }}"
@@ -1736,8 +1736,8 @@
 # #         tags: [negative, lldp, receive_transmit_invalid]
 
 # #       - name: "TEST 72: Invalid lldp_interface_receive_transmit - integer instead of string"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_lldp_interface_receive_transmit_integer }}"
@@ -1761,8 +1761,8 @@
 # #   - name: "NEGATIVE TEST - VTP Interface Config Tests"
 # #     block:
 # #       - name: "TEST 73: Invalid vtp_interface_config - string instead of dict"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_vtp_interface_config_invalid_dict_type }}"
@@ -1780,8 +1780,8 @@
 # #         tags: [negative, vtp, config_invalid_dict]
 
 # #       - name: "TEST 74: Invalid vtp_interface_admin_status - string instead of boolean"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_vtp_interface_admin_status_string }}"
@@ -1805,8 +1805,8 @@
 #   # - name: "POSITIVE TEST - Port Configuration CREATE Operations"
 #   #   block:
 #       # - name: "CREATE TEST 1: Minimal switchport configuration"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_minimal_switchport }}"
@@ -1829,8 +1829,8 @@
 #       #   tags: [positive, create, pause]
 
 #       # - name: "CREATE TEST 2: Comprehensive switchport access configuration"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_comprehensive_switchport_access }}"
@@ -1848,8 +1848,8 @@
 #       #   tags: [positive, create, comprehensive_access]
 
 #       # - name: "CREATE TEST 3: Comprehensive switchport trunk configuration"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_comprehensive_switchport_trunk }}"
@@ -1867,8 +1867,8 @@
 #       #   tags: [positive, create, comprehensive_trunk]
 
 #       # - name: "CREATE TEST 4: Switchport with VLAN trunking"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_switchport_with_trunking }}"
@@ -1886,8 +1886,8 @@
 #       #   tags: [positive, create, with_trunking]
 
 #       # - name: "CREATE TEST 5: Access port with 802.1X authentication"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_access_with_dot1x }}"
@@ -1905,8 +1905,8 @@
 #       #   tags: [positive, create, access_dot1x]
 
 #       # - name: "CREATE TEST 6: Access port with MAB authentication"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_access_with_mab }}"
@@ -1924,8 +1924,8 @@
 #       #   tags: [positive, create, access_mab]
 
 #       # - name: "CREATE TEST 7: Access port with STP configuration"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_access_with_stp }}"
@@ -1943,8 +1943,8 @@
 #       #   tags: [positive, create, access_stp]
 
 #       # - name: "CREATE TEST 8: Access port with DHCP snooping"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_access_with_dhcp_snooping }}"
@@ -1962,8 +1962,8 @@
 #       #   tags: [positive, create, access_dhcp_snooping]
 
 #       # - name: "CREATE TEST 9: Access port with CDP and LLDP"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_access_with_cdp_lldp }}"
@@ -1981,8 +1981,8 @@
 #       #   tags: [positive, create, access_cdp_lldp]
 
 #       # - name: "CREATE TEST 10: Comprehensive all features single port"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_comprehensive_all_features }}"
@@ -2000,8 +2000,8 @@
 #       #   tags: [positive, create, all_features]
 
 #       # - name: "CREATE TEST 11: Multiple ports different configurations"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_multiple_ports_different }}"
@@ -2019,8 +2019,8 @@
 #       #   tags: [positive, create, multiple_different]
 
 #       # - name: "CREATE TEST 12: Multiple ports same configuration"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_multiple_ports_same }}"
@@ -2038,8 +2038,8 @@
 #       #   tags: [positive, create, multiple_same]
 
 #       # - name: "CREATE TEST 13: Dynamic mode configurations"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_create_dynamic_modes }}"
@@ -2063,8 +2063,8 @@
 # #   - name: "POSITIVE TEST - Port Configuration UPDATE Operations"
 # #     block:
 #       # - name: "UPDATE TEST 1: Modify switchport description"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_description }}"
@@ -2082,8 +2082,8 @@
 #       #   tags: [positive, update, description]
 
 #       # - name: "UPDATE TEST 2: Change access VLAN"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_access_vlan }}"
@@ -2101,8 +2101,8 @@
 #       #   tags: [positive, update, access_vlan]
 
 #       # - name: "UPDATE TEST 3: Change switchport mode from access to trunk"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_mode_access_to_trunk }}"
@@ -2120,8 +2120,8 @@
 #       #   tags: [positive, update, mode_trunk]
 
 #       # - name: "UPDATE TEST 4: Change switchport mode from trunk to access"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_mode_trunk_to_access }}"
@@ -2139,8 +2139,8 @@
 #       #   tags: [positive, update, mode_access]
 
 #       # - name: "UPDATE TEST 5: Modify trunk allowed VLANs"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_trunk_allowed_vlans }}"
@@ -2158,8 +2158,8 @@
 #       #   tags: [positive, update, allowed_vlans]
 
 #       # - name: "UPDATE TEST 6: Add voice VLAN to access port"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_add_voice_vlan }}"
@@ -2177,8 +2177,8 @@
 #       #   tags: [positive, update, add_voice_vlan]
 
 #       # - name: "UPDATE TEST 7: Modify admin status"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_admin_status }}"
@@ -2196,8 +2196,8 @@
 #       #   tags: [positive, update, admin_status]
 
 #       # - name: "UPDATE TEST 8: Add 802.1X to existing port"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_add_dot1x }}"
@@ -2215,8 +2215,8 @@
 #       #   tags: [positive, update, add_dot1x]
 
 #       # - name: "UPDATE TEST 9: Modify STP settings"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_stp_settings }}"
@@ -2234,8 +2234,8 @@
 #       #   tags: [positive, update, stp_settings]
 
 #       # - name: "UPDATE TEST 10: Comprehensive update all features"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_update_comprehensive_all_features }}"
@@ -2259,8 +2259,8 @@
 #   # - name: "POSITIVE TEST - Boundary Value Testing"
 #   #   block:
 #       # - name: "BOUNDARY TEST 1: Minimum VLAN values"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_boundary_min_vlans }}"
@@ -2283,8 +2283,8 @@
 #       #   tags: [positive, boundary, min_vlans]
 
 #       # - name: "BOUNDARY TEST 2: Maximum VLAN values"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_boundary_max_vlans }}"
@@ -2307,8 +2307,8 @@
 #       #   tags: [positive, create, pause]
 
 #       # - name: "BOUNDARY TEST 3: Minimum STP cost"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_boundary_min_stp_cost }}"
@@ -2331,8 +2331,8 @@
 #       #   tags: [positive, create, pause]
 
 #       # - name: "BOUNDARY TEST 4: Maximum STP cost"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_boundary_max_stp_cost }}"
@@ -2355,8 +2355,8 @@
 #       #   tags: [positive, create, pause]
   
 #       # - name: "BOUNDARY TEST 5: Maximum description length"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_boundary_max_description_length }}"
@@ -2379,8 +2379,8 @@
 #       #   tags: [positive, create, pause]
 
 #       # - name: "BOUNDARY TEST 6: Maximum allowed VLANs list"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_boundary_max_allowed_vlans }}"
@@ -2404,8 +2404,8 @@
 #   # - name: "POSITIVE TEST - Special Configuration Testing"
 #   #   block:
 #   #     - name: "SPECIAL TEST 1: All switchport modes"
-#   #       cisco.dnac.wired_campus_automation_workflow_manager:
-#   #         <<: *catalyst_login
+#   #       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#   #         <<: *catalystcenter_login
 #   #         state: merged
 #   #         config:
 #   #           - "{{ port_config_vars_map.test_port_config_special_all_switchport_modes }}"
@@ -2428,8 +2428,8 @@
 #   #       tags: [positive, create, pause]
 
 #       # - name: "SPECIAL TEST 3: All STP guard modes"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_special_all_stp_guard_modes }}"
@@ -2452,8 +2452,8 @@
 #       #   tags: [positive, create, pause]
   
 #       # - name: "SPECIAL TEST 4: All LLDP modes"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_special_all_lldp_modes }}"
@@ -2476,8 +2476,8 @@
 #       #   tags: [positive, create, pause]
 
 #       # - name: "SPECIAL TEST 5: All boolean combinations"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_special_all_boolean_combinations }}"
@@ -2500,8 +2500,8 @@
 #       #   tags: [positive, create, pause]
 
 #       # - name: "SPECIAL TEST 6: Comprehensive large scale configuration"
-#       #   cisco.dnac.wired_campus_automation_workflow_manager:
-#       #     <<: *catalyst_login
+#       #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#       #     <<: *catalystcenter_login
 #       #     state: merged
 #       #     config:
 #       #       - "{{ port_config_vars_map.test_port_config_special_large_scale }}"
@@ -2526,8 +2526,8 @@
 # #   - name: "DELETE TEST - Port Configuration Cleanup"
 # #     block:
 # #       - name: "DELETE TEST 1: Remove specific features only"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_specific_features }}"
@@ -2545,8 +2545,8 @@
 # #         tags: [positive, delete, specific_features]
 
 # #       - name: "DELETE TEST 2: Reset to minimal configuration"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_reset_to_minimal }}"
@@ -2564,8 +2564,8 @@
 # #         tags: [positive, delete, reset_minimal]
 
 # #       - name: "DELETE TEST 3: Remove all port configurations"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_cleanup_all }}"
@@ -2583,8 +2583,8 @@
 # #         tags: [positive, delete, cleanup_all]
 
 # #       - name: "DELETE TEST 4: Reset to default state"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_cleanup_reset_defaults }}"
@@ -2608,8 +2608,8 @@
 # #   - name: "IDEMPOTENCY TEST - Verify No Changes on Repeat Operations"
 # #     block:
 # #       - name: "IDEMPOTENCY TEST 1: Repeat minimal switchport configuration"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_create_minimal_switchport }}"
@@ -2626,8 +2626,8 @@
 # #         tags: [idempotency, minimal_repeat]
 
 # #       - name: "IDEMPOTENCY TEST 2: Repeat comprehensive configuration"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_create_comprehensive_all_features }}"
@@ -2644,8 +2644,8 @@
 # #         tags: [idempotency, comprehensive_repeat]
 
 # #       - name: "IDEMPOTENCY TEST 3: Repeat multiple ports configuration"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: merged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_create_multiple_ports_different }}"
@@ -2670,8 +2670,8 @@
 #   - name: "DELETE TEST - Port Configuration Feature Removal"
 #     block:
 #       - name: "DELETE TEST 1: Remove single feature (STP only)"
-#         cisco.dnac.wired_campus_automation_workflow_manager:
-#           <<: *catalyst_login
+#         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#           <<: *catalystcenter_login
 #           state: deleted
 #           config:
 #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_stp }}"
@@ -2689,8 +2689,8 @@
 #         tags: [positive, delete, single_feature_stp]
 
 # #       - name: "DELETE TEST 2: Remove single feature (802.1X only)"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_dot1x }}"
@@ -2708,8 +2708,8 @@
 # #         tags: [positive, delete, single_feature_dot1x]
 
 # #       - name: "DELETE TEST 3: Remove single feature (MAB only)"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_mab }}"
@@ -2727,8 +2727,8 @@
 # #         tags: [positive, delete, single_feature_mab]
 
 # #       - name: "DELETE TEST 4: Remove single feature (DHCP Snooping only)"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_single_feature_dhcp_snooping }}"
@@ -2746,8 +2746,8 @@
 # #         tags: [positive, delete, single_feature_dhcp_snooping]
 
 # #       - name: "DELETE TEST 5: Remove multiple specific features"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_multiple_features }}"
@@ -2765,8 +2765,8 @@
 # #         tags: [positive, delete, multiple_features]
 
 # #       - name: "DELETE TEST 6: Remove all features except switchport"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_all_features_except_switchport }}"
@@ -2784,8 +2784,8 @@
 # #         tags: [positive, delete, all_except_switchport]
 
 # #       - name: "DELETE TEST 7: Remove CDP and LLDP features"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: medeletedrged
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_cdp_lldp_features }}"
@@ -2803,8 +2803,8 @@
 # #         tags: [positive, delete, cdp_lldp_features]
 
 # #       - name: "DELETE TEST 8: Remove VLAN trunking feature"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_vlan_trunking_feature }}"
@@ -2822,8 +2822,8 @@
 # #         tags: [positive, delete, vlan_trunking_feature]
 
 # #       - name: "DELETE TEST 9: Remove VTP feature"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_vtp_feature }}"
@@ -2841,8 +2841,8 @@
 # #         tags: [positive, delete, vtp_feature]
 
 # #       - name: "DELETE TEST 10: Remove features from multiple ports"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_features_multiple_ports }}"
@@ -2860,8 +2860,8 @@
 # #         tags: [positive, delete, features_multiple_ports]
 
 # #       - name: "DELETE TEST 11: Remove complete interface configurations"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_delete_complete_interfaces }}"
@@ -2885,8 +2885,8 @@
 # #   - name: "CLEANUP TEST - Final Port Configuration Cleanup"
 # #     block:
 # #       - name: "CLEANUP TEST 1: Final cleanup for all remaining test interfaces"
-# #         cisco.dnac.wired_campus_automation_workflow_manager:
-# #           <<: *catalyst_login
+# #         cisco.catalystcenter.wired_campus_automation_workflow_manager:
+# #           <<: *catalystcenter_login
 # #           state: deleted
 # #           config:
 # #             - "{{ port_config_vars_map.test_port_config_final_cleanup_all_interfaces }}"

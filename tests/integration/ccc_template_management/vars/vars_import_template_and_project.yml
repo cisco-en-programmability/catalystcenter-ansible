@@ -19,7 +19,7 @@ import_template_details:
       template:
         do_version: false
         project_name: 'Onboarding Configuration'
-        template_file: '/Users/mutbabu/ansible/dnac/work/collections/ansible_collections/cisco/dnac/tests/integration/ccc_template_management/tests/10.195.243.53_1.8.212_Tue Jul 02 2024_templates.json'
+        template_file: '/Users/mutbabu/ansible/catalystcenter/work/collections/ansible_collections/cisco/catalystcenter/tests/integration/ccc_template_management/tests/10.195.243.53_1.8.212_Tue Jul 02 2024_templates.json'
 
 import_project_details:
   - import:

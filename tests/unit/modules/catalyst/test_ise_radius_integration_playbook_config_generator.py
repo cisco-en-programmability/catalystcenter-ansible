@@ -54,23 +54,23 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestIseRadiusIntegrationPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestIseRadiusIntegrationPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -88,12 +88,12 @@ class TestIseRadiusIntegrationPlaybookConfigGenerator(TestCatalystModule):
 
         for method_name in test_method_with_all_data_mapping:
             if method_name in self._testMethodName:
-                self.run_dnac_exec.side_effect = [
+                self.run_catalystcenter_exec.side_effect = [
                     self.test_data.get("get_authentication_and_policy_servers"),
                 ]
                 break
         if "invalid_server_type" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get(
                     "get_authentication_and_policy_servers_with_invalid_server_type"
                 ),

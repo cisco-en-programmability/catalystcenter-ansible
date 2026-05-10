@@ -381,7 +381,7 @@ floor_plan = {
 }
 
 
-class DnacSite(CatalystCenterBase):
+class CatalystCenterSite(CatalystCenterBase):
     """Class containing member attributes for site intent module"""
 
     def __init__(self, module):
@@ -819,7 +819,7 @@ class DnacSite(CatalystCenterBase):
         have = {}
 
         # check if given site exits, if exists store current site info
-        site_exists, current_site = self.site_exists()
+        (site_exists, current_site) = self.site_exists()
 
         self.log("Current Site details (have): {0}".format(str(current_site)), "DEBUG")
 
@@ -964,7 +964,7 @@ class DnacSite(CatalystCenterBase):
                     )
                 else:
                     # Get the site id of the newly created site.
-                    site_exists, current_site = self.site_exists()
+                    (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
                         self.created_site_list.append(site_name)
@@ -1136,7 +1136,7 @@ class DnacSite(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for merged state
+        # Code to validate catalystcenter config for merged state
         site_exist = self.have.get("site_exists")
         site_name = self.want.get("site_name")
 
@@ -1186,7 +1186,7 @@ class DnacSite(CatalystCenterBase):
         self.log("Current State (have): {0}".format(str(self.have)), "INFO")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
-        # Code to validate dnac config for delete state
+        # Code to validate catalystcenter config for delete state
         site_exist = self.have.get("site_exists")
 
         if not site_exist:
@@ -1293,25 +1293,17 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -1322,29 +1314,29 @@ def main():
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
 
-    dnac_site = DnacSite(module)
-    state = dnac_site.params.get("state")
+    catalystcenter_site = CatalystCenterSite(module)
+    state = catalystcenter_site.params.get("state")
 
-    if state not in dnac_site.supported_states:
-        dnac_site.status = "invalid"
-        dnac_site.msg = "State {0} is invalid".format(state)
-        dnac_site.check_return_status()
+    if state not in catalystcenter_site.supported_states:
+        catalystcenter_site.status = "invalid"
+        catalystcenter_site.msg = "State {0} is invalid".format(state)
+        catalystcenter_site.check_return_status()
 
-    dnac_site.validate_input().check_return_status()
-    config_verify = dnac_site.params.get("config_verify")
+    catalystcenter_site.validate_input().check_return_status()
+    config_verify = catalystcenter_site.params.get("config_verify")
 
-    for config in dnac_site.validated_config:
-        dnac_site.reset_values()
-        dnac_site.get_want(config).check_return_status()
-        dnac_site.get_have(config).check_return_status()
-        dnac_site.get_diff_state_apply[state](config).check_return_status()
+    for config in catalystcenter_site.validated_config:
+        catalystcenter_site.reset_values()
+        catalystcenter_site.get_want(config).check_return_status()
+        catalystcenter_site.get_have(config).check_return_status()
+        catalystcenter_site.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_site.verify_diff_state_apply[state](config).check_return_status()
+            catalystcenter_site.verify_diff_state_apply[state](config).check_return_status()
 
     # Invoke the API to check the status and log the output of each site on the console
-    dnac_site.update_site_messages().check_return_status()
+    catalystcenter_site.update_site_messages().check_return_status()
 
-    module.exit_json(**dnac_site.result)
+    module.exit_json(**catalystcenter_site.result)
 
 
 if __name__ == "__main__":

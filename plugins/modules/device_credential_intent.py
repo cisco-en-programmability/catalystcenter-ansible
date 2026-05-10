@@ -3,7 +3,6 @@
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -331,8 +330,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -389,8 +388,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -455,8 +454,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -504,8 +503,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -582,8 +581,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -633,8 +632,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -697,12 +696,13 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 )
 
 
-class DnacCredential(CatalystCenterBase):
+class CatalystCenterCredential(CatalystCenterBase):
     """Class containing member attributes for device credential intent module"""
 
     def __init__(self, module):
         super().__init__(module)
-        self.result["response"] = [{"globalCredential": {}, "assignCredential": {}}]
+        self.result["response"] = [
+            {"globalCredential": {}, "assignCredential": {}}]
 
     def validate_input(self):
         """
@@ -832,7 +832,8 @@ class DnacCredential(CatalystCenterBase):
 
         # Validate playbook params against the specification (temp_spec)
         self.config = self.camel_to_snake_case(self.config)
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec)
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(
                 "\n".join(invalid_params)
@@ -842,7 +843,8 @@ class DnacCredential(CatalystCenterBase):
 
         self.validated_config = valid_temp
         self.log(
-            "Successfully validated playbook config params: {0}".format(valid_temp),
+            "Successfully validated playbook config params: {0}".format(
+                valid_temp),
             "INFO",
         )
         self.msg = "Successfully validated input from the playbook"
@@ -869,7 +871,8 @@ class DnacCredential(CatalystCenterBase):
                 params={"name": site_name},
             )
             self.log(
-                "Received API response from 'get_site': {0}".format(response), "DEBUG"
+                "Received API response from 'get_site': {0}".format(
+                    response), "DEBUG"
             )
             if not response:
                 self.log(
@@ -882,7 +885,8 @@ class DnacCredential(CatalystCenterBase):
 
             _id = response.get("response")[0].get("id")
             self.log(
-                "Site ID for the site name {0}: {1}".format(site_name, _id), "INFO"
+                "Site ID for the site name {0}: {1}".format(
+                    site_name, _id), "INFO"
             )
         except Exception as e:
             self.log(
@@ -913,7 +917,8 @@ class DnacCredential(CatalystCenterBase):
             )
             global_credentials = global_credentials.get("response")
             self.log(
-                "All global device credentials details: {0}".format(global_credentials),
+                "All global device credentials details: {0}".format(
+                    global_credentials),
                 "DEBUG",
             )
         except Exception as e:
@@ -971,7 +976,8 @@ class DnacCredential(CatalystCenterBase):
             if item is None:
                 snmpV2cRead.append(None)
             else:
-                value = {"description": item.get("description"), "id": item.get("id")}
+                value = {"description": item.get(
+                    "description"), "id": item.get("id")}
                 snmpV2cRead.append(value)
         return snmpV2cRead
 
@@ -994,7 +1000,8 @@ class DnacCredential(CatalystCenterBase):
             if item is None:
                 snmpV2cWrite.append(None)
             else:
-                value = {"description": item.get("description"), "id": item.get("id")}
+                value = {"description": item.get(
+                    "description"), "id": item.get("id")}
                 snmpV2cWrite.append(value)
         return snmpV2cWrite
 
@@ -1191,7 +1198,8 @@ class DnacCredential(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
+                snmpV2cReadOldDescription = snmpV2cReadCredential.get(
+                    "old_description")
                 if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
                     snmpV2cReadDetail = get_dict_result(
                         snmpV2cRead_details, "description", snmpV2cReadOldDescription
@@ -1201,7 +1209,8 @@ class DnacCredential(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                snmpV2cReadDescription = snmpV2cReadCredential.get("description")
+                snmpV2cReadDescription = snmpV2cReadCredential.get(
+                    "description")
                 if snmpV2cReadDescription and (not snmpV2cReadDetail):
                     snmpV2cReadDetail = get_dict_result(
                         snmpV2cRead_details, "description", snmpV2cReadDescription
@@ -1254,7 +1263,8 @@ class DnacCredential(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                snmpV2cWriteDescription = snmpV2cWriteCredential.get("description")
+                snmpV2cWriteDescription = snmpV2cWriteCredential.get(
+                    "description")
                 if snmpV2cWriteDescription and (not snmpV2cWriteDetail):
                     snmpV2cWriteDetail = get_dict_result(
                         snmpV2cWrite_details, "description", snmpV2cWriteDescription
@@ -1295,7 +1305,8 @@ class DnacCredential(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                httpsReadOldDescription = httpsReadCredential.get("old_description")
+                httpsReadOldDescription = httpsReadCredential.get(
+                    "old_description")
                 httpsReadOldUsername = httpsReadCredential.get("old_username")
                 if (
                     httpsReadOldDescription
@@ -1308,10 +1319,8 @@ class DnacCredential(CatalystCenterBase):
                             and item.get("username") == httpsReadOldUsername
                         ):
                             if httpsReadDetail:
-                                self.msg = (
-                                    "More than one httpsRead credential with same \
+                                self.msg = "More than one httpsRead credential with same \
                                             old_description and old_username. Pass ID."
-                                )
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1329,10 +1338,8 @@ class DnacCredential(CatalystCenterBase):
                             and item.get("username") == httpsReadUsername
                         ):
                             if httpsReadDetail:
-                                self.msg = (
-                                    "More than one httpsRead credential with same \
+                                self.msg = "More than one httpsRead credential with same \
                                             description and username. Pass ID."
-                                )
                                 self.status = "failed"
                                 return self
                             httpsReadDetail = item
@@ -1372,8 +1379,10 @@ class DnacCredential(CatalystCenterBase):
                         self.status = "failed"
                         return self
 
-                httpsWriteOldDescription = httpsWriteCredential.get("old_description")
-                httpsWriteOldUsername = httpsWriteCredential.get("old_username")
+                httpsWriteOldDescription = httpsWriteCredential.get(
+                    "old_description")
+                httpsWriteOldUsername = httpsWriteCredential.get(
+                    "old_username")
                 if (
                     httpsWriteOldDescription
                     and httpsWriteOldUsername
@@ -1385,10 +1394,8 @@ class DnacCredential(CatalystCenterBase):
                             and item.get("username") == httpsWriteOldUsername
                         ):
                             if httpsWriteDetail:
-                                self.msg = (
-                                    "More than one httpsWrite credential with same \
+                                self.msg = "More than one httpsWrite credential with same \
                                             old_description and old_username. Pass ID"
-                                )
                                 self.status = "failed"
                                 return self
                             httpsWriteDetail = item
@@ -1439,7 +1446,8 @@ class DnacCredential(CatalystCenterBase):
                 snmpV3Detail = None
                 snmpV3Id = snmpV3Credential.get("id")
                 if snmpV3Id:
-                    snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "id", snmpV3Id)
                     if not snmpV3Detail:
                         self.msg = "snmpV3 credential id is invalid"
                         self.status = "failed"
@@ -1477,7 +1485,8 @@ class DnacCredential(CatalystCenterBase):
         """
 
         global_credentials = self.get_global_credentials_params()
-        cliDetails = self.get_cli_credentials(CredentialDetails, global_credentials)
+        cliDetails = self.get_cli_credentials(
+            CredentialDetails, global_credentials)
         snmpV2cReadDetails = self.get_snmpV2cRead_credentials(
             CredentialDetails, global_credentials
         )
@@ -1496,19 +1505,23 @@ class DnacCredential(CatalystCenterBase):
         self.have.update({"globalCredential": {}})
         if cliDetails:
             cliCredential = self.get_cli_params(cliDetails)
-            self.have.get("globalCredential").update({"cliCredential": cliCredential})
+            self.have.get("globalCredential").update(
+                {"cliCredential": cliCredential})
         if snmpV2cReadDetails:
             snmpV2cRead = self.get_snmpV2cRead_params(snmpV2cReadDetails)
-            self.have.get("globalCredential").update({"snmpV2cRead": snmpV2cRead})
+            self.have.get("globalCredential").update(
+                {"snmpV2cRead": snmpV2cRead})
         if snmpV2cWriteDetails:
             snmpV2cWrite = self.get_snmpV2cWrite_params(snmpV2cWriteDetails)
-            self.have.get("globalCredential").update({"snmpV2cWrite": snmpV2cWrite})
+            self.have.get("globalCredential").update(
+                {"snmpV2cWrite": snmpV2cWrite})
         if httpsReadDetails:
             httpsRead = self.get_httpsRead_params(httpsReadDetails)
             self.have.get("globalCredential").update({"httpsRead": httpsRead})
         if httpsWriteDetails:
             httpsWrite = self.get_httpsWrite_params(httpsWriteDetails)
-            self.have.get("globalCredential").update({"httpsWrite": httpsWrite})
+            self.have.get("globalCredential").update(
+                {"httpsWrite": httpsWrite})
         if snmpV3Details:
             snmpV3 = self.get_snmpV3_params(snmpV3Details)
             self.have.get("globalCredential").update({"snmpV3": snmpV3})
@@ -1519,7 +1532,9 @@ class DnacCredential(CatalystCenterBase):
             ),
             "DEBUG",
         )
-        self.msg = "Collected the Global Device Credential Details from the Cisco Catalyst Center"
+        self.msg = (
+            "Collected the Global Device Credential Details from the Cisco Catalyst Center"
+        )
         self.status = "success"
         return self
 
@@ -1540,7 +1555,8 @@ class DnacCredential(CatalystCenterBase):
 
         if config.get("global_credential_details") is not None:
             CredentialDetails = config.get("global_credential_details")
-            self.get_have_device_credentials(CredentialDetails).check_return_status()
+            self.get_have_device_credentials(
+                CredentialDetails).check_return_status()
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
@@ -1567,12 +1583,14 @@ class DnacCredential(CatalystCenterBase):
             create_cli_ptr = 0
             update_cli_ptr = 0
             values = ["password", "description", "username", "id"]
-            have_cliCredential = self.have.get("globalCredential").get("cliCredential")
+            have_cliCredential = self.have.get(
+                "globalCredential").get("cliCredential")
             for item in cli:
                 if not have_cliCredential or have_cliCredential[have_cli_ptr] is None:
                     if want.get("want_create").get("cliCredential") is None:
                         want.get("want_create").update({"cliCredential": []})
-                    create_credential = want.get("want_create").get("cliCredential")
+                    create_credential = want.get(
+                        "want_create").get("cliCredential")
                     create_credential.append({})
                     for i in range(0, 3):
                         if item.get(values[i]):
@@ -1580,8 +1598,12 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       cliCredential " + str(have_cli_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       cliCredential "
+                                + str(have_cli_ptr)
+                            )
                             self.status = "failed"
                             return self
 
@@ -1593,15 +1615,19 @@ class DnacCredential(CatalystCenterBase):
                 else:
                     if want.get("want_update").get("cliCredential") is None:
                         want.get("want_update").update({"cliCredential": []})
-                    update_credential = want.get("want_update").get("cliCredential")
+                    update_credential = want.get(
+                        "want_update").get("cliCredential")
                     update_credential.append({})
                     if item.get("password"):
                         update_credential[update_cli_ptr].update(
                             {"password": item.get("password")}
                         )
                     else:
-                        self.msg = "password is mandatory for udpating \
-                                   cliCredential " + str(have_cli_ptr)
+                        self.msg = (
+                            "password is mandatory for udpating \
+                                   cliCredential "
+                            + str(have_cli_ptr)
+                        )
                         self.status = "failed"
                         return self
 
@@ -1613,7 +1639,8 @@ class DnacCredential(CatalystCenterBase):
                         else:
                             update_credential[update_cli_ptr].update(
                                 {
-                                    values[i]: self.have.get("globalCredential")
+                                    values[i]: self.have.get(
+                                        "globalCredential")
                                     .get("cliCredential")[have_cli_ptr]
                                     .get(values[i])
                                 }
@@ -1633,7 +1660,8 @@ class DnacCredential(CatalystCenterBase):
             update_snmpv2cread_ptr = 0
             values = ["read_community", "description", "id"]
             keys = ["readCommunity", "description", "id"]
-            have_snmpV2cRead = self.have.get("globalCredential").get("snmpV2cRead")
+            have_snmpV2cRead = self.have.get(
+                "globalCredential").get("snmpV2cRead")
             for item in snmpV2cRead:
                 if (
                     not have_snmpV2cRead
@@ -1641,7 +1669,8 @@ class DnacCredential(CatalystCenterBase):
                 ):
                     if want.get("want_create").get("snmpV2cRead") is None:
                         want.get("want_create").update({"snmpV2cRead": []})
-                    create_credential = want.get("want_create").get("snmpV2cRead")
+                    create_credential = want.get(
+                        "want_create").get("snmpV2cRead")
                     create_credential.append({})
                     for i in range(0, 2):
                         if item.get(values[i]):
@@ -1649,23 +1678,31 @@ class DnacCredential(CatalystCenterBase):
                                 {keys[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV2cRead " + str(have_snmpv2cread_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       snmpV2cRead "
+                                + str(have_snmpv2cread_ptr)
+                            )
                             self.status = "failed"
                             return self
                     create_snmpv2cread_ptr = create_snmpv2cread_ptr + 1
                 else:
                     if want.get("want_update").get("snmpV2cRead") is None:
                         want.get("want_update").update({"snmpV2cRead": []})
-                    update_credential = want.get("want_update").get("snmpV2cRead")
+                    update_credential = want.get(
+                        "want_update").get("snmpV2cRead")
                     update_credential.append({})
                     if item.get("read_community"):
                         update_credential[update_snmpv2cread_ptr].update(
                             {"readCommunity": item.get("read_community")}
                         )
                     else:
-                        self.msg = "read_community is mandatory for updating \
-                                   snmpV2cRead " + str(have_snmpv2cread_ptr)
+                        self.msg = (
+                            "read_community is mandatory for updating \
+                                   snmpV2cRead "
+                            + str(have_snmpv2cread_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
@@ -1676,7 +1713,8 @@ class DnacCredential(CatalystCenterBase):
                         else:
                             update_credential[update_snmpv2cread_ptr].update(
                                 {
-                                    values[i]: self.have.get("globalCredential")
+                                    values[i]: self.have.get(
+                                        "globalCredential")
                                     .get("snmpV2cRead")[have_snmpv2cread_ptr]
                                     .get(values[i])
                                 }
@@ -1691,7 +1729,8 @@ class DnacCredential(CatalystCenterBase):
             update_snmpv2cwrite_ptr = 0
             values = ["write_community", "description", "id"]
             keys = ["writeCommunity", "description", "id"]
-            have_snmpV2cWrite = self.have.get("globalCredential").get("snmpV2cWrite")
+            have_snmpV2cWrite = self.have.get(
+                "globalCredential").get("snmpV2cWrite")
             for item in snmpV2cWrite:
                 if (
                     not have_snmpV2cWrite
@@ -1699,7 +1738,8 @@ class DnacCredential(CatalystCenterBase):
                 ):
                     if want.get("want_create").get("snmpV2cWrite") is None:
                         want.get("want_create").update({"snmpV2cWrite": []})
-                    create_credential = want.get("want_create").get("snmpV2cWrite")
+                    create_credential = want.get(
+                        "want_create").get("snmpV2cWrite")
                     create_credential.append({})
                     for i in range(0, 2):
                         if item.get(values[i]):
@@ -1707,23 +1747,31 @@ class DnacCredential(CatalystCenterBase):
                                 {keys[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       snmpV2cWrite "
+                                + str(have_snmpv2cwrite_ptr)
+                            )
                             self.status = "failed"
                             return self
                     create_snmpv2cwrite_ptr = create_snmpv2cwrite_ptr + 1
                 else:
                     if want.get("want_update").get("snmpV2cWrite") is None:
                         want.get("want_update").update({"snmpV2cWrite": []})
-                    update_credential = want.get("want_update").get("snmpV2cWrite")
+                    update_credential = want.get(
+                        "want_update").get("snmpV2cWrite")
                     update_credential.append({})
                     if item.get("write_community"):
                         update_credential[update_snmpv2cwrite_ptr].update(
                             {"writeCommunity": item.get("write_community")}
                         )
                     else:
-                        self.msg = "write_community is mandatory for updating \
-                                   snmpV2cWrite " + str(have_snmpv2cwrite_ptr)
+                        self.msg = (
+                            "write_community is mandatory for updating \
+                                   snmpV2cWrite "
+                            + str(have_snmpv2cwrite_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 3):
@@ -1734,7 +1782,8 @@ class DnacCredential(CatalystCenterBase):
                         else:
                             update_credential[update_snmpv2cwrite_ptr].update(
                                 {
-                                    values[i]: self.have.get("globalCredential")
+                                    values[i]: self.have.get(
+                                        "globalCredential")
                                     .get("snmpV2cWrite")[have_snmpv2cwrite_ptr]
                                     .get(values[i])
                                 }
@@ -1759,7 +1808,8 @@ class DnacCredential(CatalystCenterBase):
                 if not have_httpsRead or have_httpsRead[have_httpsread_ptr] is None:
                     if want.get("want_create").get("httpsRead") is None:
                         want.get("want_create").update({"httpsRead": []})
-                    create_credential = want.get("want_create").get("httpsRead")
+                    create_credential = want.get(
+                        "want_create").get("httpsRead")
                     create_credential.append({})
                     for i in range(0, 3):
                         if item.get(values[i]):
@@ -1767,8 +1817,12 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       httpsRead " + str(have_httpsread_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       httpsRead "
+                                + str(have_httpsread_ptr)
+                            )
                             self.status = "failed"
                             return self
                     if item.get("port"):
@@ -1776,20 +1830,25 @@ class DnacCredential(CatalystCenterBase):
                             {"port": item.get("port")}
                         )
                     else:
-                        create_credential[create_httpsread_ptr].update({"port": "443"})
+                        create_credential[create_httpsread_ptr].update(
+                            {"port": "443"})
                     create_httpsread_ptr = create_httpsread_ptr + 1
                 else:
                     if want.get("want_update").get("httpsRead") is None:
                         want.get("want_update").update({"httpsRead": []})
-                    update_credential = want.get("want_update").get("httpsRead")
+                    update_credential = want.get(
+                        "want_update").get("httpsRead")
                     update_credential.append({})
                     if item.get("password"):
                         update_credential[update_httpsread_ptr].update(
                             {"password": item.get("password")}
                         )
                     else:
-                        self.msg = "password is mandatory for updating \
-                                   httpsRead " + str(have_httpsread_ptr)
+                        self.msg = (
+                            "password is mandatory for updating \
+                                   httpsRead "
+                            + str(have_httpsread_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1800,7 +1859,8 @@ class DnacCredential(CatalystCenterBase):
                         else:
                             update_credential[update_httpsread_ptr].update(
                                 {
-                                    values[i]: self.have.get("globalCredential")
+                                    values[i]: self.have.get(
+                                        "globalCredential")
                                     .get("httpsRead")[have_httpsread_ptr]
                                     .get(values[i])
                                 }
@@ -1814,12 +1874,14 @@ class DnacCredential(CatalystCenterBase):
             create_httpswrite_ptr = 0
             update_httpswrite_ptr = 0
             values = ["password", "description", "username", "id", "port"]
-            have_httpsWrite = self.have.get("globalCredential").get("httpsWrite")
+            have_httpsWrite = self.have.get(
+                "globalCredential").get("httpsWrite")
             for item in httpsWrite:
                 if not have_httpsWrite or have_httpsWrite[have_httpswrite_ptr] is None:
                     if want.get("want_create").get("httpsWrite") is None:
                         want.get("want_create").update({"httpsWrite": []})
-                    create_credential = want.get("want_create").get("httpsWrite")
+                    create_credential = want.get(
+                        "want_create").get("httpsWrite")
                     create_credential.append({})
                     for i in range(0, 3):
                         if item.get(values[i]):
@@ -1827,8 +1889,12 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       httpsWrite " + str(have_httpswrite_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       httpsWrite "
+                                + str(have_httpswrite_ptr)
+                            )
                             self.status = "failed"
                             return self
                     if item.get("port"):
@@ -1836,20 +1902,25 @@ class DnacCredential(CatalystCenterBase):
                             {"port": item.get("port")}
                         )
                     else:
-                        create_credential[create_httpswrite_ptr].update({"port": "443"})
+                        create_credential[create_httpswrite_ptr].update(
+                            {"port": "443"})
                     create_httpswrite_ptr = create_httpswrite_ptr + 1
                 else:
                     if want.get("want_update").get("httpsWrite") is None:
                         want.get("want_update").update({"httpsWrite": []})
-                    update_credential = want.get("want_update").get("httpsWrite")
+                    update_credential = want.get(
+                        "want_update").get("httpsWrite")
                     update_credential.append({})
                     if item.get("password"):
                         update_credential[update_httpswrite_ptr].update(
                             {"password": item.get("password")}
                         )
                     else:
-                        self.msg = "password is mandatory for updating \
-                                   httpsRead " + str(have_httpswrite_ptr)
+                        self.msg = (
+                            "password is mandatory for updating \
+                                   httpsRead "
+                            + str(have_httpswrite_ptr)
+                        )
                         self.status = "failed"
                         return self
                     for i in range(1, 5):
@@ -1860,7 +1931,8 @@ class DnacCredential(CatalystCenterBase):
                         else:
                             update_credential[update_httpswrite_ptr].update(
                                 {
-                                    values[i]: self.have.get("globalCredential")
+                                    values[i]: self.have.get(
+                                        "globalCredential")
                                     .get("httpsWrite")[have_httpswrite_ptr]
                                     .get(values[i])
                                 }
@@ -1887,8 +1959,12 @@ class DnacCredential(CatalystCenterBase):
                                 {values[i]: item.get(values[i])}
                             )
                         else:
-                            self.msg = values[i] + " is mandatory for creating \
-                                       snmpV3 " + str(have_snmpv3_ptr)
+                            self.msg = (
+                                values[i]
+                                + " is mandatory for creating \
+                                       snmpV3 "
+                                + str(have_snmpv3_ptr)
+                            )
                             self.status = "failed"
                             return self
                     if item.get("snmp_mode"):
@@ -1916,8 +1992,12 @@ class DnacCredential(CatalystCenterBase):
                                     {keys[auth]: item.get(auth)}
                                 )
                             else:
-                                self.msg = auth + " is mandatory for creating \
-                                           snmpV3 " + str(have_snmpv3_ptr)
+                                self.msg = (
+                                    auth
+                                    + " is mandatory for creating \
+                                           snmpV3 "
+                                    + str(have_snmpv3_ptr)
+                                )
                                 self.status = "failed"
                                 return self
                         if len(item.get("auth_password")) < 8:
@@ -1926,7 +2006,8 @@ class DnacCredential(CatalystCenterBase):
                             return self
                         self.log(
                             "snmp_mode: {0}".format(
-                                create_credential[create_snmpv3_ptr].get("snmpMode")
+                                create_credential[create_snmpv3_ptr].get(
+                                    "snmpMode")
                             ),
                             "DEBUG",
                         )
@@ -1945,8 +2026,12 @@ class DnacCredential(CatalystCenterBase):
                                     {key[priv]: item.get(priv)}
                                 )
                             else:
-                                self.msg = priv + " is mandatory for creating \
-                                           snmpV3 " + str(have_snmpv3_ptr)
+                                self.msg = (
+                                    priv
+                                    + " is mandatory for creating \
+                                           snmpV3 "
+                                    + str(have_snmpv3_ptr)
+                                )
                                 self.status = "failed"
                                 return self
                         if len(item.get("privacy_password")) < 8:
@@ -2057,7 +2142,8 @@ class DnacCredential(CatalystCenterBase):
                             return self
                         if item.get("privacy_password"):
                             update_credential[update_snmpv3_ptr].update(
-                                {"privacyPassword": item.get("privacy_password")}
+                                {"privacyPassword": item.get(
+                                    "privacy_password")}
                             )
                         else:
                             self.msg = (
@@ -2139,7 +2225,8 @@ class DnacCredential(CatalystCenterBase):
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
-                want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
+                want.get("assign_credentials").update(
+                    {"cliId": cliDetail.get("id")})
 
         snmp_v2c_read = AssignCredentials.get("snmp_v2c_read")
         if snmp_v2c_read:
@@ -2222,7 +2309,8 @@ class DnacCredential(CatalystCenterBase):
                     return self
                 httpReadDetail = None
                 if httpReadId:
-                    httpReadDetail = get_dict_result(httpRead_details, "id", httpReadId)
+                    httpReadDetail = get_dict_result(
+                        httpRead_details, "id", httpReadId)
                     if not httpReadDetail:
                         self.msg = "The ID of the httpRead credential is not valid."
                         self.status = "failed"
@@ -2293,7 +2381,8 @@ class DnacCredential(CatalystCenterBase):
                     return self
                 snmpV3Detail = None
                 if snmpV3Id:
-                    snmpV3Detail = get_dict_result(snmpV3_details, "id", snmpV3Id)
+                    snmpV3Detail = get_dict_result(
+                        snmpV3_details, "id", snmpV3Id)
                     if not snmpV3Detail:
                         self.msg = "The ID of the snmpV3 credential is not valid."
                         self.status = "failed"
@@ -2311,7 +2400,9 @@ class DnacCredential(CatalystCenterBase):
                 )
         self.log("Desired State (want): {0}".format(want), "INFO")
         self.want.update(want)
-        self.msg = "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
+        self.msg = (
+            "Collected the Credentials needed to be assigned from the Cisco Catalyst Center"
+        )
         self.status = "success"
         return self
 
@@ -2332,11 +2423,13 @@ class DnacCredential(CatalystCenterBase):
 
         if config.get("global_credential_details"):
             CredentialDetails = config.get("global_credential_details")
-            self.get_want_device_credentials(CredentialDetails).check_return_status()
+            self.get_want_device_credentials(
+                CredentialDetails).check_return_status()
 
         if config.get("assign_credentials_to_site"):
             AssignCredentials = config.get("assign_credentials_to_site")
-            self.get_want_assign_credentials(AssignCredentials).check_return_status()
+            self.get_want_assign_credentials(
+                AssignCredentials).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -2461,7 +2554,8 @@ class DnacCredential(CatalystCenterBase):
             for value in values:
                 if want_update.get(value) and i < len(want_update.get(value)):
                     flag = True
-                    credential_params.update({value: want_update.get(value)[i]})
+                    credential_params.update(
+                        {value: want_update.get(value)[i]})
             i = i + 1
             if credential_params:
                 final_response.append(credential_params)
@@ -2558,7 +2652,8 @@ class DnacCredential(CatalystCenterBase):
                 response, validation_string
             ).check_return_status()
         self.log(
-            "Device credential assigned to site {0} is successfully.".format(site_ids),
+            "Device credential assigned to site {0} is successfully.".format(
+                site_ids),
             "INFO",
         )
         self.log(
@@ -2622,7 +2717,8 @@ class DnacCredential(CatalystCenterBase):
         have_values = self.have.get("globalCredential")
         final_response = {}
         self.log(
-            "Global device credentials to be deleted: {0}".format(have_values), "DEBUG"
+            "Global device credentials to be deleted: {0}".format(
+                have_values), "DEBUG"
         )
         credential_mapping = {
             "cliCredential": "cli_credential",
@@ -2713,7 +2809,7 @@ class DnacCredential(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Catalyst Center configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2732,7 +2828,7 @@ class DnacCredential(CatalystCenterBase):
 
         if config.get("global_credential_details") is not None:
             if self.want.get("want_create"):
-                self.msg = "Global Device Credentials config is not applied to the DNAC"
+                self.msg = "Global Device Credentials config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
 
@@ -2765,7 +2861,7 @@ class DnacCredential(CatalystCenterBase):
                             ) is want_credential.get(value)
                             if not have_credential or not equality:
                                 self.msg = (
-                                    "{0} config is not applied ot the DNAC".format(
+                                    "{0} config is not applied ot the Catalyst Center".format(
                                         credential_type
                                     )
                                 )
@@ -2792,7 +2888,7 @@ class DnacCredential(CatalystCenterBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Catalyst Center configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -2857,25 +2953,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
@@ -2885,27 +2973,30 @@ def main():
     }
 
     # Create an AnsibleModule object with argument specifications
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
-    dnac_credential = DnacCredential(module)
-    state = dnac_credential.params.get("state")
-    config_verify = dnac_credential.params.get("config_verify")
-    if state not in dnac_credential.supported_states:
-        dnac_credential.status = "invalid"
-        dnac_credential.msg = "State {0} is invalid".format(state)
-        dnac_credential.check_return_status()
+    module = AnsibleModule(argument_spec=element_spec,
+                           supports_check_mode=False)
+    catalystcenter_credential = CatalystCenterCredential(module)
+    state = catalystcenter_credential.params.get("state")
+    config_verify = catalystcenter_credential.params.get("config_verify")
+    if state not in catalystcenter_credential.supported_states:
+        catalystcenter_credential.status = "invalid"
+        catalystcenter_credential.msg = "State {0} is invalid".format(state)
+        catalystcenter_credential.check_return_status()
 
-    dnac_credential.validate_input().check_return_status()
+    catalystcenter_credential.validate_input().check_return_status()
 
-    for config in dnac_credential.config:
-        dnac_credential.reset_values()
-        dnac_credential.get_have(config).check_return_status()
+    for config in catalystcenter_credential.config:
+        catalystcenter_credential.reset_values()
+        catalystcenter_credential.get_have(config).check_return_status()
         if state != "deleted":
-            dnac_credential.get_want(config).check_return_status()
-        dnac_credential.get_diff_state_apply[state](config).check_return_status()
+            catalystcenter_credential.get_want(config).check_return_status()
+        catalystcenter_credential.get_diff_state_apply[state](
+            config).check_return_status()
         if config_verify:
-            dnac_credential.verify_diff_state_apply[state](config).check_return_status()
+            catalystcenter_credential.verify_diff_state_apply[state](
+                config).check_return_status()
 
-    module.exit_json(**dnac_credential.result)
+    module.exit_json(**catalystcenter_credential.result)
 
 
 if __name__ == "__main__":

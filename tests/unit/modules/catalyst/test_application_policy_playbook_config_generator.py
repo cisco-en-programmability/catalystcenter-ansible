@@ -24,7 +24,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import application
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
 
     module = application_policy_playbook_config_generator
     test_data = loadPlaybookData("application_policy_playbook_config_generator")
@@ -46,32 +46,32 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
     playbook_duplicate_components_list = test_data.get("playbook_duplicate_components_list")
 
     def setUp(self):
-        super(TestDnacApplicationPolicyPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterApplicationPolicyPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacApplicationPolicyPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterApplicationPolicyPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
         """
         if "playbook_queuing_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
         elif "playbook_application_policy" in self._testMethodName or "auto_components_list" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
                 self.test_data.get("response3"),
@@ -107,7 +107,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response33")
             ]
         elif "without_config_defaults_generate_all" in self._testMethodName or "empty_config_defaults_generate_all" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile"),
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
@@ -144,24 +144,24 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response33")
             ]
         elif "top_level_file_path_success" in self._testMethodName or "file_mode_without_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
         elif "list_wrapped_queuing_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
         elif "list_wrapped_application_policy" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1")
             ]
         elif "playbook_different_bandwidth" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_queuing_profile")
             ]
 
         elif "playbook_wireless_policy" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response50"),
                 self.test_data.get("response51"),
                 self.test_data.get("response52"),

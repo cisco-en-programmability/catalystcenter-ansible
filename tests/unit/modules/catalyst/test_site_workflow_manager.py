@@ -31,7 +31,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import site_workfl
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacSiteWorkflow(TestCatalystModule):
+class TestCatalystCenterSiteWorkflow(TestCatalystModule):
 
     module = site_workflow_manager
     test_data = loadPlaybookData("site_workflow_manager")
@@ -52,23 +52,23 @@ class TestDnacSiteWorkflow(TestCatalystModule):
     playbook_config_update_site_2376 = test_data.get("playbook_config_update_site_2376")
 
     def setUp(self):
-        super(TestDnacSiteWorkflow, self).setUp()
+        super(TestCatalystCenterSiteWorkflow, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacSiteWorkflow, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterSiteWorkflow, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -76,11 +76,11 @@ class TestDnacSiteWorkflow(TestCatalystModule):
         """
 
         if "invalid_delete_config" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
             ]
 
         elif "playbook_config_bulk_site_2376" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites"),
                 self.test_data.get("get_sites1"),
                 self.test_data.get("get_sites2"),
@@ -92,7 +92,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "invalid_create_bulk_site_type" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("create_bulk_site_response"),
                 self.test_data.get("create_bulk_site_response_details1"),
                 self.test_data.get("create_bulk_site_response_details2"),
@@ -103,7 +103,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "create_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 Exception(),
                 Exception(),
                 self.test_data.get("get_site_response"),
@@ -122,7 +122,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "update_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_area_update"),
                 self.test_data.get("get_site_building_update"),
                 self.test_data.get("update_site_building_response"),
@@ -134,7 +134,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "playbook_config_update_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 Exception(),
                 self.test_data.get("get_sites_area"),
                 self.test_data.get("get_sites_building"),
@@ -150,7 +150,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "playbook_config_update_site_2376" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_update"),
                 self.test_data.get("get_site_update1"),
                 self.test_data.get("get_site_update2"),
@@ -161,14 +161,14 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "update_not_needed_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("update_not_needed_get_site_area"),
                 self.test_data.get("update_not_needed_get_sites_building"),
                 self.test_data.get("update_not_needed_get_sites_floor"),
             ]
 
         elif "delete_a_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_floor_a_delete"),
                 self.test_data.get("get_sites_assigned_devices_network"),
                 self.test_data.get("delete_a_floor_response"),
@@ -182,7 +182,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "playbook_site_delete_2376" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_response1"),
                 self.test_data.get("get_sites_response2"),
                 self.test_data.get("get_sites_response3"),
@@ -200,7 +200,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "delete_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_get_site_response"),
                 self.test_data.get("delete_get_membership"),
                 self.test_data.get("delete_response"),
@@ -216,7 +216,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "invalid_delete_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("delete_get_site_response"),
                 self.test_data.get("delete_get_membership"),
                 self.test_data.get("delete_response"),
@@ -232,7 +232,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         if "verify_diff" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_area"),
                 self.test_data.get("get_site_area"),
                 self.test_data.get("get_site_building"),
@@ -242,7 +242,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         if "playbook_config_site_creation" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 Exception(),
                 Exception(),
                 self.test_data.get("get_site"),
@@ -263,7 +263,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
             ]
 
         elif "upload_floor_map" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("upload_for_get_site"),
                 self.test_data.get("upload_for_get_site2"),
                 self.test_data.get("upload_for_get_site3"),
@@ -462,7 +462,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
         """
         Test case for site workflow manager when creating a site.
 
-        This test case checks the behavior of the site workflow manager when creating a new site in the specified DNAC.
+        This test case checks the behavior of the site workflow manager when creating a new site in the specified Catalyst Center.
         """
         set_module_args(
             dict(
@@ -496,7 +496,6 @@ class TestDnacSiteWorkflow(TestCatalystModule):
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
-                catalystcenter_version="2.2.3.3",
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
@@ -514,17 +513,16 @@ class TestDnacSiteWorkflow(TestCatalystModule):
 
     def test_Site_workflow_manager_verify_diff_deleted_site(self):
         """
-        Test case to check error when deleting a site using an unsupported DNAC version.
+        Test case to check error when deleting a site using an unsupported Catalyst Center version.
 
         This test verifies that the site workflow manager returns an appropriate error message
-        if the DNAC version does not support site deletion operations.
+        if the Catalyst Center version does not support site deletion operations.
         """
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
                 catalystcenter_username="dummy",
                 catalystcenter_password="dummy",
-                catalystcenter_version="2.2.3.3",
                 catalystcenter_log=True,
                 state="deleted",
                 config_verify=True,
@@ -596,7 +594,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
         Test case for site workflow manager when deleting a site.
 
         This test verifies that the site workflow manager successfully deletes the specified
-        sites in the given DNAC version using the provided playbook configuration.
+        sites in the given Catalyst Center version using the provided playbook configuration.
         """
         set_module_args(
             dict(
@@ -621,7 +619,7 @@ class TestDnacSiteWorkflow(TestCatalystModule):
         Test case for site workflow manager when updating sites.
 
         This test verifies that the site workflow manager correctly updates specified sites
-        and identifies sites that do not require any updates in the given DNAC version.
+        and identifies sites that do not require any updates in the given Catalyst Center version.
         """
         set_module_args(
             dict(

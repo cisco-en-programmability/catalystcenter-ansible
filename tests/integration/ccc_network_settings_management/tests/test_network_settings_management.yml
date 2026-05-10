@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load vars and declare dnac vars
+  - name: Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_network_settings_management.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -32,8 +32,8 @@
 #############################################
 
   - name: Clean up before test
-    cisco.dnac.site_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.site_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -44,8 +44,8 @@
 #############################################
 
   - name: Create sites 
-    cisco.dnac.site_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.site_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -71,8 +71,8 @@
 # #############################################
 
   - name: create global pool
-    cisco.dnac.network_settings_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.network_settings_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -97,8 +97,8 @@
 # #                  CREATE RESERVE POOL            #
 # ###################################################
   - name: create reserve pool
-    cisco.dnac.network_settings_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.network_settings_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -123,8 +123,8 @@
 #                  NETWORK FUNCTION                   #
 # #####################################################
   - name: create/update network servers
-    cisco.dnac.network_settings_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.network_settings_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -150,8 +150,8 @@
 #############################################
 
   - name: Delete Reserve pool 
-    cisco.dnac.network_settings_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.network_settings_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -177,8 +177,8 @@
 #############################################
 
   - name: Delete global pool
-    cisco.dnac.network_settings_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.network_settings_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -204,8 +204,8 @@
 #############################################
 
   - name: Delete sites 
-    cisco.dnac.site_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.site_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"

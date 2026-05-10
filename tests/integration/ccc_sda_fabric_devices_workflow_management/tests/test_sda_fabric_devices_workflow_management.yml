@@ -10,7 +10,7 @@
       file: "{{ role_path }}/vars/vars_sda_fabric_devices_workflow_management.yml"
       name: vars_map
     vars:
-      dnac_login: &dnac_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -28,7 +28,7 @@
 
   - name: Remove existing SDA fabric devices before test execution
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -40,7 +40,7 @@
 
   - name: Create SDA fabric devices
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -57,7 +57,7 @@
 
   - name: Update SDA fabric devices
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -74,7 +74,7 @@
 
   - name: Delete SDA fabric devices
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -95,7 +95,7 @@
 
   - name: Create wireless controller settings on SDA fabric devices
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -112,7 +112,7 @@
 
   - name: Update wireless controller settings on SDA fabric devices
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -129,7 +129,7 @@
 
   - name: Delete wireless controller settings on SDA fabric devices
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -150,7 +150,7 @@
 
   - name: Remove existing SDA fabric devices after test execution
     cisco.catalystcenter.sda_fabric_devices_workflow_manager:
-      <<: *dnac_login
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"

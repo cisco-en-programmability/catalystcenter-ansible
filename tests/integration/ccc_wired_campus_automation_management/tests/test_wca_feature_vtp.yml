@@ -75,7 +75,7 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_vtp.yml"
 #         name: vtp_vars_map
 #       vars:
-#         catalyst_login: &catalyst_login
+#         catalystcenter_login: &catalystcenter_login
 #           catalystcenter_host: "{{ catalystcenter_host }}"
 #           catalystcenter_username: "{{ catalystcenter_username }}"
 #           catalystcenter_password: "{{ catalystcenter_password }}"
@@ -86,16 +86,16 @@
 #           catalystcenter_log: true
 #           catalystcenter_log_level: "DEBUG"
 #           config_verify: true
-#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-#           dnac_log_append: false
+#           catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+#           catalystcenter_log_append: false
 
 #     # #############################################
 #     #        Cleanup Test Configurations
 #     # #############################################
 
 #     - name: Cleanup - Reset VTP to default configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - ip_address: "204.1.2.3"
@@ -115,8 +115,8 @@
 #     # #############################################
 
 #     - name: Test VTP mode validation - invalid choice should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_mode_invalid_choice }}"
@@ -134,8 +134,8 @@
 #       tags: [negative, vtp, mode]
 
 #     - name: Test VTP mode validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_mode_integer }}"
@@ -153,8 +153,8 @@
 #       tags: [negative, vtp, mode]
 
 #     - name: Test VTP mode validation - boolean value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_mode_boolean }}"
@@ -176,8 +176,8 @@
 #     # #############################################
 
 #     - name: Test VTP version validation - invalid choice should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_version_invalid_choice }}"
@@ -195,8 +195,8 @@
 #       tags: [negative, vtp, version]
 
 #     - name: Test VTP version validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_version_integer }}"
@@ -214,8 +214,8 @@
 #       tags: [negative, vtp, version]
 
 #     - name: Test VTP version validation - boolean value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_version_boolean }}"
@@ -237,8 +237,8 @@
 #     # #############################################
 
 #     - name: Test VTP domain name validation - exceeds maximum length should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_domain_name_max_length }}"
@@ -256,8 +256,8 @@
 #       tags: [negative, vtp, domain_name]
 
 #     - name: Test VTP domain name validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_domain_name_integer }}"
@@ -275,8 +275,8 @@
 #       tags: [negative, vtp, domain_name]
 
 #     - name: Test VTP domain name validation - boolean value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_domain_name_boolean }}"
@@ -298,8 +298,8 @@
 #     # #############################################
 
 #     - name: Test VTP pruning validation - string value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_pruning_string }}"
@@ -317,8 +317,8 @@
 #       tags: [negative, vtp, pruning]
 
 #     - name: Test VTP pruning validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_pruning_integer }}"
@@ -340,8 +340,8 @@
 #     # #############################################
 
 #     - name: Test VTP configuration file name validation - exceeds maximum length should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_config_file_name_max_length }}"
@@ -359,8 +359,8 @@
 #       tags: [negative, vtp, config_file_name]
 
 #     - name: Test VTP configuration file name validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_config_file_name_integer }}"
@@ -378,8 +378,8 @@
 #       tags: [negative, vtp, config_file_name]
 
 #     - name: Test VTP configuration file name validation - boolean value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_config_file_name_boolean }}"
@@ -401,8 +401,8 @@
 #     # #############################################
 
 #     - name: Test VTP source interface validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_source_interface_integer }}"
@@ -420,8 +420,8 @@
 #       tags: [negative, vtp, source_interface]
 
 #     - name: Test VTP source interface validation - boolean value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_source_interface_boolean }}"
@@ -443,8 +443,8 @@
 #     # #############################################
 
 #     - name: Test VTP structure validation - string instead of dict should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_invalid_dict_type }}"
@@ -462,8 +462,8 @@
 #       tags: [negative, vtp, structure]
 
 #     - name: Test VTP structure validation - list instead of dict should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_invalid_list_type }}"
@@ -494,8 +494,8 @@
 #     #############################################
 
 #     - name: Test VTP configuration with mode only
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_mode_only }}"
@@ -518,8 +518,8 @@
 #       tags: [positive, vtp, create]
 
 #     - name: Test VTP configuration with version only
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_version_only }}"
@@ -542,8 +542,8 @@
 #       tags: [positive, vtp, create]
 
 #     - name: Test VTP configuration with domain name only
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_domain_name_only }}"
@@ -566,8 +566,8 @@
 #       tags: [positive, vtp, create]
 
 #     - name: Test VTP configuration with all parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
@@ -598,8 +598,8 @@
 #     # #############################################
 
 #     - name: Test VTP update - change mode to CLIENT
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_mode_client }}"
@@ -622,8 +622,8 @@
 #       tags: [positive, vtp, update]
 
 #     - name: Test VTP update - change mode to TRANSPARENT
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_mode_transparent }}"
@@ -646,8 +646,8 @@
 #       tags: [positive, vtp, update]
 
 #     - name: Test VTP update - change mode to OFF
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_mode_off }}"
@@ -674,8 +674,8 @@
 #     # #############################################
 
 #     - name: Test VTP update - change version to VERSION_1
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_version_1 }}"
@@ -698,8 +698,8 @@
 #       tags: [positive, vtp, update]
 
 #     - name: Test VTP update - change version to VERSION_2
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_version_2 }}"
@@ -722,8 +722,8 @@
 #       tags: [positive, vtp, update]
 
 #     - name: Test VTP update - change version to VERSION_3
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_version_3 }}"
@@ -750,8 +750,8 @@
 #     # #############################################
 
 #     - name: Test VTP update - enable pruning
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_enable_pruning }}"
@@ -774,8 +774,8 @@
 #       tags: [positive, vtp, update]
 
 #     - name: Test VTP update - disable pruning
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_disable_pruning }}"
@@ -802,8 +802,8 @@
 #     # #############################################
 
 #     - name: Test VTP update - update configuration file name
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_config_file_name }}"
@@ -822,8 +822,8 @@
 #       tags: [positive, vtp, update, config_file_name]
 
 #     - name: Test VTP update - update source interface
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_source_interface }}"
@@ -852,8 +852,8 @@
 
 #     # Clean up after setting empty cause the deployed returns empty.
 #     - name: Cleanup - Reset VTP to default configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - ip_address: "204.1.2.3"
@@ -869,8 +869,8 @@
 #     # #############################################
 
 #     - name: Test VTP domain name empty string update - should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_domain_name_empty_string }}"
@@ -896,8 +896,8 @@
 #     # #############################################
 
 #     - name: Test VTP reset - empty configuration (deleted state resets to defaults)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_reset_empty }}"
@@ -920,8 +920,8 @@
 #       tags: [positive, vtp, reset]
 
 #     - name: Test VTP update - all parameters (setup for reset test)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
@@ -934,8 +934,8 @@
 #       tags: [positive, vtp, reset]
 
 #     - name: Test VTP reset - with existing parameters (deleted state resets to defaults)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_reset_with_params }}"
@@ -966,8 +966,8 @@
 #     # #############################################
 
 #     - name: Test VTP with maximum length domain name
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_boundary_max_domain_name }}"
@@ -990,8 +990,8 @@
 #       tags: [positive, vtp, boundary]
 
 #     - name: Test VTP with maximum length configuration file name
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_boundary_max_config_file_name }}"
@@ -1014,8 +1014,8 @@
 #       tags: [positive, vtp, boundary]
 
 #     - name: Test VTP with minimal configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_boundary_minimal_config }}"
@@ -1046,8 +1046,8 @@
 #     # #############################################
 
 #     - name: Test VTP with version-specific configuration (VERSION_1 with specific features)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_version_1_specific }}"
@@ -1070,8 +1070,8 @@
 #       tags: [positive, vtp, special]
 
 #     - name: Test VTP with version-specific configuration (VERSION_2 with pruning)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_version_2_with_pruning }}"
@@ -1094,8 +1094,8 @@
 #       tags: [positive, vtp, special]
 
 #     - name: Test VTP with server mode comprehensive configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_server_mode_comprehensive }}"
@@ -1118,8 +1118,8 @@
 #       tags: [positive, vtp, special]
 
 #     - name: Test VTP with transparent mode configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_transparent_mode_config }}"
@@ -1150,8 +1150,8 @@
 #     # #############################################
 
 #     - name: Test VTP Idempotency - Configure same VTP settings twice
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
@@ -1164,8 +1164,8 @@
 #       tags: [positive, vtp, idempotency]
 
 #     - name: Test VTP Idempotency - Configure same VTP settings again (should be idempotent)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_create_all_params }}"
@@ -1186,8 +1186,8 @@
 #     # #############################################
 
 #     - name: Cleanup - Reset VTP to default configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - ip_address: "204.1.2.3"
@@ -1203,8 +1203,8 @@
 #     # #############################################
 
 #     - name: Test VTP update - change mode to TRANSPARENT
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ vtp_vars_map.test_vtp_update_mode_transparent }}"

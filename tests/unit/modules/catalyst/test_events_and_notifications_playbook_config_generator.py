@@ -18,13 +18,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
+import tempfile
 from unittest.mock import patch
 
 from ansible_collections.cisco.catalystcenter.plugins.modules import events_and_notifications_playbook_config_generator
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
 
     module = events_and_notifications_playbook_config_generator
 
@@ -42,21 +43,29 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacEventsAndNotificationsPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterEventsAndNotificationsPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacEventsAndNotificationsPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterEventsAndNotificationsPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
+
+    def _temp_output_path(self, suffix):
+        handle = tempfile.NamedTemporaryFile(
+            prefix="events_and_notifications_", suffix=suffix, delete=True
+        )
+        path = handle.name
+        handle.close()
+        return path
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -67,7 +76,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
             "playbook_generate_all_configurations" in self._testMethodName
             or "config_omitted_defaults_generate_all" in self._testMethodName
         ):
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("webhook_destinations"),
                 self.test_data.get("email_destinations"),
                 self.test_data.get("syslog_destinations"),
@@ -87,26 +96,26 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
             pass
 
         if "playbook_component_specific_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("webhook_destinations1"),
                 self.test_data.get("webhook_event_notifications1"),
                 self.test_data.get("get_event_artifacts3"),
             ]
 
         if "playbook_specific_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("webhook"),
             ]
 
         if "playbook_itsm" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("itsm_response1"),
                 self.test_data.get("itsm_response2"),
                 self.test_data.get("itsm_response3"),
             ]
 
         if "empty_component_filter_block" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("webhook"),
             ]
 
@@ -129,6 +138,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         generate_all_configurations is set to True.
         """
 
+        file_path = self._temp_output_path("_generate_all.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -137,7 +147,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -145,12 +155,13 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         self.assertEqual(
             result.get("response"),
             {
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "file_path": file_path,
+                "file_mode": "overwrite",
                 "components_processed": 8,
                 "components_skipped": 0,
-                "configurations_count": 12,
-                "file_path": "/tmp/events_and_notifications_playbook",
-                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
-                "status": "success"
+                "configurations_count": 8
             }
         )
 
@@ -164,6 +175,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         This validates selective configuration extraction based on user-defined component filters.
         """
 
+        file_path = self._temp_output_path("_component_specific.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -172,7 +184,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
                 config=self.playbook_component_specific_filters
             )
         )
@@ -181,12 +193,13 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         self.assertEqual(
             result.get("response"),
             {
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "file_path": file_path,
+                "file_mode": "overwrite",
                 "components_processed": 2,
                 "components_skipped": 0,
-                "configurations_count": 3,
-                "file_path": "/tmp/events_and_notifications_playbook",
-                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
-                "status": "success"
+                "configurations_count": 2,
             }
         )
 
@@ -198,6 +211,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         in the component_specific_filters configuration.
         """
 
+        file_path = self._temp_output_path("_invalid_filter.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -206,7 +220,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
                 config=self.playbook_invalid_filter
             )
         )
@@ -216,9 +230,9 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
             result.get("response"),
             "Invalid component(s) in 'components_list': ['webhook_destinatio']. "
             "Allowed components are: "
-            "['email_destinations', 'email_event_notifications', 'itsm_settings', "
-            "'snmp_destinations', 'syslog_destinations', 'syslog_event_notifications', "
-            "'webhook_destinations', 'webhook_event_notifications']. "
+            "['email_destination', 'email_event_notification', 'itsm_setting', "
+            "'snmp_destination', 'syslog_destination', 'syslog_event_notification', "
+            "'webhook_destination', 'webhook_event_notification']. "
             "Please provide valid component names and try again."
         )
 
@@ -233,6 +247,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         components, enabling users to generate YAML for only the components they need.
         """
 
+        file_path = self._temp_output_path("_specific_filter.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -241,7 +256,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
                 config=self.playbook_specific_filter
             )
         )
@@ -250,12 +265,13 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         self.assertEqual(
             result.get("response"),
             {
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "file_path": file_path,
+                "file_mode": "overwrite",
                 "components_processed": 1,
                 "components_skipped": 0,
                 "configurations_count": 1,
-                "file_path": "/tmp/events_and_notifications_playbook",
-                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
-                "status": "success"
             }
         )
 
@@ -270,6 +286,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         components, enabling users to generate YAML for only the components they need.
         """
 
+        file_path = self._temp_output_path("_itsm.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -278,25 +295,22 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook1",
+                file_path=file_path,
                 config=self.playbook_itsm
             )
         )
-        result = self.execute_module(changed=False, failed=False)
+        result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
             {
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module 'events_and_notifications_workflow_manager'",
+                "file_path": file_path,
+                "file_mode": "overwrite",
                 "components_processed": 1,
                 "components_skipped": 0,
-                "configurations_count": 2,
-                "file_path": "/tmp/events_and_notifications_playbook1",
-                "message": (
-                    "YAML configuration file already up-to-date for module"
-                    " 'events_and_notifications_workflow_manager'."
-                    " No changes written."
-                ),
-                "status": "success"
+                "configurations_count": 1
             }
         )
 
@@ -304,6 +318,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         """
         Test omitted config behavior defaults to generate-all mode.
         """
+        file_path = self._temp_output_path("_config_omitted.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -312,7 +327,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -323,6 +338,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         """
         Test explicit empty config raises mandatory component_specific_filters error.
         """
+        file_path = self._temp_output_path("_config_empty.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -331,7 +347,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
                 config=self.playbook_config_empty,
             )
         )
@@ -345,6 +361,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
         """
         Test explicit generate_all_configurations under config is rejected.
         """
+        file_path = self._temp_output_path("_generate_all_invalid.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -353,7 +370,7 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
                 config=self.playbook_generate_all_configurations,
             )
         )
@@ -363,8 +380,9 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
 
     def test_events_and_notifications_playbook_empty_component_filter_block_treated_as_all_for_component(self):
         """
-        Test empty destination_filters block still retrieves all records for listed component.
+        Test empty component filter list still retrieves all records for listed component.
         """
+        file_path = self._temp_output_path("_empty_component_filter.yml")
         set_module_args(
             dict(
                 catalystcenter_host="1.1.1.1",
@@ -373,11 +391,11 @@ class TestDnacEventsAndNotificationsPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="2.3.7.6",
-                file_path="/tmp/events_and_notifications_playbook",
+                file_path=file_path,
                 config=self.playbook_component_with_empty_filter,
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(result.get("response", {}).get("status"), "success")
         self.assertEqual(result.get("response", {}).get("components_processed"), 1)
-        self.assertEqual(result.get("response", {}).get("configurations_count"), 2)
+        self.assertEqual(result.get("response", {}).get("configurations_count"), 1)

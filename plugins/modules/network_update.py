@@ -105,7 +105,7 @@ options:
         description: Network Update's snmpServer.
         suboptions:
           configureDnacIP:
-            description: Configuration DNAC IP for SNMP Server (eg true).
+            description: Configuration Catalyst Center IP for SNMP Server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -116,7 +116,7 @@ options:
         description: Network Update's syslogServer.
         suboptions:
           configureDnacIP:
-            description: Configuration DNAC IP for syslog server (eg true).
+            description: Configuration Catalyst Center IP for syslog server (eg true).
             type: bool
           ipAddresses:
             description: IP Address for syslog server (eg 4.4.4.4).

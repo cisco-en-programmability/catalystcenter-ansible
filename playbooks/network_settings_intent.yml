@@ -1,16 +1,16 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Network settings intent
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:
-    - name: Create global pool, reserve subpool and network functions
-      #
-      # Project Info  Section
-      #
 
+    # Project Info  Section
+
+
+    - name: Create global pool, reserve subpool and network functions
       cisco.catalystcenter.network_settings_intent:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_port: "{{ catalystcenter_port }}"
@@ -31,11 +31,11 @@
                   - name: Global_Pool2
                     gateway: ''  # use this for updating
                     ip_address_space: IPv6  # required when we are creating
-                    cidr: 2001:db8::/64  # required when we are creating
+                    cidr: 2001:db8::/64   # required when we are creating
                     pool_type: Generic
                     dhcp_server_ips: []  # use this for updating
                     dns_server_ips: []  # use this for updating
-                    # prev_name: Global_Pool2
+                    #  prev_name: Global_Pool2
             reserve_pool_details:
               ipv6_address_space: true
               ipv4_global_pool: 100.0.0.0/8
@@ -66,7 +66,7 @@
                   network: 10.0.0.20
                   protocol: RADIUS
                   servers: AAA
-                  # shared_secret: string  # ISE
+                  # shared_secret: string #ISE
                 message_of_the_day:
                   banner_message: hello
                   retain_existing_banner: 'true'
@@ -78,7 +78,7 @@
                   network: 10.0.0.20
                   protocol: TACACS
                   servers: AAA
-                  # shared_secret: string  # ISE
+                  # shared_secret: string #ISE
                 ntp_server:
                   - 10.0.0.5
                 snmp_server:
@@ -91,6 +91,7 @@
                   # - 10.0.0.7
                 timezone: GMT
               site_name: Global/Chennai
+
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_intent:
         catalystcenter_host: "{{ catalystcenter_host }}"

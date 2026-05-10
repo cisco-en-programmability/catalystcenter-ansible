@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-"""Ansible module to perform operations on project and templates in DNAC."""
-
+"""Ansible module to perform operations on project and templates in Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -42,7 +41,7 @@ options:
     type: bool
     default: false
   state:
-    description: The state of DNAC after module completion.
+    description: The state of Catalyst Center after module completion.
     type: str
     choices: [merged, deleted]
     default: merged
@@ -1390,7 +1389,7 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of template/project
 response_1:
-  description: A dictionary with versioning details of the template as returned by the DNAC Python SDK
+  description: A dictionary with versioning details of the template as returned by the Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
@@ -1462,7 +1461,7 @@ from ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcente
 )
 
 
-class DnacTemplate(CatalystCenterBase):
+class CatalystCenterTemplate(CatalystCenterBase):
     """Class containing member attributes for template intent module"""
 
     def __init__(self, module):
@@ -1619,7 +1618,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_project_params(self, params):
         """
-        Store project parameters from the playbook for template processing in DNAC.
+        Store project parameters from the playbook for template processing in Catalyst Center.
 
         Parameters:
             params (dict) - Playbook details containing Project information.
@@ -1636,7 +1635,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_tags(self, _tags):
         """
-        Store tags from the playbook for template processing in DNAC.
+        Store tags from the playbook for template processing in Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1669,7 +1668,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_device_types(self, device_types):
         """
-        Store device types parameters from the playbook for template processing in DNAC.
+        Store device types parameters from the playbook for template processing in Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1706,7 +1705,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_validation_errors(self, validation_errors):
         """
-        Store template parameters from the playbook for template processing in DNAC.
+        Store template parameters from the playbook for template processing in Catalyst Center.
 
         Parameters:
             validation_errors (dict) - Playbook details containing validation errors information.
@@ -1741,7 +1740,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_template_info(self, template_params):
         """
-        Store template params from the playbook for template processing in DNAC.
+        Store template params from the playbook for template processing in Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -1903,7 +1902,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_containing_templates(self, containing_templates):
         """
-        Store tags from the playbook for template processing in DNAC.
+        Store tags from the playbook for template processing in Catalyst Center.
         Check using check_return_status()
 
         Parameters:
@@ -2003,7 +2002,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_template_params(self, params):
         """
-        Store template parameters from the playbook for template processing in DNAC.
+        Store template parameters from the playbook for template processing in Catalyst Center.
 
         Parameters:
             params (dict) - Playbook details containing Template information.
@@ -2086,7 +2085,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_have_project(self, config):
         """
-        Get the current project related information from DNAC.
+        Get the current project related information from Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Project information.
@@ -2101,11 +2100,11 @@ class DnacTemplate(CatalystCenterBase):
 
         # Check if project exists.
         project_details = self.get_project_details(given_projectName)
-        # DNAC returns project details even if the substring matches.
-        # Hence check the projectName retrieved from DNAC.
+        # Catalyst Center returns project details even if the substring matches.
+        # Hence check the projectName retrieved from Catalyst Center.
         if not (project_details and isinstance(project_details, list)):
             self.log(
-                "Project: {0} not found, need to create new project in DNAC".format(
+                "Project: {0} not found, need to create new project in Catalyst Center".format(
                     given_projectName
                 ),
                 "INFO",
@@ -2115,7 +2114,7 @@ class DnacTemplate(CatalystCenterBase):
         fetched_projectName = project_details[0].get("name")
         if fetched_projectName != given_projectName:
             self.log(
-                "Project {0} provided is not exact match in DNAC DB".format(
+                "Project {0} provided is not exact match in Catalyst Center DB".format(
                     given_projectName
                 ),
                 "INFO",
@@ -2132,7 +2131,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_have_template(self, config, template_available):
         """
-        Get the current template related information from DNAC.
+        Get the current template related information from Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Template information.
@@ -2175,7 +2174,7 @@ class DnacTemplate(CatalystCenterBase):
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
-        # This check will fail if specified template is there not committed in dnac
+        # This check will fail if specified template is there not committed in catalystcenter
         if template_list and isinstance(template_list, list):
             template_info = get_dict_result(template_list, "name", templateName)
             if template_info:
@@ -2201,14 +2200,14 @@ class DnacTemplate(CatalystCenterBase):
 
         self.have_template = have_template
         self.msg = (
-            "Successfully collected all template parameters from dnac for comparison"
+            "Successfully collected all template parameters from catalystcenter for comparison"
         )
         self.status = "success"
         return self
 
     def get_have(self, config):
         """
-        Get the current project and template details from DNAC.
+        Get the current project and template details from Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing Project/Template information.
@@ -2227,7 +2226,7 @@ class DnacTemplate(CatalystCenterBase):
                 self.get_have_template(config, template_available)
 
         self.msg = "Successfully collected all project and template \
-                    parameters from dnac for comparison"
+                    parameters from catalystcenter for comparison"
         self.status = "success"
         return self
 
@@ -2253,7 +2252,7 @@ class DnacTemplate(CatalystCenterBase):
     def get_want(self, config):
         """
         Get all the template and project related information from playbook
-        that is needed to be created in DNAC.
+        that is needed to be created in Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details.
@@ -2286,7 +2285,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def create_project_or_template(self, is_create_project=False):
         """
-        Call DNAC API to create project or template based on the input provided.
+        Call Catalyst Center API to create project or template based on the input provided.
 
         Parameters:
             is_create_project (bool) - Default value is False.
@@ -2449,9 +2448,9 @@ class DnacTemplate(CatalystCenterBase):
 
         return any(
             not catalystcenter_compare_equality(
-                current_obj.get(dnac_param, default), requested_obj.get(ansible_param)
+                current_obj.get(catalystcenter_param, default), requested_obj.get(ansible_param)
             )
-            for (dnac_param, ansible_param, default) in obj_params
+            for (catalystcenter_param, ansible_param, default) in obj_params
         )
 
     def update_mandatory_parameters(self, template_params):
@@ -2485,9 +2484,9 @@ class DnacTemplate(CatalystCenterBase):
 
     def validate_input_merge(self, template_exists):
         """
-        Validate input after getting all the parameters from DNAC.
+        Validate input after getting all the parameters from Catalyst Center.
         "If mandate like deviceTypes, softwareType and language "
-        "already present in DNAC for a template."
+        "already present in Catalyst Center for a template."
         "It is not required to be provided in playbook, "
         "but if it is new creation error will be thrown to provide these fields.
 
@@ -2584,7 +2583,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def update_configuration_templates(self, config):
         """
-        Update/Create templates and projects in DNAC with fields provided in DNAC.
+        Update/Create templates and projects in Catalyst Center with fields provided in Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2692,7 +2691,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def handle_export(self, config):
         """
-        Export templates and projects in DNAC with fields provided in DNAC.
+        Export templates and projects in Catalyst Center with fields provided in Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2745,7 +2744,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def handle_import(self, config):
         """
-        Import templates and projects in DNAC with fields provided in DNAC.
+        Import templates and projects in Catalyst Center with fields provided in Catalyst Center.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2834,7 +2833,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_diff_merged(self, config):
         """
-        Update/Create templates and projects in DNAC with fields provided in DNAC.
+        Update/Create templates and projects in Catalyst Center with fields provided in Catalyst Center.
         Export the tempaltes and projects.
         Import the templates and projects.
         Check using check_return_status().
@@ -2864,7 +2863,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def delete_project_or_template(self, config, is_delete_project=False):
         """
-        Call DNAC API to delete project or template with provided inputs.
+        Call Catalyst Center API to delete project or template with provided inputs.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2915,7 +2914,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def get_diff_deleted(self, config):
         """
-        Delete projects or templates in DNAC with fields provided in playbook.
+        Delete projects or templates in Catalyst Center with fields provided in playbook.
 
         Parameters:
             config (dict) - Playbook details containing template information.
@@ -2966,7 +2965,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Catalyst Center configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
@@ -2981,7 +2980,7 @@ class DnacTemplate(CatalystCenterBase):
             is_template_available = self.get_have_project(config)
             self.log("Template availability: {0}".format(is_template_available), "INFO")
             if not is_template_available:
-                self.msg = "Configuration Template config is not applied to the DNAC."
+                self.msg = "Configuration Template config is not applied to the Catalyst Center."
                 self.status = "failed"
                 return self
 
@@ -3007,7 +3006,7 @@ class DnacTemplate(CatalystCenterBase):
                     "template_params"
                 ).get(item):
                     self.msg = (
-                        " Configuration Template config is not applied to the DNAC."
+                        " Configuration Template config is not applied to the Catalyst Center."
                     )
                     self.status = "failed"
                     return self
@@ -3022,7 +3021,7 @@ class DnacTemplate(CatalystCenterBase):
 
     def verify_diff_deleted(self, config):
         """
-        Validating the DNAC configuration with the playbook details
+        Validating the Catalyst Center configuration with the playbook details
         when state is deleted (delete).
 
         Parameters:
@@ -3049,7 +3048,7 @@ class DnacTemplate(CatalystCenterBase):
                 template_info = get_dict_result(template_list, "name", templateName)
                 if template_info:
                     self.msg = (
-                        "Configuration Template config is not applied to the DNAC."
+                        "Configuration Template config is not applied to the Catalyst Center."
                     )
                     self.status = "failed"
                     return self
@@ -3060,7 +3059,7 @@ class DnacTemplate(CatalystCenterBase):
             )
             self.result.get("response").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the absence of Template in the DNAC."
+        self.msg = "Successfully validated the absence of Template in the Catalyst Center."
         self.status = "success"
         return self
 
@@ -3084,25 +3083,17 @@ def main():
     """main entry point for module execution"""
 
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -3111,24 +3102,24 @@ def main():
         "state": {"default": "merged", "choices": ["merged", "deleted"]},
     }
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
-    dnac_template = DnacTemplate(module)
-    dnac_template.validate_input().check_return_status()
-    state = dnac_template.params.get("state")
-    config_verify = dnac_template.params.get("config_verify")
-    if state not in dnac_template.supported_states:
-        dnac_template.status = "invalid"
-        dnac_template.msg = "State {0} is invalid".format(state)
-        dnac_template.check_return_status()
+    catalystcenter_template = CatalystCenterTemplate(module)
+    catalystcenter_template.validate_input().check_return_status()
+    state = catalystcenter_template.params.get("state")
+    config_verify = catalystcenter_template.params.get("config_verify")
+    if state not in catalystcenter_template.supported_states:
+        catalystcenter_template.status = "invalid"
+        catalystcenter_template.msg = "State {0} is invalid".format(state)
+        catalystcenter_template.check_return_status()
 
-    for config in dnac_template.validated_config:
-        dnac_template.reset_values()
-        dnac_template.get_have(config).check_return_status()
-        dnac_template.get_want(config).check_return_status()
-        dnac_template.get_diff_state_apply[state](config).check_return_status()
+    for config in catalystcenter_template.validated_config:
+        catalystcenter_template.reset_values()
+        catalystcenter_template.get_have(config).check_return_status()
+        catalystcenter_template.get_want(config).check_return_status()
+        catalystcenter_template.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_template.verify_diff_state_apply[state](config).check_return_status()
+            catalystcenter_template.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**dnac_template.result)
+    module.exit_json(**catalystcenter_template.result)
 
 
 if __name__ == "__main__":

@@ -35,26 +35,26 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestSdaHostPortOnboardingPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestSdaHostPortOnboardingPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
-        def mock_dnac_exec(family, function, op_modifies=False, params=None):
+        def mock_catalystcenter_exec(family, function, op_modifies=False, params=None):
             if function == "get_port_assignments":
                 return self.test_data.get("get_port_assignments_response")
             elif function == "get_port_channels":
@@ -77,7 +77,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
             else:
                 return self.test_data.get("empty_response", {"response": []})
 
-        self.run_dnac_exec.side_effect = mock_dnac_exec
+        self.run_catalystcenter_exec.side_effect = mock_catalystcenter_exec
 
     def _get_written_yaml(self, mock_file):
         """Collect the YAML string written to the mocked file handle."""
@@ -110,7 +110,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         self.assertIsInstance(data.get("config"), list)
         self.assertGreaterEqual(len(data.get("config")), 1)
         # Verify SDK was called
-        self.assertGreater(self.run_dnac_exec.call_count, 0)
+        self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_port_assignments_filtered(self, mock_file):
@@ -141,7 +141,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         )
         self.assertTrue(has_port_assignments, "Port assignments not found in generated YAML")
         # Verify SDK was called
-        self.assertGreater(self.run_dnac_exec.call_count, 0)
+        self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_port_channels_filtered(self, mock_file):
@@ -172,7 +172,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         )
         self.assertTrue(has_port_channels, "Port channels not found in generated YAML")
         # Verify SDK was called
-        self.assertGreater(self.run_dnac_exec.call_count, 0)
+        self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_wireless_ssids_filtered(self, mock_file):
@@ -203,7 +203,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         )
         self.assertTrue(has_wireless_ssids, "Wireless SSIDs not found in generated YAML")
         # Verify SDK was called
-        self.assertGreater(self.run_dnac_exec.call_count, 0)
+        self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_all_components_filtered(self, mock_file):
@@ -228,7 +228,7 @@ class TestSdaHostPortOnboardingPlaybookConfigGenerator(TestCatalystModule):
         self.assertIn("config", data)
         self.assertIsInstance(data.get("config"), list)
         # Verify SDK was called multiple times for all components
-        self.assertGreater(self.run_dnac_exec.call_count, 0)
+        self.assertGreater(self.run_catalystcenter_exec.call_count, 0)
 
     @patch('builtins.open', new_callable=mock_open)
     def test_no_file_path_generates_default(self, mock_file):

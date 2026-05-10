@@ -1,13 +1,13 @@
 ---
-- name: Configure device credentials on Cisco CATALYST Center
+- name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_inventory.yml"
     - vars/credentials.yml
   tasks:
-    - name: Add/Update/Resync/Delete the devices in Cisco CATALYST Center Inventory.
+    - name: Add/Update/Resync/Delete the devices in Cisco Catalyst Center Inventory.
       cisco.catalystcenter.inventory_intent:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -20,7 +20,7 @@
         state: merged
         config:
           - username: "{{ item.username }}"
-            enablepassword: "{{ item.enable_password }}"
+            enable_password: "{{ item.enable_password }}"
             password: "{{ item.password }}"
             ip_address: "{{ item.ip_address }}"
             snmp_auth_passphrase: "{{ item.snmp_auth_passphrase }}"
@@ -30,7 +30,7 @@
             snmp_priv_protocol: "{{ item.snmp_priv_protocol }}"
             snmp_ro_community: "{{ item.snmp_ro_community }}"
             snmp_rw_community: "{{ item.snmp_rw_community }}"
-            snmpusername: "{{ item.snmp_username }}"
+            snmp_username: "{{ item.snmp_username }}"
             device_updated: "{{ item.device_updated }}"
             clean_config: "{{ item.clean_config }}"
             type: "{{ item.type }}"
@@ -47,6 +47,7 @@
               password: "{{ item.export_device_list.password }}"
               operation_enum: "{{ item.export_device_list.operation_enum }}"
             reboot_device: "{{ item.reboot_device }}"
+
       with_items: "{{ device_details }}"
       tags:
         - inventory_device

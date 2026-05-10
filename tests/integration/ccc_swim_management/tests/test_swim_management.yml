@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name:  Load vars and declare dnac vars
+  - name:  Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_swim_management.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -31,8 +31,8 @@
 #############################################
 
   - name: Delete device
-    cisco.dnac.inventory_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.inventory_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -40,8 +40,8 @@
     register: result_device_deleted
 
   - name: Delete site
-    cisco.dnac.site_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.site_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -53,8 +53,8 @@
 #############################################
 
   - name: Create sites 
-    cisco.dnac.site_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.site_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -80,8 +80,8 @@
 #############################################
 
   - name: Add new device
-    cisco.dnac.inventory_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.inventory_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -107,8 +107,8 @@
 #############################################
 
   - name: SWIM task - import
-    cisco.dnac.swim_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.swim_workflow_manager:
+      <<: *catalystcenter_login
       config:
       - "{{ item }}"
     loop: "{{ vars_map.image_details }}"
@@ -132,8 +132,8 @@
 #############################################
 
   - name: SWIM task - tag
-    cisco.dnac.swim_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.swim_workflow_manager:
+      <<: *catalystcenter_login
       config:
       - "{{ item }}"
     loop: "{{ vars_map.image_golden_tagging_details}}"
@@ -157,8 +157,8 @@
 #############################################
 
   - name: SWIM task - distribute stack
-    cisco.dnac.swim_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.swim_workflow_manager:
+      <<: *catalystcenter_login
       config:
       - "{{ item }}"
     loop: "{{ vars_map.image_distributation_details }}"
@@ -181,8 +181,8 @@
 #############################################
 
   - name: SWIM task - untag
-    cisco.dnac.swim_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.swim_workflow_manager:
+      <<: *catalystcenter_login
       config:
       - "{{ item }}"
     loop: "{{ vars_map.image_golden_untagging_details }}"
@@ -215,8 +215,8 @@
 #############################################
 
   - name: Delete sites from design_sites config
-    cisco.dnac.site_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.site_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"

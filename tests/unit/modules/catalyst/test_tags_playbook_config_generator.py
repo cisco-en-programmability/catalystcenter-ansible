@@ -36,7 +36,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacTagsPlaybookConfigGenerator(TestCatalystModule):
+class TestCatalystCenterTagsPlaybookConfigGenerator(TestCatalystModule):
 
     module = tags_playbook_config_generator
     test_data = loadPlaybookData("tags_playbook_config_generator")
@@ -46,23 +46,23 @@ class TestDnacTagsPlaybookConfigGenerator(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacTagsPlaybookConfigGenerator, self).setUp()
+        super(TestCatalystCenterTagsPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacTagsPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterTagsPlaybookConfigGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -70,7 +70,7 @@ class TestDnacTagsPlaybookConfigGenerator(TestCatalystModule):
         """
         if "test_generate_all_configurations_case_1" in self._testMethodName:
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_tags_case_1"),
                 self.test_data.get("get_tag_members_by_id_empty_response"),
