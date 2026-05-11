@@ -727,7 +727,7 @@ options:
             type: list
             elements: str
 requirements:
-  - catalystcentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.5
 notes:
   - To ensure the module operates correctly with scaled

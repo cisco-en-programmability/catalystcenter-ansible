@@ -535,7 +535,7 @@ options:
               in the playbook.
             type: bool
 requirements:
-  - catalystcentersdk >= 2.9.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - To ensure the module operates correctly for scaled

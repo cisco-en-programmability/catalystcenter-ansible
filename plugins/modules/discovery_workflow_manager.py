@@ -474,7 +474,7 @@ options:
         type: bool
         default: false
 requirements:
-  - catalystcentersdk == 2.6.10
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Method used are

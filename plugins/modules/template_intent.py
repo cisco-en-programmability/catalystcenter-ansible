@@ -1268,7 +1268,7 @@ options:
                   the project.
                 type: str
 requirements:
-  - catalystcentersdk == 2.4.5
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Method used are

@@ -121,7 +121,7 @@ options:
                 type: list
                 elements: str
 requirements:
-- catalystcentersdk >= 2.3.7.9
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 notes:
 - SDK Methods used are

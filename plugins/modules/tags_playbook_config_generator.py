@@ -142,7 +142,7 @@ options:
                 - mac_address
                 - ip_address
 requirements:
-- catalystcentersdk >= 2.4.5
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9

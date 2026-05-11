@@ -10981,7 +10981,7 @@ class TestCatalystCenterNetworkDevicesInfoWorkflowManager(TestCatalystModule):
                                 'iver-type protocol\n source-address 204.1.2.1\n stream native\n update-policy on-change\n receiver n'
                                 'ame DNAC_ASSURANCE_RECEIVER\ntelemetry ietf subscription 8882\n encoding encode-tdl\n filter tdl-tra'
                                 'nsform trustSecCounterDelta\n receiver-type protocol\n source-address 204.1.2.1\n stream native\n up'
-                                'date-policy periodic 90000\n receiver name DNAC_ASSURANCE_RECEIVER\ntelemetry receiver protocol CatalystCenter'
+                                'date-policy periodic 90000\n receiver name DNAC_ASSURANCE_RECEIVER\ntelemetry receiver protocol DNAC'
                                 '_ASSURANCE_RECEIVER\n host ip-address 204.192.1.214 25103\n protocol tls-native profile sdn-network-'
                                 'infra-iwan\ntelemetry transform trustSecCounterDelta\n input table cts_rolebased_policy\n field dst_'
                                 'sgt\n field src_sgt\n field sgacl_name\n field monitor_mode\n field num_of_sgacl\n field policy_life'

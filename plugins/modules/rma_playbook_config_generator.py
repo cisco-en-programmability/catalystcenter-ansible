@@ -150,7 +150,7 @@ options:
         type: dict
         required: false
 requirements:
-- catalystcentersdk >= 2.9.3
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 - Cisco Catalyst Center >= 2.3.5.3
 

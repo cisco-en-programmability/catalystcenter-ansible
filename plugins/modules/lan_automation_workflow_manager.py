@@ -410,7 +410,7 @@ options:
                 type: str
                 required: true
 requirements:
-  - catalystcentersdk >= 2.9.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - When waiting for the LAN automation session to complete,

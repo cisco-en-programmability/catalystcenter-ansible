@@ -375,7 +375,7 @@ options:
                     type: list
                     elements: str
 requirements:
-  - catalystcentersdk >= 2.9.3
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9.19
 notes:
 - SDK Methods used are
