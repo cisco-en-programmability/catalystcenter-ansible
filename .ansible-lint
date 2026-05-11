@@ -27,6 +27,7 @@ skip_list:
   - run-once[task]  # Run-once is valid pattern
   - schema[meta]  # Meta schema variations are acceptable
   - yaml[key-duplicates]  # Will be addressed separately
+  - args[module]  # module_defaults provides required args at play level
 
 exclude_paths:
   - playbooks/image_details.yml
