@@ -2126,7 +2126,7 @@ def main():
                                             and site configurations
         catalystcenter_password (str, no_log=True): Authentication password for API access
         catalystcenter_verify (bool, default=True): SSL certificate verification flag
-        catalystcenter_version (str, default='2.2.3.3'): Target Catalyst Center version
+        catalystcenter_version (str, default='2.3.7.6'): Target Catalyst Center version
                                             for API compatibility
         catalystcenter_debug (bool, default=False): Debug mode flag for detailed logging
         catalystcenter_log_level (str, default='WARNING'): Logging level (DEBUG, INFO,
@@ -2163,10 +2163,10 @@ def main():
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
         "catalystcenter_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": True},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},

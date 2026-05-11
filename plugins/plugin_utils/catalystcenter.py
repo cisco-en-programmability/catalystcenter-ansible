@@ -161,7 +161,6 @@ def catalystcenter_argument_spec():
             type="str",
             fallback=(env_fallback, ["CATALYSTCENTER_USERNAME"]),
             default="admin",
-            aliases=["user"],
         ),
         catalystcenter_password=dict(
             type="str",

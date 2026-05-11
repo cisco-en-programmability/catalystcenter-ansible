@@ -7518,10 +7518,10 @@ def main():
     element_spec = {
         "catalystcenter_host": {"required": True, "type": "str"},
         "catalystcenter_port": {"type": "str", "default": "443"},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["user"]},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
         "catalystcenter_password": {"type": "str", "no_log": True},
         "catalystcenter_verify": {"type": "bool", "default": "True"},
-        "catalystcenter_version": {"type": "str", "default": "2.2.3.3"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
         "catalystcenter_debug": {"type": "bool", "default": False},
         "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
         "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
