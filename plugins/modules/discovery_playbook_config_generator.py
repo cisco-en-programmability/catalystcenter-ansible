@@ -2005,7 +2005,7 @@ def main():
             - catalystcenter_verify (bool, default=True): SSL certificate verification
 
         API Configuration:
-            - catalystcenter_version (str, default="2.2.3.3"): Catalyst Center version
+            - catalystcenter_version (str, default="2.3.7.6"): Catalyst Center version
             - catalystcenter_api_task_timeout (int, default=1200): API timeout (seconds)
             - catalystcenter_task_poll_interval (int, default=2): Poll interval (seconds)
             - validate_response_schema (bool, default=True): Schema validation
@@ -2070,7 +2070,6 @@ def main():
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["user"]
         },
         "catalystcenter_password": {
             "type": "str",
@@ -2083,7 +2082,7 @@ def main():
         # API Configuration Parameters
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.2.3.3"
+            "default": "2.3.7.6"
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
