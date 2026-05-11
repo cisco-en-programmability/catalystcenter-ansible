@@ -498,7 +498,7 @@ options:
             type: str
             required: false
 requirements:
-  - catalystcentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - The maximum number of user-defined (custom) issue definitions

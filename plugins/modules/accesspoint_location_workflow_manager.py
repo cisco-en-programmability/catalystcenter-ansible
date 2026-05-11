@@ -174,7 +174,7 @@ options:
                     type: int
                     required: true
 requirements:
-  - catalystcentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center API Documentation

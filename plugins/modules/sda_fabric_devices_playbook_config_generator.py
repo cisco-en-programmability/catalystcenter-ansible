@@ -125,7 +125,7 @@ options:
                   - WIRELESS_CONTROLLER_NODE
                   - EXTENDED_NODE
 requirements:
-- catalystcentersdk >= 2.4.5
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.6

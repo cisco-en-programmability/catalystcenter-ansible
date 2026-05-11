@@ -197,7 +197,7 @@ options:
           - RUNNINGCONFIG
         default: ["ALL"]
 requirements:
-  - catalystcentersdk == 2.9.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.5
 notes:
   - SDK Methods used are sites.Sites.get_site Site_design.Site_design.get_sites

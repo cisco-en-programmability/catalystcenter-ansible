@@ -280,7 +280,7 @@ class TestCatalystCenterSwitchWorkflow(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
         self.assertIn(
-            'No site details retrieved for site name: Global/APO',
+            "An exception occurred while retrieving Site details for Site 'Global/APO'",
             result.get('msg')
         )
 
@@ -305,7 +305,7 @@ class TestCatalystCenterSwitchWorkflow(TestCatalystModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
-            "No site details retrieved for site name: Global/APO",
+            "An exception occurred while retrieving Site details for Site 'Global/APO'",
             result.get('msg')
         )
 

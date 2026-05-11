@@ -105,7 +105,7 @@ options:
         type: list
         elements: str
 requirements:
-  - catalystcentersdk == 2.7.0
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites

@@ -674,7 +674,7 @@ options:
                 default: "read"
                 type: str
 requirements:
-  - catalystcentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9.19
 notes:
   - SDK Methods used - user_and_roles.UserandRoles.get_user_api

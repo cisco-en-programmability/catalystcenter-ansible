@@ -226,7 +226,7 @@ options:
                 type: bool
                 default: false
 requirements:
-  - catalystcentersdk == 2.4.5
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center API Documentation
@@ -239,7 +239,7 @@ notes:
   # Version Compatibility
     - Floor number and units_of_measure require Catalyst Center version 2.3.7.6 or later.
     - Floor image upload is available from version 2.3.7.6 onwards.
-    - Module requires catalystcentersdk 2.4.5 or later.
+    - Module requires catalystcentersdk 3.1.6.0.2 or later.
 
   # API Methods and Endpoints
     - Primary SDK Methods

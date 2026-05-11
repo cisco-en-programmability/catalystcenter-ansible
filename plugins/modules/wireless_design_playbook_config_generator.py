@@ -200,7 +200,7 @@ options:
                 type: str
 
 requirements:
-- catalystcentersdk >= 2.3.7.9
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.12
 notes:
 - Cisco Catalyst Center >= 2.3.7.9

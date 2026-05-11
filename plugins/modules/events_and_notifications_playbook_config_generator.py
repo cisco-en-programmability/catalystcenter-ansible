@@ -197,7 +197,7 @@ options:
             type: list
             elements: dict
 requirements:
-- catalystcentersdk >= 2.7.2
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 notes:
 - SDK Methods used are
