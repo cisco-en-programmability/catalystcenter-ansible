@@ -332,4 +332,11 @@ releases:
       release_summary: Changes in brownfield helper module
       minor_changes:
         - Changes in brownfield_helper module
- 
+  2.8.0:
+    release_date: "2026-05-12"
+    changes:
+      release_summary: Changes in workflow and config generator modules
+      minor_changes:
+        - Changes in playbook files
+        - Changes in brownfield_helper module
+        - Changes in workflow and config generator modules
