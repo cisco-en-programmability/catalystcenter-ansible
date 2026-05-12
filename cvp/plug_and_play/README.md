@@ -79,16 +79,16 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/plug_and_play/playbook
    catalyst_center_hosts:
      hosts:
        your_catalyst_center_instance_name:
-         catalyst_center_host: xx.xx.xx.xx
-         catalyst_center_password: XXXXXXXX
-         catalyst_center_port: 443
-         catalyst_center_timeout: 60
-         catalyst_center_username: admin
-         catalyst_center_verify: false  # Set to true for production
-         catalyst_center_version: 2.3.7.9
-         catalyst_center_debug: true
-         catalyst_center_log_level: INFO
-         catalyst_center_log: true
+         catalystcenter_host: xx.xx.xx.xx
+         catalystcenter_password: XXXXXXXX
+         catalystcenter_port: 443
+         catalystcenter_api_task_timeout: 60
+         catalystcenter_username: admin
+         catalystcenter_verify: false  # Set to true for production
+         catalystcenter_version: 2.3.7.9
+         catalystcenter_debug: true
+         catalystcenter_log_level: INFO
+         catalystcenter_log: true
    ```
    
 
@@ -153,7 +153,7 @@ Add a single device to the PnP database without claiming it to a site.
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   add_network_device:
     - device_info:
@@ -169,7 +169,7 @@ Claim a Cisco Catalyst 9K switch with configuration template and software image.
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_switching_devices:
     - site_name: Global/USA/SAN JOSE/SJ_BLD21
@@ -192,7 +192,7 @@ Onboard a Cisco Catalyst 9K switch stack by specifying `pnp_type: StackSwitch`.
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_switching_devices:
     - site_name: Global/USA/New York/NY_BLD1
@@ -215,7 +215,7 @@ Onboard a Cisco router with appropriate template and image.
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_router_devices:
     - site_name: Global/USA/SAN-FRANCISCO/BLD_SF1
@@ -236,7 +236,7 @@ Onboard an Access Point to a site with RF profile configuration.
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_access_points:
     - site_name: Global/USA/New York/NY_BLD2/FLOOR1
@@ -255,7 +255,7 @@ Add multiple devices in bulk and automatically authorize them (requires Catalyst
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 pnp_details:
   add_bulk_network_devices:
     - device_info:
@@ -283,7 +283,7 @@ Remove a single device or multiple devices from the PnP database.
 **Single Device Deletion:**
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   network_devices:
     - device_info:
@@ -296,7 +296,7 @@ pnp_details:
 **Bulk Device Deletion:**
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   network_devices:
     - device_info:
@@ -320,7 +320,7 @@ Complete workflow: Add → Authorize → Claim in a single operation.
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 pnp_details:
   claim_switching_devices:
     - site_name: Global/USA/SAN JOSE/SJ_BLD21
@@ -378,7 +378,7 @@ Note:
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   add_bulk_network_devices:
     - device_info:
@@ -413,7 +413,7 @@ From Cisco Catalyst Center release **2.3.7.9** onwards, you can automatically au
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 pnp_details:
   add_bulk_network_devices:
     - device_info:
@@ -443,7 +443,7 @@ This task demonstrates how to delete a device from Plug and Play (PnP).
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   network_devices:
     - site_name: Global/USA/SAN JOSE/SJ_BLD23/FLOOR1
@@ -477,7 +477,7 @@ To ensure the device has been successfully removed, verify the PnP UI.
 **Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   network_devices:
     - device_info:
@@ -520,7 +520,7 @@ This task demonstrates how to add and claim a Cisco Catalyst 9K switch using the
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_switching_devices:
     - site_name: Global/USA/SAN JOSE/SJ_BLD21
@@ -571,7 +571,7 @@ Similar to the task for claiming a single switch, this task relies on a predefin
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_switching_devices:
     - site_name:  Global/USA/New York/NY_BLD1
@@ -608,7 +608,7 @@ Similar to the task of claiming a single switch, we can onboard the router devic
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_router_devices:
     - site_name: Global/USA/SAN-FRANCISCO/BLD_SF1
@@ -637,7 +637,7 @@ In the Cisco Catalyst Center UI, onboarding a Cisco Embedded Wireless Controller
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_wireless_controllers:
     - site_name: Global/USA/SAN JOSE/SJ_BLD23
@@ -676,7 +676,7 @@ pnp_details:
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_wireless_controllers:
     - site_name: Global/USA/New York/NY_BLD2
@@ -742,7 +742,7 @@ In scenarios where a device encounters errors during onboarding, it can be reset
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
   claim_wireless_controllers:
     - site_name: Global/USA/SAN JOSE/SJ_BLD23
@@ -770,7 +770,7 @@ Access Points (APs) play a crucial role in wireless networks, and onboarding the
 **Example: Input (YAML)**
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pnp_details:
  claim_access_points:
     - site_name: Global/USA/New York/NY_BLD2/FLOOR1
@@ -802,7 +802,7 @@ This example demonstrates how to add a single device, automatically authorize it
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 pnp_details:
   claim_switching_devices:
     - site_name: Global/USA/SAN JOSE/SJ_BLD21

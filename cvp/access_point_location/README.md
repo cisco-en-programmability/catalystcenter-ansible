@@ -214,7 +214,7 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/access_point_location/
 *Example*: Create planned AP positions on a floor plan with radio configurations.
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/New York/NY_BLD1/FLOOR1"
     access_points:
@@ -255,7 +255,7 @@ accesspoint_location_details:
 > **Note**: All configurations should be provided. Omitted settings will remain unchanged.
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/New York/NY_BLD1/FLOOR1"
     access_points:
@@ -295,7 +295,7 @@ accesspoint_location_details:
 *Example*: Configure an AP with a single dual-band radio.
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2"
     access_points:
@@ -323,7 +323,7 @@ accesspoint_location_details:
  Action field is only required when assigning,updating or deleting real access point to/from an existing planned position.
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/New York/NY_BLD1/FLOOR1"
     access_points:
@@ -337,7 +337,7 @@ accesspoint_location_details:
 *Example*: Create a real AP position directly (without planned position).
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR3"
     access_points:
@@ -372,7 +372,7 @@ accesspoint_location_details:
 > **Note**: Action field is only required when assigning,updating or deleting real access point to/from an existing planned position.
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR3"
     access_points:
@@ -407,7 +407,7 @@ accesspoint_location_details:
 *Example*: Configure an AP with 6GHz radio support.
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD22/FLOOR2"
     access_points:
@@ -602,7 +602,7 @@ ansible-playbook -i inventory/demo_lab/hosts.yaml \
 
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR2"
     access_points:
@@ -616,7 +616,7 @@ accesspoint_location_details:
 
 
 ```yaml
-catalyst_center_version: 3.1.3.0
+catalystcenter_version: 3.1.3.0
 accesspoint_location_details:
   - floor_site_hierarchy: "Global/USA/SAN JOSE/SJ_BLD23/FLOOR3"
     access_points:

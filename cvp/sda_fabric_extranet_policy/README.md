@@ -57,23 +57,23 @@ Consider the following guidelines before you configure an Extranet Policy:
 
 ### 2. Configure Host Inventory
 - The host_inventory_catalyst_center1/hosts.yml file specifies the connection details (IP address, credentials, etc.) for your Catalyst Center instance.
-- Make sure the catalyst_center_version in this file matches your actual Catalyst Center version.
+- Make sure the catalystcenter_version in this file matches your actual Catalyst Center version.
 - The Sample host_inventory_catalyst_center1/hosts.yml.
 
 ```bash
 catalyst_center_hosts:
     hosts:
         catalyst_center220:
-            catalyst_center_host: xx.xx.xx.xx.
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false
-            catalyst_center_version: 2.3.7.6
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx.
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false
+            catalystcenter_version: 2.3.7.6
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 ### 3. Define input

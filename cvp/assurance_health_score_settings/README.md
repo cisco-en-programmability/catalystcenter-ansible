@@ -88,16 +88,16 @@ Before running the playbooks, ensure you have Ansible installed and the necessar
     catalyst_center_hosts:
         hosts:
             your_catalyst_center_instance_name:
-                catalyst_center_host: xx.xx.xx.xx
-                catalyst_center_password: XXXXXXXX
-                catalyst_center_port: 443
-                catalyst_center_timeout: 60
-                catalyst_center_username: admin
-                catalyst_center_verify: false # Set to true for production with valid certificates
-                catalyst_center_version: 2.3.7.9 # Specify your Catalyst Center version
-                catalyst_center_debug: true
-                catalyst_center_log_level: INFO
-                catalyst_center_log: true
+                catalystcenter_host: xx.xx.xx.xx
+                catalystcenter_password: XXXXXXXX
+                catalystcenter_port: 443
+                catalystcenter_api_task_timeout: 60
+                catalystcenter_username: admin
+                catalystcenter_verify: false # Set to true for production with valid certificates
+                catalystcenter_version: 2.3.7.9 # Specify your Catalyst Center version
+                catalystcenter_debug: true
+                catalystcenter_log_level: INFO
+                catalystcenter_log: true
     ```
 
 ### Step 2: Define Inputs and Validate
@@ -127,8 +127,8 @@ This schema defines the structure of the input file for configuring Assurance He
 1. **Health Score Custom Settings for device family Unified Access Point**
   configures custom Assurance Health Score thresholds for Unified Access Points in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: UNIFIED_AP
@@ -152,8 +152,8 @@ mapping config to UI Actions:
 2. **Health Score Custom Settings for device family wired client**
   configures custom Assurance Health Score thresholds for wired client in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: WIRED_CLIENT
@@ -168,8 +168,8 @@ mapping config to UI Actions:
 3. **Health Score Custom Settings for device family wireless client**
   configures custom Assurance Health Score thresholds for wireless client in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
       - device_family: WIRELESS_CLIENT
@@ -188,8 +188,8 @@ mapping config to UI Actions:
 4. **Health Score Custom Settings for device family wireless controler**
   configures assurance health score settings for WIRELESS_CONTROLLER device family in Cisco Catalyst Center. It defines KPIs with specific thresholds and whether they contribute to the overall health score.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: WIRELESS_CONTROLLER
@@ -228,8 +228,8 @@ mapping config to UI Actions:
 5. **Health Score Custom Setting for device family switches and hub**
   configures assurance health score settings for SWITCH_AND_HUB device family in Cisco Catalyst Center. It defines KPIs with specific thresholds and whether they contribute to the overall health score.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: SWITCH_AND_HUB
@@ -257,8 +257,8 @@ mapping config to UI Actions:
 6. **Health Score Custom Setting for device family Router**
   configures assurance health score settings for ROUTER device family in Cisco Catalyst Center. It defines KPIs with specific thresholds and whether they contribute to the overall health score.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: ROUTER
@@ -283,8 +283,8 @@ mapping config to UI Actions:
 7. **Health Score Default Settings for device family Unified Access Point**
   configures Default Assurance Health Score thresholds for Unified Access Points in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: UNIFIED_AP
@@ -308,8 +308,8 @@ mapping config to UI Actions:
 8. **Health Score Default Settings for device family wired client**
   configures Default Assurance Health Score thresholds for WIRED_CLIENT in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: WIRED_CLIENT
@@ -324,8 +324,8 @@ mapping config to UI Actions:
 9. **Health Score Default Setting for device family wireless client**
   configures Default Assurance Health Score thresholds for WIRELESS_CLIENT in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
       - device_family: WIRELESS_CLIENT
@@ -344,8 +344,8 @@ mapping config to UI Actions:
 10. **Health Score Default Settings for device family wireless controller**
     configures Default Assurance Health Score thresholds for WIRELESS_CONTROLLER in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: WIRELESS_CONTROLLER
@@ -384,8 +384,8 @@ mapping config to UI Actions:
 11. **Health Score Default Setting for device family Switches and hub**
   configures Default Assurance Health Score thresholds for SWITCH_AND_HUB in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: SWITCH_AND_HUB
@@ -406,8 +406,8 @@ mapping config to UI Actions:
 12. **Health Score Default Setting for device family Router**
     configures Default Assurance Health Score thresholds for ROUTER in Cisco Catalyst Center. It allows tuning KPI thresholds and inclusion in overall health scoring.
 ```yaml
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: ROUTER

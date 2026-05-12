@@ -1,5 +1,5 @@
-catalyst_center_version: 2.3.7.9
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.9
+catalystcenter_verify: false
 assurance_health_score_settings:
   - device_health_score:
     - device_family: ROUTER

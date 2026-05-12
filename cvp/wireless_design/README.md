@@ -72,16 +72,16 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/wireless_design/playbo
    catalyst_center_hosts:
      hosts:
        your_catalyst_center_instance_name:
-         catalyst_center_host: xx.xx.xx.xx
-         catalyst_center_password: XXXXXXXX
-         catalyst_center_port: 443
-         catalyst_center_timeout: 60
-         catalyst_center_username: admin
-         catalyst_center_verify: false  # Set to true for production
-         catalyst_center_version: 2.3.7.9
-         catalyst_center_debug: true
-         catalyst_center_log_level: INFO
-         catalyst_center_log: true
+         catalystcenter_host: xx.xx.xx.xx
+         catalystcenter_password: XXXXXXXX
+         catalystcenter_port: 443
+         catalystcenter_api_task_timeout: 60
+         catalystcenter_username: admin
+         catalystcenter_verify: false  # Set to true for production
+         catalystcenter_version: 2.3.7.9
+         catalystcenter_debug: true
+         catalystcenter_log_level: INFO
+         catalystcenter_log: true
    ```
 
 ### Step 2: Define Inputs and Validate
@@ -205,7 +205,7 @@ SSIDs are the foundation of wireless networks, enabling devices to connect to th
 #### a. Create
 Example inputs include `GUEST` and `ENTERPRISE` SSIDs:
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   # Wireless SSID design inputs
   - ssids:
@@ -368,7 +368,7 @@ wireless_design_details:
 It can combine both `creation` and `updating` in a single input. If the SSID already exists, the input will be interpreted as an update; if the SSID does not exist, the input will be interpreted as a creation. The module will process this and return the message clearly.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - ssids:
     # Update
@@ -398,7 +398,7 @@ wireless_design_details:
 To delete an SSID, specify the ssid_name in the playbook in the *deleted* state. This ensures the SSID is removed from the wireless network configuration. Delete both the Enterprise and Guest SSIDs. The module will process this and return the exact and clear message regarding the number of SSIDs successfully deleted.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - ssids:
     - ssid_name: "iac-open"
@@ -417,7 +417,7 @@ The following example demonstrates how to create wireless interfaces and associa
 #### a. Create
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   # Wireless VLAN design inputs
   - interfaces:
@@ -435,7 +435,7 @@ wireless_design_details:
 To modify existing wireless interfaces or update their associated VLANs, specify the updated *interface_name* and *vlan_id* in the playbook. The following example demonstrates how to update the VLAN IDs for the *data* and *voice* interfaces.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - interfaces:
     - interface_name: "iac_data"
@@ -448,7 +448,7 @@ wireless_design_details:
 To delete wireless interfaces, specify the interface_name in the playbook in the *deleted* state. This ensures the interface is removed from the wireless network configuration.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - interfaces:
     - interface_name: "iac_data"
@@ -463,7 +463,7 @@ Power profiles in Cisco Catalyst Center allow you to optimize access point (AP) 
 #### a. Create
 The following example demonstrates how to create a power profile.
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   # Wireless Power Profiles design inputs
   - power_profiles:
@@ -497,7 +497,7 @@ wireless_design_details:
 To update an existing power profile, modify the desired settings in the playbook. The following example demonstrates how to update the profile to disable the 2.4GHz radio interface.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - power_profiles:
       - power_profile_name: "iac_RadioState"
@@ -513,7 +513,7 @@ wireless_design_details:
 To delete a power profile, specify the profile name in the playbook in the *deleted* state. The module will process this and return the exact and clear message regarding the number of `Power Profiles` successfully deleted.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - power_profiles:
       - power_profile_name: "iac_RadioState"
@@ -526,7 +526,7 @@ To create an access point profile, you need to provide at least the profile name
 
 #### a. Create
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   # Wireless Access Point Profile design inputs
   - access_point_profiles:
@@ -574,7 +574,7 @@ Provide both new input and the same old input for the update; the module will pr
 ***Note***: One power profile with the name `default` should be created beforehand.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - access_point_profiles:
     - access_point_profile_name: "iac_Corporate-Office-AP"
@@ -599,7 +599,7 @@ wireless_design_details:
 To delete an access point profile, you can specify the profile name in the playbook in the *deleted* state.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
 - access_point_profiles:
   - access_point_profile_name: "iac_Corporate-Office-AP"
@@ -620,7 +620,7 @@ Optimize radio frequency settings for different bands (2.4GHz, 5GHz, 6GHz).
 The provided RF profile examples demonstrate how to optimize radio frequency settings for different wireless bands (2.4GHz, 5GHz, and 6GHz) in Cisco Catalyst Center.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   #Define the RF profiles for the wireless network
   - radio_frequency_profiles:
@@ -669,7 +669,7 @@ We can update the RF Profile by modifying any of the configurations in the RF Pr
 Provide both new input and the same old input for the update, and provide new input for create (RF does not exist before); the module will process and return the exact message if it has been changed (updated) and confirm if a new RF has been created.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   #Define the RF profiles for the wireless network
   - radio_frequency_profiles:
@@ -699,7 +699,7 @@ To delete any RF profile, you can specify the profile name in the playbook in th
 Provide input that includes both valid RF and invalid RF; the module will process and return the exact message indicating which RF has been successfully deleted.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - radio_frequency_profiles:
     - radio_frequency_profile_name: "non-exist"
@@ -720,7 +720,7 @@ The following example demonstrates how to add an anchor group and its associated
 *Note*: With `managed_device: true`, need to provide real device input based on the testbed.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   # Define the mobility groups for the wireless network
   - anchor_groups:
@@ -756,7 +756,7 @@ wireless_design_details:
 To update an existing anchor group, modify the mobility anchors associated with the group. You can add new mobility anchors, update existing ones, or change their configurations. The following example demonstrates how to update the "iac_Enterprise_Anchor_Group" by updating existing anchors, adding new mobility anchors and modifying their details.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - anchor_groups:
     - anchor_group_name: "iac_Enterprise_Anchor_Group"
@@ -791,7 +791,7 @@ wireless_design_details:
 To delete any anchor groups, you can specify the anchor groups to be deleted in the playbook in the *deleted* state.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   - anchor_groups:
     - anchor_group_name: "iac_Enterprise_Anchor_Group"
@@ -802,7 +802,7 @@ wireless_design_details:
 The steps above are the small steps for each specified area. You can create all wireless designs including `SSID`, `wireless interface`, `RF profile`, `power profile`, `AP profile`, and `anchor group` in a single run.
 
 ```yaml
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 wireless_design_details:
   # Wireless SSID design inputs
   - ssids:

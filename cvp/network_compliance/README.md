@@ -48,7 +48,7 @@ catalyst_center_hosts:
             catalystcenter_host: xx.xx.xx.xx.
             catalystcenter_password: XXXXXXXX
             catalystcenter_port: 443
-            dnac_timeout: 60
+            catalystcenter_api_task_timeout: 60
             catalystcenter_username: admin
             catalystcenter_verify: false
             catalystcenter_version: 2.3.7.6
@@ -417,11 +417,11 @@ changed: [catalyst_center220] => {
             "catalystcenter_host": "10.195.227.14",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
-            "catalystcenter_log_file_path": "dnac.log",
+            "catalystcenter_log_file_path": "catalystcenter.log",
             "catalystcenter_log_level": "INFO",
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
-            "dnac_task_poll_interval": 2,
+            "catalystcenter_task_poll_interval": 2,
             "catalystcenter_username": "admin",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",

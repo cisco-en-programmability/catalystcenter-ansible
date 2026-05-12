@@ -1,6 +1,6 @@
 ---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 #unprovision Hubs and Switches device
 provision_details:
   - management_ip_address: 137.1.1.70

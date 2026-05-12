@@ -1,4 +1,4 @@
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 discovery_details:
   - discovery_name: CDP Based Discovery1
   - discovery_name: Single IP Discovery11

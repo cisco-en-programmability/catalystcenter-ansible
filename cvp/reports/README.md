@@ -89,22 +89,22 @@ Follow these steps to configure and manage reports in *Cisco Catalyst Center* us
    ```
 
 3. **Generate Inventory**:  
-   Create an Ansible inventory file (e.g., `inventory.yml`) with your *Cisco Catalyst Center* appliance details. Define variables such as `catalyst_center_host`, `catalyst_center_username`, and `catalyst_center_password`.  
+   Create an Ansible inventory file (e.g., `inventory.yml`) with your *Cisco Catalyst Center* appliance details. Define variables such as `catalystcenter_host`, `catalystcenter_username`, and `catalystcenter_password`.  
    > **Note**: For security, consider using *Ansible Vault* to encrypt sensitive data like passwords.  
    ```yaml
    catalyst_center_hosts:
        hosts:
            your_catalyst_center_instance_name:
-               catalyst_center_host: xx.xx.xx.xx
-               catalyst_center_password: XXXXXXXX
-               catalyst_center_port: 443
-               catalyst_center_timeout: 60
-               catalyst_center_username: admin
-               catalyst_center_verify: false  # Enable for production with valid certificates
-               catalyst_center_version: 2.3.7.9  # Specify the version
-               catalyst_center_debug: true
-               catalyst_center_log_level: INFO
-               catalyst_center_log: true
+               catalystcenter_host: xx.xx.xx.xx
+               catalystcenter_password: XXXXXXXX
+               catalystcenter_port: 443
+               catalystcenter_api_task_timeout: 60
+               catalystcenter_username: admin
+               catalystcenter_verify: false  # Enable for production with valid certificates
+               catalystcenter_version: 2.3.7.9  # Specify the version
+               catalystcenter_debug: true
+               catalystcenter_log_level: INFO
+               catalystcenter_log: true
    ```
 
 ---
@@ -1161,7 +1161,7 @@ Before creating reports, ensure the following components exist in *Cisco Catalys
 *Example*: Create a executive summary that executes immediately with email notification.
 
 ```yaml
-catalyst_center_version: 3.1.3
+catalystcenter_version: 3.1.3
 reports_details:
   - generate_report:
       - name: "ExecutiveSummary_Report_PDF"
@@ -1226,7 +1226,7 @@ reports_details:
 *Example*: Schedule an Rogue aWIPs report for a specific date and time.
 
 ```yaml
-catalyst_center_version: 3.1.3
+catalystcenter_version: 3.1.3
 reports_details:
   - generate_report:
       - name: "NewThreat_Rogue_aWIPS_Report"
@@ -1292,7 +1292,7 @@ reports_details:
 *Example*: Create a weekly security advisory report.
 
 ```yaml
-catalyst_center_version: 3.1.3
+catalystcenter_version: 3.1.3
 reports_details:
   - generate_report:
       - name: "SecurityAdvisories_module"
@@ -1348,7 +1348,7 @@ reports_details:
 *Example*: Create a Inventory (All Data) Report with monthly recursive Execution and webhook notification.
 
 ```yaml
-catalyst_center_version: 3.1.3
+catalystcenter_version: 3.1.3
 reports_details:
   - generate_report:
       - name: "Inventory_all_data_report"
@@ -1411,7 +1411,7 @@ reports_details:
 *Example*: Create a Inventory (All data version 2.0) Report with Email Notification and generating report recursively on last day of month.
 
 ```yaml
-catalyst_center_version: 3.1.3
+catalystcenter_version: 3.1.3
 reports_details:
   - generate_report:
       - name: "Monthly Inventory Report"
@@ -1491,7 +1491,7 @@ reports_details:
 > **Warning**: Deleting reports will remove all scheduled executions. Verify before proceeding.
 
 ```yaml
-catalyst_center_version: 3.1.3
+catalystcenter_version: 3.1.3
 reports_details:
   - generate_report:
       - name: "Network_Devices_report_transmit_power_change_count_20260105T212018"
@@ -1550,7 +1550,7 @@ Run the following command to validate your input file against the schema:
    - Review report execution history for completed reports.
    - Verify delivery configurations (email notifications, webhooks, or downloads).
    
-   If `catalyst_center_debug` is enabled, review the logs for detailed operation information.
+   If `catalystcenter_debug` is enabled, review the logs for detailed operation information.
 
 ---
 
