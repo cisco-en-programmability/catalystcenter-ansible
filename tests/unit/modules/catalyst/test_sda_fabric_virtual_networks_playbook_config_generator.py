@@ -61,22 +61,22 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestFabricVirtualNetworksPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -84,7 +84,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
         """
 
         if "generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -95,14 +95,14 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "fabric_vlan_by_vlan_name_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "fabric_vlan_by_vlan_name_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -111,14 +111,14 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "fabric_vlan_by_vlan_id_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "fabric_vlan_by_vlan_id_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -127,7 +127,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "fabric_vlan_by_vlan_name_and_id" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -136,14 +136,14 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "virtual_networks_by_vn_name_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_fabric_site_details"),
             ]
 
         elif "virtual_networks_by_vn_name_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -152,42 +152,42 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "anycast_gateways_by_vn_name" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_ip_pool_name" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_vlan_id" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_vlan_name" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_by_vlan_name_and_id" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details")
             ]
 
         elif "anycast_gateways_all_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_anycast_gateway_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -199,7 +199,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "multiple_components" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -208,7 +208,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "all_components" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details"),
@@ -219,7 +219,7 @@ class TestFabricVirtualNetworksPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "empty_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_fabric_site_details")

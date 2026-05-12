@@ -1,8 +1,8 @@
 ---
-- name: Configure device credentials on Cisco CATALYST Center
+- name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_swim.yml"
     - vars/credentials.yml
@@ -18,15 +18,17 @@
         catalystcenter_debug: "{{ catalystcenter_debug }}"
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
+        config_verify: true
         catalystcenter_api_task_timeout: 1000
         catalystcenter_task_poll_interval: 1
         config:
           - import_image_details:
-              type: "{{ item.type }}"
+              type: remote
               url_details:
                 payload:
-                  - source_url: http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin
-                    third_party: false
+                  - source_url:
+                      - "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
+                third_party: false
             tagging_details:
               image_name: cat9k_iosxe.17.12.02.SPA.bin
               device_role: ALL
@@ -35,7 +37,7 @@
               tagging: true
             # image_distribution_details:
             #   image_name: cat9k_iosxe.17.12.02.SPA.bin
-            #   site_name: "{{ item.site_name }}"
+            #   site_name: "{{item.site_name}}"
             #   device_role: "{{ item.device_role }}"
             #   device_family_name: "{{ item.device_family_name }}"
             #   device_series_name: "Catalyst 9300 Series"
@@ -47,6 +49,7 @@
               device_series_name: "Catalyst 9300 Series"
               scehdule_validate: false
               distribute_if_needed: true
+
       with_items: "{{ image_details }}"
       tags:
         - swim

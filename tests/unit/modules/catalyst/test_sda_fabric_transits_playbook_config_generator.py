@@ -57,22 +57,22 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestSdaFabricTransitsPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestSdaFabricTransitsPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -80,7 +80,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
         """
 
         if "generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_available_transit_networks"),
                 self.test_data.get("get_site_details"),
@@ -88,7 +88,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "component_specific_filters_only" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_available_transit_networks"),
                 self.test_data.get("get_site_details"),
@@ -96,14 +96,14 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "transit_type_ip_based_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),
                 self.test_data.get("get_site_details")
             ]
 
         elif "transit_type_ip_based_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),  # First filter
                 self.test_data.get("get_ip_based_transits_only"),  # Second filter (duplicate)
@@ -111,7 +111,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "transit_name_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_transit_by_name_sample_transit3"),
                 self.test_data.get("get_site_details"),
@@ -119,7 +119,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "transit_name_multiple" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_transit_by_name_sample_transit1"),  # First filter: name="sample_transit1"
                 self.test_data.get("get_site_details"),
@@ -128,14 +128,14 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "transit_name_and_type" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_transit_by_name_sample_transit2"),
                 self.test_data.get("get_site_details")
             ]
 
         elif "transit_type_sda_lisp_pub_sub_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_sda_lisp_pub_sub_transits_only"),
                 self.test_data.get("get_site_details"),
@@ -143,7 +143,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "transit_type_sda_lisp_bgp_single" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_sda_lisp_bgp_transits_only"),
                 self.test_data.get("get_site_details"),
@@ -151,7 +151,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "all_transit_types" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),  # First filter: IP_BASED_TRANSIT
                 self.test_data.get("get_site_details"),
@@ -164,7 +164,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "mixed_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_transit_by_name_ip_transit_1"),  # First filter: name="IP_TRANSIT_1"
                 self.test_data.get("get_site_details"),
@@ -177,7 +177,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "empty_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_available_transit_networks"),
                 self.test_data.get("get_site_details"),
@@ -185,7 +185,7 @@ class TestSdaFabricTransitsPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "no_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_device_details"),  # Initial call for device ID mapping
                 self.test_data.get("get_ip_based_transits_only"),
                 self.test_data.get("get_site_details")

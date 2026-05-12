@@ -50,7 +50,7 @@
         file: "{{ role_path }}/vars/vars_wired_campus_automation_workflow_management.yml"
         name: comprehensive_vars_map
       vars:
-        catalyst_login: &catalyst_login
+        catalystcenter_login: &catalystcenter_login
           catalystcenter_host: "{{ catalystcenter_host }}"
           catalystcenter_username: "{{ catalystcenter_username }}"
           catalystcenter_password: "{{ catalystcenter_password }}"
@@ -61,16 +61,16 @@
           catalystcenter_log: true
           catalystcenter_log_level: DEBUG
           config_verify: true
-          dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-          dnac_log_append: false
+          catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+          catalystcenter_log_append: false
 
     # # =============================================================================
     # # INITIAL CLEANUP - Ensure clean starting state
     # # =============================================================================
 
     # - name: Initial Cleanup - Reset all features to default state
-    #   cisco.dnac.wired_campus_automation_workflow_manager:
-    #     <<: *catalyst_login
+    #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+    #     <<: *catalystcenter_login
     #     state: deleted
     #     config:
     #       - "{{ comprehensive_vars_map.test_complete_cleanup_all_features }}"
@@ -96,8 +96,8 @@
     # =============================================================================
 
     # - name: "COMPREHENSIVE TEST 1: All Features Combined Configuration"
-    #   cisco.dnac.wired_campus_automation_workflow_manager:
-    #     <<: *catalyst_login
+    #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+    #     <<: *catalystcenter_login
     #     state: merged
     #     config:
     #       - "{{ comprehensive_vars_map.test_comprehensive_merged_all_features }}"
@@ -124,8 +124,8 @@
     # # =============================================================================
 
     # - name: "DELETION TEST 1: Comprehensive Features Deletion"
-    #   cisco.dnac.wired_campus_automation_workflow_manager:
-    #     <<: *catalyst_login
+    #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+    #     <<: *catalystcenter_login
     #     state: deleted
     #     config:
     #       - "{{ comprehensive_vars_map.test_comprehensive_deleted_all_features }}"
@@ -152,8 +152,8 @@
     # # =============================================================================
 
     # - name: "FINAL CLEANUP: Complete System Reset"
-    #   cisco.dnac.wired_campus_automation_workflow_manager:
-    #     <<: *catalyst_login
+    #   cisco.catalystcenter.wired_campus_automation_workflow_manager:
+    #     <<: *catalystcenter_login
     #     state: deleted
     #     config:
     #       - "{{ comprehensive_vars_map.test_complete_cleanup_all_features }}"

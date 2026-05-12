@@ -17,24 +17,18 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    assurance_issue_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import assurance_issue_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacAssuranceSettings(TestCatalystModule):
+class TestCatalystCenterAssuranceSettings(TestCatalystModule):
     module = assurance_issue_workflow_manager
     test_data = loadPlaybookData("assurance_issue_workflow_manager")
     playbook_config_updation = test_data.get("playbook_config_updation")
     playbook_config_creation = test_data.get("playbook_config_creation")
     playbook_config_deletion = test_data.get("playbook_config_deletion")
-    playbook_config_system_issue_updation = test_data.get(
-        "playbook_config_system_issue_updation"
-    )
-    playbook_config_command_execution = test_data.get(
-        "playbook_config_command_execution"
-    )
+    playbook_config_system_issue_updation = test_data.get("playbook_config_system_issue_updation")
+    playbook_config_command_execution = test_data.get("playbook_config_command_execution")
     playbook_config_No_data_found = test_data.get("playbook_config_No_data_found")
     playbook_config_resolution = test_data.get("playbook_config_resolution")
     playbook_config_ignore = test_data.get("playbook_config_ignore")
@@ -42,17 +36,16 @@ class TestDnacAssuranceSettings(TestCatalystModule):
     playbook_config_invalid_duration = test_data.get("playbook_config_invalid_duration")
     playbook_config_invalid_name = test_data.get("playbook_config_invalid_name")
     playbook_config_invalid_priority = test_data.get("playbook_config_invalid_priority")
-    playbook_config_invalid_time_format = test_data.get(
-        "playbook_config_invalid_time_format"
-    )
+    playbook_config_invalid_time_format = test_data.get("playbook_config_invalid_time_format")
     playbook_config_idempotency = test_data.get("playbook_config_idempotency")
+    playbook_config_udi_limit_error = test_data.get("playbook_config_udi_limit_error")
+    playbook_config_generic_error = test_data.get("playbook_config_generic_error")
 
     def setUp(self):
-        super(TestDnacAssuranceSettings, self).setUp()
+        super(TestCatalystCenterAssuranceSettings, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -63,7 +56,7 @@ class TestDnacAssuranceSettings(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacAssuranceSettings, self).tearDown()
+        super(TestCatalystCenterAssuranceSettings, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -78,7 +71,7 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 self.test_data.get("issue_exist"),
                 self.test_data.get("prev_issue_exist"),
                 self.test_data.get("issue_updation"),
-                self.test_data.get("issue_exist_after_updation"),
+                self.test_data.get("issue_exist_after_updation")
             ]
 
         if "creation" in self._testMethodName:
@@ -116,14 +109,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 self.test_data.get("get_system_issue2"),
                 self.test_data.get("system_issue_update"),
                 self.test_data.get("get_updated_system_issue_1"),
-                self.test_data.get("get_updated_system_issue_2"),
+                self.test_data.get("get_updated_system_issue_2")
             ]
 
         if "command_execution" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_issue_ids_command_execution"),
                 self.test_data.get("command_execution"),
-                self.test_data.get("get_business_api_execution_details"),
+                self.test_data.get("get_business_api_execution_details")
             ]
 
         if "No_data_found" in self._testMethodName:
@@ -146,6 +139,24 @@ class TestDnacAssuranceSettings(TestCatalystModule):
         if "invalid_time_format" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_issue_ids_resolution"),
+            ]
+
+        if "udi_limit_error" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("Testing_creation_exit"),
+                Exception(
+                    "An error occurred when executing operation for the family 'issues' having "
+                    "the function 'creates_a_new_user_defined_issue_definitions'. "
+                    "The error was: status_code: 400,  "
+                    '[{\"errorCode\":9003,\"message\":\"Failed to create the custom issue definition \",'
+                    '\"detail\":\"UDIs have hit max supported number of: 50 \"}]'
+                ),
+            ]
+
+        if "generic_error" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("Testing_creation_exit"),
+                Exception("Connection timeout while calling the API"),
             ]
 
         if "update_idempotency" in self._testMethodName:
@@ -179,35 +190,16 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 # config_verify=True,
-                config=self.playbook_config_updation,
+                config=self.playbook_config_updation
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(
-            result["response"][0]["assurance_user_defined_issue_settings"]["response"]
-        )
+        print(result['response'][0]['assurance_user_defined_issue_settings']['response'])
         self.assertEqual(
-            result["response"][0]["assurance_user_defined_issue_settings"]["response"],
-            {
-                "updated user defined issue Details": {
-                    "name": "test_user_defined",
-                    "description": "testing settings 1",
-                    "rules": [
-                        {
-                            "severity": "2",
-                            "facility": "redundancy",
-                            "mnemonic": "peer monitor event",
-                            "pattern": "issue test",
-                            "occurrences": 1,
-                            "duration_in_minutes": 2,
-                        }
-                    ],
-                    "is_enabled": True,
-                    "priority": "P2",
-                    "is_notification_enabled": True,
-                    "prev_name": "test_seema_1",
-                }
-            },
+            result['response'][0]['assurance_user_defined_issue_settings']['response'],
+            {'updated user defined issue Details': {'name': 'test_user_defined', 'description': 'testing settings 1', 'rules':
+             [{'severity': '2', 'facility': 'redundancy', 'mnemonic': 'peer monitor event', 'pattern': 'issue test', 'occurrences': 1,
+              'duration_in_minutes': 2}], 'is_enabled': True, 'priority': 'P2', 'is_notification_enabled': True, 'prev_name': 'test_seema_1'}}
         )
 
     def test_assurance_issue_workflow_manager_creation(self):
@@ -225,34 +217,16 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_creation,
+                config=self.playbook_config_creation
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(
-            result["response"][0]["assurance_user_defined_issue_settings"]["response"]
-        )
+        print(result['response'][0]['assurance_user_defined_issue_settings']['response'])
         self.assertEqual(
-            result["response"][0]["assurance_user_defined_issue_settings"]["response"],
-            {
-                "created user-defined issue": {
-                    "name": "Testing_creation",
-                    "description": "testing settings 1",
-                    "rules": [
-                        {
-                            "severity": "2",
-                            "facility": "Alert",
-                            "mnemonic": "peer monitor event",
-                            "pattern": "issue test",
-                            "occurrences": 1,
-                            "duration_in_minutes": 2,
-                        }
-                    ],
-                    "is_enabled": True,
-                    "priority": "P2",
-                    "is_notification_enabled": True,
-                }
-            },
+            result['response'][0]['assurance_user_defined_issue_settings']['response'],
+            {'created user-defined issue': {'name': 'Testing_creation', 'description': 'testing settings 1',
+             'rules': [{'severity': '2', 'facility': 'Alert', 'mnemonic': 'peer monitor event', 'pattern': 'issue test',
+                        'occurrences': 1, 'duration_in_minutes': 2}], 'is_enabled': True, 'priority': 'P2', 'is_notification_enabled': True}}
         )
 
     def test_assurance_issue_workflow_manager_deletion(self):
@@ -270,14 +244,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 state="deleted",
                 catalystcenter_version="2.3.7.9",
                 config=self.playbook_config_deletion,
-                config_verify=True,
+                config_verify=True
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][0]["assurance_user_defined_issue_settings"]["msg"])
+        print(result['response'][0]['assurance_user_defined_issue_settings']['msg'])
         self.assertEqual(
-            result["response"][0]["assurance_user_defined_issue_settings"]["msg"],
-            {"ippo": "Assurance user-defined issue deleted successfully"},
+            result['response'][0]['assurance_user_defined_issue_settings']['msg'],
+            {'ippo': 'Assurance user-defined issue deleted successfully'}
         )
 
     def test_assurance_issue_workflow_manager_update_system_issue(self):
@@ -295,14 +269,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config=self.playbook_config_system_issue_updation,
-                config_verify=True,
+                config_verify=True
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"][1]["assurance_system_issue_settings"]["msg"])
+        print(result['response'][1]['assurance_system_issue_settings']['msg'])
         self.assertEqual(
-            result["response"][1]["assurance_system_issue_settings"]["msg"],
-            {"AP Reboot Crash": "System issue Updated Successfully"},
+            result['response'][1]['assurance_system_issue_settings']['msg'],
+            {'AP Reboot Crash': 'System issue Updated Successfully'}
         )
 
     def test_assurance_issue_workflow_manager_command_execution(self):
@@ -320,14 +294,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config=self.playbook_config_command_execution,
-                config_verify=True,
+                config_verify=True
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["response"])
+        print(result['response'])
         self.assertEqual(
-            result["response"]["input_issue_config"],
-            [{"issue_name": "jan8_1", "issue_process_type": "command_execution"}],
+            result['response']['input_issue_config'],
+            [{'issue_name': 'jan8_1', 'issue_process_type': 'command_execution'}]
         )
 
     def test_assurance_issue_workflow_manager_No_data_found(self):
@@ -345,14 +319,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config=self.playbook_config_No_data_found,
-                config_verify=True,
+                config_verify=True
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result["msg"],
-            "No issues found to resolve or ignore. All issues are already cleared: [{'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}]",
+            result['msg'],
+            "No issues found to resolve or ignore. All issues are already cleared: [{'issue_name': 'jan8_1', 'issue_process_type': 'resolution'}]"
         )
 
     def test_assurance_issue_workflow_manager_resolution(self):
@@ -370,14 +344,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config=self.playbook_config_resolution,
-                config_verify=True,
+                config_verify=True
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["msg"])
+        print(result['msg'])
         self.assertEqual(
-            result["msg"],
-            "Issue resolution verified successfully for '[{'issue_name': 'Rangatestlink', 'issue_process_type': 'resolution'}]'.",
+            result['msg'],
+            "Issue resolution verified successfully for '[{'issue_name': 'Rangatestlink', 'issue_process_type': 'resolution'}]'."
         )
 
     def test_assurance_issue_workflow_manager_ignore(self):
@@ -399,8 +373,8 @@ class TestDnacAssuranceSettings(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result["msg"])
-        self.assertIn("Issue ignored successfully.", result["msg"])
+        print(result['msg'])
+        self.assertIn("Issue ignored successfully.", result['msg'])
 
     def test_assurance_issue_workflow_manager_invalid_severity(self):
         """
@@ -417,14 +391,14 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_invalid_severity,
+                config=self.playbook_config_invalid_severity
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result["msg"])
+        print(result['msg'])
         self.assertEqual(
-            result["msg"],
-            "Invalid severity value 'critic' . Allowed values are: Emergency, Alert, Critical, Error, Warning, Notice, Info.",
+            result['msg'],
+            "Invalid severity value 'critic' . Allowed values are: Emergency, Alert, Critical, Error, Warning, Notice, Info."
         )
 
     def test_assurance_issue_workflow_manager_invalid_duration(self):
@@ -442,11 +416,11 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_invalid_duration,
+                config=self.playbook_config_invalid_duration
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters in playbook config", result["response"])
+        self.assertIn("Invalid parameters in playbook config", result['response'])
 
     def test_assurance_issue_workflow_manager_invalid_priority(self):
         """
@@ -463,11 +437,11 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_invalid_priority,
+                config=self.playbook_config_invalid_priority
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters in playbook config", result["response"])
+        self.assertIn("Invalid parameters in playbook config", result['response'])
 
     def test_assurance_issue_workflow_manager_invalid_time_format(self):
         """
@@ -485,17 +459,13 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_invalid_time_format,
+                config=self.playbook_config_invalid_time_format
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Invalid parameters in playbook config", result["response"])
-        self.assertIn(
-            "Unable to validate Start date time, end date time", result["response"]
-        )
-        self.assertIn(
-            "time data '2024-12-41 16:00:00' does not match format", result["response"]
-        )
+        self.assertIn("Invalid parameters in playbook config", result['response'])
+        self.assertIn("Unable to validate Start date time, end date time", result['response'])
+        self.assertIn("time data '2024-12-41 16:00:00' does not match format", result['response'])
 
     def test_assurance_issue_workflow_manager_update_idempotency(self):
         """
@@ -512,49 +482,94 @@ class TestDnacAssuranceSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.9",
                 catalystcenter_log=True,
                 state="merged",
-                config=self.playbook_config_idempotency,
+                config=self.playbook_config_idempotency
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(
-            result["response"][0]["assurance_user_defined_issue_settings"]["response"]
-        )
+        print(result['response'][0]['assurance_user_defined_issue_settings']['response'])
         self.assertEqual(
-            result["response"][0]["assurance_user_defined_issue_settings"]["response"],
+            result['response'][0]['assurance_user_defined_issue_settings']['response'],
             {
-                "created user-defined issue": {
-                    "name": "Warning - C6KENV",
-                    "description": "Triggers an Warning due to C6KENV",
-                    "rules": [
+                'created user-defined issue': {
+                    'name': 'Warning - C6KENV',
+                    'description': 'Triggers an Warning due to C6KENV',
+                    'rules': [
                         {
-                            "severity": "4",
-                            "facility": "C6KENV",
-                            "mnemonic": "TERMINATOR_PS_TEMP_MAJORALARM",
-                            "pattern": "issue test",
-                            "occurrences": 1,
-                            "duration_in_minutes": 2,
+                            'severity': '4',
+                            'facility': 'C6KENV',
+                            'mnemonic': 'TERMINATOR_PS_TEMP_MAJORALARM',
+                            'pattern': 'issue test',
+                            'occurrences': 1,
+                            'duration_in_minutes': 2
                         }
                     ],
-                    "is_enabled": True,
-                    "priority": "P2",
-                    "is_notification_enabled": True,
+                    'is_enabled': True,
+                    'priority': 'P2',
+                    'is_notification_enabled': True
                 },
-                "updated user defined issue Details": {
-                    "name": "testing item_idempotency issue_1",
-                    "description": "testing ignore",
-                    "rules": [
+                'updated user defined issue Details': {
+                    'name': 'testing item_idempotency issue_1',
+                    'description': 'testing ignore',
+                    'rules': [
                         {
-                            "severity": "5",
-                            "facility": "DOT1X",
-                            "mnemonic": "FAIL",
-                            "pattern": "issue test",
-                            "occurrences": 1,
-                            "duration_in_minutes": 3,
+                            'severity': '5',
+                            'facility': 'DOT1X',
+                            'mnemonic': 'FAIL',
+                            'pattern': 'issue test',
+                            'occurrences': 1,
+                            'duration_in_minutes': 3
                         }
                     ],
-                    "is_enabled": True,
-                    "priority": "P4",
-                    "is_notification_enabled": False,
-                },
-            },
+                    'is_enabled': True,
+                    'priority': 'P4',
+                    'is_notification_enabled': False
+                }
+            }
         )
+
+    def test_assurance_issue_workflow_manager_udi_limit_error(self):
+        """
+        Test case to verify user-friendly error message when the UDI limit (errorCode 9003)
+        is reached while creating a user-defined issue in Cisco Catalyst Center.
+        Ensures the module fails with a message referencing the maximum limit of custom issues.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_config_udi_limit_error
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn(
+            "maximum limit of {0}".format(
+                assurance_issue_workflow_manager.AssuranceSettings.MAX_CUSTOM_ISSUES
+            ),
+            result['msg']
+        )
+        self.assertIn("UDI_limit_test_issue", result['msg'])
+
+    def test_assurance_issue_workflow_manager_generic_error(self):
+        """
+        Test case to verify that generic SDK errors during user-defined issue creation
+        are reported with the original exception message, and are not mistakenly
+        matched by the UDI limit handler in Cisco Catalyst Center.
+        """
+        set_module_args(
+            dict(
+                catalystcenter_host="1.1.1.1",
+                catalystcenter_username="dummy",
+                catalystcenter_password="dummy",
+                catalystcenter_version="2.3.7.9",
+                catalystcenter_log=True,
+                state="merged",
+                config=self.playbook_config_generic_error
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        self.assertIn("Connection timeout while calling the API", result['msg'])
+        self.assertNotIn("maximum limit", result['msg'])

@@ -1,5 +1,5 @@
 ---
-- name: Play
+- name: Template pnp intent
   hosts: localhost
   vars_files:
     - vars/credentials.yml
@@ -7,9 +7,9 @@
   gather_facts: false
   connection: local
   tasks:
-    #
+
     # Project Info  Section
-    #
+
     - name: Test project template
       cisco.catalystcenter.template_intent:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -37,6 +37,8 @@
       with_items: '{{ template_details }}'
       tags:
         - template
+
+
     - name: Create pnp
       cisco.catalystcenter.pnp_intent:
         catalystcenter_host: "{{ catalystcenter_host }}"

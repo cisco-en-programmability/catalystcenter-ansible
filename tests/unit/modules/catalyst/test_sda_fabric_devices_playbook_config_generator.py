@@ -36,7 +36,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
 
     module = sda_fabric_devices_playbook_config_generator
     test_data = loadPlaybookData("sda_fabric_devices_playbook_config_generator")
@@ -76,23 +76,23 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterBrownfieldSdaFabricDevicesPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -110,7 +110,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # 8. get_fabric_devices_layer3_handoffs_with_ip_transit - sda family (for each device)
             # 9. get_fabric_devices_layer3_handoffs_with_sda_transit - sda family (for each device)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # 1. get_sites
                 self.test_data.get("get_sites_case_1"),
                 # 2. get_fabric_sites
@@ -178,7 +178,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # 6. get_fabric_site_wired_settings - sda family (for embedded wireless controller)
             # 7. Border handoff APIs - for each device (3 devices x 3 handoff types = 9 calls)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -214,7 +214,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # When device_ip is specified, module first queries device_list to get network_device_id
             # Then queries fabric_devices with both fabric_id and networkDeviceId
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -236,14 +236,14 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
         elif "test_filter_fabric_name_edge_role_case_4" in self._testMethodName:
             # Test Case 4: Filter by fabric_name + device_roles (EDGE_NODE)
             # API filters by deviceRoles and returns only 2 edge node devices directly
-            # API call sequence from dnac.log:
+            # API call sequence from catalystcenter.log:
             # 1. get_sites, get_fabric_sites, get_transit_networks (initialization)
             # 2. get_fabric_devices with deviceRoles=['EDGE_NODE'] - returns 2 edge nodes
             # 3. get_network_device_list for each device (2 calls)
             # 4. get_fabric_site_wired_settings (1 call)
             # 5. Border handoff APIs for each device (2 devices x 3 types = 6 calls)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -271,14 +271,14 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
         elif "test_filter_fabric_name_multi_roles_case_5" in self._testMethodName:
             # Test Case 5: Filter by fabric_name + device_roles (BORDER_NODE, CONTROL_PLANE_NODE)
             # API filters by deviceRoles and returns only 1 device with both roles
-            # API call sequence from dnac.log:
+            # API call sequence from catalystcenter.log:
             # 1. get_sites, get_fabric_sites, get_transit_networks (initialization)
             # 2. get_fabric_devices with deviceRoles=['BORDER_NODE','CONTROL_PLANE_NODE'] - returns 1 device
             # 3. get_network_device_list for device (1 call)
             # 4. get_fabric_site_wired_settings (1 call)
             # 5. Border handoff APIs for device (1 device x 3 types = 3 calls)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -302,7 +302,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # This applies all filters together, resulting in 1 device
             # When device_ip is specified, module first queries device_list to get network_device_id
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -324,14 +324,14 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
         elif "test_filter_fabric_name_cp_role_case_7" in self._testMethodName:
             # Test Case 7: Filter by fabric_name (Hyderabad) + device_roles (CONTROL_PLANE_NODE)
             # API filters by deviceRoles and returns only 1 CP node device
-            # API call sequence from dnac.log:
+            # API call sequence from catalystcenter.log:
             # 1. get_sites, get_fabric_sites, get_transit_networks (initialization)
             # 2. get_fabric_devices with deviceRoles=['CONTROL_PLANE_NODE'] - returns 1 device
             # 3. get_network_device_list for device (1 call)
             # 4. get_fabric_site_wired_settings (1 call)
             # 5. Border handoff APIs for device (1 device x 3 types = 3 calls)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -355,14 +355,14 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
         elif "test_filter_fabric_name_border_role_case_8" in self._testMethodName:
             # Test Case 8: Filter by fabric_name + device_roles (BORDER_NODE)
             # API filters by deviceRoles and returns only 1 border node device
-            # API call sequence from dnac.log:
+            # API call sequence from catalystcenter.log:
             # 1. get_sites, get_fabric_sites, get_transit_networks (initialization)
             # 2. get_fabric_devices with deviceRoles=['BORDER_NODE'] - returns 1 device
             # 3. get_network_device_list for device (1 call)
             # 4. get_fabric_site_wired_settings (1 call)
             # 5. Border handoff APIs for device (1 device x 3 types = 3 calls)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -385,7 +385,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # Test Case 9: Filter with explicit components_list + fabric_name (Hyderabad)
             # This tests the components_list parameter
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -415,7 +415,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # - Bangalore: EDGE_NODE (2 devices)
             # - Hyderabad: CONTROL_PLANE_NODE (1 device)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),
@@ -458,7 +458,7 @@ class TestDnacBrownfieldSdaFabricDevicesPlaybookGenerator(TestCatalystModule):
             # Test Case 10: Test file_mode append functionality
             # This tests the append mode parameter (same as case 2 but with append mode)
 
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 # Initialization phase
                 self.test_data.get("get_sites_case_1"),
                 self.test_data.get("get_fabric_sites_case_1"),

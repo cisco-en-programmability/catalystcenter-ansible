@@ -18,8 +18,8 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   fabricName:
-    description: Warning - Starting DNA Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
-      need it anymore. It will be removed in future DNA Center releases.
+    description: Warning - Starting Catalyst Center 2.2.3.5 release, this field has been deprecated. SD-Access Fabric does not
+      need it anymore. It will be removed in future Catalyst Center releases.
     type: str
     version_added: 4.0.0
   fabricType:

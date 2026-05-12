@@ -448,7 +448,7 @@
             "totalIpAddressCount": 128,
             "usedIpAddressCount": 0,
             "parentUuid": "767f0f96-2279-4aab-8b05-94e855e62d28",
-            "owner": "DNAC",
+            "owner": "CatalystCenter",
             "shared": true,
             "overlapping": false,
             "configureExternalDhcp": false,
@@ -463,12 +463,12 @@
             "defaultAssignedIpAddressCount": 3,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "reserved_by",
-                "contextValue": "DNAC"
+                "contextValue": "CatalystCenter"
               },
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "siteId",
                 "contextValue": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b"
               }
@@ -482,7 +482,7 @@
         "siteId": "1ae4d125-ef5a-4965-8ab2-c4de99f2858b",
         "siteHierarchy": "Global/Fabric_Test",
         "type": "generic",
-        "groupOwner": "DNAC"
+        "groupOwner": "CatalystCenter"
       }
     ],
     "version": "1.0"

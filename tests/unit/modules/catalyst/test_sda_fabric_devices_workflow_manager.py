@@ -35,7 +35,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestCatalystModule, loadPlaybookData, set_module_args
 
 
-class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
+class TestCatalystCenterSdaFabricDevicesWorkflowManager(TestCatalystModule):
 
     module = sda_fabric_devices_workflow_manager
     test_data = loadPlaybookData("sda_fabric_devices_workflow_manager")
@@ -60,31 +60,31 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacSdaFabricDevicesWorkflowManager, self).setUp()
+        super(TestCatalystCenterSdaFabricDevicesWorkflowManager, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacSdaFabricDevicesWorkflowManager, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterSdaFabricDevicesWorkflowManager, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
         """
         if "test_create_fabric_device_case_1" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_sf"),
                 self.test_data.get("get_fabric_sites_sf"),
                 self.test_data.get("get_device_list"),
@@ -102,7 +102,7 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_secondary_ap_locations_empty"),
             ]
         elif "test_update_fabric_device_case_2" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_sf"),
                 self.test_data.get("get_fabric_sites_sf"),
                 self.test_data.get("get_device_list"),
@@ -123,7 +123,7 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_secondary_ap_locations_empty"),
             ]
         elif "test_delete_fabric_device_case_3" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_sf"),
                 self.test_data.get("get_fabric_sites_sf"),
                 self.test_data.get("get_device_list"),
@@ -135,7 +135,7 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_success"),
             ]
         elif "test_create_wireless_controller_case_4" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_sf"),
                 self.test_data.get("get_fabric_sites_sf"),
                 self.test_data.get("get_device_list"),
@@ -169,7 +169,7 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_success"),
             ]
         elif "test_update_wireless_controller_case_5" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_sf"),
                 self.test_data.get("get_fabric_sites_sf"),
                 self.test_data.get("get_device_list"),
@@ -200,7 +200,7 @@ class TestDnacSdaFabricDevicesWorkflowManager(TestCatalystModule):
                 self.test_data.get("task_success"),
             ]
         elif "test_delete_wireless_controller_case_6" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_sf"),
                 self.test_data.get("get_fabric_sites_sf"),
                 self.test_data.get("get_device_list"),

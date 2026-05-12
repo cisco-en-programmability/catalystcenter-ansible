@@ -5,8 +5,8 @@
 
 """Ansible module to perform operations on create and delete path trace details between
 two different IP addresses and network in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
+
 
 __metaclass__ = type
 __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
@@ -145,7 +145,7 @@ options:
         type: str
         required: false
 requirements:
-  - catalystcentersdk >= 2.8.6
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - SDK Method used are
@@ -162,7 +162,7 @@ EXAMPLES = r"""
 ---
 - hosts: catalystcenter_servers
   vars_files:
-    - vars/credentials.yml
+    - credentials.yml
   gather_facts: false
   connection: local
   tasks:
@@ -718,7 +718,7 @@ class PathTraceWorkflow(CatalystCenterBase):
             "include_stats": {"type": "list", "elements": "str", "required": False},
             "get_last_pathtrace_result": {"type": "bool", "required": False},
             "flow_analysis_id": {"type": "str", "required": False},
-            "delete_on_completion": {"type": "bool", "required": False},
+            "delete_on_completion": {"type": "bool", "required": False}
         }
 
         if not self.config:
@@ -1193,9 +1193,7 @@ class PathTraceWorkflow(CatalystCenterBase):
             "Getting path trace flow analysis id: {0}".format(str(flow_id)), "INFO"
         )
         try:
-            catalystcenter_api_task_timeout = int(
-                self.payload.get("catalystcenter_api_task_timeout")
-            )
+            catalystcenter_api_task_timeout = int(self.payload.get("catalystcenter_api_task_timeout"))
             start_time = time.time()
 
             while True:
@@ -1289,9 +1287,7 @@ class PathTraceWorkflow(CatalystCenterBase):
                     self.fail_and_exit(self.msg)
 
                 self.log("Received the task id: {0}".format(task_id), "INFO")
-                catalystcenter_api_task_timeout = int(
-                    self.payload.get("catalystcenter_api_task_timeout")
-                )
+                catalystcenter_api_task_timeout = int(self.payload.get("catalystcenter_api_task_timeout"))
                 start_time = time.time()
 
                 while True:
@@ -1394,10 +1390,8 @@ class PathTraceWorkflow(CatalystCenterBase):
             # If path trace creation failed, log the error
             if not path_trace_created:
                 self.not_processed.append(each_path)
-                self.msg = (
-                    "Unable to find the path trace for flow analysis id: {0}".format(
-                        each_flow_id if each_flow_id else "N/A"
-                    )
+                self.msg = "Unable to find the path trace for flow analysis id: {0}".format(
+                    each_flow_id if each_flow_id else "N/A"
                 )
 
         if self.create_path:
@@ -1561,12 +1555,10 @@ class PathTraceWorkflow(CatalystCenterBase):
                         )
             else:
                 path_trace = self.get_path_trace_with_flow_id(
-                    each_path.get("flow_analysis_id")
-                )
+                    each_path.get("flow_analysis_id"))
                 if not path_trace:
                     self.msg = "Path trace for flow_analysis_id '{0}' already deleted or not found: {1}".format(
-                        each_path.get("flow_analysis_id"), self.not_processed
-                    )
+                        each_path.get("flow_analysis_id"), self.not_processed)
                     self.log(self.msg, "INFO")
                     self.set_operation_result(
                         "success", False, self.msg, "INFO"
@@ -1676,25 +1668,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

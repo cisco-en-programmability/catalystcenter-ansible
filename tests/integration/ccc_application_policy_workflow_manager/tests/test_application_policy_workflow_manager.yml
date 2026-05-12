@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name:  Load vars and declare dnac vars
+  - name:  Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_application_policy_workflow_manager.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -31,8 +31,8 @@
 ####################################################
 
   - name: Create Application
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -58,8 +58,8 @@
 ####################################################
 
   - name: Update Application
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -86,8 +86,8 @@
 ####################################################################
 
   - name: Create Application Queuing Profile
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -113,8 +113,8 @@
 ####################################################################
 
   - name: Update Application Queuing Profile
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -140,8 +140,8 @@
 ###########################################################
 
   - name: Create Application Policy
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -167,8 +167,8 @@
 #############################################################
 
   - name: Update Application Policy
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -194,8 +194,8 @@
 #############################################
 
   - name: Delete Application
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -221,8 +221,8 @@
 ##################################################
 
   - name: Delete Application Policy
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -248,8 +248,8 @@
 #############################################################
 
   - name: Delete Application Queuing Profile
-    cisco.dnac.application_policy_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.application_policy_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"

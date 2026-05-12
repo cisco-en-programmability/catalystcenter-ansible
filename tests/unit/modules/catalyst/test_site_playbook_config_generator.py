@@ -103,41 +103,41 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         super(TestBrownfieldSiteWorkflowManager, self).setUp()
         self._fixture_response_override = None
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestBrownfieldSiteWorkflowManager, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for brownfield site workflow manager tests.
         """
         if self._fixture_response_override is not None:
-            self.run_dnac_exec.side_effect = self._fixture_response_override
+            self.run_catalystcenter_exec.side_effect = self._fixture_response_override
             self._fixture_response_override = None
             return
 
         if response is not None:
-            self.run_dnac_exec.side_effect = (
+            self.run_catalystcenter_exec.side_effect = (
                 response if isinstance(response, list) else [response]
             )
             return
 
         # Default fixture: return the same consolidated payload for each API call.
-        self.run_dnac_exec.side_effect = lambda *args, **kwargs: self.test_data.get(
+        self.run_catalystcenter_exec.side_effect = lambda *args, **kwargs: self.test_data.get(
             "get_all_sites_response"
         )
 
@@ -224,13 +224,13 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             expected_params (dict): Expected values in params payload.
         """
         self.assertGreater(
-            len(self.run_dnac_exec.call_args_list),
+            len(self.run_catalystcenter_exec.call_args_list),
             call_index,
             "Expected _exec call index {0} not found. Available calls: {1}".format(
-                call_index, len(self.run_dnac_exec.call_args_list)
+                call_index, len(self.run_catalystcenter_exec.call_args_list)
             ),
         )
-        call_kwargs = self.run_dnac_exec.call_args_list[call_index].kwargs
+        call_kwargs = self.run_catalystcenter_exec.call_args_list[call_index].kwargs
         self.assertEqual(call_kwargs.get("family"), "site_design")
         self.assertEqual(call_kwargs.get("function"), "get_sites")
         self.assertEqual(call_kwargs.get("op_modifies"), False)
@@ -293,7 +293,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             self.playbook_config_generate_all_configurations
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 1)
         self.assert_get_sites_api_call(0, {"offset": 1, "limit": 500})
 
     @patch("builtins.open", new_callable=mock_open)
@@ -353,7 +353,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         self.assert_success_result_message(result, self._testMethodName)
 
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             2,
             "Expected two paginated get_sites calls for 620 synthetic records.",
         )
@@ -406,7 +406,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=True, failed=False)
         self.assert_success_result_message(result, self._testMethodName)
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             1,
             "Expected one API call after deduping duplicate site_type values.",
         )
@@ -441,7 +441,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         self.assertIn("Invalid 'site_type' values", str(result.get("msg")))
         self.assertIn("campus", str(result.get("msg")))
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution for invalid site_type validation failure.",
         )
@@ -470,7 +470,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("unable to convert to dict", str(result.get("msg")))
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution when top-level config type is invalid.",
         )
@@ -504,7 +504,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("unable to convert to dict", str(result.get("msg")))
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution when multiple config elements are provided as a list.",
         )
@@ -534,7 +534,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             str(result.get("msg")),
         )
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution when config is empty dictionary.",
         )
@@ -614,7 +614,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             self.playbook_config_area_by_site_name_single
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 1)
         self.assert_get_sites_api_call(
             0,
             {
@@ -668,7 +668,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             self.playbook_config_area_by_parent_site
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 1)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 1)
         self.assert_get_sites_api_call(
             0,
             {
@@ -678,7 +678,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
                 "limit": 500,
             },
         )
-        params = self.run_dnac_exec.call_args_list[0].kwargs.get("params") or {}
+        params = self.run_catalystcenter_exec.call_args_list[0].kwargs.get("params") or {}
         self.assertNotIn("parentNameHierarchy", params)
 
     @patch("builtins.open", new_callable=mock_open)
@@ -1075,7 +1075,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             str(result.get("msg")),
         )
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution when component_specific_filters is an empty dict.",
         )
@@ -1150,10 +1150,10 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             self.playbook_config_direct_filter_components_list_name_hierarchy
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 3)
         expected_types = {"area", "building", "floor"}
         observed_types = set()
-        for call in self.run_dnac_exec.call_args_list:
+        for call in self.run_catalystcenter_exec.call_args_list:
             params = call.kwargs.get("params") or {}
             self.assertEqual(params.get("nameHierarchy"), "Global/USA")
             self.assertNotIn("parentNameHierarchy", params)
@@ -1175,12 +1175,12 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
 
         # When site_name_hierarchy is provided with multiple site_types,
         # it fans out to one API call per site_type
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 3)
 
         expected_site_types = set(["area", "building", "floor"])
         observed_site_types = set()
 
-        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
+        for call_index, call in enumerate(self.run_catalystcenter_exec.call_args_list):
             params = call.kwargs.get("params") or {}
             self.assertEqual(params.get("nameHierarchy"), "Global/USA")
             self.assertNotIn("parentNameHierarchy", params)
@@ -1201,11 +1201,11 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             self.playbook_config_parent_name_hierarchy_pattern
         )
 
-        self.assertEqual(self.run_dnac_exec.call_count, 3)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 3)
         expected_site_types = set(["area", "building", "floor"])
         observed_site_types = set()
 
-        for call_index, call in enumerate(self.run_dnac_exec.call_args_list):
+        for call_index, call in enumerate(self.run_catalystcenter_exec.call_args_list):
             self.assert_get_sites_api_call(
                 call_index,
                 {"nameHierarchy": "Global/USA/.*", "offset": 1, "limit": 500},
@@ -1231,7 +1231,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
 
         # Two separate site filter entries: one with site_name_hierarchy (3 types)
         # and one with parent_name_hierarchy (3 types) = 6 total API calls
-        self.assertEqual(self.run_dnac_exec.call_count, 6)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 6)
 
     def test_parent_name_hierarchy_scope_includes_descendants(self):
         """
@@ -1895,7 +1895,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("cannot be provided together", str(result.get("msg")))
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution when same-item parent/site hierarchy is provided.",
         )
@@ -1936,7 +1936,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             str(result.get("msg")),
         )
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution for hierarchy prefix mismatch validation failure.",
         )
@@ -2208,7 +2208,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assert_success_result_message(result, self._testMethodName)
-        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
         self.assert_get_sites_api_call(
             0,
             {
@@ -2263,7 +2263,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assert_success_result_message(result, self._testMethodName)
-        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
         self.assert_get_sites_api_call(
             0,
             {
@@ -2326,7 +2326,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         # parent entry: Global/USA/.* with type=floor → 1 call
         # site entry: Global/India/Bangalore with type=area → 1 call
         # total: 2 calls
-        self.assertEqual(self.run_dnac_exec.call_count, 2)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 2)
         self.assert_get_sites_api_call(
             0,
             {
@@ -2393,7 +2393,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         self.assert_success_result_message(result, self._testMethodName)
         # Each filter without site_type fans out to all 3 types:
         # USAsdfsfs/.* x 3 types + San Francisco x 3 types + San Jose x 3 types = 9 calls
-        self.assertEqual(self.run_dnac_exec.call_count, 9)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 9)
         expected_calls = {
             ("Global/USAsdfsfs/.*", "area"),
             ("Global/USAsdfsfs/.*", "building"),
@@ -2406,7 +2406,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             ("Global/USA/San Jose", "floor"),
         }
         observed_calls = set()
-        for call in self.run_dnac_exec.call_args_list:
+        for call in self.run_catalystcenter_exec.call_args_list:
             params = call.kwargs.get("params") or {}
             observed_calls.add((params.get("nameHierarchy"), params.get("type")))
         self.assertSetEqual(observed_calls, expected_calls)
@@ -2454,7 +2454,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         # site_name_hierarchy without site_type fans out to 3 types;
         # parent_name_hierarchy with site_type=[building, floor] produces 2 calls.
         # Total: 5 unique API calls.
-        self.assertEqual(self.run_dnac_exec.call_count, 5)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 5)
         expected_calls = {
             ("Global/USA/San Francisco", "area"),
             ("Global/USA/San Francisco", "building"),
@@ -2463,7 +2463,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             ("Global/USA/.*", "floor"),
         }
         observed_calls = set()
-        for call in self.run_dnac_exec.call_args_list:
+        for call in self.run_catalystcenter_exec.call_args_list:
             params = call.kwargs.get("params") or {}
             observed_calls.add((params.get("nameHierarchy"), params.get("type")))
         self.assertSetEqual(observed_calls, expected_calls)
@@ -2511,7 +2511,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         # site_name_hierarchy without site_type fans out to 3 types;
         # two parent_name_hierarchy entries with site_type=[floor] produce 1 call each.
         # Total: 5 unique API calls.
-        self.assertEqual(self.run_dnac_exec.call_count, 5)
+        self.assertEqual(self.run_catalystcenter_exec.call_count, 5)
         expected_calls = {
             ("Global/USA/San Francisco", "area"),
             ("Global/USA/San Francisco", "building"),
@@ -2520,7 +2520,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
             ("Global/India/.*", "floor"),
         }
         observed_calls = set()
-        for call in self.run_dnac_exec.call_args_list:
+        for call in self.run_catalystcenter_exec.call_args_list:
             params = call.kwargs.get("params") or {}
             observed_calls.add((params.get("nameHierarchy"), params.get("type")))
         self.assertSetEqual(observed_calls, expected_calls)
@@ -2562,7 +2562,7 @@ class TestBrownfieldSiteWorkflowManager(TestCatalystModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn("cannot be provided together", str(result.get("msg")))
         self.assertEqual(
-            self.run_dnac_exec.call_count,
+            self.run_catalystcenter_exec.call_count,
             0,
             "Expected no API execution for ambiguous same-item parent/site hierarchy filter.",
         )

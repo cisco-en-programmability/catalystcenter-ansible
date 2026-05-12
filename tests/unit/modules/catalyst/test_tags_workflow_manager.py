@@ -29,13 +29,11 @@ __email__ = "soni.archit03@gmail.com"
 __version__ = "1.0.0"
 
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    tags_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import tags_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacTagsWorkflow(TestCatalystModule):
+class TestCatalystCenterTagsWorkflow(TestCatalystModule):
 
     module = tags_workflow_manager
     test_data = loadPlaybookData("tags_workflow_manager")
@@ -82,7 +80,7 @@ class TestDnacTagsWorkflow(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacTagsWorkflow, self).setUp()
+        super(TestCatalystCenterTagsWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
@@ -96,7 +94,7 @@ class TestDnacTagsWorkflow(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacTagsWorkflow, self).tearDown()
+        super(TestCatalystCenterTagsWorkflow, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 

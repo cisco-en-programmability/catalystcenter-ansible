@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Reports executions info
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
@@ -17,6 +17,7 @@
         dirPath: /Users/wilhelm32/Downloads/dna
         saveFile: true
       register: result
+
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result.catalystcenter_response }}"

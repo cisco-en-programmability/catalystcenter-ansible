@@ -1326,7 +1326,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1368,7 +1368,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1432,7 +1432,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1465,7 +1465,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1498,7 +1498,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1538,7 +1538,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1571,7 +1571,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1606,7 +1606,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1646,7 +1646,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1679,7 +1679,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1714,7 +1714,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1754,7 +1754,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1787,7 +1787,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1822,7 +1822,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1886,7 +1886,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1919,7 +1919,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1954,7 +1954,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -1994,7 +1994,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2027,7 +2027,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2062,7 +2062,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2144,7 +2144,7 @@
                 "totalIpAddressCount": 8388608,
                 "usedIpAddressCount": 0,
                 "parentUuid": "35b049a8-13c5-4434-a569-33708cd46f94",
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "shared": true,
                 "overlapping": false,
                 "configureExternalDhcp": false,
@@ -2159,14 +2159,14 @@
                 "defaultAssignedIpAddressCount": 3,
                 "context": [
                   {
-                    "owner": "DNAC",
+                    "owner": "CatalystCenter",
                     "contextKey": "siteId",
                     "contextValue": "1e292ed1-0e1e-41d7-914f-048552ce0fc5"
                   },
                   {
-                    "owner": "DNAC",
+                    "owner": "CatalystCenter",
                     "contextKey": "reserved_by",
-                    "contextValue": "DNAC"
+                    "contextValue": "CatalystCenter"
                   }
                 ],
                 "ipv6": false,
@@ -2177,7 +2177,7 @@
             "siteId": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
             "siteHierarchy": "Global/Abc2",
             "type": "lan",
-            "groupOwner": "DNAC"
+            "groupOwner": "CatalystCenter"
           }
         ],
         "version": "1.0"
@@ -2284,7 +2284,7 @@
                 "totalIpAddressCount": 8388608,
                 "usedIpAddressCount": 0,
                 "parentUuid": "35b049a8-13c5-4434-a569-33708cd46f94",
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "shared": true,
                 "overlapping": false,
                 "configureExternalDhcp": false,
@@ -2299,14 +2299,14 @@
                 "defaultAssignedIpAddressCount": 3,
                 "context": [
                   {
-                    "owner": "DNAC",
+                    "owner": "CatalystCenter",
                     "contextKey": "siteId",
                     "contextValue": "1e292ed1-0e1e-41d7-914f-048552ce0fc5"
                   },
                   {
-                    "owner": "DNAC",
+                    "owner": "CatalystCenter",
                     "contextKey": "reserved_by",
-                    "contextValue": "DNAC"
+                    "contextValue": "CatalystCenter"
                   }
                 ],
                 "ipv6": false,
@@ -2317,7 +2317,7 @@
             "siteId": "1e292ed1-0e1e-41d7-914f-048552ce0fc5",
             "siteHierarchy": "Global/Abc2",
             "type": "lan",
-            "groupOwner": "DNAC"
+            "groupOwner": "CatalystCenter"
           }
         ],
         "version": "1.0"
@@ -2371,7 +2371,7 @@
             "defaultAssignedIpAddressCount": 1,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2404,7 +2404,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2439,7 +2439,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2500,7 +2500,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }
@@ -2535,7 +2535,7 @@
             "defaultAssignedIpAddressCount": 2,
             "context": [
               {
-                "owner": "DNAC",
+                "owner": "CatalystCenter",
                 "contextKey": "type",
                 "contextValue": "generic"
               }

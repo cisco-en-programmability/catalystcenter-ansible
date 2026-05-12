@@ -53,11 +53,11 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestInventoryPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
         self.mock_get_with_pagination = patch(
             "ansible_collections.cisco.catalystcenter.plugins.modules."
@@ -77,7 +77,7 @@ class TestInventoryPlaybookConfigGenerator(TestCatalystModule):
         super(TestInventoryPlaybookConfigGenerator, self).tearDown()
         self.mock_write_yaml.stop()
         self.mock_get_with_pagination.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
