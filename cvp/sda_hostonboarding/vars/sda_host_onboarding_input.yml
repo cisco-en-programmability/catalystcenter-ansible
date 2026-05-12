@@ -1,6 +1,6 @@
 ---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details: 
   - ip_address: 204.101.16.1
     fabric_site_name_hierarchy: Global/USA/SAN JOSE

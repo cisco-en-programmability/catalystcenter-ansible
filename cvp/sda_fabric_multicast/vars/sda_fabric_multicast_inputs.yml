@@ -1,7 +1,7 @@
       
 # Copyright (c) 2023 Cisco and/or its affiliates.
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 fabric_multicast_details:
   - fabric_multicast:
     - fabric_name: Global/USA/SAN JOSE

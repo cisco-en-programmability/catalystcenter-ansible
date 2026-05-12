@@ -79,16 +79,16 @@ Update your Ansible hosts.yml inventory file with the connection details of your
 catalyst_center_hosts:
     hosts:
         your_catalyst_center_instance_name:
-            catalyst_center_host: xx.xx.xx.xx
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false # Set to true for production with valid certificates
-            catalyst_center_version: 2.3.7.6 # Specify your Catalyst Center version
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false # Set to true for production with valid certificates
+            catalystcenter_version: 2.3.7.6 # Specify your Catalyst Center version
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 ---
@@ -278,7 +278,7 @@ Run the following command to validate your input file against the schema:
    ```
 
 2. **Verify Deployment:**  
-   After executing the playbook, check the Catalyst Center UI for ICAP session status. If `catalyst_center_log` is enabled, review the logs for detailed information. For downloads, verify the PCAP file exists in the specified directory.
+   After executing the playbook, check the Catalyst Center UI for ICAP session status. If `catalystcenter_log` is enabled, review the logs for detailed information. For downloads, verify the PCAP file exists in the specified directory.
 ---
 
 

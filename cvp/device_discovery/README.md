@@ -34,7 +34,7 @@ catalyst_center_hosts:
             catalystcenter_host: xx.xx.xx.xx.
             catalystcenter_password: XXXXXXXX
             catalystcenter_port: 443
-            dnac_timeout: 60
+            catalystcenter_api_task_timeout: 60
             catalystcenter_username: admin
             catalystcenter_verify: false
             catalystcenter_version: 2.3.7.6

@@ -1,6 +1,6 @@
 ---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 jinjatemplate: true
 passwords_file: ../../../ansible_vault_encrypted_inputs/mypasswordfile.yaml
 #Provide the path to the jinja template file

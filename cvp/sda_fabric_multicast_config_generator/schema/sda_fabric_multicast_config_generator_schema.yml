@@ -15,14 +15,14 @@
 sda_fabric_multicast_config: list(include('sda_fabric_multicast_config_type'), min=1, max=100, required=True)
 
 # Optional Catalyst Center variables (can come from inventory instead)
-catalyst_center_version: str(required=False)
-catalyst_center_verify: bool(required=False)
-catalyst_center_api_task_timeout: int(min=60, max=3600, required=False)
-catalyst_center_debug: bool(required=False)
-catalyst_center_log: bool(required=False)
-catalyst_center_log_append: bool(required=False)
-catalyst_center_log_file_path: str(required=False)
-catalyst_center_log_level: str(required=False)
+catalystcenter_version: str(required=False)
+catalystcenter_verify: bool(required=False)
+catalystcenter_api_task_timeout: int(min=60, max=3600, required=False)
+catalystcenter_debug: bool(required=False)
+catalystcenter_log: bool(required=False)
+catalystcenter_log_append: bool(required=False)
+catalystcenter_log_file_path: str(required=False)
+catalystcenter_log_level: str(required=False)
 
 sda_fabric_multicast_config_type:
   generate_all_configurations: bool(required=False)

@@ -93,10 +93,10 @@ This section provides detailed information about all configuration parameters av
 
 | **Parameter**                   | **Type**   | **Required** | **Default Value** | **Description**                                                           |
 |---------------------------------|------------|--------------|-------------------|---------------------------------------------------------------------------|
-| `catalyst_center_version`       | String     | No           | From hosts.yml    | Catalyst Center software version. Overrides host file version.            |
-| `catalyst_center_verify`        | Boolean    | No           | `false`           | SSL certificate verification (true/false).                                |
+| `catalystcenter_version`       | String     | No           | From hosts.yml    | Catalyst Center software version. Overrides host file version.            |
+| `catalystcenter_verify`        | Boolean    | No           | `false`           | SSL certificate verification (true/false).                                |
 | `catalystcenter_api_task_timeout`         | Integer    | No           | `604800`          | Maximum time (seconds) to wait for LAN Automation task completion.        |
-| `dnac_task_poll_interval`       | Integer    | No           | `30`              | Interval (seconds) to poll for task completion status.                    |
+| `catalystcenter_task_poll_interval`       | Integer    | No           | `30`              | Interval (seconds) to poll for task completion status.                    |
 | `config_verify`                 | Boolean    | No           | `false`           | Verify LAN Automation config after applying playbook configuration.       |
 | `state`                         | String     | No           | `merged`          | Desired state after module completion. Choices: `merged`, `deleted`.      |
 
@@ -233,7 +233,7 @@ Based on the topology setup, we'll use the input file located at `cvp/lan_automa
 ```yaml
 ---
 # Select Catalyst Center version, this one overwrites the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 
 # This file contains the variables for the LAN Automation workflow
 lan_automation_details:
@@ -346,7 +346,7 @@ To stop an ongoing LAN Automation session, you'll need to specify the IP address
 ```yaml
 ---
 # Select Catalyst Center version, this one overwrites the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 
 # This file contains the variables for the LAN Automation workflow
 lan_automation_details:
@@ -395,8 +395,8 @@ To update the loopback IP addresses of LAN Automated devices, you need to provid
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 
 lan_automation_details:  
   device_update:
@@ -445,8 +445,8 @@ To update the hostname of LAN Automated devices, you need to provide each device
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 
 lan_automation_details:  
   device_update:
@@ -492,8 +492,8 @@ To create a link between LAN Automated devices, provide the management IP addres
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 
 lan_automation_details:  
   device_update:
@@ -514,8 +514,8 @@ To delete a link between LAN Automated devices, provide the management IP addres
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 
 lan_automation_details:  
   device_update:
@@ -601,8 +601,8 @@ To create a Port Channel, provide device identifiers for both source and destina
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -619,8 +619,8 @@ lan_automation_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -637,8 +637,8 @@ lan_automation_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -653,8 +653,8 @@ lan_automation_details:
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -718,8 +718,8 @@ To add new links to an existing Port Channel, provide at least one existing link
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -740,8 +740,8 @@ When the Port Channel number is known, you can directly target the Port Channel 
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -789,8 +789,8 @@ Remove all Port Channel configurations between two specific devices.
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -805,8 +805,8 @@ Target a specific Port Channel for deletion using its Port Channel number.
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -822,8 +822,8 @@ Remove a single link from a Port Channel. If this operation would result in fewe
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -842,8 +842,8 @@ Remove a Port Channel by explicitly listing all its member links.
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:
@@ -864,8 +864,8 @@ Remove all Port Channels originating from a specific source device, regardless o
 
 ```yaml
 ---
-catalyst_center_version: 3.1.3.0
-catalyst_center_verify: false
+catalystcenter_version: 3.1.3.0
+catalystcenter_verify: false
 
 lan_automation_details:
   port_channel:

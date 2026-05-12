@@ -75,16 +75,16 @@ Before running the playbooks, ensure you have Ansible installed and the necessar
    catalyst_center_hosts:
       hosts:
          your_catalyst_center_instance_name:
-            catalyst_center_host: xx.xx.xx.xx
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false # Set to true for production with valid certificates
-            catalyst_center_version: 2.3.7.6 # Specify your Catalyst Center version
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false # Set to true for production with valid certificates
+            catalystcenter_version: 2.3.7.6 # Specify your Catalyst Center version
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
    ```
 
 ### Step 2: Define Inputs and Validate
@@ -128,7 +128,7 @@ To create an area named SAN JOSE under the existing area USA, and to define the 
 ---
 #Select Catalyst Center version, this will overwrite the default version from host file
 # Provide the Catalyst Center Version
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # Sites Input List 
 design_sites:
   - site:
@@ -181,7 +181,7 @@ workflow/site_hierarchy/jinja_template/site_generation_template.j2 template can 
 ```bash
 ---
 # Define the Catalyst Center version
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 
 # List of floor images to be used for upload
 {% set floor_images = ['floor_image1.png', 'floor_image2.jpg', 'floor_image3.jpeg', 'floor_image4.pdf'] %}
@@ -255,7 +255,7 @@ You can use the below example to delete all the floors and buildings under the s
 
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 design_sites:  
   - site:
       area:
@@ -274,7 +274,7 @@ Playbook can be used to delete sites under a specified hierarchy.
 ### Example of Site Deletion
 ```bash
 ---
-catalyst_center_version:2.3.7.6
+catalystcenter_version:2.3.7.6
 delete sites:
   - site:
       area:

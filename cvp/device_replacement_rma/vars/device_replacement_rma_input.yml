@@ -1,6 +1,6 @@
 # Description: This file contains the input variables for the device replacement RMA workflow.
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 rma_devices: 
   - faulty_device_serial_number: "KWC224709LV"
     replacement_device_serial_number: "KWC2333037V"

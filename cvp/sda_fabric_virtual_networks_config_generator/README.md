@@ -184,7 +184,7 @@ Use `sda_fabric_virtual_networks_config_generator.yml` for generating yaml confi
 Retrieves all fabric vlans,virtual networks and anycast gateways from Catalyst Center regardless of any filters.
 
 ```yaml
-# No config at all - only DNAC connection details
+# No config at all - only Catalyst Center connection details
 # Expected: defaults to generates all configs
  sda_fabric_virtual_networks_config:
    - file_path: "/tmp/complete_sda_fabric_virtual_networks_config.yml"

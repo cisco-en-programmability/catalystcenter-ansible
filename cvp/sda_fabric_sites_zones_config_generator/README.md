@@ -190,7 +190,7 @@ Use `sda_fabric_sites_zones_config_generator.yml` for generating yaml playbook c
 **Description**: Retrieves all fabric sites and fabric zones from Catalyst Center regardless of any filters.
 
 ```yaml
-# No config at all - only DNAC connection details
+# No config at all - only Catalyst Center connection details
 # Expected: defaults to generates all configs
  sda_fabric_sites_zones_config:
    - file_path: "/tmp/complete_sda_fabric_sites_zones_config1.yaml"

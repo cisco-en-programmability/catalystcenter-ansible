@@ -27,19 +27,19 @@ catalyst_center_hosts:
     hosts:
         catalyst_center220:
             #(Mandatory) CatC Ip address
-            catalyst_center_host:  <DNAC IP Address>
+            catalystcenter_host:  <Catalyst Center IP Address>
             #(Mandatory) CatC UI admin Password
-            catalyst_center_password: <DNAC UI admin Password>
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
+            catalystcenter_password: <Catalyst Center UI admin Password>
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
             #(Mandatory) CatC UI admin username
-            catalyst_center_username: <DNAC UI admin username> 
-            catalyst_center_verify: false
-            #(Mandatory) DNAC Release version
-            catalyst_center_version: <DNAC Release version>
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_username: <Catalyst Center UI admin username>
+            catalystcenter_verify: false
+            #(Mandatory) Catalyst Center Release version
+            catalystcenter_version: <Catalyst Center Release version>
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 
@@ -76,7 +76,7 @@ catalyst_center_hosts:
 ## Inputs:
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 rma_devices: 
   - faulty_device_serial_number: "KWC224709LV"
     replacement_device_serial_number: "KWC2333037V"
@@ -84,7 +84,7 @@ rma_devices:
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 rma_devices: 
   - faulty_device_ip_address: "204.192.3.40"
     replacement_device_ip_address: "204.1.2.5"
@@ -92,7 +92,7 @@ rma_devices:
 
 ```yaml
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 rma_devices: 
   - faulty_device_name: "SJ-EN-9300.cisco.local"
     replacement_device_name: "SJ-EN-9300.cisco-1.local"

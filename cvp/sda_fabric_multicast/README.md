@@ -85,16 +85,16 @@ Before running the playbooks, ensure you have Ansible installed and the necessar
     catalyst_center_hosts:
         hosts:
             catalyst_center220:
-                catalyst_center_host: <CatC IP Address>
-                catalyst_center_password: <CatC UI admin Password>
-                catalyst_center_port: 443
-                catalyst_center_timeout: 60
-                catalyst_center_username: <CatC UI admin username>
-                catalyst_center_verify: false
-                catalyst_center_version: <CatC Release version>
-                catalyst_center_debug: true
-                catalyst_center_log_level: INFO
-                catalyst_center_log: true
+                catalystcenter_host: <CatC IP Address>
+                catalystcenter_password: <CatC UI admin Password>
+                catalystcenter_port: 443
+                catalystcenter_api_task_timeout: 60
+                catalystcenter_username: <CatC UI admin username>
+                catalystcenter_verify: false
+                catalystcenter_version: <CatC Release version>
+                catalystcenter_debug: true
+                catalystcenter_log_level: INFO
+                catalystcenter_log: true
     ```
 
 ### Step 2: Define Inputs and Validate
@@ -327,7 +327,7 @@ Run the following command to validate your input file against the schema:
    > **Note**: If an error occurs (e.g., invalid input or API failure), the playbook will halt and display details.
 
 2. **Verify Deployment**:  
-   After execution, verify the configuration in the Cisco Catalyst Center UI under the SDA fabric multicast section. If `catalyst_center_debug` is enabled, review the logs for detailed operation information.
+   After execution, verify the configuration in the Cisco Catalyst Center UI under the SDA fabric multicast section. If `catalystcenter_debug` is enabled, review the logs for detailed operation information.
 
    ![Multicast Configuration Example](./images/mapping_parameter_multicast.png)  
    **Figure 4**: *SDA Fabric Multicast Configuration in Cisco Catalyst Center*
