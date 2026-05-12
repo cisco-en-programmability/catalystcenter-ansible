@@ -335,11 +335,14 @@ options:
           wireless_ssids:
             description:
             - Filters for wireless SSID configuration extraction.
+            - Each list entry targets one or more fabric sites for wireless SSID to VLAN
+              mapping extraction.
             - Extracts only wireless SSID to VLAN mappings for specified fabric site hierarchies.
             - Fabric site names must be full hierarchical paths (case-sensitive).
             - If not specified when component included in components_list, extracts
               all wireless SSID mappings across all fabric sites.
-            type: dict
+            type: list
+            elements: dict
             required: false
             suboptions:
               fabric_site_name_hierarchy:
@@ -645,8 +648,8 @@ EXAMPLES = r"""
       component_specific_filters:
         components_list: ["wireless_ssids"]
         wireless_ssids:
-          fabric_site_name_hierarchy:
-            - "Global/Site_India/Karnataka/Bangalore"
+          - fabric_site_name_hierarchy:
+              - "Global/Site_India/Karnataka/Bangalore"
 """
 
 RETURN = r"""
@@ -1902,7 +1905,11 @@ class SdaHostPortOnboardingPlaybookConfigGenerator(CatalystCenterBase, BrownFiel
                 "DEBUG"
             )
 
-            fabric_site_name_hierarchies = component_specific_filters.get("fabric_site_name_hierarchy", [])
+            fabric_site_name_hierarchies = [
+                site
+                for item in component_specific_filters
+                for site in item.get("fabric_site_name_hierarchy", [])
+            ]
             self.log(
                 f"Extracted {len(fabric_site_name_hierarchies)} fabric site name "
                 "hierarchy filter(s) from component_specific_filters: "
