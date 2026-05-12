@@ -28,16 +28,16 @@ Make sure the catalystcenter_version in this file matches your actual Catalyst C
 catalyst_center_hosts:
     hosts:
         catalyst_center220:
-            catalyst_center_host: xx.xx.xx.xx.
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false
-            catalyst_center_version: 2.3.7.6
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx.
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false
+            catalystcenter_version: 2.3.7.6
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 ## Running playbook
@@ -551,7 +551,7 @@ In the context of SDA Fabric Virtual Networks, there are three main components: 
   **Example Command to Run the SDA Fabric Virtual Networks Playbook with Merged Method:**
   ```bash
   ansible-playbook 
-    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to Catalyst Center to run
     ./cvp/sda_virtual_networks_l2l3_gateways/playbook/sda_virtual_networks_l2_l3_gateways_playbook.yml # Playbook that will execute
     --extra-vars VARS_FILE_PATH=../vars/sda_virtual_networks_l2_l3_gateways_input.yml # Location of the input file for playbook execution
     -vvv # Returns detailed information about the message; the more 'v', the more detail

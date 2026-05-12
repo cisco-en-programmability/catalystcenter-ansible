@@ -163,7 +163,7 @@ Use `sda_fabric_transits_config_generator.yml` for all generation tasks.
 
 1. **Generate all transit networks**
 ```yaml
-# No config at all - only DNAC connection details
+# No config at all - only Catalyst Center connection details
 # Expected: defaults to generates all configs
  sda_fabric_transits_config:
    - file_path: "/tmp/sda_fabric_transits_complete_config.yml"

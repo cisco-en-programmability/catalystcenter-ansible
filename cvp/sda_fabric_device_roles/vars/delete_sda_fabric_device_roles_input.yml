@@ -1,5 +1,5 @@
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 fabric_devices_details:
   - fabric_devices:
       fabric_name: Global/USA/SAN-JOSE

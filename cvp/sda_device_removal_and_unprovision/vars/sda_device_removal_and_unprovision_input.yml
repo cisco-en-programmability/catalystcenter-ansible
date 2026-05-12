@@ -1,5 +1,5 @@
 ---
-catalyst_center_version: 2.3.7.9
+catalystcenter_version: 2.3.7.9
 
 sda_device_removal_and_unprovision:
   - device_name: "SJ-EDGE-9300-1.cisco.local"

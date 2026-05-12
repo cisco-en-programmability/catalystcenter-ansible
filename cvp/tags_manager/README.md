@@ -65,16 +65,16 @@ ansible-playbook -i ./inventory/demo_lab/hosts.yaml ./cvp/tags_manager/playbook/
    catalyst_center_hosts:
      hosts:
        your_catalyst_center_instance_name:
-         catalyst_center_host: xx.xx.xx.xx
-         catalyst_center_password: XXXXXXXX
-         catalyst_center_port: 443
-         catalyst_center_timeout: 60
-         catalyst_center_username: admin
-         catalyst_center_verify: false  # Set to true for production
-         catalyst_center_version: 2.3.7.9
-         catalyst_center_debug: true
-         catalyst_center_log_level: INFO
-         catalyst_center_log: true
+         catalystcenter_host: xx.xx.xx.xx
+         catalystcenter_password: XXXXXXXX
+         catalystcenter_port: 443
+         catalystcenter_api_task_timeout: 60
+         catalystcenter_username: admin
+         catalystcenter_verify: false  # Set to true for production
+         catalystcenter_version: 2.3.7.9
+         catalystcenter_debug: true
+         catalystcenter_log_level: INFO
+         catalystcenter_log: true
    ```
 
 ### Step 2: Define Inputs and Validate

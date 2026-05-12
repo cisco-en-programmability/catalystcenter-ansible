@@ -41,19 +41,19 @@ catalyst_center_hosts:
     hosts:
         catalyst_center220:
             #(Mandatory) CatC Ip address
-            catalyst_center_host:  <DNAC IP Address>
+            catalystcenter_host:  <Catalyst Center IP Address>
             #(Mandatory) CatC UI admin Password
-            catalyst_center_password: <DNAC UI admin Password>
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
+            catalystcenter_password: <Catalyst Center UI admin Password>
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
             #(Mandatory) CatC UI admin username
-            catalyst_center_username: <DNAC UI admin username> 
-            catalyst_center_verify: false
-            #(Mandatory) DNAC Release version
-            catalyst_center_version: <DNAC Release version>
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_username: <Catalyst Center UI admin username>
+            catalystcenter_verify: false
+            #(Mandatory) Catalyst Center Release version
+            catalystcenter_version: <Catalyst Center Release version>
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 3. ## Define User and Role Data:
 

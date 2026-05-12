@@ -92,7 +92,7 @@ python -m pip install --upgrade pip setuptools wheel
 # Install Python dependencies (includes ansible and catalystcentersdk)
 pip install -r requirements.txt
 
-# Install/upgrade Cisco DNAC Ansible collection
+# Install/upgrade Cisco Catalyst Center Ansible collection
 ansible-galaxy collection install cisco.catalystcenter --force
 ```
 
@@ -161,29 +161,29 @@ Current inventory model:
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      catalyst_center_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
-      catalyst_center_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
-      catalyst_center_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
+      catalystcenter_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
       ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'ANSIBLE_PYTHON_INTERPRETER') | default(ansible_playbook_python, true) }}"
-      catalyst_center_port: 443
-      catalyst_center_timeout: 60
-      catalyst_center_verify: false
-      catalyst_center_version: 2.3.7.9
-      catalyst_center_debug: true
-      catalyst_center_log: true
-      catalyst_center_log_level: INFO
+      catalystcenter_port: 443
+      catalystcenter_api_task_timeout: 60
+      catalystcenter_verify: false
+      catalystcenter_version: 2.3.7.9
+      catalystcenter_debug: true
+      catalystcenter_log: true
+      catalystcenter_log_level: INFO
 ```
 
 What each variable is used for:
-- `catalyst_center_host` (required): Catalyst Center IP/FQDN used by all API calls.
-- `catalyst_center_username` (required): login username.
-- `catalyst_center_password` (required): login password.
+- `catalystcenter_host` (required): Catalyst Center IP/FQDN used by all API calls.
+- `catalystcenter_username` (required): login username.
+- `catalystcenter_password` (required): login password.
 - `ansible_python_interpreter` (auto): defaults to `ansible_playbook_python` (current active Python env running Ansible); can be overridden by `ANSIBLE_PYTHON_INTERPRETER`.
-- `catalyst_center_port` (optional, default `443`): HTTPS port.
-- `catalyst_center_timeout` (optional): request timeout value.
-- `catalyst_center_verify` (optional, `true/false`): TLS certificate verification behavior.
-- `catalyst_center_version` (recommended): target Catalyst Center version for SDK/module compatibility.
-- `catalyst_center_debug`, `catalyst_center_log`, `catalyst_center_log_level` (optional): module logging/debug controls.
+- `catalystcenter_port` (optional, default `443`): HTTPS port.
+- `catalystcenter_api_task_timeout` (optional): request timeout value.
+- `catalystcenter_verify` (optional, `true/false`): TLS certificate verification behavior.
+- `catalystcenter_version` (recommended): target Catalyst Center version for SDK/module compatibility.
+- `catalystcenter_debug`, `catalystcenter_log`, `catalystcenter_log_level` (optional): module logging/debug controls.
 
 Why env variables are used:
 - Keeps secrets out of git-tracked files.
