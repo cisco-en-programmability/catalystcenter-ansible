@@ -312,7 +312,6 @@ class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
             "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
-
     def test_application_policy_playbook_config_generator_top_level_file_path_success(self):
         """Validate top-level file_path with component filters succeeds."""
 
