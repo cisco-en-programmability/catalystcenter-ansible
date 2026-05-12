@@ -6,7 +6,7 @@
 Cisco.Catalystcenter
 ====================
 
-Collection version 2.7.1
+Collection version 2.8.0
 
 .. contents::
    :local:
@@ -245,7 +245,6 @@ Modules
 * :ref:`device_configurations_export module <ansible_collections.cisco.catalystcenter.device_configurations_export_module>` -- Resource module for Device Configurations Export
 * :ref:`device_credential module <ansible_collections.cisco.catalystcenter.device_credential_module>` -- Resource module for Device Credential
 * :ref:`device_credential_info module <ansible_collections.cisco.catalystcenter.device_credential_info_module>` -- Information module for Device Credential
-* :ref:`device_credential_intent module <ansible_collections.cisco.catalystcenter.device_credential_intent_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
 * :ref:`device_credential_playbook_config_generator module <ansible_collections.cisco.catalystcenter.device_credential_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'device\_credential\_workflow\_manager' module.
 * :ref:`device_credential_workflow_manager module <ansible_collections.cisco.catalystcenter.device_credential_workflow_manager_module>` -- Resource module for Global Device Credentials and Assigning Credentials to sites.
 * :ref:`device_details_info module <ansible_collections.cisco.catalystcenter.device_details_info_module>` -- Information module for Device Details
@@ -287,7 +286,6 @@ Modules
 * :ref:`discovery_device_info module <ansible_collections.cisco.catalystcenter.discovery_device_info_module>` -- Information module for Discovery Device
 * :ref:`discovery_device_range_info module <ansible_collections.cisco.catalystcenter.discovery_device_range_info_module>` -- Information module for Discovery Device Range
 * :ref:`discovery_info module <ansible_collections.cisco.catalystcenter.discovery_info_module>` -- Information module for Discovery
-* :ref:`discovery_intent module <ansible_collections.cisco.catalystcenter.discovery_intent_module>` -- A resource module for handling device discovery tasks.
 * :ref:`discovery_job_info module <ansible_collections.cisco.catalystcenter.discovery_job_info_module>` -- Information module for Discovery Job
 * :ref:`discovery_playbook_config_generator module <ansible_collections.cisco.catalystcenter.discovery_playbook_config_generator_module>` -- Generate YAML configurations playbook for 'discovery\_workflow\_manager' module.
 * :ref:`discovery_range_delete module <ansible_collections.cisco.catalystcenter.discovery_range_delete_module>` -- Resource module for Discovery Range Delete
@@ -534,7 +532,6 @@ Modules
 * :ref:`interfaces_members_associations_query module <ansible_collections.cisco.catalystcenter.interfaces_members_associations_query_module>` -- Resource module for Interfaces Members Associations Query
 * :ref:`interfaces_query module <ansible_collections.cisco.catalystcenter.interfaces_query_module>` -- Resource module for Interfaces Query
 * :ref:`interfaces_query_count module <ansible_collections.cisco.catalystcenter.interfaces_query_count_module>` -- Resource module for Interfaces Query Count
-* :ref:`inventory_intent module <ansible_collections.cisco.catalystcenter.inventory_intent_module>` -- Resource module for Network Device
 * :ref:`inventory_playbook_config_generator module <ansible_collections.cisco.catalystcenter.inventory_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`inventory\_workflow\_manager`\  module.
 * :ref:`inventory_workflow_manager module <ansible_collections.cisco.catalystcenter.inventory_workflow_manager_module>` -- Comprehensive network device inventory management for Cisco Catalyst Center
 * :ref:`iot_fabric_rep_rings module <ansible_collections.cisco.catalystcenter.iot_fabric_rep_rings_module>` -- Resource module for Iot Fabric Rep Rings
@@ -743,7 +740,6 @@ Modules
 * :ref:`network_profiles_for_sites_site_assignments_bulk_delete module <ansible_collections.cisco.catalystcenter.network_profiles_for_sites_site_assignments_bulk_delete_module>` -- Resource module for Network Profiles For Sites Site Assignments Bulk Delete
 * :ref:`network_profiles_for_sites_site_assignments_count_info module <ansible_collections.cisco.catalystcenter.network_profiles_for_sites_site_assignments_count_info_module>` -- Information module for Network Profiles For Sites Site Assignments Count
 * :ref:`network_profiles_for_sites_site_assignments_info module <ansible_collections.cisco.catalystcenter.network_profiles_for_sites_site_assignments_info_module>` -- Information module for Network Profiles For Sites Site Assignments
-* :ref:`network_settings_intent module <ansible_collections.cisco.catalystcenter.network_settings_intent_module>` -- Resource module for IP Address pools and network functions
 * :ref:`network_settings_playbook_config_generator module <ansible_collections.cisco.catalystcenter.network_settings_playbook_config_generator_module>` -- Generate YAML playbook for 'network\_settings\_workflow\_manager' module.
 * :ref:`network_settings_workflow_manager module <ansible_collections.cisco.catalystcenter.network_settings_workflow_manager_module>` -- Resource module for IP Address pools and network functions
 * :ref:`network_update module <ansible_collections.cisco.catalystcenter.network_update_module>` -- Resource module for Network Update
@@ -769,7 +765,6 @@ Modules
 * :ref:`pnp_device_unclaim module <ansible_collections.cisco.catalystcenter.pnp_device_unclaim_module>` -- Resource module for Pnp Device Unclaim
 * :ref:`pnp_global_settings module <ansible_collections.cisco.catalystcenter.pnp_global_settings_module>` -- Resource module for Pnp Global Settings
 * :ref:`pnp_global_settings_info module <ansible_collections.cisco.catalystcenter.pnp_global_settings_info_module>` -- Information module for Pnp Global Settings
-* :ref:`pnp_intent module <ansible_collections.cisco.catalystcenter.pnp_intent_module>` -- Resource module for Site and PnP related functions
 * :ref:`pnp_playbook_config_generator module <ansible_collections.cisco.catalystcenter.pnp_playbook_config_generator_module>` -- Generate YAML playbook for PnP workflow with device information
 * :ref:`pnp_server_profile_update module <ansible_collections.cisco.catalystcenter.pnp_server_profile_update_module>` -- Resource module for Pnp Server Profile Update
 * :ref:`pnp_smart_account_domains_info module <ansible_collections.cisco.catalystcenter.pnp_smart_account_domains_info_module>` -- Information module for Pnp Smart Account Domains
@@ -790,7 +785,6 @@ Modules
 * :ref:`projects_count_info module <ansible_collections.cisco.catalystcenter.projects_count_info_module>` -- Information module for Projects Count
 * :ref:`projects_details_info module <ansible_collections.cisco.catalystcenter.projects_details_info_module>` -- Information module for Projects Details
 * :ref:`projects_info module <ansible_collections.cisco.catalystcenter.projects_info_module>` -- Information module for Projects
-* :ref:`provision_intent module <ansible_collections.cisco.catalystcenter.provision_intent_module>` -- Resource module for provision functions
 * :ref:`provision_playbook_config_generator module <ansible_collections.cisco.catalystcenter.provision_playbook_config_generator_module>` -- Generate YAML playbook for 'provision\_workflow\_manager' module.
 * :ref:`provision_workflow_manager module <ansible_collections.cisco.catalystcenter.provision_workflow_manager_module>` -- Resource module for provision related functions
 * :ref:`provisioning_settings module <ansible_collections.cisco.catalystcenter.provisioning_settings_module>` -- Resource module for Provisioning Settings
@@ -971,7 +965,6 @@ Modules
 * :ref:`site_health_summaries_summary_analytics_info module <ansible_collections.cisco.catalystcenter.site_health_summaries_summary_analytics_info_module>` -- Information module for Site Health Summaries Summary Analytics
 * :ref:`site_health_summaries_trend_analytics_info module <ansible_collections.cisco.catalystcenter.site_health_summaries_trend_analytics_info_module>` -- Information module for Site Health Summaries Trend Analytics
 * :ref:`site_info module <ansible_collections.cisco.catalystcenter.site_info_module>` -- Information module for Site
-* :ref:`site_intent module <ansible_collections.cisco.catalystcenter.site_intent_module>` -- Resource module for Site operations
 * :ref:`site_kpi_summaries_count_info module <ansible_collections.cisco.catalystcenter.site_kpi_summaries_count_info_module>` -- Information module for Site Kpi Summaries Count
 * :ref:`site_kpi_summaries_info module <ansible_collections.cisco.catalystcenter.site_kpi_summaries_info_module>` -- Information module for Site Kpi Summaries
 * :ref:`site_kpi_summaries_query module <ansible_collections.cisco.catalystcenter.site_kpi_summaries_query_module>` -- Resource module for Site Kpi Summaries Query
@@ -1033,7 +1026,6 @@ Modules
 * :ref:`swim_image_details_info module <ansible_collections.cisco.catalystcenter.swim_image_details_info_module>` -- Information module for Swim Image Details
 * :ref:`swim_import_local module <ansible_collections.cisco.catalystcenter.swim_import_local_module>` -- Resource module for Swim Import Local
 * :ref:`swim_import_via_url module <ansible_collections.cisco.catalystcenter.swim_import_via_url_module>` -- Resource module for Swim Import Via Url
-* :ref:`swim_intent module <ansible_collections.cisco.catalystcenter.swim_intent_module>` -- Intent module for SWIM related functions
 * :ref:`swim_trigger_activation module <ansible_collections.cisco.catalystcenter.swim_trigger_activation_module>` -- Resource module for Swim Trigger Activation
 * :ref:`swim_trigger_distribution module <ansible_collections.cisco.catalystcenter.swim_trigger_distribution_module>` -- Resource module for Swim Trigger Distribution
 * :ref:`swim_workflow_manager module <ansible_collections.cisco.catalystcenter.swim_workflow_manager_module>` -- Module to manage SWIM (Software Image Management) operations in Cisco Catalyst Center
@@ -1072,7 +1064,6 @@ Modules
 * :ref:`tasks_detail_info module <ansible_collections.cisco.catalystcenter.tasks_detail_info_module>` -- Information module for Tasks Detail
 * :ref:`tasks_info module <ansible_collections.cisco.catalystcenter.tasks_info_module>` -- Information module for Tasks
 * :ref:`telemetry_settings_apply module <ansible_collections.cisco.catalystcenter.telemetry_settings_apply_module>` -- Resource module for Telemetry Settings Apply
-* :ref:`template_intent module <ansible_collections.cisco.catalystcenter.template_intent_module>` -- Resource module for Template functions
 * :ref:`template_playbook_config_generator module <ansible_collections.cisco.catalystcenter.template_playbook_config_generator_module>` -- Generate YAML playbook for \ :literal:`template\_workflow\_manager`\  module.
 * :ref:`template_preview module <ansible_collections.cisco.catalystcenter.template_preview_module>` -- Resource module for Template Preview
 * :ref:`template_workflow_manager module <ansible_collections.cisco.catalystcenter.template_workflow_manager_module>` -- Resource module for Template functions
@@ -1108,7 +1099,7 @@ Modules
 * :ref:`user_enrichment_details_v2_info module <ansible_collections.cisco.catalystcenter.user_enrichment_details_v2_info_module>` -- Information module for User Enrichment Details V2
 * :ref:`user_info module <ansible_collections.cisco.catalystcenter.user_info_module>` -- Information module for User
 * :ref:`user_role_playbook_config_generator module <ansible_collections.cisco.catalystcenter.user_role_playbook_config_generator_module>` -- Generate YAML playbook for user and role management.
-* :ref:`user_role_workflow_manager module <ansible_collections.cisco.catalystcenter.user_role_workflow_manager_module>` -- Resource module for managing users and roles in Cisco Catalyst Center.
+* :ref:`user_role_workflow_manager module <ansible_collections.cisco.catalystcenter.user_role_workflow_manager_module>` -- Resource module for managing users, roles, and access groups in Cisco Catalyst Center.
 * :ref:`users_external_authentication module <ansible_collections.cisco.catalystcenter.users_external_authentication_module>` -- Resource module for Users External Authentication
 * :ref:`users_external_authentication_info module <ansible_collections.cisco.catalystcenter.users_external_authentication_info_module>` -- Information module for Users External Authentication
 * :ref:`users_external_servers_aaa_attribute module <ansible_collections.cisco.catalystcenter.users_external_servers_aaa_attribute_module>` -- Resource module for Users External Servers Aaa Attribute
@@ -1387,7 +1378,6 @@ Modules
     device_configurations_export_module
     device_credential_module
     device_credential_info_module
-    device_credential_intent_module
     device_credential_playbook_config_generator_module
     device_credential_workflow_manager_module
     device_details_info_module
@@ -1429,7 +1419,6 @@ Modules
     discovery_device_info_module
     discovery_device_range_info_module
     discovery_info_module
-    discovery_intent_module
     discovery_job_info_module
     discovery_playbook_config_generator_module
     discovery_range_delete_module
@@ -1675,7 +1664,6 @@ Modules
     interfaces_members_associations_query_module
     interfaces_query_module
     interfaces_query_count_module
-    inventory_intent_module
     inventory_playbook_config_generator_module
     inventory_workflow_manager_module
     iot_fabric_rep_rings_module
@@ -1884,7 +1872,6 @@ Modules
     network_profiles_for_sites_site_assignments_bulk_delete_module
     network_profiles_for_sites_site_assignments_count_info_module
     network_profiles_for_sites_site_assignments_info_module
-    network_settings_intent_module
     network_settings_playbook_config_generator_module
     network_settings_workflow_manager_module
     network_update_module
@@ -1910,7 +1897,6 @@ Modules
     pnp_device_unclaim_module
     pnp_global_settings_module
     pnp_global_settings_info_module
-    pnp_intent_module
     pnp_playbook_config_generator_module
     pnp_server_profile_update_module
     pnp_smart_account_domains_info_module
@@ -1931,7 +1917,6 @@ Modules
     projects_count_info_module
     projects_details_info_module
     projects_info_module
-    provision_intent_module
     provision_playbook_config_generator_module
     provision_workflow_manager_module
     provisioning_settings_module
@@ -2112,7 +2097,6 @@ Modules
     site_health_summaries_summary_analytics_info_module
     site_health_summaries_trend_analytics_info_module
     site_info_module
-    site_intent_module
     site_kpi_summaries_count_info_module
     site_kpi_summaries_info_module
     site_kpi_summaries_query_module
@@ -2174,7 +2158,6 @@ Modules
     swim_image_details_info_module
     swim_import_local_module
     swim_import_via_url_module
-    swim_intent_module
     swim_trigger_activation_module
     swim_trigger_distribution_module
     swim_workflow_manager_module
@@ -2213,7 +2196,6 @@ Modules
     tasks_detail_info_module
     tasks_info_module
     telemetry_settings_apply_module
-    template_intent_module
     template_playbook_config_generator_module
     template_preview_module
     template_workflow_manager_module
