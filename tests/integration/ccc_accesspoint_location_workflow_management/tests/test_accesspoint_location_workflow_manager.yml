@@ -8,7 +8,7 @@
       file: "{{ role_path }}/vars/vars_accesspoint_location_workflow_manager.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -32,8 +32,8 @@
 #############################################
 
   # - name: Delete profile
-  #   cisco.dnac.accesspoint_location_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.accesspoint_location_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - "{{ item }}"
@@ -45,8 +45,8 @@
 ###########################################
 
   - name: Create accesspoint planned location
-    cisco.dnac.accesspoint_location_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.accesspoint_location_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config: 
         - "{{ item }}"
@@ -73,8 +73,8 @@
 #############################################
 
   - name: update accesspoint planned location
-    cisco.dnac.accesspoint_location_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.accesspoint_location_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -101,8 +101,8 @@
 #############################################
 
   - name: Delete accesspoint planned location
-    cisco.dnac.accesspoint_location_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.accesspoint_location_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -129,8 +129,8 @@
 #############################################
 
   - name: Assign accesspoint to planned location
-    cisco.dnac.accesspoint_location_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.accesspoint_location_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -158,8 +158,8 @@
 #############################################
 
   # - name: Delete accesspoint planned location
-  #   cisco.dnac.accesspoint_location_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.accesspoint_location_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - "{{ item }}"

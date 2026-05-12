@@ -1,6 +1,6 @@
 ---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 sda_host_onboarding_details:
   # Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
   - hostname: "DC-T-9300.cisco.local"

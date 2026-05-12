@@ -46,19 +46,19 @@ catalyst_center_hosts:
     hosts:
         catalyst_center220:
             #(Mandatory) CatC Ip address
-            catalyst_center_host:  <CatC IP Address>
+            catalystcenter_host:  <CatC IP Address>
             #(Mandatory) CatC UI admin Password
-            catalyst_center_password: <CatC UI admin Password>
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
+            catalystcenter_password: <CatC UI admin Password>
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
             #(Mandatory) CatC UI admin username
-            catalyst_center_username: <CatC UI admin username> 
-            catalyst_center_verify: false
+            catalystcenter_username: <CatC UI admin username> 
+            catalystcenter_verify: false
             #(Mandatory) CatC Release version
-            catalyst_center_version: <CatC Release version>
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_version: <CatC Release version>
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 ### 3. Define Playbook input:
 The /vars/template_workflow_inputs.yml file stores the sites details you want to configure.

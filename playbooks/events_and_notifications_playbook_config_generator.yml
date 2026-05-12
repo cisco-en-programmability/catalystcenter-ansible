@@ -18,18 +18,156 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
-        file_path: /Users/priyadharshini/Downloads/events_and_notifications_playbook1
+        file_path: events_and_notifications_playbook.yml
         file_mode: overwrite
         config:
           component_specific_filters:
             components_list:
-              - webhook_destinations
-              - email_destinations
-              - syslog_destinations
-              - snmp_destinations
-              - itsm_settings
-              - webhook_event_notifications
-              - email_event_notifications
-              - syslog_event_notifications
+              - webhook_destination
+            webhook_destination:
+              - name:
+                  - "webhook demo 103"
+                  - "Events PCG Webhook 01"
+              - name:
+                  - "Events PCG Webhook 02"
+
+    - name: Generate YAML Configuration for email destinations only
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
+        state: gathered
+        file_path: events_and_notifications_email_destinations.yml
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list:
+              - email_destination
+            email_destination:
+              - sender_email:
+                  - "CatalystCenter@cisco.com"
+              - recipient_email:
+                  - "uchandan@cisco.com"
+
+    - name: Generate YAML Configuration for webhook and email notifications
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
+        state: gathered
+        file_path: events_and_notifications_notifications.yml
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list:
+              - webhook_event_notification
+              - email_event_notification
+            webhook_event_notification:
+              - name:
+                  - "test event"
+            email_event_notification:
+              - name:
+                  - "EMAIL Notification 24"
+                  - "EMAIL Notification 25"
+
+    - name: Generate YAML Configuration for ITSM settings only
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
+        state: gathered
+        file_path: events_and_notifications_itsm.yml
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list:
+              - itsm_setting
+            itsm_setting:
+              - instance_name:
+                  - "Playbook itsm demo 10"
+
+    - name: Generate YAML Configuration for mixed component filters
+      cisco.catalystcenter.events_and_notifications_playbook_config_generator:
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
+        catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_log: true
+        catalystcenter_log_level: DEBUG
+        catalystcenter_api_task_timeout: 1000
+        catalystcenter_task_poll_interval: 1
+        state: gathered
+        file_path: events_and_notifications_filtered_mix.yml
+        file_mode: overwrite
+        config:
+          component_specific_filters:
+            components_list:
+              - webhook_destination
+              - email_event_notification
+              - email_destination
+              - itsm_setting
+              - syslog_destination
+              - snmp_destination
+              - webhook_event_notification
+              - syslog_event_notification
+            webhook_destination:
+              - name:
+                  - "webhook demo 103"
+                  - "Events PCG Webhook 01"
+              - name:
+                  - "Events PCG Webhook 02"
+            email_event_notification:
+              - name:
+                  - "EMAIL Notification 24"
+                  - "EMAIL Notification 25"
+              - name:
+                  - "EMAIL Notification 26"
+            email_destination:
+              - sender_email:
+                  - "CatalystCenter@cisco.com"
+              - recipient_email:
+                  - "uchandan@cisco.com"
+            itsm_setting:
+              - instance_name:
+                  - "Playbook itsm demo 10"
+            syslog_destination:
+              - name:
+                  - "Test_Syslog 101"
+            snmp_destination:
+              - name:
+                  - "SNMP"
+            webhook_event_notification:
+              - name:
+                  - "test event"
+            syslog_event_notification:
+              - name:
+                  - "CG-Test"

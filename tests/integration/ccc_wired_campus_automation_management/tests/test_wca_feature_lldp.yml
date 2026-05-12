@@ -70,7 +70,7 @@
 #         file: "{{ role_path }}/vars/vars_wca_test_feature_lldp.yml"
 #         name: lldp_vars_map
 #       vars:
-#         catalyst_login: &catalyst_login
+#         catalystcenter_login: &catalystcenter_login
 #           catalystcenter_host: "{{ catalystcenter_host }}"
 #           catalystcenter_username: "{{ catalystcenter_username }}"
 #           catalystcenter_password: "{{ catalystcenter_password }}"
@@ -81,8 +81,8 @@
 #           catalystcenter_log: true
 #           catalystcenter_log_level: "DEBUG"
 #           config_verify: true
-#           dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-#           dnac_log_append: false
+#           catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+#           catalystcenter_log_append: false
 
 #     # =============================================================================
 #     # Negative Validation Tests for LLDP
@@ -93,8 +93,8 @@
 #     # #############################################
 
 #     - name: Test LLDP admin status validation - string value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_admin_status_string }}"
@@ -112,8 +112,8 @@
 #       tags: [negative, lldp, admin_status]
 
 #     - name: Test LLDP admin status validation - integer value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_admin_status_integer }}"
@@ -135,8 +135,8 @@
 #     # #############################################
 
 #     - name: Test LLDP hold time validation - below minimum should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_hold_time_below_min }}"
@@ -154,8 +154,8 @@
 #       tags: [negative, lldp, hold_time]
 
 #     - name: Test LLDP hold time validation - above maximum should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_hold_time_above_max }}"
@@ -173,8 +173,8 @@
 #       tags: [negative, lldp, hold_time]
 
 #     - name: Test LLDP hold time validation - string value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_hold_time_string }}"
@@ -192,8 +192,8 @@
 #       tags: [negative, lldp, hold_time]
 
 #     - name: Test LLDP hold time validation - float value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_hold_time_float }}"
@@ -215,8 +215,8 @@
 #     # #############################################
 
 #     - name: Test LLDP timer validation - below minimum should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_timer_below_min }}"
@@ -234,8 +234,8 @@
 #       tags: [negative, lldp, timer]
 
 #     - name: Test LLDP timer validation - above maximum should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_timer_above_max }}"
@@ -253,8 +253,8 @@
 #       tags: [negative, lldp, timer]
 
 #     - name: Test LLDP timer validation - string value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_timer_string }}"
@@ -272,8 +272,8 @@
 #       tags: [negative, lldp, timer]
 
 #     - name: Test LLDP timer validation - float value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_timer_float }}"
@@ -291,8 +291,8 @@
 #       tags: [negative, lldp, timer]
 
 #     - name: Test LLDP timer validation - negative value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_timer_negative }}"
@@ -314,8 +314,8 @@
 #     # #############################################
 
 #     - name: Test LLDP reinitialization delay validation - below minimum should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_reinit_delay_below_min }}"
@@ -333,8 +333,8 @@
 #       tags: [negative, lldp, reinit_delay]
 
 #     - name: Test LLDP reinitialization delay validation - above maximum should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_reinit_delay_above_max }}"
@@ -352,8 +352,8 @@
 #       tags: [negative, lldp, reinit_delay]
 
 #     - name: Test LLDP reinitialization delay validation - string value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_reinit_delay_string }}"
@@ -371,8 +371,8 @@
 #       tags: [negative, lldp, reinit_delay]
 
 #     - name: Test LLDP reinitialization delay validation - float value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_reinit_delay_float }}"
@@ -390,8 +390,8 @@
 #       tags: [negative, lldp, reinit_delay]
 
 #     - name: Test LLDP reinitialization delay validation - negative value should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_reinit_delay_negative }}"
@@ -413,8 +413,8 @@
 #     # #############################################
 
 #     - name: Test LLDP structure validation - string instead of dict should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_invalid_dict_type }}"
@@ -432,8 +432,8 @@
 #       tags: [negative, lldp, structure]
 
 #     - name: Test LLDP structure validation - list instead of dict should fail
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_invalid_list_type }}"
@@ -464,8 +464,8 @@
 #     # #############################################
 
 #     - name: Test LLDP configuration with admin status only
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_admin_status_only }}"
@@ -488,8 +488,8 @@
 #       tags: [positive, lldp, create]
 
 #     - name: Test LLDP configuration with all parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_all_params }}"
@@ -512,8 +512,8 @@
 #       tags: [positive, lldp, create]
 
 #     - name: Test LLDP configuration with custom timers
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_custom_timers }}"
@@ -536,8 +536,8 @@
 #       tags: [positive, lldp, create]
 
 #     - name: Test LLDP disabled configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_disabled }}"
@@ -560,8 +560,8 @@
 #       tags: [positive, lldp, create]
 
 #     - name: Test LLDP with only reinitialization delay
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_reinit_delay_only }}"
@@ -592,8 +592,8 @@
 #     # #############################################
 
 #     - name: Test LLDP update - enable LLDP
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_update_enable }}"
@@ -616,8 +616,8 @@
 #       tags: [positive, lldp, update]
 
 #     - name: Test LLDP update - disable LLDP
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_update_disable }}"
@@ -640,8 +640,8 @@
 #       tags: [positive, lldp, update]
 
 #     - name: Test LLDP update - modify timers
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_update_timers }}"
@@ -664,8 +664,8 @@
 #       tags: [positive, lldp, update]
 
 #     - name: Test LLDP update - modify reinitialization delay
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_update_reinit_delay }}"
@@ -688,8 +688,8 @@
 #       tags: [positive, lldp, update]
 
 #     - name: Test LLDP update - all parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_update_all_params }}"
@@ -719,8 +719,8 @@
 #     # #############################################
 
 #     - name: Test LLDP deletion/reset - empty configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_delete_empty }}"
@@ -743,8 +743,8 @@
 #       tags: [positive, lldp, delete]
 
 #     - name: Test LLDP update - all parameters (setup for deletion test)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_update_all_params }}"
@@ -757,8 +757,8 @@
 #       tags: [positive, lldp, delete]
 
 #     - name: Test LLDP deletion/reset - with existing parameters
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_delete_with_params }}"
@@ -789,8 +789,8 @@
 #     # #############################################
 
 #     - name: Test LLDP with minimum valid values
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_boundary_min_values }}"
@@ -813,8 +813,8 @@
 #       tags: [positive, lldp, boundary]
 
 #     - name: Test LLDP with maximum valid values
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_boundary_max_values }}"
@@ -837,8 +837,8 @@
 #       tags: [positive, lldp, boundary]
 
 #     - name: Test LLDP with recommended values
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_recommended_values }}"
@@ -861,8 +861,8 @@
 #       tags: [positive, lldp, boundary]
 
 #     - name: Test LLDP with zero hold time (no aging)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_zero_hold_time }}"
@@ -893,8 +893,8 @@
 #     # #############################################
 
 #     - name: Test LLDP Idempotency - Configure same LLDP settings twice
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_all_params }}"
@@ -907,8 +907,8 @@
 #       tags: [positive, lldp, idempotency]
 
 #     - name: Test LLDP Idempotency - Configure same LLDP settings again (should be idempotent)
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: merged
 #         config:
 #           - "{{ lldp_vars_map.test_lldp_create_all_params }}"
@@ -929,8 +929,8 @@
 #     # #############################################
 
 #     - name: Cleanup - Reset LLDP to default configuration
-#       cisco.dnac.wired_campus_automation_workflow_manager:
-#         <<: *catalyst_login
+#       cisco.catalystcenter.wired_campus_automation_workflow_manager:
+#         <<: *catalystcenter_login
 #         state: deleted
 #         config:
 #           - ip_address: "204.1.2.3"

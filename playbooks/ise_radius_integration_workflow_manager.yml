@@ -1,9 +1,9 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Ise radius integration workflow manager
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:
     - name: Create an  Authentication and Policy Server.
@@ -14,6 +14,7 @@
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_log: true
         catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log_append: true
@@ -34,6 +35,7 @@
                 retries: 3  # Range from 1 to 3
                 timeout: 4  # Range from 2 to 20
                 role: secondary
+
     - name: Delete Authentication and Policy Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -42,6 +44,7 @@
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_log: true
         catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log_append: true
@@ -51,6 +54,7 @@
         config:
           - authentication_policy_server:
               - server_ip_address: 10.0.0.20
+
     - name: Create ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -59,6 +63,7 @@
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_log: true
         catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log_append: true
@@ -83,12 +88,13 @@
                 use_catalystcenter_cert_for_pxgrid: false
                 cisco_ise_dtos:  # use this for creating the Cisco ISE Server
                   - user_name: admin
-                    password: abcd
+                    password: '{{ policy_server_password }}'
                     fqdn: abc.cisco.com
                     ip_address: 10.195.243.59
                     description: CISCO ISE
                 trusted_server: true
                 ise_integration_wait_time: 20
+
     - name: Delete an ISE Server.
       cisco.catalystcenter.ise_radius_integration_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -97,6 +103,7 @@
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_log: true
         catalystcenter_log_level: "{{ catalystcenter_log_level }}"
         catalystcenter_log_append: true

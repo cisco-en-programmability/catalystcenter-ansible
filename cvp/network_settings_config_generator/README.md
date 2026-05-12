@@ -151,15 +151,15 @@ And configure Catalyst Center credentials and `network_settings_config` directly
 catalyst_center_hosts:
   hosts:
     catalyst_center_primary:
-      catalyst_center_host: 10.10.10.10
-      catalyst_center_username: admin
-      catalyst_center_password: "password"
-      catalyst_center_verify: false
-      catalyst_center_port: 443
-      catalyst_center_version: "2.3.7.9"
-      catalyst_center_debug: false
-      catalyst_center_log: true
-      catalyst_center_log_level: "INFO"
+      catalystcenter_host: 10.10.10.10
+      catalystcenter_username: admin
+      catalystcenter_password: "password"
+      catalystcenter_verify: false
+      catalystcenter_port: 443
+      catalystcenter_version: "2.3.7.9"
+      catalystcenter_debug: false
+      catalystcenter_log: true
+      catalystcenter_log_level: "INFO"
 ```
 
 3. Validate input schema.
@@ -196,12 +196,12 @@ Omit `VARS_FILE_PATH` and define `network_settings_config` directly as a host va
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      catalyst_center_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
-      catalyst_center_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
-      catalyst_center_port: 443
-      catalyst_center_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
-      catalyst_center_verify: false
-      catalyst_center_version: 2.3.7.9
+      catalystcenter_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
+      catalystcenter_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_port: 443
+      catalystcenter_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_verify: false
+      catalystcenter_version: 2.3.7.9
 
       # Workflow data defined as host variables
       network_settings_config:

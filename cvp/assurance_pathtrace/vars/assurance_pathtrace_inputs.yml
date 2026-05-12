@@ -1,5 +1,5 @@
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - source_ip: "204.101.16.2"  # required field
     dest_ip: "204.101.16.1"  # required field

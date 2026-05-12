@@ -42,28 +42,28 @@ class TestNetworkProfileWirelessPlaybookConfigGenerator(TestCatalystModule):
 
     def setUp(self):
         super(TestNetworkProfileWirelessPlaybookConfigGenerator, self).setUp()
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestNetworkProfileWirelessPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for network profile wireless playbook config generator tests.
         """
         if "generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("all_wireless_profiles"),
                 self.test_data.get("each_wireless_profile_info1"),
                 self.test_data.get("each_wireless_profile_info2"),
@@ -78,7 +78,7 @@ class TestNetworkProfileWirelessPlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("get_interface_details2"),
             ]
         elif "generate_global_filter" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("all_wireless_profiles"),
                 self.test_data.get("each_wireless_profile_info2"),
                 self.test_data.get("cli_template_response"),
@@ -90,7 +90,7 @@ class TestNetworkProfileWirelessPlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("get_interface_details2"),
             ]
         elif "generate_filter_template_base" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("all_wireless_profiles"),
                 self.test_data.get("each_wireless_profile_info1"),
                 self.test_data.get("each_wireless_profile_info2"),
@@ -105,7 +105,7 @@ class TestNetworkProfileWirelessPlaybookConfigGenerator(TestCatalystModule):
                 self.test_data.get("get_interface_details2"),
             ]
         elif "generate_filter_site_base" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("all_wireless_profiles"),
                 self.test_data.get("each_wireless_profile_info1"),
                 self.test_data.get("each_wireless_profile_info2"),

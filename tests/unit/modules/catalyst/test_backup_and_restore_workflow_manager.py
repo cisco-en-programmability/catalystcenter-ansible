@@ -20,26 +20,20 @@ __metaclass__ = type
 
 from unittest.mock import patch
 
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    backup_and_restore_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import backup_and_restore_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
+class TestCatalystCenterApplicationPolicyWorkflowManager(TestCatalystModule):
 
     module = backup_and_restore_workflow_manager
     test_data = loadPlaybookData("backup_and_restore_workflow_manager")
 
     playbook_create_schedule_backup = test_data.get("playbook_create_schedule_backup")
-    playbook_nfs_config_alreadyexists = test_data.get(
-        "playbook_nfs_config_alreadyexists"
-    )
+    playbook_nfs_config_alreadyexists = test_data.get("playbook_nfs_config_alreadyexists")
     playbook_nfs_config_delete = test_data.get("playbook_nfs_config_delete")
     playbook_create_nfs_config = test_data.get("playbook_create_nfs_config")
-    playbook_backup_configuration_exception_dataretention_period = test_data.get(
-        "playbook_backup_configuration_exception_dataretention_period"
-    )
+    playbook_backup_configuration_exception_dataretention_period = test_data.get("playbook_backup_configuration_exception_dataretention_period")
     playbook_negative_scenario1 = test_data.get("playbook_negative_scenario1")
     playbook_negative_scenario2 = test_data.get("playbook_negative_scenario2")
     playbook_negative_scenario3 = test_data.get("playbook_negative_scenario3")
@@ -52,20 +46,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
     playbook_negative_scenario13 = test_data.get("playbook_negative_scenario13")
     playbook_negative_scenario14 = test_data.get("playbook_negative_scenario14")
     playbook_update_backup_config = test_data.get("playbook_update_backup_config")
-    playbook_backup_config_alreadyexists1 = test_data.get(
-        "playbook_backup_config_alreadyexists1"
-    )
-    playbook_backup_config_password_exception = test_data.get(
-        "playbook_backup_config_password_exception"
-    )
+    playbook_backup_config_alreadyexists1 = test_data.get("playbook_backup_config_alreadyexists1")
+    playbook_backup_config_password_exception = test_data.get("playbook_backup_config_password_exception")
     playbook_restore_exception = test_data.get("playbook_restore_exception")
-    playbook_backup_schedule_alreadydeleted1 = test_data.get(
-        "playbook_backup_schedule_alreadydeleted1"
-    )
+    playbook_backup_schedule_alreadydeleted1 = test_data.get("playbook_backup_schedule_alreadydeleted1")
     playbook_delete_backup_schedule = test_data.get("playbook_delete_backup_schedule")
-    playbook_backup_schedule_alreadyexists = test_data.get(
-        "playbook_backup_schedule_alreadyexists"
-    )
+    playbook_backup_schedule_alreadyexists = test_data.get("playbook_backup_schedule_alreadyexists")
     playbook_backup_retention_days = test_data.get("playbook_backup_retention_days")
     playbook_delete_all_backup = test_data.get("playbook_delete_all_backup")
     playbook_no_backup_todelete = test_data.get("playbook_no_backup_todelete")
@@ -75,11 +61,10 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
     playbook_restore = test_data.get("playbook_restore")
 
     def setUp(self):
-        super(TestDnacApplicationPolicyWorkflowManager, self).setUp()
+        super(TestCatalystCenterApplicationPolicyWorkflowManager, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -88,7 +73,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacApplicationPolicyWorkflowManager, self).tearDown()
+        super(TestCatalystCenterApplicationPolicyWorkflowManager, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -124,10 +109,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 self.test_data.get("get_all_n_f_s_configurations9"),
             ]
 
-        elif (
-            "playbook_backup_configuration_exception_dataretention_period"
-            in self._testMethodName
-        ):
+        elif "playbook_backup_configuration_exception_dataretention_period" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_backup_configuration5"),
                 self.test_data.get("get_all_n_f_s_configurations7"),
@@ -292,19 +274,17 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_create_schedule_backup,
+                config=self.playbook_create_schedule_backup
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup(s) 'BACKUP24_07' created successfully in Cisco Catalyst Center.",
+            "Backup(s) 'BACKUP24_07' created successfully in Cisco Catalyst Center."
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_nfs_config_alreadyexists(
-        self,
-    ):
+    def test_backup_and_restore_workflow_manager_playbook_nfs_config_alreadyexists(self):
         """
         Test case for handling an already existing NFS configuration in Cisco Catalyst Center.
         Verifies that the workflow manager does not reconfigure NFS and correctly
@@ -319,14 +299,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_nfs_config_alreadyexists,
+                config=self.playbook_nfs_config_alreadyexists
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "NFS Configuration(s) '/home/nfsshare/backups/TB19' already exist in Cisco Catalyst Center.",
+            "NFS Configuration(s) '/home/nfsshare/backups/TB19' already exist in Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_nfs_config_delete(self):
@@ -344,14 +324,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_nfs_config_delete,
+                config=self.playbook_nfs_config_delete
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "NFS Configuration(s) '/home/nfsshare/backups/TB19' deleted successfully from Cisco Catalyst Center.",
+            "NFS Configuration(s) '/home/nfsshare/backups/TB19' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_create_nfs_config(self):
@@ -369,19 +349,17 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_create_nfs_config,
+                config=self.playbook_create_nfs_config
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "NFS Configuration(s) '/home/nfsshare/backups/TB22' created successfully in Cisco Catalyst Center.",
+            "NFS Configuration(s) '/home/nfsshare/backups/TB22' created successfully in Cisco Catalyst Center."
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_backup_configuration_exception_dataretention_period(
-        self,
-    ):
+    def test_backup_and_restore_workflow_manager_playbook_backup_configuration_exception_dataretention_period(self):
         """
         Test case for handling invalid data retention period in backup configuration.
         Verifies that the workflow manager raises an error when the retention period
@@ -396,14 +374,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_backup_configuration_exception_dataretention_period,
+                config=self.playbook_backup_configuration_exception_dataretention_period
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: ['data_retention_period: 61 : The item exceeds the allowed range of min: 3 and max: 60']",
+            "Configuration validation failed with invalid parameters: ['data_retention_period: 61 : The item exceeds the allowed range of min: 3 and max: 60']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario1(self):
@@ -421,14 +399,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario1,
+                config=self.playbook_negative_scenario1
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Mandatory fields 'name', 'scope' must be specified for backup.",
+            "Mandatory fields 'name', 'scope' must be specified for backup."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario2(self):
@@ -446,14 +424,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.7.6",
-                config=self.playbook_negative_scenario2,
+                config=self.playbook_negative_scenario2
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "The specified version '2.3.7.6' does not support the 'Backup and restore' feature. Supported version(s) start from '3.1.3.0' onwards.",
+            "The specified version '2.3.7.6' does not support the 'Backup and restore' feature. Supported version(s) start from '3.1.3.0' onwards."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario3(self):
@@ -471,13 +449,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario3,
+                config=self.playbook_negative_scenario3
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("response"), "No backup found with the name 'BACKUP25_07'."
+            result.get("response"),
+            "No backup found with the name 'BACKUP25_07'."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario4(self):
@@ -495,14 +474,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario4,
+                config=self.playbook_negative_scenario4
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: ['source_path : Required parameter not found']",
+            "Configuration validation failed with invalid parameters: ['source_path : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario6(self):
@@ -520,14 +499,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario6,
+                config=self.playbook_negative_scenario6
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: ['encryption_passphrase : Required parameter not found']",
+            "Configuration validation failed with invalid parameters: ['encryption_passphrase : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario8(self):
@@ -545,14 +524,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario8,
+                config=self.playbook_negative_scenario8
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Either set 'delete_all_backup: true' or provide a 'name' for deletion.",
+            "Either set 'delete_all_backup: true' or provide a 'name' for deletion."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario9(self):
@@ -570,14 +549,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario9,
+                config=self.playbook_negative_scenario9
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: ['source_path : Required parameter not found']",
+            "Configuration validation failed with invalid parameters: ['source_path : Required parameter not found']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario10(self):
@@ -595,14 +574,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario10,
+                config=self.playbook_negative_scenario10
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup name must begin with an alphabet and can contain letters, digits, and the following special characters: @, #, _, -, and space.",
+            "Backup name must begin with an alphabet and can contain letters, digits, and the following special characters: @, #, _, -, and space."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario12(self):
@@ -622,7 +601,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario12,
+                config=self.playbook_negative_scenario12
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -630,7 +609,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         self.assertEqual(
             result.get("response"),
             "Backup and restore workflow requires at least one configuration section: "
-            "'backup_storage_configuration', 'nfs_configuration', 'backup', or 'restore_operations'",
+            "'backup_storage_configuration', 'nfs_configuration', 'backup', or 'restore_operations'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario13(self):
@@ -648,7 +627,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario13,
+                config=self.playbook_negative_scenario13
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -657,12 +636,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         self.maxDiff = None
         self.assertEqual(
             result.get("response"),
-            "Configuration validation failed with invalid parameters: "
-            "[\"'backup_storage_configuration': '{'data_retention_period': 53, 'encryption_passphrase': "
-            "'Karthick@zigzag333', 'nfs_details': {'nfs_port': 2049, 'nfs_portmapper_port': 111, "
-            "'nfs_version': 'nfs4', 'server_ip': '172.27.17.90', 'source_path': "
-            "'/home/nfsshare/backups/TB19'}, 'server_type': 'NFS'}' is invalid. "
-            "Reason: expected type: 'list'. Provided type: 'dict'. \"]",
+            'Configuration validation failed with invalid parameters: '
+            '["\'backup_storage_configuration\': \'{\'data_retention_period\': 53, \'encryption_passphrase\': '
+            '\'Karthick@zigzag333\', \'nfs_details\': {\'nfs_port\': 2049, \'nfs_portmapper_port\': 111, '
+            '\'nfs_version\': \'nfs4\', \'server_ip\': \'172.27.17.90\', \'source_path\': '
+            '\'/home/nfsshare/backups/TB19\'}, \'server_type\': \'NFS\'}\' is invalid. '
+            'Reason: expected type: \'list\'. Provided type: \'dict\'. "]'
         )
 
     def test_backup_and_restore_workflow_manager_playbook_update_backup_config(self):
@@ -680,7 +659,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_update_backup_config,
+                config=self.playbook_update_backup_config
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -688,12 +667,10 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup Configuration(s) '/home/nfsshare/backups/TB18' updated successfully in Cisco Catalyst Center.",
+            "Backup Configuration(s) '/home/nfsshare/backups/TB18' updated successfully in Cisco Catalyst Center."
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_backup_config_alreadyexists1(
-        self,
-    ):
+    def test_backup_and_restore_workflow_manager_playbook_backup_config_alreadyexists1(self):
         """
         Test case for handling already existing backup configuration.
         Verifies that the workflow manager detects existing configurations and
@@ -708,7 +685,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_backup_config_alreadyexists1,
+                config=self.playbook_backup_config_alreadyexists1
             )
         )
         result = self.execute_module(changed=False, failed=False)
@@ -716,12 +693,10 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup Configuration(s) '/home/nfsshare/backups/TB18' already exist in Cisco Catalyst Center.",
+            "Backup Configuration(s) '/home/nfsshare/backups/TB18' already exist in Cisco Catalyst Center."
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_backup_config_password_exception(
-        self,
-    ):
+    def test_backup_and_restore_workflow_manager_playbook_backup_config_password_exception(self):
         """
         Negative test case for backup configuration update failure due to password issue.
         Verifies that the workflow manager raises an error when updating backup
@@ -736,14 +711,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_backup_config_password_exception,
+                config=self.playbook_backup_config_password_exception
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "An error occurred while retrieving all NFS configuration details: ",
+            "An error occurred while retrieving all NFS configuration details: "
         )
 
     def test_backup_and_restore_workflow_manager_playbook_negative_scenario14(self):
@@ -761,14 +736,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_negative_scenario14,
+                config=self.playbook_negative_scenario14
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Invalid fields ['names'] found in 'restore_operations'. Allowed fields: ['encryption_passphrase', 'name', 'restore_task_timeout']",
+            "Invalid fields ['names'] found in 'restore_operations'. Allowed fields: ['encryption_passphrase', 'name', 'restore_task_timeout']"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_restore_exception(self):
@@ -786,18 +761,17 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_restore_exception,
+                config=self.playbook_restore_exception
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("response"), "An error occurred while restoring backup: "
+            result.get("response"),
+            "An error occurred while restoring backup: "
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadydeleted1(
-        self,
-    ):
+    def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadydeleted1(self):
         """
         Test case for handling already deleted backup schedule.
         Verifies that the workflow manager correctly identifies that a backup schedule
@@ -812,14 +786,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_backup_schedule_alreadydeleted1,
+                config=self.playbook_backup_schedule_alreadydeleted1
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup with name 'BACKUP25_07' does not exist in the Cisco Catalyst Center or has already been deleted.",
+            "Backup with name 'BACKUP25_07' does not exist in the Cisco Catalyst Center or has already been deleted."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_delete_backup_schedule(self):
@@ -837,19 +811,17 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_delete_backup_schedule,
+                config=self.playbook_delete_backup_schedule
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup(s) 'BACKUP24_07' deleted successfully from Cisco Catalyst Center.",
+            "Backup(s) 'BACKUP24_07' deleted successfully from Cisco Catalyst Center."
         )
 
-    def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadyexists(
-        self,
-    ):
+    def test_backup_and_restore_workflow_manager_playbook_backup_schedule_alreadyexists(self):
         """
         Test case for handling already existing backup schedule.
         Verifies that the workflow manager correctly identifies the presence of an
@@ -864,12 +836,15 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_backup_schedule_alreadyexists,
+                config=self.playbook_backup_schedule_alreadyexists
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
-        self.assertEqual(result.get("response"), "Backup 'BACKUP24_07' already exists.")
+        self.assertEqual(
+            result.get("response"),
+            "Backup 'BACKUP24_07' already exists."
+        )
 
     def test_backup_and_restore_workflow_manager_playbook_backup_retention_days(self):
         """
@@ -886,14 +861,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_backup_retention_days,
+                config=self.playbook_backup_retention_days
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup(s) 'BACKUP_Without_Assurance' deleted successfully from Cisco Catalyst Center.",
+            "Backup(s) 'BACKUP_Without_Assurance' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_delete_all_backup(self):
@@ -910,14 +885,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_delete_all_backup,
+                config=self.playbook_delete_all_backup
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "All Backup(s) 'BACKUP03_10_20251003_165205' deleted successfully from Cisco Catalyst Center.",
+            "All Backup(s) 'BACKUP03_10_20251003_165205' deleted successfully from Cisco Catalyst Center."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_no_backup_todelete(self):
@@ -934,14 +909,14 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_no_backup_todelete,
+                config=self.playbook_no_backup_todelete
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "No backup available in Cisco Catalyst Center to delete.",
+            "No backup available in Cisco Catalyst Center to delete."
         )
 
     def test_backup_and_restore_workflow_manager_playbook_generate_new_backup(self):
@@ -958,7 +933,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_generate_new_backup,
+                config=self.playbook_generate_new_backup
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -967,7 +942,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
             result.get("response"),
             "An error occurred while creating backup: "
             "{'msg': \"Creation of backup 'BACKUP05_10' failed\", "
-            "'response': \"Creation of backup 'BACKUP05_10' failed\", 'failed': True}",
+            "'response': \"Creation of backup 'BACKUP05_10' failed\", 'failed': True}"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_restore(self):
@@ -984,12 +959,12 @@ class TestDnacApplicationPolicyWorkflowManager(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="3.1.3.0",
-                config=self.playbook_restore,
+                config=self.playbook_restore
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Backup(s) 'BACKUP29_09' restored successfully in Cisco Catalyst Center.",
+            "Backup(s) 'BACKUP29_09' restored successfully in Cisco Catalyst Center."
         )

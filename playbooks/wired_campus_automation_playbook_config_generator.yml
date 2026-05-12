@@ -15,8 +15,8 @@
   vars_files:
     - "vars/credentials.yml"
   vars:
-    # DNA Center connection parameters
-    dnac_login: &dnac_login
+    # Catalyst Center connection parameters
+    catalystcenter_login: &catalystcenter_login
       catalystcenter_host: "{{ catalystcenter_host }}"
       catalystcenter_username: "{{ catalystcenter_username }}"
       catalystcenter_password: "{{ catalystcenter_password }}"
@@ -36,7 +36,7 @@
 
     # - name: "EXAMPLE: Auto-generate YAML Configuration for all devices and features"
     #   cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-    #     <<: *dnac_login
+    #     <<: *catalystcenter_login
     #     state: gathered
     #     file_mode: "append"
     #   register: result_generate_all
@@ -44,7 +44,7 @@
 
     # - name: "EXAMPLE: Auto-generate YAML Configuration with custom file path"
     #   cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-    #     <<: *dnac_login
+    #     <<: *catalystcenter_login
     #     state: gathered
     #     file_mode: "append"
     #     file_path: "/tmp/complete_infrastructure_config.yml"
@@ -57,7 +57,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with specific devices by IP address"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/wired_campus_automation_config.yml"
@@ -69,7 +69,7 @@
 
     - name: "EXAMPLE: Generate configuration for single device by IP"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/single_device_config.yml"
@@ -85,7 +85,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with specific devices by hostname"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/hostname_based_config.yml"
@@ -97,7 +97,7 @@
 
     - name: "EXAMPLE: Generate configuration for core switches only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/core_switches_config.yml"
@@ -113,7 +113,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with specific devices by serial number"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/serial_based_config.yml"
@@ -129,7 +129,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with mixed device identification (AND logic)"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/mixed_device_filter_config.yml"
@@ -147,7 +147,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration using explicit components list"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/layer2_only_config.yml"
@@ -161,7 +161,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with components list and specific features"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/layer2_specific_features_config.yml"
@@ -177,7 +177,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for all features using components list"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/all_layer2_features_config.yml"
@@ -195,7 +195,7 @@
 
     - name: "EXAMPLE: Auto-generate YAML Configuration for specific features only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/security_only_config.yml"
@@ -208,7 +208,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for specific layer2 features only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/protocol_features_config.yml"
@@ -227,7 +227,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for VLANs only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/vlans_only_config.yml"
@@ -242,7 +242,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for specific VLANs"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/specific_vlans_config.yml"
@@ -259,7 +259,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for production VLANs"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/production_vlans_config.yml"
@@ -280,7 +280,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for specific interfaces"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/specific_interfaces_config.yml"
@@ -300,7 +300,7 @@
 
     - name: "EXAMPLE: Generate configuration for uplink interfaces only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/uplink_interfaces_config.yml"
@@ -325,7 +325,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for protocol features"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/protocol_features_config.yml"
@@ -340,7 +340,7 @@
 
     - name: "EXAMPLE: Generate configuration for STP features only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/stp_only_config.yml"
@@ -359,7 +359,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration for security features"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/security_features_config.yml"
@@ -374,7 +374,7 @@
 
     - name: "EXAMPLE: Generate configuration for authentication features only"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/authentication_config.yml"
@@ -393,7 +393,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with comprehensive filtering"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/comprehensive_filtered_config.yml"
@@ -415,7 +415,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with all available components (future-proof)"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/all_components_config.yml"
@@ -446,7 +446,7 @@
 
     - name: "EXAMPLE: Generate YAML Configuration with default file path"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         config:
@@ -457,7 +457,7 @@
 
     - name: "EXAMPLE: Generate configuration for lab environment with defaults"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         config:
@@ -472,7 +472,7 @@
 
     - name: "EXAMPLE: Generate configuration for campus distribution layer"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/distribution_layer_config.yml"
@@ -489,7 +489,7 @@
 
     - name: "EXAMPLE: Generate configuration for access layer switches"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/access_layer_config.yml"
@@ -512,7 +512,7 @@
 
     - name: "EXAMPLE: Generate configuration for specific building infrastructure"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/building_a_config.yml"
@@ -536,7 +536,7 @@
 
     - name: "EXAMPLE: Generate audit configuration for compliance review"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/compliance_audit_config.yml"
@@ -555,7 +555,7 @@
 
     - name: "EXAMPLE: Generate backup configuration for disaster recovery"
       cisco.catalystcenter.wired_campus_automation_playbook_config_generator:
-        <<: *dnac_login
+        <<: *catalystcenter_login
         state: gathered
         file_mode: "append"
         file_path: "/tmp/dr_backup_config.yml"

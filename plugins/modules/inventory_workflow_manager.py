@@ -770,7 +770,7 @@ options:
             type: int
             required: false
 requirements:
-  - catalystcentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center API Documentation
@@ -1684,7 +1684,7 @@ class Inventory(CatalystCenterBase):
             "DEBUG",
         )
         udf = response.get("response")
-
+        self.log(self.config, "DEBUG")
         if len(udf) == 1:
             return True
 
@@ -4003,10 +4003,7 @@ class Inventory(CatalystCenterBase):
 
         try:
             flag = 3
-            if (
-                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6")
-                >= 0
-            ):
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
                 response = self.catalystcenter._exec(
                     family="sda",
                     function="get_provisioned_wired_device",
@@ -4545,62 +4542,45 @@ class Inventory(CatalystCenterBase):
 
                 is_update_device = False
                 for resp in response:
-                    maintenance_schedule = resp.get("maintenanceSchedule")
+                    maintenance_schedule = resp.get('maintenanceSchedule')
                     if maintenance_schedule is None:
-                        self.log(
-                            "No maintenanceSchedule found in response for device '{0}'".format(
-                                device_ip
-                            ),
-                            "WARNING",
-                        )
+                        self.log("No maintenanceSchedule found in response for device '{0}'".format(device_ip), "WARNING")
                         continue
 
-                    status = maintenance_schedule.get("status")
+                    status = maintenance_schedule.get('status')
                     if status in ["UPCOMING", "IN_PROGRESS"]:
                         self.log(
                             "Device maintenance schedule status is '{0}', "
                             "so added the device '{1}' to update the maintenance schedule".format(
                                 status, device_ip
-                            ),
-                            "INFO",
+                            ), "INFO"
                         )
                         schedule_device_ids.append(device_id)
                         is_update_device = True
                         break
 
                     self.log(
-                        "Device '{0}' maintenance schedule status is '{1}', no action taken in this loop".format(
+                        "Device '{0}' maintenance schedule status is '{1}', no action taken in this loop"
+                        .format(
                             device_ip, status
-                        ),
-                        "INFO",
+                        ), "INFO"
                     )
 
                 # If no update flagged, check for completed maintenance to schedule new maintenance
                 if not is_update_device:
-                    self.log(
-                        "No update flagged for device '{0}', checking for completed maintenance.".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
+                    self.log("No update flagged for device '{0}', checking for completed maintenance.".format(device_ip), "DEBUG")
                     for resp in response:
-                        maintenance_schedule = resp.get("maintenanceSchedule")
+                        maintenance_schedule = resp.get('maintenanceSchedule')
                         if maintenance_schedule is None:
-                            self.log(
-                                "No maintenanceSchedule found in response for device '{0}'".format(
-                                    device_ip
-                                ),
-                                "WARNING",
-                            )
+                            self.log("No maintenanceSchedule found in response for device '{0}'".format(device_ip), "WARNING")
                             continue
 
-                        status = maintenance_schedule.get("status")
+                        status = maintenance_schedule.get('status')
                         if status == "COMPLETED":
                             self.log(
                                 "Maintenance scheduled for the given device '{0}' is already completed. Scheduling new maintenance.".format(
                                     device_ip
-                                ),
-                                "INFO",
+                                ), "INFO"
                             )
                             unscheduled_device_ids.append(device_id)
                             break
@@ -4608,8 +4588,7 @@ class Inventory(CatalystCenterBase):
                         self.log(
                             "Device '{0}' maintenance schedule status is '{1}', no action taken in this loop".format(
                                 device_ip, status
-                            ),
-                            "DEBUG",
+                            ), "DEBUG"
                         )
             except Exception as e:
                 self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
@@ -4661,36 +4640,29 @@ class Inventory(CatalystCenterBase):
                 )
                 return None
 
-            state = self.params.get("state")
+            state = self.params.get('state')
             if state == "deleted":
                 return response
 
             for resp in response:
-                maintenance_schedule = resp.get("maintenanceSchedule")
+                maintenance_schedule = resp.get('maintenanceSchedule')
                 if not maintenance_schedule:
-                    self.log(
-                        "No maintenanceSchedule found in response for device '{0}'".format(
-                            device_ip
-                        ),
-                        "WARNING",
-                    )
+                    self.log("No maintenanceSchedule found in response for device '{0}'".format(device_ip), "WARNING")
                     continue
 
-                status = maintenance_schedule.get("status")
+                status = maintenance_schedule.get('status')
                 if status in ["UPCOMING", "IN_PROGRESS"]:
                     self.log(
                         "Device maintenance schedule status is '{0}', "
                         "so added the device '{1}' to update the maintenance schedule".format(
                             status, device_ip
-                        ),
-                        "INFO",
+                        ), "INFO"
                     )
                     return resp
 
             self.log(
                 "No devices found with maintenance status UPCOMING or IN_PROGRESS for"
-                " device '{0}'".format(device_ip),
-                "INFO",
+                " device '{0}'".format(device_ip), "INFO"
             )
         except Exception as e:
             self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
@@ -4825,7 +4797,7 @@ class Inventory(CatalystCenterBase):
             "Starting device maintenance parameter validation for {0} device(s)".format(
                 len(devices_maintenance.get("device_ips", []))
             ),
-            "INFO",
+            "INFO"
         )
 
         try:
@@ -4834,14 +4806,12 @@ class Inventory(CatalystCenterBase):
                 "device_ips": "List of device IP addresses for maintenance scheduling",
                 "start_time": "Maintenance window start time in YYYY-MM-DD HH:MM:SS format",
                 "end_time": "Maintenance window end time in YYYY-MM-DD HH:MM:SS format",
-                "time_zone": "Time zone identifier for the maintenance schedule",
+                "time_zone": "Time zone identifier for the maintenance schedule"
             }
 
             self.log(
-                "Validating presence of required parameters: {0}".format(
-                    list(required_params.keys())
-                ),
-                "DEBUG",
+                "Validating presence of required parameters: {0}".format(list(required_params.keys())),
+                "DEBUG"
             )
 
             # Validate required parameters presence and format
@@ -4850,10 +4820,8 @@ class Inventory(CatalystCenterBase):
                 value = devices_maintenance.get(param_name)
                 if value is None or (isinstance(value, (list, str)) and not value):
                     self.log(
-                        "Required parameter '{0}' ({1}) is missing or empty".format(
-                            param_name, description
-                        ),
-                        "ERROR",
+                        "Required parameter '{0}' ({1}) is missing or empty".format(param_name, description),
+                        "ERROR"
                     )
                     missing_params.append(param_name)
 
@@ -4878,7 +4846,7 @@ class Inventory(CatalystCenterBase):
                 "Validating time parameters - start_time: {0}, end_time: {1}, timezone: {2}".format(
                     start_time, end_time, time_zone
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate time parameters
@@ -4890,11 +4858,8 @@ class Inventory(CatalystCenterBase):
 
             if recurrence_end_time or recurrence_interval:
                 self._validate_recurrence_parameters(
-                    start_time,
-                    end_time,
-                    time_zone,
-                    recurrence_end_time,
-                    recurrence_interval,
+                    start_time, end_time, time_zone,
+                    recurrence_end_time, recurrence_interval
                 )
 
             self.log("Device maintenance parameters validated successfully", "INFO")
@@ -4918,12 +4883,15 @@ class Inventory(CatalystCenterBase):
         Returns:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         """
-        self.log("Starting time parameter validation for maintenance schedule", "INFO")
+        self.log(
+            "Starting time parameter validation for maintenance schedule",
+            "INFO"
+        )
         self.log(
             "Validating time parameters - start_time: {0}, end_time: {1}, timezone: {2}".format(
                 start_time, end_time, time_zone
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Convert times to epoch timestamps
@@ -4935,16 +4903,16 @@ class Inventory(CatalystCenterBase):
         time_validations = [
             (
                 epoch_start_time < epoch_current_time,
-                "start_time must be greater than the current time",
+                "start_time must be greater than the current time"
             ),
             (
                 epoch_end_time < epoch_current_time,
-                "end_time must be greater than the current time",
+                "end_time must be greater than the current time"
             ),
             (
                 epoch_end_time <= epoch_start_time,
-                "end_time must be greater than start_time",
-            ),
+                "end_time must be greater than start_time"
+            )
         ]
 
         for condition, error_msg in time_validations:
@@ -4953,13 +4921,15 @@ class Inventory(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
-        self.log("Time parameter validation completed successfully", "DEBUG")
+        self.log(
+            "Time parameter validation completed successfully",
+            "DEBUG"
+        )
 
         return self
 
-    def _validate_recurrence_parameters(
-        self, start_time, end_time, time_zone, recurrence_end_time, recurrence_interval
-    ):
+    def _validate_recurrence_parameters(self, start_time, end_time, time_zone,
+                                        recurrence_end_time, recurrence_interval):
         """
         Validate recurrence-related parameters.
 
@@ -4975,18 +4945,15 @@ class Inventory(CatalystCenterBase):
 
         """
         self.log(
-            "Starting recurrence parameter validation for maintenance schedule", "INFO"
+            "Starting recurrence parameter validation for maintenance schedule",
+            "INFO"
         )
         self.log(
             "Validating recurrence parameters - start_time: {0}, end_time: {1}, timezone: {2}, "
             "recurrence_end_time: {3}, recurrence_interval: {4}".format(
-                start_time,
-                end_time,
-                time_zone,
-                recurrence_end_time,
-                recurrence_interval,
+                start_time, end_time, time_zone, recurrence_end_time, recurrence_interval
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Both recurrence parameters must be provided together
@@ -5004,9 +4971,7 @@ class Inventory(CatalystCenterBase):
             return  # No recurrence parameters to validate
 
         # Validate recurrence interval range
-        if not isinstance(recurrence_interval, int) or not (
-            1 <= recurrence_interval <= 365
-        ):
+        if not isinstance(recurrence_interval, int) or not (1 <= recurrence_interval <= 365):
             self.msg = f"Invalid 'recurrence_interval': {recurrence_interval}. Must be an integer between 1 and 365 days"
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
@@ -5018,9 +4983,7 @@ class Inventory(CatalystCenterBase):
         epoch_current_time = self.get_current_time_in_timezone(time_zone)
 
         # Validate maintenance duration vs recurrence interval
-        schedule_duration_days = (epoch_end_time - epoch_start_time) / (
-            24 * 3600 * 1000
-        )
+        schedule_duration_days = (epoch_end_time - epoch_start_time) / (24 * 3600 * 1000)
         if recurrence_interval <= schedule_duration_days:
             self.msg = (
                 f"Recurrence interval ({recurrence_interval} days) must be longer than "
@@ -5034,12 +4997,12 @@ class Inventory(CatalystCenterBase):
             (
                 epoch_recurr_end_time < epoch_end_time,
                 f"recurrence_end_time ({recurrence_end_time}) must be later than "
-                f"maintenance end_time ({end_time})",
+                f"maintenance end_time ({end_time})"
             ),
             (
                 epoch_recurr_end_time < epoch_current_time,
-                f"recurrence_end_time ({recurrence_end_time}) must be later than current time",
-            ),
+                f"recurrence_end_time ({recurrence_end_time}) must be later than current time"
+            )
         ]
 
         for condition, error_msg in recurrence_validations:
@@ -5210,8 +5173,7 @@ class Inventory(CatalystCenterBase):
             if description and description != schedule_details.get("description"):
                 self.log(
                     "Mismatch in the parameter 'description' so maintenance schedule for the device {0} "
-                    "needs update".format(device_ip),
-                    "INFO",
+                    "needs update".format(device_ip), "INFO"
                 )
                 return True
 
@@ -5364,8 +5326,7 @@ class Inventory(CatalystCenterBase):
         maintenance_schedule = schedule_details.get("maintenanceSchedule") or {}
         schedule_payload = {
             "id": schedule_details.get("id"),
-            "description": devices_maintenance.get("description")
-            or schedule_details.get("description", " "),
+            "description": devices_maintenance.get("description") or schedule_details.get("description", " "),
             "maintenanceSchedule": {
                 "startTime": maintenance_schedule.get("startTime"),
                 "endTime": maintenance_schedule.get("endTime"),
@@ -5723,12 +5684,8 @@ class Inventory(CatalystCenterBase):
             This function extracts and formats the network device parameters from the provided dictionary.
             It ensures that all required fields are present and correctly formatted for further processing.
         """
-        self.log(
-            "Parsing network device parameters for: {0}".format(
-                self.pprint(device_params)
-            ),
-            "INFO",
-        )
+        self.log("Parsing network device parameters for: {0}".format(
+            self.pprint(device_params)), "INFO")
 
         if not device_params["snmpVersion"]:
             device_params["snmpVersion"] = "v3"
@@ -5776,10 +5733,8 @@ class Inventory(CatalystCenterBase):
         if type:
             device_params["type"] = type
 
-        self.log(
-            "Parsed network device parameters: {0}".format(self.pprint(device_params)),
-            "INFO",
-        )
+        self.log("Parsed network device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def parse_for_add_compute_device_params(self, device_params):
@@ -5797,12 +5752,8 @@ class Inventory(CatalystCenterBase):
             This function extracts and formats the compute device parameters from the provided dictionary.
             It ensures that all required fields are present and correctly formatted for further processing.
         """
-        self.log(
-            "Parsing compute device parameters for: {0}".format(
-                self.pprint(device_params)
-            ),
-            "INFO",
-        )
+        self.log("Parsing compute device parameters for: {0}".format(
+            self.pprint(device_params)), "INFO")
 
         params_to_remove = [
             "snmpAuthPassphrase",
@@ -5816,16 +5767,14 @@ class Inventory(CatalystCenterBase):
             "snmpTimeout",
             "snmpUserName",
             "snmpVersion",
-            "netconfPort",
+            "netconfPort"
         ]
         for param in params_to_remove:
             device_params.pop(param, None)
 
         device_params["type"] = "COMPUTE_DEVICE"
-        self.log(
-            "Parsed compute device parameters: {0}".format(self.pprint(device_params)),
-            "INFO",
-        )
+        self.log("Parsed compute device parameters: {0}".format(
+            self.pprint(device_params)), "INFO")
         return device_params
 
     def add_inventory_device(self, device_params, devices_to_add, device_to_add_in_ccc):
@@ -5840,9 +5789,7 @@ class Inventory(CatalystCenterBase):
         Returns:
             object: An instance of the class with updated results and status.
         """
-        self.log(
-            "Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO"
-        )
+        self.log("Adding device to inventory: {0}".format(self.pprint(device_params)), "INFO")
 
         try:
             response = self.catalystcenter._exec(
@@ -5852,15 +5799,15 @@ class Inventory(CatalystCenterBase):
                 params=device_params,
             )
             self.log(
-                "Received API response from 'add_device': {0}".format(str(response)),
+                "Received API response from 'add_device': {0}".format(
+                    str(response)
+                ),
                 "DEBUG",
             )
 
             if not response or not isinstance(response, dict):
-                self.msg = (
-                    "Failed to add device(s) '{0}' to Cisco Catalyst Center".format(
-                        str(self.config[0].get("ip_address_list"))
-                    )
+                self.msg = "Failed to add device(s) '{0}' to Cisco Catalyst Center".format(
+                    str(self.config[0].get("ip_address_list"))
                 )
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
@@ -5873,12 +5820,8 @@ class Inventory(CatalystCenterBase):
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
-            resync_retry_count = int(
-                self.payload.get("catalystcenter_api_task_timeout")
-            )
-            resync_retry_interval = int(
-                self.payload.get("catalystcenter_task_poll_interval")
-            )
+            resync_retry_count = int(self.payload.get("catalystcenter_api_task_timeout"))
+            resync_retry_interval = int(self.payload.get("catalystcenter_task_poll_interval"))
             while resync_retry_count > 0:
                 execution_details = self.get_task_details(task_id)
 
@@ -5889,10 +5832,8 @@ class Inventory(CatalystCenterBase):
                     if len(devices_to_add) > 0:
                         self.device_list.append(devices_to_add)
                         self.result["changed"] = True
-                        self.msg = (
-                            "Device(s) '{0}' added to Cisco Catalyst Center".format(
-                                str(devices_to_add)
-                            )
+                        self.msg = "Device(s) '{0}' added to Cisco Catalyst Center".format(
+                            str(devices_to_add)
                         )
                         self.log(self.msg, "INFO")
                         self.result["msg"] = self.msg
@@ -5928,14 +5869,14 @@ class Inventory(CatalystCenterBase):
             return self
         except Exception as e:
             error_message = (
-                "Error while adding device in Cisco Catalyst Center: {0}".format(str(e))
+                "Error while adding device in Cisco Catalyst Center: {0}".format(
+                    str(e)
+                )
             )
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
-    def parse_for_update_network_device_params(
-        self, playbook_params, device_data, device_ip
-    ):
+    def parse_for_update_network_device_params(self, playbook_params, device_data, device_ip):
         """
         Parse the network device parameters for updating an existing device in Cisco Catalyst Center.
 
@@ -5952,12 +5893,8 @@ class Inventory(CatalystCenterBase):
             This function extracts and formats the network device parameters from the provided dictionary
             for updating an existing device in Cisco Catalyst Center.
         """
-        self.log(
-            "Parsing network device parameters for update: {0}".format(
-                self.pprint(playbook_params)
-            ),
-            "INFO",
-        )
+        self.log("Parsing network device parameters for update: {0}".format(
+            self.pprint(playbook_params)), "INFO")
 
         if device_data["snmpv3_privacy_password"] == " ":
             device_data["snmpv3_privacy_password"] = None
@@ -5984,7 +5921,9 @@ class Inventory(CatalystCenterBase):
             else:
                 playbook_params["cliTransport"] = device_data["protocol"]
         if not playbook_params["snmpPrivProtocol"]:
-            playbook_params["snmpPrivProtocol"] = device_data["snmpv3_privacy_type"]
+            playbook_params["snmpPrivProtocol"] = device_data[
+                "snmpv3_privacy_type"
+            ]
 
         csv_data_dict = {
             "username": device_data["cli_username"],
@@ -6029,8 +5968,14 @@ class Inventory(CatalystCenterBase):
                 or playbook_netconf_port is not None
                 or playbook_snmp_username is not None
             )
-            and (device_username == playbook_username or playbook_username is None)
-            and (device_password == playbook_password or playbook_password is None)
+            and (
+                device_username == playbook_username
+                or playbook_username is None
+            )
+            and (
+                device_password == playbook_password
+                or playbook_password is None
+            )
             and (
                 cli_enable_password == playbook_enable_password
                 or playbook_enable_password is None
@@ -6315,9 +6260,7 @@ class Inventory(CatalystCenterBase):
             elif device_type == "COMPUTE_DEVICE":
                 self.parse_for_add_compute_device_params(device_params)
             elif device_type == "THIRD_PARTY_DEVICE":
-                self.parse_for_add_network_device_params(
-                    device_params, "THIRD_PARTY_DEVICE"
-                )
+                self.parse_for_add_network_device_params(device_params, "THIRD_PARTY_DEVICE")
 
             device_params["ipAddress"] = config["ip_address_list"]
             device_to_add_in_ccc = device_params["ipAddress"]
@@ -6325,9 +6268,7 @@ class Inventory(CatalystCenterBase):
             if not self.config[0].get("device_resync"):
                 self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
 
-            self.add_inventory_device(
-                device_params, devices_to_add, device_to_add_in_ccc
-            )
+            self.add_inventory_device(device_params, devices_to_add, device_to_add_in_ccc)
 
         # Update the role of devices having the role source as Manual
         if config.get("role"):
@@ -6337,7 +6278,7 @@ class Inventory(CatalystCenterBase):
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
 
-                # Check if the same role of device is present in dnac then no need to change the state
+                # Check if the same role of device is present in catalystcenter then no need to change the state
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_list",
@@ -6607,7 +6548,7 @@ class Inventory(CatalystCenterBase):
 
                 # Check if the Global User defined field exist if not then create it with given field name
                 udf_exist = self.is_udf_exist(field_name)
-                self.log(udf_exist)
+
                 if not udf_exist:
                     # Create the Global UDF
                     self.log(
@@ -6617,7 +6558,12 @@ class Inventory(CatalystCenterBase):
                         "DEBUG",
                     )
                     self.create_user_defined_field(udf).check_return_status()
-
+                self.log(
+                    "Global User Defined Field '{0}' is present in Cisco Catalyst Center".format(
+                        field_name
+                    ),
+                    "DEBUG",
+                )
                 # Get device Id based on config priority
                 device_ips = self.get_device_ips_from_config_priority()
                 device_ids = self.get_device_ids(device_ips)
@@ -6647,7 +6593,6 @@ class Inventory(CatalystCenterBase):
                         field_name
                     )
                     self.udf_already_added.append(field_name)
-
         # Once Wired device get added we will assign device to site and Provisioned it
         if self.config[0].get("provision_wired_device"):
             self.provisioned_wired_device().check_return_status()
@@ -6704,8 +6649,10 @@ class Inventory(CatalystCenterBase):
 
             network_device_ids = self.get_device_ids(network_device_ips)
             if not network_device_ids:
-                self.msg = "None of the provided device IPs: {0} exist in Cisco Catalyst Center.".format(
-                    network_device_ips
+                self.msg = (
+                    "None of the provided device IPs: {0} exist in Cisco Catalyst Center.".format(
+                        network_device_ips
+                    )
                 )
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
@@ -7004,10 +6951,7 @@ class Inventory(CatalystCenterBase):
                 self.handle_device_deletion(device_ip)
                 continue
 
-            if (
-                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
-                <= 0
-            ):
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.delete_provisioned_device_v1(device_ip)
                 continue
             else:
@@ -7017,8 +6961,7 @@ class Inventory(CatalystCenterBase):
         devices_maintenance = self.config[0].get("devices_maintenance_schedule")
         if (
             devices_maintenance
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
-            >= 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         ):
             schedule_ids = []
             for schedule in devices_maintenance:
@@ -7036,10 +6979,8 @@ class Inventory(CatalystCenterBase):
                     network_device_id = self.get_device_ids([device_ip])
                     if not network_device_id:
                         self.log(
-                            "No network device with IP '{0}' present in Cisco Catalyst Center.".format(
-                                device_ip
-                            ),
-                            "WARNING",
+                            "No network device with IP '{0}' present in Cisco Catalyst Center."
+                            .format(device_ip), "WARNING"
                         )
                         continue
 
@@ -7060,25 +7001,19 @@ class Inventory(CatalystCenterBase):
                         schedule_id = schedule.get("id")
                         if not schedule_id:
                             self.log(
-                                "No schedule ID found for the device {0}.".format(
-                                    device_ip
-                                ),
+                                "No schedule ID found for the device {0}.".format(device_ip),
                                 "INFO",
                             )
                             continue
                         schedule_ids.append(schedule_id)
                         self.log(
-                            "Appended schedule ID '{0}' for device '{1}'.".format(
-                                schedule_id, device_ip
-                            ),
-                            "DEBUG",
+                            "Appended schedule ID '{0}' for device '{1}'.".format(schedule_id, device_ip),
+                            "DEBUG"
                         )
                     self.maintenance_deleted.append(device_ip)
                     self.log(
-                        "Device '{0}' added to maintenance deleted list.".format(
-                            device_ip
-                        ),
-                        "INFO",
+                        "Device '{0}' added to maintenance deleted list.".format(device_ip),
+                        "INFO"
                     )
 
             schedule_ids = list(set(schedule_ids))
@@ -7090,8 +7025,7 @@ class Inventory(CatalystCenterBase):
                 )
         elif (
             devices_maintenance
-            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9")
-            < 0
+            and self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.7.9") < 0
         ):
             self.log(
                 "Deleting the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
@@ -7310,10 +7244,7 @@ class Inventory(CatalystCenterBase):
                 "DEBUG",
             )
 
-            if (
-                self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3")
-                <= 0
-            ):
+            if self.compare_catalystcenter_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 validation_string = "network device deleted successfully"
                 self.check_task_response_status(
                     response, validation_string, "deleted_device_by_id"
@@ -7867,10 +7798,8 @@ class Inventory(CatalystCenterBase):
                     self.ip_not_found
                 )
             else:
-                absent_scheduled_msg = (
-                    "Given IP address {0} not present in the Catalyst Center.".format(
-                        self.ip_not_found
-                    )
+                absent_scheduled_msg = "Given IP address {0} not present in the Catalyst Center.".format(
+                    self.ip_not_found
                 )
             result_msg_list_not_changed.append(absent_scheduled_msg)
 
@@ -7902,26 +7831,17 @@ def main():
         "catalystcenter_host": {
             "type": "str",
             "required": True,
-            "aliases": ["dnac_host"],
         },
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
@@ -7935,12 +7855,7 @@ def main():
     ccc_device = Inventory(module)
     state = ccc_device.params.get("state")
 
-    if (
-        ccc_device.compare_catalystcenter_versions(
-            ccc_device.get_ccc_version(), "2.3.5.3"
-        )
-        < 0
-    ):
+    if ccc_device.compare_catalystcenter_versions(ccc_device.get_ccc_version(), "2.3.5.3") < 0:
         ccc_device.msg = (
             "The specified version '{0}' does not support the inventory workflow feature. "
             "Supported versions start from '2.3.5.3' onwards.".format(

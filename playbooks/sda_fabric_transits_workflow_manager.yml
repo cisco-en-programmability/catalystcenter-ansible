@@ -28,6 +28,7 @@
                 ip_transit_settings:  # For IP_BASED_TRANSIT
                   routing_protocol_name: BGP  # only bgp
                   autonomous_system_number: 1234  # between 1 and 4294967295
+
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -51,6 +52,7 @@
                   control_plane_network_device_ips:  # 2 for SDA_LISP_BGP_TRANSIT and 4 for SDA_LISP_PUB_SUB_TRANSIT
                     - 10.0.0.1
                     - 10.0.0.2
+
     - name: Create the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -77,6 +79,7 @@
                     - 11.0.0.2
                     - 11.0.0.3
                     - 11.0.0.4
+
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_BGP_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -100,6 +103,7 @@
                   control_plane_network_device_ips:  # 2 for SDA_LISP_BGP_TRANSIT and 4 for SDA_LISP_PUB_SUB_TRANSIT
                     - 10.0.0.3
                     - 10.0.0.4
+
     - name: Update the SDA fabric transits with transit_type as SDA_LISP_PUB_SUB_TRANSIT
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -126,6 +130,7 @@
                     - 11.0.0.6
                     - 11.0.0.7
                     - 11.0.0.8
+
     - name: Delete the SDA fabric transits
       cisco.catalystcenter.sda_fabric_transits_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"

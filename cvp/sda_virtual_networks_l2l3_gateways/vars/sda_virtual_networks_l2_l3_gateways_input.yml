@@ -1,6 +1,6 @@
 ---
-catalyst_center_version: "2.3.7.6"
-catalyst_center_debug: false
+catalystcenter_version: "2.3.7.6"
+catalystcenter_debug: false
 sda_fabric_virtual_networks_details:
   - fabric_vlan:
     - vlan_name: "vlan_test1"

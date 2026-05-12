@@ -18,7 +18,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "/Users/priyadharshini/Downloads/configuration_details_info"
         file_mode: overwrite

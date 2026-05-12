@@ -2,7 +2,7 @@
 This Workflow Playbook configures and updates Network Settings and reserves IP Pools for sites.
 This workflow playbook is supported from Catalyst Center Release version 2.3.7.6
 
-catalyst_center_version: Define the version of Catalyst Center for which Scripts to run for legacy configs, you could keep it same.
+catalystcenter_version: Define the version of Catalyst Center for which Scripts to run for legacy configs, you could keep it same.
 role_details defines the access destails for the role.
 network_settings_details: Details of Network settings 
 Refer to the full workflow specification to define the details: https://galaxy.ansible.com/ui/repo/published/cisco/catalystcenter/content/module/network_settings_workflow_manager/
@@ -30,16 +30,16 @@ Create an Ansible inventory file (e.g., `hosts.yml`) that includes your Cisco Ca
 catalyst_center_hosts:
     hosts:
         your_catalyst_center_instance_name:
-            catalyst_center_host: xx.xx.xx.xx
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false # Set to true for production with valid certificates
-            catalyst_center_version: 2.3.7.6 # Specify your Catalyst Center version
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false # Set to true for production with valid certificates
+            catalystcenter_version: 2.3.7.6 # Specify your Catalyst Center version
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 User Inputs for Users and roles are stored in  cvp/users_and_roles/vars/users_and_roles_workflow_inputs.yml
 
@@ -463,7 +463,7 @@ network_settings_details:
   **Command to Run:**
   ```bash
   ansible-playbook \
-    -i ./inventory/demo_lab/inventory_demo_lab.yml \ # refer to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml \ # refer to Catalyst Center to run
     ./cvp/network_settings/playbook/network_settings_playbook.yml \ # playbook will run this
     --extra-vars VARS_FILE_PATH=../vars/network_settings_vars.yml \ # location of the input file for the playbook to execute
     -vvv # return detailed information about the message; the more 'v', the more detailed
@@ -1060,7 +1060,7 @@ This task reserves sub-pools from a global IP address pool for specific sites in
   **Example Command to Run the IP Pool Playbook with Merged Method:**
   ```bash
   ansible-playbook 
-    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to DNAC to run
+    -i ./inventory/demo_lab/inventory_demo_lab.yml # Reference to Catalyst Center to run
     ./cvp/network_settings/playbook/network_settings_playbook.yml # Playbook that will execute
     --extra-vars VARS_FILE_PATH=../vars/global_pool_and_reserve_pools_on_sites.yml # Location of the input file for playbook execution
     -vvv # Returns detailed information about the message; the more 'v', the more detail

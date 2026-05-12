@@ -1,6 +1,6 @@
 ---
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 fabric_sites_and_zones:
     - fabric_sites:
         - fabric_type: fabric_site

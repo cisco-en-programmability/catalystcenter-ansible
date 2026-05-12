@@ -17,13 +17,11 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    network_settings_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import network_settings_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacNetworkSettings(TestCatalystModule):
+class TestCatalystCenterNetworkSettings(TestCatalystModule):
 
     module = network_settings_workflow_manager
     test_data = loadPlaybookData("network_settings_workflow_manager")
@@ -34,25 +32,18 @@ class TestDnacNetworkSettings(TestCatalystModule):
     playbook_global_pool_creation = test_data.get("playbook_global_pool_creation")
     playbook_global_pool_updation = test_data.get("playbook_global_pool_updation")
     playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
-    playbook_config_reserve_pool_deletion = test_data.get(
-        "playbook_config_reserve_pool_deletion"
-    )
-    playbook_config_global_pool_deletion = test_data.get(
-        "playbook_config_global_pool_deletion"
-    )
-    playbook_config_device_controlability = test_data.get(
-        "playbook_config_device_controlability"
-    )
+    playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
+    playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
+    playbook_config_device_controlability = test_data.get("playbook_config_device_controlability")
     playbook_reset_network = test_data.get("playbook_reset_network")
     playbook_reserve_pool_creation = test_data.get("playbook_reserve_pool_creation")
     playbook_reset_aaa = test_data.get("playbook_reset_aaa")
 
     def setUp(self):
-        super(TestDnacNetworkSettings, self).setUp()
+        super(TestCatalystCenterNetworkSettings, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -63,7 +54,7 @@ class TestDnacNetworkSettings(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacNetworkSettings, self).tearDown()
+        super(TestCatalystCenterNetworkSettings, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -387,7 +378,7 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 self.test_data.get("global_pool_creation_task"),
                 self.test_data.get("global_pool_creation_task"),
                 self.test_data.get("global_pool_ipv6_exist2"),
-                self.test_data.get("global_pool_ipv4_exist2"),
+                self.test_data.get("global_pool_ipv4_exist2")
             ]
 
         if "global_pool_deletion" in self._testMethodName:
@@ -431,7 +422,7 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 self.test_data.get("update_global_pool"),
                 self.test_data.get("update_global_pool_task"),
                 self.test_data.get("Global_Pool_1"),
-                self.test_data.get("Global_Pool_2"),
+                self.test_data.get("Global_Pool_2")
             ]
 
         if "device_controlability_updation" in self._testMethodName:
@@ -523,14 +514,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.5.3",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating the network settings of 'Global/Vietnam': 'list' object has no attribute 'get'",
+            result.get('msg'),
+            "Exception occurred while updating the network settings of 'Global/Vietnam': 'list' object has no attribute 'get'"
         )
 
     def test_Network_settings_workflow_manager_not_verified(self):
@@ -548,14 +539,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=True, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Network Functions Config is not applied to the Cisco Catalyst Center",
+            result.get('msg'),
+            "Network Functions Config is not applied to the Cisco Catalyst Center"
         )
 
     def test_Network_settings_workflow_manager_network_update(self):
@@ -574,14 +565,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_log_level="DEBUG",
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][2]["network"]["msg"],
-            {"Global/Testing/test": "Network Updated successfully"},
+            result['response'][2]['network']['msg'],
+            {'Global/Testing/test': 'Network Updated successfully'}
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_dhcp(self):
@@ -599,14 +590,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating DHCP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: ",
+            result.get('msg'),
+            "Exception occurred while updating DHCP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_ntp(self):
@@ -624,14 +615,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating NTP settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while updating NTP settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_timezone(self):
@@ -649,14 +640,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating time zone settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while updating time zone settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_dns(self):
@@ -674,14 +665,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating DNS settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while updating DNS settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_banner(self):
@@ -699,14 +690,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating banner settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while updating banner settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_aaa(self):
@@ -724,14 +715,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_update_network,
+                config=self.playbook_update_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating telemetry settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while updating telemetry settings for site 'Global/Testing/test' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_update_telemetry(self):
@@ -749,14 +740,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while updating telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_site_not_exist(self):
@@ -774,14 +765,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertIn(
             "An exception occurred while retrieving Site details for Site 'Global/Vietnam' does not exist in the Cisco Catalyst Center.",
-            result.get("msg"),
+            result.get('msg')
         )
 
     def test_Network_settings_workflow_manager_network_exception_telemetry_get(self):
@@ -799,14 +790,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting telemetry settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_dns_get(self):
@@ -824,14 +815,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result.get("msg"))
+        print(result.get('msg'))
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting DNS settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting DNS settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_ntp_get(self):
@@ -849,14 +840,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting NTP server settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting NTP server settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_timezone_get(self):
@@ -874,14 +865,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting time zone settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting time zone settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_dhcp_gett(self):
@@ -899,14 +890,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting DHCP settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting DHCP settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_banner_get(self):
@@ -924,14 +915,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting banner settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting banner settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_exception_aaa_get(self):
@@ -949,14 +940,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.7.10",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_network,
+                config=self.playbook_config_network
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while getting AAA settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): ",
+            result.get('msg'),
+            "Exception occurred while getting AAA settings for site 'Global/Vietnam' (ID: b08d92c9-663f-43f3-9575-5af52d4d75a7): "
         )
 
     def test_Network_settings_workflow_manager_network_update_not_required(self):
@@ -973,14 +964,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 catalystcenter_version="2.3.7.10",
                 state="merged",
-                config=self.playbook_config_update_not_req,
+                config=self.playbook_config_update_not_req
             )
         )
         result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result["response"][2]["network"]["msg"],
-            {"Global/Testing/test": "Network doesn't require an update"},
+            result['response'][2]['network']['msg'],
+            {'Global/Testing/test': "Network doesn't require an update"}
         )
 
     def test_Network_settings_workflow_manager_network_null_network_params(self):
@@ -998,14 +989,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_version="2.3.5.3",
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_update_not_req,
+                config=self.playbook_config_update_not_req
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Exception occurred while updating the network settings of 'Global/Testing/test': ",
+            result.get('msg'),
+            "Exception occurred while updating the network settings of 'Global/Testing/test': "
         )
 
     def test_Network_settings_workflow_manager_global_pool_creation(self):
@@ -1023,17 +1014,15 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_global_pool_creation,
+                config=self.playbook_global_pool_creation
             )
         )
         result = self.execute_module(changed=True, failed=True)
         print(result["response"][0].get("globalPool").get("msg"))
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
-            {
-                "Global_Pool2": "Global Pool Created Successfully",
-                "Global_Pool3": "Global Pool Created Successfully",
-            },
+            {'Global_Pool2': 'Global Pool Created Successfully', 'Global_Pool3': 'Global Pool Created Successfully'}
+
         )
 
     def test_Network_settings_workflow_manager_global_pool_Updation_not_req(self):
@@ -1051,7 +1040,7 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 state="merged",
                 config_verify=True,
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_global_pool_updation,
+                config=self.playbook_global_pool_updation
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -1059,10 +1048,8 @@ class TestDnacNetworkSettings(TestCatalystModule):
         # print(result)
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
-            {
-                "Global_Pool2": "Global pool doesn't require an update",
-                "Global_Pool3": "Global pool doesn't require an update",
-            },
+            {'Global_Pool2': "Global pool doesn't require an update", 'Global_Pool3': "Global pool doesn't require an update"}
+
         )
 
     def test_Network_settings_workflow_manager_global_pool_deletion(self):
@@ -1080,14 +1067,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_global_pool_deletion,
+                config=self.playbook_config_global_pool_deletion
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result["response"])
         self.assertEqual(
             result["response"]["Global_Pool2"]["msg"],
-            "Global pool deleted successfully.",
+            "Global pool deleted successfully."
         )
 
     def test_Network_settings_workflow_manager_reserve_pool_deletion(self):
@@ -1105,14 +1092,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 state="deleted",
                 config_verify=True,
                 catalystcenter_version="2.3.5.3",
-                config=self.playbook_config_reserve_pool_deletion,
+                config=self.playbook_config_reserve_pool_deletion
             )
         )
         result = self.execute_module(changed=False, failed=True)
         print(result["response"])
         self.assertIn(
             "An exception occurred while retrieving Site details for Site 'Global/Abc2' does not exist in the Cisco Catalyst Center.",
-            result["response"],
+            result["response"]
         )
 
     def test_Network_settings_workflow_manager_resetting_server_configuration(self):
@@ -1131,14 +1118,14 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 config_verify=False,
                 catalystcenter_log_level="DEBUG",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_reset_network,
+                config=self.playbook_reset_network
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result["response"][2]["network"]["msg"])
         self.assertEqual(
-            {"Global/Testing/test": "Network Updated successfully"},
-            result["response"][2]["network"]["msg"],
+            {'Global/Testing/test': 'Network Updated successfully'},
+            result["response"][2]["network"]["msg"]
         )
 
     def test_Network_settings_workflow_manager_reserve_subpool_create(self):
@@ -1155,7 +1142,7 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 catalystcenter_log=True,
                 state="merged",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_reserve_pool_creation,
+                config=self.playbook_reserve_pool_creation
             )
         )
         result = self.execute_module(changed=True, failed=False)
@@ -1163,7 +1150,7 @@ class TestDnacNetworkSettings(TestCatalystModule):
 
         self.assertEqual(
             result["response"][1]["reservePool"]["msg"],
-            {"4G10_KPKT_BMDF": "Ip Subpool Reservation Created Successfully"},
+            {'4G10_KPKT_BMDF': 'Ip Subpool Reservation Created Successfully'}
         )
 
     def test_Network_settings_workflow_manager_reset_aaa_configuration(self):
@@ -1182,12 +1169,12 @@ class TestDnacNetworkSettings(TestCatalystModule):
                 config_verify=False,
                 catalystcenter_log_level="DEBUG",
                 catalystcenter_version="2.3.7.9",
-                config=self.playbook_reset_aaa,
+                config=self.playbook_reset_aaa
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result["response"][2]["network"]["msg"])
         self.assertEqual(
-            {"Global/Testing/test": "Network Updated successfully"},
-            result["response"][2]["network"]["msg"],
+            {'Global/Testing/test': 'Network Updated successfully'},
+            result["response"][2]["network"]["msg"]
         )

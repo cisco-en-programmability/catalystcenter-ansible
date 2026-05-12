@@ -2697,7 +2697,6 @@ class BrownFieldHelper:
         params=None,
         offset=1,
         limit=500,
-        use_strings=False,
     ):
         """
         Executes a paginated GET request using the specified API family, function, and parameters.
@@ -2707,7 +2706,6 @@ class BrownFieldHelper:
             params (dict): Parameters for filtering the data.
             offset (int, optional): Starting offset for pagination. Defaults to 1.
             limit (int, optional): Maximum number of records to retrieve per page. Defaults to 500.
-            use_strings (bool, optional): Whether to use string values for offset and limit. Defaults to False.
         Returns:
             list: A list of dictionaries containing the retrieved data based on the filtering parameters.
         """
@@ -2724,8 +2722,8 @@ class BrownFieldHelper:
             updated_params = params.copy()
             updated_params.update(
                 {
-                    "offset": str(current_offset) if use_strings else current_offset,
-                    "limit": str(current_limit) if use_strings else current_limit,
+                    "offset": current_offset,
+                    "limit": current_limit,
                 }
             )
             return updated_params
@@ -2746,8 +2744,8 @@ class BrownFieldHelper:
             current_limit = limit
 
             self.log(
-                "Pagination settings - offset: {0}, limit: {1}, use_strings: {2}".format(
-                    current_offset, current_limit, use_strings
+                "Pagination settings - offset: {0}, limit: {1}".format(
+                    current_offset, current_limit
                 ),
                 "DEBUG",
             )
@@ -3490,7 +3488,7 @@ class BrownFieldHelper:
                     - optional (bool, optional): Whether field is optional
                     - special_handling (bool, optional): Requires special processing
 
-            data_list (list): List of data objects from DNAC API responses to transform.
+            data_list (list): List of data objects from Catalyst Center API responses to transform.
 
         Returns:
             list: Transformed data list suitable for Ansible playbook configuration.

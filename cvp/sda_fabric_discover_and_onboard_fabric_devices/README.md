@@ -646,16 +646,16 @@ Omit `VARS_FILE_PATH` and define the workflow variables directly as host variabl
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      catalyst_center_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
-      catalyst_center_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
-      catalyst_center_port: 443
-      catalyst_center_timeout: 60
-      catalyst_center_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
-      catalyst_center_verify: false
-      catalyst_center_version: 2.3.7.9
-      catalyst_center_debug: true
-      catalyst_center_log_level: INFO
-      catalyst_center_log: true
+      catalystcenter_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
+      catalystcenter_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_port: 443
+      catalystcenter_api_task_timeout: 60
+      catalystcenter_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_verify: false
+      catalystcenter_version: 2.3.7.9
+      catalystcenter_debug: true
+      catalystcenter_log_level: INFO
+      catalystcenter_log: true
       ansible_python_interpreter: "{{ lookup('ansible.builtin.env', 'ANSIBLE_PYTHON_INTERPRETER') | default(ansible_playbook_python, true) }}"
 
       # Workflow data defined as host variables

@@ -33,7 +33,9 @@
             tcpMssAdjustment: 1400
             trafficType: "DATA"
             anchoredSiteId: "7087c88f-ec73-4df1-8f6b-136d7e2ed9e2"
+
       register: result
+
     - name: Show result
       ansible.builtin.debug:
         var: result

@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Template
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
@@ -15,6 +15,7 @@
         state: present
         name: Cloud Test Template 5
       register: configuration_template_project_result
+
     - name: Show new configuration_template_project
       ansible.builtin.debug:
         msg: "{{ configuration_template_project_result }}"

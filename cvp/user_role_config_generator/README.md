@@ -165,15 +165,15 @@ Example using environment-variable lookups:
 catalyst_center_hosts:
   hosts:
     catalyst_center_primary:
-      catalyst_center_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
-      catalyst_center_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
-      catalyst_center_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
-      catalyst_center_port: 443
-      catalyst_center_verify: false
-      catalyst_center_version: "2.3.5.3"
-      catalyst_center_debug: false
-      catalyst_center_log: true
-      catalyst_center_log_level: "INFO"
+      catalystcenter_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
+      catalystcenter_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_port: 443
+      catalystcenter_verify: false
+      catalystcenter_version: "2.3.5.3"
+      catalystcenter_debug: false
+      catalystcenter_log: true
+      catalystcenter_log_level: "INFO"
 ```
 
 If your inventory uses environment-variable lookups like the example above, export:

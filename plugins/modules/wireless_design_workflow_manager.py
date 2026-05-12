@@ -4191,8 +4191,8 @@ options:
             required: false
 
 requirements:
-  - catalystcentersdk >= 2.10.3
-  - python >= 3.9
+  - catalystcentersdk >= 3.1.6.0.2
+  - python >= 3.12
 notes:
   - SDK Methods used are - sites.Sites.get_site - site_design.SiteDesigns.get_sites
     - wirelesss.Wireless.create_ssid - wirelesss.Wireless.update_ssid
@@ -7450,7 +7450,7 @@ import re
 
 class WirelessDesign(CatalystCenterBase):
     """
-    A class for managing Wireless Design operations within the Cisco DNA Center using the SDA API.
+    A class for managing Wireless Design operations within the Cisco Catalyst Center using the SDA API.
     """
 
     def __init__(self, module):
@@ -8844,12 +8844,12 @@ class WirelessDesign(CatalystCenterBase):
         Retrieve existing RRM General feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-            template_type (str, optional): DNAC template type identifier.
+            template_type (str, optional): Catalyst Center template type identifier.
                                         Defaults to "RRM_GENERAL_CONFIGURATION".
         Returns:
             list: A list of existing RRM General template dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing RRM General Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing RRM General Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -9226,7 +9226,7 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of RRM-FRA template dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing RRM-FRA Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing RRM-FRA Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -9638,12 +9638,12 @@ class WirelessDesign(CatalystCenterBase):
         Retrieve existing Multicast feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-            template_type (str, optional): Feature template type string used by DNAC.
+            template_type (str, optional): Feature template type string used by Catalyst Center.
                                         Defaults to "MULTICAST_CONFIGURATION".
         Returns:
             list: A list of existing Multicast template dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing Multicast Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing Multicast Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -10222,12 +10222,12 @@ class WirelessDesign(CatalystCenterBase):
         Retrieve existing 802.11be feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-            template_type (str, optional): Feature template type string used by DNAC.
+            template_type (str, optional): Feature template type string used by Catalyst Center.
                                         Defaults to "DOT11BE_STATUS_CONFIGURATION".
         Returns:
             list: A list of existing 802.11be template dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing 802.11be Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing 802.11be Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -10469,13 +10469,13 @@ class WirelessDesign(CatalystCenterBase):
         Retrieve existing Event Driven RRM feature templates (summary) from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-            template_type (str, optional): Feature template type string used by DNAC.
+            template_type (str, optional): Feature template type string used by Catalyst Center.
                                         Defaults to "EVENT_DRIVEN_RRM_CONFIGURATION".
         Returns:
             list: A list of existing Event Driven RRM template dicts (summary, not full details),
                 or [] on failure.
         """
-        self.log("Fetching existing Event Driven RRM Templates (summary) from DNAC.", "DEBUG")
+        self.log("Fetching existing Event Driven RRM Templates (summary) from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -11061,7 +11061,7 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the dot11ax feature template, or {} if fetch fails.
         """
-        self.log("Fetching existing dot11ax Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing dot11ax Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -12330,11 +12330,11 @@ class WirelessDesign(CatalystCenterBase):
         Retrieve existing CleanAir feature templates from Cisco Catalyst Center.
         Args:
             design_name (str, optional): Specific feature template design name to filter by.
-            template_type (str, optional): Feature template type string used by DNAC. Defaults to "CLEAN_AIR_CONFIGURATION".
+            template_type (str, optional): Feature template type string used by Catalyst Center. Defaults to "CLEAN_AIR_CONFIGURATION".
         Returns:
             list: A list of existing CleanAir template dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing CleanAir Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing CleanAir Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": template_type}
@@ -12395,13 +12395,13 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             dict: The details of the Advanced SSID feature template, or {} if fetch fails.
         """
-        self.log("Fetching existing Advanced SSID Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing Advanced SSID Templates from Catalyst Center.", "DEBUG")
         try:
             params = {}
             if ssid_id:
                 params["id"] = ssid_id
 
-            # Execute API call to DNA Center
+            # Execute API call to Catalyst Center
             response = self.execute_get_request(
                 "wireless",
                 "get_advanced_ssid_configuration_feature_template",
@@ -12432,7 +12432,7 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of existing Advanced SSID template dicts.
         """
-        self.log("Fetching existing Advanced SSID Templates from DNAC.", "DEBUG")
+        self.log("Fetching existing Advanced SSID Templates from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": "ADVANCED_SSID_CONFIGURATION"}
@@ -12789,7 +12789,7 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of existing AAA Radius Attribute dicts (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing AAA Radius Attributes from DNAC.", "DEBUG")
+        self.log("Fetching existing AAA Radius Attributes from Catalyst Center.", "DEBUG")
 
         try:
             params = {"type": "AAA_RADIUS_ATTRIBUTES_CONFIGURATION"}
@@ -19576,11 +19576,11 @@ class WirelessDesign(CatalystCenterBase):
         Returns:
             list: A list of dictionaries containing the retrieved data based on the filtering parameters.
         """
-        def update_params(offset, limit, use_strings=False):
+        def update_params(offset, limit):
             """Update the params dictionary with pagination info."""
             params.update({
-                "offset": str(offset) if use_strings else offset,
-                "limit": str(limit) if use_strings else limit
+                "offset": offset,
+                "limit": limit
             })
 
         try:
@@ -19588,18 +19588,17 @@ class WirelessDesign(CatalystCenterBase):
             offset = 1
             limit = 500
             results = []
-            use_strings = api_function in {"get_ap_profiles", "get_anchor_groups"}
 
             # Start the loop for paginated API calls
             while True:
                 # Update parameters for pagination
-                update_params(offset, limit, use_strings)
+                update_params(offset, limit)
 
                 try:
                     # Execute the API call
                     self.log(
-                        "Attempting API call with {0} offset and limit for family '{1}', function '{2}': {3}".format(
-                            "string" if use_strings else "integer", api_family, api_function, params
+                        "Attempting API call with integer offset and limit for family '{0}', function '{1}': {2}".format(
+                            api_family, api_function, params
                         ),
                         "INFO"
                     )
@@ -19613,23 +19612,11 @@ class WirelessDesign(CatalystCenterBase):
                     )
 
                 except Exception as e:
-                    # Retry with integer offset/limit for specific cases
-                    if api_function == "get_ap_profiles" and use_strings:
-                        self.log(
-                            "API call failed with string offset and limit. Retrying with integer values. Error: {0}".format(
-                                str(e)
-                            ),
-                            "WARNING",
-                        )
-                        use_strings = False
-                        continue
-
-                    else:
-                        self.msg = (
-                            "An error occurred while retrieving data using family '{0}', function '{1}'. "
-                            "Details using API call. Error: {2}".format(api_family, api_function, str(e))
-                        )
-                        self.fail_and_exit(self.msg)
+                    self.msg = (
+                        "An error occurred while retrieving data using family '{0}', function '{1}'. "
+                        "Details using API call. Error: {2}".format(api_family, api_function, str(e))
+                    )
+                    self.fail_and_exit(self.msg)
 
                 self.log(
                     "Response received from API call for family '{0}', function '{1}': {2}".format(
@@ -26959,7 +26946,7 @@ class WirelessDesign(CatalystCenterBase):
                 # If it's a dict with nativeVlanId, use it directly
                 if isinstance(existing_response, dict) and 'nativeVlanId' in existing_response:
                     existing = existing_response
-                # If it's a list (some DNAC versions), take first entry
+                # If it's a list (some Catalyst Center versions), take first entry
                 elif isinstance(existing_response, list) and len(existing_response) > 0:
                     existing = existing_response[0]
 
@@ -27052,7 +27039,7 @@ class WirelessDesign(CatalystCenterBase):
             list: A list of existing Flex Connect configuration dicts
                 (the API 'response' list), or [] on failure.
         """
-        self.log("Fetching existing Flex Connect (Native VLAN) configuration from DNAC.", "DEBUG")
+        self.log("Fetching existing Flex Connect (Native VLAN) configuration from Catalyst Center.", "DEBUG")
 
         try:
             params = {}
@@ -28335,7 +28322,7 @@ class WirelessDesign(CatalystCenterBase):
         if not data:
             return {}
 
-        # Some DNAC versions return a list
+        # Some Catalyst Center versions return a list
         if isinstance(data, list):
             data = data[0] if data else {}
 
@@ -28462,7 +28449,7 @@ class WirelessDesign(CatalystCenterBase):
                     continue
 
                 # -------------------------------------------------
-                # Build API payload (DNAC expects nativeVlanId)
+                # Build API payload (Catalyst Center expects nativeVlanId)
                 # -------------------------------------------------
                 api_payload = {
                     "site_id": site_id,
@@ -29131,7 +29118,7 @@ class WirelessDesign(CatalystCenterBase):
                         "DEBUG"
                     )
 
-                    # Validate async task (DNAC standard)
+                    # Validate async task (Catalyst Center standard)
                     self.check_tasks_response_status(
                         response, "delete_a80211be_profile"
                     )
@@ -29393,17 +29380,17 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},

@@ -4,7 +4,7 @@
 # ===================================================================================================
 
 - name: Catalyst Center Discovery Playbook Config Generator Examples
-  hosts: dnac_servers
+  hosts: catalystcenter_servers
   gather_facts: false
   connection: local
   vars_files:

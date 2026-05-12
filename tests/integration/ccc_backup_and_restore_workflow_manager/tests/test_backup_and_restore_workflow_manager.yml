@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name:  Load vars and declare dnac vars
+  - name:  Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_backup_and_restore_workflow_manager.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "172.23.9.219"
         catalystcenter_username: "admin"
         catalystcenter_password: "P@ssword9"
@@ -31,8 +31,8 @@
 ####################################################
 
   - name: Create NFS Configuration
-    cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.backup_and_restore_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -58,8 +58,8 @@
 ####################################################
 
   - name: Update Backup Configuration
-    cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.backup_and_restore_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -85,8 +85,8 @@
 ####################################################
 
   - name: Create Backup
-    cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.backup_and_restore_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -112,8 +112,8 @@
 ####################################################
 
   - name: Delete NFS Configuration
-    cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.backup_and_restore_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -139,8 +139,8 @@
 ####################################################
 
   - name: Delete Backup
-    cisco.dnac.backup_and_restore_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.backup_and_restore_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
