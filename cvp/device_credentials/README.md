@@ -87,7 +87,7 @@ catalyst_center_hosts:
             catalystcenter_host: xx.xx.xx.xx.
             catalystcenter_password: XXXXXXXX
             catalystcenter_port: 443
-            dnac_timeout: 60
+            catalystcenter_api_task_timeout: 60
             catalystcenter_username: admin
             catalystcenter_verify: false
             catalystcenter_version: 2.3.7.6
@@ -126,7 +126,7 @@ catalyst_center_hosts:
 
   ```yaml
   ---
-  catalyst_center_version: 2.3.7.6
+  catalystcenter_version: 2.3.7.6
   device_credentials:
     credentials_details: #Create multiple credentials for the same protocol
     - global_credential_details: #Create global credentials for the device list
@@ -144,7 +144,7 @@ catalyst_center_hosts:
 -  Create all credentials
 
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 device_credentials:
   credentials_details: #Create multiple credentials for the same protocol
   - global_credential_details: #Create global credentials for the device list
@@ -203,7 +203,7 @@ device_credentials:
 
   ```yaml
   ---
-  catalyst_center_version: 2.3.7.6
+  catalystcenter_version: 2.3.7.6
   device_credentials:
     credentials_details: 
     - global_credential_details: 
@@ -222,7 +222,7 @@ device_credentials:
 
   ```yaml
   ---
-  catalyst_center_version: 2.3.7.6
+  catalystcenter_version: 2.3.7.6
   device_credentials:
     credentials_details:
     - global_credential_details:
@@ -257,7 +257,7 @@ device_credentials:
 
   ```yaml
   ---
-  catalyst_center_version: 2.3.7.6
+  catalystcenter_version: 2.3.7.6
   device_credentials:
     credentials_details:
     - global_credential_details:
@@ -270,7 +270,7 @@ device_credentials:
 
   ```yaml
   ---
-  catalyst_center_version: 2.3.7.6
+  catalystcenter_version: 2.3.7.6
   device_credentials:
     credentials_details:
     - global_credential_details:
@@ -306,7 +306,7 @@ device_credentials:
 
     ```yaml
     ---
-    catalyst_center_version: 2.3.7.6
+    catalystcenter_version: 2.3.7.6
     device_credentials:
       credentials_site_assignment: #Assign credentials to sites list of all sites mappings
       - assign_credentials_to_site: # Assign device credentials to sites
@@ -341,7 +341,7 @@ device_credentials:
 
     ```yaml
     ---
-    catalyst_center_version: 2.3.7.6
+    catalystcenter_version: 2.3.7.6
     device_credentials:
       credentials_site_apply:
       - apply_credentials_to_site:
@@ -448,11 +448,11 @@ changed: [catalyst_center220] => {
             "catalystcenter_host": "10.22.40.214",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
-            "catalystcenter_log_file_path": "dnac.log",
+            "catalystcenter_log_file_path": "catalystcenter.log",
             "catalystcenter_log_level": "debug",
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
-            "dnac_task_poll_interval": 2,
+            "catalystcenter_task_poll_interval": 2,
             "catalystcenter_username": "thanduon",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
@@ -569,11 +569,11 @@ changed: [catalyst_center220] => {
             "catalystcenter_host": "10.22.40.214",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
-            "catalystcenter_log_file_path": "dnac.log",
+            "catalystcenter_log_file_path": "catalystcenter.log",
             "catalystcenter_log_level": "debug",
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
-            "dnac_task_poll_interval": 2,
+            "catalystcenter_task_poll_interval": 2,
             "catalystcenter_username": "thanduon",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
@@ -708,11 +708,11 @@ changed: [catalyst_center220] => (item={'global_credential_details': {'cli_crede
             "catalystcenter_host": "10.22.40.214",
             "catalystcenter_log": true,
             "catalystcenter_log_append": true,
-            "catalystcenter_log_file_path": "dnac.log",
+            "catalystcenter_log_file_path": "catalystcenter.log",
             "catalystcenter_log_level": "debug",
             "catalystcenter_password": "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER",
             "catalystcenter_port": "443",
-            "dnac_task_poll_interval": 2,
+            "catalystcenter_task_poll_interval": 2,
             "catalystcenter_username": "thanduon",
             "catalystcenter_verify": false,
             "catalystcenter_version": "2.3.7.6",
@@ -868,8 +868,8 @@ Create file jinja_template_device_credentials_input.yml (example name)
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
-catalyst_center_verify: false
+catalystcenter_version: 2.3.7.6
+catalystcenter_verify: false
 jinjatemplate: true
 #Provide the path to the jinja template file
 jinjatemplate_file: ../jinja_template/device_credentials_template.j2

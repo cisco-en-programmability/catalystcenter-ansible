@@ -1,9 +1,9 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Network settings workflow manager
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   connection: local
   tasks:
     - name: Create global pool, reserve subpool and network functions
@@ -27,16 +27,16 @@
                   - name: Global_Pool2
                     pool_type: Generic
                     ip_address_space: IPv6  # required when we are creating
-                    cidr: 2001:db8::/64  # required when we are creating
-                    gateway: ""  # use this for updating
+                    cidr: 2001:db8::/64   # required when we are creating
+                    gateway: ''  # use this for updating
                     dhcp_server_ips: []  # use this for updating
                     dns_server_ips: []  # use this for updating
                     # prev_name: Global_Pool2
                   - name: Global_Pool3
                     pool_type: Generic
                     ip_address_space: IPv4  # required when we are creating
-                    cidr: 10.0.0.0/8  # required when we are creating
-                    gateway: ""  # use this for updating
+                    cidr: 10.0.0.0/8   # required when we are creating
+                    gateway: ''  # use this for updating
                     dhcp_server_ips: []  # use this for updating
                     dns_server_ips: []  # use this for updating
                     # prev_name: Global_Pool2
@@ -56,7 +56,7 @@
                 ipv6_prefix_length: 64
                 ipv6_global_pool: 2001:db8::/64
                 # ipv6_global_pool_name: Global_Pool2
-                ipv6_subnet: "2001:db8::"
+                ipv6_subnet: '2001:db8::'
                 slaac_support: true
                 # prev_name: IP_Pool_4
             network_management_details:
@@ -73,7 +73,7 @@
                     secondary_server_address: 10.0.0.21
                     protocol: RADIUS
                     server_type: AAA
-                    # shared_secret: string  # ISE
+                    # shared_secret: string #ISE
                   dhcp_server:
                     - 10.0.0.1
                   dns_server:
@@ -97,6 +97,7 @@
                     configure_catalystcenter_ip: false
                     # ip_addresses:
                     # - 10.0.0.7
+
     - name: Delete Global Pool and Release Pool Reservation
       cisco.catalystcenter.network_settings_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"

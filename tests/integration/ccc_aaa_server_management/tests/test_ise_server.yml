@@ -3,12 +3,12 @@
 # - debug: msg="Role Path {{ role_path }}"
 
 # - block:
-#   - name: Load vars and declare dnac vars
+#   - name: Load vars and declare catalystcenter vars
 #     include_vars:
 #       file: "{{ role_path }}/vars/vars_ise_server.yml"
 #       name: vars_map
 #     vars:
-#       catalyst_login: &catalyst_login
+#       catalystcenter_login: &catalystcenter_login
 #         catalystcenter_host: "{{ catalystcenter_host }}"
 #         catalystcenter_username: "{{ catalystcenter_username }}"
 #         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -34,8 +34,8 @@
 # # #############################################
 
 # #   - name: Clean up Cisco ISE server before test
-# #     cisco.dnac.ise_radius_integration_workflow_manager:
-# #       <<: *catalyst_login
+# #     cisco.catalystcenter.ise_radius_integration_workflow_manager:
+# #       <<: *catalystcenter_login
 # #       state: deleted
 # #       config:
 # #           - "{{ item }}"
@@ -46,8 +46,8 @@
 # #############################################
 
 #   - name: Create Cisco ISE server from create_ise_server_details config
-#     cisco.dnac.ise_radius_integration_workflow_manager:
-#       <<: *catalyst_login
+#     cisco.catalystcenter.ise_radius_integration_workflow_manager:
+#       <<: *catalystcenter_login
 #       state: merged
 #       config:
 #           - "{{ item }}"
@@ -75,8 +75,8 @@
 # #############################################
 
 #   - name: Update Cisco ISE server from update_ise_server_details config
-#     cisco.dnac.ise_radius_integration_workflow_manager:
-#       <<: *catalyst_login
+#     cisco.catalystcenter.ise_radius_integration_workflow_manager:
+#       <<: *catalystcenter_login
 #       state: merged
 #       config:
 #       - "{{ item }}"
@@ -104,8 +104,8 @@
 # # #############################################
 
 # #   - name: Delete Cisco ISE server from delete_ise_server_details config
-# #     cisco.dnac.ise_radius_integration_workflow_manager:
-# #       <<: *catalyst_login
+# #     cisco.catalystcenter.ise_radius_integration_workflow_manager:
+# #       <<: *catalystcenter_login
 # #       state: deleted
 # #       config:
 # #           - "{{ item }}"

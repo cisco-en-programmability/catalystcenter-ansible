@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load vars and declare dnac vars
+  - name: Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_reports_management.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -26,8 +26,8 @@
 #############################################
 
   - name: Clean up before test
-    cisco.dnac.reports_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.reports_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"
@@ -38,8 +38,8 @@
 #############################################
 
   - name: Create Compliance Report
-    cisco.dnac.reports_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.reports_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
           - "{{ item }}"
@@ -65,8 +65,8 @@
 #############################################
 
   - name: Delete Compliance Report
-    cisco.dnac.reports_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.reports_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
           - "{{ item }}"

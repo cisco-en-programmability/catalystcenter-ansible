@@ -24,7 +24,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import backup_and_
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBackupRestorePlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterBackupRestorePlaybookGenerator(TestCatalystModule):
 
     module = backup_and_restore_playbook_config_generator
     test_data = loadPlaybookData("backup_and_restore_playbook_config_generator")
@@ -42,45 +42,45 @@ class TestDnacBackupRestorePlaybookGenerator(TestCatalystModule):
     )
 
     def setUp(self):
-        super(TestDnacBackupRestorePlaybookGenerator, self).setUp()
+        super(TestCatalystCenterBackupRestorePlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacBackupRestorePlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterBackupRestorePlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
         """
         if "playbook_nfs_configuration_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("nfs_server_details")
             ]
 
         elif "playbook_backup_configuration_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_backup_configuration_details"),
                 self.test_data.get("get_nfs_server_details")
             ]
 
         elif "playbook_specific_nfs_backup_configuration_details" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_nfs_server_details1"),
                 self.test_data.get("get_backup_configuration_details1")
             ]
 
         elif "playbook_generate_all_configuration" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_nfs_details"),
                 self.test_data.get("get_backup_configuration_details2"),
                 self.test_data.get("get_all_n_f_s_configurations")
@@ -93,14 +93,14 @@ class TestDnacBackupRestorePlaybookGenerator(TestCatalystModule):
             pass
 
         elif "config_omitted_defaults_generate_all" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_nfs_details"),
                 self.test_data.get("get_backup_configuration_details2"),
                 self.test_data.get("get_all_n_f_s_configurations")
             ]
 
         elif "empty_component_filter_treated_as_all_for_component" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("nfs_server_details")
             ]
 

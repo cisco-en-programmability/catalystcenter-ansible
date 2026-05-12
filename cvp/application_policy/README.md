@@ -73,16 +73,16 @@ Update your Ansible hosts.yml inventory file with the connection details of your
 catalyst_center_hosts:
     hosts:
         your_catalyst_center_instance_name:
-            catalyst_center_host: xx.xx.xx.xx
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false # Set to true for production with valid certificates
-            catalyst_center_version: 2.3.7.6 # Specify your Catalyst Center version
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false # Set to true for production with valid certificates
+            catalystcenter_version: 2.3.7.6 # Specify your Catalyst Center version
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 ### Step 2: Define Inputs and Validate
@@ -241,7 +241,7 @@ These profiles are later referenced in application policies to manage QoS for wi
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 application_policy_details:
   - queuing_profile:
@@ -302,7 +302,7 @@ Updates an existing queuing profile by renaming it, changing the description, an
 ```yaml
 ---
 # Catalyst Center version override
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 
 application_policy_details:
   - queuing_profile:
@@ -363,7 +363,7 @@ These definitions allow Catalyst Center to classify traffic for policy enforceme
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 application_policy_details:
   - application:
@@ -403,7 +403,7 @@ Modifies existing applications by updating their descriptions, traffic classes, 
 ```yaml
 ---
 # Catalyst Center version override
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 
 application_policy_details:
   - application:
@@ -453,7 +453,7 @@ These policies define how traffic is prioritized based on business importance an
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 application_policy_details:
   - application_policy:
@@ -497,7 +497,7 @@ Updates a wired application policy by changing the site scope, associating a new
 ```yaml
 ---
 # Catalyst Center version override
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 
 application_policy_details:
   - application_policy:
@@ -530,7 +530,7 @@ Make sure to update or remove any application policies referencing these profile
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 application_policy_details:
   - queuing_profile:
@@ -551,7 +551,7 @@ Catalyst Center will stop recognizing and processing data from these apps. Ensur
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 application_policy_details:
   - application_policy:
@@ -572,7 +572,7 @@ Once deleted, these policies will no longer manage traffic classification and pr
 ```yaml
 ---
 #Select Catalyst Center version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 application_policy_details:
   - application_policy:

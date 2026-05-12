@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name: Load vars and declare dnac vars
+  - name: Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_wireless_design_management.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -19,16 +19,16 @@
         catalystcenter_log: True
         catalystcenter_log_level: "DEBUG"
         config_verify: True
-        dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
-        dnac_log_append: False
+        catalystcenter_api_task_timeout: "{{ catalystcenter_api_task_timeout }}"
+        catalystcenter_log_append: False
 
 # #############################################
 # #            Create Wireless SSIDs          #
 # #############################################
 
   - name: Create Wireless SSIDs
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -48,8 +48,8 @@
 # #############################################
 
   - name: Update Wireless SSIDs
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -69,8 +69,8 @@
 # #############################################
 
   - name: Delete Wireless SSIDs
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -90,8 +90,8 @@
 # #############################################
 
   - name: Create Interfaces
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -111,8 +111,8 @@
 # #############################################
 
   - name: Update Interfaces
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -132,8 +132,8 @@
 # #############################################
 
   - name: Delete Interfaces
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -153,8 +153,8 @@
 # #############################################
 
   - name: Create Power Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -174,8 +174,8 @@
 # #############################################
 
   - name: Update Power Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -195,8 +195,8 @@
 # #############################################
 
   - name: Create AP Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -216,8 +216,8 @@
 # #############################################
 
   - name: Update AP Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -237,8 +237,8 @@
 # #############################################
 
   - name: Delete AP Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -258,8 +258,8 @@
 # #############################################
 
   - name: Delete Power Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -279,8 +279,8 @@
 # #############################################
 
   - name: Create RF Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -300,8 +300,8 @@
 # #############################################
 
   - name: Update RF Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -321,8 +321,8 @@
 # #############################################
 
   - name: Delete RF Profiles
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -342,8 +342,8 @@
 # #############################################
 
   - name: Create Anchor Groups
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -363,8 +363,8 @@
 # #############################################
 
   - name: Update Anchor Groups
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -384,8 +384,8 @@
 # #############################################
 
   - name: Delete Anchor Groups
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"
@@ -405,8 +405,8 @@
 # #############################################
 
   - name: Create ALL
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -426,8 +426,8 @@
 # #############################################
 
   - name: Update ALL
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -447,8 +447,8 @@
 # #############################################
 
   - name: Delete ALL
-    cisco.dnac.wireless_design_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.wireless_design_workflow_manager:
+      <<: *catalystcenter_login
       state: deleted
       config:
         - "{{ item }}"

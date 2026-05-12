@@ -33,7 +33,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -64,7 +64,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "c1090199-d006-4809-8027-125e0988dc84",
         "size": 41852525848,
@@ -87,7 +87,7 @@
         "endDate": "2025-07-29T10:50:44Z",
         "createdBy": "Anonymous",
         "duration": 908,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -178,7 +178,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -333,13 +333,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -597,7 +597,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -628,7 +628,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "c10185e5-0783-4ae9-abea-8059a2cd3f94",
         "size": 41856826480,
@@ -651,7 +651,7 @@
         "endDate": "2025-07-31T06:46:09Z",
         "createdBy": "Anonymous",
         "duration": 909,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -742,7 +742,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -897,13 +897,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -1107,7 +1107,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -1138,7 +1138,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "a6adee73-2d54-443b-b4c6-14c5bc5837b4",
         "size": 0,
@@ -1160,7 +1160,7 @@
         "status": "IN_PROGRESS",
         "endDate": "0001-01-01T00:00:00Z",
         "createdBy": "Anonymous",
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -1251,7 +1251,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -1406,13 +1406,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -1470,7 +1470,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -1501,7 +1501,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "a6adee73-2d54-443b-b4c6-14c5bc5837b4",
         "size": 41869391641,
@@ -1524,7 +1524,7 @@
         "endDate": "2025-08-04T10:18:33Z",
         "createdBy": "Anonymous",
         "duration": 908,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -1615,7 +1615,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -1770,13 +1770,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -1824,7 +1824,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -1855,7 +1855,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "a6adee73-2d54-443b-b4c6-14c5bc5837b4",
         "size": 41869391641,
@@ -1878,7 +1878,7 @@
         "endDate": "2025-08-04T10:18:33Z",
         "createdBy": "Anonymous",
         "duration": 908,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -1969,7 +1969,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -2124,13 +2124,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -2696,7 +2696,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -2727,7 +2727,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "7dcb4431-ba36-4170-b175-f230c3518e13",
         "size": 41869614093,
@@ -2750,7 +2750,7 @@
         "endDate": "2025-08-04T11:12:04Z",
         "createdBy": "Anonymous",
         "duration": 907,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -2841,7 +2841,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -2996,13 +2996,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -3069,7 +3069,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -3100,7 +3100,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "7dcb4431-ba36-4170-b175-f230c3518e13",
         "size": 41869614093,
@@ -3123,7 +3123,7 @@
         "endDate": "2025-08-04T11:12:04Z",
         "createdBy": "Anonymous",
         "duration": 907,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -3214,7 +3214,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -3369,13 +3369,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -3579,7 +3579,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -3610,7 +3610,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "7dcb4431-ba36-4170-b175-f230c3518e13",
         "size": 41869614093,
@@ -3633,7 +3633,7 @@
         "endDate": "2025-08-04T11:12:04Z",
         "createdBy": "Anonymous",
         "duration": 907,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -3724,7 +3724,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -3879,13 +3879,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -3952,7 +3952,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -3983,7 +3983,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "7dcb4431-ba36-4170-b175-f230c3518e13",
         "size": 41869614093,
@@ -4006,7 +4006,7 @@
         "endDate": "2025-08-04T11:12:04Z",
         "createdBy": "Anonymous",
         "duration": 907,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -4097,7 +4097,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -4252,13 +4252,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -5303,7 +5303,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -5334,7 +5334,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "6ac1a2f0-20a7-42cc-aae8-1120cdb73128",
         "size": 41873023765,
@@ -5357,7 +5357,7 @@
         "endDate": "2025-08-05T10:01:25Z",
         "createdBy": "Anonymous",
         "duration": 937,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -5448,7 +5448,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -5603,13 +5603,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -5893,7 +5893,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -5924,7 +5924,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "6ac1a2f0-20a7-42cc-aae8-1120cdb73128",
         "size": 41873023765,
@@ -5947,7 +5947,7 @@
         "endDate": "2025-08-05T10:01:25Z",
         "createdBy": "Anonymous",
         "duration": 937,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -6038,7 +6038,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -6193,13 +6193,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -6305,7 +6305,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -6336,7 +6336,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "6ac1a2f0-20a7-42cc-aae8-1120cdb73128",
         "size": 41873023765,
@@ -6359,7 +6359,7 @@
         "endDate": "2025-08-05T10:01:25Z",
         "createdBy": "Anonymous",
         "duration": 937,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -6450,7 +6450,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -6605,13 +6605,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -6727,7 +6727,7 @@
           "cloud-connectivity-datahub:6.10.26",
           "cloud-connectivity:6.10.13",
           "dnacaap:6.9.43",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.50",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -6758,7 +6758,7 @@
           "sensor-assurance:3.150.140",
           "disaster-recovery:2.732.365017",
           "support-services:2.732.885097",
-          "multi-dnac-enablement:2.732.65310"
+          "multi-catalystcenter-enablement:2.732.65310"
         ],
         "id": "6ac1a2f0-20a7-42cc-aae8-1120cdb73128",
         "size": 41873023765,
@@ -6781,7 +6781,7 @@
         "endDate": "2025-08-05T10:01:25Z",
         "createdBy": "Anonymous",
         "duration": 937,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75085",
@@ -6872,7 +6872,7 @@
             "version": "6.9.43"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -7027,13 +7027,13 @@
             "version": "2.732.885097"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65310"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75085",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -7438,7 +7438,7 @@
           "cloud-connectivity-datahub:6.10.29",
           "cloud-connectivity:6.10.14",
           "dnacaap:6.9.46",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.51",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -7470,7 +7470,7 @@
           "disaster-recovery:2.732.365024",
           "support-services:2.732.885097",
           "umbrella-app:2.732.595003",
-          "multi-dnac-enablement:2.732.65395"
+          "multi-catalystcenter-enablement:2.732.65395"
         ],
         "id": "73f0f48a-76dc-4bc1-98d2-5e9df17c0ba9",
         "size": 41908510658,
@@ -7493,7 +7493,7 @@
         "endDate": "2025-08-23T02:57:56Z",
         "createdBy": "Anonymous",
         "duration": 936,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75130",
@@ -7584,7 +7584,7 @@
             "version": "6.9.46"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -7744,13 +7744,13 @@
             "version": "2.732.595003"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65395"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75130",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -7856,7 +7856,7 @@
           "cloud-connectivity-datahub:6.10.29",
           "cloud-connectivity:6.10.14",
           "dnacaap:6.9.46",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.51",
           "telemetry:4.7.20",
           "cloud-connectivity-sense:7.0.7",
@@ -7888,7 +7888,7 @@
           "disaster-recovery:2.732.365024",
           "support-services:2.732.885097",
           "umbrella-app:2.732.595003",
-          "multi-dnac-enablement:2.732.65395"
+          "multi-catalystcenter-enablement:2.732.65395"
         ],
         "id": "73f0f48a-76dc-4bc1-98d2-5e9df17c0ba9",
         "size": 41908510658,
@@ -7911,7 +7911,7 @@
         "endDate": "2025-08-23T02:57:56Z",
         "createdBy": "Anonymous",
         "duration": 936,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75130",
@@ -8002,7 +8002,7 @@
             "version": "6.9.46"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -8162,13 +8162,13 @@
             "version": "2.732.595003"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65395"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75130",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -8318,7 +8318,7 @@
         "cloud-connectivity-datahub:6.10.502",
         "cloud-connectivity:6.10.502",
         "dnacaap:6.9.507",
-        "dnac-search:6.9.4",
+        "catalystcenter-search:6.9.4",
         "system-management-operations:1.6.507",
         "telemetry:4.7.502",
         "cloud-connectivity-sense:7.0.9",
@@ -8349,7 +8349,7 @@
         "sensor-assurance:3.160.121",
         "disaster-recovery:2.734.365013",
         "support-services:2.734.885074",
-        "multi-dnac-enablement:2.734.65213"
+        "multi-catalystcenter-enablement:2.734.65213"
       ],
       "id": "bce6aa1a-26c7-40bc-b591-6cd15cad831a",
       "size": 11043152974,
@@ -8372,7 +8372,7 @@
       "endDate": "2025-10-30T01:32:42Z",
       "createdBy": "Anonymous",
       "duration": 486,
-      "releaseName": "uber-dnac",
+      "releaseName": "uber-catalystcenter",
       "releaseDisplayName": "Cisco Catalyst Center",
       "releaseVersion": "",
       "releaseDisplayVersion": "3.1.6-75089",
@@ -8463,7 +8463,7 @@
           "version": "6.9.507"
         },
         {
-          "name": "dnac-search",
+          "name": "catalystcenter-search",
           "displayName": "Global Search",
           "version": "6.9.4"
         },
@@ -8618,13 +8618,13 @@
           "version": "2.734.885074"
         },
         {
-          "name": "multi-dnac-enablement",
+          "name": "multi-catalystcenter-enablement",
           "displayName": "Multiple Instance Enablement",
           "version": "2.734.65213"
         }
       ],
       "numberOfNodes": 1,
-      "productType": "DNAC",
+      "productType": "CatalystCenter",
       "productVersion": "3.734.75089",
       "internetProtocolVersion": "ipv4",
       "fipsEnabled": false,
@@ -9089,7 +9089,7 @@
           "cloud-connectivity-datahub:6.10.22",
           "cloud-connectivity:6.10.10",
           "dnacaap:6.9.41",
-          "dnac-search:6.9.3",
+          "catalystcenter-search:6.9.3",
           "system-management-operations:1.6.42",
           "telemetry:4.7.17",
           "cloud-connectivity-sense:7.0.7",
@@ -9119,7 +9119,7 @@
           "sensor-assurance:3.150.109",
           "disaster-recovery:2.732.365010",
           "support-services:2.730.885298",
-          "multi-dnac-enablement:2.732.65192"
+          "multi-catalystcenter-enablement:2.732.65192"
         ],
         "id": "1efb2b97-7245-48c2-b307-63c5c8fbd34b",
         "size": 0,
@@ -9142,7 +9142,7 @@
         "endDate": "2025-10-03T11:23:09Z",
         "createdBy": "Anonymous",
         "duration": 64,
-        "releaseName": "uber-dnac",
+        "releaseName": "uber-catalystcenter",
         "releaseDisplayName": "Cisco Catalyst Center",
         "releaseVersion": "",
         "releaseDisplayVersion": "3.1.5-75038",
@@ -9233,7 +9233,7 @@
             "version": "6.9.41"
           },
           {
-            "name": "dnac-search",
+            "name": "catalystcenter-search",
             "displayName": "Cisco Catalyst Center Global Search",
             "version": "6.9.3"
           },
@@ -9383,13 +9383,13 @@
             "version": "2.730.885298"
           },
           {
-            "name": "multi-dnac-enablement",
+            "name": "multi-catalystcenter-enablement",
             "displayName": "Multiple Cisco Catalyst Center",
             "version": "2.732.65192"
           }
         ],
         "numberOfNodes": 1,
-        "productType": "DNAC",
+        "productType": "CatalystCenter",
         "productVersion": "3.732.75038",
         "internetProtocolVersion": "ipv4",
         "fipsEnabled": false,
@@ -10343,7 +10343,7 @@
         "cloud-connectivity-datahub:6.10.22",
         "cloud-connectivity:6.10.10",
         "dnacaap:6.9.41",
-        "dnac-search:6.9.3",
+        "catalystcenter-search:6.9.3",
         "system-management-operations:1.6.42",
         "telemetry:4.7.17",
         "cloud-connectivity-sense:7.0.7",
@@ -10373,7 +10373,7 @@
         "sensor-assurance:3.150.109",
         "disaster-recovery:2.732.365010",
         "support-services:2.730.885298",
-        "multi-dnac-enablement:2.732.65192"
+        "multi-catalystcenter-enablement:2.732.65192"
       ],
       "id": "7a5e6c90-bb1b-46b9-bbb8-1631482dff77",
       "size": 0,
@@ -10396,7 +10396,7 @@
       "endDate": "2025-10-23T06:57:40Z",
       "createdBy": "admin",
       "duration": 64,
-      "releaseName": "uber-dnac",
+      "releaseName": "uber-catalystcenter",
       "releaseDisplayName": "Cisco Catalyst Center",
       "releaseVersion": "",
       "releaseDisplayVersion": "3.1.5-75038",
@@ -10487,7 +10487,7 @@
           "version": "6.9.41"
         },
         {
-          "name": "dnac-search",
+          "name": "catalystcenter-search",
           "displayName": "Cisco Catalyst Center Global Search",
           "version": "6.9.3"
         },
@@ -10637,13 +10637,13 @@
           "version": "2.730.885298"
         },
         {
-          "name": "multi-dnac-enablement",
+          "name": "multi-catalystcenter-enablement",
           "displayName": "Multiple Cisco Catalyst Center",
           "version": "2.732.65192"
         }
       ],
       "numberOfNodes": 1,
-      "productType": "DNAC",
+      "productType": "CatalystCenter",
       "productVersion": "3.732.75038",
       "internetProtocolVersion": "ipv4",
       "fipsEnabled": false,
@@ -10681,7 +10681,7 @@
         "cloud-connectivity-datahub:6.10.22",
         "cloud-connectivity:6.10.10",
         "dnacaap:6.9.41",
-        "dnac-search:6.9.3",
+        "catalystcenter-search:6.9.3",
         "system-management-operations:1.6.42",
         "telemetry:4.7.17",
         "cloud-connectivity-sense:7.0.7",
@@ -10711,7 +10711,7 @@
         "sensor-assurance:3.150.109",
         "disaster-recovery:2.732.365010",
         "support-services:2.730.885298",
-        "multi-dnac-enablement:2.732.65192"
+        "multi-catalystcenter-enablement:2.732.65192"
       ],
       "id": "5b08c91d-ad9d-4433-b4cd-373ad60e2ac4",
       "size": 0,
@@ -10734,7 +10734,7 @@
       "endDate": "2025-10-23T07:08:16Z",
       "createdBy": "Anonymous",
       "duration": 64,
-      "releaseName": "uber-dnac",
+      "releaseName": "uber-catalystcenter",
       "releaseDisplayName": "Cisco Catalyst Center",
       "releaseVersion": "",
       "releaseDisplayVersion": "3.1.5-75038",
@@ -10825,7 +10825,7 @@
           "version": "6.9.41"
         },
         {
-          "name": "dnac-search",
+          "name": "catalystcenter-search",
           "displayName": "Cisco Catalyst Center Global Search",
           "version": "6.9.3"
         },
@@ -10975,13 +10975,13 @@
           "version": "2.730.885298"
         },
         {
-          "name": "multi-dnac-enablement",
+          "name": "multi-catalystcenter-enablement",
           "displayName": "Multiple Cisco Catalyst Center",
           "version": "2.732.65192"
         }
       ],
       "numberOfNodes": 1,
-      "productType": "DNAC",
+      "productType": "CatalystCenter",
       "productVersion": "3.732.75038",
       "internetProtocolVersion": "ipv4",
       "fipsEnabled": false,
@@ -11019,7 +11019,7 @@
         "cloud-connectivity-datahub:6.10.22",
         "cloud-connectivity:6.10.10",
         "dnacaap:6.9.41",
-        "dnac-search:6.9.3",
+        "catalystcenter-search:6.9.3",
         "system-management-operations:1.6.42",
         "telemetry:4.7.17",
         "cloud-connectivity-sense:7.0.7",
@@ -11049,7 +11049,7 @@
         "sensor-assurance:3.150.109",
         "disaster-recovery:2.732.365010",
         "support-services:2.730.885298",
-        "multi-dnac-enablement:2.732.65192"
+        "multi-catalystcenter-enablement:2.732.65192"
       ],
       "id": "f242cc97-9218-4d7a-b43b-682c59c025c3",
       "size": 0,
@@ -11072,7 +11072,7 @@
       "endDate": "2025-10-23T07:11:35Z",
       "createdBy": "Anonymous",
       "duration": 31,
-      "releaseName": "uber-dnac",
+      "releaseName": "uber-catalystcenter",
       "releaseDisplayName": "Cisco Catalyst Center",
       "releaseVersion": "",
       "releaseDisplayVersion": "3.1.5-75038",
@@ -11163,7 +11163,7 @@
           "version": "6.9.41"
         },
         {
-          "name": "dnac-search",
+          "name": "catalystcenter-search",
           "displayName": "Cisco Catalyst Center Global Search",
           "version": "6.9.3"
         },
@@ -11313,13 +11313,13 @@
           "version": "2.730.885298"
         },
         {
-          "name": "multi-dnac-enablement",
+          "name": "multi-catalystcenter-enablement",
           "displayName": "Multiple Cisco Catalyst Center",
           "version": "2.732.65192"
         }
       ],
       "numberOfNodes": 1,
-      "productType": "DNAC",
+      "productType": "CatalystCenter",
       "productVersion": "3.732.75038",
       "internetProtocolVersion": "ipv4",
       "fipsEnabled": false,
@@ -11357,7 +11357,7 @@
         "cloud-connectivity-datahub:6.10.502",
         "cloud-connectivity:6.10.502",
         "dnacaap:6.9.507",
-        "dnac-search:6.9.4",
+        "catalystcenter-search:6.9.4",
         "system-management-operations:1.6.507",
         "telemetry:4.7.502",
         "cloud-connectivity-sense:7.0.9",
@@ -11388,7 +11388,7 @@
         "sensor-assurance:3.160.121",
         "disaster-recovery:2.734.365013",
         "support-services:2.734.885074",
-        "multi-dnac-enablement:2.734.65213"
+        "multi-catalystcenter-enablement:2.734.65213"
       ],
       "id": "5c60b8ac-4dfa-40cd-ab77-5ffcf5dcde05",
       "size": 11044288257,
@@ -11411,7 +11411,7 @@
       "endDate": "2025-10-30T08:03:10Z",
       "createdBy": "Anonymous",
       "duration": 487,
-      "releaseName": "uber-dnac",
+      "releaseName": "uber-catalystcenter",
       "releaseDisplayName": "Cisco Catalyst Center",
       "releaseVersion": "",
       "releaseDisplayVersion": "3.1.6-75089",
@@ -11502,7 +11502,7 @@
           "version": "6.9.507"
         },
         {
-          "name": "dnac-search",
+          "name": "catalystcenter-search",
           "displayName": "Global Search",
           "version": "6.9.4"
         },
@@ -11657,13 +11657,13 @@
           "version": "2.734.885074"
         },
         {
-          "name": "multi-dnac-enablement",
+          "name": "multi-catalystcenter-enablement",
           "displayName": "Multiple Instance Enablement",
           "version": "2.734.65213"
         }
       ],
       "numberOfNodes": 1,
-      "productType": "DNAC",
+      "productType": "CatalystCenter",
       "productVersion": "3.734.75089",
       "internetProtocolVersion": "ipv4",
       "fipsEnabled": false,

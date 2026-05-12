@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Network device info
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
@@ -15,9 +15,11 @@
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
       register: network_devices_result
+
     - name: Show all network_devices
       ansible.builtin.debug:
         msg: "{{ network_devices_result }}"
+
     - name: Get Network Device by id
       cisco.catalystcenter.network_device_info:
         catalystcenter_host: "{{ catalystcenter_host }}"
@@ -27,8 +29,9 @@
         catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
-        id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
+        id: ccb167e0-1ce2-4a03-853c-3f8d0dc47fee
       register: network_device_result
+
     - name: Show network_device
       ansible.builtin.debug:
         msg: "{{ network_device_result }}"

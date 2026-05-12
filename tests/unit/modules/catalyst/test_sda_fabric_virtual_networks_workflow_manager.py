@@ -27,7 +27,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import sda_fabric_
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
+class TestCatalystCenterFabricSitesZonesWorkflow(TestCatalystModule):
 
     module = sda_fabric_virtual_networks_workflow_manager
     test_data = loadPlaybookData("sda_fabric_virtual_networks_workflow_manager")
@@ -53,22 +53,22 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
     playbook_config_update_fabric_vlan_multiple_ip_to_mac = test_data.get("playbook_config_update_fabric_vlan_multiple_ip_to_mac")
 
     def setUp(self):
-        super(TestDnacFabricSitesZonesWorkflow, self).setUp()
+        super(TestCatalystCenterFabricSitesZonesWorkflow, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacFabricSitesZonesWorkflow, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterFabricSitesZonesWorkflow, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -76,7 +76,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
         """
 
         if "create_fabric_vlan_with_verify" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -90,7 +90,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "fabric_vlan_need_no_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -98,7 +98,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "update_fabric_vlan_multiple_ip_to_mac" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_multi_ip_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -108,7 +108,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "update_fabric_vlan" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -118,7 +118,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "delete_fabric_vlan_with_verify" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -132,7 +132,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "delete_absent_fabric_vlan" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_fabric_vlan_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -140,12 +140,12 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "invalid_fabric_vlan_id" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_invalid_fabric_vlan_id"),
             ]
 
         elif "create_fabric_vlan_with_multiple_ip_to_mac" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -155,7 +155,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "omit_multiple_ip_field" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_fabric_vlan_multi_ip_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -165,7 +165,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "create_virtual_network_with_verify" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -175,7 +175,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "create_anchored_virtual_network" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -189,7 +189,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "failed_anchored_virtual_network_creation" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_site_details"),
@@ -203,7 +203,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "virtual_network_needs_no_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_site_details"),
@@ -211,7 +211,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "update_virtual_network" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_virtual_network_response"),
                 self.test_data.get("get_site_details"),
@@ -227,7 +227,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "delete_virtual_network_with_verify" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_anycast_vn_response"),
@@ -237,14 +237,14 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "delete_absent_virtual_network" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_empty_virtual_network_response"),
                 self.test_data.get("get_empty_virtual_network_response")
             ]
 
         elif "create_anycast_gateway_with_verify" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -265,7 +265,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "anycast_gateway_no_update" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -278,7 +278,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "update_anycast_gateway" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -293,7 +293,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "delete_anycast_gateway" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -316,7 +316,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "delete_absent_anycast_gateway" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_anycast_vn_response"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_reserve_ip_pool_details"),
@@ -332,7 +332,7 @@ class TestDnacFabricSitesZonesWorkflow(TestCatalystModule):
             ]
 
         elif "invalid_testbed_release" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_invalid_testbed_release"),
             ]
 

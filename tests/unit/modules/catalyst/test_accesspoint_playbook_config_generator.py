@@ -48,39 +48,91 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestAccesspointPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestAccesspointPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for accesspoint playbook config generator tests.
+
+        This method is called during test setup to mock the Catalyst Center API responses.
+        It maps test method names to their corresponding fixture data, ensuring
+        each test receives the appropriate mock data for its specific scenario.
+
+        Fixture mapping:
+            - test_accesspoint_playbook_generate_all_configurations: Returns all AP configs.
+            - test_accesspoint_playbook_generate_global_filter_apconfig: Returns AP config filter results.
+            - test_accesspoint_playbook_generate_global_filter_provision: Returns provisioned APs.
+            - test_accesspoint_playbook_generate_global_filter_site: Returns site-based AP filter.
+            - test_accesspoint_playbook_generate_global_filter_provision_config: Returns hostname-based filter.
+            - test_accesspoint_playbook_generate_global_filter_mac: Returns MAC address filter results.
+
+        Returns:
+            None (side effects: configures self.run_catalystcenter_exec.side_effect)
         """
-        for each_filter_type in ["generate_all_configurations",
-                                 "generate_global_filter_apconfig",
-                                 "generate_global_filter_provision",
-                                 "generate_global_filter_site",
-                                 "generate_global_filter_provision_config",
-                                 "generate_global_filter_mac"]:
-            if each_filter_type in self._testMethodName:
-                self.run_dnac_exec.side_effect = [
-                    self.test_data.get("all_devices_details"),
-                    self.test_data.get("ap_configuration_1"),
-                    self.test_data.get("ap_configuration_2"),
-                    self.test_data.get("ap_configuration_3")
-                ]
+        if "generate_all_configurations" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
+        elif "generate_global_filter_apconfig" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
+        elif "generate_global_filter_provision" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
+        elif "generate_global_filter_site" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
+        elif "generate_global_filter_provision_config" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
+        elif "generate_global_filter_mac" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
+        else:
+            # Default fixture sequence for any unmatched tests
+            self.run_catalystcenter_exec.side_effect = [
+                self.test_data.get("all_devices_details"),
+                self.test_data.get("ap_configuration_1"),
+                self.test_data.get("ap_configuration_2"),
+                self.test_data.get("ap_configuration_3"),
+            ]
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -106,8 +158,7 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.maxDiff = None
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -137,7 +188,7 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -166,7 +217,7 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -196,7 +247,7 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("Some access point configurations were not processed:", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -226,7 +277,7 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.path.exists')
@@ -256,4 +307,4 @@ class TestAccesspointPlaybookConfigGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        self.assertIn("YAML config generation Task succeeded", str(result.get('msg')))
+        self.assertIn("YAML configuration file generated successfully", str(result.get("msg", {}).get("message")))

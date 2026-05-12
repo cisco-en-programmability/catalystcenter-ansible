@@ -19,7 +19,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/accesspoint_workflow_playbook.yml"
         file_mode: overwrite
@@ -37,7 +37,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/accesspoint_workflow_playbook_site_base.yml"
         file_mode: "append"
@@ -61,7 +61,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/accesspoint_workflow_playbook_hostname_base.yml"
         file_mode: "append"
@@ -84,7 +84,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/accesspoint_workflow_playbook_apconfig_base.yml"
         file_mode: overwrite
@@ -107,7 +107,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/accesspoint_workflow_playbook_host_provision_base.yml"
         file_mode: "overwrite"
@@ -130,7 +130,7 @@
         catalystcenter_log: true
         catalystcenter_log_level: DEBUG
         catalystcenter_api_task_timeout: 1000
-        dnac_task_poll_interval: 1
+        catalystcenter_task_poll_interval: 1
         state: gathered
         file_path: "tmp/accesspoint_workflow_playbook_mac_address_base.yml"
         file_mode: "overwrite"

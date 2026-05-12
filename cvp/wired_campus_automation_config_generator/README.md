@@ -150,15 +150,15 @@ Configure Catalyst Center credentials in your inventory, for example:
 catalyst_center_hosts:
   hosts:
     catalyst_center_primary:
-      catalyst_center_host: 10.10.10.10
-      catalyst_center_username: admin
-      catalyst_center_password: "password"
-      catalyst_center_verify: false
-      catalyst_center_port: 443
-      catalyst_center_version: "2.3.7.9"
-      catalyst_center_debug: false
-      catalyst_center_log: true
-      catalyst_center_log_level: "INFO"
+      catalystcenter_host: 10.10.10.10
+      catalystcenter_username: admin
+      catalystcenter_password: "password"
+      catalystcenter_verify: false
+      catalystcenter_port: 443
+      catalystcenter_version: "2.3.7.9"
+      catalystcenter_debug: false
+      catalystcenter_log: true
+      catalystcenter_log_level: "INFO"
 ```
 
 ### 2. Update input variables
@@ -198,12 +198,12 @@ Omit `VARS_FILE_PATH` and define `wired_campus_automation_config` directly as a 
 catalyst_center_hosts:
   hosts:
     catalyst_center220:
-      catalyst_center_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
-      catalyst_center_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
-      catalyst_center_port: 443
-      catalyst_center_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
-      catalyst_center_verify: false
-      catalyst_center_version: 2.3.7.9
+      catalystcenter_host: "{{ lookup('ansible.builtin.env', 'HOSTIP') }}"
+      catalystcenter_password: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_PASSWORD') }}"
+      catalystcenter_port: 443
+      catalystcenter_username: "{{ lookup('ansible.builtin.env', 'CATALYST_CENTER_USERNAME') }}"
+      catalystcenter_verify: false
+      catalystcenter_version: 2.3.7.9
 
       # Workflow data defined as host variables
       wired_campus_automation_config:
@@ -365,12 +365,12 @@ Use the exported file directly as `vars_files`, then pass `config` to the manage
   tasks:
     - name: Apply layer2 configuration
       cisco.catalystcenter.wired_campus_automation_workflow_manager:
-        catalystcenter_host: "{{ catalyst_center_host }}"
-        catalystcenter_username: "{{ catalyst_center_username }}"
-        catalystcenter_password: "{{ catalyst_center_password }}"
-        catalystcenter_verify: "{{ catalyst_center_verify }}"
-        catalystcenter_port: "{{ catalyst_center_port }}"
-        catalystcenter_version: "{{ catalyst_center_version }}"
+        catalystcenter_host: "{{ catalystcenter_host }}"
+        catalystcenter_username: "{{ catalystcenter_username }}"
+        catalystcenter_password: "{{ catalystcenter_password }}"
+        catalystcenter_verify: "{{ catalystcenter_verify }}"
+        catalystcenter_port: "{{ catalystcenter_port }}"
+        catalystcenter_version: "{{ catalystcenter_version }}"
         state: merged
         config: "{{ config }}"
 ```
@@ -399,7 +399,7 @@ Use the exported file directly as `vars_files`, then pass `config` to the manage
 - Use `{{ playbook_dir }}` in `file_path` for user-independent, portable paths.
 - Start with `generate_all_configurations: true` for initial brownfield discovery, then refine with filters.
 - Commit generated files that represent intended state, not every ad-hoc run.
-- Enable Catalyst Center logging (`catalyst_center_log: true`) when troubleshooting.
+- Enable Catalyst Center logging (`catalystcenter_log: true`) when troubleshooting.
 - Target only Catalyst 9000 and IE series switches running IOS-XE 17.3+ for reliable results.
 
 ---

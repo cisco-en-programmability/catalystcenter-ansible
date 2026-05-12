@@ -47,22 +47,22 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
 
     def setUp(self):
         super(TestWirelessDesignPlaybookConfigGenerator, self).setUp()
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
         super(TestWirelessDesignPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -70,39 +70,39 @@ class TestWirelessDesignPlaybookConfigGenerator(TestCatalystModule):
         """
 
         if "ssids_with_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_response"),
                 self.test_data.get("get_ssid_by_site_response"),
             ]
         elif "interfaces_with_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_interfaces_response"),
             ]
         elif "interfaces_without_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_interfaces_response"),
             ]
         elif "feature_template_with_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_feature_template_summary_response"),
                 self.test_data.get("get_advanced_ssid_configuration_feature_template_response"),
             ]
         elif "feature_template_type_only" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_feature_template_summary_response"),
                 self.test_data.get("get_advanced_ssid_configuration_feature_template_response"),
             ]
         elif "feature_template_invalid_type" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_feature_template_summary_response"),
             ]
         elif "flex_connect_with_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_response"),
                 self.test_data.get("get_native_vlan_settings_by_site_response"),
             ]
         elif "invalid_minimum_requirements" in self._testMethodName:
-            self.run_dnac_exec.side_effect = []
+            self.run_catalystcenter_exec.side_effect = []
         elif "empty_config" in self._testMethodName:
             # No side effects needed - validation happens before API calls
             pass

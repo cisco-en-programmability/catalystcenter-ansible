@@ -1,8 +1,8 @@
 ---
-- name: Play
+- name: Site workflow manager
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - vars/credentials.yml
   tasks:

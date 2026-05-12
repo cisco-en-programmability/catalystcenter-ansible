@@ -163,7 +163,7 @@ options:
             elements: str
             required: false
 requirements:
-  - catalystcentersdk >= 2.10.10
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 notes:
   - This module utilizes the following SDK methods
@@ -324,44 +324,36 @@ EXAMPLES = r"""
 RETURN = r"""
 # Case_1: Success Scenario
 response_1:
-  description: >-
-    A dictionary with the response returned by the Cisco Catalyst
-    Center Python SDK
+  description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": {
-        "YAML config generation Task succeeded for module
-         'accesspoint_workflow_manager'.": {
-            "file_path":
-             "tmp/accesspoint_workflow_playbook_templatebase.yml"
-          }
+        "msg": {
+            "configurations_count": 7,
+            "file_mode": "overwrite",
+            "file_path": "tmp/accesspoint_workflow_playbook.yml",
+            "message": "YAML configuration file generated successfully for module 'accesspoint_workflow_manager'",
+            "status": "success"
         },
-      "msg": {
-        "YAML config generation Task succeeded for module
-         'accesspoint_workflow_manager'.": {
-            "file_path":
-             "tmp/accesspoint_workflow_playbook_templatebase.yml"
-          }
-        }
+        "response": {
+            "configurations_count": 7,
+            "file_mode": "overwrite",
+            "file_path": "tmp/accesspoint_workflow_playbook.yml",
+            "message": "YAML configuration file generated successfully for module 'accesspoint_workflow_manager'",
+            "status": "success"
+        },
+        "status": "success"
     }
-
 # Case_2: Error Scenario
 response_2:
-  description: >-
-    A string with the response returned by the Cisco Catalyst
-    Center Python SDK
+  description: A string with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
   type: dict
   sample: >
     {
-      "response": "No configurations or components to process for
-                   module 'accesspoint_workflow_manager'.
-                   Verify input filters or configuration.",
-      "msg": "No configurations or components to process for module
-              'accesspoint_workflow_manager'.
-              Verify input filters or configuration."
+        "msg": "Validation failed: global_filters is required when config is provided.",
+        "response": "Validation failed: global_filters is required when config is provided."
     }
 """
 
@@ -2215,7 +2207,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        # Check for unprocessed APs and set failure status if any exist
+        # Check for unprocessed APs and log warning without failing the module
         if self.have.get("unprocessed"):
             unprocessed_count = len(self.have.get("unprocessed"))
             self.msg = (
@@ -2225,10 +2217,9 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"{str(self.have.get('unprocessed'))}. Verify filter values match existing APs "
                 "and check Catalyst Center inventory for missing configurations."
             )
-            self.set_operation_result("failed", False, self.msg, "WARNING")
 
             self.log(
-                f"Setting workflow status to 'failed' due to {unprocessed_count} unprocessed AP(s). "
+                f"Continuing workflow with warnings due to {unprocessed_count} unprocessed AP(s). "
                 "This indicates filter mismatches or incomplete AP data in Catalyst Center. Review "
                 f"unprocessed list for troubleshooting: {self.have.get('unprocessed')}",
                 "WARNING"
@@ -2438,19 +2429,17 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Validate final_list is not empty
         if not final_list:
-            self.msg = (
-                f"No configurations or components found to process for module '{self.module_name}'. "
-                "This indicates either: (1) No access points discovered in Catalyst Center, "
-                "(2) Global filters didn't match any APs, or (3) Invalid configuration parameters. "
-                "Verify input filters match existing AP inventory and check Catalyst Center has "
-                "onboarded access points. No YAML file will be generated."
-            )
-            self.set_operation_result("success", False, self.msg, "INFO")
+            self.msg = {
+                "status": "ok",
+                "message": (
+                    "No configurations found for module '{0}'. Verify filters applied and access "
+                    "point data in Catalyst Center.".format(self.module_name)
+                )
+            }
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
             self.log(
-                "YAML generation workflow completed with no-op status. Final configuration list "
-                "is empty - no YAML playbook generated. Check filter criteria or Catalyst Center "
-                "AP inventory for troubleshooting.",
+                "YAML generation workflow completed. Final configuration list is empty.",
                 "INFO"
             )
             return self
@@ -2473,30 +2462,45 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             "DEBUG"
         )
 
-        if self.write_dict_to_yaml(final_dict, file_path, file_mode):
+        file_written = self.write_dict_to_yaml(final_dict, file_path, file_mode)
+
+        if file_written:
             self.msg = {
-                f"YAML config generation task succeeded for module '{self.module_name}'.": {"file_path": file_path}
+                "status": "success",
+                "message": "YAML configuration file generated successfully for module '{0}'".format(
+                    self.module_name
+                ),
+                "file_path": file_path,
+                "file_mode": file_mode,
+                "configurations_count": len(final_list)
             }
             self.set_operation_result("success", True, self.msg, "INFO")
 
             self.log(
-                f"YAML playbook file successfully created at '{file_path}'. File contains "
-                f"{len(final_list)} access point configuration(s) in Ansible-compatible format. "
-                "Playbook ready for automation workflows.",
+                "YAML configuration generation completed. File: {0}, Configs: {1}".format(
+                    file_path,
+                    len(final_list),
+                ),
                 "INFO"
             )
         else:
             self.msg = {
-                f"YAML config generation task failed for module '{self.module_name}'.": {"file_path": file_path}
+                "status": "ok",
+                "message": "YAML configuration file already up-to-date for module '{0}'. No changes written.".format(
+                    self.module_name
+                ),
+                "file_path": file_path,
+                "file_mode": file_mode,
+                "configurations_count": len(final_list)
             }
-            self.set_operation_result("failed", True, self.msg, "ERROR")
+            self.set_operation_result("ok", False, self.msg, "INFO")
 
             self.log(
-                f"YAML playbook file creation FAILED for path '{file_path}'. write_dict_to_yaml() "
-                "returned False, indicating file write error. Verify: (1) Parent directory exists, "
-                "(2) Write permissions sufficient, (3) Disk space available, (4) Path is valid. "
-                "Check system logs for detailed error information.",
-                "ERROR"
+                "YAML configuration unchanged. File: {0}, Configs: {1}".format(
+                    file_path,
+                    len(final_list),
+                ),
+                "INFO"
             )
 
         return self
@@ -2631,14 +2635,11 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
 
         # Validate AP configuration inventory exists
         if not self.have.get("all_ap_config"):
-            self.msg = (
-                "No access points configuration found in Cisco Catalyst Center inventory. "
-                "self.have['all_ap_config'] is empty or None. Cannot proceed with filter processing. "
-                "Verify: (1) APs onboarded to Catalyst Center, (2) get_current_config() executed "
-                "successfully, (3) API permissions sufficient. Halting workflow with critical error."
+            self.log(
+                "No access point configurations available for filter processing. Returning empty.",
+                "DEBUG"
             )
-            self.log(self.msg, "WARNING")
-            self.fail_and_exit(self.msg)
+            return []
 
         self.log(
             f"AP configuration inventory validation passed. Found {len(self.have.get('all_ap_config'))} "
@@ -2680,7 +2681,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                             f"Site filter {site_index}/{len(site_list)}: Site hierarchy '{floor}' NOT "
                             f"found in AP configurations. No APs assigned to this site. Adding to "
                             f"unprocessed list.",
-                            "WARNING"
+                            "DEBUG"
                         )
                         unprocessed_aps.append(f"{floor}: Unable to find the configuration for the site hierarchy in the catalyst center.")
                         continue
@@ -2722,11 +2723,10 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 if not ap_exist:
                     self.log(
                         "No provisioned access points found in Catalyst Center inventory. No APs "
-                        "have rf_profile='HIGH'. Halting workflow with critical error.",
-                        "WARNING"
+                        "have rf_profile='HIGH'. Returning empty.",
+                        "DEBUG"
                     )
-                    self.msg = "No provisioned access points found in the catalyst center."
-                    self.fail_and_exit(self.msg)
+                    return []
 
                 provisioned_aps = []
                 for ap_index, each_ap in enumerate(ap_exist, start=1):
@@ -2765,9 +2765,22 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             f"Provision hostname filter {host_index}/{len(provision_hostname_list)}: "
                             f"Hostname '{each_host}' NOT found in AP configurations. Adding to unprocessed list.",
-                            "WARNING"
+                            "DEBUG"
                         )
                         unprocessed_aps.append(f"{each_host}: Unable to find the hostname in the catalyst center.")
+                        continue
+
+                    selected_ap = ap_exist[0]
+                    if selected_ap.get("rf_profile") is None or selected_ap.get("site") is None:
+                        self.log(
+                            f"Provision hostname filter {host_index}/{len(provision_hostname_list)}: "
+                            f"Found AP '{each_host}', but it is not provisioned to any floor site. "
+                            "Adding to unprocessed list.",
+                            "DEBUG"
+                        )
+                        unprocessed_aps.append(
+                            f"{each_host}: AP found but not provisioned to any floor site."
+                        )
                         continue
 
                     self.log(
@@ -2777,15 +2790,24 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     )
 
                     provisioned_aps.append({
-                        "mac_address": ap_exist[0].get("mac_address"),
-                        "rf_profile": ap_exist[0].get("rf_profile"),
-                        "site": ap_exist[0].get("site")
+                        "mac_address": selected_ap.get("mac_address"),
+                        "rf_profile": selected_ap.get("rf_profile"),
+                        "site": selected_ap.get("site")
                     })
 
                 if not provisioned_aps:
-                    self.msg = "No provisioned access points found in the catalyst center."
-                    self.log(self.msg, "WARNING")
-                    self.fail_and_exit(self.msg)
+                    self.log(
+                        "No provisioned APs matched provision_hostname_list. Returning empty.",
+                        "DEBUG"
+                    )
+
+                    if unprocessed_aps:
+                        self.msg = {
+                            "The following access points could not be processed:": unprocessed_aps
+                        }
+                        self.have["unprocessed"] = unprocessed_aps
+
+                    return []
 
                 final_list = provisioned_aps
 
@@ -2847,7 +2869,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             f"AP config filter {ap_name_index}/{len(accesspoint_config_list)}: AP name "
                             f"'{each_ap_name}' NOT found in configurations. Adding to unprocessed list.",
-                            "WARNING"
+                            "DEBUG"
                         )
                         unprocessed_aps.append(f"{each_ap_name}: Unable to find the hostname in the catalyst center.")
                         continue
@@ -2866,9 +2888,19 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     ap_config_list.extend(ap_exist)
 
                 if not ap_config_list:
-                    self.msg = f"No access points found matching the provided list. {accesspoint_config_list}."
-                    self.log(self.msg, "WARNING")
-                    self.fail_and_exit(self.msg)
+                    self.log(
+                        f"No access points found matching the provided list: {accesspoint_config_list}. "
+                        "Returning empty.",
+                        "DEBUG"
+                    )
+
+                    if unprocessed_aps:
+                        self.msg = {
+                            "The following access points could not be processed:": unprocessed_aps
+                        }
+                        self.have["unprocessed"] = unprocessed_aps
+
+                    return []
 
                 final_list = ap_config_list
 
@@ -2915,7 +2947,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             f"Combined filter {host_index}/{len(accesspoint_provision_config_list)}: "
                             f"Hostname '{each_host_name}' NOT found in configurations. Adding to unprocessed list.",
-                            "WARNING"
+                            "DEBUG"
                         )
                         unprocessed_aps.append(f"{each_host_name}: Unable to find the hostname in the catalyst center.")
                         continue
@@ -2929,9 +2961,18 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     collected_aps.extend(ap_exist)
 
                 if not collected_aps:
-                    self.msg = "No access points found matching the provided hostname list."
-                    self.log(self.msg, "WARNING")
-                    self.fail_and_exit(self.msg)
+                    self.log(
+                        "No access points found matching the provided hostname list. Returning empty.",
+                        "DEBUG"
+                    )
+
+                    if unprocessed_aps:
+                        self.msg = {
+                            "The following access points could not be processed:": unprocessed_aps
+                        }
+                        self.have["unprocessed"] = unprocessed_aps
+
+                    return []
 
                 final_list = collected_aps
 
@@ -2978,7 +3019,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                         self.log(
                             f"MAC filter {mac_index}/{len(accesspoint_provision_config_mac_list)}: MAC "
                             f"address '{each_mac}' NOT found in configurations. Adding to unprocessed list.",
-                            "WARNING"
+                            "DEBUG"
                         )
                         unprocessed_aps.append(
                             f"{each_mac}: Unable to find configuration for the MAC address in the catalyst center.")
@@ -2993,9 +3034,18 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                     collected_aps.extend(ap_exist)
 
                 if not collected_aps:
-                    self.msg = "No access points found matching the provided mac address list."
-                    self.log(self.msg, "WARNING")
-                    self.fail_and_exit(self.msg)
+                    self.log(
+                        "No access points found matching the provided mac address list. Returning empty.",
+                        "DEBUG"
+                    )
+
+                    if unprocessed_aps:
+                        self.msg = {
+                            "The following access points could not be processed:": unprocessed_aps
+                        }
+                        self.have["unprocessed"] = unprocessed_aps
+
+                    return []
 
                 final_list = collected_aps
 
@@ -3025,7 +3075,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 f"Filter processing completed with {len(unprocessed_aps)} unprocessed AP identifier(s). "
                 "These APs/sites/MACs did not match any configurations in Catalyst Center inventory. "
                 f"Unprocessed list: {self.msg}",
-                "WARNING"
+                "DEBUG"
             )
             self.have["unprocessed"] = unprocessed_aps
 
@@ -3035,7 +3085,7 @@ class AccessPointPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
                 "No access points matched the provided global filter criteria. Final filtered list "
                 "is empty. This may indicate: (1) Filter values don't match existing APs, "
                 "(2) Filters too restrictive, or (3) No APs in Catalyst Center. Returning None.",
-                "WARNING"
+                "DEBUG"
             )
             return None
 
@@ -3143,28 +3193,23 @@ def main():
         # ============================================
         "catalystcenter_host": {
             "required": True,
-            "type": "str",
-            "aliases": ["dnac_host"],
+            "type": "str"
         },
         "catalystcenter_port": {
             "type": "str",
-            "default": "443",
-            "aliases": ["dnac_port", "catalystcenter_api_port"],
+            "default": "443"
         },
         "catalystcenter_username": {
             "type": "str",
             "default": "admin",
-            "aliases": ["dnac_username", "user"]
         },
         "catalystcenter_password": {
             "type": "str",
-            "no_log": True,  # Prevent password from appearing in logs
-            "aliases": ["dnac_password"],
+            "no_log": True  # Prevent password from appearing in logs
         },
         "catalystcenter_verify": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_verify"],
+            "default": True
         },
 
         # ============================================
@@ -3172,8 +3217,7 @@ def main():
         # ============================================
         "catalystcenter_version": {
             "type": "str",
-            "default": "2.3.7.6",
-            "aliases": ["dnac_version"],
+            "default": "2.3.7.6"
         },
         "catalystcenter_api_task_timeout": {
             "type": "int",
@@ -3193,28 +3237,23 @@ def main():
         # ============================================
         "catalystcenter_debug": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_debug"],
+            "default": False
         },
         "catalystcenter_log_level": {
             "type": "str",
-            "default": "WARNING",
-            "aliases": ["dnac_log_level"],
+            "default": "WARNING"
         },
         "catalystcenter_log_file_path": {
             "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
+            "default": "catalystcenter.log"
         },
         "catalystcenter_log_append": {
             "type": "bool",
-            "default": True,
-            "aliases": ["dnac_log_append"],
+            "default": True
         },
         "catalystcenter_log": {
             "type": "bool",
-            "default": False,
-            "aliases": ["dnac_log"],
+            "default": False
         },
 
         # ============================================

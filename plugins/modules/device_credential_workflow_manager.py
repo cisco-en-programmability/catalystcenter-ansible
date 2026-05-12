@@ -3,7 +3,6 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on device credentials in Cisco Catalyst Center."""
-
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -435,7 +434,7 @@ options:
                   Use Description or Id.
                 type: str
 requirements:
-  - catalystcentersdk >= 2.7.2
+  - catalystcentersdk >= 3.1.6.0.2
   - python >= 3.9
 seealso:
   - name: Cisco Catalyst Center documentation for Discovery
@@ -502,8 +501,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -564,8 +563,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -630,8 +629,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -673,8 +672,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -740,8 +739,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -793,8 +792,8 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
-  log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
   state: merged
   config_verify: true
   config:
@@ -825,8 +824,8 @@ EXAMPLES = r"""
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_version: "{{catalystcenter_version}}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log_level: "{{ catalystcenter_log_level }}"
-  log: true
+  catalystcenter_log_level: "{{ catalystcenter_log_level }}"
+  catalystcenter_log: true
   state: merged
   config_verify: true
   config:
@@ -850,7 +849,7 @@ EXAMPLES = r"""
   catalystcenter_password: "{{ catalystcenter_password }}"
   catalystcenter_verify: "{{ catalystcenter_verify }}"
   catalystcenter_debug: "{{ catalystcenter_debug }}"
-  log: true
+  catalystcenter_log: true
   state: deleted
   config_verify: true
   config:
@@ -4141,25 +4140,17 @@ def main():
 
     # Define the specification for module arguments
     element_spec = {
-        "catalystcenter_host": {"type": "str", "required": True, "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": "True", "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
+        "catalystcenter_host": {"type": "str", "required": True},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": "True"},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
         "config_verify": {"type": "bool", "default": False},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
@@ -4175,12 +4166,7 @@ def main():
     MIN_SUPPORTED_VERSION = "2.3.5.3"
     current_version = ccc_credential.get_ccc_version()
 
-    if (
-        ccc_credential.compare_catalystcenter_versions(
-            current_version, MIN_SUPPORTED_VERSION
-        )
-        < 0
-    ):
+    if ccc_credential.compare_catalystcenter_versions(current_version, MIN_SUPPORTED_VERSION) < 0:
         ccc_credential.msg = """The specified version '{0}' does not support the device_credential_workflow features.
         Supported versions start from '2.3.5.3' onwards. """.format(
             ccc_credential.get_ccc_version()

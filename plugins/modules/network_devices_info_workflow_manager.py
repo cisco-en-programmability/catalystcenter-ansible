@@ -269,7 +269,7 @@ options:
                 default: false
 
 requirements:
-    - catalystcentersdk >= 2.9.3
+    - catalystcentersdk >= 3.1.6.0.2
     - python >= 3.9.19
 notes:
     - This is a facts/info module, it only retrieves information and does not modify any device or configuration.
@@ -317,7 +317,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   tasks:
     - name: Gather detailed facts for specific network devices
       cisco.catalystcenter.network_devices_info_workflow_manager:
@@ -376,7 +376,7 @@ EXAMPLES = r"""
   hosts: localhost
   connection: local
   vars_files:
-    - vars/credentials.yml
+    - "credentials.yml"
   tasks:
     - name: Gather detailed facts for all network devices
       cisco.catalystcenter.network_devices_info_workflow_manager:
@@ -891,7 +891,6 @@ import json
 import time
 import os
 import ipaddress
-
 try:
     import yaml
 except ImportError:
@@ -899,16 +898,14 @@ except ImportError:
 from datetime import datetime
 
 from ansible_collections.cisco.catalystcenter.plugins.module_utils.validation import (
-    validate_list_of_dicts,
-)
+    validate_list_of_dicts,)
 
 
 class NetworkDevicesInfo(CatalystCenterBase):
     """Class containing member attributes for network_devices_info_workflow_manager module"""
-
     def __init__(self, module):
         super().__init__(module)
-        self.supported_states = ["gathered"]
+        self.supported_states = ['gathered']
 
     def validate_input(self):
         """
@@ -934,24 +931,33 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 - self.status (str): Either "success" or "failed", based on validation result.
                 - self.validated_config (list): A sanitized, validated version of the playbook configuration,
                                                 if validation succeeds.
-        """
-        self.log(
-            "Initiating comprehensive input validation for network devices information workflow configuration",
-            "INFO",
-        )
+    """
+        self.log("Initiating comprehensive input validation for network devices information workflow configuration", "INFO")
 
         config_spec = {
             "network_devices": {
                 "type": "list",
                 "elements": "dict",
-                "site_hierarchy": {"type": "str", "required": False},
-                "device_type": {"type": "str", "required": False},
+                "site_hierarchy": {
+                    "type": "str",
+                    "required": False
+                },
+                "device_type": {
+                    "type": "str",
+                    "required": False
+                },
                 "device_role": {
                     "type": "str",
                     "required": False,
                 },
-                "device_family": {"type": "str", "required": False},
-                "software_version": {"type": "str", "required": False},
+                "device_family": {
+                    "type": "str",
+                    "required": False
+                },
+                "software_version": {
+                    "type": "str",
+                    "required": False
+                },
                 "os_type": {
                     "type": "str",
                     "required": False,
@@ -962,23 +968,36 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "ip_address": {
                         "type": "list",
                         "elements": "str",
-                        "required": False,
+                        "required": False
                     },
                     "serial_number": {
                         "type": "list",
                         "elements": "str",
-                        "required": False,
+                        "required": False
                     },
-                    "hostname": {"type": "list", "elements": "str", "required": False},
+                    "hostname": {
+                        "type": "list",
+                        "elements": "str",
+                        "required": False
+                    },
                     "mac_address": {
                         "type": "list",
                         "elements": "str",
-                        "required": False,
-                    },
+                        "required": False
+                    }
                 },
-                "timeout": {"type": "int", "default": 120},
-                "retries": {"type": "int", "default": 3},
-                "interval": {"type": "int", "default": 10},
+                "timeout": {
+                    "type": "int",
+                    "default": 120
+                },
+                "retries": {
+                    "type": "int",
+                    "default": 3
+                },
+                "interval": {
+                    "type": "int",
+                    "default": 10
+                },
                 "requested_info": {
                     "type": "list",
                     "elements": "str",
@@ -996,50 +1015,48 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "device_summary_info",
                         "device_polling_interval_info",
                         "device_stack_info",
-                        "device_link_mismatch_info",
-                    ],
+                        "device_link_mismatch_info"
+                    ]
                 },
                 "output_file_info": {
                     "type": "dict",
-                    "file_path": {"type": "str"},
+                    "file_path": {
+                        "type": "str"
+                    },
                     "file_format": {
                         "type": "str",
                         "default": "yaml",
-                        "allowed_values": ["json", "yaml"],
+                        "allowed_values": ["json", "yaml"]
                     },
                     "file_mode": {
                         "type": "str",
                         "default": "w",
-                        "allowed_values": ["w", "a"],
+                        "allowed_values": ["w", "a"]
                     },
-                    "timestamp": {"type": "bool", "default": False},
-                },
+                    "timestamp": {
+                        "type": "bool",
+                        "default": False
+                    }
+                }
             }
         }
         try:
-            valid_config, invalid_params = validate_list_of_dicts(
-                self.config, config_spec
-            )
+            valid_config, invalid_params = validate_list_of_dicts(self.config, config_spec)
 
             if invalid_params:
                 self.msg = "Network devices configuration validation failed with invalid Args: {0}".format(
                     invalid_params
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.validated_config = valid_config
 
-            self.log(
-                "Network devices configuration validation completed successfully",
-                "INFO",
-            )
+            self.log("Network devices configuration validation completed successfully", "INFO")
             self.log(
                 "Validated {0} network device configuration section(s) for workflow processing".format(
                     (valid_config)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
             return self
 
@@ -1047,9 +1064,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             self.msg = "Network devices configuration validation encountered an error: {0}".format(
                 str(validation_exception)
             )
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR"
-            ).check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_want(self, config):
         """
@@ -1070,14 +1085,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 - self.status: Validation status ("success" or "failed")
                 - self.msg: Status message describing validation results
         """
-        self.log(
-            "Extracting desired network devices information workflow state from playbook configuration",
-            "DEBUG",
-        )
-        self.log(
-            "Processing configuration sections for comprehensive workflow validation",
-            "DEBUG",
-        )
+        self.log("Extracting desired network devices information workflow state from playbook configuration", "DEBUG")
+        self.log("Processing configuration sections for comprehensive workflow validation", "DEBUG")
 
         self.total_response = []
 
@@ -1087,13 +1096,9 @@ class NetworkDevicesInfo(CatalystCenterBase):
         want["network_devices"] = config.get("network_devices")
 
         device_keys = [
-            "site_hierarchy",
-            "device_type",
-            "device_role",
-            "device_family",
-            "software_version",
-            "os_type",
-            "device_identifier",
+            "site_hierarchy", "device_type", "device_role",
+            "device_family", "software_version", "os_type",
+            "device_identifier"
         ]
         allowed_return_values = {
             "all",
@@ -1110,78 +1115,48 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "device_summary_info",
             "device_polling_interval_info",
             "device_stack_info",
-            "device_link_mismatch_info",
+            "device_link_mismatch_info"
         }
-        allowed_device_identifier_filters = {
-            "ip_address",
-            "hostname",
-            "serial_number",
-            "ip_address_range",
-            "mac_address",
-        }
+        allowed_device_identifier_filters = {"ip_address", "hostname", "serial_number", "ip_address_range", "mac_address"}
         allowed_field = {
-            "site_hierarchy",
-            "device_type",
-            "device_role",
-            "device_family",
-            "software_version",
-            "os_type",
-            "device_identifier",
-            "timeout",
-            "retries",
-            "interval",
-            "requested_info",
-            "output_file_info",
+            "site_hierarchy", "device_type", "device_role", "device_family", "software_version", "os_type",
+            "device_identifier", "timeout", "retries", "interval", "requested_info", "output_file_info"
         }
-        allowed_output_file_info_keys = {
-            "file_path",
-            "file_format",
-            "file_mode",
-            "timestamp",
-        }
+        allowed_output_file_info_keys = {"file_path", "file_format", "file_mode", "timestamp"}
         allowed_file_formats = {"json", "yaml"}
         allowed_file_modes = {"a", "w"}
 
         for config in self.config:
             if "network_devices" not in config:
                 self.msg = "'network_devices' key is missing in the config block"
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         for idx, device in enumerate(config["network_devices"]):
-            self.log(
-                "Processing device entry {0}: {1}".format(idx + 1, device), "DEBUG"
-            )
+            self.log("Processing device entry {0}: {1}".format(idx + 1, device), "DEBUG")
             for key in device:
                 if key not in allowed_field:
                     self.msg = "'{0}' is not a valid key in network device entry. Allowed keys are: {1}".format(
                         key, ", ".join(sorted(allowed_field))
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if not any(device.get(key) for key in device_keys):
                 self.log(
                     "Device index {0} missing required identification keys: {1}".format(
                         idx + 1, device_keys
                     ),
-                    "ERROR",
+                    "ERROR"
                 )
-                self.msg = "Each network device must contain at least one of the following keys: {0}.".format(
-                    ", ".join(device_keys)
+                self.msg = (
+                    "Each network device must contain at least one of the following keys: {0}."
+                    .format(", ".join(device_keys))
                 )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             for numeric in ("timeout", "retries", "interval"):
                 if numeric in device and device[numeric] < 0:
                     self.msg = "'{0}' must be a non-negative integer".format(numeric)
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             valid_keys_found = set()
             identifiers = device.get("device_identifier", [])
@@ -1189,9 +1164,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             if identifiers:
                 all_identifier_keys = set()
                 for identifier in identifiers:
-                    self.log(
-                        "Processing device_identifier: {0}".format(identifier), "DEBUG"
-                    )
+                    self.log("Processing device_identifier: {0}".format(identifier), "DEBUG")
                     all_identifier_keys.update(identifier.keys())
 
                     for key in identifier:
@@ -1203,57 +1176,39 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             self.msg = (
                                 "Invalid or unrecognized key '{0}' found in device_identifier. "
                                 "Allowed keys are: {1}".format(
-                                    key,
-                                    ", ".join(
-                                        sorted(allowed_device_identifier_filters)
-                                    ),
+                                    key, ", ".join(sorted(allowed_device_identifier_filters))
                                 )
                             )
-                            self.set_operation_result(
-                                "failed", False, self.msg, "ERROR"
-                            ).check_return_status()
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                if (
-                    "ip_address" in all_identifier_keys
-                    and "ip_address_range" in all_identifier_keys
-                ):
+                if "ip_address" in all_identifier_keys and "ip_address_range" in all_identifier_keys:
                     self.msg = (
                         "Both 'ip_address' and 'ip_address_range' are specified across device_identifier entries. "
                         "Please specify only one of them."
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if not valid_keys_found:
-                    self.msg = "Each 'device_identifier' list must contain at least one valid key among: {0}.".format(
-                        ", ".join(allowed_device_identifier_filters)
+                    self.msg = (
+                        "Each 'device_identifier' list must contain at least one valid key among: {0}."
+                        .format(", ".join(allowed_device_identifier_filters))
                     )
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if "requested_info" in device and device["requested_info"] is not None:
-                self.log(
-                    "Applying requested_info for device index {0}".format(idx + 1),
-                    "DEBUG",
-                )
+                self.log("Applying requested_info for device index {0}".format(idx + 1), "DEBUG")
                 return_value = device["requested_info"]
                 for value_name in return_value:
                     if value_name not in allowed_return_values:
                         self.log(
                             "Invalid requested_info '{0}' in device index {1}."
-                            "Valid options: {2}".format(
-                                value_name, idx, allowed_return_values
-                            ),
-                            "ERROR",
+                            "Valid options: {2}".format(value_name, idx, allowed_return_values), "ERROR"
                         )
-                        self.msg = "'{0}' is not a valid return value. Allowed values are: {1}".format(
-                            value_name, sorted(allowed_return_values)
+                        self.msg = (
+                            "'{0}' is not a valid return value. Allowed values are: {1}"
+                            .format(value_name, sorted(allowed_return_values))
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if "output_file_info" in device:
                 output_file_info = device["output_file_info"]
@@ -1273,32 +1228,19 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         self.msg = "'{0}' is not a valid key in 'output_file_info'. Allowed keys are: {1}".format(
                             key, sorted(allowed_output_file_info_keys)
                         )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     if output_file_info["file_format"] not in allowed_file_formats:
-                        self.msg = "'file_format' must be one of: {0}".format(
-                            ", ".join(sorted(allowed_file_formats))
-                        )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.msg = "'file_format' must be one of: {0}".format(", ".join(sorted(allowed_file_formats)))
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     if output_file_info["file_mode"] not in allowed_file_modes:
-                        self.msg = "'file_mode' must be one of: {0}".format(
-                            ", ".join(sorted(allowed_file_modes))
-                        )
-                        self.set_operation_result(
-                            "failed", False, self.msg, "ERROR"
-                        ).check_return_status()
+                        self.msg = "'file_mode' must be one of: {0}".format(", ".join(sorted(allowed_file_modes)))
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.want = want
         self.log(want, "DEBUG")
-        self.log(
-            "Network devices information workflow desired state extraction completed successfully",
-            "DEBUG",
-        )
+        self.log("Network devices information workflow desired state extraction completed successfully", "DEBUG")
         return self
 
     def get_diff_gathered(self, config):
@@ -1340,79 +1282,37 @@ class NetworkDevicesInfo(CatalystCenterBase):
         combined_data = {}
 
         for device_cfg in network_devices:
-            self.log(
-                "Processing device configuration entry with Args: {0}".format(
-                    list(device_cfg.keys())
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device configuration entry with Args: {0}".format(list(device_cfg.keys())), "DEBUG")
             filtered_config = {}
             for field_name, field_value in device_cfg.items():
                 if field_name != "requested_info":
                     filtered_config[field_name] = field_value
 
-            self.log(
-                "Filtered config (excluding requested_info): {0}".format(
-                    filtered_config
-                ),
-                "DEBUG",
-            )
-            self.log(
-                "Extracted device identification Args: {0}".format(
-                    list(filtered_config.keys())
-                ),
-                "DEBUG",
-            )
+            self.log("Filtered config (excluding requested_info): {0}".format(filtered_config), "DEBUG")
+            self.log("Extracted device identification Args: {0}".format(list(filtered_config.keys())), "DEBUG")
             requested_info = device_cfg.get("requested_info", [])
 
             if not requested_info:
                 all_info_requested = True
-                self.log(
-                    "No specific information types requested - retrieving all available information categories",
-                    "DEBUG",
-                )
+                self.log("No specific information types requested - retrieving all available information categories", "DEBUG")
             else:
                 all_info_requested = "all" in requested_info
-                self.log(
-                    "Specific information types requested: {0}".format(requested_info),
-                    "DEBUG",
-                )
+                self.log("Specific information types requested: {0}".format(requested_info), "DEBUG")
 
             device_info = all_info_requested or "device_info" in requested_info
             interface_info = all_info_requested or "interface_info" in requested_info
-            interface_vlan_info = (
-                all_info_requested or "interface_vlan_info" in requested_info
-            )
+            interface_vlan_info = all_info_requested or "interface_vlan_info" in requested_info
             linecard_info = all_info_requested or "line_card_info" in requested_info
-            supervisor_card_info = (
-                all_info_requested or "supervisor_card_info" in requested_info
-            )
+            supervisor_card_info = all_info_requested or "supervisor_card_info" in requested_info
             poe_info = all_info_requested or "poe_info" in requested_info
-            module_count_info = (
-                all_info_requested or "module_count_info" in requested_info
-            )
-            connected_device_info = (
-                all_info_requested or "connected_device_info" in requested_info
-            )
-            device_interfaces_by_range_info = (
-                all_info_requested
-                or "device_interfaces_by_range_info" in requested_info
-            )
-            device_config_info = (
-                all_info_requested or "device_config_info" in requested_info
-            )
-            device_summary_info = (
-                all_info_requested or "device_summary_info" in requested_info
-            )
-            device_polling_interval_info = (
-                all_info_requested or "device_polling_interval_info" in requested_info
-            )
-            device_stack_info = (
-                all_info_requested or "device_stack_info" in requested_info
-            )
-            device_link_mismatch_info = (
-                all_info_requested or "device_link_mismatch_info" in requested_info
-            )
+            module_count_info = all_info_requested or "module_count_info" in requested_info
+            connected_device_info = all_info_requested or "connected_device_info" in requested_info
+            device_interfaces_by_range_info = all_info_requested or "device_interfaces_by_range_info" in requested_info
+            device_config_info = all_info_requested or "device_config_info" in requested_info
+            device_summary_info = all_info_requested or "device_summary_info" in requested_info
+            device_polling_interval_info = all_info_requested or "device_polling_interval_info" in requested_info
+            device_stack_info = all_info_requested or "device_stack_info" in requested_info
+            device_link_mismatch_info = all_info_requested or "device_link_mismatch_info" in requested_info
 
             self.log(
                 """
@@ -1445,179 +1345,95 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     device_summary_info,
                     device_polling_interval_info,
                     device_stack_info,
-                    device_link_mismatch_info,
+                    device_link_mismatch_info
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             device_ids = self.filter_network_devices(filtered_config)
-            self.log(
-                "Filtered network devices after applying all the provided filters: {0}".format(
-                    device_ids
-                ),
-                "DEBUG",
-            )
+            self.log("Filtered network devices after applying all the provided filters: {0}".format(device_ids), "DEBUG")
 
             if not device_ids:
                 self.msg = "No network devices found for the given filters."
                 self.total_response.append(self.msg)
                 break
             else:
-                self.total_response.append(
-                    "The network devices filtered from the provided filters are: {0}".format(
-                        list(device_ids.keys())
-                    )
-                )
+                self.total_response.append("The network devices filtered from the provided filters are: {0}".format(list(device_ids.keys())))
 
             if device_info:
-                self.log(
-                    "Retrieving device details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving device details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 device_info_result = self.get_device_info(device_ids)
                 self.total_response.append(device_info_result)
                 combined_data["device_info"] = device_info_result
 
             if interface_info:
-                self.log(
-                    "Retrieving interface details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving interface details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 interface_info_result = self.get_interface_info(device_ids)
                 self.total_response.append(interface_info_result)
                 combined_data["interface_info"] = interface_info_result
 
             if interface_vlan_info:
-                self.log(
-                    "Retrieving VLAN details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving VLAN details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 interface_vlan_info_result = self.get_interface_vlan_info(device_ids)
                 self.total_response.append(interface_vlan_info_result)
                 combined_data["interface_vlan_info"] = interface_vlan_info_result
 
             if linecard_info:
-                self.log(
-                    "Retrieving linecard details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving linecard details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 linecard_info_result = self.get_linecard_info(device_ids)
                 self.total_response.append(linecard_info_result)
                 combined_data["linecard_info"] = linecard_info_result
 
             if supervisor_card_info:
-                self.log(
-                    "Retrieving Supervisor card details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving Supervisor card details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 supervisor_card_info_result = self.get_supervisor_card_info(device_ids)
                 self.total_response.append(supervisor_card_info_result)
                 combined_data["supervisor_card_info"] = supervisor_card_info_result
 
             if poe_info:
-                self.log(
-                    "Retrieving PoE details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving PoE details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 poe_info_result = self.get_poe_info(device_ids)
                 self.total_response.append(poe_info_result)
                 combined_data["poe_info"] = poe_info_result
 
             if module_count_info:
-                self.log(
-                    "Retrieving module count details for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving module count details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 module_count_info_result = self.get_module_count_info(device_ids)
                 self.total_response.append(module_count_info_result)
                 combined_data["module_count_info"] = module_count_info_result
 
             if connected_device_info:
-                self.log(
-                    "Retrieving connected neighbor device information via interface for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
-                connected_devices_result = (
-                    self.get_connected_device_details_from_interfaces(device_ids)
-                )
+                self.log("Retrieving connected neighbor device information via interface for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
+                connected_devices_result = self.get_connected_device_details_from_interfaces(device_ids)
                 self.total_response.append(connected_devices_result)
                 combined_data["connected_devices_info"] = connected_devices_result
 
             if device_interfaces_by_range_info:
-                self.log(
-                    "Retrieving interface information for specified range for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
-                device_interfaces_by_range_info_result = (
-                    self.get_interfaces_by_specified_range(device_ids)
-                )
+                self.log("Retrieving interface information for specified range for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
+                device_interfaces_by_range_info_result = self.get_interfaces_by_specified_range(device_ids)
                 self.total_response.append(device_interfaces_by_range_info_result)
-                combined_data["device_interfaces_by_range_info"] = (
-                    device_interfaces_by_range_info_result
-                )
+                combined_data["device_interfaces_by_range_info"] = device_interfaces_by_range_info_result
 
             if device_config_info:
-                self.log(
-                    "Retrieving device configuration information for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving device configuration information for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 device_config_info_result = self.get_device_config_info(device_ids)
                 self.total_response.append(device_config_info_result)
                 combined_data["device_config_info"] = device_config_info_result
 
             if device_summary_info:
-                self.log(
-                    "Retrieving device summary information for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving device summary information for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 device_summary_info_result = self.get_device_summary_info(device_ids)
                 self.total_response.append(device_summary_info_result)
                 combined_data["device_summary_info"] = device_summary_info_result
 
             if device_polling_interval_info:
-                self.log(
-                    "Retrieving device polling interval information for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
-                device_polling_interval_info_result = (
-                    self.get_device_polling_interval_info(device_ids)
-                )
+                self.log("Retrieving device polling interval information for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
+                device_polling_interval_info_result = self.get_device_polling_interval_info(device_ids)
                 self.total_response.append(device_polling_interval_info_result)
-                combined_data["device_polling_interval_info"] = (
-                    device_polling_interval_info_result
-                )
+                combined_data["device_polling_interval_info"] = device_polling_interval_info_result
 
             if device_stack_info:
-                self.log(
-                    "Retrieving device stack information for network devices: {0}".format(
-                        list(device_ids.keys())
-                    ),
-                    "DEBUG",
-                )
+                self.log("Retrieving device stack information for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
                 device_stack_info_result = self.get_device_stack_info(device_ids)
                 self.total_response.append(device_stack_info_result)
                 combined_data["device_stack_info"] = device_stack_info_result
@@ -1627,46 +1443,23 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 site_exists, site_id = self.get_site_id(site_hierarchy)
                 if not site_hierarchy:
                     self.msg = "For 'device_link_mismatch_info', 'site_hierarchy' must be provided."
-                    self.set_operation_result(
-                        "failed", False, self.msg, "ERROR"
-                    ).check_return_status()
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 else:
-                    self.log(
-                        "Retrieving device link mismatch details for network devices: {0}".format(
-                            list(device_ids.keys())
-                        ),
-                        "DEBUG",
-                    )
-                    device_link_mismatch_info_result = (
-                        self.get_device_link_mismatch_info(site_id, device_ids)
-                    )
+                    self.log("Retrieving device link mismatch details for network devices: {0}".format(list(device_ids.keys())), "DEBUG")
+                    device_link_mismatch_info_result = self.get_device_link_mismatch_info(site_id, device_ids)
                     self.total_response.append(device_link_mismatch_info_result)
-                    combined_data["device_link_mismatch_info"] = (
-                        device_link_mismatch_info_result
-                    )
+                    combined_data["device_link_mismatch_info"] = device_link_mismatch_info_result
 
         if config.get("network_devices"):
             output_file_info = config["network_devices"][0].get("output_file_info")
 
         if output_file_info:
-            self.log(
-                "Processing file output configuration for network device information export: {0}".format(
-                    output_file_info
-                ),
-                "INFO",
-            )
+            self.log("Processing file output configuration for network device information export: {0}".format(output_file_info), "INFO")
             self.write_device_info_to_file({"output_file_info": output_file_info})
-            self.log(
-                "Network device information successfully written to output file", "INFO"
-            )
+            self.log("Network device information successfully written to output file", "INFO")
 
         if self.total_response:
-            self.log(
-                "Network device information retrieval workflow completed successfully with {0} response entries".format(
-                    len(network_devices)
-                ),
-                "INFO",
-            )
+            self.log("Network device information retrieval workflow completed successfully with {0} response entries".format(len(network_devices)), "INFO")
             self.msg = self.total_response
             self.set_operation_result("success", False, self.msg, "INFO")
         return self
@@ -1705,16 +1498,13 @@ class NetworkDevicesInfo(CatalystCenterBase):
             dict or None: A dictionary mapping device IP addresses to their UUIDs for managed devices.
                         Returns None if no device_identifier section is found in configuration.
         """
-        self.log(
-            "Starting device UUID mapping retrieval from 'device_identifier' entries",
-            "INFO",
-        )
+        self.log("Starting device UUID mapping retrieval from 'device_identifier' entries", "INFO")
 
         self.log(
             "Processing filtered configuration with parameters: {0}".format(
                 self.pprint(filtered_config)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         if not isinstance(filtered_config, dict):
@@ -1722,7 +1512,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 "Invalid filtered_config parameter - expected dict, got: {0}".format(
                     type(filtered_config).__name__
                 ),
-                "ERROR",
+                "ERROR"
             )
             self.msg = "filtered_config parameter must be a valid dictionary"
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1735,7 +1525,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 "Invalid device_identifiers format - expected list, got: {0}".format(
                     type(device_identifiers).__name__
                 ),
-                "ERROR",
+                "ERROR"
             )
             self.msg = "device_identifier must be a list of identification criteria"
             self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -1762,7 +1552,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Using retry configuration - timeout: {0}s, retries: {1}, interval: {2}s".format(
                 timeout, retries, interval
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         # Count only non-None keys when determining AND vs OR logic,
@@ -1780,14 +1570,12 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Device identifier AND/OR logic resolved — type: {0}, active keys: {1}".format(
                 logic_type, non_none_keys if len(device_identifiers) == 1 else 'N/A'
             ),
-            "INFO",
+            "INFO"
         )
 
         if is_and_logic:
             identifier = device_identifiers[0]
-            self.log(
-                "Processing AND logic for identifiers: {0}".format(identifier), "DEBUG"
-            )
+            self.log("Processing AND logic for identifiers: {0}".format(identifier), "DEBUG")
 
             combined_devices = None
             for key_index, (key, values) in enumerate(identifier.items(), start=1):
@@ -1795,18 +1583,19 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Processing AND criteria {0}/{1} - key: {2}, values: {3}".format(
                         key_index, len(identifier), key, values
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 if not values:
-                    self.log("Skipping empty values for key: {0}".format(key), "DEBUG")
+                    self.log(
+                        "Skipping empty values for key: {0}".format(key),
+                        "DEBUG"
+                    )
                     continue
                 if not isinstance(values, list):
                     values = [values]
                     self.log(
-                        "Converted single value to list for key {0}: {1}".format(
-                            key, values
-                        ),
-                        "DEBUG",
+                        "Converted single value to list for key {0}: {1}".format(key, values),
+                        "DEBUG"
                     )
 
                 expanded_values = []
@@ -1814,7 +1603,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 for value in values:
                     if key == "ip_address_range":
                         self.log(
-                            "Expanding IP address range: {0}".format(value), "DEBUG"
+                            "Expanding IP address range: {0}".format(value),
+                            "DEBUG"
                         )
                         try:
                             start_ip, end_ip = value.split("-")
@@ -1829,24 +1619,17 @@ class NetworkDevicesInfo(CatalystCenterBase):
                                 "Expanded IP range '{0}' into {1} individual IP addresses".format(
                                     value, len(range_ips)
                                 ),
-                                "DEBUG",
+                                "DEBUG"
                             )
                         except Exception as e:
                             self.log(
-                                "Failed to expand IP range '{0}': {1}".format(
-                                    value, str(e)
-                                ),
-                                "ERROR",
+                                "Failed to expand IP range '{0}': {1}".format(value, str(e)),
+                                "ERROR"
                             )
                             continue
                     else:
                         expanded_values.append(value)
-                        self.log(
-                            "Added individual value '{0}' to expanded list (not an IP range)".format(
-                                value
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Added individual value '{0}' to expanded list (not an IP range)".format(value), "DEBUG")
 
                 param_key = param_key_map.get(key)
                 matched_devices = []
@@ -1858,25 +1641,16 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Processing OR value {0}/{1} for key '{2}': {3}".format(
                             value_index, len(expanded_values), key, ip_or_value
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
-                    params = {
-                        param_key_map.get(key, "managementIpAddress"): ip_or_value
-                    }
-                    devices = self.execute_device_lookup_with_retry(
-                        params, key, ip_or_value, timeout, retries, interval
-                    )
+                    params = {param_key_map.get(key, "managementIpAddress"): ip_or_value}
+                    devices = self.execute_device_lookup_with_retry(params, key, ip_or_value, timeout, retries, interval)
 
                     if devices:
                         matched_devices.extend(devices)
                     else:
                         missing_ips.append(ip_or_value)
-                        self.log(
-                            "Device not found in inventory for identifier '{0}' - adding to missing list".format(
-                                ip_or_value
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Device not found in inventory for identifier '{0}' - adding to missing list".format(ip_or_value), "DEBUG")
 
                 if missing_ips:
                     display_value = ", ".join(missing_ips)
@@ -1894,12 +1668,11 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Initialized combined devices with {0} devices from first key: {1}".format(
                             len(matched_devices), key
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                 previous_count = len(combined_devices)
                 combined_devices = [
-                    device
-                    for device in combined_devices
+                    device for device in combined_devices
                     if any(
                         device.get("instanceUuid") == matched_device.get("instanceUuid")
                         for matched_device in matched_devices
@@ -1909,7 +1682,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Applied AND logic intersection - reduced from {0} to {1} devices".format(
                         previous_count, len(combined_devices)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
             # Process final results for AND logic
@@ -1918,7 +1691,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "AND logic completed successfully - found {0} devices matching all criteria".format(
                         len(combined_devices)
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
                 for device in combined_devices:
@@ -1927,10 +1700,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     if uuid and ip:
                         ip_uuid_map[ip] = uuid
                         self.log(
-                            "Mapped AND logic device - IP: {0}, UUID: {1}".format(
-                                ip, uuid
-                            ),
-                            "DEBUG",
+                            "Mapped AND logic device - IP: {0}, UUID: {1}".format(ip, uuid),
+                            "DEBUG"
                         )
             else:
                 self.msg = (
@@ -1939,38 +1710,36 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     )
                 )
                 self.log(
-                    "AND logic completed - no devices matched all criteria", "WARNING"
+                    "AND logic completed - no devices matched all criteria",
+                    "WARNING"
                 )
 
         else:
             # OR Logic: Multiple entries or single entry with one key
             self.log(
-                "Processing OR logic for {0} identifier groups".format(
-                    len(device_identifiers)
-                ),
-                "INFO",
+                "Processing OR logic for {0} identifier groups".format(len(device_identifiers)),
+                "INFO"
             )
             for idx, identifier in enumerate(device_identifiers, start=1):
                 self.log(
                     "Processing OR logic group {0}/{1}: {2}".format(
                         idx, len(device_identifiers), identifier
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 for key, values in identifier.items():
                     if not values:
                         self.log(
-                            "Skipping empty values for key: {0}".format(key), "DEBUG"
+                            "Skipping empty values for key: {0}".format(key),
+                            "DEBUG"
                         )
                         continue
                     if not isinstance(values, list):
                         values = [values]
                         self.log(
-                            "Converted single value to list for key {0}: {1}".format(
-                                key, values
-                            ),
-                            "DEBUG",
+                            "Converted single value to list for key {0}: {1}".format(key, values),
+                            "DEBUG"
                         )
 
                     expanded_values = []
@@ -1978,7 +1747,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     for value in values:
                         if key == "ip_address_range":
                             self.log(
-                                "Expanding IP address range: {0}".format(value), "DEBUG"
+                                "Expanding IP address range: {0}".format(value),
+                                "DEBUG"
                             )
                             try:
                                 start_ip, end_ip = value.split("-")
@@ -1993,24 +1763,17 @@ class NetworkDevicesInfo(CatalystCenterBase):
                                     "Expanded IP range '{0}' into {1} individual IP addresses".format(
                                         value, len(range_ips)
                                     ),
-                                    "DEBUG",
+                                    "DEBUG"
                                 )
                             except Exception as e:
                                 self.log(
-                                    "Failed to expand IP range '{0}': {1}".format(
-                                        value, str(e)
-                                    ),
-                                    "ERROR",
+                                    "Failed to expand IP range '{0}': {1}".format(value, str(e)),
+                                    "ERROR"
                                 )
                                 continue
                         else:
                             expanded_values.append(value)
-                            self.log(
-                                "Added individual value '{0}' to expanded list (not an IP range)".format(
-                                    value
-                                ),
-                                "DEBUG",
-                            )
+                            self.log("Added individual value '{0}' to expanded list (not an IP range)".format(value), "DEBUG")
 
                     missing_ips = []
 
@@ -2019,14 +1782,10 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Processing OR value {0}/{1} for key '{2}': {3}".format(
                                 value_index, len(expanded_values), key, ip_or_value
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
-                        params = {
-                            param_key_map.get(key, "managementIpAddress"): ip_or_value
-                        }
-                        devices = self.execute_device_lookup_with_retry(
-                            params, key, ip_or_value, timeout, retries, interval
-                        )
+                        params = {param_key_map.get(key, "managementIpAddress"): ip_or_value}
+                        devices = self.execute_device_lookup_with_retry(params, key, ip_or_value, timeout, retries, interval)
 
                         if devices:
                             for device in devices:
@@ -2036,12 +1795,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                                     ip_uuid_map[ip] = uuid
                         else:
                             missing_ips.append(ip_or_value)
-                            self.log(
-                                "Device not found in inventory for identifier '{0}' - adding to missing list".format(
-                                    ip_or_value
-                                ),
-                                "DEBUG",
-                            )
+                            self.log("Device not found in inventory for identifier '{0}' - adding to missing list".format(ip_or_value), "DEBUG")
 
                     if missing_ips:
                         display_value = ", ".join(missing_ips)
@@ -2058,28 +1812,24 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Device UUID mapping completed successfully using {0} logic - mapped {1} unique devices".format(
                 logic_type, total_devices
             ),
-            "INFO",
+            "INFO"
         )
 
         if total_devices > 0:
             self.log(
                 "Successfully mapped devices: {0}".format(list(ip_uuid_map.keys())),
-                "DEBUG",
+                "DEBUG"
             )
         else:
-            self.log("No devices found matching the specified criteria", "WARNING")
-        self.log(
-            "Device UUID mapping completed — mapped {0} managed devices.".format(
-                total_devices
-            ),
-            "INFO",
-        )
+            self.log(
+                "No devices found matching the specified criteria",
+                "WARNING"
+            )
+        self.log("Device UUID mapping completed — mapped {0} managed devices.".format(total_devices), "INFO")
 
         return ip_uuid_map
 
-    def execute_device_lookup_with_retry(
-        self, params, key, value, timeout, retries, interval
-    ):
+    def execute_device_lookup_with_retry(self, params, key, value, timeout, retries, interval):
         """
         Execute device lookup API call with comprehensive retry mechanism and timeout handling.
 
@@ -2101,7 +1851,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Starting device lookup with retry mechanism - key: {0}, value: {1}".format(
                 key, value
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         while attempt < retries or (time.time() - start_time < timeout):
@@ -2110,23 +1860,26 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 "Attempt {0} for {1}={2} - elapsed time: {3:.1f}s".format(
                     attempt + 1, key, value, elapsed_time
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             try:
                 self.log(
-                    "Executing API call with parameters: {0}".format(params), "DEBUG"
+                    "Executing API call with parameters: {0}".format(params),
+                    "DEBUG"
                 )
 
                 response = self.catalystcenter._exec(
-                    family="devices", function="get_device_list", params=params
+                    family="devices",
+                    function="get_device_list",
+                    params=params
                 )
 
                 self.log(
                     "Received API response for {0}={1}: {2}".format(
                         key, value, response
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
                 devices = response.get("response", [])
@@ -2136,7 +1889,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Found {0} devices for {1}={2} on attempt {3}".format(
                             len(devices), key, value, attempt + 1
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     return devices
                 else:
@@ -2165,7 +1918,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "No devices found for {0}={1} on attempt {2}".format(
                             key, value, attempt + 1
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
 
             except Exception as e:
@@ -2173,7 +1926,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "API call failed for {0}={1} on attempt {2}: {3}".format(
                         key, value, attempt + 1, str(e)
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
 
             attempt += 1
@@ -2182,7 +1935,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             if elapsed_time >= timeout:
                 self.log(
                     "Timeout ({0}s) reached for {1}={2}".format(timeout, key, value),
-                    "WARNING",
+                    "WARNING"
                 )
                 break
 
@@ -2191,7 +1944,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Device lookup completed for {0}={1} - no devices found, attempts: {2}, elapsed: {3:.1f}s".format(
                 key, value, attempt, total_elapsed
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         return []
@@ -2410,30 +2163,32 @@ class NetworkDevicesInfo(CatalystCenterBase):
         else:
             self.log(
                 "Unknown site type '{0}' for site '{1}'".format(site_type, site_name),
-                "ERROR",
+                "ERROR"
             )
             return []
         return self.fetch_devices_for_sites(site_info)
 
     def process_building_site(self, site_name):
         """
-        Process building site hierarchy including parent site and child floors.
+       Process building site hierarchy including parent site and child floors.
 
-         Args:
-             site_name (str): Building site name to process
+        Args:
+            site_name (str): Building site name to process
 
-         Returns:
-             dict: Dictionary mapping site hierarchy names to site IDs
+        Returns:
+            dict: Dictionary mapping site hierarchy names to site IDs
         """
         self.log(
-            "Processing building hierarchy for site: '{0}'".format(site_name), "DEBUG"
+            "Processing building hierarchy for site: '{0}'".format(site_name),
+            "DEBUG"
         )
 
         site_info = {}
 
         # Get parent building site data
         self.log(
-            "Fetching parent building site data for: '{0}'".format(site_name), "DEBUG"
+            "Fetching parent building site data for: '{0}'".format(site_name),
+            "DEBUG"
         )
 
         parent_site_data = self.get_site(site_name)
@@ -2441,9 +2196,9 @@ class NetworkDevicesInfo(CatalystCenterBase):
         if parent_site_data and parent_site_data.get("response"):
             self.log(
                 "Parent building site data found - processing {0} items".format(
-                    len(parent_site_data.get("response", []))
+                    len(parent_site_data.get('response', []))
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             for item in parent_site_data["response"]:
@@ -2451,14 +2206,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     site_info[item["nameHierarchy"]] = item["id"]
                     self.log(
                         "Added parent site '{0}' with ID '{1}' to hierarchy".format(
-                            item["nameHierarchy"], item["id"]
+                            item['nameHierarchy'], item['id']
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
         else:
             self.log(
                 "No parent site data found for building: '{0}'".format(site_name),
-                "WARNING",
+                "WARNING"
             )
 
         wildcard_site = site_name + "/.*"
@@ -2466,7 +2221,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Fetching child floor sites using wildcard pattern: '{0}'".format(
                 wildcard_site
             ),
-            "DEBUG",
+            "DEBUG"
         )
         child_site_data = self.get_site(wildcard_site)
 
@@ -2476,14 +2231,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     site_info[item["nameHierarchy"]] = item["id"]
                     self.log(
                         "Added child floor site '{0}' with ID '{1}' to hierarchy".format(
-                            item["nameHierarchy"], item["id"]
+                            item['nameHierarchy'], item['id']
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
         else:
             self.log(
                 "No child floor sites found under building: '{0}'".format(site_name),
-                "DEBUG",
+                "DEBUG"
             )
 
         return site_info
@@ -2500,7 +2255,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
         """
         self.log(
             "Processing area/global hierarchy for site: '{0}'".format(site_name),
-            "DEBUG",
+            "DEBUG"
         )
 
         site_info = {}
@@ -2508,9 +2263,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
         wildcard_site = site_name + "/.*"
         child_data = self.get_site(wildcard_site)
 
-        site_names = (
-            wildcard_site if child_data and child_data.get("response") else site_name
-        )
+        site_names = wildcard_site if child_data and child_data.get("response") else site_name
 
         site_data = self.get_site(site_names)
 
@@ -2519,16 +2272,16 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 site_info[item["nameHierarchy"]] = item["id"]
                 self.log(
                     "Added child site '{0}' with ID '{1}' to hierarchy".format(
-                        item["nameHierarchy"], item["id"]
+                        item['nameHierarchy'], item['id']
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
             else:
                 self.log(
                     "No child sites found under area/global: '{0}' - using original site".format(
                         site_name
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
 
         return site_info
@@ -2544,7 +2297,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
             dict: Dictionary mapping site hierarchy names to site IDs
         """
         self.log(
-            "Processing floor hierarchy for site: '{0}'".format(site_name), "DEBUG"
+            "Processing floor hierarchy for site: '{0}'".format(site_name),
+            "DEBUG"
         )
 
         site_info = {}
@@ -2554,9 +2308,9 @@ class NetworkDevicesInfo(CatalystCenterBase):
         if site_data and site_data.get("response"):
             self.log(
                 "Floor site data found - processing {0} items".format(
-                    len(site_data.get("response", []))
+                    len(site_data.get('response', []))
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             for item in site_data["response"]:
@@ -2564,12 +2318,15 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     site_info[item["nameHierarchy"]] = item["id"]
                     self.log(
                         "Added floor site '{0}' with ID '{1}' to hierarchy".format(
-                            item["nameHierarchy"], item["id"]
+                            item['nameHierarchy'], item['id']
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
         else:
-            self.log("No site data found for floor: '{0}'".format(site_name), "WARNING")
+            self.log(
+                "No site data found for floor: '{0}'".format(site_name),
+                "WARNING"
+            )
 
         return site_info
 
@@ -2583,7 +2340,12 @@ class NetworkDevicesInfo(CatalystCenterBase):
         Returns:
             list: List of device IDs from the site
         """
-        self.log("Starting device retrieval from site '{0}'".format(site_info), "DEBUG")
+        self.log(
+            "Starting device retrieval from site '{0}'".format(
+                site_info
+            ),
+            "DEBUG"
+        )
 
         device_id_list = []
 
@@ -2593,7 +2355,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
 
             self.log(
                 "Using pagination - limit: {0} devices per request".format(limit),
-                "DEBUG",
+                "DEBUG"
             )
 
             while True:
@@ -2602,7 +2364,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Fetching devices from site '{0}' - offset: {1}, limit: {2}".format(
                             site_info, offset, limit
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     response = self.catalystcenter._exec(
                         family="site_design",
@@ -2624,10 +2386,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         device_id = device.get("deviceId")
                         device_id_list.append(device_id)
                         self.log(
-                            "Retrieved device ID '{0}' from site '{1}'".format(
-                                device_id, hierarchy
-                            ),
-                            "DEBUG",
+                            "Retrieved device ID '{0}' from site '{1}'".format(device_id, hierarchy),
+                            "DEBUG"
                         )
 
                     offset += limit
@@ -2637,14 +2397,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Exception during device retrieval from site '{0}' (ID: {1}): {2}".format(
                             hierarchy, site_id, str(e)
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
                     return None
         self.log(
             "Device retrieval completed for site '{0}' - total devices: {1}".format(
                 hierarchy, len(device_id_list)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         return device_id_list
@@ -2685,14 +2445,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Using filter configuration - timeout: {0}s, retries: {1}, interval: {2}s".format(
                 timeout, retries, interval
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         self.log(
             "Filter criteria - site_hierarchy: {0}, device_type: {1}, role: {2}, family: {3}".format(
                 site_hierarchy, device_type, device_role, device_family
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         filtered_devices = {}
@@ -2706,14 +2466,11 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Starting device discovery phase - retrieving network devices with offset {0} and limit {1}".format(
                         offset, limit
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
-                self.log(
-                    "Attempt {0} - Retrieving network devices with offset {1} and limit {2}".format(
-                        attempt + 1, offset, limit
-                    ),
-                    "DEBUG",
-                )
+                self.log("Attempt {0} - Retrieving network devices with offset {1} and limit {2}".format(
+                    attempt + 1, offset, limit
+                ), "DEBUG")
 
                 all_devices = []
 
@@ -2723,29 +2480,25 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 if site_hierarchy:
                     self.log(
                         "Processing site hierarchy filter: {0}".format(site_hierarchy),
-                        "INFO",
+                        "INFO"
                     )
                     device_ids_in_site = self.get_devices_from_site(site_hierarchy)
                     self.log(
                         "Site-based device discovery completed - found {0} devices for site '{1}'".format(
                             len(device_ids_in_site), site_hierarchy
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     self.log(
-                        "Device IDs from site '{0}': {1}".format(
-                            site_hierarchy, device_ids_in_site
-                        ),
-                        "DEBUG",
+                        "Device IDs from site '{0}': {1}".format(site_hierarchy, device_ids_in_site),
+                        "DEBUG"
                     )
 
                 # Phase 2: Device identifier-based discovery
                 if device_identifier:
                     self.log(
-                        "Processing device identifier filter: {0}".format(
-                            device_identifier
-                        ),
-                        "INFO",
+                        "Processing device identifier filter: {0}".format(device_identifier),
+                        "INFO"
                     )
                     ip_uuid_map = self.get_device_id(filtered_config)
                     if ip_uuid_map:
@@ -2754,20 +2507,17 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Identifier-based device discovery completed - found {0} devices".format(
                                 len(device_ids_from_identifiers)
                             ),
-                            "INFO",
+                            "INFO"
                         )
 
                         # Combine site and identifier filters if both are specified
                         if site_hierarchy:
-                            device_ids = list(
-                                set(device_ids_from_identifiers)
-                                & set(device_ids_in_site)
-                            )
+                            device_ids = list(set(device_ids_from_identifiers) & set(device_ids_in_site))
                             self.log(
                                 "Applied intersection of site and identifier filters - result: {0} devices".format(
                                     len(device_ids)
                                 ),
-                                "DEBUG",
+                                "DEBUG"
                             )
                         else:
                             device_ids = device_ids_from_identifiers
@@ -2775,12 +2525,12 @@ class NetworkDevicesInfo(CatalystCenterBase):
                                 "Using identifier-based filter results: {0} devices".format(
                                     len(device_ids)
                                 ),
-                                "DEBUG",
+                                "DEBUG"
                             )
                     else:
                         self.log(
                             "No devices found matching device identifier criteria",
-                            "WARNING",
+                            "WARNING"
                         )
                         device_ids = []
                 else:
@@ -2789,14 +2539,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Using site-based filter results or all devices: {0}".format(
                             len(device_ids) if device_ids != [None] else "all"
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
 
                 self.log(
                     "Device discovery completed - processing {0} device IDs for attribute filtering".format(
                         len(device_ids) if device_ids != [None] else "all devices"
                     ),
-                    "INFO",
+                    "INFO"
                 )
 
                 # Phase 3: Apply attribute-based filters
@@ -2805,7 +2555,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Processing device {0}/{1} for attribute filtering - device_id: {2}".format(
                             device_index + 1, len(device_ids), device_id
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     params = {"offset": offset, "limit": limit}
                     if device_id:
@@ -2816,7 +2566,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "family": device_family,
                         "type": device_type,
                         "software_version": software_version,
-                        "software_type": os_type,
+                        "software_type": os_type
                     }
 
                     applied_filters = []
@@ -2825,10 +2575,8 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             params[key] = value
                             applied_filters.append("{0}='{1}'".format(key, value))
                             self.log(
-                                "Applied {0} filter with value: '{1}'".format(
-                                    key, value
-                                ),
-                                "DEBUG",
+                                "Applied {0} filter with value: '{1}'".format(key, value),
+                                "DEBUG"
                             )
 
                     if applied_filters:
@@ -2836,15 +2584,17 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Executing device query with filters: {0}".format(
                                 ", ".join(applied_filters)
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                     else:
                         self.log(
-                            "Executing device query without attribute filters", "DEBUG"
+                            "Executing device query without attribute filters",
+                            "DEBUG"
                         )
 
                     self.log(
-                        "API parameters for device query: {0}".format(params), "DEBUG"
+                        "API parameters for device query: {0}".format(params),
+                        "DEBUG"
                     )
 
                     while True:
@@ -2852,35 +2602,28 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Executing API call - offset: {0}, limit: {1}".format(
                                 params.get("offset"), params.get("limit")
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         response = self.catalystcenter._exec(
-                            family="devices", function="get_device_list", params=params
+                            family="devices",
+                            function="get_device_list",
+                            params=params
                         )
 
-                        self.log(
-                            "Received API response from 'get_network_devices': {0}".format(
-                                response
-                            ),
-                            "DEBUG",
-                        )
+                        self.log("Received API response from 'get_network_devices': {0}".format(response), "DEBUG")
 
                         devices = response.get("response", [])
 
                         if devices:
                             self.log(
-                                "Found {0} devices in current page".format(
-                                    len(devices)
-                                ),
-                                "DEBUG",
+                                "Found {0} devices in current page".format(len(devices)),
+                                "DEBUG"
                             )
                             all_devices.extend(devices)
                             device_id = devices[0].get("instanceUuid")
                             self.log(
-                                "Sample device from response - UUID: {0}".format(
-                                    device_id
-                                ),
-                                "DEBUG",
+                                "Sample device from response - UUID: {0}".format(device_id),
+                                "DEBUG"
                             )
 
                         if len(devices) < limit:
@@ -2888,21 +2631,18 @@ class NetworkDevicesInfo(CatalystCenterBase):
                                 "Reached end of results - received {0} devices (less than limit {1})".format(
                                     len(devices), limit
                                 ),
-                                "DEBUG",
+                                "DEBUG"
                             )
                             break
 
                         offset += limit
                         self.log(
                             "Continuing pagination - new offset: {0}".format(offset),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         params["offset"] = offset
 
-                self.log(
-                    "Total network devices retrieved: {0}".format(len(all_devices)),
-                    "INFO",
-                )
+                self.log("Total network devices retrieved: {0}".format(len(all_devices)), "INFO")
 
                 # Phase 4: Build final filtered device mapping
                 devices_processed = 0
@@ -2916,14 +2656,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Device {0} included in final results - IP: {1}, UUID: {2}".format(
                                 devices_processed, ip, device_id
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                     else:
                         self.log(
                             "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
                                 ip, device_id
                             ),
-                            "WARNING",
+                            "WARNING"
                         )
 
                 if filtered_devices:
@@ -2931,7 +2671,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Device filtering completed successfully on attempt {0} - found {1} matching devices".format(
                             attempt + 1, len(filtered_devices)
                         ),
-                        "INFO",
+                        "INFO"
                     )
                     break
                 else:
@@ -2940,7 +2680,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "No devices matched criteria on attempt {0}/{1} - retrying in {2} seconds".format(
                                 attempt + 1, retries, interval
                             ),
-                            "WARNING",
+                            "WARNING"
                         )
                         time.sleep(interval)
                         attempt += 1
@@ -2949,17 +2689,13 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "No devices matched filtering criteria after {0} attempts".format(
                                 attempt + 1
                             ),
-                            "WARNING",
+                            "WARNING"
                         )
                         break
 
             except Exception as e:
-                self.msg = "Error occurred while retrieving/filtering network devices: {0}".format(
-                    str(e)
-                )
-                self.set_operation_result(
-                    "failed", False, self.msg, "ERROR"
-                ).check_return_status()
+                self.msg = "Error occurred while retrieving/filtering network devices: {0}".format(str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 return None
 
         if not filtered_devices:
@@ -2968,7 +2704,10 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 "and {1:.1f} seconds".format(attempt + 1, time.time() - start_time)
             )
             self.set_operation_result("success", False, self.msg, "INFO")
-            self.log("Device filtering completed with no matching devices", "WARNING")
+            self.log(
+                "Device filtering completed with no matching devices",
+                "WARNING"
+            )
             return None
 
         total_elapsed = time.time() - start_time
@@ -2977,19 +2716,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "found {0} devices in {1:.1f} seconds across {2} attempts".format(
                 len(filtered_devices), total_elapsed, attempt + 1
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Final filtered device mapping: {0}".format(
                 dict(list(filtered_devices.items())[:5])
-            )
-            + (
-                "... and {0} more".format(len(filtered_devices) - 5)
-                if len(filtered_devices) > 5
-                else ""
-            ),
-            "DEBUG",
+            ) + ("... and {0} more".format(len(filtered_devices) - 5) if len(filtered_devices) > 5 else ""),
+            "DEBUG"
         )
 
         return filtered_devices
@@ -3024,76 +2758,48 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Starting device info retrieval for device_ids: {0}".format(ip_uuid_map),
-            "INFO",
-        )
+        self.log("Starting device info retrieval for device_ids: {0}".format(ip_uuid_map), "INFO")
         device_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching device info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_list",
-                    params={"id": device_id},
+                    params={'id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_device_info' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 device_response = response.get("response", [])
                 if device_response:
-                    self.log(
-                        "Device details found for device_id: {0}, device_ip: {1}".format(
-                            device_id, device_ip
-                        ),
-                        "INFO",
-                    )
-                    device_info_list.append(
-                        {"device_ip": device_ip, "device_details": device_response}
-                    )
+                    self.log("Device details found for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "INFO")
+                    device_info_list.append({
+                        "device_ip": device_ip,
+                        "device_details": device_response
+                    })
                 else:
-                    self.log(
-                        "No device details found for device_id: {0}, device_ip: {1}".format(
-                            device_id, device_ip
-                        ),
-                        "WARNING",
-                    )
-                    device_info_list.append(
-                        {"device_ip": device_ip, "device_details": []}
-                    )
+                    self.log("No device details found for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "WARNING")
+                    device_info_list.append({
+                        "device_ip": device_ip,
+                        "device_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                device_info_list.append(
-                    {"device_ip": device_ip, "device_details": "Error: {0}".format(e)}
-                )
+                self.msg = "Exception occurred while getting device list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                device_info_list.append({
+                    "device_ip": device_ip,
+                    "device_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"device_info": device_info_list}]
 
-        self.log(
-            "Completed device info retrieval. Total devices processed: {0}".format(
-                len(device_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed device info retrieval. Total devices processed: {0}".format(len(device_info_list)), "INFO")
         self.log("Device info result: {0}".format(result), "DEBUG")
         return result
 
@@ -3142,82 +2848,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching interface info for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching interface info for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         interface_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching device interface info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device interface info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_interface_info_by_id",
-                    params={"device_id": device_id},
+                    params={'device_id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_interface_info' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 interface_data = response.get("response", [])
                 if interface_data:
-                    self.log(
-                        "Found {0} interface records for device IP: {1}".format(
-                            len(interface_data), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    interface_info_list.append(
-                        {"device_ip": device_ip, "interface_details": interface_data}
-                    )
+                    self.log("Found {0} interface records for device IP: {1}".format(len(interface_data), device_ip), "DEBUG")
+                    interface_info_list.append({
+                        "device_ip": device_ip,
+                        "interface_details": interface_data
+                    })
                 else:
-                    self.log(
-                        "No interface details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    interface_info_list.append(
-                        {"device_ip": device_ip, "interface_details": []}
-                    )
+                    self.log("No interface details found for device IP: {0}".format(device_ip), "DEBUG")
+                    interface_info_list.append({
+                        "device_ip": device_ip,
+                        "interface_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device interface info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                interface_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "interface_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting device interface info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                interface_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"interface_info": interface_info_list}]
 
-        self.log(
-            "Completed Device Interface info retrieval. Total devices processed: {0}".format(
-                len(interface_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device Interface info retrieval. Total devices processed: {0}".format(len(interface_info_list)), "INFO")
         self.log("Device Interface info result: {0}".format(result), "DEBUG")
         return result
 
@@ -3258,82 +2931,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching VLAN interface data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching VLAN interface data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         vlans_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching device interface vlans info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device interface vlans info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_interface_vlans",
-                    params={"id": device_id},
+                    params={'id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_device_interface_vlans' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 vlan_data = response.get("response", [])
                 if vlan_data:
-                    self.log(
-                        "Found {0} VLAN records for device IP: {1}".format(
-                            len(vlan_data), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    vlans_info_list.append(
-                        {"device_ip": device_ip, "interface_vlan_details": vlan_data}
-                    )
+                    self.log("Found {0} VLAN records for device IP: {1}".format(len(vlan_data), device_ip), "DEBUG")
+                    vlans_info_list.append({
+                        "device_ip": device_ip,
+                        "interface_vlan_details": vlan_data
+                    })
                 else:
-                    self.log(
-                        "No VLAN interface data found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    vlans_info_list.append(
-                        {"device_ip": device_ip, "interface_vlan_details": []}
-                    )
+                    self.log("No VLAN interface data found for device IP: {0}".format(device_ip), "DEBUG")
+                    vlans_info_list.append({
+                        "device_ip": device_ip,
+                        "interface_vlan_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting VLAN interface data for device {0} (IP: {1}): {2}".format(
-                    device_id, device_ip, e
-                )
-                vlans_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "interface_vlan_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting VLAN interface data for device {0} (IP: {1}): {2}".format(device_id, device_ip, e)
+                vlans_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_vlan_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"interface_vlan_info": vlans_info_list}]
 
-        self.log(
-            "Completed Interface Vlan info retrieval. Total devices processed: {0}".format(
-                len(vlans_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Interface Vlan info retrieval. Total devices processed: {0}".format(len(vlans_info_list)), "INFO")
         self.log("Interface Vlan info result: {0}".format(result), "DEBUG")
         return result
 
@@ -3368,79 +3008,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching Line card data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching Line card data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         linecards_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching line card info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching line card info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_linecard_details",
-                    params={"device_uuid": device_id},
+                    params={'device_uuid': device_id}
                 )
                 self.log(
                     "Received API response from 'get_linecard_details' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 linecard_data = response.get("response", [])
                 if linecard_data:
-                    self.log(
-                        "Found {0} line card records for device IP: {1}".format(
-                            len(linecard_data), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    linecards_info_list.append(
-                        {"device_ip": device_ip, "linecard_details": linecard_data}
-                    )
+                    self.log("Found {0} line card records for device IP: {1}".format(len(linecard_data), device_ip), "DEBUG")
+                    linecards_info_list.append({
+                        "device_ip": device_ip,
+                        "linecard_details": linecard_data
+                    })
                 else:
-                    self.log(
-                        "No line card details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    linecards_info_list.append(
-                        {"device_ip": device_ip, "linecard_details": []}
-                    )
+                    self.log("No line card details found for device IP: {0}".format(device_ip), "DEBUG")
+                    linecards_info_list.append({
+                        "device_ip": device_ip,
+                        "linecard_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting line card info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                linecards_info_list.append(
-                    {"device_ip": device_ip, "linecard_details": "Error: {0}".format(e)}
-                )
+                self.msg = "Exception occurred while getting line card info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                linecards_info_list.append({
+                    "device_ip": device_ip,
+                    "linecard_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"line_card_info": linecards_info_list}]
 
-        self.log(
-            "Completed Line Card info retrieval. Total devices processed: {0}".format(
-                len(linecards_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Line Card info retrieval. Total devices processed: {0}".format(len(linecards_info_list)), "INFO")
         self.log("Line Card info result: {0}".format(result), "DEBUG")
         return result
 
@@ -3475,85 +3085,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching supervisor card data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching supervisor card data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         supervisor_cards_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching supervisor card info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching supervisor card info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_supervisor_card_detail",
-                    params={"device_uuid": device_id},
+                    params={'device_uuid': device_id}
                 )
                 self.log(
                     "Received API response from 'get_supervisor_card_details' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 supervisor_cards = response.get("response", [])
                 if supervisor_cards:
-                    self.log(
-                        "Found {0} supervisor card records for device IP: {1}".format(
-                            len(supervisor_cards), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    supervisor_cards_info_list.append(
-                        {
-                            "device_ip": device_ip,
-                            "supervisor_card_details": supervisor_cards,
-                        }
-                    )
+                    self.log("Found {0} supervisor card records for device IP: {1}".format(len(supervisor_cards), device_ip), "DEBUG")
+                    supervisor_cards_info_list.append({
+                        "device_ip": device_ip,
+                        "supervisor_card_details": supervisor_cards
+                    })
                 else:
-                    self.log(
-                        "No supervisor card details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    supervisor_cards_info_list.append(
-                        {"device_ip": device_ip, "supervisor_card_details": []}
-                    )
+                    self.log("No supervisor card details found for device IP: {0}".format(device_ip), "DEBUG")
+                    supervisor_cards_info_list.append({
+                        "device_ip": device_ip,
+                        "supervisor_card_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting supervisor card info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                supervisor_cards_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "supervisor_card_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting supervisor card info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                supervisor_cards_info_list.append({
+                    "device_ip": device_ip,
+                    "supervisor_card_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"supervisor_card_info": supervisor_cards_info_list}]
 
-        self.log(
-            "Completed Device Supervisor Card info retrieval. Total devices processed: {0}".format(
-                len(supervisor_cards_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device Supervisor Card info retrieval. Total devices processed: {0}".format(len(supervisor_cards_info_list)), "INFO")
         self.log("Device Supervisor Card info result: {0}".format(result), "DEBUG")
         return result
 
@@ -3587,72 +3161,51 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching PoE data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching PoE data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         poe_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching poe info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching poe info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="poe_details",
-                    params={"device_uuid": device_id},
+                    params={'device_uuid': device_id}
                 )
                 self.log(
-                    "Received API response from 'poe_details': {0}".format((response)),
+                    "Received API response from 'poe_details': {0}".format(
+                        (response)
+                    ),
                     "DEBUG",
                 )
                 poe_data = response.get("response", [])
                 if poe_data:
-                    self.log(
-                        "Found {0} PoE records for device IP: {1}".format(
-                            len(poe_data), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    poe_info_list.append(
-                        {"device_ip": device_ip, "poe_details": poe_data}
-                    )
+                    self.log("Found {0} PoE records for device IP: {1}".format(len(poe_data), device_ip), "DEBUG")
+                    poe_info_list.append({
+                        "device_ip": device_ip,
+                        "poe_details": poe_data
+                    })
                 else:
-                    self.log(
-                        "No PoE details found for device IP: {0}".format(device_ip),
-                        "DEBUG",
-                    )
-                    poe_info_list.append({"device_ip": device_ip, "poe_details": []})
+                    self.log("No PoE details found for device IP: {0}".format(device_ip), "DEBUG")
+                    poe_info_list.append({
+                        "device_ip": device_ip,
+                        "poe_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting PoE Info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                poe_info_list.append(
-                    {"device_ip": device_ip, "poe_details": "Error: {0}".format(e)}
-                )
+                self.msg = "Exception occurred while getting PoE Info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                poe_info_list.append({
+                    "device_ip": device_ip,
+                    "poe_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"poe_info": poe_info_list}]
 
-        self.log(
-            "Completed Device PoE info retrieval. Total devices processed: {0}".format(
-                len(poe_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device PoE info retrieval. Total devices processed: {0}".format(len(poe_info_list)), "INFO")
         self.log("Device PoE info result: {0}".format(result), "DEBUG")
         return result
 
@@ -3688,30 +3241,23 @@ class NetworkDevicesInfo(CatalystCenterBase):
         self.log(
             "Processing module count data for {0} devices with IP-UUID mapping: {1}".format(
                 len(ip_uuid_map) if ip_uuid_map else 0,
-                list(ip_uuid_map.keys()) if ip_uuid_map else [],
+                list(ip_uuid_map.keys()) if ip_uuid_map else []
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         module_counts_info_list = []
         successful_retrievals = 0
         failed_retrievals = 0
 
-        for device_index, (device_ip, device_id) in enumerate(
-            ip_uuid_map.items(), start=1
-        ):
+        for device_index, (device_ip, device_id) in enumerate(ip_uuid_map.items(), start=1):
             self.log(
                 "Processing device {0}/{1} - IP: {2}, UUID: {3}".format(
                     device_index, len(ip_uuid_map), device_ip, device_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
-            self.log(
-                "Fetching module count info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Fetching module count info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             # Validate device IP and ID
             if not device_ip or not device_id:
@@ -3719,14 +3265,12 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
                         device_ip, device_id
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
-                module_counts_info_list.append(
-                    {
-                        "device_ip": device_ip or "unknown",
-                        "module_count_details": "Error: Missing device IP or UUID",
-                    }
-                )
+                module_counts_info_list.append({
+                    "device_ip": device_ip or "unknown",
+                    "module_count_details": "Error: Missing device IP or UUID"
+                })
                 failed_retrievals += 1
                 continue
 
@@ -3734,61 +3278,43 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 "Executing module count API call for device IP: {0}, UUID: {1}".format(
                     device_ip, device_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_module_count",
-                    params={"device_id": device_id},
+                    params={'device_id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_module_count' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 module_count_data = response.get("response", [])
 
                 if module_count_data:
                     successful_retrievals += 1
-                    self.log(
-                        "Found {0} module count records for device IP: {1}".format(
-                            module_count_data, device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    module_counts_info_list.append(
-                        {
-                            "device_ip": device_ip,
-                            "module_count_details": module_count_data,
-                        }
-                    )
+                    self.log("Found {0} module count records for device IP: {1}".format(module_count_data, device_ip), "DEBUG")
+                    module_counts_info_list.append({
+                        "device_ip": device_ip,
+                        "module_count_details": module_count_data
+                    })
                 else:
                     successful_retrievals += 1
-                    self.log(
-                        "No module count details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    module_counts_info_list.append(
-                        {"device_ip": device_ip, "module_count_details": []}
-                    )
+                    self.log("No module count details found for device IP: {0}".format(device_ip), "DEBUG")
+                    module_counts_info_list.append({
+                        "device_ip": device_ip,
+                        "module_count_details": []
+                    })
 
             except Exception as e:
                 failed_retrievals += 1
-                self.msg = "Exception occurred while getting module count info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                module_counts_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "module_count_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting module count info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                module_counts_info_list.append({
+                    "device_ip": device_ip,
+                    "module_count_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"module_count_info": module_counts_info_list}]
@@ -3798,17 +3324,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "total devices: {0}, successful: {1}, failed: {2}".format(
                 len(ip_uuid_map), successful_retrievals, failed_retrievals
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Module count retrieval result summary: {0}".format(
-                {
-                    "total_devices": len(module_counts_info_list),
-                    "result_structure": "module_count_info",
-                }
+                {"total_devices": len(module_counts_info_list), "result_structure": "module_count_info"}
             ),
-            "DEBUG",
+            "DEBUG"
         )
         return result
 
@@ -3831,36 +3354,33 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "192.168.1.2": {"interface-uuid-4", "interface-uuid-5"},
                 }
         """
-        self.log(
-            "Retrieving interface identifiers for network device interface inventory and management",
-            "INFO",
-        )
+        self.log("Retrieving interface identifiers for network device interface inventory and management", "INFO")
         self.log(
             "Processing interface discovery for {0} network devices".format(
                 len(ip_uuid_map)
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         device_interfaces_map = {}
 
         # Statistics tracking
         statistics = {
-            "devices_processed": 0,
-            "devices_with_interfaces": 0,
-            "devices_without_interfaces": 0,
-            "devices_with_errors": 0,
-            "interfaces_without_ids": 0,
-            "total_interfaces_discovered": 0,
+            'devices_processed': 0,
+            'devices_with_interfaces': 0,
+            'devices_without_interfaces': 0,
+            'devices_with_errors': 0,
+            'interfaces_without_ids': 0,
+            'total_interfaces_discovered': 0
         }
 
         for index, (ip, device_id) in enumerate(ip_uuid_map.items()):
-            statistics["devices_processed"] += 1
+            statistics['devices_processed'] += 1
             self.log(
                 "Processing device {0}/{1} - IP: {2}, UUID: {3}".format(
-                    statistics["devices_processed"], len(ip_uuid_map), ip, device_id
+                    statistics['devices_processed'], len(ip_uuid_map), ip, device_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate device IP and UUID
@@ -3869,9 +3389,9 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
                         ip, device_id
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
-                statistics["devices_with_errors"] += 1
+                statistics['devices_with_errors'] += 1
                 continue
 
             try:
@@ -3880,27 +3400,18 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_interface_info_by_id",
-                    params={"device_id": device_id},
+                    params={"device_id": device_id}
                 )
-                self.log(
-                    "Received API response for interface query on device {0}".format(
-                        ip
-                    ),
-                    "DEBUG",
-                )
+                self.log("Received API response for interface query on device {0}".format(ip), "DEBUG")
                 interface_response_data = response.get("response", [])
                 self.log(
                     "Interface query completed for device {0} - found {1} interface records".format(
-                        ip, len(interface_response_data)
+                        ip,
+                        len(interface_response_data)
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
-                self.log(
-                    "Received API response for 'get_interface_info_by_id' for device {0}: {1}".format(
-                        ip, response
-                    ),
-                    "DEBUG",
-                )
+                self.log("Received API response for 'get_interface_info_by_id' for device {0}: {1}".format(ip, response), "DEBUG")
 
                 interface_ids = set()
                 interfaces_missing_ids = 0
@@ -3915,39 +3426,41 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Interface record missing UUID identifier for device {0} - skipping interface".format(
                                 ip
                             ),
-                            "WARNING",
+                            "WARNING"
                         )
                 device_interfaces_map[ip] = interface_ids
-                statistics["interfaces_without_ids"] += interfaces_missing_ids
-                statistics["total_interfaces_discovered"] += len(interface_ids)
+                statistics['interfaces_without_ids'] += interfaces_missing_ids
+                statistics['total_interfaces_discovered'] += len(interface_ids)
 
                 if interface_ids:
-                    statistics["devices_with_interfaces"] += 1
+                    statistics['devices_with_interfaces'] += 1
                     self.log(
                         "Successfully mapped {0} interface identifiers for device {1}".format(
-                            len(interface_ids), ip
+                            len(interface_ids),
+                            ip
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                 else:
-                    statistics["devices_without_interfaces"] += 1
+                    statistics['devices_without_interfaces'] += 1
                     self.log(
                         "No interface identifiers found for device {0} - "
                         "device may have no configured interfaces".format(ip),
-                        "WARNING",
+                        "WARNING"
                     )
                 if interfaces_without_ids > 0:
                     self.log(
                         "Warning: {0} interface records for device {1} were missing "
-                        "UUID identifiers".format(interfaces_without_ids, ip),
-                        "WARNING",
+                        "UUID identifiers".format(
+                            interfaces_without_ids,
+                            ip
+                        ),
+                        "WARNING"
                     )
 
             except Exception as e:
-                statistics["devices_with_errors"] += 1
-                self.msg = "Failed to retrieve interface information for device {0}: {1}".format(
-                    ip, str(e)
-                )
+                statistics['devices_with_errors'] += 1
+                self.msg = "Failed to retrieve interface information for device {0}: {1}".format(ip, str(e))
                 self.log(self.msg, "ERROR")
 
         total_network_devices = len(ip_uuid_map)
@@ -3958,56 +3471,36 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "devices with interfaces: {0}, "
             "devices without interfaces: {1}, "
             "devices with errors: {2}".format(
-                statistics["devices_with_interfaces"],
-                statistics["devices_without_interfaces"],
-                statistics["devices_with_errors"],
+                statistics['devices_with_interfaces'],
+                statistics['devices_without_interfaces'],
+                statistics['devices_with_errors']
             ),
-            "INFO",
+            "INFO"
         )
 
-        if statistics["interfaces_without_ids"] > 0:
+        if statistics['interfaces_without_ids'] > 0:
             self.log(
                 "Warning: {0} interface records across all devices were missing "
-                "UUID identifiers".format(statistics["interfaces_without_ids"]),
-                "WARNING",
+                "UUID identifiers".format(statistics['interfaces_without_ids']),
+                "WARNING"
             )
 
         self.log(
             "Total interface identifiers discovered: {0} across {1} devices".format(
-                statistics["total_interfaces_discovered"], successful_devices
+                statistics['total_interfaces_discovered'], successful_devices
             ),
-            "INFO",
+            "INFO"
         )
-        if statistics["devices_with_interfaces"] > 0:
-            self.log(
-                "Network devices with interface identifiers: {0}".format(
-                    statistics["devices_with_interfaces"]
-                ),
-                "INFO",
-            )
+        if statistics['devices_with_interfaces'] > 0:
+            self.log("Network devices with interface identifiers: {0}".format(statistics['devices_with_interfaces']), "INFO")
 
-        if statistics["devices_without_interfaces"] > 0:
-            self.log(
-                "Network devices without interface identifiers: {0}".format(
-                    statistics["devices_without_interfaces"]
-                ),
-                "INFO",
-            )
+        if statistics['devices_without_interfaces'] > 0:
+            self.log("Network devices without interface identifiers: {0}".format(statistics['devices_without_interfaces']), "INFO")
 
-        if statistics["devices_with_errors"] > 0:
-            self.log(
-                "Warning: {0} devices encountered errors during interface retrieval".format(
-                    statistics["devices_with_errors"]
-                ),
-                "WARNING",
-            )
+        if statistics['devices_with_errors'] > 0:
+            self.log("Warning: {0} devices encountered errors during interface retrieval".format(statistics['devices_with_errors']), "WARNING")
 
-        self.log(
-            "Total interface identifiers discovered across all network devices: {0}".format(
-                statistics["total_interfaces_discovered"]
-            ),
-            "INFO",
-        )
+        self.log("Total interface identifiers discovered across all network devices: {0}".format(statistics['total_interfaces_discovered']), "INFO")
 
         return device_interfaces_map
 
@@ -4041,32 +3534,24 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Discovering connected device topology for device interface inventory",
-            "INFO",
-        )
-        self.log(
-            "Processing connected device discovery for {0} network devices".format(
-                len(ip_uuid_map)
-            ),
-            "DEBUG",
-        )
+        self.log("Discovering connected device topology for device interface inventory", "INFO")
+        self.log("Processing connected device discovery for {0} network devices".format(len(ip_uuid_map)), "DEBUG")
 
         connected_info_list = []
 
         statistics = {
-            "devices_processed": 0,
-            "devices_with_connections": 0,
-            "devices_without_connections": 0,
-            "devices_with_errors": 0,
-            "interfaces_processed": 0,
-            "interfaces_with_connections": 0,
-            "total_connections_discovered": 0,
+            'devices_processed': 0,
+            'devices_with_connections': 0,
+            'devices_without_connections': 0,
+            'devices_with_errors': 0,
+            'interfaces_processed': 0,
+            'interfaces_with_connections': 0,
+            'total_connections_discovered': 0
         }
 
         self.log(
             "Phase 1: Retrieving interface inventories for network devices to enable discovery",
-            "INFO",
+            "INFO"
         )
         device_interfaces_map = self.get_interface_ids_per_device(ip_uuid_map)
 
@@ -4074,7 +3559,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
             self.log(
                 "No interface mappings available for network devices - "
                 "unable to perform connected device discovery",
-                "WARNING",
+                "WARNING"
             )
             return [{"connected_device_info": []}]
 
@@ -4082,48 +3567,39 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Phase 1 completed: Retrieved interface mappings for {0} network devices".format(
                 len(device_interfaces_map)
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Phase 2: Processing connected device discovery across device interfaces",
-            "INFO",
+            "INFO"
         )
 
-        for index, (device_ip, interface_ids) in enumerate(
-            device_interfaces_map.items()
-        ):
-            statistics["devices_processed"] += 1
+        for index, (device_ip, interface_ids) in enumerate(device_interfaces_map.items()):
+            statistics['devices_processed'] += 1
             ip_device_uuid_map = self.get_device_ids_from_device_ips([device_ip])
             device_uuid = ip_device_uuid_map[device_ip]
             interfaces_with_connections = 0
 
             self.log(
                 "Processing device {0}/{1} - IP: {2}, UUID: {3}, interfaces: {4}".format(
-                    statistics["devices_processed"],
-                    len(device_interfaces_map),
-                    device_ip,
-                    device_uuid,
-                    len(interface_ids),
+                    statistics['devices_processed'], len(device_interfaces_map),
+                    device_ip, device_uuid, len(interface_ids)
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             # Validate device mapping
             if not device_uuid:
                 self.log(
-                    "Skipping device {0} - missing UUID in ip_uuid_map".format(
-                        device_ip
-                    ),
-                    "WARNING",
+                    "Skipping device {0} - missing UUID in ip_uuid_map".format(device_ip),
+                    "WARNING"
                 )
-                statistics["devices_with_errors"] += 1
-                connected_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "connected_device_details": "Error: Missing device UUID in mapping",
-                    }
-                )
+                statistics['devices_with_errors'] += 1
+                connected_info_list.append({
+                    "device_ip": device_ip,
+                    "connected_device_details": "Error: Missing device UUID in mapping"
+                })
                 continue
 
             if not interface_ids:
@@ -4131,95 +3607,93 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Device {0} has no interfaces available for connected device discovery".format(
                         device_ip
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
-                statistics["devices_without_connections"] += 1
-                connected_info_list.append(
-                    {"device_ip": device_ip, "connected_device_details": []}
-                )
+                statistics['devices_without_connections'] += 1
+                connected_info_list.append({
+                    "device_ip": device_ip,
+                    "connected_device_details": []
+                })
                 continue
 
             for interface_index, interface_id in enumerate(interface_ids, start=1):
-                statistics["interfaces_processed"] += 1
+                statistics['interfaces_processed'] += 1
 
                 self.log(
                     "Processing interface {0}/{1} for device {2} - interface_id: {3}".format(
                         interface_index, len(interface_ids), device_ip, interface_id
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 try:
                     self.log(
                         "Executing connected device query for interface {0} on device {1}".format(
                             interface_id, device_ip
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     response = self.catalystcenter._exec(
                         family="devices",
                         function="get_connected_device_detail",
                         params={
                             "device_uuid": device_uuid,
-                            "interface_uuid": interface_id,
-                        },
+                            "interface_uuid": interface_id
+                        }
                     )
                     self.log(
                         "Received connected device API response for device {0}, interface {1}: {2}".format(
                             device_ip, interface_id, response
                         ),
-                        "DEBUG",
+                        "DEBUG"
                     )
                     interface_connected_data = response.get("response", {})
 
                     if interface_connected_data:
                         interfaces_with_connections += 1
-                        statistics["interfaces_with_connections"] += 1
-                        statistics["total_connections_discovered"] += 1
-                        statistics["devices_with_connections"] += 1
+                        statistics['interfaces_with_connections'] += 1
+                        statistics['total_connections_discovered'] += 1
+                        statistics['devices_with_connections'] += 1
                         self.log(
                             "Connected device found for device {0}, interface {1}: {2}".format(
                                 device_ip, interface_id, interface_connected_data
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
-                        connected_info_list.append(
-                            {
-                                "device_ip": device_ip,
-                                "connected_device_details": [interface_connected_data],
-                            }
-                        )
+                        connected_info_list.append({
+                            "device_ip": device_ip,
+                            "connected_device_details": [interface_connected_data]
+                        })
                     else:
-                        statistics["devices_without_connections"] += 1
+                        statistics['devices_without_connections'] += 1
                         self.log(
                             "No connected device found for device {0}, interface {1}".format(
                                 device_ip, interface_id
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
-                        connected_info_list.append(
-                            {"device_ip": device_ip, "connected_device_details": []}
-                        )
+                        connected_info_list.append({
+                            "device_ip": device_ip,
+                            "connected_device_details": []
+                        })
 
                 except Exception as e:
-                    statistics["devices_with_errors"] += 1
+                    statistics['devices_with_errors'] += 1
                     self.log(
                         "Exception during connected device query for device {0}, interface {1}: {2}".format(
                             device_ip, interface_id, str(e)
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
-                    connected_info_list.append(
-                        {
-                            "device_ip": device_ip,
-                            "connected_device_details": "Error: {0}".format(e),
-                        }
-                    )
+                    connected_info_list.append({
+                        "device_ip": device_ip,
+                        "connected_device_details": "Error: {0}".format(e)
+                    })
 
         result = [{"connected_device_info": connected_info_list}]
 
         self.log(
             "Phase 2 completed: Connected device topology discovery finished successfully",
-            "INFO",
+            "INFO"
         )
 
         # Final statistics and comprehensive logging
@@ -4227,40 +3701,40 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Discovery statistics - devices processed: {0}, "
             "devices with connections: {1}, devices without connections: {2}, "
             "devices with errors: {3}".format(
-                statistics["devices_processed"],
-                statistics["devices_with_connections"],
-                statistics["devices_without_connections"],
-                statistics["devices_with_errors"],
+                statistics['devices_processed'],
+                statistics['devices_with_connections'],
+                statistics['devices_without_connections'],
+                statistics['devices_with_errors']
             ),
-            "INFO",
+            "INFO"
         )
         self.log(
             "Interface processing statistics - total interfaces: {0}, "
             "interfaces with connections: {1}, total connections discovered: {2}".format(
-                statistics["interfaces_processed"],
-                statistics["interfaces_with_connections"],
-                statistics["total_connections_discovered"],
+                statistics['interfaces_processed'],
+                statistics['interfaces_with_connections'],
+                statistics['total_connections_discovered']
             ),
-            "INFO",
+            "INFO"
         )
 
-        if statistics["devices_with_errors"] > 0:
+        if statistics['devices_with_errors'] > 0:
             self.log(
                 "Warning: {0} devices encountered errors during connected device discovery".format(
-                    statistics["devices_with_errors"]
+                    statistics['devices_with_errors']
                 ),
-                "WARNING",
+                "WARNING"
             )
 
         self.log(
             "Connected device topology discovery completed successfully - "
             "processed {0} devices with {1} total interfaces, "
             "discovered {2} total connections".format(
-                statistics["devices_processed"],
-                statistics["interfaces_processed"],
-                statistics["total_connections_discovered"],
+                statistics['devices_processed'],
+                statistics['interfaces_processed'],
+                statistics['total_connections_discovered']
             ),
-            "INFO",
+            "INFO"
         )
 
         return result
@@ -4317,31 +3791,28 @@ class NetworkDevicesInfo(CatalystCenterBase):
         self.log(
             "Processing interface range retrieval for {0} network devices: {1}".format(
                 len(ip_uuid_map) if ip_uuid_map else 0,
-                list(ip_uuid_map.keys()) if ip_uuid_map else [],
+                list(ip_uuid_map.keys()) if ip_uuid_map else []
             ),
-            "DEBUG",
+            "DEBUG"
         )
 
         interface_by_range_info_list = []
         statistics = {
-            "devices_processed": 0,
-            "devices_with_interfaces": 0,
-            "devices_without_interfaces": 0,
-            "devices_with_errors": 0,
-            "total_interfaces_retrieved": 0,
-            "total_api_calls": 0,
+            'devices_processed': 0,
+            'devices_with_interfaces': 0,
+            'devices_without_interfaces': 0,
+            'devices_with_errors': 0,
+            'total_interfaces_retrieved': 0,
+            'total_api_calls': 0
         }
 
         for device_ip, device_id in ip_uuid_map.items():
-            statistics["devices_processed"] += 1
+            statistics['devices_processed'] += 1
             self.log(
                 "Processing device {0}/{1} - IP: {2}, UUID: {3}".format(
-                    statistics["devices_processed"],
-                    len(ip_uuid_map),
-                    device_ip,
-                    device_id,
+                    statistics['devices_processed'], len(ip_uuid_map), device_ip, device_id
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             if not device_ip or not device_id:
@@ -4349,15 +3820,13 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "Skipping device with missing IP or UUID - IP: {0}, UUID: {1}".format(
                         device_ip, device_id
                     ),
-                    "WARNING",
+                    "WARNING"
                 )
-                statistics["devices_with_errors"] += 1
-                interface_by_range_info_list.append(
-                    {
-                        "device_ip": device_ip or "unknown",
-                        "interface_info": "Error: Missing device IP or UUID",
-                    }
-                )
+                statistics['devices_with_errors'] += 1
+                interface_by_range_info_list.append({
+                    "device_ip": device_ip or "unknown",
+                    "interface_info": "Error: Missing device IP or UUID"
+                })
                 continue
             start_index = 1
             records_to_return = 500
@@ -4368,7 +3837,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 "initial parameters - start_index: {1}, records_to_return: {2}".format(
                     device_ip, start_index, records_to_return
                 ),
-                "DEBUG",
+                "DEBUG"
             )
 
             while True:
@@ -4377,47 +3846,42 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     "requesting {1} records starting at index {2}".format(
                         device_ip, records_to_return, start_index
                     ),
-                    "DEBUG",
+                    "DEBUG"
                 )
                 try:
-                    statistics["total_api_calls"] += 1
+                    statistics['total_api_calls'] += 1
                     response = self.catalystcenter._exec(
                         family="devices",
                         function="get_device_interfaces_by_specified_range",
                         params={
                             "device_id": device_id,
                             "start_index": start_index,
-                            "records_to_return": records_to_return,
-                        },
+                            "records_to_return": records_to_return
+                        }
                     )
 
-                    self.log(
-                        "Received API response from 'get_device_interfaces_by_specified_range' for device {0}: {1}".format(
-                            device_ip, response
-                        ),
-                        "DEBUG",
+                    self.log("Received API response from 'get_device_interfaces_by_specified_range' for device {0}: {1}".format(
+                        device_ip, response), "DEBUG"
                     )
 
-                    if not response or "response" not in response:
+                    if not response or 'response' not in response:
                         self.log(
-                            "Invalid or empty API response received for device {0}".format(
-                                device_ip
-                            ),
-                            "WARNING",
+                            "Invalid or empty API response received for device {0}".format(device_ip),
+                            "WARNING"
                         )
                         break
 
-                    data_chunk = response["response"]
+                    data_chunk = response['response']
                     if data_chunk:
                         chunk_size = len(data_chunk)
                         self.log(
                             "Retrieved {0} interface records for device {1} at index {2}".format(
                                 chunk_size, device_ip, start_index
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         interface_data.extend(data_chunk)
-                        statistics["total_interfaces_retrieved"] += chunk_size
+                        statistics['total_interfaces_retrieved'] += chunk_size
 
                         # Check if we've reached the end of available data
                         if chunk_size < records_to_return:
@@ -4426,7 +3890,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                                 "received {1} records (less than requested {2})".format(
                                     device_ip, chunk_size, records_to_return
                                 ),
-                                "DEBUG",
+                                "DEBUG"
                             )
                             break
 
@@ -4436,14 +3900,14 @@ class NetworkDevicesInfo(CatalystCenterBase):
                             "Continuing pagination for device {0} - next start_index: {1}".format(
                                 device_ip, start_index
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                     else:
                         self.log(
                             "No interface data returned for device {0} at index {1}".format(
                                 device_ip, start_index
                             ),
-                            "DEBUG",
+                            "DEBUG"
                         )
                         break
 
@@ -4452,29 +3916,34 @@ class NetworkDevicesInfo(CatalystCenterBase):
                         "Exception during interface range API call for device {0}: {1}".format(
                             device_ip, str(api_err)
                         ),
-                        "ERROR",
+                        "ERROR"
                     )
                     interface_data = "Error: {0}".format(str(api_err))
-                    statistics["devices_with_errors"] += 1
+                    statistics['devices_with_errors'] += 1
                     continue
 
             if interface_data:
-                statistics["devices_with_interfaces"] += 1
+                statistics['devices_with_interfaces'] += 1
                 self.log(
                     "Successfully retrieved {0} total interfaces for device {1}".format(
                         len(interface_data), device_ip
                     ),
-                    "INFO",
+                    "INFO"
                 )
-                interface_by_range_info_list.append(
-                    {"device_ip": device_ip, "interface_info": interface_data}
-                )
+                interface_by_range_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_info": interface_data
+                })
             else:
-                statistics["devices_without_interfaces"] += 1
-                self.log("No interfaces found for device {0}".format(device_ip), "INFO")
-                interface_by_range_info_list.append(
-                    {"device_ip": device_ip, "interface_info": []}
+                statistics['devices_without_interfaces'] += 1
+                self.log(
+                    "No interfaces found for device {0}".format(device_ip),
+                    "INFO"
                 )
+                interface_by_range_info_list.append({
+                    "device_ip": device_ip,
+                    "interface_info": []
+                })
 
         result = [{"device_interfaces_by_range_info": interface_by_range_info_list}]
 
@@ -4483,35 +3952,36 @@ class NetworkDevicesInfo(CatalystCenterBase):
             "Interface range retrieval completed successfully - "
             "devices processed: {0}, devices with interfaces: {1}, "
             "devices without interfaces: {2}, devices with errors: {3}".format(
-                statistics["devices_processed"],
-                statistics["devices_with_interfaces"],
-                statistics["devices_without_interfaces"],
-                statistics["devices_with_errors"],
+                statistics['devices_processed'],
+                statistics['devices_with_interfaces'],
+                statistics['devices_without_interfaces'],
+                statistics['devices_with_errors']
             ),
-            "INFO",
+            "INFO"
         )
 
         self.log(
             "Interface retrieval statistics - "
             "total API calls: {0}, total interfaces retrieved: {1}".format(
-                statistics["total_api_calls"], statistics["total_interfaces_retrieved"]
+                statistics['total_api_calls'],
+                statistics['total_interfaces_retrieved']
             ),
-            "INFO",
+            "INFO"
         )
 
-        if statistics["devices_with_errors"] > 0:
+        if statistics['devices_with_errors'] > 0:
             self.log(
                 "Warning: {0} devices encountered errors during interface range retrieval".format(
-                    statistics["devices_with_errors"]
+                    statistics['devices_with_errors']
                 ),
-                "WARNING",
+                "WARNING"
             )
 
         self.log(
             "Interface range data retrieval operation completed with {0} total devices processed".format(
                 len(interface_by_range_info_list)
             ),
-            "INFO",
+            "INFO"
         )
 
         return result
@@ -4544,82 +4014,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching Device config data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching Device config data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         device_config_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching device config info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device config info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_config_by_id",
-                    params={"network_device_id": device_id},
+                    params={'network_device_id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_device_config' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 config_data = response.get("response", [])
                 if config_data:
-                    self.log(
-                        "Found {0} configuration lines for device IP: {1}".format(
-                            len(config_data), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    device_config_list.append(
-                        {"device_ip": device_ip, "device_config_details": config_data}
-                    )
+                    self.log("Found {0} configuration lines for device IP: {1}".format(len(config_data), device_ip), "DEBUG")
+                    device_config_list.append({
+                        "device_ip": device_ip,
+                        "device_config_details": config_data
+                    })
                 else:
-                    self.log(
-                        "No device config card details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    device_config_list.append(
-                        {"device_ip": device_ip, "device_config_details": []}
-                    )
+                    self.log("No device config card details found for device IP: {0}".format(device_ip), "DEBUG")
+                    device_config_list.append({
+                        "device_ip": device_ip,
+                        "device_config_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device config for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                device_config_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "device_config_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting device config for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                device_config_list.append({
+                    "device_ip": device_ip,
+                    "device_config_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"device_config_info": device_config_list}]
 
-        self.log(
-            "Completed Device Config info retrieval. Total devices processed: {0}".format(
-                len(device_config_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device Config info retrieval. Total devices processed: {0}".format(len(device_config_list)), "INFO")
         self.log("Device Config info result: {0}".format(result), "DEBUG")
         return result
 
@@ -4653,83 +4090,50 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching device summary data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching device summary data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         device_summary_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching device summary info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching device summary info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_device_summary",
-                    params={"id": device_id},
+                    params={'id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_device_summary' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 summary_data = response.get("response", [])
                 self.log("Summary data: {0}".format(summary_data), "DEBUG")
                 if summary_data:
-                    self.log(
-                        "Found {0} summary records for device IP: {1}".format(
-                            len(summary_data), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    device_summary_info_list.append(
-                        {"device_ip": device_ip, "device_summary_details": summary_data}
-                    )
+                    self.log("Found {0} summary records for device IP: {1}".format(len(summary_data), device_ip), "DEBUG")
+                    device_summary_info_list.append({
+                        "device_ip": device_ip,
+                        "device_summary_details": summary_data
+                    })
                 else:
-                    self.log(
-                        "No device summary details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    device_summary_info_list.append(
-                        {"device_ip": device_ip, "device_summary_details": []}
-                    )
+                    self.log("No device summary details found for device IP: {0}".format(device_ip), "DEBUG")
+                    device_summary_info_list.append({
+                        "device_ip": device_ip,
+                        "device_summary_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device summary list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                device_summary_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "device_summary_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting device summary list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                device_summary_info_list.append({
+                    "device_ip": device_ip,
+                    "device_summary_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"device_summary_info": device_summary_info_list}]
 
-        self.log(
-            "Completed Device Summary info retrieval. Total devices processed: {0}".format(
-                len(device_summary_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device Summary info retrieval. Total devices processed: {0}".format(len(device_summary_info_list)), "INFO")
         self.log("Device Summary info result: {0}".format(result), "DEBUG")
         return result
 
@@ -4761,82 +4165,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching polling interval data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching polling interval data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         polling_intervals_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching polling intervals info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching polling intervals info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_polling_interval_by_id",
-                    params={"id": device_id},
+                    params={'id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_polling_interval' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 intervals = response.get("response", [])
                 if intervals:
-                    self.log(
-                        "Found {0} polling interval records for device IP: {1}".format(
-                            (intervals), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    polling_intervals_info_list.append(
-                        {"device_ip": device_ip, "polling_interval_details": intervals}
-                    )
+                    self.log("Found {0} polling interval records for device IP: {1}".format((intervals), device_ip), "DEBUG")
+                    polling_intervals_info_list.append({
+                        "device_ip": device_ip,
+                        "polling_interval_details": intervals
+                    })
                 else:
-                    self.log(
-                        "No polling interval details found for device IP: {0}".format(
-                            device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    polling_intervals_info_list.append(
-                        {"device_ip": device_ip, "polling_interval_details": []}
-                    )
+                    self.log("No polling interval details found for device IP: {0}".format(device_ip), "DEBUG")
+                    polling_intervals_info_list.append({
+                        "device_ip": device_ip,
+                        "polling_interval_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting polling interval info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                polling_intervals_info_list.append(
-                    {
-                        "device_ip": device_ip,
-                        "polling_interval_details": "Error: {0}".format(e),
-                    }
-                )
+                self.msg = "Exception occurred while getting polling interval info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                polling_intervals_info_list.append({
+                    "device_ip": device_ip,
+                    "polling_interval_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"device_polling_interval_info": polling_intervals_info_list}]
 
-        self.log(
-            "Completed Device Polling Interval info retrieval. Total devices processed: {0}".format(
-                len(polling_intervals_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device Polling Interval info retrieval. Total devices processed: {0}".format(len(polling_intervals_info_list)), "INFO")
         self.log("Device Polling Interval info result: {0}".format(result), "DEBUG")
         return result
 
@@ -4873,77 +4244,49 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     }
                 ]
         """
-        self.log(
-            "Fetching stack details for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching stack details for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         stack_info_list = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            self.log(
-                "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                "DEBUG",
-            )
-            self.log(
-                "Fetching stack info for device_id: {0}, device_ip: {1}".format(
-                    device_id, device_ip
-                ),
-                "DEBUG",
-            )
+            self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+            self.log("Fetching stack info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
             try:
                 response = self.catalystcenter._exec(
                     family="devices",
                     function="get_stack_details_for_device",
-                    params={"device_id": device_id},
+                    params={'device_id': device_id}
                 )
                 self.log(
                     "Received API response from 'get_stack_details' for device {0} (IP: {1}): {2}".format(
-                        device_id, device_ip, response
-                    ),
-                    "DEBUG",
-                )
+                        device_id, device_ip, response), "DEBUG")
 
                 stack_info = response.get("response", [])
                 if stack_info:
-                    self.log(
-                        "Found {0} stack records for device IP: {1}".format(
-                            len(stack_info), device_ip
-                        ),
-                        "DEBUG",
-                    )
-                    stack_info_list.append(
-                        {"device_ip": device_ip, "stack_details": stack_info}
-                    )
+                    self.log("Found {0} stack records for device IP: {1}".format(len(stack_info), device_ip), "DEBUG")
+                    stack_info_list.append({
+                        "device_ip": device_ip,
+                        "stack_details": stack_info
+                    })
                 else:
-                    self.log(
-                        "No stack details found for device IP: {0}".format(device_ip),
-                        "DEBUG",
-                    )
-                    stack_info_list.append(
-                        {"device_ip": device_ip, "stack_details": []}
-                    )
+                    self.log("No stack details found for device IP: {0}".format(device_ip), "DEBUG")
+                    stack_info_list.append({
+                        "device_ip": device_ip,
+                        "stack_details": []
+                    })
 
             except Exception as e:
-                self.msg = "Exception occurred while getting device stack info list for device_id {0}, device_ip {1}: {2}".format(
-                    device_id, device_ip, e
-                )
-                stack_info_list.append(
-                    {"device_ip": device_ip, "stack_details": "Error: {0}".format(e)}
-                )
+                self.msg = "Exception occurred while getting device stack info list for device_id {0}, device_ip {1}: {2}".format(device_id, device_ip, e)
+                stack_info_list.append({
+                    "device_ip": device_ip,
+                    "stack_details": "Error: {0}".format(e)
+                })
                 continue
 
         result = [{"device_stack_info": stack_info_list}]
 
-        self.log(
-            "Completed Stack info retrieval. Total devices processed: {0}".format(
-                len(stack_info_list)
-            ),
-            "INFO",
-        )
+        self.log("Completed Stack info retrieval. Total devices processed: {0}".format(len(stack_info_list)), "INFO")
         self.log("Stack info result: {0}".format(result), "DEBUG")
         return result
 
@@ -5007,35 +4350,29 @@ class NetworkDevicesInfo(CatalystCenterBase):
             ]
         """
 
-        self.log(
-            "Fetching device link mismatch data for {0} devices: {1}".format(
-                len(ip_uuid_map), list(ip_uuid_map.keys())
-            ),
-            "INFO",
-        )
+        self.log("Fetching device link mismatch data for {0} devices: {1}".format(len(ip_uuid_map), list(ip_uuid_map.keys())), "INFO")
 
         link_mismatch_info = []
 
         for device_ip, device_id in ip_uuid_map.items():
-            site_result = {"device_ip": device_ip, "vlan": [], "speed-duplex": []}
+            site_result = {
+                "device_ip": device_ip,
+                "vlan": [],
+                "speed-duplex": []
+            }
 
-            for category in ["vlan", "speed-duplex"]:
-                self.log(
-                    "Processing device ID: {0} (IP: {1})".format(device_id, device_ip),
-                    "DEBUG",
-                )
-                self.log(
-                    "Fetching device link mismatch info for device_id: {0}, device_ip: {1}".format(
-                        device_id, device_ip
-                    ),
-                    "DEBUG",
-                )
+            for category in ['vlan', 'speed-duplex']:
+                self.log("Processing device ID: {0} (IP: {1})".format(device_id, device_ip), "DEBUG")
+                self.log("Fetching device link mismatch info for device_id: {0}, device_ip: {1}".format(device_id, device_ip), "DEBUG")
 
                 try:
                     response = self.catalystcenter._exec(
                         family="devices",
                         function="inventory_insight_device_link_mismatch",
-                        params={"site_id": site_id, "category": category},
+                        params={
+                            'site_id': site_id,
+                            'category': category
+                        }
                     )
                     self.log(
                         "Received API response from 'inventory_insight_device_link_mismatch': {0}".format(
@@ -5046,55 +4383,33 @@ class NetworkDevicesInfo(CatalystCenterBase):
                     mismatch_data = response.get("response", [])
                     if mismatch_data:
                         self.log(
-                            "Received API response for device {0}: {1}".format(
-                                device_ip, mismatch_data
-                            ),
-                            "DEBUG",
+                            "Received API response for device {0}: {1}".format(device_ip, mismatch_data),
+                            "DEBUG"
                         )
                         if isinstance(mismatch_data, list):
-                            site_result[category].append(
-                                {
-                                    "device_ip": device_ip,
-                                    "link_mismatch_details": mismatch_data,
-                                }
-                            )
+                            site_result[category].append({
+                                "device_ip": device_ip,
+                                "link_mismatch_details": mismatch_data
+                            })
 
                     else:
-                        self.log(
-                            "No link mismatch found for device IP: {0}".format(
-                                device_ip
-                            ),
-                            "DEBUG",
-                        )
-                        site_result[category].append(
-                            {"device_ip": device_ip, "link_mismatch_details": []}
-                        )
+                        self.log("No link mismatch found for device IP: {0}".format(device_ip), "DEBUG")
+                        site_result[category].append({
+                            "device_ip": device_ip,
+                            "link_mismatch_details": []
+                        })
 
-                    if category == "vlan":
-                        self.log(
-                            "VLAN Category Link Mismatch Response for site {0}: {1}".format(
-                                site_id, response
-                            ),
-                            "INFO",
-                        )
+                    if category == 'vlan':
+                        self.log("VLAN Category Link Mismatch Response for site {0}: {1}".format(site_id, response), "INFO")
                     else:
-                        self.log(
-                            "Speed-Duplex Category Link Mismatch Response for site {0}: {1}".format(
-                                site_id, response
-                            ),
-                            "INFO",
-                        )
+                        self.log("Speed-Duplex Category Link Mismatch Response for site {0}: {1}".format(site_id, response), "INFO")
 
                 except Exception as e:
-                    self.msg = "Exception occurred while getting {0} link mismatch data for site {1}: {2}".format(
-                        category, site_id, e
-                    )
-                    site_result[category].append(
-                        {
-                            "device_ip": device_ip,
-                            "link_mismatch_details": "Error: {0}".format(e),
-                        }
-                    )
+                    self.msg = "Exception occurred while getting {0} link mismatch data for site {1}: {2}".format(category, site_id, e)
+                    site_result[category].append({
+                        "device_ip": device_ip,
+                        "link_mismatch_details": "Error: {0}".format(e)
+                    })
                     continue
 
             self.log(site_result["vlan"])
@@ -5103,12 +4418,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
 
         result = [{"device_link_mismatch_info": link_mismatch_info}]
 
-        self.log(
-            "Completed Device Link Mismatch info retrieval. Total devices processed: {0}".format(
-                len(link_mismatch_info)
-            ),
-            "INFO",
-        )
+        self.log("Completed Device Link Mismatch info retrieval. Total devices processed: {0}".format(len(link_mismatch_info)), "INFO")
         self.log("Device Link Mismatch info result: {0}".format(result), "DEBUG")
 
         return result
@@ -5151,27 +4461,15 @@ class NetworkDevicesInfo(CatalystCenterBase):
         file_write_mode = output_file_info.get("file_mode", "w").lower().strip()
         include_timestamp_flag = output_file_info.get("timestamp", False)
 
-        self.log(
-            "Extracted file parameters - Path: {0}, Format: {1}, Mode: {2}, Timestamp: {3}".format(
-                target_file_path,
-                output_file_format,
-                file_write_mode,
-                include_timestamp_flag,
-            ),
-            "INFO",
-        )
+        self.log("Extracted file parameters - Path: {0}, Format: {1}, Mode: {2}, Timestamp: {3}".format(
+            target_file_path, output_file_format, file_write_mode, include_timestamp_flag), "INFO")
 
         if not target_file_path:
             self.log("No file_path specified in output_file_info", "ERROR")
             return self
 
         if file_write_mode not in {"w", "a"}:
-            self.log(
-                "Invalid file_mode '{0}'. Use 'w' (overwrite) or 'a' (append).".format(
-                    file_write_mode
-                ),
-                "ERROR",
-            )
+            self.log("Invalid file_mode '{0}'. Use 'w' (overwrite) or 'a' (append).".format(file_write_mode), "ERROR")
             return self
 
         full_path_with_ext = "{0}.{1}".format(target_file_path, output_file_format)
@@ -5179,12 +4477,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
         try:
             os.makedirs(os.path.dirname(full_path_with_ext), exist_ok=True)
         except Exception as e:
-            self.log(
-                "Error creating directories for path: {0} — {1}".format(
-                    full_path_with_ext, e
-                ),
-                "ERROR",
-            )
+            self.log("Error creating directories for path: {0} — {1}".format(full_path_with_ext, e), "ERROR")
             return self
 
         try:
@@ -5194,9 +4487,7 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 new_data = [self.total_response]
 
             if include_timestamp_flag:
-                timestamp_entry = {
-                    "Downloaded at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                }
+                timestamp_entry = {"Downloaded at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
                 new_data_with_timestamp = [timestamp_entry] + new_data
             else:
                 new_data_with_timestamp = new_data
@@ -5229,20 +4520,10 @@ class NetworkDevicesInfo(CatalystCenterBase):
                 else:
                     yaml.dump(data_to_write, f, default_flow_style=False)
 
-            self.log(
-                "Successfully wrote device info to file: {0}".format(
-                    full_path_with_ext
-                ),
-                "INFO",
-            )
+            self.log("Successfully wrote device info to file: {0}".format(full_path_with_ext), "INFO")
 
         except Exception as e:
-            self.log(
-                "Failed to write device info to file {0}: {1}".format(
-                    full_path_with_ext, e
-                ),
-                "ERROR",
-            )
+            self.log("Failed to write device info to file {0}: {1}".format(full_path_with_ext, e), "ERROR")
 
         return self
 
@@ -5251,33 +4532,24 @@ def main():
     """
     main entry point for module execution
     """
-    element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {
-            "type": "str",
-            "default": "admin",
-            "aliases": ["dnac_username", "user"],
-        },
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {
-            "type": "str",
-            "default": "catalystcenter.log",
-            "aliases": ["dnac_log_file_path"],
-        },
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
-        "validate_response_schema": {"type": "bool", "default": True},
-        "config_verify": {"type": "bool", "default": False},
-        "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
-        "catalystcenter_task_poll_interval": {"type": "int", "default": 2},
-        "config": {"required": True, "type": "list", "elements": "dict"},
-        "state": {"default": "gathered", "choices": ["gathered"]},
-    }
+    element_spec = {'catalystcenter_host': {'required': True, 'type': 'str'},
+                    'catalystcenter_port': {'type': 'str', 'default': '443'},
+                    'catalystcenter_username': {'type': 'str', 'default': 'admin'},
+                    'catalystcenter_password': {'type': 'str', 'no_log': True},
+                    'catalystcenter_verify': {'type': 'bool', 'default': True},
+                    'catalystcenter_version': {'type': 'str', 'default': '2.3.7.6'},
+                    'catalystcenter_debug': {'type': 'bool', 'default': False},
+                    'catalystcenter_log_level': {'type': 'str', 'default': 'WARNING'},
+                    "catalystcenter_log_file_path": {"type": 'str', "default": 'catalystcenter.log'},
+                    "catalystcenter_log_append": {"type": 'bool', "default": True},
+                    'catalystcenter_log': {'type': 'bool', 'default': False},
+                    'validate_response_schema': {'type': 'bool', 'default': True},
+                    'config_verify': {'type': 'bool', "default": False},
+                    'catalystcenter_api_task_timeout': {'type': 'int', "default": 1200},
+                    'catalystcenter_task_poll_interval': {'type': 'int', "default": 2},
+                    'config': {'required': True, 'type': 'list', 'elements': 'dict'},
+                    'state': {'default': 'gathered', 'choices': ['gathered']}
+                    }
 
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_device_info = NetworkDevicesInfo(module)
@@ -5286,18 +4558,11 @@ def main():
     current_version = ccc_device_info.get_ccc_version()
     min_supported_version = "2.3.7.9"
 
-    if (
-        ccc_device_info.compare_catalystcenter_versions(
-            current_version, min_supported_version
-        )
-        < 0
-    ):
+    if ccc_device_info.compare_catalystcenter_versions(current_version, min_supported_version) < 0:
         ccc_device_info.status = "failed"
         ccc_device_info.msg = (
             "The specified version '{0}' does not support the 'network device info workflow' feature. "
-            "Supported version(s) start from '{1}' onwards.".format(
-                current_version, min_supported_version
-            )
+            "Supported version(s) start from '{1}' onwards.".format(current_version, min_supported_version)
         )
         ccc_device_info.log(ccc_device_info.msg, "ERROR")
         ccc_device_info.check_return_status()
@@ -5317,5 +4582,5 @@ def main():
     module.exit_json(**ccc_device_info.result)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
