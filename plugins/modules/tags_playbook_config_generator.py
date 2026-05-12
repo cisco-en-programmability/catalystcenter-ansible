@@ -142,7 +142,7 @@ options:
                 - mac_address
                 - ip_address
 requirements:
-- catalystcentersdk >= 2.4.5
+- catalystcentersdk >= 3.1.6.0.2
 - python >= 3.9
 notes:
 - Cisco Catalyst Center >= 2.3.7.9
@@ -833,13 +833,13 @@ class TagsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
             dict: A dictionary containing the workflow filters schema with the following structure:
                 - network_elements (dict): Contains configuration for different network element types
                     - tags (dict): Configuration for tag-related operations
-                        - filters (list): List of filter parameters (tag_name, tag_id)
+                        - filters (dict): Dict of filter parameters with type/required specs (tag_name, tag_id)
                         - reverse_mapping_function (method): Function to map tag specifications
                         - api_function (str): API function name for retrieving tags
                         - api_family (str): API family identifier
                         - get_function_name (method): Method to get tag configuration
                     - tag_memberships (dict): Configuration for tag membership operations
-                        - filters (list): List of filter parameters (tag_name, tag_id)
+                        - filters (dict): Dict of filter parameters with type/required/choices specs (tag_name, tag_id, device_identifier)
                         - reverse_mapping_function (method): Function to map tag membership specs
                         - api_function (str): API function name for retrieving tag members
                         - api_family (str): API family identifier
@@ -855,14 +855,31 @@ class TagsPlaybookGenerator(CatalystCenterBase, BrownFieldHelper):
         schema = {
             "network_elements": {
                 "tags": {
-                    "filters": ["tag_name", "tag_id"],
+                    "filters": {
+                        "tag_name": {"type": "str", "required": False},
+                        "tag_id": {"type": "str", "required": False},
+                    },
                     "reverse_mapping_function": self.tag_temp_spec,
                     "api_function": "get_tag",
                     "api_family": "tag",
                     "get_function_name": self.get_tags_configuration,
                 },
                 "tag_memberships": {
-                    "filters": ["tag_name", "tag_id", "device_identifier"],
+                    "filters": {
+                        "tag_name": {"type": "str", "required": False},
+                        "tag_id": {"type": "str", "required": False},
+                        "device_identifier": {
+                            "type": "str",
+                            "required": False,
+                            "default": "serial_number",
+                            "choices": [
+                                "hostname",
+                                "serial_number",
+                                "mac_address",
+                                "ip_address",
+                            ],
+                        },
+                    },
                     "reverse_mapping_function": self.tag_memberships_temp_spec,
                     "api_function": "get_tag_members_by_id",
                     "api_family": "tag",
@@ -2969,17 +2986,17 @@ def main():
     """main entry point for module execution"""
     # Define the specification for the module"s arguments
     element_spec = {
-        "catalystcenter_host": {"required": True, "type": "str", "aliases": ["dnac_host"]},
-        "catalystcenter_port": {"type": "str", "default": "443", "aliases": ["dnac_port", "catalystcenter_api_port"]},
-        "catalystcenter_username": {"type": "str", "default": "admin", "aliases": ["dnac_username", "user"]},
-        "catalystcenter_password": {"type": "str", "no_log": True, "aliases": ["dnac_password"]},
-        "catalystcenter_verify": {"type": "bool", "default": True, "aliases": ["dnac_verify"]},
-        "catalystcenter_version": {"type": "str", "default": "2.3.7.6", "aliases": ["dnac_version"]},
-        "catalystcenter_debug": {"type": "bool", "default": False, "aliases": ["dnac_debug"]},
-        "catalystcenter_log_level": {"type": "str", "default": "WARNING", "aliases": ["dnac_log_level"]},
-        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log", "aliases": ["dnac_log_file_path"]},
-        "catalystcenter_log_append": {"type": "bool", "default": True, "aliases": ["dnac_log_append"]},
-        "catalystcenter_log": {"type": "bool", "default": False, "aliases": ["dnac_log"]},
+        "catalystcenter_host": {"required": True, "type": "str"},
+        "catalystcenter_port": {"type": "str", "default": "443"},
+        "catalystcenter_username": {"type": "str", "default": "admin"},
+        "catalystcenter_password": {"type": "str", "no_log": True},
+        "catalystcenter_verify": {"type": "bool", "default": True},
+        "catalystcenter_version": {"type": "str", "default": "2.3.7.6"},
+        "catalystcenter_debug": {"type": "bool", "default": False},
+        "catalystcenter_log_level": {"type": "str", "default": "WARNING"},
+        "catalystcenter_log_file_path": {"type": "str", "default": "catalystcenter.log"},
+        "catalystcenter_log_append": {"type": "bool", "default": True},
+        "catalystcenter_log": {"type": "bool", "default": False},
         "validate_response_schema": {"type": "bool", "default": True},
         "catalystcenter_api_task_timeout": {"type": "int", "default": 1200},
         "catalystcenter_task_poll_interval": {"type": "int", "default": 2},

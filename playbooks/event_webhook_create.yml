@@ -4,6 +4,7 @@
   vars_files:
     - vars/credentials.yml
   gather_facts: false
+
   tasks:
     - name: Test
       cisco.catalystcenter.event_webhook:
@@ -11,7 +12,7 @@
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
         catalystcenter_verify: "{{ catalystcenter_verify }}"
-        debug: true
+        catalystcenter_debug: true
         description: "webhok description for iac2.0"
         headers:
           - defaultValue: string
@@ -23,6 +24,8 @@
         trustCert: false
         url: "url"
       register: result
+
+
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"

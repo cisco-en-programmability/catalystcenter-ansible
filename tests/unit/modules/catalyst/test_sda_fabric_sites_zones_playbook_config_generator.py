@@ -54,22 +54,22 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
     def setUp(self):
         super(TestFabricSitesZonesPlaybookConfigGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
 
-        self.mock_dnac_exec = patch(
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
         self.load_fixtures()
 
     def tearDown(self):
         super(TestFabricSitesZonesPlaybookConfigGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -77,7 +77,7 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
         """
 
         if "generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_zone_details"),
@@ -85,25 +85,25 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "fabric_sites_only" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_site_details"),
             ]
 
         elif "invalid_site_name" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_empty_fabric_site_details")
             ]
 
         elif "fabric_zones_only" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_zone_details"),
                 self.test_data.get("get_zone_site_details"),
             ]
 
         elif "fabric_sites_and_zones" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_zone_details"),
@@ -111,14 +111,14 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "fabric_sites_with_filters" in self._testMethodName and "multiple" not in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),  # Get site ID from site_name_hierarchy
                 self.test_data.get("get_fabric_site_details"),  # Get fabric site with that site ID
                 self.test_data.get("get_site_details"),  # Transform site IDs back to hierarchy
             ]
 
         elif "fabric_sites_with_multiple_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_site_details"),  # Get site ID for first filter
                 self.test_data.get("get_fabric_site_details"),  # Get fabric site with first site ID
                 self.test_data.get("get_site_details_2"),  # Get site ID for second filter
@@ -128,14 +128,14 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "fabric_zones_with_filters" in self._testMethodName and "multiple" not in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_zone_site_details"),  # Get site ID from site_name_hierarchy
                 self.test_data.get("get_fabric_zone_details"),  # Get fabric zone with that site ID
                 self.test_data.get("get_zone_site_details"),  # Transform site IDs back to hierarchy
             ]
 
         elif "fabric_zones_with_multiple_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_zone_site_details"),  # Get site ID for first filter
                 self.test_data.get("get_fabric_zone_details"),  # Get fabric zone with first site ID
                 self.test_data.get("get_zone_site_details"),  # Get site ID for second filter
@@ -145,13 +145,13 @@ class TestFabricSitesZonesPlaybookConfigGenerator(TestCatalystModule):
             ]
 
         elif "no_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_site_details"),
             ]
 
         elif "empty_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_fabric_site_details"),
                 self.test_data.get("get_site_details"),
                 self.test_data.get("get_fabric_zone_details"),

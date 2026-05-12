@@ -3,12 +3,12 @@
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
-  - name:  Load vars and declare dnac vars
+  - name:  Load vars and declare catalystcenter vars
     include_vars:
       file: "{{ role_path }}/vars/vars_network_devices_info_workflow_manager.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "10.22.40.214"
         catalystcenter_username: "admin"
         catalystcenter_password: "M@glev123"
@@ -31,8 +31,8 @@
 ####################################################
 
   - name: Get Network Devices Info
-    cisco.dnac.network_devices_info_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.network_devices_info_workflow_manager:
+      <<: *catalystcenter_login
       state: gathered
       config:
           - "{{ item }}"

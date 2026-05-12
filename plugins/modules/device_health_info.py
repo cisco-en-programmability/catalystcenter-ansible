@@ -25,11 +25,11 @@ options:
     type: str
   siteId:
     description:
-      - SiteId query parameter. DNAC site UUID.
+      - SiteId query parameter. Catalyst Center site UUID.
     type: str
   health:
     description:
-      - Health query parameter. DNAC health catagory POOR, FAIR, or GOOD (case insensitive).
+      - Health query parameter. Catalyst Center health catagory POOR, FAIR, or GOOD (case insensitive).
     type: str
   startTime:
     description:

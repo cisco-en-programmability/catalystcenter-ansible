@@ -89,16 +89,16 @@ Before running the playbooks, ensure you have Ansible installed and the necessar
     catalyst_center_hosts:
         hosts:
             your_catalyst_center_instance_name:
-                catalyst_center_host: xx.xx.xx.xx
-                catalyst_center_password: XXXXXXXX
-                catalyst_center_port: 443
-                catalyst_center_timeout: 60
-                catalyst_center_username: admin
-                catalyst_center_verify: false # Set to true for production with valid certificates
-                catalyst_center_version: 2.3.7.9 # Specify your Catalyst Center version
-                catalyst_center_debug: true
-                catalyst_center_log_level: INFO
-                catalyst_center_log: true
+                catalystcenter_host: xx.xx.xx.xx
+                catalystcenter_password: XXXXXXXX
+                catalystcenter_port: 443
+                catalystcenter_api_task_timeout: 60
+                catalystcenter_username: admin
+                catalystcenter_verify: false # Set to true for production with valid certificates
+                catalystcenter_version: 2.3.7.9 # Specify your Catalyst Center version
+                catalystcenter_debug: true
+                catalystcenter_log_level: INFO
+                catalystcenter_log: true
     ```
 
 ### Step 2: Define Inputs and Validate
@@ -134,7 +134,7 @@ This schema defines the structure of the input file for configuring a Path Trace
 1. **Create and auto-delete path trace on Cisco Catalyst Center**
 Initiates a path trace between specified source and destination IPs using optional parameters, and automatically deletes the trace after completion for cleanup.
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - source_ip: "204.1.208.150"  # required field
     dest_ip: "204.1.208.152"  # required field
@@ -156,7 +156,7 @@ pathtrace_details:
 2. **Delete path trace based on source and destination IP**
 Removes an existing path trace session from Catalyst Center by specifying the source and destination IP addresses.
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - source_ip: "204.1.208.150"  # required field
     dest_ip: "204.1.208.152"  # required field
@@ -164,7 +164,7 @@ pathtrace_details:
 3. **Retrieve last path trace**
 Fetches the most recent path trace result for a given source and destination IP pair, allowing you to review the latest analysis.
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - source_ip: "204.1.2.3"  # required field
     dest_ip: "204.1.2.4"  # required field
@@ -173,7 +173,7 @@ pathtrace_details:
 4. **Retrieve path trace based on the flow analysis id**
 Obtains the details of a specific path trace using its unique flow analysis ID, which is returned when a path trace is created.
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - flow_analysis_id: db3b2ee6-7ec7-4ec8-b7d0-2286d726b568
     delete_on_completion: false  # optional field
@@ -182,7 +182,7 @@ register: output_list
 5. **Retrieve and Delete Path Trace Between Specific Source and Destination IPs**
 Performs both retrieval and deletion of a path trace session for a given source and destination IP
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - source_ip: "204.1.2.3"  # required field
     dest_ip: "204.1.2.4"  # required field
@@ -191,14 +191,14 @@ register: output_list
 6. **Delete path trace based on the flow analysis id**
 Removes a path trace session by directly specifying its flow analysis ID.
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - flow_analysis_id: db3b2ee6-7ec7-4ec8-b7d0-2286d726b568
 ```
 7. **Create/Retrieve Path trace for the config list.**
 Allows batch creation or retrieval of multiple path traces as defined in a configuration list, supporting complex scenarios with various endpoints and options.
 ```yaml
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 pathtrace_details: 
   - source_ip: "204.1.2.3"  # required field
     dest_ip: "204.1.2.4"  # required field

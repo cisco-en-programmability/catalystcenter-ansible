@@ -35,7 +35,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import (
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestCatalystModule):
 
     module = sda_extranet_policies_playbook_config_generator
     test_data = loadPlaybookData("sda_extranet_policies_playbook_config_generator")
@@ -53,40 +53,40 @@ class TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator(TestCatalystModule)
     playbook_config_filter_not_found = test_data.get("filter_not_found_case")
 
     def setUp(self):
-        super(TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
         )
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterBrownfieldSdaExtranetPoliciesPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for brownfield_sda_extranet_policies_playbook_generator tests.
         """
         if "test_generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_response"),
                 self.test_data.get("get_extranet_policies_all_response"),
             ]
         elif "test_component_specific_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_response"),
                 self.test_data.get("get_extranet_policies_filtered_response"),
             ]
         elif "test_filter_not_found_in_catalyst_center" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_sites_response"),
                 self.test_data.get("get_extranet_policies_not_found_response"),
             ]

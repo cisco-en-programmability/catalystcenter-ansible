@@ -17,32 +17,26 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.catalystcenter.plugins.modules import (
-    network_profile_wireless_workflow_manager,
-)
+from ansible_collections.cisco.catalystcenter.plugins.modules import network_profile_wireless_workflow_manager
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
+class TestCatalystCenterNetworkWirelessProfileWorkflow(TestCatalystModule):
     """
     Unit test class for the network wireless profile module
     """
-
     module = network_profile_wireless_workflow_manager
 
     test_data = loadPlaybookData("network_profile_wireless_workflow_manager")
     basic_profile_creation_config = test_data.get("basic_profile_creation_config")
     profile_deletion = test_data.get("profile_deletion")
-    profile_creation_config_feature_template = test_data.get(
-        "profile_creation_config_feature_template"
-    )
+    profile_creation_config_feature_template = test_data.get("profile_creation_config_feature_template")
 
     def setUp(self):
-        super(TestDnacNetworkWirelessProfileWorkflow, self).setUp()
+        super(TestCatalystCenterNetworkWirelessProfileWorkflow, self).setUp()
 
         self.mock_catalystcenter_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__"
-        )
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
         self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
         self.run_catalystcenter_init.side_effect = [None]
         self.mock_catalystcenter_exec = patch(
@@ -52,7 +46,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
         self.load_fixtures()
 
     def tearDown(self):
-        super(TestDnacNetworkWirelessProfileWorkflow, self).tearDown()
+        super(TestCatalystCenterNetworkWirelessProfileWorkflow, self).tearDown()
         self.mock_catalystcenter_exec.stop()
         self.mock_catalystcenter_init.stop()
 
@@ -80,7 +74,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 self.test_data.get("assign_site1_response"),
                 self.test_data.get("get_sites_basic"),
                 self.test_data.get("get_sites4"),
-                self.test_data.get("get_sites2"),
+                self.test_data.get("get_sites2")
             ]
         elif "profile_details_deletion" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -104,7 +98,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 self.test_data.get("get_site1_task_progress"),
                 self.test_data.get("response_for_profile_creation"),
                 self.test_data.get("get_task_details_response"),
-                self.test_data.get("get_task_progress"),
+                self.test_data.get("get_task_progress")
             ]
         elif "profile_deletion" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -117,7 +111,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 self.test_data.get("response_for_profile_creation"),
                 self.test_data.get("get_task_details_response"),
                 self.test_data.get("get_task_progress"),
-                self.test_data.get("get_sites4"),
+                self.test_data.get("get_sites4")
             ]
         elif "profile_creation_fail_feature_template" in self._testMethodName:
             self.run_catalystcenter_exec.side_effect = [
@@ -127,7 +121,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 self.test_data.get("get_sites2"),
                 self.test_data.get("get_enterprise_ssid"),
                 self.test_data.get("get_feature_template_summary"),
-                self.test_data.get("get_feature_template_summary1"),
+                self.test_data.get("get_feature_template_summary1")
             ]
 
     def test_network_profile_workflow_manager_basic_profile_creation(self):
@@ -146,7 +140,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="3.1.3.0",
                 config_verify=False,
-                config=self.basic_profile_creation_config,
+                config=self.basic_profile_creation_config
             )
         )
 
@@ -154,7 +148,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
         self.maxDiff = None
         self.assertIn(
             "Wireless profile(s) created/updated and verified successfully",
-            result.get("msg"),
+            result.get('msg')
         )
 
     def test_network_profile_workflow_manager_profile_details_deletion(self):
@@ -173,13 +167,16 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 state="deleted",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.basic_profile_creation_config,
+                config=self.basic_profile_creation_config
             )
         )
 
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
-        self.assertIn("Wireless profile data removed successfully", result.get("msg"))
+        self.assertIn(
+            "Wireless profile data removed successfully",
+            result.get('msg')
+        )
 
     def test_network_profile_workflow_manager_profile_deletion(self):
         """
@@ -197,19 +194,18 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 state="deleted",
                 catalystcenter_version="3.1.3.0",
                 config_verify=True,
-                config=self.profile_deletion,
+                config=self.profile_deletion
             )
         )
 
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertIn(
-            "Wireless profile(s) deleted and verified successfully", result.get("msg")
+            "Wireless profile(s) deleted and verified successfully",
+            result.get('msg')
         )
 
-    def test_network_profile_workflow_manager_profile_creation_fail_feature_template(
-        self,
-    ):
+    def test_network_profile_workflow_manager_profile_creation_fail_feature_template(self):
         """
         Test case for wireless profile workfollow manager provision and update device.
 
@@ -225,10 +221,13 @@ class TestDnacNetworkWirelessProfileWorkflow(TestCatalystModule):
                 state="merged",
                 catalystcenter_version="2.3.7.9",
                 config_verify=True,
-                config=self.profile_creation_config_feature_template,
+                config=self.profile_creation_config_feature_template
             )
         )
 
         result = self.execute_module(changed=False, failed=True)
         self.maxDiff = None
-        self.assertIn("Invalid parameters in playbook config:", result.get("response"))
+        self.assertIn(
+            "Invalid parameters in playbook config:",
+            result.get('response')
+        )

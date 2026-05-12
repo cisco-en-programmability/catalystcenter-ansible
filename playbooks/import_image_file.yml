@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Import image file
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
@@ -17,6 +17,7 @@
         thirdPartyImageFamily: SomeValue  # string
         thirdPartyVendor: SomeValue  # string
       register: result
+
     - name: Show result
       ansible.builtin.debug:
         msg: "{{ result }}"

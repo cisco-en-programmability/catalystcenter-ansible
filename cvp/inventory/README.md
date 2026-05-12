@@ -76,16 +76,16 @@ Update your Ansible hosts.yml inventory file with the connection details of your
 catalyst_center_hosts:
     hosts:
         your_catalyst_center_instance_name:
-            catalyst_center_host: xx.xx.xx.xx
-            catalyst_center_password: XXXXXXXX
-            catalyst_center_port: 443
-            catalyst_center_timeout: 60
-            catalyst_center_username: admin
-            catalyst_center_verify: false # Set to true for production with valid certificates
-            catalyst_center_version: 2.3.7.6 # Specify your Catalyst Center version
-            catalyst_center_debug: true
-            catalyst_center_log_level: INFO
-            catalyst_center_log: true
+            catalystcenter_host: xx.xx.xx.xx
+            catalystcenter_password: XXXXXXXX
+            catalystcenter_port: 443
+            catalystcenter_api_task_timeout: 60
+            catalystcenter_username: admin
+            catalystcenter_verify: false # Set to true for production with valid certificates
+            catalystcenter_version: 2.3.7.6 # Specify your Catalyst Center version
+            catalystcenter_debug: true
+            catalystcenter_log_level: INFO
+            catalystcenter_log: true
 ```
 
 ### Step 2: Define Inputs and Validate
@@ -158,7 +158,7 @@ A. To execute the Ansible playbook for adding devices:
 * This task adds new devices to Cisco Catalyst Center. It allows you to specify multiple devices using a list of IP addresses and configure parameters such as device type, connection method, credentials, and SNMP information.
 * The below sample playbook will be used for adding 3 devices to the inventory.
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 inventory_details:
   network_devices:
   - ip_address_list: ["XX.XX.XX.XX", "XX.XX.XX.XX", "XX.XX.XX.XX"]
@@ -201,7 +201,7 @@ B. To execute the Ansible playbook for provision devices:
 * The below sample playbook will provision the 2 devices to its respective sites.
 * We can provision multiple devices and the provisioning of multiple devices will do in parallel.
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 inventory_details:
   network_devices:
     - provision_wired_device:
@@ -230,7 +230,7 @@ C. To execute the Ansible playbook for resync and reboot devices:
 * The below sample playbook will be used for resync.
 * If force_sync is true then device sync would run in high priority thread if available, else the sync will fail.
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 inventory_details:
   network_devices:
@@ -247,7 +247,7 @@ inventory_details:
 * Reboot - This task initiates a reboot of specified network devices using the Cisco Catalyst inventory manager. Device reboots are often necessary after configuration changes, updates, or troubleshooting procedures to ensure that the devices properly apply new settings for the access point Devices.
 * The below sample playbook for Reboot AP Devices with IP Addresses.
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 # This file contains the variables for the inventory workflow
 inventory_details:
   network_devices:
@@ -266,7 +266,7 @@ D. To execute the Ansible playbook for changing Device roles:
 * This task updates the role of existing devices in the Cisco Catalyst Center inventory. The role of a device helps categorize its function within the network (e.g., as an access, distribution, or core).
 * The below playbook will be used for changing device roles. It will support multiple devices.
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 inventory_details:
   network_devices:
   - ip_address_list: ["XX.XX.XX.XX", "XX.XX.XX.XX"]
@@ -284,7 +284,7 @@ E. To execute the Ansible playbook for deleting devices:
 *  The below playbook will be used for deleting devices/provisioned devices from the inventory.
 * If clean_config set to true it will delete the Provisioned device by clearing current configuration.
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 inventory_details:
   network_devices:
   - ip_address_list: ["XX.XX.XX.XX","XX.XX.XX.XX"]
@@ -305,7 +305,7 @@ F. To execute the Ansible playbook for schedule the maintenance:
 ![alt text](images/schedule_maintenance.png)
 
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 - devices_maintenance_schedule:
   - device_ips:
       - "xx.xx.xx.xx"
@@ -321,7 +321,7 @@ catalyst_center_version: 2.3.7.6
 ![alt text](images/recurring.png)
 
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 - devices_maintenance_schedule:
   - device_ips:
       - "xx.xx.xx.xx"
@@ -339,7 +339,7 @@ catalyst_center_version: 2.3.7.6
 ![alt text](images/bulk_schedule.png)
 
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 - devices_maintenance_schedule:
   - device_ips:
       - "xx.xx.xx.xx"
@@ -357,7 +357,7 @@ G. To execute the Ansible playbook for delete schedule the maintenance:
 * delete all maintenance schedules of device xx.xx.xx.xx
 
 ```bash
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 - devices_maintenance_schedule:
   - device_ips:
       - "xx.xx.xx.xx"

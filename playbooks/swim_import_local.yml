@@ -1,6 +1,6 @@
 ---
-- name: Play
-  hosts: localhost
+- name: Swim import local
+  hosts: catalystcenter_servers
   vars_files:
     - vars/credentials.yml
   gather_facts: false
@@ -15,7 +15,7 @@
         catalystcenter_port: "{{ catalystcenter_port }}"
         catalystcenter_version: "{{ catalystcenter_version }}"
         catalystcenter_debug: "{{ catalystcenter_debug }}"
-        # headers: "{{ my_headers | from_json }}"
+        # headers: "{{my_headers | from_json}}"
         isThirdParty: false
         thirdPartyVendor: "string"
         thirdPartyImageFamily: "string"

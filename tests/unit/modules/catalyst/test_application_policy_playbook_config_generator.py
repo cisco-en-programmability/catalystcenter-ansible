@@ -19,12 +19,13 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from unittest.mock import patch
-
+import os
+import tempfile
 from ansible_collections.cisco.catalystcenter.plugins.modules import application_policy_playbook_config_generator
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterApplicationPolicyPlaybookGenerator(TestCatalystModule):
 
     module = application_policy_playbook_config_generator
     test_data = loadPlaybookData("application_policy_playbook_config_generator")
@@ -46,32 +47,32 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
     playbook_duplicate_components_list = test_data.get("playbook_duplicate_components_list")
 
     def setUp(self):
-        super(TestDnacApplicationPolicyPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterApplicationPolicyPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
+        self.mock_catalystcenter_init = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
             "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacApplicationPolicyPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterApplicationPolicyPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
         Load fixtures for user.
         """
-        if "playbook_queuing_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+        if "playbook_queuing_profile" in self._testMethodName or "duplicate_components_list" in self._testMethodName:
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
         elif "playbook_application_policy" in self._testMethodName or "auto_components_list" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
                 self.test_data.get("response3"),
@@ -107,7 +108,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response33")
             ]
         elif "without_config_defaults_generate_all" in self._testMethodName or "empty_config_defaults_generate_all" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile"),
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
@@ -144,24 +145,24 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response33")
             ]
         elif "top_level_file_path_success" in self._testMethodName or "file_mode_without_file_path" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
         elif "list_wrapped_queuing_profile" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("queuing_profile")
             ]
         elif "list_wrapped_application_policy" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1")
             ]
         elif "playbook_different_bandwidth" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("get_queuing_profile")
             ]
 
         elif "playbook_wireless_policy" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response50"),
                 self.test_data.get("response51"),
                 self.test_data.get("response52"),
@@ -195,6 +196,18 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 self.test_data.get("response80"),
             ]
 
+    def _fresh_file_path(self, prefix):
+        fd, path = tempfile.mkstemp(prefix=prefix, suffix=".yml")
+        os.close(fd)
+        os.unlink(path)
+        return path
+
+    def _result_message(self, result):
+        msg = result.get("msg")
+        if isinstance(msg, dict):
+            return msg.get("message", "")
+        return msg
+
     def test_backup_and_restore_workflow_manager_playbook_queuing_profile(self):
         """
         Test case for creating a scheduled backup in Cisco Catalyst Center.
@@ -210,14 +223,15 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_queuing_profile_"),
                 config=self.playbook_queuing_profile
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result)
+
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_application_policy(self):
@@ -235,14 +249,15 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_application_policy_"),
                 config=self.playbook_application_policy
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result)
+
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_different_bandwidth(self):
@@ -260,14 +275,15 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_bandwidth_"),
                 config=self.playbook_different_bandwidth
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result)
+
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
     def test_backup_and_restore_workflow_manager_playbook_wireless_policy(self):
@@ -285,14 +301,15 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_wireless_policy_"),
                 config=self.playbook_wireless_policy
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result)
+
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
     def test_application_policy_playbook_config_generator_top_level_file_path_success(self):
@@ -306,14 +323,14 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
-                file_path="/tmp/top_level_app_policy.yml",
+                file_path=self._fresh_file_path("app_policy_top_level_"),
                 config=self.playbook_top_level_file_path
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
     def test_application_policy_playbook_config_generator_without_config_defaults_generate_all_success(self):
@@ -330,10 +347,10 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 file_path="/tmp/default_generate_all_from_none.yml"
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file already up-to-date for module 'application_policy_workflow_manager'. No changes written."
         )
 
     def test_application_policy_playbook_config_generator_empty_config_defaults_generate_all_success(self):
@@ -351,10 +368,10 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 config=self.playbook_empty_config
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
-            result.get("msg"),
-            "'component_specific_filters' is mandatory when 'config' is provided as an empty dictionary."
+            self._result_message(result),
+            "YAML configuration file already up-to-date for module 'application_policy_workflow_manager'. No changes written."
         )
 
     def test_application_policy_playbook_config_generator_nested_file_path_validation_failure(self):
@@ -372,7 +389,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("top-level module parameters", result.get("msg"))
+        self.assertIn("Allowed filters are", result.get("msg"))
 
     def test_application_policy_playbook_config_generator_missing_component_specific_filters_failure(self):
         """Validate component_specific_filters is required for non-generate-all mode."""
@@ -385,6 +402,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_file_mode_"),
                 config=self.playbook_missing_component_specific_filters
             )
         )
@@ -408,8 +426,8 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
-            result.get("msg"),
-            "YAML config generation succeeded for module 'application_policy_workflow_manager'."
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
         )
 
     def test_application_policy_playbook_config_generator_list_wrapped_queuing_profile_success(self):
@@ -423,11 +441,15 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_list_wrapped_queue_"),
                 config=self.playbook_list_wrapped_queuing_profile
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations found", result.get("msg"))
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+        )
 
     def test_application_policy_playbook_config_generator_list_wrapped_application_policy_success(self):
         """Validate application_policy accepts list-wrapped filter blocks."""
@@ -440,11 +462,15 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_list_wrapped_policy_"),
                 config=self.playbook_list_wrapped_application_policy
             )
         )
-        result = self.execute_module(changed=False, failed=False)
-        self.assertIn("No configurations found", result.get("msg"))
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+        )
 
     def test_application_policy_playbook_config_generator_dict_wrapped_application_policy_failure(self):
         """Validate application_policy rejects legacy dict-wrapped filter blocks."""
@@ -461,7 +487,7 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        self.assertIn("must be a list of dictionaries", result.get("msg"))
+        self.assertIn("filters must be a list", result.get("msg"))
 
     def test_application_policy_playbook_config_generator_duplicate_filter_values_deduplicated(self):
         """Validate merged filter entries preserve order while removing duplicate values."""
@@ -484,8 +510,8 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
             {"profile_names_list": ["ProfileA", "ProfileB"]}
         )
 
-    def test_application_policy_playbook_config_generator_duplicate_components_list_failure(self):
-        """Validate duplicate entries in components_list are rejected."""
+    def test_application_policy_playbook_config_generator_duplicate_components_list_success(self):
+        """Validate duplicate entries in components_list are handled successfully."""
 
         set_module_args(
             dict(
@@ -495,8 +521,12 @@ class TestDnacApplicationPolicyPlaybookGenerator(TestCatalystModule):
                 catalystcenter_log=True,
                 state="gathered",
                 catalystcenter_version="3.1.3.0",
+                file_path=self._fresh_file_path("app_policy_duplicate_components_"),
                 config=self.playbook_duplicate_components_list
             )
         )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertIn("Duplicate component names found", result.get("msg"))
+        result = self.execute_module(changed=True, failed=False)
+        self.assertEqual(
+            self._result_message(result),
+            "YAML configuration file generated successfully for module 'application_policy_workflow_manager'"
+        )

@@ -220,7 +220,7 @@ The following Jinja Template available in *cvp/sda_fabric_device_roles/jinja_tem
 
 ```bash
 ---
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 fabric_devices_details:
   - fabric_devices:
       fabric_name: Global/USA

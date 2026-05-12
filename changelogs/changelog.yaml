@@ -332,4 +332,19 @@ releases:
       release_summary: Changes in brownfield helper module
       minor_changes:
         - Changes in brownfield_helper module
- 
+  2.8.0:
+    release_date: "2026-05-12"
+    changes:
+      release_summary: Changes in workflow, config generator modules and deleted intent modules, use workflow_manager modules
+      minor_changes:
+        - Changes in playbook files
+        - Changes in brownfield_helper module
+        - Changes in workflow and config generator modules
+        - Deleted device_credential_intent module
+        - Deleted discovery_intent module
+        - Deleted inventory_intent module
+        - Deleted network_settings_intent module
+        - Deleted pnp_intent module
+        - Deleted site_intent module
+        - Deleted swim_intent module
+        - Deleted template_intent module

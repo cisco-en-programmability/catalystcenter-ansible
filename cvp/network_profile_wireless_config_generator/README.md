@@ -425,7 +425,7 @@ network_profile_wireless_config:
 **Solution**:
 
 ```yaml
-catalyst_center_api_task_timeout: 3600
+catalystcenter_api_task_timeout: 3600
 ```
 
 ---

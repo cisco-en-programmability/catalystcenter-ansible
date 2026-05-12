@@ -1,5 +1,5 @@
 #Select Catalyst Cennter version, this one overwrite the default version from host file
-catalyst_center_version: 2.3.7.6
+catalystcenter_version: 2.3.7.6
 template_details:
   # List of templates to be uploaded to the Cisco Catalyst Center
   - configuration_templates:

@@ -1,13 +1,13 @@
 ---
-- name: Configure device credentials on Cisco CATALYST Center
+- name: Configure device credentials on Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: false
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "input_inventory.yml"
     - vars/credentials.yml
   tasks:
-    - name: Add/Update/Resync/Delete the devices in Cisco CATALYST Center Inventory.
+    - name: Add/Update/Resync/Delete the devices in Cisco Catalyst Center Inventory.
       cisco.catalystcenter.inventory_workflow_manager:
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
@@ -23,9 +23,10 @@
         config:
           - username: "{{ item.username }}"
             password: "{{ item.password }}"
-            enablepassword: "{{ item.enable_password }}"
+            enable_password: "{{ item.enable_password }}"
             ip_address_list: "{{ item.ip_address_list }}"
             cli_transport: "{{ item.cli_transport }}"
+            netconf_port: "{{ item.netconf_port }}"
             snmp_auth_passphrase: "{{ item.snmp_auth_passphrase }}"
             snmp_auth_protocol: "{{ item.snmp_auth_protocol }}"
             snmp_mode: "{{ item.snmp_mode }}"
@@ -33,7 +34,7 @@
             snmp_priv_protocol: "{{ item.snmp_priv_protocol }}"
             snmp_ro_community: "{{ item.snmp_ro_community }}"
             snmp_rw_community: "{{ item.snmp_rw_community }}"
-            snmpusername: "{{ item.snmp_username }}"
+            snmp_username: "{{ item.snmp_username }}"
             credential_update: "{{ item.credential_update }}"
             clean_config: "{{ item.clean_config }}"
             type: "{{ item.type }}"
@@ -61,6 +62,7 @@
               interface_name: "{{ item.interface_name }}"
             export_device_list:
               password: "{{ item.export_device_list.password }}"
-      with_items: "{{ device_details }}"
-      tags:
-        - inventory_device
+
+        with_items: "{{ device_details }}"
+        tags:
+          - inventory_device

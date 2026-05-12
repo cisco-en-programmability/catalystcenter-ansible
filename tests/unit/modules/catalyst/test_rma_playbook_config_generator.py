@@ -24,7 +24,7 @@ from ansible_collections.cisco.catalystcenter.plugins.modules import rma_playboo
 from .catalystcenter_module import TestCatalystModule, set_module_args, loadPlaybookData
 
 
-class TestDnacRmaPlaybookGenerator(TestCatalystModule):
+class TestCatalystCenterRmaPlaybookGenerator(TestCatalystModule):
 
     module = rma_playbook_config_generator
 
@@ -38,21 +38,21 @@ class TestDnacRmaPlaybookGenerator(TestCatalystModule):
     playbook_negative_scenario1 = test_data.get("playbook_negative_scenario1")
 
     def setUp(self):
-        super(TestDnacRmaPlaybookGenerator, self).setUp()
+        super(TestCatalystCenterRmaPlaybookGenerator, self).setUp()
 
-        self.mock_dnac_init = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK.__init__")
-        self.run_dnac_init = self.mock_dnac_init.start()
-        self.run_dnac_init.side_effect = [None]
-        self.mock_dnac_exec = patch(
-            "ansible_collections.cisco.catalystcenter.plugins.module_utils.dnac.DNACSDK._exec"
+        self.mock_catalystcenter_init = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK.__init__")
+        self.run_catalystcenter_init = self.mock_catalystcenter_init.start()
+        self.run_catalystcenter_init.side_effect = [None]
+        self.mock_catalystcenter_exec = patch(
+            "ansible_collections.cisco.catalystcenter.plugins.module_utils.catalystcenter.CatalystCenterSDK._exec"
         )
-        self.run_dnac_exec = self.mock_dnac_exec.start()
+        self.run_catalystcenter_exec = self.mock_catalystcenter_exec.start()
 
     def tearDown(self):
-        super(TestDnacRmaPlaybookGenerator, self).tearDown()
-        self.mock_dnac_exec.stop()
-        self.mock_dnac_init.stop()
+        super(TestCatalystCenterRmaPlaybookGenerator, self).tearDown()
+        self.mock_catalystcenter_exec.stop()
+        self.mock_catalystcenter_init.stop()
 
     def load_fixtures(self, response=None, device=""):
         """
@@ -60,7 +60,7 @@ class TestDnacRmaPlaybookGenerator(TestCatalystModule):
         """
 
         if "playbook_generate_all_configurations" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response1"),
                 self.test_data.get("response2"),
                 self.test_data.get("response3"),
@@ -68,7 +68,7 @@ class TestDnacRmaPlaybookGenerator(TestCatalystModule):
             ]
 
         elif "playbook_component_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response5"),
                 self.test_data.get("response6"),
                 self.test_data.get("response7"),
@@ -76,7 +76,7 @@ class TestDnacRmaPlaybookGenerator(TestCatalystModule):
             ]
 
         elif "playbook_specifc_filters" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response9"),
                 self.test_data.get("response11"),
                 self.test_data.get("response12"),
@@ -84,12 +84,12 @@ class TestDnacRmaPlaybookGenerator(TestCatalystModule):
             ]
 
         elif "playbook_no_device_found" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response10"),
             ]
 
         elif "playbook_component_specific_filters1" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
+            self.run_catalystcenter_exec.side_effect = [
                 self.test_data.get("response14"),
             ]
 

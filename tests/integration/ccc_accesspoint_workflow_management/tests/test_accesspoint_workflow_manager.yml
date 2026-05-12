@@ -8,7 +8,7 @@
       file: "{{ role_path }}/vars/vars_accesspoint_workflow_manager.yml"
       name: vars_map
     vars:
-      catalyst_login: &catalyst_login
+      catalystcenter_login: &catalystcenter_login
         catalystcenter_host: "{{ catalystcenter_host }}"
         catalystcenter_username: "{{ catalystcenter_username }}"
         catalystcenter_password: "{{ catalystcenter_password }}"
@@ -32,8 +32,8 @@
 #############################################
 
   # - name: Delete wlc
-  #   cisco.dnac.accesspoint_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.accesspoint_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - "{{ item }}"
@@ -45,8 +45,8 @@
 ###########################################
 
   - name: Provision accesspoint
-    cisco.dnac.accesspoint_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.accesspoint_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config: 
         - "{{ item }}"
@@ -73,8 +73,8 @@
 #############################################
 
   - name: Update accesspoint configuration
-    cisco.dnac.accesspoint_workflow_manager:
-      <<: *catalyst_login
+    cisco.catalystcenter.accesspoint_workflow_manager:
+      <<: *catalystcenter_login
       state: merged
       config:
         - "{{ item }}"
@@ -100,8 +100,8 @@
 #############################################
 
   # - name: Delete wlc
-  #   cisco.dnac.accesspoint_workflow_manager:
-  #     <<: *catalyst_login
+  #   cisco.catalystcenter.accesspoint_workflow_manager:
+  #     <<: *catalystcenter_login
   #     state: deleted
   #     config:
   #       - "{{ item }}"
